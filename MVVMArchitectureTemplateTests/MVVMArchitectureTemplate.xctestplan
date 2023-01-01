@@ -1,0 +1,59 @@
+{
+  "configurations" : [
+    {
+      "id" : "AE486973-78BB-4DC4-8696-2D33A098A618",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-FIRAnalyticsDebugEnabled",
+        "enabled" : false
+      },
+      {
+        "argument" : "-FIRDebugDisabled"
+      },
+      {
+        "argument" : "-FIRDebugEnabled",
+        "enabled" : false
+      }
+    ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "IMAGE_DIFF_DIR",
+        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)Tests\/TestSnapshot\/FailureDiffs"
+      },
+      {
+        "key" : "FB_REFERENCE_IMAGE_DIR",
+        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)Tests\/TestSnapshot\/ReferenceImages"
+      }
+    ],
+    "language" : "ja",
+    "locationScenario" : {
+      "identifier" : "Tokyo, Japan",
+      "referenceType" : "built-in"
+    },
+    "region" : "JP",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:MVVMArchitectureTemplate.xcodeproj",
+      "identifier" : "2B4112F94CFC69141D840B29",
+      "name" : "MVVMArchitectureTemplate"
+    },
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:MVVMArchitectureTemplate.xcodeproj",
+        "identifier" : "CCBBF89A09E432CD23954CA0",
+        "name" : "MVVMArchitectureTemplateTests"
+      }
+    }
+  ],
+  "version" : 1
+}

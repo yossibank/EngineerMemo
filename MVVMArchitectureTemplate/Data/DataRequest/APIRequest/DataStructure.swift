@@ -1,0 +1,1 @@
+protocol DataStructure: Decodable, Equatable {}

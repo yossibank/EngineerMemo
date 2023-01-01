@@ -1,0 +1,113 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_14.0.1.app
+
+jobs:
+  ci:
+    name: Run Test
+
+    runs-on: macos-12
+
+    env:
+      MINT_PATH: mint/lib
+      MINT_LINK_PATH: mint/bin
+
+    steps:
+      # チェックアウト(GitHubリポジトリからソース取得)
+      - uses: actions/checkout@v3
+
+      # Xcodeの一覧出力
+      - name: Show Xcode List
+        run: ls /Applications | grep 'Xcode'
+
+      # Xcodeのバージョン出力
+      - name: Show Xcode Version
+        run: xcodebuild -version
+
+      # Gemsのキャッシュ
+      - name: Cache Gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      # Gemsのインストール
+      - name: Install Bundled Gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      # Mintで管理しているライブラリのキャッシュ
+      - name: Cache Mint Packages
+        uses: actions/cache@v3
+        with:
+          path: mint
+          key: ${{ runner.os }}-mint-${{ hashFiles('**/Mintfile') }}
+          restore-keys: |
+            ${{ runner.os }}-mint-
+
+      # Mintインストール
+      - name: Install Mint
+        run: brew install mint
+
+      # SPMのライブラリのキャッシュ
+      - name: Cache Swift Packages
+        uses: actions/cache@v3
+        with:
+          path: SourcePackages
+          key: ${{ runner.os }}-spm-${{ hashFiles('*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: ${{ runner.os }}-spm-
+
+      # プロジェクトファイル生成
+      - name: Generate Xcode Project
+        run: |
+          make generate-files
+          make install-mint-packages
+          make generate-consts
+          make generate-test-mock
+          make generate-xcodeproj
+
+      # テスト
+      - name: Xcode Test
+        run: set -o pipefail &&
+          xcodebuild
+          -sdk iphonesimulator
+          -configuration Debug
+          -scheme MVVMArchitectureTemplate
+          -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0'
+          -only-testing MVVMArchitectureTemplateTests
+          -clonedSourcePackagesDirPath SourcePackages
+          -resultBundlePath MVVMArchitectureTemplate.xcresult
+          clean test
+          | bundle exec xcpretty --report html
+
+      # Danger実行
+      - name: Run Danger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bundle exec danger
+
+      # テスト結果のアップロード
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: build/reports
+
+      # スナップショット差分のアップロード
+      - uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: test-snapshot
+          path: MVVMArchitectureTemplateTests/TestSnapshot/FailureDiffs

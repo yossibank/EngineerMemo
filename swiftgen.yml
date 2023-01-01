@@ -1,0 +1,16 @@
+input_dir: MVVMArchitectureTemplate/Resources
+output_dir: MVVMArchitectureTemplate/Resources/Generated
+
+xcassets:
+  - inputs:
+    - Assets.xcassets
+    outputs:
+      - templateName: swift5
+        output: XCAssets+Generated.swift
+
+strings:
+  - inputs:
+    - Localize/ja.lproj/Localizable.strings
+    outputs:
+      - templateName: structured-swift4
+        output: Strings+Generated.swift

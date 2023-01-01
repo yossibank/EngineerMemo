@@ -1,0 +1,12 @@
+--commas inline
+--header strip
+--redundanttype inferred
+--maxwidth 120
+--self init-only
+--stripunusedargs closure-only
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+
+--enable blankLinesBetweenImports,wrapConditionalBodies
+--disable wrapMultilineStatementBraces

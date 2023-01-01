@@ -1,0 +1,15 @@
+- MVVMArchitectureTemplate/Resources
+- MVVMArchitectureTemplate/Presentation/Component
+- MVVMArchitectureTemplate/Presentation/Container
+- MVVMArchitectureTemplate/Presentation/Core
+- MVVMArchitectureTemplate/Utility/UIHelper
+
+- .*Cell.swift
+- .*View.swift
+- .*ViewController.swift
+- .*Routing.swift
+- .*Style.swift
+- .*+Modifier.swift
+- .*Builder.swift
+- .*AppDelegate.swift
+- .*SceneDelegate.swift

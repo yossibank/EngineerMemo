@@ -1,0 +1,1 @@
+cp "${PROJECT_DIR}/${PROJECT_NAME}/App/Plist/GoogleService-Info-${CONFIGURATION}.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist"

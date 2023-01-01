@@ -1,0 +1,22 @@
+excluded:
+  - Scripts
+  - .github
+  - .swiftformat
+  - .swiftlint.yml
+  - .xccovignore
+
+disabled_rules:
+  - block_based_kvo
+  - colon
+  - cyclomatic_complexity
+  - nesting
+  - force_cast
+  - force_try
+  - file_length
+  - line_length
+  - type_body_length
+  - function_body_length
+  - function_parameter_count
+  - type_name
+  - identifier_name
+  - xctfail_message
