@@ -12,7 +12,7 @@ IMAGE_WIDTH = 200
 
 def createMarkdown
     # スキーム名
-    scheme = 'MVVMArchitectureTemplateTests'
+    scheme = 'EngineerResumeTests'
 
     # ReferenceImages_64のパス
     reference_image_dir = "./#{scheme}/TestSnapshot/ReferenceImages_64/*"

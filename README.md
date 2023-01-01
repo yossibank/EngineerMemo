@@ -1,4 +1,4 @@
-# MVVMArchitectureTemplate
+# EngineerResume
 
 ## アーキテクチャ
 
@@ -40,10 +40,10 @@ make setup
 
 ## Snapshotテスト
 
-* [一覧画面](https://github.com/yossibank/MVVMArchitectureTemplate/blob/main/MVVMArchitectureTemplateTests/Reports/Sample%E4%B8%80%E8%A6%A7%E7%94%BB%E9%9D%A2.md)
-* [編集画面](https://github.com/yossibank/MVVMArchitectureTemplate/blob/main/MVVMArchitectureTemplateTests/Reports/Sample%E7%B7%A8%E9%9B%86%E7%94%BB%E9%9D%A2.md)
-* [詳細画面](https://github.com/yossibank/MVVMArchitectureTemplate/blob/main/MVVMArchitectureTemplateTests/Reports/Sample%E8%A9%B3%E7%B4%B0%E7%94%BB%E9%9D%A2.md)
-* [追加画面](https://github.com/yossibank/MVVMArchitectureTemplate/blob/main/MVVMArchitectureTemplateTests/Reports/Sample%E8%BF%BD%E5%8A%A0%E7%94%BB%E9%9D%A2.md)
+* [一覧画面](https://github.com/yossibank/EngineerResume/blob/main/EngineerResumeTests/Reports/Sample%E4%B8%80%E8%A6%A7%E7%94%BB%E9%9D%A2.md)
+* [編集画面](https://github.com/yossibank/EngineerResume/blob/main/EngineerResumeTests/Reports/Sample%E7%B7%A8%E9%9B%86%E7%94%BB%E9%9D%A2.md)
+* [詳細画面](https://github.com/yossibank/EngineerResume/blob/main/EngineerResumeTests/Reports/Sample%E8%A9%B3%E7%B4%B0%E7%94%BB%E9%9D%A2.md)
+* [追加画面](https://github.com/yossibank/EngineerResume/blob/main/EngineerResumeTests/Reports/Sample%E8%BF%BD%E5%8A%A0%E7%94%BB%E9%9D%A2.md)
 
 ※ 参考(詳細画面)
 
@@ -51,4 +51,4 @@ make setup
 |:---:|:---:|
 |16.0|16.0|
 |iPhone14|iPhone14|
-|<img src='MVVMArchitectureTemplateTests/TestSnapshot/ReferenceImages_64/Sample詳細画面/testSampleDetailViewController_タイトル_内容_長文_ダークモード_iPhone_16_0_390x844@3x.png' width='200' style='border: 1px solid #999' />|<img src='MVVMArchitectureTemplateTests/TestSnapshot/ReferenceImages_64/Sample詳細画面/testSampleDetailViewController_タイトル_内容_長文_ライトモード_iPhone_16_0_390x844@3x.png' width='200' style='border: 1px solid #999' />|
+|<img src='EngineerResumeTests/TestSnapshot/ReferenceImages_64/Sample詳細画面/testSampleDetailViewController_タイトル_内容_長文_ダークモード_iPhone_16_0_390x844@3x.png' width='200' style='border: 1px solid #999' />|<img src='EngineerResumeTests/TestSnapshot/ReferenceImages_64/Sample詳細画面/testSampleDetailViewController_タイトル_内容_長文_ライトモード_iPhone_16_0_390x844@3x.png' width='200' style='border: 1px solid #999' />|

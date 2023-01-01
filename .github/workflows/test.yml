@@ -84,11 +84,11 @@ jobs:
           xcodebuild
           -sdk iphonesimulator
           -configuration Debug
-          -scheme MVVMArchitectureTemplate
+          -scheme EngineerResume
           -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0'
-          -only-testing MVVMArchitectureTemplateTests
+          -only-testing EngineerResumeTests
           -clonedSourcePackagesDirPath SourcePackages
-          -resultBundlePath MVVMArchitectureTemplate.xcresult
+          -resultBundlePath EngineerResume.xcresult
           clean test
           | bundle exec xcpretty --report html
 
@@ -110,4 +110,4 @@ jobs:
         if: success() || failure()
         with:
           name: test-snapshot
-          path: MVVMArchitectureTemplateTests/TestSnapshot/FailureDiffs
+          path: EngineerResumeTests/TestSnapshot/FailureDiffs

@@ -102,4 +102,4 @@ iOSInjectionProject/
 *MockResults.swift
 
 # iOSSnapshotTestCase
-MVVMArchitectureTemplateTests/TestSnapshot/FailureDiffs
+EngineerResumeTests/TestSnapshot/FailureDiffs

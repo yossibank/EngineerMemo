@@ -1,5 +1,5 @@
-input_dir: MVVMArchitectureTemplate/Resources
-output_dir: MVVMArchitectureTemplate/Resources/Generated
+input_dir: EngineerResume/Resources
+output_dir: EngineerResume/Resources/Generated
 
 xcassets:
   - inputs:
