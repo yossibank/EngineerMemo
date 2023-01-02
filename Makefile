@@ -2,7 +2,7 @@ PRODUCT_NAME := EngineerResume
 
 .PHONY: setup
 setup:
-	# $(MAKE) install-template
+	$(MAKE) install-template
 	$(MAKE) install-bundler
 	$(MAKE) install-mint-packages
 	$(MAKE) generate-consts
