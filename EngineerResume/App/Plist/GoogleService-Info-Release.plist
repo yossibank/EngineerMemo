@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>466759614961-kvjov75gvta9h5pjlu7ni6alsrkstp9r.apps.googleusercontent.com</string>
+	<string>852384473790-8mnumpu11t52ukfus9rrcfut7sc0gi7h.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.466759614961-kvjov75gvta9h5pjlu7ni6alsrkstp9r</string>
+	<string>com.googleusercontent.apps.852384473790-8mnumpu11t52ukfus9rrcfut7sc0gi7h</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAaejLLk3jFlg-Gk7rVmpzjNwcl7x0pdek</string>
+	<string>AIzaSyC10TM4pv5hwkgArWQGUm-d6SrLq510JOM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>466759614961</string>
+	<string>852384473790</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.yossibank.MVVMArchitectureTemplate</string>
+	<string>com.yossibank.EngineerResume</string>
 	<key>PROJECT_ID</key>
-	<string>mvvmarchitecturetemplate</string>
+	<string>engineerresume-66fcb</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mvvmarchitecturetemplate.appspot.com</string>
+	<string>engineerresume-66fcb.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:466759614961:ios:749c98d0caa069681f4450</string>
+	<string>1:852384473790:ios:3934ee5a360243ccd334ef</string>
 </dict>
 </plist>
