@@ -55,6 +55,9 @@ targets:
       - path: ./Scripts/Firebase/infoplist.sh
         name: Setup GoogleServiceInfoPlist
         basedOnDependencyAnalysis: false
+      - path: ./Scripts/XcodeGen/licensePlist.sh
+        name: Setup LicensePlist
+        basedOnDependencyAnalysis: false
       - path: ./Scripts/XcodeGen/mockolo.sh
         name: Generate Mock
         basedOnDependencyAnalysis: false

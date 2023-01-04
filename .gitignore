@@ -103,3 +103,8 @@ iOSInjectionProject/
 
 # iOSSnapshotTestCase
 EngineerResumeTests/TestSnapshot/FailureDiffs
+
+# LicensePlist
+**/Settings.bundle/com.mono0926.LicensePlist
+**/Settings.bundle/com.mono0926.LicensePlist.latest_result.txt
+**/Settings.bundle/com.mono0926.LicensePlist.plist
