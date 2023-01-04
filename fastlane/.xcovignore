@@ -1,8 +1,8 @@
-- MVVMArchitectureTemplate/Resources
-- MVVMArchitectureTemplate/Presentation/Component
-- MVVMArchitectureTemplate/Presentation/Container
-- MVVMArchitectureTemplate/Presentation/Core
-- MVVMArchitectureTemplate/Utility/UIHelper
+- EngineerResume/Resources
+- EngineerResume/Presentation/Component
+- EngineerResume/Presentation/Container
+- EngineerResume/Presentation/Core
+- EngineerResume/Utility/UIHelper
 
 - .*Cell.swift
 - .*View.swift

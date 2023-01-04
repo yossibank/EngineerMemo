@@ -1,4 +1,4 @@
-PRODUCT_NAME := MVVMArchitectureTemplate
+PRODUCT_NAME := EngineerResume
 
 .PHONY: setup
 setup:
@@ -35,12 +35,12 @@ generate-test-mock:
 
 .PHONY: generate-xcodeproj
 generate-xcodeproj:
-	mint run xcodegen --use-cache
+	mint run xcodegen
 
 .PHONY: generate-files
 generate-files:
-	mkdir -p MVVMArchitectureTemplate/Resources/Generated
-	mkdir -p MVVMArchitectureTemplateTests/TestMock
+	mkdir -p EngineerResume/Resources/Generated
+	mkdir -p EngineerResumeTests/TestMock
 
 .PHONY: generate-snapshot-md
 generate-snapshot-md:

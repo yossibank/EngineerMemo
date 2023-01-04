@@ -1,4 +1,4 @@
-name: MVVMArchitectureTemplate
+name: EngineerResume
 
 options:
   bundleIdPrefix: com.yossibank
@@ -29,22 +29,22 @@ packages:
     from: 8.0.0
 
 targets:
-  MVVMArchitectureTemplate:
+  EngineerResume:
     type: application
     platform: iOS
     sources:
-      - MVVMArchitectureTemplate
+      - EngineerResume
     settings:
       base:
         DEVELOPMENT_LANGUAGE: jp
-        INFOPLIST_FILE: MVVMArchitectureTemplate/App/Plist/Info.plist
+        INFOPLIST_FILE: EngineerResume/App/Plist/Info.plist
         OTHER_LDFLAGS: $(inherited) $(OTHER_LDFLAGS) -ObjC
       configs:
         debug:
           OTHER_SWIFT_FLAGS: $(inherited) -Xfrontend -warn-long-expression-type-checking=500 -Xfrontend -warn-long-function-bodies=500
-          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.MVVMArchitectureTemplate.dev
+          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.EngineerResume.dev
         release:
-          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.MVVMArchitectureTemplate
+          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.EngineerResume
     dependencies:
       - package: firebase-ios-sdk
         product: FirebaseAnalyticsWithoutAdIdSupport
@@ -55,11 +55,14 @@ targets:
       - path: ./Scripts/Firebase/infoplist.sh
         name: Setup GoogleServiceInfoPlist
         basedOnDependencyAnalysis: false
+      - path: ./Scripts/XcodeGen/licensePlist.sh
+        name: Setup LicensePlist
+        basedOnDependencyAnalysis: false
       - path: ./Scripts/XcodeGen/mockolo.sh
         name: Generate Mock
         basedOnDependencyAnalysis: false
         outputFiles:
-          - MVVMArchitectureTemplateTests/TestMock/MockResults.swift
+          - EngineerResumeTests/TestMock/MockResults.swift
       - path: ./Scripts/XcodeGen/swiftformat.sh
         name: Run SwiftFormat
         basedOnDependencyAnalysis: false
@@ -78,39 +81,39 @@ targets:
           - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
           - $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
 
-  MVVMArchitectureTemplateTests:
+  EngineerResumeTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - MVVMArchitectureTemplateTests
+      - EngineerResumeTests
     settings:
       base:
-        INFOPLIST_FILE: MVVMArchitectureTemplateTests/Info.plist
+        INFOPLIST_FILE: EngineerResumeTests/Info.plist
     dependencies:
-      - target: MVVMArchitectureTemplate
+      - target: EngineerResume
       - package: OHHTTPStubs
         product: OHHTTPStubsSwift
       - package: ios-snapshot-test-case
         product: iOSSnapshotTestCase
 
-  MVVMArchitectureTemplateUITests:
+  EngineerResumeUITests:
     type: bundle.ui-testing
     platform: iOS
     sources:
-      - MVVMArchitectureTemplateUITests
+      - EngineerResumeUITests
     settings:
       base:
-        INFOPLIST_FILE: MVVMArchitectureTemplateUITests/Info.plist
+        INFOPLIST_FILE: EngineerResumeUITests/Info.plist
     dependencies:
-      - target: MVVMArchitectureTemplate
+      - target: EngineerResume
 
 schemes:
-  MVVMArchitectureTemplate:
+  EngineerResume:
     build:
       targets:
-        MVVMArchitectureTemplate: all
-        MVVMArchitectureTemplateTests: [test]
-        MVVMArchitectureTemplateUITests: [test]
+        EngineerResume: all
+        EngineerResumeTests: [test]
+        EngineerResumeUITests: [test]
     run:
       config: Debug
       commandLineArguments:
@@ -121,7 +124,7 @@ schemes:
       config: Debug
       gatherCoverageData: true
       targets:
-        - name: MVVMArchitectureTemplateTests
+        - name: EngineerResumeTests
           parallelizable: false
           randomExecutionOrder: true
       environmentVariables:
@@ -130,7 +133,7 @@ schemes:
       language: ja
       region: JP
       testPlans:
-        - path: MVVMArchitectureTemplateTests/MVVMArchitectureTemplate.xctestplan
+        - path: EngineerResumeTests/EngineerResume.xctestplan
     profile:
       config: Release
     analyze:

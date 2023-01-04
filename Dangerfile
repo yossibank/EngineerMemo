@@ -27,11 +27,11 @@ swiftlint.lint_files(inline_mode: true) do |violation|
 end
 
 ### コードカバレッジ ###
-system("mint run xcparse codecov MVVMArchitectureTemplate.xcresult ./")
+system("mint run xcparse codecov EngineerResume.xcresult ./")
 
 xcov.report(
-    project: "MVVMArchitectureTemplate.xcodeproj",
-    scheme: "MVVMArchitectureTemplate",
+    project: "EngineerResume.xcodeproj",
+    scheme: "EngineerResume",
     xccov_file_direct_path: "action.xccovreport",
     minimum_coverage_percentage: 60.0,
     only_project_targets: true
