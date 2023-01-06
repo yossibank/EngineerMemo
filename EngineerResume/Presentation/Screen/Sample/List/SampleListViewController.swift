@@ -32,6 +32,15 @@ extension SampleListViewController {
         setupNavigation()
         bindToView()
         bindToViewModel()
+
+        contentView.buttonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                let profile = Profile(context: CoreDataManager.shared.viewContext)
+                profile.name = "NEXT\(Int.random(in: 100 ... 20000))"
+                CoreDataManager.shared.viewContext.saveIfNeeded()
+            }
+            .store(in: &cancellables)
     }
 
     override func viewWillAppear(_ animated: Bool) {

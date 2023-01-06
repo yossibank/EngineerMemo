@@ -97,6 +97,7 @@ final class CoreDataPublisher<Entity>: NSObject, NSFetchedResultsControllerDeleg
 
             self.fetchPublisher = fetchPublisher
             self.cancellable = fetchPublisher.subject
+                .dropFirst()
                 .sink(
                     receiveCompletion: { completion in
                         subscriber.receive(completion: completion)

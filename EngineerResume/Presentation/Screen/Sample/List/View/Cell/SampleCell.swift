@@ -69,13 +69,13 @@ private extension SampleCell {
     }
 
     func setupConstraints() {
-        mainStackView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(4)
-            make.leading.trailing.equalToSuperview().inset(16)
+        mainStackView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(4)
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
 
-        idLabel.snp.makeConstraints { make in
-            make.width.equalTo(40)
+        idLabel.snp.makeConstraints {
+            $0.width.equalTo(40)
         }
     }
 }
