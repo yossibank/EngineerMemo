@@ -1,27 +1,35 @@
 @testable import EngineerResume
 import XCTest
 
-final class APIErrorConverterTest: XCTestCase {
-    func test_APIErrorをAppErrorに変換できること() {
+final class DataErrorConverterTest: XCTestCase {
+    private var converter: AppErrorConverter!
+
+    override func setUp() {
+        super.setUp()
+
+        converter = .init()
+    }
+
+    func test_DataErrorをAppErrorに変換できること() {
         // arrange
-        let input = APIError.invalidRequest
+        let input = DataError.api(.invalidRequest)
 
         // act
-        let actual = AppErrorConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
             actual,
-            .init(error: .invalidRequest)
+            .init(dataError: .api(.invalidRequest))
         )
     }
 
     func test_decodeErrorのAPIErrorをAppErrorのエラー種別somethingで受け取れること() {
         // arrange
-        let input = APIError.decodeError
+        let input = DataError.api(.decodeError)
 
         // assert
-        let actual = AppErrorConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
@@ -32,10 +40,10 @@ final class APIErrorConverterTest: XCTestCase {
 
     func test_emptyDataのAPIErrorをAppErrorのエラー種別somethingで受け取れること() {
         // arrange
-        let input = APIError.emptyData
+        let input = DataError.api(.emptyData)
 
         // assert
-        let actual = AppErrorConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
@@ -46,10 +54,10 @@ final class APIErrorConverterTest: XCTestCase {
 
     func test_emptyResponseのAPIErrorをAppErrorのエラー種別somethingで受け取れること() {
         // arrange
-        let input = APIError.emptyResponse
+        let input = DataError.api(.emptyResponse)
 
         // assert
-        let actual = AppErrorConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
@@ -60,10 +68,10 @@ final class APIErrorConverterTest: XCTestCase {
 
     func test_invalidRequestのAPIErrorをAppErrorのエラー種別somethingで受け取れること() {
         // arrange
-        let input = APIError.emptyResponse
+        let input = DataError.api(.emptyResponse)
 
         // assert
-        let actual = AppErrorConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
@@ -74,10 +82,10 @@ final class APIErrorConverterTest: XCTestCase {
 
     func test_urlSessionErrorのAPIErrorをAppErrorのエラー種別urlSessionで受け取れること() {
         // arrange
-        let input = APIError.urlSessionError
+        let input = DataError.api(.urlSessionError)
 
         // assert
-        let actual = AppErrorConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
@@ -88,10 +96,10 @@ final class APIErrorConverterTest: XCTestCase {
 
     func test_invalidStatusCodeのAPIErrorをAppErrorのエラー種別invalidStatusCodeで受け取れること() {
         // arrange
-        let input = APIError.invalidStatusCode(400)
+        let input = DataError.api(.invalidStatusCode(400))
 
         // assert
-        let actual = AppErrorConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
@@ -102,15 +110,29 @@ final class APIErrorConverterTest: XCTestCase {
 
     func test_unknownのAPIErrorをAppErrorのエラー種別unknownで受け取れること() {
         // arrange
-        let input = APIError.unknown
+        let input = DataError.api(.unknown)
 
         // assert
-        let actual = AppErrorConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
             actual.errorType,
             .unknown
+        )
+    }
+
+    func test_somethingのCoreDataErrorをAppErrorのエラー種別somethingで受け取れること() {
+        // arrange
+        let input = DataError.coreData(.something("CoreDataのエラー"))
+
+        // assert
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual.errorType,
+            .something("CoreDataのエラー")
         )
     }
 }

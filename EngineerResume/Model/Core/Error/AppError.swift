@@ -7,55 +7,78 @@ enum ErrorType: Equatable {
     case unknown
 }
 
-struct AppError: Error, Equatable {
-    private let error: APIError
+enum DataError: Error, Equatable {
+    case api(APIError)
+    case coreData(CoreDataError)
+}
 
-    init(error: APIError) {
-        self.error = error
+struct AppError: Error, Equatable {
+    private let dataError: DataError
+
+    init(dataError: DataError) {
+        self.dataError = dataError
     }
 }
 
 extension AppError {
     var errorType: ErrorType {
-        switch error {
-        case .decodeError, .emptyData, .emptyResponse, .invalidRequest:
-            return .something(errorDescription)
+        switch dataError {
+        case let .api(apiError):
+            switch apiError {
+            case .decodeError, .emptyData, .emptyResponse, .invalidRequest:
+                return .something(errorDescription)
 
-        case .urlSessionError:
-            return .urlSession
+            case .urlSessionError:
+                return .urlSession
 
-        case let .invalidStatusCode(code):
-            return .invalidStatusCode(code)
+            case let .invalidStatusCode(code):
+                return .invalidStatusCode(code)
 
-        case .unknown:
-            return .unknown
+            case .unknown:
+                return .unknown
+            }
+
+        case let .coreData(coreDataError):
+            switch coreDataError {
+            case .something:
+                return .something(errorDescription)
+            }
         }
     }
 }
 
 extension AppError: LocalizedError {
     var errorDescription: String? {
-        switch error {
-        case .decodeError:
-            return "デコードエラーです"
+        switch dataError {
+        case let .api(apiError):
+            switch apiError {
+            case .decodeError:
+                return "デコードエラーです"
 
-        case .urlSessionError:
-            return "URLSessionエラーです"
+            case .urlSessionError:
+                return "URLSessionエラーです"
 
-        case .emptyData:
-            return "空のデータです"
+            case .emptyData:
+                return "空のデータです"
 
-        case .emptyResponse:
-            return "空のレスポンスです"
+            case .emptyResponse:
+                return "空のレスポンスです"
 
-        case .invalidRequest:
-            return "無効なリクエストです"
+            case .invalidRequest:
+                return "無効なリクエストです"
 
-        case let .invalidStatusCode(code):
-            return "無効なステータスコード【\(code.description)】です"
+            case let .invalidStatusCode(code):
+                return "無効なステータスコード【\(code.description)】です"
 
-        case .unknown:
-            return "不明なエラーです"
+            case .unknown:
+                return "不明なエラーです"
+            }
+
+        case let .coreData(coreDataError):
+            switch coreDataError {
+            case let .something(description):
+                return description
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ final class SampleListViewModelTest: XCTestCase {
         // assert
         XCTAssertEqual(
             output.first,
-            .init(error: .invalidStatusCode(400))
+            .init(dataError: .api(.invalidStatusCode(400)))
         )
     }
 
@@ -113,7 +113,11 @@ private extension SampleListViewModelTest {
         } else {
             model.getHandler = { _ in
                 Future<[SampleModelObject], AppError> { promise in
-                    promise(.failure(.init(error: .invalidStatusCode(400))))
+                    promise(
+                        .failure(
+                            .init(dataError: .api(.invalidStatusCode(400)))
+                        )
+                    )
                 }
                 .eraseToAnyPublisher()
             }

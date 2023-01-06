@@ -60,8 +60,10 @@ final class SampleModelTest: XCTestCase {
             }
         }
 
-        errorConverter.convertHandler = { error in
-            AppErrorBuilder().error(error).build()
+        errorConverter.convertHandler = { dataError in
+            AppErrorBuilder()
+                .dataError(dataError)
+                .build()
         }
 
         // act
@@ -76,7 +78,7 @@ final class SampleModelTest: XCTestCase {
             // assert
             XCTAssertEqual(
                 error as! AppError,
-                .init(error: .urlSessionError)
+                .init(dataError: .api(.urlSessionError))
             )
         }
     }
@@ -122,8 +124,10 @@ final class SampleModelTest: XCTestCase {
             }
         }
 
-        errorConverter.convertHandler = { error in
-            AppErrorBuilder().error(error).build()
+        errorConverter.convertHandler = { dataError in
+            AppErrorBuilder()
+                .dataError(dataError)
+                .build()
         }
 
         // act
@@ -139,7 +143,7 @@ final class SampleModelTest: XCTestCase {
             // assert
             XCTAssertEqual(
                 error as! AppError,
-                .init(error: .invalidStatusCode(400))
+                .init(dataError: .api(.invalidStatusCode(400)))
             )
         }
     }
@@ -184,8 +188,10 @@ final class SampleModelTest: XCTestCase {
             }
         }
 
-        errorConverter.convertHandler = { error in
-            AppErrorBuilder().error(error).build()
+        errorConverter.convertHandler = { dataError in
+            AppErrorBuilder()
+                .dataError(dataError)
+                .build()
         }
 
         // act
@@ -201,7 +207,7 @@ final class SampleModelTest: XCTestCase {
             // assert
             XCTAssertEqual(
                 error as! AppError,
-                .init(error: .emptyResponse)
+                .init(dataError: .api(.emptyResponse))
             )
         }
     }
@@ -239,8 +245,10 @@ final class SampleModelTest: XCTestCase {
             }
         }
 
-        errorConverter.convertHandler = { error in
-            AppErrorBuilder().error(error).build()
+        errorConverter.convertHandler = { dataError in
+            AppErrorBuilder()
+                .dataError(dataError)
+                .build()
         }
 
         // act
@@ -255,7 +263,7 @@ final class SampleModelTest: XCTestCase {
             // assert
             XCTAssertEqual(
                 error as! AppError,
-                .init(error: .invalidRequest)
+                .init(dataError: .api(.invalidRequest))
             )
         }
     }

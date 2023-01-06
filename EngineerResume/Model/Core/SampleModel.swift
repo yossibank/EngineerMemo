@@ -48,7 +48,7 @@ struct SampleModel: SampleModelInput {
                     promise(.success(modelObject))
 
                 case let .failure(apiError):
-                    let appError = errorConverter.convert(apiError)
+                    let appError = errorConverter.convert(.api(apiError))
                     promise(.failure(appError))
                 }
             }
@@ -68,7 +68,7 @@ struct SampleModel: SampleModelInput {
                     promise(.success(modelObject))
 
                 case let .failure(apiError):
-                    let appError = errorConverter.convert(apiError)
+                    let appError = errorConverter.convert(.api(apiError))
                     promise(.failure(appError))
                 }
             }
@@ -92,7 +92,7 @@ struct SampleModel: SampleModelInput {
                     promise(.success(modelObject))
 
                 case let .failure(apiError):
-                    let appError = errorConverter.convert(apiError)
+                    let appError = errorConverter.convert(.api(apiError))
                     promise(.failure(appError))
                 }
             }
@@ -111,7 +111,7 @@ struct SampleModel: SampleModelInput {
                     promise(.success(true))
 
                 case let .failure(apiError):
-                    let appError = errorConverter.convert(apiError)
+                    let appError = errorConverter.convert(.api(apiError))
                     promise(.failure(appError))
                 }
             }

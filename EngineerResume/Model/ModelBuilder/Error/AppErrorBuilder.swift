@@ -1,13 +1,13 @@
 #if DEBUG
     final class AppErrorBuilder {
-        private var error: APIError = .unknown
+        private var dataError: DataError = .api(.unknown)
 
         func build() -> AppError {
-            .init(error: error)
+            .init(dataError: dataError)
         }
 
-        func error(_ error: APIError) -> Self {
-            self.error = error
+        func dataError(_ dataError: DataError) -> Self {
+            self.dataError = dataError
             return self
         }
     }
