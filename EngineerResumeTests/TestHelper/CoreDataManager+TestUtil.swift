@@ -8,6 +8,7 @@ extension CoreDataManager {
             let persistentStoreDescription = NSPersistentStoreDescription()
             persistentStoreDescription.url = .init(fileURLWithPath: "/dev/null")
 
+            container.persistentStoreDescriptions = [persistentStoreDescription]
             container.viewContext.setupMergeConfig()
             container.loadPersistentStores { _, error in
                 if let error {
@@ -17,5 +18,17 @@ extension CoreDataManager {
 
             return container
         }())
+    }
+
+    func save<T: NSManagedObject>(
+        _ type: T.Type,
+        action: @escaping (T) -> Void
+    ) {
+        performBackgroundTask {
+            let context = self.backgroundContext!
+            let object = T(context: context)
+            action(object)
+            context.saveIfNeeded()
+        }
     }
 }
