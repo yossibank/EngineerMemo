@@ -1,11 +1,9 @@
 import CoreData
 
 final class CoreDataManager {
-    private(set) lazy var viewContext = persistentContainer.viewContext
-
     static let shared = CoreDataManager()
 
-    private var backgroundContext: NSManagedObjectContext! {
+    private(set) var backgroundContext: NSManagedObjectContext! {
         didSet {
             backgroundContext.setupMergeConfig()
         }
@@ -38,23 +36,16 @@ extension CoreDataManager {
         backgroundContext = persistentContainer.newBackgroundContext()
     }
 
-    func request<T: NSManagedObject>(
-        _ object: T.Type,
-        publisher: @escaping (CoreDataPublisher<T>) -> Void
-    ) {
-        performBackgroundTask { context in
-            publisher(
-                .init(
-                    request: NSFetchRequest<T>(entityName: String(describing: T.self)),
-                    context: context
-                )
-            )
-        }
+    func publisher<T: NSManagedObject>(_ object: T.Type) -> CoreDataPublisher<T> {
+        .init(
+            request: NSFetchRequest<T>(entityName: String(describing: T.self)),
+            context: backgroundContext
+        )
     }
 
-    func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
+    func performBackgroundTask(_ block: @escaping VoidBlock) {
         backgroundContext.perform {
-            block(self.backgroundContext)
+            block()
         }
     }
 

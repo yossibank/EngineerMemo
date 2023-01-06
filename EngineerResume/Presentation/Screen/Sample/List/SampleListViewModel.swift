@@ -20,7 +20,6 @@ final class SampleListViewModel: ViewModel {
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    private let core = Models.Profile()
     private let model: SampleModelInput
     private let routing: SampleListRoutingInput
     private let analytics: FirebaseAnalyzable
@@ -38,16 +37,6 @@ final class SampleListViewModel: ViewModel {
         self.model = model
         self.routing = routing
         self.analytics = analytics
-
-        core.fetch { result in
-            switch result {
-            case let .failure(error):
-                print(error.localizedDescription)
-
-            case let .success(values):
-                print(values)
-            }
-        }
 
         // MARK: - 詳細API取得
 

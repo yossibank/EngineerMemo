@@ -25,8 +25,6 @@ final class SampleListContentView: UIView {
 
     private var dataSource: UITableViewDiffableDataSource<SampleListSection, SampleListItem>!
 
-    lazy var buttonPublisher = button.publisher(for: .touchUpInside)
-    private let button = UIButton(styles: [.ButtonTitle.create, .titlePrimary])
     private let didSelectContentSubject = PassthroughSubject<IndexPath, Never>()
     private let tableView = UITableView()
     private let indicator = UIActivityIndicatorView(style: .main)
@@ -155,7 +153,6 @@ extension SampleListContentView: ContentView {
         apply(.background)
         addSubview(tableView)
         addSubview(indicator)
-        addSubview(button)
     }
 
     func setupConstraints() {
@@ -165,11 +162,6 @@ extension SampleListContentView: ContentView {
 
         indicator.snp.makeConstraints {
             $0.center.equalToSuperview()
-        }
-
-        button.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.size.equalTo(200)
         }
     }
 }
