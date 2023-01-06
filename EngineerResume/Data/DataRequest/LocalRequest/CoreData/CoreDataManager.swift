@@ -38,6 +38,20 @@ extension CoreDataManager {
         backgroundContext = persistentContainer.newBackgroundContext()
     }
 
+    func request<T: NSManagedObject>(
+        _ object: T.Type,
+        publisher: @escaping (CoreDataPublisher<T>) -> Void
+    ) {
+        performBackgroundTask { context in
+            publisher(
+                .init(
+                    request: NSFetchRequest<T>(entityName: String(describing: T.self)),
+                    context: context
+                )
+            )
+        }
+    }
+
     func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
         backgroundContext.perform {
             block(self.backgroundContext)

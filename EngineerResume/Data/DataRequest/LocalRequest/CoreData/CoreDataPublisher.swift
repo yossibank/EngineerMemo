@@ -4,7 +4,7 @@ import CoreData
 final class CoreDataPublisher<Entity>: NSObject, NSFetchedResultsControllerDelegate, Publisher
     where Entity: NSManagedObject {
     typealias Output = [Entity]
-    typealias Failure = Error
+    typealias Failure = CoreDataError
 
     private var resultController: NSFetchedResultsController<NSManagedObject>?
     private var subscriptions = 0
@@ -54,7 +54,7 @@ final class CoreDataPublisher<Entity>: NSObject, NSFetchedResultsControllerDeleg
                     let result = controller.fetchedObjects ?? []
                     self.subject.send(result)
                 } catch {
-                    self.subject.send(completion: .failure(error))
+                    self.subject.send(completion: .failure(.something(error.localizedDescription)))
                 }
             }
 

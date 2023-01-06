@@ -20,7 +20,7 @@ final class SampleListViewModel: ViewModel {
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    private let core: ProfileModel = .init()
+    private let core = Models.Profile()
     private let model: SampleModelInput
     private let routing: SampleListRoutingInput
     private let analytics: FirebaseAnalyzable
