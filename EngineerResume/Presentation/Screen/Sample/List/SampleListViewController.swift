@@ -74,6 +74,14 @@ private extension SampleListViewController {
             }
             .store(in: &cancellables)
 
+        viewModel.output.$appError
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { error in
+                Logger.error(message: error.localizedDescription)
+            }
+            .store(in: &cancellables)
+
         viewModel.output.$isLoading
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -83,14 +91,6 @@ private extension SampleListViewController {
                 }
 
                 self.contentView.configureIndicator(isLoading: isLoading)
-            }
-            .store(in: &cancellables)
-
-        viewModel.output.$error
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .sink { error in
-                Logger.error(message: error.localizedDescription)
             }
             .store(in: &cancellables)
     }

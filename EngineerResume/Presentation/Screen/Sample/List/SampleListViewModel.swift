@@ -10,8 +10,8 @@ final class SampleListViewModel: ViewModel {
 
     final class Output: OutputObject {
         @Published fileprivate(set) var modelObject: [SampleModelObject] = []
+        @Published fileprivate(set) var appError: AppError?
         @Published fileprivate(set) var isLoading: Bool?
-        @Published fileprivate(set) var error: AppError?
     }
 
     let input: Input
@@ -47,7 +47,7 @@ final class SampleListViewModel: ViewModel {
 
             switch completion {
             case let .failure(error):
-                output.error = error
+                output.appError = error
 
             case .finished:
                 Logger.debug(message: "詳細API読み込み完了")

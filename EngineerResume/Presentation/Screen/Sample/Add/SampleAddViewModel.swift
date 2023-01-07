@@ -14,9 +14,9 @@ final class SampleAddViewModel: ViewModel {
     final class Output: OutputObject {
         @Published fileprivate(set) var modelObject: SampleModelObject?
         @Published fileprivate(set) var appError: AppError?
+        @Published fileprivate(set) var isEnabled: Bool?
         @Published fileprivate(set) var titleValidation: ValidationError?
         @Published fileprivate(set) var bodyValidation: ValidationError?
-        @Published fileprivate(set) var isEnabled: Bool?
     }
 
     @BindableObject private(set) var binding: Binding

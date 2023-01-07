@@ -71,6 +71,14 @@ private extension SampleAddViewController {
             }
             .store(in: &cancellables)
 
+        viewModel.output.$isEnabled
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { [weak self] isEnabled in
+                self?.contentView.buttonEnabled(isEnabled)
+            }
+            .store(in: &cancellables)
+
         viewModel.output.$titleValidation
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
@@ -86,14 +94,6 @@ private extension SampleAddViewController {
             .dropFirst(1)
             .sink { [weak self] validationError in
                 self?.contentView.validation(type: .body(validationError))
-            }
-            .store(in: &cancellables)
-
-        viewModel.output.$isEnabled
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .sink { [weak self] isEnabled in
-                self?.contentView.buttonEnabled(isEnabled)
             }
             .store(in: &cancellables)
     }

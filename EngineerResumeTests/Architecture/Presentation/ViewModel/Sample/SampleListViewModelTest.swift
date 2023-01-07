@@ -28,13 +28,13 @@ final class SampleListViewModelTest: XCTestCase {
         setupViewModel(isSuccess: false)
 
         // act
-        let publisher = viewModel.output.$error.collect(1).first()
+        let publisher = viewModel.output.$appError.collect(1).first()
         let output = try awaitOutputPublisher(publisher)
 
         // assert
         XCTAssertEqual(
             output.first,
-            .init(error: .invalidStatusCode(400))
+            .init(dataError: .api(.invalidStatusCode(400)))
         )
     }
 
@@ -113,7 +113,11 @@ private extension SampleListViewModelTest {
         } else {
             model.getHandler = { _ in
                 Future<[SampleModelObject], AppError> { promise in
-                    promise(.failure(.init(error: .invalidStatusCode(400))))
+                    promise(
+                        .failure(
+                            .init(dataError: .api(.invalidStatusCode(400)))
+                        )
+                    )
                 }
                 .eraseToAnyPublisher()
             }

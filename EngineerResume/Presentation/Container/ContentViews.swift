@@ -1,4 +1,10 @@
 enum ContentViews {
+    enum Profile {
+        static func Detail() -> ProfileDetailContentView {
+            .init()
+        }
+    }
+
     enum Sample {
         static func Add() -> SampleAddContentView {
             .init()

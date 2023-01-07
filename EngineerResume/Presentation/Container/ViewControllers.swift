@@ -1,6 +1,20 @@
 import SwiftUI
 
 enum AppControllers {
+    enum Profile {
+        static func Detail() -> ProfileDetailViewController {
+            let viewController = ProfileDetailViewController()
+
+            viewController.title = "プロフィール"
+            viewController.inject(
+                contentView: ContentViews.Profile.Detail(),
+                viewModel: ViewModels.Profile.Detail()
+            )
+
+            return viewController
+        }
+    }
+
     enum Sample {
         static func Add() -> SampleAddViewController {
             let viewController = SampleAddViewController()

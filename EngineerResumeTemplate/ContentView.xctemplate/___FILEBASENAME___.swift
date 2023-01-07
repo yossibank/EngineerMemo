@@ -32,3 +32,17 @@ extension ___FILEBASENAME___: ContentView {
     func setupViews() {}
     func setupConstraints() {}
 }
+
+// MARK: - preview
+
+#if DEBUG
+    import SwiftUI
+
+    struct ___FILEBASENAME___Preview: PreviewProvider {
+        static var previews: some View {
+            WrapperView(
+                view: ___FILEBASENAME___()
+            )
+        }
+    }
+#endif

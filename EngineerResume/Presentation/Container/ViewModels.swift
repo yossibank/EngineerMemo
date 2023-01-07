@@ -1,4 +1,13 @@
 enum ViewModels {
+    enum Profile {
+        static func Detail() -> ProfileDetailViewModel {
+            .init(
+                model: Models.Profile(),
+                analytics: FirebaseAnalytics(screenId: .profileDetail)
+            )
+        }
+    }
+
     enum Sample {
         static func Add() -> SampleAddViewModel {
             .init(

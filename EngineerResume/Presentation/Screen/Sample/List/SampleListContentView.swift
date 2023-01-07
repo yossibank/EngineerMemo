@@ -156,12 +156,12 @@ extension SampleListContentView: ContentView {
     }
 
     func setupConstraints() {
-        tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
 
-        indicator.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+        indicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
 }

@@ -2,6 +2,14 @@
 import XCTest
 
 final class SampleConverterTest: XCTestCase {
+    private var converter: SampleConverter!
+
+    override func setUp() {
+        super.setUp()
+
+        converter = .init()
+    }
+
     func test_SampleDataObjectをSampleModelObjectに変換できること() {
         // arrange
         let input = SampleDataObjectBuilder()
@@ -12,7 +20,7 @@ final class SampleConverterTest: XCTestCase {
             .build()
 
         // act
-        let actual = SampleConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(
@@ -38,7 +46,7 @@ final class SampleConverterTest: XCTestCase {
         ]
 
         // act
-        let actual = SampleConverter().convert(input)
+        let actual = converter.convert(input)
 
         // assert
         XCTAssertEqual(

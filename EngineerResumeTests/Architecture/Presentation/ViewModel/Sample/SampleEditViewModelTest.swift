@@ -98,7 +98,7 @@ final class SampleEditViewModelTest: XCTestCase {
         // assert
         XCTAssertEqual(
             output.first,
-            .init(error: .invalidStatusCode(400))
+            .init(dataError: .api(.invalidStatusCode(400)))
         )
     }
 }
@@ -125,7 +125,11 @@ private extension SampleEditViewModelTest {
         } else {
             model.putHandler = { _, _ in
                 Future<SampleModelObject, AppError> { promise in
-                    promise(.failure(.init(error: .invalidStatusCode(400))))
+                    promise(
+                        .failure(
+                            .init(dataError: .api(.invalidStatusCode(400)))
+                        )
+                    )
                 }
                 .eraseToAnyPublisher()
             }

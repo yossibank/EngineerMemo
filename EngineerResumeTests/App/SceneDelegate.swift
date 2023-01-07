@@ -18,6 +18,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
 
+        CoreDataManager.shared.injectInMemoryPersistentContainer()
+
         if let userDefaults = UserDefaults(suiteName: "test") {
             UserDefaults.inject(userDefaults)
         }
