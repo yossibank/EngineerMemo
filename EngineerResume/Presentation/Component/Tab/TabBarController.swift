@@ -13,7 +13,7 @@ final class TabBarController: UITabBarController {
                 rootViewController = .init(rootViewController: AppControllers.Sample.List())
 
             case .profile:
-                rootViewController = .init(rootViewController: AppControllers.Sample.List())
+                rootViewController = .init(rootViewController: AppControllers.Profile.Detail())
             }
 
             rootViewController.tabBarItem = tabBarItem

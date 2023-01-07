@@ -1,15 +1,13 @@
 /// @mockable
 protocol ProfileConverterInput {
-    func convert(_ objects: [Profile]) -> [ProfileModelObject]
+    func convert(_ object: Profile) -> ProfileModelObject
 }
 
 struct ProfileConverter: ProfileConverterInput {
-    func convert(_ objects: [Profile]) -> [ProfileModelObject] {
-        objects.map {
-            .init(
-                name: $0.name ?? "",
-                age: $0.age?.intValue
-            )
-        }
+    func convert(_ object: Profile) -> ProfileModelObject {
+        .init(
+            name: object.name ?? "",
+            age: object.age?.intValue ?? -1
+        )
     }
 }

@@ -1,7 +1,7 @@
 #if DEBUG
     final class ProfileModelObjectBuilder {
         private var name = "testName"
-        private var age: Int? = 20
+        private var age = 20
 
         func build() -> ProfileModelObject {
             .init(
@@ -15,7 +15,7 @@
             return self
         }
 
-        func age(_ age: Int?) -> Self {
+        func age(_ age: Int) -> Self {
             self.age = age
             return self
         }

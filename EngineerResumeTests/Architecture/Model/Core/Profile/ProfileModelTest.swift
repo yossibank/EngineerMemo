@@ -2,6 +2,7 @@
 import XCTest
 
 final class ProfileModelTest: XCTestCase {
+    private var storage = CoreDataStorage<Profile>()
     private var profileConverter: ProfileConverterInputMock!
     private var errorConverter: AppErrorConverterInputMock!
     private var model: ProfileModel!
@@ -25,26 +26,24 @@ final class ProfileModelTest: XCTestCase {
 
     func test_get_成功_情報を取得できること() throws {
         // arrange
-        CoreDataManager.shared.save(Profile.self) { profile in
+        storage.create { profile in
             profile.name = "テスト"
             profile.age = 10
         }
 
         let expectation = XCTestExpectation(description: #function)
 
-        profileConverter.convertHandler = { values in
+        profileConverter.convertHandler = { value in
             // assert
-            XCTAssertEqual(values.first?.name, "テスト")
-            XCTAssertEqual(values.first?.age, 10)
+            XCTAssertEqual(value.name, "テスト")
+            XCTAssertEqual(value.age, 10)
 
             expectation.fulfill()
 
-            return [
-                ProfileModelObjectBuilder()
-                    .name(values.first!.name!)
-                    .age(values.first!.age!.intValue)
-                    .build()
-            ]
+            return ProfileModelObjectBuilder()
+                .name(value.name!)
+                .age(value.age!.intValue)
+                .build()
         }
 
         // act
@@ -56,7 +55,7 @@ final class ProfileModelTest: XCTestCase {
             case let .success(modelObject):
                 // assert
                 XCTAssertEqual(
-                    modelObject.first,
+                    modelObject,
                     ProfileModelObjectBuilder()
                         .name("テスト")
                         .age(10)

@@ -28,7 +28,7 @@ final class SampleListViewModelTest: XCTestCase {
         setupViewModel(isSuccess: false)
 
         // act
-        let publisher = viewModel.output.$error.collect(1).first()
+        let publisher = viewModel.output.$appError.collect(1).first()
         let output = try awaitOutputPublisher(publisher)
 
         // assert
