@@ -20,9 +20,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         configureAppearance()
 
         window = .init(windowScene: windowScene)
-        window?.rootViewController = UINavigationController(
-            rootViewController: AppControllers.Sample.List()
-        )
+        window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
     }
 
