@@ -21,7 +21,7 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func get(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void) {
-        CoreDataManager.shared.publisher(Profile.self)
+        CoreDataManager.shared.fetch(Profile.self)
             .sink(
                 receiveCompletion: { [weak self] receiveCompletion in
                     guard let self else {

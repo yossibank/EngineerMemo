@@ -31,16 +31,35 @@ final class CoreDataManager {
 }
 
 extension CoreDataManager {
+    func fetch<T: NSManagedObject>(
+        _ type: T.Type,
+        sortDescriptors: [NSSortDescriptor]? = nil
+    ) -> CoreDataPublisher<T> {
+        let request = NSFetchRequest<T>(entityName: String(describing: T.self))
+        request.sortDescriptors = sortDescriptors
+
+        return .init(
+            request: request,
+            context: backgroundContext
+        )
+    }
+
+    func save<T: NSManagedObject>(
+        _ type: T.Type,
+        block: @escaping (T) -> Void
+    ) {
+        performBackgroundTask {
+            let object = T(context: self.backgroundContext)
+            block(object)
+            self.backgroundContext.saveIfNeeded()
+        }
+    }
+}
+
+extension CoreDataManager {
     func inject(persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
         backgroundContext = persistentContainer.newBackgroundContext()
-    }
-
-    func publisher<T: NSManagedObject>(_ object: T.Type) -> CoreDataPublisher<T> {
-        .init(
-            request: NSFetchRequest<T>(entityName: String(describing: T.self)),
-            context: backgroundContext
-        )
     }
 
     func performBackgroundTask(_ block: @escaping VoidBlock) {

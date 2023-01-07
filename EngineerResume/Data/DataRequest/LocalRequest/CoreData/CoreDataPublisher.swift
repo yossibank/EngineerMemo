@@ -93,11 +93,12 @@ final class CoreDataPublisher<Entity>: NSObject, NSFetchedResultsControllerDeleg
             fetchPublisher: CoreDataPublisher,
             subscriber: AnySubscriber<Output, Failure>
         ) {
+            self.fetchPublisher = fetchPublisher
+
             subscriber.receive(subscription: self)
 
-            self.fetchPublisher = fetchPublisher
             self.cancellable = fetchPublisher.subject
-                .dropFirst()
+                .filter { !$0.isEmpty }
                 .sink(
                     receiveCompletion: { completion in
                         subscriber.receive(completion: completion)

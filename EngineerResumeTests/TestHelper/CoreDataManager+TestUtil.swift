@@ -19,16 +19,4 @@ extension CoreDataManager {
             return container
         }())
     }
-
-    func save<T: NSManagedObject>(
-        _ type: T.Type,
-        action: @escaping (T) -> Void
-    ) {
-        performBackgroundTask {
-            let context = self.backgroundContext!
-            let object = T(context: context)
-            action(object)
-            context.saveIfNeeded()
-        }
-    }
 }
