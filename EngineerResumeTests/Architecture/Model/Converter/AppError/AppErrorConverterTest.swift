@@ -1,7 +1,7 @@
 @testable import EngineerResume
 import XCTest
 
-final class DataErrorConverterTest: XCTestCase {
+final class AppErrorConverterTest: XCTestCase {
     private var converter: AppErrorConverter!
 
     override func setUp() {
@@ -36,6 +36,11 @@ final class DataErrorConverterTest: XCTestCase {
             actual.errorType,
             .something(actual.errorDescription)
         )
+
+        XCTAssertEqual(
+            actual.errorDescription,
+            "デコードエラーです"
+        )
     }
 
     func test_emptyDataのAPIErrorをAppErrorのエラー種別somethingで受け取れること() {
@@ -49,6 +54,11 @@ final class DataErrorConverterTest: XCTestCase {
         XCTAssertEqual(
             actual.errorType,
             .something(actual.errorDescription)
+        )
+
+        XCTAssertEqual(
+            actual.errorDescription,
+            "空のデータです"
         )
     }
 
@@ -64,11 +74,16 @@ final class DataErrorConverterTest: XCTestCase {
             actual.errorType,
             .something(actual.errorDescription)
         )
+
+        XCTAssertEqual(
+            actual.errorDescription,
+            "空のレスポンスです"
+        )
     }
 
     func test_invalidRequestのAPIErrorをAppErrorのエラー種別somethingで受け取れること() {
         // arrange
-        let input = DataError.api(.emptyResponse)
+        let input = DataError.api(.invalidRequest)
 
         // assert
         let actual = converter.convert(input)
@@ -77,6 +92,11 @@ final class DataErrorConverterTest: XCTestCase {
         XCTAssertEqual(
             actual.errorType,
             .something(actual.errorDescription)
+        )
+
+        XCTAssertEqual(
+            actual.errorDescription,
+            "無効なリクエストです"
         )
     }
 
@@ -92,6 +112,11 @@ final class DataErrorConverterTest: XCTestCase {
             actual.errorType,
             .urlSession
         )
+
+        XCTAssertEqual(
+            actual.errorDescription,
+            "URLSessionエラーです"
+        )
     }
 
     func test_invalidStatusCodeのAPIErrorをAppErrorのエラー種別invalidStatusCodeで受け取れること() {
@@ -105,6 +130,11 @@ final class DataErrorConverterTest: XCTestCase {
         XCTAssertEqual(
             actual.errorType,
             .invalidStatusCode(400)
+        )
+
+        XCTAssertEqual(
+            actual.errorDescription,
+            "無効なステータスコード【400】です"
         )
     }
 
@@ -120,6 +150,11 @@ final class DataErrorConverterTest: XCTestCase {
             actual.errorType,
             .unknown
         )
+
+        XCTAssertEqual(
+            actual.errorDescription,
+            "不明なエラーです"
+        )
     }
 
     func test_somethingのCoreDataErrorをAppErrorのエラー種別somethingで受け取れること() {
@@ -133,6 +168,11 @@ final class DataErrorConverterTest: XCTestCase {
         XCTAssertEqual(
             actual.errorType,
             .something("CoreDataのエラー")
+        )
+
+        XCTAssertEqual(
+            actual.errorDescription,
+            "CoreDataのエラー"
         )
     }
 }
