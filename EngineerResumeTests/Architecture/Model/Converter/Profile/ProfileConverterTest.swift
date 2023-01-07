@@ -19,6 +19,7 @@ final class ProfileConverterTest: XCTestCase {
     func test_ProfileをProfileModelObjectに変換できること() {
         // arrange
         let input = ProfileDataObjectBuilder()
+            .identifier("identifier")
             .name("テスト")
             .age(20)
             .build()
@@ -30,6 +31,7 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
+                .identifier("identifier")
                 .name("テスト")
                 .age(20)
                 .build()

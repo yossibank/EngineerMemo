@@ -27,6 +27,7 @@ final class ProfileModelTest: XCTestCase {
     func test_get_成功_情報を取得できること() throws {
         // arrange
         storage.create { profile in
+            profile.identifier = "identifier"
             profile.name = "テスト"
             profile.age = 10
         }
@@ -35,6 +36,7 @@ final class ProfileModelTest: XCTestCase {
 
         profileConverter.convertHandler = { value in
             // assert
+            XCTAssertEqual(value.identifier, "identifier")
             XCTAssertEqual(value.name, "テスト")
             XCTAssertEqual(value.age, 10)
 
@@ -57,6 +59,7 @@ final class ProfileModelTest: XCTestCase {
                 XCTAssertEqual(
                     modelObject,
                     ProfileModelObjectBuilder()
+                        .identifier("identifier")
                         .name("テスト")
                         .age(10)
                         .build()

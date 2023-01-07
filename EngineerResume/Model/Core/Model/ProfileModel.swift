@@ -4,6 +4,7 @@ import CoreData
 /// @mockable
 protocol ProfileModelInput: Model {
     func get(completion: @escaping (Result<ProfileModelObject, AppError>) -> Void)
+    func create(modelObject: ProfileModelObject)
     func update(modelObject: ProfileModelObject)
 }
 
@@ -50,8 +51,16 @@ final class ProfileModel: ProfileModelInput {
             .store(in: &cancellables)
     }
 
+    func create(modelObject: ProfileModelObject) {
+        storage.create { profile in
+            profile.identifier = UUID().uuidString
+            profile.name = modelObject.name
+            profile.age = .init(value: modelObject.age)
+        }
+    }
+
     func update(modelObject: ProfileModelObject) {
-        storage.update { profile in
+        storage.update(identifier: modelObject.identifier) { profile in
             profile.name = modelObject.name
             profile.age = .init(value: modelObject.age)
         }

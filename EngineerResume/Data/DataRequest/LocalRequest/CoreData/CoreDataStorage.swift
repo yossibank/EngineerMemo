@@ -1,10 +1,10 @@
 import CoreData
 
-struct CoreDataStorage<T: NSManagedObject> {
+struct CoreDataStorage<T: IdentifableManagedObject> {
     private let shared = CoreDataManager.shared
 
-    func object() -> T? {
-        allObjects().first
+    func object(identifier: String) -> T? {
+        allObjects().filter { $0.identifier == identifier }.first
     }
 
     func allObjects() -> [T] {
@@ -25,9 +25,12 @@ struct CoreDataStorage<T: NSManagedObject> {
         }
     }
 
-    func update(block: @escaping (T) -> Void) {
+    func update(
+        identifier: String,
+        block: @escaping (T) -> Void
+    ) {
         shared.performBackgroundTask {
-            if let object = object() {
+            if let object = object(identifier: identifier) {
                 block(object)
                 shared.backgroundContext.saveIfNeeded()
             }
