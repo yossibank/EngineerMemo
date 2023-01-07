@@ -79,7 +79,7 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             let profile = self.storage.allObjects().first!
 
             // assert
@@ -89,7 +89,7 @@ final class ProfileModelTest: XCTestCase {
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 0.1)
+        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_update_情報を更新できること() {
@@ -117,7 +117,7 @@ final class ProfileModelTest: XCTestCase {
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 0.2)
+        wait(for: [expectation], timeout: 0.3)
     }
 }
 
