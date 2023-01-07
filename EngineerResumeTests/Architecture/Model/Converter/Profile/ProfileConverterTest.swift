@@ -37,4 +37,48 @@ final class ProfileConverterTest: XCTestCase {
                 .build()
         )
     }
+
+    func test_nameがnilの際に空文字に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .identifier("identifier")
+            .name(nil)
+            .age(10)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .name("")
+                .age(10)
+                .build()
+        )
+    }
+
+    func test_ageがnilの際に不正値に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .identifier("identifier")
+            .name("テスト")
+            .age(nil)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .name("テスト")
+                .age(-1)
+                .build()
+        )
+    }
 }

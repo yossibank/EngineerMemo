@@ -3,7 +3,7 @@
 
     final class ProfileDataObjectBuilder {
         private var identifier = "identifier"
-        private var name = "testName"
+        private var name: String? = "testName"
         private var age: NSNumber? = 20
 
         func build() -> Profile {
@@ -20,7 +20,7 @@
             return self
         }
 
-        func name(_ name: String) -> Self {
+        func name(_ name: String?) -> Self {
             self.name = name
             return self
         }

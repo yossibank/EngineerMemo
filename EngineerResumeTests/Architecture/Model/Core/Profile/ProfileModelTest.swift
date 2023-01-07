@@ -24,13 +24,9 @@ final class ProfileModelTest: XCTestCase {
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
-    func test_get_成功_情報を取得できること() throws {
+    func test_get_成功_情報を取得できること() {
         // arrange
-        storage.create { profile in
-            profile.identifier = "identifier"
-            profile.name = "テスト"
-            profile.age = 10
-        }
+        dataInsert()
 
         let expectation = XCTestExpectation(description: #function)
 
@@ -70,5 +66,67 @@ final class ProfileModelTest: XCTestCase {
         }
 
         wait(for: [expectation], timeout: 0.1)
+    }
+
+    func test_create_情報を作成できること() {
+        // act
+        let expectation = XCTestExpectation(description: #function)
+
+        model.create(
+            modelObject: ProfileModelObjectBuilder()
+                .name("テスト")
+                .age(10)
+                .build()
+        )
+
+        DispatchQueue.main.async {
+            let profile = self.storage.allObjects().first!
+
+            // assert
+            XCTAssertEqual(profile.name, "テスト")
+            XCTAssertEqual(profile.age, 10)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.1)
+    }
+
+    func test_update_情報を更新できること() {
+        // arrange
+        dataInsert()
+
+        let expectation = XCTestExpectation(description: #function)
+
+        // act
+        model.update(
+            modelObject: ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .name("テスト更新後")
+                .age(100)
+                .build()
+        )
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let profile = self.storage.allObjects().first!
+
+            // assert
+            XCTAssertEqual(profile.name, "テスト更新後")
+            XCTAssertEqual(profile.age, 100)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.2)
+    }
+}
+
+private extension ProfileModelTest {
+    func dataInsert() {
+        storage.create { profile in
+            profile.identifier = "identifier"
+            profile.name = "テスト"
+            profile.age = 10
+        }
     }
 }
