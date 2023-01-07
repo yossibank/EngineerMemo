@@ -33,7 +33,13 @@ final class ProfileModelTest: XCTestCase {
         let expectation = XCTestExpectation(description: #function)
 
         profileConverter.convertHandler = { values in
-            [
+            // assert
+            XCTAssertEqual(values.first?.name, "テスト")
+            XCTAssertEqual(values.first?.age, 10)
+
+            expectation.fulfill()
+
+            return [
                 ProfileModelObjectBuilder()
                     .name(values.first!.name!)
                     .age(values.first!.age!.intValue)
