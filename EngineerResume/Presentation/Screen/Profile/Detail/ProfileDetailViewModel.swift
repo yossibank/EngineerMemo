@@ -3,6 +3,7 @@ import Combine
 final class ProfileDetailViewModel: ViewModel {
     final class Input: InputObject {
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let settingButtonTapped = PassthroughSubject<Void, Never>()
     }
 
     final class Output: OutputObject {
@@ -47,6 +48,13 @@ final class ProfileDetailViewModel: ViewModel {
 
         input.viewWillAppear.sink { _ in
             analytics.sendEvent(.screenView)
+        }
+        .store(in: &cancellables)
+
+        // MARK: - 設定ボタンタップ
+
+        input.settingButtonTapped.sink { _ in
+            Logger.debug(message: "設定ボタンタップ")
         }
         .store(in: &cancellables)
     }

@@ -80,7 +80,7 @@ final class SampleAddContentView: UIView {
     )
 
     private let titleValidationLabel = UILabel(
-        styles: [.system10, .red]
+        styles: [.system10, .textRed]
     )
 
     private let bodyCountLabel = UILabel(
@@ -97,7 +97,7 @@ final class SampleAddContentView: UIView {
     )
 
     private let bodyValidationLabel = UILabel(
-        styles: [.system10, .red]
+        styles: [.system10, .textRed]
     )
 
     private let createButton = UIButton(
@@ -196,7 +196,7 @@ private extension SampleAddContentView {
 
 extension SampleAddContentView: ContentView {
     func setupViews() {
-        apply(.background)
+        apply(.backgroundPrimary)
         addSubview(stackView)
     }
 

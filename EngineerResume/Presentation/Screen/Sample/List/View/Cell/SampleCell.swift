@@ -64,7 +64,7 @@ extension SampleCell {
 
 private extension SampleCell {
     func setupViews() {
-        apply(.background)
+        apply(.backgroundPrimary)
         contentView.addSubview(mainStackView)
     }
 

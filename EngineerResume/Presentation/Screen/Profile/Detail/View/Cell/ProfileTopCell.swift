@@ -1,0 +1,82 @@
+import SnapKit
+import UIKit
+
+// MARK: - properties & init
+
+final class ProfileTopCell: UITableViewCell {
+    private lazy var stackView: UIStackView = {
+        $0.axis = .vertical
+        $0.alignment = .center
+        $0.spacing = 16
+        return $0
+    }(UIStackView(arrangedSubviews: [
+        iconImageView,
+        userNameLabel,
+        ageLabel
+    ]))
+
+    private let iconImageView = UIImageView()
+    private let userNameLabel = UILabel(styles: [.bold14])
+    private let ageLabel = UILabel(styles: [.system10])
+
+    override init(
+        style: UITableViewCell.CellStyle,
+        reuseIdentifier: String?
+    ) {
+        super.init(
+            style: style,
+            reuseIdentifier: reuseIdentifier
+        )
+
+        setupViews()
+        setupConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+}
+
+// MARK: - internal methods
+
+extension ProfileTopCell {
+    func configure(_ modelObject: ProfileModelObject?) {
+        iconImageView.image = .init(systemName: "person.crop.circle")
+        userNameLabel.text = modelObject?.name ?? "未設定ユーザー"
+        ageLabel.text = modelObject?.age.description ?? "未設定"
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileTopCell {
+    func setupViews() {
+        apply(.backgroundPrimary)
+        contentView.addSubview(stackView)
+    }
+
+    func setupConstraints() {
+        stackView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.bottom.leading.trailing.equalToSuperview().inset(32)
+        }
+
+        iconImageView.snp.makeConstraints {
+            $0.size.equalTo(100)
+        }
+    }
+}
+
+// MARK: - preview
+
+#if DEBUG
+    import SwiftUI
+
+    struct ProfileTopCellPreview: PreviewProvider {
+        static var previews: some View {
+            WrapperView(view: ProfileTopCell()) {
+                $0.configure(ProfileModelObjectBuilder().build())
+            }
+        }
+    }
+#endif

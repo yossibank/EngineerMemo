@@ -3,9 +3,27 @@ import UIKit
 extension ViewStyle where T: UIView {
     // MARK: - 背景
 
-    static var background: ViewStyle<T> {
+    static var backgroundPrimary: ViewStyle<T> {
         .init {
             $0.backgroundColor = .dynamicColor(light: .white, dark: .black)
+        }
+    }
+
+    static var backgroundTheme: ViewStyle<T> {
+        .init {
+            $0.backgroundColor = .dynamicColor(light: .black, dark: .white)
+        }
+    }
+
+    static var backgroundGray: ViewStyle<T> {
+        .init {
+            $0.backgroundColor = .gray
+        }
+    }
+
+    static var backgroundLightGray: ViewStyle<T> {
+        .init {
+            $0.backgroundColor = .lightGray.withAlphaComponent(0.5)
         }
     }
 

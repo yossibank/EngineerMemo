@@ -18,11 +18,11 @@ final class SampleDetailContentView: UIView {
     ]))
 
     private let userIdLabel = UILabel(
-        styles: [.bold14, .red]
+        styles: [.bold14, .textRed]
     )
 
     private let idLabel = UILabel(
-        styles: [.system12, .lightGray]
+        styles: [.system12, .textLightGray]
     )
 
     private let titleLabel = UILabel(
@@ -30,7 +30,7 @@ final class SampleDetailContentView: UIView {
     )
 
     private let bodyLabel = UILabel(
-        styles: [.italic16, .lightGray, .lineInfinity]
+        styles: [.italic16, .textLightGray, .lineInfinity]
     )
 
     private let modelObject: SampleModelObject
@@ -66,7 +66,7 @@ private extension SampleDetailContentView {
 
 extension SampleDetailContentView: ContentView {
     func setupViews() {
-        apply(.background)
+        apply(.backgroundPrimary)
         addSubview(stackView)
     }
 

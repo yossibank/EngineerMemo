@@ -30,6 +30,7 @@ extension ProfileDetailViewController {
         super.viewDidLoad()
 
         bindToView()
+        bindToViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +56,15 @@ private extension ProfileDetailViewController {
             .compactMap { $0 }
             .sink { error in
                 Logger.error(message: error.localizedDescription)
+            }
+            .store(in: &cancellables)
+    }
+
+    func bindToViewModel() {
+        contentView.didTapSettingButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.settingButtonTapped.send(())
             }
             .store(in: &cancellables)
     }
