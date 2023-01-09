@@ -28,7 +28,6 @@ final class ProfileDetailContentView: UIView {
     private var dataSource: UITableViewDiffableDataSource<ProfileDetailSection, ProfileDetailItem>!
 
     private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
-    private let didSelectContentSubject = PassthroughSubject<IndexPath, Never>()
     private let tableView = UITableView()
 
     override init(frame: CGRect) {
@@ -51,13 +50,11 @@ private extension ProfileDetailContentView {
     func setupTableView() {
         dataSource = configureDataSource()
 
-        tableView.register(
-            ProfileTopCell.self,
-            forCellReuseIdentifier: ProfileTopCell.className
-        )
-        tableView.register(
-            ProfileNoSettingCell.self,
-            forCellReuseIdentifier: ProfileNoSettingCell.className
+        tableView.registerCells(
+            with: [
+                ProfileTopCell.self,
+                ProfileNoSettingCell.self
+            ]
         )
 
         tableView.allowsSelection = false
@@ -102,28 +99,20 @@ private extension ProfileDetailContentView {
     ) -> UITableViewCell? {
         switch item {
         case let .top(modelObject):
-            guard
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: ProfileTopCell.className,
-                    for: indexPath
-                ) as? ProfileTopCell
-            else {
-                return .init()
-            }
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileTopCell.self,
+                for: indexPath
+            )
 
             cell.configure(modelObject)
 
             return cell
 
         case .main:
-            guard
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: ProfileNoSettingCell.className,
-                    for: indexPath
-                ) as? ProfileNoSettingCell
-            else {
-                return .init()
-            }
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileNoSettingCell.self,
+                for: indexPath
+            )
 
             cell.settingButtonTapPublisher.sink { [weak self] _ in
                 self?.didTapSettingButtonSubject.send(())
@@ -149,18 +138,6 @@ extension ProfileDetailContentView: UITableViewDelegate {
         case .main:
             return 200
         }
-    }
-
-    func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath
-    ) {
-        tableView.deselectRow(
-            at: indexPath,
-            animated: false
-        )
-
-        didSelectContentSubject.send(indexPath)
     }
 }
 
