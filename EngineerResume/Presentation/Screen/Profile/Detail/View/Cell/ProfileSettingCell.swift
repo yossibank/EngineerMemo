@@ -4,7 +4,7 @@ import UIKit
 
 // MARK: - properties & init
 
-final class ProfileNoSettingCell: UITableViewCell {
+final class ProfileSettingCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
     private(set) lazy var settingButtonTapPublisher = settingButton.publisher(
@@ -71,7 +71,7 @@ final class ProfileNoSettingCell: UITableViewCell {
 
 // MARK: - private methods
 
-private extension ProfileNoSettingCell {
+private extension ProfileSettingCell {
     func setupViews() {
         apply(.backgroundPrimary)
         contentView.addSubview(stackView)
@@ -109,9 +109,9 @@ private extension ProfileNoSettingCell {
 #if DEBUG
     import SwiftUI
 
-    struct ProfileNoSettingCellPreview: PreviewProvider {
+    struct ProfileSettingCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileNoSettingCell())
+            WrapperView(view: ProfileSettingCell())
         }
     }
 #endif

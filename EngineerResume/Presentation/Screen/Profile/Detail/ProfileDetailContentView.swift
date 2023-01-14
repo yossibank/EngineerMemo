@@ -53,7 +53,7 @@ private extension ProfileDetailContentView {
         tableView.registerCells(
             with: [
                 ProfileTopCell.self,
-                ProfileNoSettingCell.self
+                ProfileSettingCell.self
             ]
         )
 
@@ -110,7 +110,7 @@ private extension ProfileDetailContentView {
 
         case .main:
             let cell = tableView.dequeueReusableCell(
-                withType: ProfileNoSettingCell.self,
+                withType: ProfileSettingCell.self,
                 for: indexPath
             )
 
