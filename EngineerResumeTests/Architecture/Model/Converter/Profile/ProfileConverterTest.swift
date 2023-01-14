@@ -19,9 +19,14 @@ final class ProfileConverterTest: XCTestCase {
     func test_ProfileをProfileModelObjectに変換できること() {
         // arrange
         let input = ProfileDataObjectBuilder()
+            .address("テスト県テスト市テスト1-1-1")
+            .age(20)
+            .email("test@test.com")
+            .gender(.man)
             .identifier("identifier")
             .name("テスト")
-            .age(20)
+            .phoneNumber(08_011_112_222)
+            .station("鶴橋駅")
             .build()
 
         // act
@@ -31,19 +36,22 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
+                .address("テスト県テスト市テスト1-1-1")
+                .age(20)
+                .email("test@test.com")
+                .gender(.man)
                 .identifier("identifier")
                 .name("テスト")
-                .age(20)
+                .phoneNumber(08_011_112_222)
+                .station("鶴橋駅")
                 .build()
         )
     }
 
-    func test_nameがnilの際に空文字に変換されること() {
+    func test_addressがnilの際に空文字に変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
-            .identifier("identifier")
-            .name(nil)
-            .age(10)
+            .address(nil)
             .build()
 
         // act
@@ -53,9 +61,7 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
-                .identifier("identifier")
-                .name("")
-                .age(10)
+                .address("")
                 .build()
         )
     }
@@ -63,8 +69,6 @@ final class ProfileConverterTest: XCTestCase {
     func test_ageがnilの際に不正値に変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
-            .identifier("identifier")
-            .name("テスト")
             .age(nil)
             .build()
 
@@ -75,9 +79,133 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
-                .identifier("identifier")
-                .name("テスト")
                 .age(-1)
+                .build()
+        )
+    }
+
+    func test_emailがnilの際に空文字に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .email(nil)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .email("")
+                .build()
+        )
+    }
+
+    func test_genderがmanの際に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .gender(.man)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .gender(.man)
+                .build()
+        )
+    }
+
+    func test_genderがwomanの際に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .gender(.woman)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .gender(.woman)
+                .build()
+        )
+    }
+
+    func test_genderがotherの際に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .gender(.other)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .gender(.other)
+                .build()
+        )
+    }
+
+    func test_nameがnilの際に空文字に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .name(nil)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .name("")
+                .build()
+        )
+    }
+
+    func test_phoneNumberがnilの際に不正値に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .phoneNumber(nil)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .phoneNumber(-1)
+                .build()
+        )
+    }
+
+    func test_stationがnilの際に空文字に変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .station(nil)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .station("")
                 .build()
         )
     }

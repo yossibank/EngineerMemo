@@ -53,16 +53,19 @@ final class ProfileModel: ProfileModelInput {
 
     func create(modelObject: ProfileModelObject) {
         storage.create { profile in
-            profile.identifier = UUID().uuidString
-            profile.name = modelObject.name
-            profile.age = .init(value: modelObject.age)
+            modelObject.dataInsert(
+                profile,
+                isNew: true
+            )
         }
     }
 
     func update(modelObject: ProfileModelObject) {
         storage.update(identifier: modelObject.identifier) { profile in
-            profile.name = modelObject.name
-            profile.age = .init(value: modelObject.age)
+            modelObject.dataInsert(
+                profile,
+                isNew: false
+            )
         }
     }
 }
