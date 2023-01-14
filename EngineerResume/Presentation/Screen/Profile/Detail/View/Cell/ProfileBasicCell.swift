@@ -27,11 +27,15 @@ final class ProfileBasicCell: UITableViewCell {
         }
     }
 
+    private lazy var mainView: UIView = {
+        $0.addSubview(stackView)
+        return $0
+    }(UIView(styles: [.backgroundLightGray, .cornerRadius8]))
+
     private lazy var stackView: UIStackView = {
         $0.axis = .vertical
         $0.alignment = .leading
         $0.spacing = 16
-        $0.apply([.backgroundLightGray, .cornerRadius8])
         return $0
     }(UIStackView(arrangedSubviews: arrangedSubviews))
 
@@ -89,19 +93,18 @@ extension ProfileBasicCell {
 private extension ProfileBasicCell {
     func setupViews() {
         apply(.backgroundPrimary)
-        contentView.addSubview(stackView)
+        contentView.addSubview(mainView)
     }
 
     func setupConstraints() {
-        stackView.snp.makeConstraints {
+        mainView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.leading.trailing.equalToSuperview().inset(32)
         }
 
-        stackView.subviews.forEach {
-            $0.snp.makeConstraints {
-                $0.leading.trailing.equalToSuperview().inset(8)
-            }
+        stackView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(8)
         }
 
         [spaceTopView, spaceBottomView].forEach { view in

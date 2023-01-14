@@ -52,20 +52,24 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func create(modelObject: ProfileModelObject) {
-        storage.create { profile in
-            modelObject.dataInsert(
-                profile,
-                isNew: true
-            )
-        }
+        storage.create()
+            .sink { profile in
+                modelObject.dataInsert(
+                    profile,
+                    isNew: true
+                )
+            }
+            .store(in: &cancellables)
     }
 
     func update(modelObject: ProfileModelObject) {
-        storage.update(identifier: modelObject.identifier) { profile in
-            modelObject.dataInsert(
-                profile,
-                isNew: false
-            )
-        }
+        storage.update(identifier: modelObject.identifier)
+            .sink { profile in
+                modelObject.dataInsert(
+                    profile,
+                    isNew: false
+                )
+            }
+            .store(in: &cancellables)
     }
 }

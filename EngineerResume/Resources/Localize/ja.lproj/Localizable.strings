@@ -2,7 +2,6 @@
 
 "profile.name" = "名前";
 "profile.age" = "年齢";
-"profile.name" = "性別";
 "profile.gender" = "性別";
 "profile.email" = "メールアドレス";
 "profile.phoneNumber" = "電話番号";

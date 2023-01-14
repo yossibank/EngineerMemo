@@ -170,7 +170,9 @@ extension ProfileDetailContentView: ContentView {
     struct ProfileDetailContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: ProfileDetailContentView()) { view in
-                view.modelObject = ProfileModelObjectBuilder().build()
+                view.modelObject = ProfileModelObjectBuilder()
+                    .address("HGOEHOGFJIEJFIEJFIOFJIOEJIFOJEOIJFJIOEIOJI")
+                    .build()
             }
         }
     }
