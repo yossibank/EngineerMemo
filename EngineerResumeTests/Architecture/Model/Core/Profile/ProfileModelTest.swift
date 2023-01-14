@@ -1,3 +1,4 @@
+import Combine
 @testable import EngineerResume
 import XCTest
 
@@ -5,6 +6,7 @@ final class ProfileModelTest: XCTestCase {
     private var profileConverter: ProfileConverterInputMock!
     private var errorConverter: AppErrorConverterInputMock!
     private var model: ProfileModel!
+    private var cancellables: Set<AnyCancellable> = .init()
 
     private let storage = CoreDataStorage<Profile>()
 
@@ -96,7 +98,7 @@ final class ProfileModelTest: XCTestCase {
         )
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects().first!
+            let profile = self.storage.allObjects.first!
 
             // assert
             XCTAssertEqual(profile.name, "テスト")
@@ -124,7 +126,7 @@ final class ProfileModelTest: XCTestCase {
         )
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects().first!
+            let profile = self.storage.allObjects.first!
 
             // assert
             XCTAssertEqual(profile.name, "テスト更新後")
@@ -139,15 +141,17 @@ final class ProfileModelTest: XCTestCase {
 
 private extension ProfileModelTest {
     func dataInsert() {
-        storage.create { profile in
-            profile.address = "テスト県テスト市テスト1-1-1"
-            profile.age = 20
-            profile.email = "test@test.com"
-            profile.genderEnum = .man
-            profile.identifier = "identifier"
-            profile.name = "testName"
-            profile.phoneNumber = 11_123_456_789
-            profile.station = "鶴橋駅"
-        }
+        storage.create()
+            .sink { profile in
+                profile.address = "テスト県テスト市テスト1-1-1"
+                profile.age = 20
+                profile.email = "test@test.com"
+                profile.genderEnum = .man
+                profile.identifier = "identifier"
+                profile.name = "testName"
+                profile.phoneNumber = 11_123_456_789
+                profile.station = "鶴橋駅"
+            }
+            .store(in: &cancellables)
     }
 }

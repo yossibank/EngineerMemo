@@ -48,7 +48,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_addressがnilの際に空文字に変換されること() {
+    func test_addressがnilの際に未設定の文字列に変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .address(nil)
@@ -61,7 +61,7 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
-                .address("")
+                .address(.noSetting)
                 .build()
         )
     }
@@ -84,7 +84,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_emailがnilの際に空文字に変換されること() {
+    func test_emailがnilの際に未設定の文字列に変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .email(nil)
@@ -97,7 +97,7 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
-                .email("")
+                .email(.noSetting)
                 .build()
         )
     }
@@ -156,7 +156,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_nameがnilの際に空文字に変換されること() {
+    func test_nameがnilの際に未設定の文字列に変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .name(nil)
@@ -169,7 +169,7 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
-                .name("")
+                .name(.noSetting)
                 .build()
         )
     }
@@ -192,7 +192,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_stationがnilの際に空文字に変換されること() {
+    func test_stationがnilの際に未設定の文字列に変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .station(nil)
@@ -205,7 +205,7 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
-                .station("")
+                .station(.noSetting)
                 .build()
         )
     }
