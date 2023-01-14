@@ -11,13 +11,11 @@ final class ProfileTopCell: UITableViewCell {
         return $0
     }(UIStackView(arrangedSubviews: [
         iconImageView,
-        userNameLabel,
-        ageLabel
+        userNameLabel
     ]))
 
     private let iconImageView = UIImageView()
     private let userNameLabel = UILabel(styles: [.bold14])
-    private let ageLabel = UILabel(styles: [.system10])
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -42,8 +40,7 @@ final class ProfileTopCell: UITableViewCell {
 extension ProfileTopCell {
     func configure(_ modelObject: ProfileModelObject?) {
         iconImageView.image = .init(systemName: "person.crop.circle")
-        userNameLabel.text = modelObject?.name ?? "未設定ユーザー"
-        ageLabel.text = modelObject?.age.description ?? "未設定"
+        userNameLabel.text = modelObject?.name
     }
 }
 
@@ -57,8 +54,7 @@ private extension ProfileTopCell {
 
     func setupConstraints() {
         stackView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.bottom.leading.trailing.equalToSuperview().inset(32)
+            $0.edges.equalToSuperview().inset(32)
         }
 
         iconImageView.snp.makeConstraints {

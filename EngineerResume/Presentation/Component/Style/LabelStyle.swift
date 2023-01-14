@@ -21,6 +21,12 @@ extension ViewStyle where T: UILabel {
         }
     }
 
+    static var system14: ViewStyle<T> {
+        .init {
+            $0.font = .systemFont(ofSize: 14)
+        }
+    }
+
     static var italic16: ViewStyle<T> {
         .init {
             $0.font = .italicSystemFont(ofSize: 16)
@@ -30,6 +36,12 @@ extension ViewStyle where T: UILabel {
     static var bold14: ViewStyle<T> {
         .init {
             $0.font = .boldSystemFont(ofSize: 14)
+        }
+    }
+
+    static var bold16: ViewStyle<T> {
+        .init {
+            $0.font = .boldSystemFont(ofSize: 16)
         }
     }
 
@@ -44,6 +56,12 @@ extension ViewStyle where T: UILabel {
     static var textPrimary: ViewStyle<T> {
         .init {
             $0.textColor = .dynamicColor(light: .white, dark: .black)
+        }
+    }
+
+    static var textSecondary: ViewStyle<T> {
+        .init {
+            $0.textColor = .dynamicColor(light: .darkGray, dark: .lightGray)
         }
     }
 

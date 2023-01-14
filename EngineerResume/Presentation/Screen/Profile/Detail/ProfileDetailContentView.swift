@@ -53,7 +53,8 @@ private extension ProfileDetailContentView {
         tableView.registerCells(
             with: [
                 ProfileTopCell.self,
-                ProfileSettingCell.self
+                ProfileSettingCell.self,
+                ProfileBasicCell.self
             ]
         )
 
@@ -108,18 +109,29 @@ private extension ProfileDetailContentView {
 
             return cell
 
-        case .main:
-            let cell = tableView.dequeueReusableCell(
-                withType: ProfileSettingCell.self,
-                for: indexPath
-            )
+        case let .main(modelObject):
+            if let modelObject {
+                let cell = tableView.dequeueReusableCell(
+                    withType: ProfileBasicCell.self,
+                    for: indexPath
+                )
 
-            cell.settingButtonTapPublisher.sink { [weak self] _ in
-                self?.didTapSettingButtonSubject.send(())
+                cell.configure(modelObject)
+
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(
+                    withType: ProfileSettingCell.self,
+                    for: indexPath
+                )
+
+                cell.settingButtonTapPublisher.sink { [weak self] _ in
+                    self?.didTapSettingButtonSubject.send(())
+                }
+                .store(in: &cell.cancellables)
+
+                return cell
             }
-            .store(in: &cell.cancellables)
-
-            return cell
         }
     }
 }
@@ -131,13 +143,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        switch ProfileDetailSection.allCases[indexPath.section] {
-        case .top:
-            return UITableView.automaticDimension
-
-        case .main:
-            return 200
-        }
+        UITableView.automaticDimension
     }
 }
 
@@ -164,7 +170,7 @@ extension ProfileDetailContentView: ContentView {
     struct ProfileDetailContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: ProfileDetailContentView()) { view in
-                view.modelObject = nil
+                view.modelObject = ProfileModelObjectBuilder().build()
             }
         }
     }

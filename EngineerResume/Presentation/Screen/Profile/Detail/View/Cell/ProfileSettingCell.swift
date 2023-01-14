@@ -18,6 +18,7 @@ final class ProfileSettingCell: UITableViewCell {
         $0.apply([.backgroundLightGray, .cornerRadius8])
         return $0
     }(UIStackView(arrangedSubviews: [
+        spaceTopView,
         titleLabel,
         settingButton,
         spaceBottomView
@@ -94,7 +95,7 @@ private extension ProfileSettingCell {
 
         [spaceTopView, spaceBottomView].forEach {
             $0.snp.makeConstraints {
-                $0.height.equalTo(4)
+                $0.height.equalTo(16)
             }
         }
     }

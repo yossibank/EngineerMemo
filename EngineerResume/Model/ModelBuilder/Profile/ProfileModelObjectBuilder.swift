@@ -6,7 +6,7 @@
         private var gender: ProfileModelObject.Gender = .man
         private var identifier = "identifier"
         private var name = "testName"
-        private var phoneNumber = 08_011_112_222
+        private var phoneNumber = 11_123_456_789
         private var station = "鶴橋駅"
 
         func build() -> ProfileModelObject {

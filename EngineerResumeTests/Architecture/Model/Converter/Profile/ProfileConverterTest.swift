@@ -25,7 +25,7 @@ final class ProfileConverterTest: XCTestCase {
             .gender(.man)
             .identifier("identifier")
             .name("テスト")
-            .phoneNumber(08_011_112_222)
+            .phoneNumber(11_123_456_789)
             .station("鶴橋駅")
             .build()
 
@@ -42,7 +42,7 @@ final class ProfileConverterTest: XCTestCase {
                 .gender(.man)
                 .identifier("identifier")
                 .name("テスト")
-                .phoneNumber(08_011_112_222)
+                .phoneNumber(11_123_456_789)
                 .station("鶴橋駅")
                 .build()
         )

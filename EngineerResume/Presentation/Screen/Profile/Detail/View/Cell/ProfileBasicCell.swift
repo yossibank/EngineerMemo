@@ -1,0 +1,169 @@
+import Combine
+import SnapKit
+import UIKit
+
+// MARK: - properties & init
+
+final class ProfileBasicCell: UITableViewCell {
+    private enum ObjectType: CaseIterable {
+        case name
+        case age
+        case gender
+        case email
+        case phoneNumber
+        case address
+        case station
+
+        var title: String {
+            switch self {
+            case .name: return L10n.Profile.name
+            case .age: return L10n.Profile.age
+            case .gender: return L10n.Profile.gender
+            case .email: return L10n.Profile.email
+            case .phoneNumber: return L10n.Profile.phoneNumber
+            case .address: return L10n.Profile.address
+            case .station: return L10n.Profile.station
+            }
+        }
+    }
+
+    private lazy var stackView: UIStackView = {
+        $0.axis = .vertical
+        $0.alignment = .leading
+        $0.spacing = 16
+        $0.apply([.backgroundLightGray, .cornerRadius8])
+        return $0
+    }(UIStackView(arrangedSubviews: arrangedSubviews))
+
+    private var arrangedSubviews: [UIView] {
+        var subviews: [UIView] = ObjectType.allCases.map(createStackView)
+        subviews.insert(spaceTopView, at: 0)
+        subviews.insert(spaceBottomView, at: subviews.count)
+        return subviews
+    }
+
+    private let nameLabel = UILabel(styles: [.bold16])
+    private let ageLabel = UILabel(styles: [.bold16])
+    private let genderLabel = UILabel(styles: [.bold16])
+    private let emailLabel = UILabel(styles: [.bold16])
+    private let phoneNumberLabel = UILabel(styles: [.bold16])
+    private let addressLabel = UILabel(styles: [.bold16, .lineInfinity])
+    private let stationLabel = UILabel(styles: [.bold16])
+    private let spaceTopView = UIView()
+    private let spaceBottomView = UIView()
+
+    override init(
+        style: UITableViewCell.CellStyle,
+        reuseIdentifier: String?
+    ) {
+        super.init(
+            style: style,
+            reuseIdentifier: reuseIdentifier
+        )
+
+        setupViews()
+        setupConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+}
+
+// MARK: - internal methods
+
+extension ProfileBasicCell {
+    func configure(_ modelObject: ProfileModelObject) {
+        nameLabel.text = modelObject.name
+        ageLabel.text = modelObject.age.withDescription + L10n.Profile.old
+        genderLabel.text = modelObject.gender.value
+        emailLabel.text = modelObject.email
+        phoneNumberLabel.text = modelObject.phoneNumber.withDescription
+        addressLabel.text = modelObject.address
+        stationLabel.text = modelObject.station
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileBasicCell {
+    func setupViews() {
+        apply(.backgroundPrimary)
+        contentView.addSubview(stackView)
+    }
+
+    func setupConstraints() {
+        stackView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.bottom.leading.trailing.equalToSuperview().inset(32)
+        }
+
+        stackView.subviews.forEach {
+            $0.snp.makeConstraints {
+                $0.leading.trailing.equalToSuperview().inset(8)
+            }
+        }
+
+        [spaceTopView, spaceBottomView].forEach { view in
+            view.snp.makeConstraints {
+                $0.height.equalTo(8)
+            }
+        }
+    }
+
+    private func createTitleLabel(_ type: ObjectType) -> UILabel {
+        let label = UILabel(styles: [.system14, .textSecondary])
+        label.text = type.title
+        return label
+    }
+
+    private func createStackView(_ type: ObjectType) -> UIStackView {
+        let stackView: UIStackView
+        let valueLabel: UILabel
+        let titleLabel = createTitleLabel(type)
+
+        switch type {
+        case .name:
+            valueLabel = nameLabel
+
+        case .age:
+            valueLabel = ageLabel
+
+        case .gender:
+            valueLabel = genderLabel
+
+        case .email:
+            valueLabel = emailLabel
+
+        case .phoneNumber:
+            valueLabel = phoneNumberLabel
+
+        case .address:
+            valueLabel = addressLabel
+
+        case .station:
+            valueLabel = stationLabel
+        }
+
+        stackView = .init(arrangedSubviews: [titleLabel, valueLabel])
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 8
+
+        return stackView
+    }
+}
+
+// MARK: - preview
+
+#if DEBUG
+    import SwiftUI
+
+    struct ProfileBasicCellPreview: PreviewProvider {
+        static var previews: some View {
+            WrapperView(view: ProfileBasicCell()) {
+                $0.configure(ProfileModelObjectBuilder().build())
+            }
+        }
+    }
+#endif

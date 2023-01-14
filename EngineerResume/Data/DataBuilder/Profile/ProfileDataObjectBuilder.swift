@@ -8,7 +8,7 @@
         private var gender: Profile.Gender? = .man
         private var identifier = "identifier"
         private var name: String? = "testName"
-        private var phoneNumber: NSNumber? = 08_011_112_222
+        private var phoneNumber: NSNumber? = 11_123_456_789
         private var station: String? = "鶴橋駅"
 
         func build() -> Profile {

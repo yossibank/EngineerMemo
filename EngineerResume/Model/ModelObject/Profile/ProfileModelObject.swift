@@ -14,6 +14,23 @@ struct ProfileModelObject: Hashable {
         case man
         case woman
         case other
+        case none
+
+        var value: String {
+            switch self {
+            case .man:
+                return "男性"
+
+            case .woman:
+                return "女性"
+
+            case .other:
+                return "その他"
+
+            case .none:
+                return "未設定"
+            }
+        }
     }
 }
 

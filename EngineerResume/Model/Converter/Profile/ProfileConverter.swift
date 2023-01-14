@@ -7,14 +7,14 @@ struct ProfileConverter: ProfileConverterInput {
     func convert(_ object: Profile) -> ProfileModelObject {
         // NOTE: .init(...)生成は型チェックで時間がかかるため型指定して生成
         ProfileModelObject(
-            address: object.address ?? "",
+            address: object.address ?? .noSetting,
             age: object.age?.intValue ?? -1,
-            email: object.email ?? "",
-            gender: .init(rawValue: object.genderEnum?.rawValue ?? -1) ?? .other,
+            email: object.email ?? .noSetting,
+            gender: .init(rawValue: object.genderEnum?.rawValue ?? -1) ?? .none,
             identifier: object.identifier,
-            name: object.name ?? "",
+            name: object.name ?? .noSetting,
             phoneNumber: object.phoneNumber?.intValue ?? -1,
-            station: object.station ?? ""
+            station: object.station ?? .noSetting
         )
     }
 }
