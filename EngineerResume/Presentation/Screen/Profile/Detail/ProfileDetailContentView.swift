@@ -2,18 +2,6 @@ import Combine
 import SnapKit
 import UIKit
 
-// MARK: - section & item
-
-enum ProfileDetailSection: CaseIterable {
-    case top
-    case main
-}
-
-enum ProfileDetailItem: Hashable {
-    case top(ProfileModelObject?)
-    case main(ProfileModelObject?)
-}
-
 // MARK: - stored properties & init
 
 final class ProfileDetailContentView: UIView {

@@ -4,48 +4,6 @@
     import SwiftUI
     import UIKit
 
-    // MARK: - section & item
-
-    enum DebugSection: CaseIterable {
-        case git
-        case device
-
-        var title: String {
-            switch self {
-            case .git:
-                return L10n.Debug.git
-
-            case .device:
-                return L10n.Debug.device
-            }
-        }
-
-        var items: [DebugItem] {
-            switch self {
-            case .git:
-                return [
-                    .init(
-                        title: L10n.Debug.commitHash,
-                        subTitle: Git.commitHash
-                    )
-                ]
-
-            case .device:
-                return [
-                    .init(
-                        title: L10n.Debug.deviceId,
-                        subTitle: UIDevice.deviceId
-                    )
-                ]
-            }
-        }
-    }
-
-    struct DebugItem: Hashable {
-        var title: String
-        var subTitle: String?
-    }
-
     // MARK: - stored properties & init
 
     final class DebugContentView: UIView {

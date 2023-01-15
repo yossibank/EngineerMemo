@@ -34,5 +34,7 @@
 
 "debug.git" = "Git";
 "debug.commitHash" = "コミットハッシュ";
-"debug.device" = "端末情報";
-"debug.deviceId" = "端末ID";
+"debug.device.information" = "端末情報";
+"debug.device.version" = "バージョン";
+"debug.device.name" = "端末名";
+"debug.device.udid" = "端末ID";
