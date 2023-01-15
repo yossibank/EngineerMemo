@@ -15,8 +15,8 @@
             subTitleLabel
         ]))
 
-        private let titleLabel = UILabel(style: .bold14)
-        private let subTitleLabel = UILabel(style: .italic14)
+        private let titleLabel = UILabel(style: .system14)
+        private let subTitleLabel = UILabel(style: .bold14)
 
         override init(
             style: UITableViewCell.CellStyle,

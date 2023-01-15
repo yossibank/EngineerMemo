@@ -7,13 +7,13 @@
     // MARK: - section & item
 
     enum DebugSection: CaseIterable {
-        case commit
+        case git
         case device
 
         var title: String {
             switch self {
-            case .commit:
-                return L10n.Debug.commit
+            case .git:
+                return L10n.Debug.git
 
             case .device:
                 return L10n.Debug.device
@@ -22,14 +22,20 @@
 
         var items: [DebugItem] {
             switch self {
-            case .commit:
+            case .git:
                 return [
-                    .init(title: L10n.Debug.commitHash, subTitle: nil)
+                    .init(
+                        title: L10n.Debug.commitHash,
+                        subTitle: Git.commitHash
+                    )
                 ]
 
             case .device:
                 return [
-                    .init(title: L10n.Debug.deviceId, subTitle: UIDevice.deviceId)
+                    .init(
+                        title: L10n.Debug.deviceId,
+                        subTitle: UIDevice.deviceId
+                    )
                 ]
             }
         }

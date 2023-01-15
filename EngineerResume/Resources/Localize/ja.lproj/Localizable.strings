@@ -32,7 +32,7 @@
 
 // MARK: - 開発者用
 
-"debug.commit" = "コミット";
-"debug.commitHash" = "コミットハッシュ値";
+"debug.git" = "Git";
+"debug.commitHash" = "コミットハッシュ";
 "debug.device" = "端末情報";
 "debug.deviceId" = "端末ID";
