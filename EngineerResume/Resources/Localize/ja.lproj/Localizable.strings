@@ -7,7 +7,8 @@
 // MARK: - ナビゲーション
 
 "navigation.title.profileDetail" = "プロフィール";
-"navigation.title.debug" = "開発者用画面";
+"navigation.title.debugDevelopment" = "開発者用画面";
+"navigation.title.debugCoreData" = "開発者用CoreData";
 
 // MARK: - プロフィール
 
@@ -32,9 +33,11 @@
 
 // MARK: - 開発者用
 
-"debug.git" = "Git";
-"debug.commitHash" = "コミットハッシュ";
-"debug.device.information" = "端末情報";
+"debug.section.git" = "Git";
+"debug.section.device" = "端末情報";
+"debug.section.coreData" = "CoreData";
+"debug.git.commitHash" = "コミットハッシュ";
 "debug.device.version" = "バージョン";
 "debug.device.name" = "端末名";
 "debug.device.udid" = "端末ID";
+"debug.coreData.profile" = "Profile";

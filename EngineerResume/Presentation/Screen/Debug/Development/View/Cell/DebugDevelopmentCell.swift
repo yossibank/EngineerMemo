@@ -5,7 +5,7 @@
 
     // MARK: - properties & init
 
-    final class DebugCell: UITableViewCell {
+    final class DebugDevelopmentCell: UITableViewCell {
         private lazy var stackView: UIStackView = {
             $0.axis = .horizontal
             $0.spacing = 8
@@ -38,16 +38,20 @@
 
     // MARK: - internal methods
 
-    extension DebugCell {
-        func configure(item: DebugItem) {
+    extension DebugDevelopmentCell {
+        func configure(item: DebugDevelopmentItem) {
             titleLabel.text = item.title
             subTitleLabel.text = item.subTitle
+
+            if item.subTitle == nil {
+                titleLabel.apply(.bold14)
+            }
         }
     }
 
     // MARK: - private methods
 
-    private extension DebugCell {
+    private extension DebugDevelopmentCell {
         func setupViews() {
             contentView.apply(.backgroundPrimary)
             contentView.addSubview(stackView)
@@ -63,9 +67,9 @@
 
     // MARK: - preview
 
-    struct DebugCellPreview: PreviewProvider {
+    struct DebugDevelopmentCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugCell()) {
+            WrapperView(view: DebugDevelopmentCell()) {
                 $0.configure(item: .init(
                     title: "title",
                     subTitle: "subTitle"

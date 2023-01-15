@@ -4,14 +4,14 @@
 
     // MARK: - inject
 
-    extension DebugViewController: VCInjectable {
-        typealias CV = DebugContentView
-        typealias VM = DebugViewModel
+    extension DebugDevelopmentViewController: VCInjectable {
+        typealias CV = DebugDevelopmentContentView
+        typealias VM = DebugDevelopmentViewModel
     }
 
     // MARK: - stored properties & init
 
-    final class DebugViewController: UIViewController {
+    final class DebugDevelopmentViewController: UIViewController {
         var viewModel: VM!
         var contentView: CV!
 
@@ -20,7 +20,7 @@
 
     // MARK: - override methods
 
-    extension DebugViewController {
+    extension DebugDevelopmentViewController {
         override func loadView() {
             super.loadView()
 
@@ -34,9 +34,9 @@
 
     // MARK: - internal methods
 
-    extension DebugViewController {}
+    extension DebugDevelopmentViewController {}
 
     // MARK: - private methods
 
-    private extension DebugViewController {}
+    private extension DebugDevelopmentViewController {}
 #endif

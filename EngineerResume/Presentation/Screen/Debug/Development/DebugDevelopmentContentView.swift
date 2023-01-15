@@ -6,8 +6,11 @@
 
     // MARK: - stored properties & init
 
-    final class DebugContentView: UIView {
-        private var dataSource: UITableViewDiffableDataSource<DebugSection, DebugItem>!
+    final class DebugDevelopmentContentView: UIView {
+        private var dataSource: UITableViewDiffableDataSource<
+            DebugDevelopmentSection,
+            DebugDevelopmentItem
+        >!
 
         private let tableView = UITableView()
 
@@ -28,11 +31,11 @@
 
     // MARK: - private methods
 
-    private extension DebugContentView {
+    private extension DebugDevelopmentContentView {
         func setupTableView() {
             dataSource = configureDataSource()
 
-            tableView.registerCell(with: DebugCell.self)
+            tableView.registerCell(with: DebugDevelopmentCell.self)
             tableView.registerHeaderFooterView(with: TitleHeaderFooterView.self)
             tableView.separatorStyle = .none
             tableView.dataSource = dataSource
@@ -44,8 +47,8 @@
         }
 
         func configureDataSource() -> UITableViewDiffableDataSource<
-            DebugSection,
-            DebugItem
+            DebugDevelopmentSection,
+            DebugDevelopmentItem
         > {
             .init(tableView: tableView) { [weak self] tableView, indexPath, item in
                 guard let self else {
@@ -63,10 +66,10 @@
         func makeCell(
             tableView: UITableView,
             indexPath: IndexPath,
-            item: DebugItem
+            item: DebugDevelopmentItem
         ) -> UITableViewCell? {
             let cell = tableView.dequeueReusableCell(
-                withType: DebugCell.self,
+                withType: DebugDevelopmentCell.self,
                 for: indexPath
             )
 
@@ -76,10 +79,14 @@
         }
 
         func apply() {
-            var dataSourceSnapshot = NSDiffableDataSourceSnapshot<DebugSection, DebugItem>()
-            dataSourceSnapshot.appendSections(DebugSection.allCases)
+            var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
+                DebugDevelopmentSection,
+                DebugDevelopmentItem
+            >()
 
-            DebugSection.allCases.forEach {
+            dataSourceSnapshot.appendSections(DebugDevelopmentSection.allCases)
+
+            DebugDevelopmentSection.allCases.forEach {
                 dataSourceSnapshot.appendItems(
                     $0.items,
                     toSection: $0
@@ -95,7 +102,7 @@
 
     // MARK: - delegate
 
-    extension DebugContentView: UITableViewDelegate {
+    extension DebugDevelopmentContentView: UITableViewDelegate {
         func tableView(
             _ tableView: UITableView,
             heightForRowAt indexPath: IndexPath
@@ -114,7 +121,7 @@
             _ tableView: UITableView,
             viewForHeaderInSection section: Int
         ) -> UIView? {
-            guard let section = DebugSection.allCases[safe: section] else {
+            guard let section = DebugDevelopmentSection.allCases[safe: section] else {
                 return nil
             }
 
@@ -130,7 +137,7 @@
 
     // MARK: - protocol
 
-    extension DebugContentView: ContentView {
+    extension DebugDevelopmentContentView: ContentView {
         func setupViews() {
             apply(.backgroundPrimary)
             addSubview(tableView)
@@ -143,9 +150,9 @@
         }
     }
 
-    struct DebugContentViewPreview: PreviewProvider {
+    struct DebugDevelopmentContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugContentView())
+            WrapperView(view: DebugDevelopmentContentView())
         }
     }
 #endif

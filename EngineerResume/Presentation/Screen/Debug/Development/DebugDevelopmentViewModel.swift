@@ -1,7 +1,7 @@
 #if DEBUG
     import Combine
 
-    final class DebugViewModel: ViewModel {
+    final class DebugDevelopmentViewModel: ViewModel {
         final class Input: InputObject {}
         final class Output: OutputObject {}
 

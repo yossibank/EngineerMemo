@@ -24,8 +24,14 @@ enum ContentViews {
     }
 
     #if DEBUG
-        static func Debug() -> DebugContentView {
-            .init()
+        enum Debug {
+            static func Development() -> DebugDevelopmentContentView {
+                .init()
+            }
+
+            static func CoreData() -> DebugCoreDataContentView {
+                .init()
+            }
         }
     #endif
 }

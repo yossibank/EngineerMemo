@@ -45,8 +45,14 @@ enum ViewModels {
     }
 
     #if DEBUG
-        static func Debug() -> DebugViewModel {
-            .init(analytics: FirebaseAnalytics(screenId: .debug))
+        enum Debug {
+            static func Development() -> DebugDevelopmentViewModel {
+                .init(analytics: FirebaseAnalytics(screenId: .debug))
+            }
+
+            static func CoreData() -> DebugCoreDataViewModel {
+                .init(analytics: FirebaseAnalytics(screenId: .debug))
+            }
         }
     #endif
 }
