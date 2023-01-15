@@ -49,6 +49,12 @@ extension ViewStyle where T: UILabel {
         }
     }
 
+    static var bold12: ViewStyle<T> {
+        .init {
+            $0.font = .boldSystemFont(ofSize: 12)
+        }
+    }
+
     static var bold14: ViewStyle<T> {
         .init {
             $0.font = .boldSystemFont(ofSize: 14)

@@ -64,18 +64,6 @@ private extension ProfileDetailContentView {
         tableView.delegate = self
     }
 
-    func apply() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<ProfileDetailSection, ProfileDetailItem>()
-        dataSourceSnapshot.appendSections(ProfileDetailSection.allCases)
-        dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
-        dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)
-
-        dataSource.apply(
-            dataSourceSnapshot,
-            animatingDifferences: false
-        )
-    }
-
     func configureDataSource() -> UITableViewDiffableDataSource<
         ProfileDetailSection,
         ProfileDetailItem
@@ -133,6 +121,18 @@ private extension ProfileDetailContentView {
                 return cell
             }
         }
+    }
+
+    func apply() {
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<ProfileDetailSection, ProfileDetailItem>()
+        dataSourceSnapshot.appendSections(ProfileDetailSection.allCases)
+        dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
+        dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)
+
+        dataSource.apply(
+            dataSourceSnapshot,
+            animatingDifferences: false
+        )
     }
 }
 

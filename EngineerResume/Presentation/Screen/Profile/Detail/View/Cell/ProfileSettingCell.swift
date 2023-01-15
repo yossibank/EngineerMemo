@@ -74,7 +74,7 @@ final class ProfileSettingCell: UITableViewCell {
 
 private extension ProfileSettingCell {
     func setupViews() {
-        apply(.backgroundPrimary)
+        contentView.apply(.backgroundPrimary)
         contentView.addSubview(stackView)
     }
 

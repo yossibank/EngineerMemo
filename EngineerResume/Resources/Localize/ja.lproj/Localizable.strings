@@ -29,3 +29,8 @@
 
 "fa.parameter.screenId" = "スクリーンID";
 "fa.parameter.userId" = "ユーザーID";
+
+// MARK: - 開発者用
+
+"debug.commitHash" = "コミットハッシュ値";
+"debug.device" = "デバイス情報";
