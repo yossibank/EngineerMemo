@@ -50,8 +50,10 @@ enum ViewModels {
                 .init(routing: routing)
             }
 
-            static func CoreData() -> DebugCoreDataViewModel {
-                .init(analytics: FirebaseAnalytics(screenId: .debug))
+            enum CoreData {
+                static func Create() -> DebugCoreDataCreateViewModel {
+                    .init()
+                }
             }
         }
     #endif

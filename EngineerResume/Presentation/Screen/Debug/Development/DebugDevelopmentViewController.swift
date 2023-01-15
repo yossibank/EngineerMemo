@@ -40,8 +40,8 @@
         func bindToViewModel() {
             contentView.didSelectContentPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] row in
-                    self?.viewModel.input.contentTapped.send(row)
+                .sink { [weak self] item in
+                    self?.viewModel.input.contentTapped.send(item)
                 }
                 .store(in: &cancellables)
         }

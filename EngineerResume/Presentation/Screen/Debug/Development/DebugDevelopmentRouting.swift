@@ -3,7 +3,7 @@
 
     /// @mockable
     protocol DebugDevelopmentRoutingInput {
-        func showDebugCoreDataScreen()
+        func showDebugCoreDataScreen(item: DebugCoreDataItem)
     }
 
     // MARK: - stored properties & init
@@ -19,9 +19,25 @@
     // MARK: - protocol
 
     extension DebugDevelopmentRouting: DebugDevelopmentRoutingInput {
-        func showDebugCoreDataScreen() {
+        func showDebugCoreDataScreen(item: DebugCoreDataItem) {
+            let vc: UIViewController
+
+            switch item {
+            case .list:
+                vc = .init()
+
+            case .create:
+                vc = AppControllers.Debug.CoreData.Create()
+
+            case .update:
+                vc = .init()
+
+            case .delete:
+                vc = .init()
+            }
+
             viewController?.navigationController?.pushViewController(
-                AppControllers.Debug.CoreData(),
+                vc,
                 animated: true
             )
         }

@@ -1,6 +1,6 @@
 import Combine
 
-final class DebugCoreDataViewModel: ViewModel {
+final class DebugCoreDataCreateViewModel: ViewModel {
     final class Input: InputObject {}
     final class Output: OutputObject {}
 
@@ -10,14 +10,11 @@ final class DebugCoreDataViewModel: ViewModel {
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    private let analytics: FirebaseAnalyzable
-
-    init(analytics: FirebaseAnalyzable) {
+    init() {
         let input = Input()
         let output = Output()
 
         self.input = input
         self.output = output
-        self.analytics = analytics
     }
 }

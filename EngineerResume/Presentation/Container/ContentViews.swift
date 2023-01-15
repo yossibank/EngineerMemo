@@ -29,8 +29,10 @@ enum ContentViews {
                 .init()
             }
 
-            static func CoreData() -> DebugCoreDataContentView {
-                .init()
+            enum CoreData {
+                static func Create() -> DebugCoreDataCreateContentView {
+                    .init()
+                }
             }
         }
     #endif

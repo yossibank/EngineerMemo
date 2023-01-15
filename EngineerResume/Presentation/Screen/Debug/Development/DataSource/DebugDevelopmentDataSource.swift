@@ -1,8 +1,8 @@
 #if DEBUG
     import UIKit
 
-    enum DebugDevelopmentSection: Int, CaseIterable {
-        case git = 0
+    enum DebugDevelopmentSection: CaseIterable {
+        case git
         case device
         case coreData
 
@@ -35,10 +35,20 @@
 
             case .coreData:
                 return [
-                    .init(title: L10n.Debug.CoreData.profile)
+                    .init(title: L10n.Debug.CoreData.list),
+                    .init(title: L10n.Debug.CoreData.create),
+                    .init(title: L10n.Debug.CoreData.update),
+                    .init(title: L10n.Debug.CoreData.delete)
                 ]
             }
         }
+    }
+
+    enum DebugCoreDataItem: CaseIterable {
+        case list
+        case create
+        case update
+        case delete
     }
 
     struct DebugDevelopmentItem: Hashable {

@@ -14,7 +14,7 @@
             DebugDevelopmentItem
         >!
 
-        private let didSelectContentSubject = PassthroughSubject<Int, Never>()
+        private let didSelectContentSubject = PassthroughSubject<DebugCoreDataItem, Never>()
         private let tableView = UITableView()
 
         override init(frame: CGRect) {
@@ -77,7 +77,7 @@
             )
 
             cell.configure(item: item)
-            cell.isUserInteractionEnabled = indexPath.section == DebugDevelopmentSection.coreData.rawValue
+            cell.isUserInteractionEnabled = DebugDevelopmentSection.allCases[indexPath.section] == .coreData
 
             return cell
         }
@@ -142,16 +142,19 @@
             _ tableView: UITableView,
             didSelectRowAt indexPath: IndexPath
         ) {
-            guard indexPath.section == DebugDevelopmentSection.coreData.rawValue else {
-                return
-            }
-
             tableView.deselectRow(
                 at: indexPath,
                 animated: false
             )
 
-            didSelectContentSubject.send(indexPath.row)
+            guard
+                DebugDevelopmentSection.allCases[indexPath.section] == .coreData,
+                let item = DebugCoreDataItem.allCases[safe: indexPath.row]
+            else {
+                return
+            }
+
+            didSelectContentSubject.send(item)
         }
     }
 

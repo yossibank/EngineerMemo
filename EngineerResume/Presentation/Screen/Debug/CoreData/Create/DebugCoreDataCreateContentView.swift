@@ -6,7 +6,7 @@
 
     // MARK: - stored properties & init
 
-    final class DebugCoreDataContentView: UIView {
+    final class DebugCoreDataCreateContentView: UIView {
         override init(frame: CGRect) {
             super.init(frame: frame)
 
@@ -22,25 +22,25 @@
 
     // MARK: - internal methods
 
-    extension DebugCoreDataContentView {}
+    extension DebugCoreDataCreateContentView {}
 
     // MARK: - private methods
 
-    private extension DebugCoreDataContentView {}
+    private extension DebugCoreDataCreateContentView {}
 
     // MARK: - protocol
 
-    extension DebugCoreDataContentView: ContentView {
+    extension DebugCoreDataCreateContentView: ContentView {
         func setupViews() {}
         func setupConstraints() {}
     }
 
     // MARK: - preview
 
-    struct DebugCoreDataContentViewPreview: PreviewProvider {
+    struct DebugCoreDataCreateContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugCoreDataContentView()
+                view: DebugCoreDataCreateContentView()
             )
         }
     }

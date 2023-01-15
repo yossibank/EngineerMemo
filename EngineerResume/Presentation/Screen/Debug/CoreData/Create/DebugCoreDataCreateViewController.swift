@@ -3,14 +3,14 @@ import UIKit
 
 // MARK: - inject
 
-extension DebugCoreDataViewController: VCInjectable {
-    typealias CV = DebugCoreDataContentView
-    typealias VM = DebugCoreDataViewModel
+extension DebugCoreDataCreateViewController: VCInjectable {
+    typealias CV = DebugCoreDataCreateContentView
+    typealias VM = DebugCoreDataCreateViewModel
 }
 
 // MARK: - stored properties & init
 
-final class DebugCoreDataViewController: UIViewController {
+final class DebugCoreDataCreateViewController: UIViewController {
     var viewModel: VM!
     var contentView: CV!
 
@@ -19,7 +19,7 @@ final class DebugCoreDataViewController: UIViewController {
 
 // MARK: - override methods
 
-extension DebugCoreDataViewController {
+extension DebugCoreDataCreateViewController {
     override func loadView() {
         super.loadView()
 
@@ -33,8 +33,8 @@ extension DebugCoreDataViewController {
 
 // MARK: - internal methods
 
-extension DebugCoreDataViewController {}
+extension DebugCoreDataCreateViewController {}
 
 // MARK: - private methods
 
-private extension DebugCoreDataViewController {}
+private extension DebugCoreDataCreateViewController {}

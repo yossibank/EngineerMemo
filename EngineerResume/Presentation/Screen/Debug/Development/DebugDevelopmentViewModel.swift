@@ -3,7 +3,7 @@
 
     final class DebugDevelopmentViewModel: ViewModel {
         final class Input: InputObject {
-            let contentTapped = PassthroughSubject<Int, Never>()
+            let contentTapped = PassthroughSubject<DebugCoreDataItem, Never>()
         }
 
         let input: Input
@@ -20,9 +20,8 @@
 
             // MARK: - セルタップ
 
-            input.contentTapped.sink { row in
-                Logger.debug(message: row.description)
-                routing.showDebugCoreDataScreen()
+            input.contentTapped.sink { item in
+                routing.showDebugCoreDataScreen(item: item)
             }
             .store(in: &cancellables)
         }
