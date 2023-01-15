@@ -27,14 +27,46 @@ extension ViewStyle where T: UIButton {
                 $0.setTitle("編集する", for: .normal)
             }
         }
+
+        static var setting: ViewStyle<T> {
+            .init {
+                $0.setTitle("設定する", for: .normal)
+            }
+        }
     }
 
-    // MARK: - タイトルカラー
+    // MARK: - 文字サイズ
+
+    static var bold14: ViewStyle<T> {
+        .init {
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        }
+    }
+
+    // MARK: - 文字色
 
     static var titlePrimary: ViewStyle<T> {
         .init {
             $0.setTitleColor(
                 .dynamicColor(light: .black, dark: .white),
+                for: .normal
+            )
+        }
+    }
+
+    static var titleTheme: ViewStyle<T> {
+        .init {
+            $0.setTitleColor(
+                .dynamicColor(light: .white, dark: .black),
+                for: .normal
+            )
+        }
+    }
+
+    static var titleWhite: ViewStyle<T> {
+        .init {
+            $0.setTitleColor(
+                .white,
                 for: .normal
             )
         }

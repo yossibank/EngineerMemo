@@ -1,11 +1,14 @@
+import Combine
 @testable import EngineerResume
 import XCTest
 
 final class ProfileModelTest: XCTestCase {
-    private var storage = CoreDataStorage<Profile>()
     private var profileConverter: ProfileConverterInputMock!
     private var errorConverter: AppErrorConverterInputMock!
     private var model: ProfileModel!
+    private var cancellables: Set<AnyCancellable> = .init()
+
+    private let storage = CoreDataStorage<Profile>()
 
     override func setUp() {
         super.setUp()
@@ -32,15 +35,25 @@ final class ProfileModelTest: XCTestCase {
 
         profileConverter.convertHandler = { value in
             // assert
+            XCTAssertEqual(value.address, "テスト県テスト市テスト1-1-1")
+            XCTAssertEqual(value.age, 20)
+            XCTAssertEqual(value.email, "test@test.com")
+            XCTAssertEqual(value.genderEnum, .man)
             XCTAssertEqual(value.identifier, "identifier")
-            XCTAssertEqual(value.name, "テスト")
-            XCTAssertEqual(value.age, 10)
+            XCTAssertEqual(value.name, "testName")
+            XCTAssertEqual(value.phoneNumber, 11_123_456_789)
+            XCTAssertEqual(value.station, "鶴橋駅")
 
             expectation.fulfill()
 
             return ProfileModelObjectBuilder()
-                .name(value.name!)
+                .address(value.address!)
                 .age(value.age!.intValue)
+                .email(value.email!)
+                .gender(.init(rawValue: value.genderEnum!.rawValue)!)
+                .name(value.name!)
+                .phoneNumber(value.phoneNumber!.intValue)
+                .station(value.station!)
                 .build()
         }
 
@@ -55,9 +68,14 @@ final class ProfileModelTest: XCTestCase {
                 XCTAssertEqual(
                     modelObject,
                     ProfileModelObjectBuilder()
+                        .address("テスト県テスト市テスト1-1-1")
+                        .age(20)
+                        .email("test@test.com")
+                        .gender(.man)
                         .identifier("identifier")
-                        .name("テスト")
-                        .age(10)
+                        .name("testName")
+                        .phoneNumber(11_123_456_789)
+                        .station("鶴橋駅")
                         .build()
                 )
             }
@@ -80,7 +98,7 @@ final class ProfileModelTest: XCTestCase {
         )
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects().first!
+            let profile = self.storage.allObjects.first!
 
             // assert
             XCTAssertEqual(profile.name, "テスト")
@@ -107,8 +125,8 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            let profile = self.storage.allObjects().first!
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let profile = self.storage.allObjects.first!
 
             // assert
             XCTAssertEqual(profile.name, "テスト更新後")
@@ -123,10 +141,17 @@ final class ProfileModelTest: XCTestCase {
 
 private extension ProfileModelTest {
     func dataInsert() {
-        storage.create { profile in
-            profile.identifier = "identifier"
-            profile.name = "テスト"
-            profile.age = 10
-        }
+        storage.create()
+            .sink { profile in
+                profile.address = "テスト県テスト市テスト1-1-1"
+                profile.age = 20
+                profile.email = "test@test.com"
+                profile.genderEnum = .man
+                profile.identifier = "identifier"
+                profile.name = "testName"
+                profile.phoneNumber = 11_123_456_789
+                profile.station = "鶴橋駅"
+            }
+            .store(in: &cancellables)
     }
 }

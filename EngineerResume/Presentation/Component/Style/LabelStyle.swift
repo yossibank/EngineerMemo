@@ -1,6 +1,16 @@
 import UIKit
 
 extension ViewStyle where T: UILabel {
+    // MARK: - ラベル文字
+
+    enum LabelTitle {
+        static var basicInformation: ViewStyle<T> {
+            .init {
+                $0.text = L10n.Profile.basicInformation
+            }
+        }
+    }
+
     // MARK: - 文字サイズ
 
     static var system8: ViewStyle<T> {
@@ -21,6 +31,12 @@ extension ViewStyle where T: UILabel {
         }
     }
 
+    static var system14: ViewStyle<T> {
+        .init {
+            $0.font = .systemFont(ofSize: 14)
+        }
+    }
+
     static var italic16: ViewStyle<T> {
         .init {
             $0.font = .italicSystemFont(ofSize: 16)
@@ -33,6 +49,12 @@ extension ViewStyle where T: UILabel {
         }
     }
 
+    static var bold16: ViewStyle<T> {
+        .init {
+            $0.font = .boldSystemFont(ofSize: 16)
+        }
+    }
+
     static var heavy18: ViewStyle<T> {
         .init {
             $0.font = .systemFont(ofSize: 18, weight: .heavy)
@@ -41,19 +63,51 @@ extension ViewStyle where T: UILabel {
 
     // MARK: - 文字色
 
-    static var red: ViewStyle<T> {
+    static var textPrimary: ViewStyle<T> {
+        .init {
+            $0.textColor = .dynamicColor(light: .white, dark: .black)
+        }
+    }
+
+    static var textSecondary: ViewStyle<T> {
+        .init {
+            $0.textColor = .dynamicColor(light: .darkGray, dark: .lightGray)
+        }
+    }
+
+    static var textRed: ViewStyle<T> {
         .init {
             $0.textColor = .red
         }
     }
 
-    static var lightGray: ViewStyle<T> {
+    static var textLightGray: ViewStyle<T> {
         .init {
             $0.textColor = .lightGray
         }
     }
 
-    // MARK: 最大行
+    // MARK: - 文字位置
+
+    static var textLeft: ViewStyle<T> {
+        .init {
+            $0.textAlignment = .left
+        }
+    }
+
+    static var textCenter: ViewStyle<T> {
+        .init {
+            $0.textAlignment = .center
+        }
+    }
+
+    static var textRight: ViewStyle<T> {
+        .init {
+            $0.textAlignment = .right
+        }
+    }
+
+    // MARK: - 最大行
 
     static var lineInfinity: ViewStyle<T> {
         .init {

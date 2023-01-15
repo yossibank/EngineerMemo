@@ -1,6 +1,14 @@
-// MARK: - テスト
+// MARK: - プロフィール
 
-"test" = "テスト";
+"profile.basicInformation" = "基本情報";
+"profile.name" = "名前";
+"profile.age" = "年齢";
+"profile.gender" = "性別";
+"profile.email" = "メールアドレス";
+"profile.phoneNumber" = "電話番号";
+"profile.address" = "住所";
+"profile.station" = "最寄駅";
+"profile.old" = "歳";
 
 // MARK: - FirebaseAnalytics
 

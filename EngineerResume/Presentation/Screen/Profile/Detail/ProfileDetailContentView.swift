@@ -2,33 +2,40 @@ import Combine
 import SnapKit
 import UIKit
 
+// MARK: - section & item
+
+enum ProfileDetailSection: CaseIterable {
+    case top
+    case main
+}
+
+enum ProfileDetailItem: Hashable {
+    case top(ProfileModelObject?)
+    case main(ProfileModelObject?)
+}
+
 // MARK: - stored properties & init
 
 final class ProfileDetailContentView: UIView {
     var modelObject: ProfileModelObject? {
         didSet {
-            configure(modelObject: modelObject)
+            apply()
         }
     }
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        $0.alignment = .center
-        $0.spacing = 16
-        return $0
-    }(UIStackView(arrangedSubviews: [
-        nameLabel,
-        ageLabel
-    ]))
+    private(set) lazy var didTapSettingButtonPublisher = didTapSettingButtonSubject.eraseToAnyPublisher()
 
-    private let nameLabel = UILabel(styles: [.bold14])
-    private let ageLabel = UILabel(styles: [.system10])
+    private var dataSource: UITableViewDiffableDataSource<ProfileDetailSection, ProfileDetailItem>!
+
+    private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
+    private let tableView = UITableView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupViews()
         setupConstraints()
+        setupTableView()
     }
 
     @available(*, unavailable)
@@ -37,12 +44,106 @@ final class ProfileDetailContentView: UIView {
     }
 }
 
-// MARK: - internal methods
+// MARK: - private methods
 
-extension ProfileDetailContentView {
-    func configure(modelObject: ProfileModelObject?) {
-        nameLabel.text = modelObject?.name ?? "未設定"
-        ageLabel.text = modelObject?.age.description ?? "未設定"
+private extension ProfileDetailContentView {
+    func setupTableView() {
+        dataSource = configureDataSource()
+
+        tableView.registerCells(
+            with: [
+                ProfileTopCell.self,
+                ProfileSettingCell.self,
+                ProfileBasicCell.self
+            ]
+        )
+
+        tableView.allowsSelection = false
+        tableView.separatorStyle = .none
+        tableView.dataSource = dataSource
+        tableView.delegate = self
+    }
+
+    func apply() {
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<ProfileDetailSection, ProfileDetailItem>()
+        dataSourceSnapshot.appendSections(ProfileDetailSection.allCases)
+        dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
+        dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)
+
+        dataSource.apply(
+            dataSourceSnapshot,
+            animatingDifferences: false
+        )
+    }
+
+    func configureDataSource() -> UITableViewDiffableDataSource<
+        ProfileDetailSection,
+        ProfileDetailItem
+    > {
+        .init(tableView: tableView) { [weak self] tableView, indexPath, item in
+            guard let self else {
+                return .init()
+            }
+
+            return self.makeCell(
+                tableView: tableView,
+                indexPath: indexPath,
+                item: item
+            )
+        }
+    }
+
+    func makeCell(
+        tableView: UITableView,
+        indexPath: IndexPath,
+        item: ProfileDetailItem
+    ) -> UITableViewCell? {
+        switch item {
+        case let .top(modelObject):
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileTopCell.self,
+                for: indexPath
+            )
+
+            cell.configure(modelObject)
+
+            return cell
+
+        case let .main(modelObject):
+            if let modelObject {
+                let cell = tableView.dequeueReusableCell(
+                    withType: ProfileBasicCell.self,
+                    for: indexPath
+                )
+
+                cell.configure(modelObject)
+
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(
+                    withType: ProfileSettingCell.self,
+                    for: indexPath
+                )
+
+                cell.settingButtonTapPublisher.sink { [weak self] _ in
+                    self?.didTapSettingButtonSubject.send(())
+                }
+                .store(in: &cell.cancellables)
+
+                return cell
+            }
+        }
+    }
+}
+
+// MARK: - delegate
+
+extension ProfileDetailContentView: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        UITableView.automaticDimension
     }
 }
 
@@ -50,13 +151,13 @@ extension ProfileDetailContentView {
 
 extension ProfileDetailContentView: ContentView {
     func setupViews() {
-        apply(.background)
-        addSubview(stackView)
+        apply(.backgroundPrimary)
+        addSubview(tableView)
     }
 
     func setupConstraints() {
-        stackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
 }
@@ -69,9 +170,7 @@ extension ProfileDetailContentView: ContentView {
     struct ProfileDetailContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: ProfileDetailContentView()) { view in
-                view.configure(
-                    modelObject: ProfileModelObjectBuilder().build()
-                )
+                view.modelObject = ProfileModelObjectBuilder().build()
             }
         }
     }

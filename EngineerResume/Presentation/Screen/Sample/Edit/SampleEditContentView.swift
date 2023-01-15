@@ -117,7 +117,7 @@ private extension SampleEditContentView {
 
 extension SampleEditContentView: ContentView {
     func setupViews() {
-        apply(.background)
+        apply(.backgroundPrimary)
         addSubview(stackView)
     }
 
