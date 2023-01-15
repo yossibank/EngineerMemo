@@ -22,4 +22,10 @@ enum ContentViews {
             .init()
         }
     }
+
+    #if DEBUG
+        static func Debug() -> DebugContentView {
+            .init()
+        }
+    #endif
 }

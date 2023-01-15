@@ -5,7 +5,7 @@ enum AppControllers {
         static func Detail() -> ProfileDetailViewController {
             let viewController = ProfileDetailViewController()
 
-            viewController.title = "プロフィール"
+            viewController.title = L10n.Navigation.Title.profileDetail
             viewController.inject(
                 contentView: ContentViews.Profile.Detail(),
                 viewModel: ViewModels.Profile.Detail()
@@ -69,4 +69,18 @@ enum AppControllers {
             return viewController
         }
     }
+
+    #if DEBUG
+        static func Debug() -> DebugViewController {
+            let viewController = DebugViewController()
+
+            viewController.title = L10n.Navigation.Title.debug
+            viewController.inject(
+                contentView: ContentViews.Debug(),
+                viewModel: ViewModels.Debug()
+            )
+
+            return viewController
+        }
+    #endif
 }

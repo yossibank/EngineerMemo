@@ -2,6 +2,12 @@
 
 "tab.home" = "ホーム";
 "tab.profile" = "プロフィール";
+"tab.debug" = "開発者用";
+
+// MARK: - ナビゲーション
+
+"navigation.title.profileDetail" = "プロフィール";
+"navigation.title.debug" = "開発者用画面";
 
 // MARK: - プロフィール
 
