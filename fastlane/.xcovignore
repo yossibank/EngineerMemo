@@ -5,7 +5,7 @@
 - EngineerResume/Presentation/Core
 - EngineerResume/Utility/UIHelper
 
-- .*Debug*
+- .*Debug*.swift
 - .*Cell.swift
 - .*View.swift
 - .*ViewController.swift
