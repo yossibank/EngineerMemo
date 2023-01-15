@@ -43,6 +43,12 @@ extension ViewStyle where T: UILabel {
         }
     }
 
+    static var italic14: ViewStyle<T> {
+        .init {
+            $0.font = .italicSystemFont(ofSize: 14)
+        }
+    }
+
     static var italic16: ViewStyle<T> {
         .init {
             $0.font = .italicSystemFont(ofSize: 16)

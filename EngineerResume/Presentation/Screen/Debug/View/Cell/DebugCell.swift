@@ -6,7 +6,17 @@
     // MARK: - properties & init
 
     final class DebugCell: UITableViewCell {
-        private let titleLabel = UILabel(style: .bold16)
+        private lazy var stackView: UIStackView = {
+            $0.axis = .horizontal
+            $0.spacing = 8
+            return $0
+        }(UIStackView(arrangedSubviews: [
+            titleLabel,
+            subTitleLabel
+        ]))
+
+        private let titleLabel = UILabel(style: .bold14)
+        private let subTitleLabel = UILabel(style: .italic14)
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -29,8 +39,9 @@
     // MARK: - internal methods
 
     extension DebugCell {
-        func configure(title: String) {
-            titleLabel.text = title
+        func configure(item: DebugItem) {
+            titleLabel.text = item.title
+            subTitleLabel.text = item.subTitle
         }
     }
 
@@ -39,11 +50,11 @@
     private extension DebugCell {
         func setupViews() {
             contentView.apply(.backgroundPrimary)
-            contentView.addSubview(titleLabel)
+            contentView.addSubview(stackView)
         }
 
         func setupConstraints() {
-            titleLabel.snp.makeConstraints {
+            stackView.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
                 $0.leading.equalToSuperview().inset(8)
             }
@@ -55,7 +66,10 @@
     struct DebugCellPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugCell()) {
-                $0.configure(title: "Test")
+                $0.configure(item: .init(
+                    title: "title",
+                    subTitle: "subTitle"
+                ))
             }
         }
     }

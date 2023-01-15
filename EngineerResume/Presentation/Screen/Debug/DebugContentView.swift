@@ -7,22 +7,37 @@
     // MARK: - section & item
 
     enum DebugSection: CaseIterable {
-        case commitHash
+        case commit
         case device
 
         var title: String {
             switch self {
-            case .commitHash:
-                return L10n.Debug.commitHash
+            case .commit:
+                return L10n.Debug.commit
 
             case .device:
                 return L10n.Debug.device
             }
         }
+
+        var items: [DebugItem] {
+            switch self {
+            case .commit:
+                return [
+                    .init(title: L10n.Debug.commitHash, subTitle: nil)
+                ]
+
+            case .device:
+                return [
+                    .init(title: L10n.Debug.deviceId, subTitle: UIDevice.deviceId)
+                ]
+            }
+        }
     }
 
     struct DebugItem: Hashable {
-        let title: String
+        var title: String
+        var subTitle: String?
     }
 
     // MARK: - stored properties & init
@@ -91,7 +106,7 @@
                 for: indexPath
             )
 
-            cell.configure(title: item.title)
+            cell.configure(item: item)
 
             return cell
         }
@@ -100,15 +115,12 @@
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<DebugSection, DebugItem>()
             dataSourceSnapshot.appendSections(DebugSection.allCases)
 
-            dataSourceSnapshot.appendItems(
-                [.init(title: "コミットハッシュ値")],
-                toSection: .commitHash
-            )
-
-            dataSourceSnapshot.appendItems(
-                [.init(title: "DeviceID")],
-                toSection: .device
-            )
+            DebugSection.allCases.forEach {
+                dataSourceSnapshot.appendItems(
+                    $0.items,
+                    toSection: $0
+                )
+            }
 
             dataSource.apply(
                 dataSourceSnapshot,
