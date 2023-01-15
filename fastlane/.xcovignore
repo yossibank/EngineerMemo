@@ -4,6 +4,7 @@
 - EngineerResume/Presentation/Container
 - EngineerResume/Presentation/Core
 - EngineerResume/Presentation/Screen/Debug
+- EngineerResume/Utility/Debug
 - EngineerResume/Utility/UIHelper
 
 - .*Cell.swift
