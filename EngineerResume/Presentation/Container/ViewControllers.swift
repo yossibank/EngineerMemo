@@ -3,37 +3,37 @@ import SwiftUI
 enum AppControllers {
     enum Profile {
         static func Detail() -> ProfileDetailViewController {
-            let viewController = ProfileDetailViewController()
+            let vc = ProfileDetailViewController()
 
-            viewController.title = "プロフィール"
-            viewController.inject(
+            vc.title = L10n.Navigation.Title.profileDetail
+            vc.inject(
                 contentView: ContentViews.Profile.Detail(),
                 viewModel: ViewModels.Profile.Detail()
             )
 
-            return viewController
+            return vc
         }
     }
 
     enum Sample {
         static func Add() -> SampleAddViewController {
-            let viewController = SampleAddViewController()
+            let vc = SampleAddViewController()
 
-            viewController.title = "サンプル作成"
-            viewController.inject(
+            vc.title = "サンプル作成"
+            vc.inject(
                 contentView: ContentViews.Sample.Add(),
                 viewModel: ViewModels.Sample.Add()
             )
 
-            return viewController
+            return vc
         }
 
         static func Detail(_ modelObject: SampleModelObject) -> SampleDetailViewController {
-            let viewController = SampleDetailViewController()
-            let routing = SampleDetailRouting(viewController: viewController)
+            let vc = SampleDetailViewController()
+            let routing = SampleDetailRouting(viewController: vc)
 
-            viewController.title = "サンプル詳細"
-            viewController.inject(
+            vc.title = "サンプル詳細"
+            vc.inject(
                 contentView: ContentViews.Sample.Detail(modelObject: modelObject),
                 viewModel: ViewModels.Sample.Detail(
                     modelObject: modelObject,
@@ -41,32 +41,63 @@ enum AppControllers {
                 )
             )
 
-            return viewController
+            return vc
         }
 
         static func Edit(_ modelObject: SampleModelObject) -> SampleEditViewController {
-            let viewController = SampleEditViewController()
+            let vc = SampleEditViewController()
 
-            viewController.title = "サンプル編集"
-            viewController.inject(
+            vc.title = "サンプル編集"
+            vc.inject(
                 contentView: ContentViews.Sample.Edit(modelObject: modelObject),
                 viewModel: ViewModels.Sample.Edit(modelObject: modelObject)
             )
 
-            return viewController
+            return vc
         }
 
         static func List() -> SampleListViewController {
-            let viewController = SampleListViewController()
-            let routing = SampleListRouting(viewController: viewController)
+            let vc = SampleListViewController()
+            let routing = SampleListRouting(viewController: vc)
 
-            viewController.title = "サンプル一覧"
-            viewController.inject(
+            vc.title = "サンプル一覧"
+            vc.inject(
                 contentView: ContentViews.Sample.List(),
                 viewModel: ViewModels.Sample.List(routing: routing)
             )
 
-            return viewController
+            return vc
         }
     }
+
+    #if DEBUG
+        enum Debug {
+            static func Development() -> DebugDevelopmentViewController {
+                let vc = DebugDevelopmentViewController()
+                let routing = DebugDevelopmentRouting(viewController: vc)
+
+                vc.title = L10n.Navigation.Title.debugDevelopment
+                vc.inject(
+                    contentView: ContentViews.Debug.Development(),
+                    viewModel: ViewModels.Debug.Development(routing: routing)
+                )
+
+                return vc
+            }
+
+            enum CoreData {
+                static func Create() -> DebugCoreDataCreateViewController {
+                    let vc = DebugCoreDataCreateViewController()
+
+                    vc.title = L10n.Navigation.Title.debugCoreDataCreate
+                    vc.inject(
+                        contentView: ContentViews.Debug.CoreData.Create(),
+                        viewModel: ViewModels.Debug.CoreData.Create()
+                    )
+
+                    return vc
+                }
+            }
+        }
+    #endif
 }

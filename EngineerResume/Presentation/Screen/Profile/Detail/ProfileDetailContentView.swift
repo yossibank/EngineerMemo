@@ -2,18 +2,6 @@ import Combine
 import SnapKit
 import UIKit
 
-// MARK: - section & item
-
-enum ProfileDetailSection: CaseIterable {
-    case top
-    case main
-}
-
-enum ProfileDetailItem: Hashable {
-    case top(ProfileModelObject?)
-    case main(ProfileModelObject?)
-}
-
 // MARK: - stored properties & init
 
 final class ProfileDetailContentView: UIView {
@@ -62,18 +50,6 @@ private extension ProfileDetailContentView {
         tableView.separatorStyle = .none
         tableView.dataSource = dataSource
         tableView.delegate = self
-    }
-
-    func apply() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<ProfileDetailSection, ProfileDetailItem>()
-        dataSourceSnapshot.appendSections(ProfileDetailSection.allCases)
-        dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
-        dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)
-
-        dataSource.apply(
-            dataSourceSnapshot,
-            animatingDifferences: false
-        )
     }
 
     func configureDataSource() -> UITableViewDiffableDataSource<
@@ -133,6 +109,18 @@ private extension ProfileDetailContentView {
                 return cell
             }
         }
+    }
+
+    func apply() {
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<ProfileDetailSection, ProfileDetailItem>()
+        dataSourceSnapshot.appendSections(ProfileDetailSection.allCases)
+        dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
+        dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)
+
+        dataSource.apply(
+            dataSourceSnapshot,
+            animatingDifferences: false
+        )
     }
 }
 

@@ -43,4 +43,18 @@ enum ViewModels {
             )
         }
     }
+
+    #if DEBUG
+        enum Debug {
+            static func Development(routing: DebugDevelopmentRoutingInput) -> DebugDevelopmentViewModel {
+                .init(routing: routing)
+            }
+
+            enum CoreData {
+                static func Create() -> DebugCoreDataCreateViewModel {
+                    .init()
+                }
+            }
+        }
+    #endif
 }

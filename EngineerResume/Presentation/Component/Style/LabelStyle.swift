@@ -9,6 +9,12 @@ extension ViewStyle where T: UILabel {
                 $0.text = L10n.Profile.basicInformation
             }
         }
+
+        static var profileDescription: ViewStyle<T> {
+            .init {
+                $0.text = L10n.Profile.settingDescription
+            }
+        }
     }
 
     // MARK: - 文字サイズ
@@ -37,9 +43,21 @@ extension ViewStyle where T: UILabel {
         }
     }
 
+    static var italic14: ViewStyle<T> {
+        .init {
+            $0.font = .italicSystemFont(ofSize: 14)
+        }
+    }
+
     static var italic16: ViewStyle<T> {
         .init {
             $0.font = .italicSystemFont(ofSize: 16)
+        }
+    }
+
+    static var bold12: ViewStyle<T> {
+        .init {
+            $0.font = .boldSystemFont(ofSize: 12)
         }
     }
 
