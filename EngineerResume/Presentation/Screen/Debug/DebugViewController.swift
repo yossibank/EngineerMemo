@@ -1,40 +1,42 @@
-import Combine
-import UIKit
+#if DEBUG
+    import Combine
+    import UIKit
 
-// MARK: - inject
+    // MARK: - inject
 
-extension DebugViewController: VCInjectable {
-    typealias CV = DebugContentView
-    typealias VM = DebugViewModel
-}
-
-// MARK: - stored properties & init
-
-final class DebugViewController: UIViewController {
-    var viewModel: VM!
-    var contentView: CV!
-
-    private var cancellables: Set<AnyCancellable> = .init()
-}
-
-// MARK: - override methods
-
-extension DebugViewController {
-    override func loadView() {
-        super.loadView()
-
-        view = contentView
+    extension DebugViewController: VCInjectable {
+        typealias CV = DebugContentView
+        typealias VM = DebugViewModel
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    // MARK: - stored properties & init
+
+    final class DebugViewController: UIViewController {
+        var viewModel: VM!
+        var contentView: CV!
+
+        private var cancellables: Set<AnyCancellable> = .init()
     }
-}
 
-// MARK: - internal methods
+    // MARK: - override methods
 
-extension DebugViewController {}
+    extension DebugViewController {
+        override func loadView() {
+            super.loadView()
 
-// MARK: - private methods
+            view = contentView
+        }
 
-private extension DebugViewController {}
+        override func viewDidLoad() {
+            super.viewDidLoad()
+        }
+    }
+
+    // MARK: - internal methods
+
+    extension DebugViewController {}
+
+    // MARK: - private methods
+
+    private extension DebugViewController {}
+#endif

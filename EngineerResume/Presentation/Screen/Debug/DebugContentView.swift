@@ -138,7 +138,10 @@
             _ tableView: UITableView,
             viewForHeaderInSection section: Int
         ) -> UIView? {
-            let section = DebugSection.allCases[section]
+            guard let section = DebugSection.allCases[safe: section] else {
+                return nil
+            }
+
             let view = tableView.dequeueReusableHeaderFooterView(
                 withType: TitleHeaderFooterView.self
             )

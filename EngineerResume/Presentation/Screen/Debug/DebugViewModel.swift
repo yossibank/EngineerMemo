@@ -1,23 +1,25 @@
-import Combine
+#if DEBUG
+    import Combine
 
-final class DebugViewModel: ViewModel {
-    final class Input: InputObject {}
-    final class Output: OutputObject {}
+    final class DebugViewModel: ViewModel {
+        final class Input: InputObject {}
+        final class Output: OutputObject {}
 
-    let input: Input
-    let output: Output
-    let binding = NoBinding()
+        let input: Input
+        let output: Output
+        let binding = NoBinding()
 
-    private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables: Set<AnyCancellable> = .init()
 
-    private let analytics: FirebaseAnalyzable
+        private let analytics: FirebaseAnalyzable
 
-    init(analytics: FirebaseAnalyzable) {
-        let input = Input()
-        let output = Output()
+        init(analytics: FirebaseAnalyzable) {
+            let input = Input()
+            let output = Output()
 
-        self.input = input
-        self.output = output
-        self.analytics = analytics
+            self.input = input
+            self.output = output
+            self.analytics = analytics
+        }
     }
-}
+#endif

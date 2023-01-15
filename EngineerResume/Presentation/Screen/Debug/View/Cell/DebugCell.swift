@@ -1,57 +1,56 @@
-import SnapKit
-import UIKit
+#if DEBUG
+    import SnapKit
+    import SwiftUI
+    import UIKit
 
-// MARK: - properties & init
+    // MARK: - properties & init
 
-final class DebugCell: UITableViewCell {
-    private let titleLabel = UILabel(style: .bold16)
+    final class DebugCell: UITableViewCell {
+        private let titleLabel = UILabel(style: .bold16)
 
-    override init(
-        style: UITableViewCell.CellStyle,
-        reuseIdentifier: String?
-    ) {
-        super.init(
-            style: style,
-            reuseIdentifier: reuseIdentifier
-        )
+        override init(
+            style: UITableViewCell.CellStyle,
+            reuseIdentifier: String?
+        ) {
+            super.init(
+                style: style,
+                reuseIdentifier: reuseIdentifier
+            )
 
-        setupViews()
-        setupConstraints()
-    }
+            setupViews()
+            setupConstraints()
+        }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-}
-
-// MARK: - internal methods
-
-extension DebugCell {
-    func configure(title: String) {
-        titleLabel.text = title
-    }
-}
-
-// MARK: - private methods
-
-private extension DebugCell {
-    func setupViews() {
-        contentView.apply(.backgroundPrimary)
-        contentView.addSubview(titleLabel)
-    }
-
-    func setupConstraints() {
-        titleLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(8)
+        required init?(coder: NSCoder) {
+            super.init(coder: coder)
         }
     }
-}
 
-// MARK: - preview
+    // MARK: - internal methods
 
-#if DEBUG
-    import SwiftUI
+    extension DebugCell {
+        func configure(title: String) {
+            titleLabel.text = title
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugCell {
+        func setupViews() {
+            contentView.apply(.backgroundPrimary)
+            contentView.addSubview(titleLabel)
+        }
+
+        func setupConstraints() {
+            titleLabel.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.leading.equalToSuperview().inset(8)
+            }
+        }
+    }
+
+    // MARK: - preview
 
     struct DebugCellPreview: PreviewProvider {
         static var previews: some View {
