@@ -45,12 +45,12 @@ private extension TopViewControllerAccessible {
             return getVisibleViewController(presentedViewController)
         }
 
-        if let navigationController = rootViewController as? NavigationController {
+        if let navigationController = rootViewController as? UINavigationController {
             return navigationController.visibleViewController
         }
 
         if let tabBarController = rootViewController as? UITabBarController {
-            if let navigationController = tabBarController.selectedViewController as? NavigationController {
+            if let navigationController = tabBarController.selectedViewController as? UINavigationController {
                 let visible = navigationController.visibleViewController
 
                 if visible is UISearchController || visible is UIAlertController {

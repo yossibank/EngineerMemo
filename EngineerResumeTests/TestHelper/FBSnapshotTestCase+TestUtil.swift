@@ -85,7 +85,7 @@ private extension FBSnapshotTestCase {
             vc.view.frame = viewFrame
 
             let window = UIWindow(frame: vc.view.frame)
-            let nc = NavigationController(rootViewController: vc)
+            let nc = UINavigationController(rootViewController: vc)
             window.rootViewController = nc
             window.overrideUserInterfaceStyle = .init(rawValue: colorMode.rawValue)!
             window.makeKeyAndVisible()

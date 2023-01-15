@@ -7,7 +7,7 @@ final class TabBarController: UITabBarController {
         case debug
 
         var rootViewController: UIViewController {
-            let rootViewController: NavigationController
+            let rootViewController: UINavigationController
 
             switch self {
             case .home:
