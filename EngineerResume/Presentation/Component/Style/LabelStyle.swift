@@ -1,6 +1,16 @@
 import UIKit
 
 extension ViewStyle where T: UILabel {
+    // MARK: - ラベル文字
+
+    enum LabelTitle {
+        static var basicInformation: ViewStyle<T> {
+            .init {
+                $0.text = L10n.Profile.basicInformation
+            }
+        }
+    }
+
     // MARK: - 文字サイズ
 
     static var system8: ViewStyle<T> {

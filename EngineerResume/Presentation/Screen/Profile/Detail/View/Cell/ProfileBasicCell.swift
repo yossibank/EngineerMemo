@@ -34,18 +34,23 @@ final class ProfileBasicCell: UITableViewCell {
 
     private lazy var stackView: UIStackView = {
         $0.axis = .vertical
-        $0.alignment = .leading
         $0.spacing = 16
         return $0
     }(UIStackView(arrangedSubviews: arrangedSubviews))
 
+    private lazy var titleStackView: UIStackView = {
+        $0.axis = .vertical
+        $0.alignment = .center
+        return $0
+    }(UIStackView(arrangedSubviews: [basicLabel]))
+
     private var arrangedSubviews: [UIView] {
         var subviews: [UIView] = ObjectType.allCases.map(createStackView)
-        subviews.insert(spaceTopView, at: 0)
-        subviews.insert(spaceBottomView, at: subviews.count)
+        subviews.insert(titleStackView, at: 0)
         return subviews
     }
 
+    private let basicLabel = UILabel(styles: [.LabelTitle.basicInformation, .bold16])
     private let nameLabel = UILabel(styles: [.bold16])
     private let ageLabel = UILabel(styles: [.bold16])
     private let genderLabel = UILabel(styles: [.bold16])
@@ -53,8 +58,6 @@ final class ProfileBasicCell: UITableViewCell {
     private let phoneNumberLabel = UILabel(styles: [.bold16])
     private let addressLabel = UILabel(styles: [.bold16, .lineInfinity])
     private let stationLabel = UILabel(styles: [.bold16])
-    private let spaceTopView = UIView()
-    private let spaceBottomView = UIView()
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -103,14 +106,7 @@ private extension ProfileBasicCell {
         }
 
         stackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(8)
-        }
-
-        [spaceTopView, spaceBottomView].forEach { view in
-            view.snp.makeConstraints {
-                $0.height.equalTo(8)
-            }
+            $0.edges.equalToSuperview().inset(16)
         }
     }
 

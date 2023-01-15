@@ -1,5 +1,6 @@
 // MARK: - プロフィール
 
+"profile.basicInformation" = "基本情報";
 "profile.name" = "名前";
 "profile.age" = "年齢";
 "profile.gender" = "性別";
