@@ -29,6 +29,7 @@ final class ProfileSettingCell: UITableViewCell {
 
     private let titleLabel = UILabel(
         styles: [
+            .LabelTitle.profileDescription,
             .bold14,
             .textCenter,
             .lineInfinity
@@ -56,7 +57,6 @@ final class ProfileSettingCell: UITableViewCell {
 
         setupViews()
         setupConstraints()
-        setupConfigure()
     }
 
     required init?(coder: NSCoder) {
@@ -98,10 +98,6 @@ private extension ProfileSettingCell {
                 $0.height.equalTo(16)
             }
         }
-    }
-
-    func setupConfigure() {
-        titleLabel.text = "プロフィールを設定しましょう。\n職務経歴、自己PRなどをまとまることができます。"
     }
 }
 

@@ -24,20 +24,20 @@ final class TabBarController: UITabBarController {
         private var title: String {
             switch self {
             case .home:
-                return "ホーム"
+                return L10n.Tab.home
 
             case .profile:
-                return "プロフィール"
+                return L10n.Tab.profile
             }
         }
 
         private var image: UIImage? {
             switch self {
             case .home:
-                return .init(systemName: "house")
+                return ImageResources.house
 
             case .profile:
-                return .init(systemName: "person.crop.circle")
+                return ImageResources.profile
             }
         }
 

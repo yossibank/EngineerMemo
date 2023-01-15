@@ -9,6 +9,12 @@ extension ViewStyle where T: UILabel {
                 $0.text = L10n.Profile.basicInformation
             }
         }
+
+        static var profileDescription: ViewStyle<T> {
+            .init {
+                $0.text = L10n.Profile.settingDescription
+            }
+        }
     }
 
     // MARK: - 文字サイズ
