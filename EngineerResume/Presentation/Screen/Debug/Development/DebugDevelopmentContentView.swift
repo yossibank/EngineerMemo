@@ -7,11 +7,14 @@
     // MARK: - stored properties & init
 
     final class DebugDevelopmentContentView: UIView {
+        lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
+
         private var dataSource: UITableViewDiffableDataSource<
             DebugDevelopmentSection,
             DebugDevelopmentItem
         >!
 
+        private let didSelectContentSubject = PassthroughSubject<Int, Never>()
         private let tableView = UITableView()
 
         override init(frame: CGRect) {
@@ -74,6 +77,7 @@
             )
 
             cell.configure(item: item)
+            cell.isUserInteractionEnabled = indexPath.section == DebugDevelopmentSection.coreData.rawValue
 
             return cell
         }
@@ -132,6 +136,22 @@
             view.configure(title: section.title)
 
             return view
+        }
+
+        func tableView(
+            _ tableView: UITableView,
+            didSelectRowAt indexPath: IndexPath
+        ) {
+            guard indexPath.section == DebugDevelopmentSection.coreData.rawValue else {
+                return
+            }
+
+            tableView.deselectRow(
+                at: indexPath,
+                animated: false
+            )
+
+            didSelectContentSubject.send(indexPath.row)
         }
     }
 

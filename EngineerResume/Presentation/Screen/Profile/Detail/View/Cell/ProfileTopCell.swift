@@ -48,7 +48,7 @@ extension ProfileTopCell {
 
 private extension ProfileTopCell {
     func setupViews() {
-        contentView.apply(.backgroundPrimary)
+        apply(.backgroundPrimary)
         contentView.addSubview(stackView)
     }
 

@@ -53,7 +53,7 @@
 
     private extension DebugDevelopmentCell {
         func setupViews() {
-            contentView.apply(.backgroundPrimary)
+            apply(.backgroundPrimary)
             contentView.addSubview(stackView)
         }
 

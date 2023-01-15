@@ -2,24 +2,29 @@
     import Combine
 
     final class DebugDevelopmentViewModel: ViewModel {
-        final class Input: InputObject {}
-        final class Output: OutputObject {}
+        final class Input: InputObject {
+            let contentTapped = PassthroughSubject<Int, Never>()
+        }
 
         let input: Input
-        let output: Output
+        let output = NoOutput()
         let binding = NoBinding()
 
         private var cancellables: Set<AnyCancellable> = .init()
 
-        private let analytics: FirebaseAnalyzable
+        private let routing: DebugDevelopmentRoutingInput
 
-        init(analytics: FirebaseAnalyzable) {
-            let input = Input()
-            let output = Output()
+        init(routing: DebugDevelopmentRoutingInput) {
+            self.input = Input()
+            self.routing = routing
 
-            self.input = input
-            self.output = output
-            self.analytics = analytics
+            // MARK: - セルタップ
+
+            input.contentTapped.sink { row in
+                Logger.debug(message: row.description)
+                routing.showDebugCoreDataScreen()
+            }
+            .store(in: &cancellables)
         }
     }
 #endif

@@ -29,14 +29,21 @@
 
         override func viewDidLoad() {
             super.viewDidLoad()
+
+            bindToViewModel()
         }
     }
 
-    // MARK: - internal methods
-
-    extension DebugDevelopmentViewController {}
-
     // MARK: - private methods
 
-    private extension DebugDevelopmentViewController {}
+    private extension DebugDevelopmentViewController {
+        func bindToViewModel() {
+            contentView.didSelectContentPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] row in
+                    self?.viewModel.input.contentTapped.send(row)
+                }
+                .store(in: &cancellables)
+        }
+    }
 #endif

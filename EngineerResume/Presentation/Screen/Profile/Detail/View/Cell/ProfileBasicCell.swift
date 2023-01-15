@@ -95,7 +95,7 @@ extension ProfileBasicCell {
 
 private extension ProfileBasicCell {
     func setupViews() {
-        contentView.apply(.backgroundPrimary)
+        apply(.backgroundPrimary)
         contentView.addSubview(mainView)
     }
 

@@ -1,8 +1,8 @@
 #if DEBUG
     import UIKit
 
-    enum DebugDevelopmentSection: CaseIterable {
-        case git
+    enum DebugDevelopmentSection: Int, CaseIterable {
+        case git = 0
         case device
         case coreData
 

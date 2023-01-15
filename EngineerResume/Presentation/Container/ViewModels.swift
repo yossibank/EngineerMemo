@@ -46,8 +46,8 @@ enum ViewModels {
 
     #if DEBUG
         enum Debug {
-            static func Development() -> DebugDevelopmentViewModel {
-                .init(analytics: FirebaseAnalytics(screenId: .debug))
+            static func Development(routing: DebugDevelopmentRoutingInput) -> DebugDevelopmentViewModel {
+                .init(routing: routing)
             }
 
             static func CoreData() -> DebugCoreDataViewModel {

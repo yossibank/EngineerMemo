@@ -74,11 +74,12 @@ enum AppControllers {
         enum Debug {
             static func Development() -> DebugDevelopmentViewController {
                 let vc = DebugDevelopmentViewController()
+                let routing = DebugDevelopmentRouting(viewController: vc)
 
                 vc.title = L10n.Navigation.Title.debugDevelopment
                 vc.inject(
                     contentView: ContentViews.Debug.Development(),
-                    viewModel: ViewModels.Debug.Development()
+                    viewModel: ViewModels.Debug.Development(routing: routing)
                 )
 
                 return vc
