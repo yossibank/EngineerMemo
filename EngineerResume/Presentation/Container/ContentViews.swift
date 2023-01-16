@@ -34,6 +34,12 @@ enum ContentViews {
                     .init()
                 }
             }
+
+            enum CoreDataObject {
+                static func Profile() -> DebugProfileCreateContentView {
+                    .init()
+                }
+            }
         }
     #endif
 }

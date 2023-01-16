@@ -98,6 +98,19 @@ enum AppControllers {
                     return vc
                 }
             }
+
+            enum CoreDataObject {
+                static func Profile() -> DebugProfileCreateViewController {
+                    let vc = DebugProfileCreateViewController()
+
+                    vc.inject(
+                        contentView: ContentViews.Debug.CoreDataObject.Profile(),
+                        viewModel: ViewModels.Debug.CoreDataObject.Profile()
+                    )
+
+                    return vc
+                }
+            }
         }
     #endif
 }

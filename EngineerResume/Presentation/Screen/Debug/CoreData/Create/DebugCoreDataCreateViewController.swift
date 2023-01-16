@@ -28,6 +28,8 @@ extension DebugCoreDataCreateViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        bindToView()
     }
 }
 
@@ -37,4 +39,18 @@ extension DebugCoreDataCreateViewController {}
 
 // MARK: - private methods
 
-private extension DebugCoreDataCreateViewController {}
+private extension DebugCoreDataCreateViewController {
+    func bindToView() {
+        contentView.$selectedType
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else {
+                    return
+                }
+
+                self.contentView.viewUpdate(vc: self)
+            }
+            .store(in: &cancellables)
+    }
+}
