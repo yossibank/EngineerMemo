@@ -31,10 +31,6 @@ extension DebugProfileCreateViewController {
     }
 }
 
-// MARK: - internal methods
-
-extension DebugProfileCreateViewController {}
-
 // MARK: - private methods
 
 private extension DebugProfileCreateViewController {}

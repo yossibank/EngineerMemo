@@ -21,14 +21,14 @@ extension Profile {
 
     var genderEnum: Gender? {
         get {
-            Gender(rawValue: gender?.intValue ?? -1)
+            .init(rawValue: gender?.intValue ?? -1)
         }
         set {
             guard let value = newValue?.rawValue else {
                 return
             }
 
-            gender = NSNumber(value: value)
+            gender = .init(value: value)
         }
     }
 }

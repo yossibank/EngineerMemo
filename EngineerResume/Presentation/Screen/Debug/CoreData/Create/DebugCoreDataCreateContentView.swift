@@ -50,8 +50,8 @@
             vc.add(containerViewController)
 
             containerViewController.view.snp.makeConstraints {
-                $0.top.equalTo(menuButton.snp.bottom).inset(-20)
-                $0.bottom.leading.trailing.equalToSuperview()
+                $0.top.equalTo(menuButton.snp.bottom).inset(-24)
+                $0.leading.trailing.equalToSuperview()
             }
         }
     }
@@ -95,7 +95,7 @@
 
         func setupConstraints() {
             menuButton.snp.makeConstraints {
-                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(8)
+                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(24)
                 $0.centerX.equalToSuperview()
                 $0.width.equalTo(160)
                 $0.height.equalTo(40)

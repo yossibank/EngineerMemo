@@ -33,10 +33,6 @@ extension DebugCoreDataCreateViewController {
     }
 }
 
-// MARK: - internal methods
-
-extension DebugCoreDataCreateViewController {}
-
 // MARK: - private methods
 
 private extension DebugCoreDataCreateViewController {
