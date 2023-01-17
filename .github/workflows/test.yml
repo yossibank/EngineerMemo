@@ -91,6 +91,7 @@ jobs:
           -only-testing EngineerResumeTests
           -clonedSourcePackagesDirPath SourcePackages
           -resultBundlePath EngineerResume.xcresult
+          -derivedDataPath DerivedData
           clean test
           | bundle exec xcpretty --report html
 

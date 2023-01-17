@@ -31,7 +31,8 @@ periphery.scan(
     project: "EngineerResume.xcodeproj",
     schemes: "EngineerResume",
     targets: "EngineerResume",
-    clean_build: true
+    skip_build: true,
+    index_store_path: "DerivedData/Index.noindex/DataStore"
 )
 
 ### コードカバレッジ ###
