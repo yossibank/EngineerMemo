@@ -27,8 +27,6 @@ swiftlint.lint_files(inline_mode: true) do |violation|
 end
 
 ### 不要コード検知 ###
-periphery.install version: '2.10.0', path: 'bin/periphery', force: true
-periphery.binary_path = "bin/periphery"
 periphery.scan(
     project: "EngineerResume.xcodeproj",
     schemes: "EngineerResume",
