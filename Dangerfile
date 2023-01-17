@@ -26,7 +26,15 @@ swiftlint.lint_files(inline_mode: true) do |violation|
     !ignored_rule_ids.include?(violation["rule_id"])
 end
 
-
+### 不要コード検知 ###
+periphery.install version: '2.10.0', path: 'bin/periphery', force: true
+periphery.binary_path = "bin/periphery"
+periphery.scan(
+    project: "EngineerResume.xcodeproj",
+    schemes: "EngineerResume",
+    targets: "EngineerResume",
+    clean_build: true
+)
 
 ### コードカバレッジ ###
 system("mint run xcparse codecov EngineerResume.xcresult ./")
@@ -37,11 +45,4 @@ xcov.report(
     xccov_file_direct_path: "action.xccovreport",
     minimum_coverage_percentage: 60.0,
     only_project_targets: true
-)
-
-periphery.scan(
-    project: "EngineerResume.xcodeproj",
-    schemes: "EngineerResume",
-    targets: "EngineerResume",
-    clean_build: true
 )
