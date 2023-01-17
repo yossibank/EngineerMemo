@@ -59,7 +59,9 @@ jobs:
 
       # Mintインストール
       - name: Install Mint
-        run: brew install mint
+        run: |
+          brew install mint
+          brew install peripheryapp/periphery/periphery
 
       # SPMのライブラリのキャッシュ
       - name: Cache Swift Packages
@@ -89,6 +91,7 @@ jobs:
           -only-testing EngineerResumeTests
           -clonedSourcePackagesDirPath SourcePackages
           -resultBundlePath EngineerResume.xcresult
+          -derivedDataPath DerivedData
           clean test
           | bundle exec xcpretty --report html
 
