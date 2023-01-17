@@ -27,12 +27,12 @@ swiftlint.lint_files(inline_mode: true) do |violation|
 end
 
 ### 不要コード検知 ###
-# periphery.scan(
-#     project: "EngineerResume.xcodeproj",
-#     schemes: "EngineerResume",
-#     targets: "EngineerResume",
-#     clean_build: true
-# )
+periphery.scan(
+    project: "EngineerResume.xcodeproj",
+    schemes: "EngineerResume",
+    targets: "EngineerResume",
+    clean_build: true
+)
 
 ### コードカバレッジ ###
 system("mint run xcparse codecov EngineerResume.xcresult ./")
