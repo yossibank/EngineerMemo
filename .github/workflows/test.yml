@@ -100,7 +100,7 @@ jobs:
         with:
           plugins_file: "Gemfile"
           install_path: "vendor/bundle"
-          danger_file: "Danger/Test"
+          danger_file: "Danger/Testfile"
           danger_id: "Test"
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
