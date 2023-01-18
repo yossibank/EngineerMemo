@@ -45,7 +45,7 @@ jobs:
       # Gemsのインストール
       - name: Install Bundled Gems
         run: |
-          bundle config path vendor/bundle
+          bundle config set --local path "vendor/bundle"
           bundle install --jobs 4 --retry 3
 
       # Mintで管理しているライブラリのキャッシュ
@@ -59,7 +59,9 @@ jobs:
 
       # Mintインストール
       - name: Install Mint
-        run: brew install mint
+        run: |
+          brew install mint
+          brew install peripheryapp/periphery/periphery
 
       # SPMのライブラリのキャッシュ
       - name: Cache Swift Packages
