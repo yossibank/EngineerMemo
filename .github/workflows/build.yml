@@ -59,7 +59,9 @@ jobs:
 
       # Mintインストール
       - name: Install Mint
-        run: brew install mint
+        run: |
+          brew install mint
+          brew install peripheryapp/periphery/periphery
 
       # SPMのライブラリのキャッシュ
       - name: Cache Swift Packages
@@ -87,5 +89,16 @@ jobs:
           -scheme EngineerResume
           -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0'
           -clonedSourcePackagesDirPath SourcePackages
+          -derivedDataPath DerivedData
           build
           | bundle exec xcpretty
+
+      # Danger実行
+      - uses: MeilCli/danger-action@v5
+        with:
+          plugins_file: "Gemfile"
+          install_path: "vendor/bundle"
+          danger_file: "Danger/Buildfile"
+          danger_id: "Build"
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}

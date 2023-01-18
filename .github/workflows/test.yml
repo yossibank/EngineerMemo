@@ -96,11 +96,14 @@ jobs:
           | bundle exec xcpretty --report html
 
       # Danger実行
-      - name: Run Danger
+      - uses: MeilCli/danger-action@v5
+        with:
+          plugins_file: "Gemfile"
+          install_path: "vendor/bundle"
+          danger_file: "Danger/Testfile"
+          danger_id: "Test"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bundle exec danger
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # テスト結果のアップロード
       - uses: actions/upload-artifact@v3
