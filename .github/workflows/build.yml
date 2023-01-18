@@ -94,10 +94,9 @@ jobs:
       # Danger実行
       - uses: MeilCli/danger-action@v5
         with:
-          name: Run Danger
           plugins_file: "Gemfile"
           install_path: "vendor/bundle"
-          danger_file: "../../Danger/Build"
+          danger_file: "Danger/Build"
           danger_id: "Build"
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
