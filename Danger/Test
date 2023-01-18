@@ -1,0 +1,13 @@
+### 対象コード以外についてのメッセージは除く ###
+github.dismiss_out_of_range_messages
+
+### コードカバレッジ ###
+system("mint run xcparse codecov EngineerResume.xcresult ./")
+
+xcov.report(
+    project: "EngineerResume.xcodeproj",
+    scheme: "EngineerResume",
+    xccov_file_direct_path: "action.xccovreport",
+    minimum_coverage_percentage: 60.0,
+    only_project_targets: true
+)

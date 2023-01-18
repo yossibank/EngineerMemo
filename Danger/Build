@@ -34,14 +34,3 @@ periphery.scan(
     skip_build: true,
     index_store_path: "DerivedData/Index.noindex/DataStore"
 )
-
-### コードカバレッジ ###
-system("mint run xcparse codecov EngineerResume.xcresult ./")
-
-xcov.report(
-    project: "EngineerResume.xcodeproj",
-    scheme: "EngineerResume",
-    xccov_file_direct_path: "action.xccovreport",
-    minimum_coverage_percentage: 60.0,
-    only_project_targets: true
-)
