@@ -24,6 +24,26 @@
                 return "未設定"
             }
         }
+
+        var gender: ProfileModelObject.Gender {
+            switch self {
+            case .man:
+                return .man
+
+            case .woman:
+                return .woman
+
+            case .other:
+                return .other
+
+            case .none:
+                return .none
+            }
+        }
+
+        static func segment(_ value: Int) -> Self {
+            .init(rawValue: value) ?? .none
+        }
     }
 
     // MARK: - stored properties & init

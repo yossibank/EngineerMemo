@@ -24,6 +24,45 @@
                 return "未設定"
             }
         }
+
+        var string: String? {
+            switch self {
+            case .short:
+                return "string"
+
+            case .medium:
+                return String.randomElement(15)
+
+            case .long:
+                return String.randomElement(50)
+
+            case .none:
+                return nil
+            }
+        }
+
+        var int: Int? {
+            switch self {
+            case .short:
+                return Int.random(in: 0 ... 10)
+
+            case .medium:
+                return Int.random(in: 100 ... 10000)
+
+            case .long:
+                return Int.random(in: 1_000_000 ... 100_000_000)
+
+            case .none:
+                return nil
+            }
+        }
+
+        static var defaultString: String? { medium.string }
+        static var defaultInt: Int? { medium.int }
+
+        static func segment(_ value: Int) -> Self {
+            .init(rawValue: value) ?? .none
+        }
     }
 
     // MARK: - stored properties & init

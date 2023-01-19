@@ -1,52 +1,54 @@
-import Combine
-import UIKit
+#if DEBUG
+    import Combine
+    import UIKit
 
-// MARK: - inject
+    // MARK: - inject
 
-extension DebugCoreDataCreateViewController: VCInjectable {
-    typealias CV = DebugCoreDataCreateContentView
-    typealias VM = DebugCoreDataCreateViewModel
-}
-
-// MARK: - stored properties & init
-
-final class DebugCoreDataCreateViewController: UIViewController {
-    var viewModel: VM!
-    var contentView: CV!
-
-    private var cancellables: Set<AnyCancellable> = .init()
-}
-
-// MARK: - override methods
-
-extension DebugCoreDataCreateViewController {
-    override func loadView() {
-        super.loadView()
-
-        view = contentView
+    extension DebugCoreDataCreateViewController: VCInjectable {
+        typealias CV = DebugCoreDataCreateContentView
+        typealias VM = DebugCoreDataCreateViewModel
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    // MARK: - stored properties & init
 
-        bindToView()
+    final class DebugCoreDataCreateViewController: UIViewController {
+        var viewModel: VM!
+        var contentView: CV!
+
+        private var cancellables: Set<AnyCancellable> = .init()
     }
-}
 
-// MARK: - private methods
+    // MARK: - override methods
 
-private extension DebugCoreDataCreateViewController {
-    func bindToView() {
-        contentView.$selectedType
-            .removeDuplicates()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let self else {
-                    return
+    extension DebugCoreDataCreateViewController {
+        override func loadView() {
+            super.loadView()
+
+            view = contentView
+        }
+
+        override func viewDidLoad() {
+            super.viewDidLoad()
+
+            bindToView()
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugCoreDataCreateViewController {
+        func bindToView() {
+            contentView.$selectedType
+                .removeDuplicates()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+
+                    self.contentView.viewUpdate(vc: self)
                 }
-
-                self.contentView.viewUpdate(vc: self)
-            }
-            .store(in: &cancellables)
+                .store(in: &cancellables)
+        }
     }
-}
+#endif

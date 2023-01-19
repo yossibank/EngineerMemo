@@ -58,7 +58,7 @@ enum ViewModels {
 
             enum CoreDataObject {
                 static func Profile() -> DebugProfileCreateViewModel {
-                    .init()
+                    .init(model: Models.Profile())
                 }
             }
         }

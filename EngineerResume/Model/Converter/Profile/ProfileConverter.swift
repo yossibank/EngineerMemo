@@ -10,11 +10,11 @@ struct ProfileConverter: ProfileConverterInput {
             address: object.address ?? .noSetting,
             age: object.age?.intValue ?? -1,
             email: object.email ?? .noSetting,
-            gender: .init(rawValue: object.genderEnum?.rawValue ?? -1) ?? .none,
-            identifier: object.identifier,
+            gender: .init(rawValue: object.genderEnum?.rawValue ?? -1),
             name: object.name ?? .noSetting,
             phoneNumber: object.phoneNumber?.intValue ?? -1,
-            station: object.station ?? .noSetting
+            station: object.station ?? .noSetting,
+            identifier: object.identifier
         )
     }
 }

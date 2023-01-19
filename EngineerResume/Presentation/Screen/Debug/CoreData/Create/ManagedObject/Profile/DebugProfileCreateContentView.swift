@@ -33,6 +33,8 @@
             createButton
         ]))
 
+        private var cancellables: Set<AnyCancellable> = .init()
+
         private let addressControl: DebugCoreDataSegmentView = {
             $0.configure(title: L10n.Debug.Segment.address)
             return $0
@@ -82,11 +84,29 @@
 
             setupViews()
             setupConstraints()
+            setupEvents()
         }
 
         @available(*, unavailable)
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugProfileCreateContentView {
+        func setupEvents() {
+            didTapCreateButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.createButton.apply(.ButtonTitle.createDone)
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self?.createButton.apply(.ButtonTitle.create)
+                    }
+                }
+                .store(in: &cancellables)
         }
     }
 

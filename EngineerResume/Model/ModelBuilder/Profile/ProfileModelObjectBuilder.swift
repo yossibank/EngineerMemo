@@ -1,13 +1,13 @@
 #if DEBUG
     final class ProfileModelObjectBuilder {
-        private var address = "テスト県テスト市テスト1-1-1"
-        private var age = 20
-        private var email = "test@test.com"
-        private var gender: ProfileModelObject.Gender = .man
+        private var address: String? = "テスト県テスト市テスト1-1-1"
+        private var age: Int? = 20
+        private var email: String? = "test@test.com"
+        private var gender: ProfileModelObject.Gender? = .man
+        private var name: String? = "testName"
+        private var phoneNumber: Int? = 11_123_456_789
+        private var station: String? = "鶴橋駅"
         private var identifier = "identifier"
-        private var name = "testName"
-        private var phoneNumber = 11_123_456_789
-        private var station = "鶴橋駅"
 
         func build() -> ProfileModelObject {
             .init(
@@ -15,50 +15,50 @@
                 age: age,
                 email: email,
                 gender: gender,
-                identifier: identifier,
                 name: name,
                 phoneNumber: phoneNumber,
-                station: station
+                station: station,
+                identifier: identifier
             )
         }
 
-        func address(_ address: String) -> Self {
+        func address(_ address: String?) -> Self {
             self.address = address
             return self
         }
 
-        func age(_ age: Int) -> Self {
+        func age(_ age: Int?) -> Self {
             self.age = age
             return self
         }
 
-        func email(_ email: String) -> Self {
+        func email(_ email: String?) -> Self {
             self.email = email
             return self
         }
 
-        func gender(_ gender: ProfileModelObject.Gender) -> Self {
+        func gender(_ gender: ProfileModelObject.Gender?) -> Self {
             self.gender = gender
+            return self
+        }
+
+        func name(_ name: String?) -> Self {
+            self.name = name
+            return self
+        }
+
+        func phoneNumber(_ phoneNumber: Int?) -> Self {
+            self.phoneNumber = phoneNumber
+            return self
+        }
+
+        func station(_ station: String?) -> Self {
+            self.station = station
             return self
         }
 
         func identifier(_ identifier: String) -> Self {
             self.identifier = identifier
-            return self
-        }
-
-        func name(_ name: String) -> Self {
-            self.name = name
-            return self
-        }
-
-        func phoneNumber(_ phoneNumber: Int) -> Self {
-            self.phoneNumber = phoneNumber
-            return self
-        }
-
-        func station(_ station: String) -> Self {
-            self.station = station
             return self
         }
     }

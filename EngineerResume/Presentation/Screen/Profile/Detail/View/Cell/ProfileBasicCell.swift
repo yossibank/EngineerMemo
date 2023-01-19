@@ -82,10 +82,16 @@ final class ProfileBasicCell: UITableViewCell {
 extension ProfileBasicCell {
     func configure(_ modelObject: ProfileModelObject) {
         nameLabel.text = modelObject.name
-        ageLabel.text = modelObject.age.withDescription + L10n.Profile.old
-        genderLabel.text = modelObject.gender.value
+
+        if let age = modelObject.age?.withDescription {
+            ageLabel.text = age + L10n.Profile.old
+        } else {
+            ageLabel.text = .noSetting
+        }
+
+        genderLabel.text = modelObject.gender?.value ?? .noSetting
         emailLabel.text = modelObject.email
-        phoneNumberLabel.text = modelObject.phoneNumber.withDescription
+        phoneNumberLabel.text = modelObject.phoneNumber?.withDescription ?? .noSetting
         addressLabel.text = modelObject.address
         stationLabel.text = modelObject.station
     }
