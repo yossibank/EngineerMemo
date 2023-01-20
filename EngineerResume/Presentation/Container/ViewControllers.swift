@@ -86,6 +86,13 @@ enum AppControllers {
             }
 
             enum CoreData {
+                static func List() -> DebugCoreDataListViewController {
+                    let vc = DebugCoreDataListViewController()
+                    vc.title = L10n.Navigation.Title.debugCoreDataList
+                    vc.inject(contentView: ContentViews.Debug.CoreData.List())
+                    return vc
+                }
+
                 static func Create() -> DebugCoreDataCreateViewController {
                     let vc = DebugCoreDataCreateViewController()
                     vc.title = L10n.Navigation.Title.debugCoreDataCreate
@@ -95,15 +102,30 @@ enum AppControllers {
             }
 
             enum CoreDataObject {
-                static func Profile() -> DebugProfileCreateViewController {
-                    let vc = DebugProfileCreateViewController()
+                enum List {
+                    static func Profile() -> DebugProfileListViewController {
+                        let vc = DebugProfileListViewController()
 
-                    vc.inject(
-                        contentView: ContentViews.Debug.CoreDataObject.Profile(),
-                        viewModel: ViewModels.Debug.CoreDataObject.Profile()
-                    )
+                        vc.inject(
+                            contentView: ContentViews.Debug.CoreDataObject.List.Profile(),
+                            viewModel: ViewModels.Debug.CoreDataObject.List.Profile()
+                        )
 
-                    return vc
+                        return vc
+                    }
+                }
+
+                enum Create {
+                    static func Profile() -> DebugProfileCreateViewController {
+                        let vc = DebugProfileCreateViewController()
+
+                        vc.inject(
+                            contentView: ContentViews.Debug.CoreDataObject.Create.Profile(),
+                            viewModel: ViewModels.Debug.CoreDataObject.Create.Profile()
+                        )
+
+                        return vc
+                    }
                 }
             }
         }
