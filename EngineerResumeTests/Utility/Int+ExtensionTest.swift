@@ -17,4 +17,11 @@ final class IntExtensionTest: XCTestCase {
         // assert
         XCTAssertEqual(value.withDescription, "10")
     }
+
+    func test_invalid_マイナス1の数値を取得できること() {
+        // arrange
+        let value = -1
+
+        XCTAssertEqual(value, .invalid)
+    }
 }

@@ -21,7 +21,7 @@ extension Profile {
 
     var genderEnum: Gender? {
         get {
-            .init(rawValue: gender?.intValue ?? -1)
+            .init(rawValue: gender?.intValue ?? .invalid)
         }
         set {
             guard let value = newValue?.rawValue else {
