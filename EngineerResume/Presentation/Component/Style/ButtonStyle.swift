@@ -22,6 +22,12 @@ extension ViewStyle where T: UIButton {
             }
         }
 
+        static var createDone: ViewStyle<T> {
+            .init {
+                $0.setTitle("作成完了", for: .normal)
+            }
+        }
+
         static var edit: ViewStyle<T> {
             .init {
                 $0.setTitle("編集する", for: .normal)

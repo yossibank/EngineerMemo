@@ -8,7 +8,7 @@ final class Profile: NSManagedObject {
     @NSManaged var gender: NSNumber?
     @NSManaged var identifier: String
     @NSManaged var name: String?
-    @NSManaged var phoneNumber: NSNumber?
+    @NSManaged var phoneNumber: String?
     @NSManaged var station: String?
 }
 
@@ -21,14 +21,14 @@ extension Profile {
 
     var genderEnum: Gender? {
         get {
-            Gender(rawValue: gender?.intValue ?? -1)
+            .init(rawValue: gender?.intValue ?? .invalid)
         }
         set {
             guard let value = newValue?.rawValue else {
                 return
             }
 
-            gender = NSNumber(value: value)
+            gender = .init(value: value)
         }
     }
 }

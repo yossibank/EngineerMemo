@@ -88,11 +88,19 @@ enum AppControllers {
             enum CoreData {
                 static func Create() -> DebugCoreDataCreateViewController {
                     let vc = DebugCoreDataCreateViewController()
-
                     vc.title = L10n.Navigation.Title.debugCoreDataCreate
+                    vc.inject(contentView: ContentViews.Debug.CoreData.Create())
+                    return vc
+                }
+            }
+
+            enum CoreDataObject {
+                static func Profile() -> DebugProfileCreateViewController {
+                    let vc = DebugProfileCreateViewController()
+
                     vc.inject(
-                        contentView: ContentViews.Debug.CoreData.Create(),
-                        viewModel: ViewModels.Debug.CoreData.Create()
+                        contentView: ContentViews.Debug.CoreDataObject.Profile(),
+                        viewModel: ViewModels.Debug.CoreDataObject.Profile()
                     )
 
                     return vc

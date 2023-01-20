@@ -50,9 +50,9 @@ enum ViewModels {
                 .init(routing: routing)
             }
 
-            enum CoreData {
-                static func Create() -> DebugCoreDataCreateViewModel {
-                    .init()
+            enum CoreDataObject {
+                static func Profile() -> DebugProfileCreateViewModel {
+                    .init(model: Models.Profile())
                 }
             }
         }

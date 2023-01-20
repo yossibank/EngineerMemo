@@ -8,7 +8,7 @@
         private var gender: Profile.Gender? = .man
         private var identifier = "identifier"
         private var name: String? = "testName"
-        private var phoneNumber: NSNumber? = 11_123_456_789
+        private var phoneNumber: String? = "08011112222"
         private var station: String? = "鶴橋駅"
 
         func build() -> Profile {
@@ -55,7 +55,7 @@
             return self
         }
 
-        func phoneNumber(_ phoneNumber: NSNumber?) -> Self {
+        func phoneNumber(_ phoneNumber: String?) -> Self {
             self.phoneNumber = phoneNumber
             return self
         }
