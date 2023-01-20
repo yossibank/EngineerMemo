@@ -6,7 +6,7 @@
 
     extension DebugCoreDataCreateViewController: VCInjectable {
         typealias CV = DebugCoreDataCreateContentView
-        typealias VM = DebugCoreDataCreateViewModel
+        typealias VM = NoViewModel
     }
 
     // MARK: - stored properties & init

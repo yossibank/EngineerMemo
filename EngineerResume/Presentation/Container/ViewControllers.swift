@@ -88,13 +88,8 @@ enum AppControllers {
             enum CoreData {
                 static func Create() -> DebugCoreDataCreateViewController {
                     let vc = DebugCoreDataCreateViewController()
-
                     vc.title = L10n.Navigation.Title.debugCoreDataCreate
-                    vc.inject(
-                        contentView: ContentViews.Debug.CoreData.Create(),
-                        viewModel: ViewModels.Debug.CoreData.Create()
-                    )
-
+                    vc.inject(contentView: ContentViews.Debug.CoreData.Create())
                     return vc
                 }
             }

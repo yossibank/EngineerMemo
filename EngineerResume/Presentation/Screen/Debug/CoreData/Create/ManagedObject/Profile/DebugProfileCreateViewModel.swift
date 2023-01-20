@@ -100,7 +100,7 @@
                         return
                     }
 
-                    model.create(modelObject: self.modelObject)
+                    self.model.create(modelObject: self.modelObject)
                 }
                 .store(in: &cancellables)
         }
