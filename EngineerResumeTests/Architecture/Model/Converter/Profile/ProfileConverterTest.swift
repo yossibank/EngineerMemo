@@ -102,7 +102,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_genderがmanの際に変換されること() {
+    func test_genderがmanの際にmanに変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .gender(.man)
@@ -120,7 +120,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_genderがwomanの際に変換されること() {
+    func test_genderがwomanの際にwomanに変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .gender(.woman)
@@ -138,7 +138,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_genderがotherの際に変換されること() {
+    func test_genderがotherの際にotherに変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .gender(.other)
@@ -152,6 +152,24 @@ final class ProfileConverterTest: XCTestCase {
             actual,
             ProfileModelObjectBuilder()
                 .gender(.other)
+                .build()
+        )
+    }
+
+    func test_genderがnilの際にnilに変換されること() {
+        // arrange
+        let input = ProfileDataObjectBuilder()
+            .gender(nil)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            ProfileModelObjectBuilder()
+                .gender(nil)
                 .build()
         )
     }
