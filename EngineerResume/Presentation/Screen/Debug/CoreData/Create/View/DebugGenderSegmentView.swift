@@ -11,33 +11,19 @@
 
         var title: String {
             switch self {
-            case .man:
-                return "男性"
-
-            case .woman:
-                return "女性"
-
-            case .other:
-                return "その他"
-
-            case .none:
-                return "未設定"
+            case .man: return "男性"
+            case .woman: return "女性"
+            case .other: return "その他"
+            case .none: return .noSetting
             }
         }
 
         var gender: ProfileModelObject.Gender {
             switch self {
-            case .man:
-                return .man
-
-            case .woman:
-                return .woman
-
-            case .other:
-                return .other
-
-            case .none:
-                return .none
+            case .man: return .man
+            case .woman: return .woman
+            case .other: return .other
+            case .none: return .none
             }
         }
 

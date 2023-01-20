@@ -18,7 +18,7 @@
 
         private lazy var stackView: UIStackView = {
             $0.axis = .vertical
-            $0.alignment = .center
+            $0.alignment = .fill
             $0.spacing = 12
             $0.setCustomSpacing(32, after: stationControl)
             return $0
@@ -30,8 +30,13 @@
             nameControl,
             phoneNumberControl,
             stationControl,
-            createButton
+            buttonView
         ]))
+
+        private lazy var buttonView: UIView = {
+            $0.addSubview(createButton)
+            return $0
+        }(UIView())
 
         private var cancellables: Set<AnyCancellable> = .init()
 
@@ -60,10 +65,10 @@
             return $0
         }(DebugCoreDataSegmentView())
 
-        private let phoneNumberControl: DebugCoreDataSegmentView = {
+        private let phoneNumberControl: DebugPhoneNumberSegmentView = {
             $0.configure(title: L10n.Debug.Segment.phoneNumber)
             return $0
-        }(DebugCoreDataSegmentView())
+        }(DebugPhoneNumberSegmentView())
 
         private let stationControl: DebugCoreDataSegmentView = {
             $0.configure(title: L10n.Debug.Segment.station)
@@ -123,7 +128,12 @@
                 $0.edges.equalToSuperview()
             }
 
+            buttonView.snp.makeConstraints {
+                $0.height.equalTo(48)
+            }
+
             createButton.snp.makeConstraints {
+                $0.centerX.equalToSuperview()
                 $0.width.equalTo(160)
                 $0.height.equalTo(48)
             }

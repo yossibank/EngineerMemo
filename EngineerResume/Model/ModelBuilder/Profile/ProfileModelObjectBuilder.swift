@@ -5,7 +5,7 @@
         private var email: String? = "test@test.com"
         private var gender: ProfileModelObject.Gender? = .man
         private var name: String? = "testName"
-        private var phoneNumber: Int? = 11_123_456_789
+        private var phoneNumber: String? = "08011112222"
         private var station: String? = "鶴橋駅"
         private var identifier = "identifier"
 
@@ -47,7 +47,7 @@
             return self
         }
 
-        func phoneNumber(_ phoneNumber: Int?) -> Self {
+        func phoneNumber(_ phoneNumber: String?) -> Self {
             self.phoneNumber = phoneNumber
             return self
         }

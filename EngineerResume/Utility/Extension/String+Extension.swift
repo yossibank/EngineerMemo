@@ -1,4 +1,17 @@
+import Foundation
+
 extension String {
+    var phoneText: String? {
+        guard Int(self) != nil else {
+            return nil
+        }
+
+        var phoneNumber = self
+        phoneNumber.insert("-", at: phoneNumber.index(phoneNumber.startIndex, offsetBy: 3))
+        phoneNumber.insert("-", at: phoneNumber.index(phoneNumber.startIndex, offsetBy: 8))
+        return phoneNumber
+    }
+
     static let noSetting = "未設定"
     static let unknown = "不明"
 

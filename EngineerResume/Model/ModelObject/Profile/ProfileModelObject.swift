@@ -6,7 +6,7 @@ struct ProfileModelObject: Hashable {
     var email: String?
     var gender: Gender?
     var name: String?
-    var phoneNumber: Int?
+    var phoneNumber: String?
     var station: String?
     let identifier: String
 
@@ -52,11 +52,7 @@ extension ProfileModelObject {
         }
 
         profile.name = name
-
-        if let phoneNumber {
-            profile.phoneNumber = .init(value: phoneNumber)
-        }
-
+        profile.phoneNumber = phoneNumber
         profile.station = station
 
         if isNew {

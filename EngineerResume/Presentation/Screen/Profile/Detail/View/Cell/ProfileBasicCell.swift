@@ -91,7 +91,7 @@ extension ProfileBasicCell {
 
         genderLabel.text = modelObject.gender?.value ?? .noSetting
         emailLabel.text = modelObject.email
-        phoneNumberLabel.text = modelObject.phoneNumber?.withDescription ?? .noSetting
+        phoneNumberLabel.text = modelObject.phoneNumber?.phoneText ?? .noSetting
         addressLabel.text = modelObject.address
         stationLabel.text = modelObject.station
     }

@@ -12,7 +12,7 @@ struct ProfileConverter: ProfileConverterInput {
             email: object.email ?? .noSetting,
             gender: .init(rawValue: object.genderEnum?.rawValue ?? -1),
             name: object.name ?? .noSetting,
-            phoneNumber: object.phoneNumber?.intValue ?? -1,
+            phoneNumber: object.phoneNumber ?? .noSetting,
             station: object.station ?? .noSetting,
             identifier: object.identifier
         )

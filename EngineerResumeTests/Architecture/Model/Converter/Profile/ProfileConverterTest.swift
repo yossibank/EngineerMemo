@@ -25,7 +25,7 @@ final class ProfileConverterTest: XCTestCase {
             .gender(.man)
             .identifier("identifier")
             .name("テスト")
-            .phoneNumber(11_123_456_789)
+            .phoneNumber("08011112222")
             .station("鶴橋駅")
             .build()
 
@@ -42,7 +42,7 @@ final class ProfileConverterTest: XCTestCase {
                 .gender(.man)
                 .identifier("identifier")
                 .name("テスト")
-                .phoneNumber(11_123_456_789)
+                .phoneNumber("08011112222")
                 .station("鶴橋駅")
                 .build()
         )
@@ -174,7 +174,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_phoneNumberがnilの際に不正値に変換されること() {
+    func test_phoneNumberがnilの際に未設定の文字列に変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .phoneNumber(nil)
@@ -187,7 +187,7 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
-                .phoneNumber(-1)
+                .phoneNumber(.noSetting)
                 .build()
         )
     }

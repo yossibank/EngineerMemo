@@ -3,41 +3,25 @@
     import SwiftUI
     import UIKit
 
-    enum DebugCoreDataSegment: Int, CaseIterable {
-        case short = 0
-        case medium
-        case long
+    enum DebugPhoneNumberSegment: Int, CaseIterable {
+        case phone
         case none
 
         var title: String {
             switch self {
-            case .short: return "短め"
-            case .medium: return "普通"
-            case .long: return "長め"
+            case .phone: return "携帯番号"
             case .none: return .noSetting
             }
         }
 
-        var string: String? {
+        var phoneNumber: String? {
             switch self {
-            case .short: return String.randomElement(5)
-            case .medium: return String.randomElement(15)
-            case .long: return String.randomElement(50)
+            case .phone: return "08011112222"
             case .none: return nil
             }
         }
 
-        var int: Int? {
-            switch self {
-            case .short: return Int.random(in: 0 ... 10)
-            case .medium: return Int.random(in: 100 ... 10000)
-            case .long: return Int.random(in: 1_000_000 ... 100_000_000)
-            case .none: return nil
-            }
-        }
-
-        static var defaultString: String? { medium.string }
-        static var defaultInt: Int? { medium.int }
+        static var defaultPhoneNumber: String? { phone.phoneNumber }
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none
@@ -46,7 +30,7 @@
 
     // MARK: - stored properties & init
 
-    final class DebugCoreDataSegmentView: UIView {
+    final class DebugPhoneNumberSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
         private lazy var stackView: UIStackView = {
@@ -61,9 +45,9 @@
         private let titleLabel = UILabel(style: .italic14)
 
         private let segmentControl: UISegmentedControl = {
-            $0.selectedSegmentIndex = DebugCoreDataSegment.medium.rawValue
+            $0.selectedSegmentIndex = DebugPhoneNumberSegment.phone.rawValue
             return $0
-        }(UISegmentedControl(items: DebugCoreDataSegment.allCases.map(\.title)))
+        }(UISegmentedControl(items: DebugPhoneNumberSegment.allCases.map(\.title)))
 
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -80,7 +64,7 @@
 
     // MARK: - internal methods
 
-    extension DebugCoreDataSegmentView {
+    extension DebugPhoneNumberSegmentView {
         func configure(title: String) {
             titleLabel.text = title
         }
@@ -88,7 +72,7 @@
 
     // MARK: - private methods
 
-    private extension DebugCoreDataSegmentView {
+    private extension DebugPhoneNumberSegmentView {
         func setupViews() {
             apply(.backgroundPrimary)
             addSubview(stackView)
@@ -109,10 +93,10 @@
 
     // MARK: - preview
 
-    struct DebugCoreDataSegmentViewPreview: PreviewProvider {
+    struct DebugPhoneNumberSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugCoreDataSegmentView()
+                view: DebugPhoneNumberSegmentView()
             ) {
                 $0.configure(title: "title")
             }

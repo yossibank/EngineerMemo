@@ -41,7 +41,7 @@ final class ProfileModelTest: XCTestCase {
             XCTAssertEqual(value.genderEnum, .man)
             XCTAssertEqual(value.identifier, "identifier")
             XCTAssertEqual(value.name, "testName")
-            XCTAssertEqual(value.phoneNumber, 11_123_456_789)
+            XCTAssertEqual(value.phoneNumber, "08011112222")
             XCTAssertEqual(value.station, "鶴橋駅")
 
             expectation.fulfill()
@@ -52,7 +52,7 @@ final class ProfileModelTest: XCTestCase {
                 .email(value.email!)
                 .gender(.init(rawValue: value.genderEnum!.rawValue)!)
                 .name(value.name!)
-                .phoneNumber(value.phoneNumber!.intValue)
+                .phoneNumber(value.phoneNumber!)
                 .station(value.station!)
                 .build()
         }
@@ -74,7 +74,7 @@ final class ProfileModelTest: XCTestCase {
                         .gender(.man)
                         .identifier("identifier")
                         .name("testName")
-                        .phoneNumber(11_123_456_789)
+                        .phoneNumber("08011112222")
                         .station("鶴橋駅")
                         .build()
                 )
@@ -149,7 +149,7 @@ private extension ProfileModelTest {
                 profile.genderEnum = .man
                 profile.identifier = "identifier"
                 profile.name = "testName"
-                profile.phoneNumber = 11_123_456_789
+                profile.phoneNumber = "08011112222"
                 profile.station = "鶴橋駅"
             }
             .store(in: &cancellables)

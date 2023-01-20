@@ -8,7 +8,7 @@
             let emailControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let genderControlChanged = PassthroughSubject<DebugGenderSegment, Never>()
             let nameControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let phoneNumberControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let phoneNumberControlChanged = PassthroughSubject<DebugPhoneNumberSegment, Never>()
             let stationControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let createButtonTapped = PassthroughSubject<Void, Never>()
         }
@@ -26,7 +26,7 @@
             .email(DebugCoreDataSegment.defaultString)
             .gender(.woman)
             .name(DebugCoreDataSegment.defaultString)
-            .phoneNumber(DebugCoreDataSegment.defaultInt)
+            .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)
             .build()
 
@@ -80,7 +80,7 @@
 
             input.phoneNumberControlChanged
                 .sink { [weak self] segment in
-                    self?.modelObject.phoneNumber = segment.int
+                    self?.modelObject.phoneNumber = segment.phoneNumber
                 }
                 .store(in: &cancellables)
 

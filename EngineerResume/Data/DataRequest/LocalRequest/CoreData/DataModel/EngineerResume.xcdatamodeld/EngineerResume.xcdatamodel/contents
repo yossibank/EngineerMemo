@@ -7,7 +7,7 @@
         <attribute name="gender" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="identifier" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="phoneNumber" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="station" optional="YES" attributeType="String"/>
     </entity>
 </model>

@@ -8,7 +8,7 @@ final class Profile: NSManagedObject {
     @NSManaged var gender: NSNumber?
     @NSManaged var identifier: String
     @NSManaged var name: String?
-    @NSManaged var phoneNumber: NSNumber?
+    @NSManaged var phoneNumber: String?
     @NSManaged var station: String?
 }
 

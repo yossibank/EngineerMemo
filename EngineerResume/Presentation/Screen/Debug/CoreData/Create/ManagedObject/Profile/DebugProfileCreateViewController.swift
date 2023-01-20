@@ -87,7 +87,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.phoneNumberControlChanged.send(
-                        DebugCoreDataSegment.segment(value)
+                        DebugPhoneNumberSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
