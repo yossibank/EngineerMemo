@@ -25,7 +25,7 @@
             .address(DebugCoreDataSegment.defaultString)
             .age(DebugCoreDataSegment.defaultInt)
             .email(DebugCoreDataSegment.defaultString)
-            .gender(.woman)
+            .gender(DebugGenderSegment.defaultGender)
             .name(DebugCoreDataSegment.defaultString)
             .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)

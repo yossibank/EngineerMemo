@@ -30,10 +30,6 @@
 
         private var selectedIndex: Int? {
             didSet {
-                guard selectedIndex != oldValue else {
-                    return
-                }
-
                 tableView.reloadData()
             }
         }
@@ -233,6 +229,8 @@
                     else {
                         return
                     }
+
+                    cell.updateView()
 
                     self.didTapUpdateButtonSubject.send(identifier)
                 }

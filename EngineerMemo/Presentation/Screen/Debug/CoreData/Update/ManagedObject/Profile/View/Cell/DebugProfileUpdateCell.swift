@@ -95,11 +95,28 @@
 
             setupViews()
             setupConstraints()
-            setupEvents()
         }
 
         required init?(coder: NSCoder) {
             super.init(coder: coder)
+        }
+
+        override func prepareForReuse() {
+            super.prepareForReuse()
+
+            cancellables.removeAll()
+        }
+    }
+
+    // MARK: - internal methods
+
+    extension DebugProfileUpdateCell {
+        func updateView() {
+            updateButton.apply(.ButtonTitle.updateDone)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.updateButton.apply(.ButtonTitle.update)
+            }
         }
     }
 
@@ -126,19 +143,6 @@
                 $0.width.equalTo(160)
                 $0.height.equalTo(48)
             }
-        }
-
-        func setupEvents() {
-            didTapUpdateButtonPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    self?.updateButton.apply(.ButtonTitle.updateDone)
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.updateButton.apply(.ButtonTitle.update)
-                    }
-                }
-                .store(in: &cancellables)
         }
     }
 
