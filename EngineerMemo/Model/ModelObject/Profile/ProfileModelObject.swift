@@ -8,7 +8,7 @@ struct ProfileModelObject: Hashable {
     var name: String?
     var phoneNumber: String?
     var station: String?
-    let identifier: String
+    var identifier: String
 
     enum Gender: Int {
         case man = 0

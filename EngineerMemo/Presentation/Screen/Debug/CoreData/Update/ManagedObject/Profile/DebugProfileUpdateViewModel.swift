@@ -1,7 +1,7 @@
 #if DEBUG
     import Combine
 
-    final class DebugProfileCreateViewModel: ViewModel {
+    final class DebugProfileUpdateViewModel: ViewModel {
         final class Input: InputObject {
             let addressControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let ageControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
@@ -10,14 +10,16 @@
             let nameControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let phoneNumberControlChanged = PassthroughSubject<DebugPhoneNumberSegment, Never>()
             let stationControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let createButtonTapped = PassthroughSubject<Void, Never>()
+            let updateButtonTapped = PassthroughSubject<String, Never>()
+        }
+
+        final class Output: OutputObject {
+            @Published fileprivate(set) var modelObject: [ProfileModelObject]?
         }
 
         let input: Input
-        let output = NoOutput()
+        let output: Output
         let binding = NoBinding()
-
-        private let model: ProfileModelInput
 
         private var cancellables: Set<AnyCancellable> = .init()
 
@@ -31,11 +33,23 @@
             .station(DebugCoreDataSegment.defaultString)
             .build()
 
+        private let model: ProfileModelInput
+
         init(model: ProfileModelInput) {
             let input = Input()
+            let output = Output()
 
             self.input = input
+            self.output = output
             self.model = model
+
+            // MARK: - プロフィール情報取得
+
+            model.gets {
+                if case let .success(modelObject) = $0 {
+                    output.modelObject = modelObject
+                }
+            }
 
             // MARK: - 住所セグメント
 
@@ -93,15 +107,16 @@
                 }
                 .store(in: &cancellables)
 
-            // MARK: - 作成ボタンタップ
+            // MARK: - 更新ボタンタップ
 
-            input.createButtonTapped
-                .sink { [weak self] in
+            input.updateButtonTapped
+                .sink { [weak self] identifier in
                     guard let self else {
                         return
                     }
 
-                    self.model.create(modelObject: self.modelObject)
+                    self.modelObject.identifier = identifier
+                    self.model.update(modelObject: self.modelObject)
                 }
                 .store(in: &cancellables)
         }

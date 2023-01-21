@@ -30,7 +30,7 @@
                 vc = AppControllers.Debug.CoreData.Create()
 
             case .update:
-                vc = .init()
+                vc = AppControllers.Debug.CoreData.Update()
 
             case .delete:
                 vc = .init()

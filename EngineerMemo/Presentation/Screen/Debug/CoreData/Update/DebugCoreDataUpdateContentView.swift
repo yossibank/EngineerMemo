@@ -6,7 +6,7 @@
 
     // MARK: - stored properties & init
 
-    final class DebugCoreDataListContentView: UIView {
+    final class DebugCoreDataUpdateContentView: UIView {
         @Published private(set) var selectedType: CoreDataMenuType = .profile
 
         private let menuButton = UIButton(
@@ -42,9 +42,9 @@
 
     // MARK: - internal methods
 
-    extension DebugCoreDataListContentView {
+    extension DebugCoreDataUpdateContentView {
         func viewUpdate(vc: UIViewController) {
-            let containerViewController = selectedType.listViewController
+            let containerViewController = selectedType.updateViewController
 
             vc.removeFirstChild()
             vc.add(containerViewController)
@@ -58,7 +58,7 @@
 
     // MARK: - private methods
 
-    private extension DebugCoreDataListContentView {
+    private extension DebugCoreDataUpdateContentView {
         func setupMenu() {
             var actions = [UIMenuElement]()
 
@@ -87,7 +87,7 @@
 
     // MARK: - protocol
 
-    extension DebugCoreDataListContentView: ContentView {
+    extension DebugCoreDataUpdateContentView: ContentView {
         func setupViews() {
             apply(.backgroundPrimary)
             addSubview(menuButton)
@@ -105,10 +105,10 @@
 
     // MARK: - preview
 
-    struct DebugCoreDataListContentViewPreview: PreviewProvider {
+    struct DebugCoreDataUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugCoreDataListContentView()
+                view: DebugCoreDataUpdateContentView()
             )
         }
     }
