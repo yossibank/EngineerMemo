@@ -86,6 +86,67 @@ final class ProfileModelTest: XCTestCase {
         wait(for: [expectation], timeout: 0.1)
     }
 
+    func test_gets_成功_情報を取得できること() {
+        // arrange
+        dataInsert()
+
+        let expectation = XCTestExpectation(description: #function)
+
+        profileConverter.convertHandler = { value in
+            // assert
+            XCTAssertEqual(value.address, "テスト県テスト市テスト1-1-1")
+            XCTAssertEqual(value.age, 20)
+            XCTAssertEqual(value.email, "test@test.com")
+            XCTAssertEqual(value.genderEnum, .man)
+            XCTAssertEqual(value.identifier, "identifier")
+            XCTAssertEqual(value.name, "testName")
+            XCTAssertEqual(value.phoneNumber, "08011112222")
+            XCTAssertEqual(value.station, "鶴橋駅")
+
+            expectation.fulfill()
+
+            return ProfileModelObjectBuilder()
+                .address(value.address!)
+                .age(value.age!.intValue)
+                .email(value.email!)
+                .gender(.init(rawValue: value.genderEnum!.rawValue)!)
+                .name(value.name!)
+                .phoneNumber(value.phoneNumber!)
+                .station(value.station!)
+                .build()
+        }
+
+        // act
+        model.gets { result in
+            switch result {
+            case let .failure(appError):
+                XCTFail(appError.localizedDescription)
+
+            case let .success(modelObject):
+                // assert
+                XCTAssertEqual(
+                    modelObject,
+                    [
+                        ProfileModelObjectBuilder()
+                            .address("テスト県テスト市テスト1-1-1")
+                            .age(20)
+                            .email("test@test.com")
+                            .gender(.man)
+                            .identifier("identifier")
+                            .name("testName")
+                            .phoneNumber("08011112222")
+                            .station("鶴橋駅")
+                            .build()
+                    ]
+                )
+            }
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.1)
+    }
+
     func test_create_情報を作成できること() {
         // act
         let expectation = XCTestExpectation(description: #function)

@@ -24,7 +24,7 @@
 
             switch item {
             case .list:
-                vc = .init()
+                vc = AppControllers.Debug.CoreData.List()
 
             case .create:
                 vc = AppControllers.Debug.CoreData.Create()

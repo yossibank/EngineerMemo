@@ -19,10 +19,27 @@
             }
         }
 
-        var viewController: UIViewController {
+        var listViewController: UIViewController {
             switch self {
             case .profile:
-                return AppControllers.Debug.CoreDataObject.Profile()
+                return AppControllers.Debug.CoreDataObject.List.Profile()
+
+            case .sample1:
+                let vc = UIViewController()
+                vc.view.backgroundColor = .blue
+                return vc
+
+            case .sample2:
+                let vc = UIViewController()
+                vc.view.backgroundColor = .yellow
+                return vc
+            }
+        }
+
+        var createViewController: UIViewController {
+            switch self {
+            case .profile:
+                return AppControllers.Debug.CoreDataObject.Create.Profile()
 
             case .sample1:
                 let vc = UIViewController()

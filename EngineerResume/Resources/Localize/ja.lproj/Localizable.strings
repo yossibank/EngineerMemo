@@ -8,7 +8,10 @@
 
 "navigation.title.profileDetail" = "プロフィール";
 "navigation.title.debugDevelopment" = "開発者用画面";
+"navigation.title.debugCoreDataList" = "CoreData一覧";
 "navigation.title.debugCoreDataCreate" = "CoreData作成";
+"navigation.title.debugCoreDataUpdate" = "CoreData更新";
+"navigation.title.debugCoreDataDelete" = "CoreData削除";
 
 // MARK: - プロフィール
 

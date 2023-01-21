@@ -4,6 +4,7 @@ import CoreData
 /// @mockable
 protocol ProfileModelInput: Model {
     func get(completion: @escaping (Result<ProfileModelObject, AppError>) -> Void)
+    func gets(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void)
     func create(modelObject: ProfileModelObject)
     func update(modelObject: ProfileModelObject)
 }
@@ -45,6 +46,29 @@ final class ProfileModel: ProfileModelInput {
                     }
 
                     let modelObject = self.profileConverter.convert(value)
+                    completion(.success(modelObject))
+                }
+            )
+            .store(in: &cancellables)
+    }
+
+    func gets(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void) {
+        storage.publisher()
+            .sink(
+                receiveCompletion: { [weak self] receiveCompletion in
+                    guard let self else {
+                        return
+                    }
+
+                    if case let .failure(coreDataError) = receiveCompletion {
+                        let appError = self.errorConverter.convert(.coreData(coreDataError))
+                        completion(.failure(appError))
+                    }
+                },
+                receiveValue: { [weak self] values in
+                    let modelObject = values.compactMap {
+                        self?.profileConverter.convert($0)
+                    }
                     completion(.success(modelObject))
                 }
             )
