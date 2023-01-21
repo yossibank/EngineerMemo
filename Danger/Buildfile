@@ -28,9 +28,9 @@ end
 
 ### 不要コード検知 ###
 periphery.scan(
-    project: "EngineerResume.xcodeproj",
-    schemes: "EngineerResume",
-    targets: "EngineerResume",
+    project: "EngineerMemo.xcodeproj",
+    schemes: "EngineerMemo",
+    targets: "EngineerMemo",
     skip_build: true,
     index_store_path: "DerivedData/Index.noindex/DataStore"
 )

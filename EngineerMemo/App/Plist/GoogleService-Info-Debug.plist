@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>891578817839-f6mafn1n146k7bfsqqf8oas5hu6rj420.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.891578817839-f6mafn1n146k7bfsqqf8oas5hu6rj420</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCKIUYWr9PEPlha9PArBWHz1T6GDgSuUJo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>891578817839</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.yossibank.EngineerMemo.dev</string>
+	<key>PROJECT_ID</key>
+	<string>engineermemo-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>engineermemo-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:891578817839:ios:4a9b779d436baa6f0315da</string>
+</dict>
+</plist>

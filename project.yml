@@ -1,4 +1,4 @@
-name: EngineerResume
+name: EngineerMemo
 
 options:
   bundleIdPrefix: com.yossibank
@@ -29,23 +29,23 @@ packages:
     from: 8.0.0
 
 targets:
-  EngineerResume:
+  EngineerMemo:
     type: application
     platform: iOS
     sources:
-      - EngineerResume
+      - EngineerMemo
     settings:
       base:
         DEVELOPMENT_LANGUAGE: jp
         INFOPLIST_PREPROCESS: Yes
-        INFOPLIST_FILE: EngineerResume/App/Plist/Info.plist
+        INFOPLIST_FILE: EngineerMemo/App/Plist/Info.plist
         OTHER_LDFLAGS: $(inherited) $(OTHER_LDFLAGS) -ObjC
       configs:
         debug:
           OTHER_SWIFT_FLAGS: $(inherited) -Xfrontend -warn-long-expression-type-checking=500 -Xfrontend -warn-long-function-bodies=500
-          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.EngineerResume.dev
+          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.EngineerMemo.dev
         release:
-          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.EngineerResume
+          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.EngineerMemo
     dependencies:
       - package: firebase-ios-sdk
         product: FirebaseAnalyticsWithoutAdIdSupport
@@ -68,7 +68,7 @@ targets:
         name: Generate Mock
         basedOnDependencyAnalysis: false
         outputFiles:
-          - EngineerResumeTests/TestMock/MockResults.swift
+          - EngineerMemoTests/TestMock/MockResults.swift
       - path: ./Scripts/XcodeGen/swiftformat.sh
         name: Run SwiftFormat
         basedOnDependencyAnalysis: false
@@ -87,39 +87,39 @@ targets:
           - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
           - $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
 
-  EngineerResumeTests:
+  EngineerMemoTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - EngineerResumeTests
+      - EngineerMemoTests
     settings:
       base:
-        INFOPLIST_FILE: EngineerResumeTests/Info.plist
+        INFOPLIST_FILE: EngineerMemoTests/Info.plist
     dependencies:
-      - target: EngineerResume
+      - target: EngineerMemo
       - package: OHHTTPStubs
         product: OHHTTPStubsSwift
       - package: ios-snapshot-test-case
         product: iOSSnapshotTestCase
 
-  EngineerResumeUITests:
+  EngineerMemoUITests:
     type: bundle.ui-testing
     platform: iOS
     sources:
-      - EngineerResumeUITests
+      - EngineerMemoUITests
     settings:
       base:
-        INFOPLIST_FILE: EngineerResumeUITests/Info.plist
+        INFOPLIST_FILE: EngineerMemoUITests/Info.plist
     dependencies:
-      - target: EngineerResume
+      - target: EngineerMemo
 
 schemes:
-  EngineerResume:
+  EngineerMemo:
     build:
       targets:
-        EngineerResume: all
-        EngineerResumeTests: [test]
-        EngineerResumeUITests: [test]
+        EngineerMemo: all
+        EngineerMemoTests: [test]
+        EngineerMemoUITests: [test]
     run:
       config: Debug
       commandLineArguments:
@@ -130,7 +130,7 @@ schemes:
       config: Debug
       gatherCoverageData: true
       targets:
-        - name: EngineerResumeTests
+        - name: EngineerMemoTests
           parallelizable: false
           randomExecutionOrder: true
       environmentVariables:
@@ -139,7 +139,7 @@ schemes:
       language: ja
       region: JP
       testPlans:
-        - path: EngineerResumeTests/EngineerResume.xctestplan
+        - path: EngineerMemoTests/EngineerMemo.xctestplan
     profile:
       config: Release
     analyze:

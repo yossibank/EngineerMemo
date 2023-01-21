@@ -4,4 +4,4 @@ if [ ! -d "${TEMPLATE_DIR}" ]; then
     mkdir -p "${TEMPLATE_DIR}"
 fi
 
-cp -r EngineerResumeTemplate/ "${TEMPLATE_DIR}"
+cp -r EngineerMemo.xctemplate/ "${TEMPLATE_DIR}"

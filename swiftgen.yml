@@ -1,5 +1,5 @@
-input_dir: EngineerResume/Resources
-output_dir: EngineerResume/Resources/Generated
+input_dir: EngineerMemo/Resources
+output_dir: EngineerMemo/Resources/Generated
 
 xcassets:
   - inputs:
