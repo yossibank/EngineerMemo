@@ -2,19 +2,27 @@
     import Combine
 
     final class DebugProfileListViewModel: ViewModel {
+        final class Input: InputObject {
+            let deleteModelObject = PassthroughSubject<ProfileModelObject, Never>()
+        }
+
         final class Output: OutputObject {
             @Published fileprivate(set) var modelObject: [ProfileModelObject]?
         }
 
-        let input = NoInput()
+        let input: Input
         let output: Output
         let binding = NoBinding()
+
+        private var cancellables: Set<AnyCancellable> = .init()
 
         private let model: ProfileModelInput
 
         init(model: ProfileModelInput) {
+            let input = Input()
             let output = Output()
 
+            self.input = input
             self.output = output
             self.model = model
 
@@ -25,6 +33,14 @@
                     output.modelObject = modelObject
                 }
             }
+
+            // MARK: - プロフィール情報削除
+
+            input.deleteModelObject
+                .sink { modelObject in
+                    model.delete(modelObject: modelObject)
+                }
+                .store(in: &cancellables)
         }
     }
 #endif

@@ -37,8 +37,7 @@
                 return [
                     .init(title: L10n.Debug.CoreData.list),
                     .init(title: L10n.Debug.CoreData.create),
-                    .init(title: L10n.Debug.CoreData.update),
-                    .init(title: L10n.Debug.CoreData.delete)
+                    .init(title: L10n.Debug.CoreData.update)
                 ]
             }
         }

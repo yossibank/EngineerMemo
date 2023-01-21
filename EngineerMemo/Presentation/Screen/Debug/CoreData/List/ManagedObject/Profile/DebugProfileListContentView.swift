@@ -7,11 +7,11 @@
     // MARK: - stored properties & init
 
     final class DebugProfileListContentView: UIView {
-        var modelObject: [ProfileModelObject] = [] {
-            didSet {
-                tableView.reloadData()
-            }
-        }
+        var modelObject: [ProfileModelObject] = []
+
+        private(set) lazy var didDeleteModelObjectPublisher = didDeleteModelObjectSubject.eraseToAnyPublisher()
+
+        private let didDeleteModelObjectSubject = PassthroughSubject<ProfileModelObject, Never>()
 
         private let tableView = UITableView()
 
@@ -26,6 +26,14 @@
         @available(*, unavailable)
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+    }
+
+    // MARK: - internal methods
+
+    extension DebugProfileListContentView {
+        func reload() {
+            tableView.reloadData()
         }
     }
 
@@ -65,6 +73,25 @@
             }
 
             return cell
+        }
+
+        func tableView(
+            _ tableView: UITableView,
+            canEditRowAt indexPath: IndexPath
+        ) -> Bool {
+            true
+        }
+
+        func tableView(
+            _ tableView: UITableView,
+            commit editingStyle: UITableViewCell.EditingStyle,
+            forRowAt indexPath: IndexPath
+        ) {
+            if editingStyle == .delete {
+                didDeleteModelObjectSubject.send(modelObject[indexPath.row])
+                modelObject.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
         }
     }
 

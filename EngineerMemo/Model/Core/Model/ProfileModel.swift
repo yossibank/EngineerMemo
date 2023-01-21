@@ -7,6 +7,7 @@ protocol ProfileModelInput: Model {
     func gets(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void)
     func create(modelObject: ProfileModelObject)
     func update(modelObject: ProfileModelObject)
+    func delete(modelObject: ProfileModelObject)
 }
 
 final class ProfileModel: ProfileModelInput {
@@ -95,5 +96,9 @@ final class ProfileModel: ProfileModelInput {
                 )
             }
             .store(in: &cancellables)
+    }
+
+    func delete(modelObject: ProfileModelObject) {
+        storage.delete(identifier: modelObject.identifier)
     }
 }
