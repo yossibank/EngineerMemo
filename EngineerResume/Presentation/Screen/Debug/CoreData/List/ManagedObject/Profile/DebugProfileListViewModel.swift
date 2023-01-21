@@ -10,8 +10,6 @@
         let output: Output
         let binding = NoBinding()
 
-        private var cancellables: Set<AnyCancellable> = .init()
-
         private let model: ProfileModelInput
 
         init(model: ProfileModelInput) {
