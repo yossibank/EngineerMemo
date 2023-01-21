@@ -19,9 +19,9 @@ platform :ios do
   desc "ユニットテストを実行する"
   lane :unit_test do
     scan(
-      project: 'EngineerResume.xcodeproj',
-      scheme: "EngineerResume",
-      testplan: "EngineerResume",
+      project: 'EngineerMemo.xcodeproj',
+      scheme: "EngineerMemo",
+      testplan: "EngineerMemo",
       configuration: "Debug",
       devices: "iPhone 14",
       clean: true

@@ -86,7 +86,7 @@ jobs:
           xcodebuild
           -sdk iphonesimulator
           -configuration Debug
-          -scheme EngineerResume
+          -scheme EngineerMemo
           -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0'
           -clonedSourcePackagesDirPath SourcePackages
           -derivedDataPath DerivedData

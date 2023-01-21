@@ -1,4 +1,4 @@
-PRODUCT_NAME := EngineerResume
+PRODUCT_NAME := EngineerMemo
 
 .PHONY: setup
 setup:
@@ -39,8 +39,8 @@ generate-xcodeproj:
 
 .PHONY: generate-files
 generate-files:
-	mkdir -p EngineerResume/Resources/Generated
-	mkdir -p EngineerResumeTests/TestMock
+	mkdir -p EngineerMemo/Resources/Generated
+	mkdir -p EngineerMemoTests/TestMock
 
 .PHONY: generate-snapshot-md
 generate-snapshot-md:
