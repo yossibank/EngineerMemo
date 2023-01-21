@@ -51,7 +51,7 @@
 
             containerViewController.view.snp.makeConstraints {
                 $0.top.equalTo(menuButton.snp.bottom).inset(-24)
-                $0.leading.trailing.equalToSuperview()
+                $0.leading.trailing.bottom.equalToSuperview()
             }
         }
     }

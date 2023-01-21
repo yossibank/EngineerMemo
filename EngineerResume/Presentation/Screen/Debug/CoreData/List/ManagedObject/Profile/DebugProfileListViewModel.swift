@@ -1,20 +1,32 @@
-import Combine
+#if DEBUG
+    import Combine
 
-final class DebugProfileListViewModel: ViewModel {
-    final class Input: InputObject {}
-    final class Output: OutputObject {}
+    final class DebugProfileListViewModel: ViewModel {
+        final class Output: OutputObject {
+            @Published fileprivate(set) var modelObject: [ProfileModelObject]?
+        }
 
-    let input: Input
-    let output: Output
-    let binding = NoBinding()
+        let input = NoInput()
+        let output: Output
+        let binding = NoBinding()
 
-    private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables: Set<AnyCancellable> = .init()
 
-    init() {
-        let input = Input()
-        let output = Output()
+        private let model: ProfileModelInput
 
-        self.input = input
-        self.output = output
+        init(model: ProfileModelInput) {
+            let output = Output()
+
+            self.output = output
+            self.model = model
+
+            // MARK: - プロフィール情報取得
+
+            model.gets {
+                if case let .success(modelObject) = $0 {
+                    output.modelObject = modelObject
+                }
+            }
+        }
     }
-}
+#endif

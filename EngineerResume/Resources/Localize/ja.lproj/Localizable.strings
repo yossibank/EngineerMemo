@@ -8,8 +8,10 @@
 
 "navigation.title.profileDetail" = "プロフィール";
 "navigation.title.debugDevelopment" = "開発者用画面";
+"navigation.title.debugCoreDataList" = "CoreData一覧";
 "navigation.title.debugCoreDataCreate" = "CoreData作成";
-"navigation.title.debugCoreDataList" = "CoreData一覧・削除";
+"navigation.title.debugCoreDataUpdate" = "CoreData更新";
+"navigation.title.debugCoreDataDelete" = "CoreData削除";
 
 // MARK: - プロフィール
 
@@ -41,9 +43,10 @@
 "debug.device.version" = "バージョン";
 "debug.device.name" = "端末名";
 "debug.device.udid" = "端末ID";
-"debug.coreData.list" = "一覧・削除";
+"debug.coreData.list" = "一覧";
 "debug.coreData.create" = "作成";
 "debug.coreData.update" = "更新";
+"debug.coreData.delete" = "削除";
 "debug.segment.address" = "address";
 "debug.segment.age" = "age";
 "debug.segment.email" = "email";

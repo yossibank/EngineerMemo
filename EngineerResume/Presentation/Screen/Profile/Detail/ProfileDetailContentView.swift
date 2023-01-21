@@ -157,8 +157,8 @@ extension ProfileDetailContentView: ContentView {
 
     struct ProfileDetailContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileDetailContentView()) { view in
-                view.modelObject = ProfileModelObjectBuilder().build()
+            WrapperView(view: ProfileDetailContentView()) {
+                $0.modelObject = ProfileModelObjectBuilder().build()
             }
         }
     }
