@@ -52,5 +52,22 @@
                 return vc
             }
         }
+
+        var updateViewController: UIViewController {
+            switch self {
+            case .profile:
+                return AppControllers.Debug.CoreDataObject.Update.Profile()
+
+            case .sample1:
+                let vc = UIViewController()
+                vc.view.backgroundColor = .blue
+                return vc
+
+            case .sample2:
+                let vc = UIViewController()
+                vc.view.backgroundColor = .yellow
+                return vc
+            }
+        }
     }
 #endif

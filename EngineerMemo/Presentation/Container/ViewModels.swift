@@ -62,6 +62,12 @@ enum ViewModels {
                         .init(model: Models.Profile())
                     }
                 }
+
+                enum Update {
+                    static func Profile() -> DebugProfileUpdateViewModel {
+                        .init(model: Models.Profile())
+                    }
+                }
             }
         }
     #endif

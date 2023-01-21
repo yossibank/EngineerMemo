@@ -98,7 +98,6 @@
             stackView.snp.makeConstraints {
                 $0.top.bottom.equalToSuperview()
                 $0.leading.trailing.equalToSuperview().inset(16)
-                $0.height.equalTo(40)
             }
 
             titleLabel.snp.makeConstraints {

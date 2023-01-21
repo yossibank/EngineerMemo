@@ -27,6 +27,8 @@
             }
         }
 
+        static var defaultGender: ProfileModelObject.Gender = .woman
+
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none
         }

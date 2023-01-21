@@ -99,6 +99,13 @@ enum AppControllers {
                     vc.inject(contentView: ContentViews.Debug.CoreData.Create())
                     return vc
                 }
+
+                static func Update() -> DebugCoreDataUpdateViewController {
+                    let vc = DebugCoreDataUpdateViewController()
+                    vc.title = L10n.Navigation.Title.debugCoreDataUpdate
+                    vc.inject(contentView: ContentViews.Debug.CoreData.Update())
+                    return vc
+                }
             }
 
             enum CoreDataObject {
@@ -122,6 +129,19 @@ enum AppControllers {
                         vc.inject(
                             contentView: ContentViews.Debug.CoreDataObject.Create.Profile(),
                             viewModel: ViewModels.Debug.CoreDataObject.Create.Profile()
+                        )
+
+                        return vc
+                    }
+                }
+
+                enum Update {
+                    static func Profile() -> DebugProfileUpdateViewController {
+                        let vc = DebugProfileUpdateViewController()
+
+                        vc.inject(
+                            contentView: ContentViews.Debug.CoreDataObject.Update.Profile(),
+                            viewModel: ViewModels.Debug.CoreDataObject.Update.Profile()
                         )
 
                         return vc

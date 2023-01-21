@@ -37,6 +37,10 @@ enum ContentViews {
                 static func Create() -> DebugCoreDataCreateContentView {
                     .init()
                 }
+
+                static func Update() -> DebugCoreDataUpdateContentView {
+                    .init()
+                }
             }
 
             enum CoreDataObject {
@@ -48,6 +52,12 @@ enum ContentViews {
 
                 enum Create {
                     static func Profile() -> DebugProfileCreateContentView {
+                        .init()
+                    }
+                }
+
+                enum Update {
+                    static func Profile() -> DebugProfileUpdateContentView {
                         .init()
                     }
                 }

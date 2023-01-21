@@ -1,7 +1,7 @@
 #if DEBUG
     import Combine
 
-    final class DebugProfileCreateViewModel: ViewModel {
+    final class DebugProfileUpdateViewModel: ViewModel {
         final class Input: InputObject {
             let addressControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let ageControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
@@ -10,14 +10,16 @@
             let nameControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let phoneNumberControlChanged = PassthroughSubject<DebugPhoneNumberSegment, Never>()
             let stationControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let createButtonTapped = PassthroughSubject<Void, Never>()
+            let updateButtonTapped = PassthroughSubject<String, Never>()
+        }
+
+        final class Output: OutputObject {
+            @Published fileprivate(set) var modelObject: [ProfileModelObject]?
         }
 
         let input: Input
-        let output = NoOutput()
+        let output: Output
         let binding = NoBinding()
-
-        private let model: ProfileModelInput
 
         private var cancellables: Set<AnyCancellable> = .init()
 
@@ -31,16 +33,37 @@
             .station(DebugCoreDataSegment.defaultString)
             .build()
 
+        private var addressSegment: DebugCoreDataSegment?
+        private var ageSegment: DebugCoreDataSegment?
+        private var emailSegment: DebugCoreDataSegment?
+        private var genderSegment: DebugGenderSegment?
+        private var nameSegment: DebugCoreDataSegment?
+        private var phoneNumberSegment: DebugPhoneNumberSegment?
+        private var stationSegment: DebugCoreDataSegment?
+
+        private let model: ProfileModelInput
+
         init(model: ProfileModelInput) {
             let input = Input()
+            let output = Output()
 
             self.input = input
+            self.output = output
             self.model = model
+
+            // MARK: - プロフィール情報取得
+
+            model.gets {
+                if case let .success(modelObject) = $0 {
+                    output.modelObject = modelObject
+                }
+            }
 
             // MARK: - 住所セグメント
 
             input.addressControlChanged
                 .sink { [weak self] segment in
+                    self?.addressSegment = segment
                     self?.modelObject.address = segment.string
                 }
                 .store(in: &cancellables)
@@ -49,6 +72,7 @@
 
             input.ageControlChanged
                 .sink { [weak self] segment in
+                    self?.ageSegment = segment
                     self?.modelObject.age = segment.int
                 }
                 .store(in: &cancellables)
@@ -57,6 +81,7 @@
 
             input.emailControlChanged
                 .sink { [weak self] segment in
+                    self?.emailSegment = segment
                     self?.modelObject.email = segment.string
                 }
                 .store(in: &cancellables)
@@ -65,6 +90,7 @@
 
             input.genderControlChanged
                 .sink { [weak self] segment in
+                    self?.genderSegment = segment
                     self?.modelObject.gender = segment.gender
                 }
                 .store(in: &cancellables)
@@ -73,6 +99,7 @@
 
             input.nameControlChanged
                 .sink { [weak self] segment in
+                    self?.nameSegment = segment
                     self?.modelObject.name = segment.string
                 }
                 .store(in: &cancellables)
@@ -81,6 +108,7 @@
 
             input.phoneNumberControlChanged
                 .sink { [weak self] segment in
+                    self?.phoneNumberSegment = segment
                     self?.modelObject.phoneNumber = segment.phoneNumber
                 }
                 .store(in: &cancellables)
@@ -89,19 +117,32 @@
 
             input.stationControlChanged
                 .sink { [weak self] segment in
+                    self?.stationSegment = segment
                     self?.modelObject.station = segment.string
                 }
                 .store(in: &cancellables)
 
-            // MARK: - 作成ボタンタップ
+            // MARK: - 更新ボタンタップ
 
-            input.createButtonTapped
-                .sink { [weak self] in
+            input.updateButtonTapped
+                .sink { [weak self] identifier in
                     guard let self else {
                         return
                     }
 
-                    self.model.create(modelObject: self.modelObject)
+                    self.modelObject.identifier = identifier
+                    self.model.update(modelObject: self.modelObject)
+
+                    self.modelObject = ProfileModelObjectBuilder()
+                        .address(self.addressSegment?.string)
+                        .age(self.ageSegment?.int)
+                        .email(self.emailSegment?.string)
+                        .gender(self.genderSegment?.gender)
+                        .name(self.nameSegment?.string)
+                        .phoneNumber(self.phoneNumberSegment?.phoneNumber)
+                        .station(self.stationSegment?.string)
+                        .identifier(identifier)
+                        .build()
                 }
                 .store(in: &cancellables)
         }
