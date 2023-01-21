@@ -47,6 +47,15 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
         .eraseToAnyPublisher()
     }
 
+    func delete(identifier: String) {
+        shared.performBackgroundTask {
+            if let object = object(identifier: identifier) {
+                shared.backgroundContext.delete(object)
+                shared.backgroundContext.saveIfNeeded()
+            }
+        }
+    }
+
     func publisher(sortDescriptors: [NSSortDescriptor]? = nil) -> CoreDataPublisher<T> {
         let request = NSFetchRequest<T>(entityName: String(describing: T.self))
         request.sortDescriptors = sortDescriptors

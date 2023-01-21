@@ -31,6 +31,7 @@
             super.viewDidLoad()
 
             bindToView()
+            bindToViewModel()
         }
     }
 
@@ -43,6 +44,15 @@
                 .compactMap { $0 }
                 .sink { [weak self] modelObject in
                     self?.contentView.modelObject = modelObject
+                    self?.contentView.reload()
+                }
+                .store(in: &cancellables)
+        }
+
+        func bindToViewModel() {
+            contentView.didDeleteModelObjectPublisher
+                .sink { [weak self] modelObject in
+                    self?.viewModel.input.deleteModelObject.send(modelObject)
                 }
                 .store(in: &cancellables)
         }

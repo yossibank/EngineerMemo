@@ -198,6 +198,31 @@ final class ProfileModelTest: XCTestCase {
 
         wait(for: [expectation], timeout: 0.3)
     }
+
+    func test_delete_情報を削除できること() {
+        // arrange
+        dataInsert()
+
+        let expectation = XCTestExpectation(description: #function)
+
+        // act
+        model.delete(
+            modelObject: ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .build()
+        )
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let allProfile = self.storage.allObjects
+
+            // assert
+            XCTAssertTrue(allProfile.isEmpty)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.2)
+    }
 }
 
 private extension ProfileModelTest {
