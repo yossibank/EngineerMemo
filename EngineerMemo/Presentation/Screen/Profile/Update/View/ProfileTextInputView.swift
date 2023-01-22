@@ -51,7 +51,6 @@ final class ProfileTextInputView: UIView {
 
         setupViews()
         setupConstraints()
-        setupTextField()
     }
 
     @available(*, unavailable)
@@ -67,13 +66,6 @@ final class ProfileTextInputView: UIView {
                 $0.apply(.borderPrimary)
             }
         }
-    }
-
-    override func touchesBegan(
-        _ touches: Set<UITouch>,
-        with event: UIEvent?
-    ) {
-        endEditing(true)
     }
 }
 
@@ -153,10 +145,6 @@ private extension ProfileTextInputView {
             $0.top.bottom.equalToSuperview().inset(16)
             $0.leading.trailing.equalToSuperview()
         }
-    }
-
-    func setupTextField() {
-        inputTextField.delegate = self
     }
 }
 
