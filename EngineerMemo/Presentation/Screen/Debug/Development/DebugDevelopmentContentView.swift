@@ -15,6 +15,7 @@
         >!
 
         private let didSelectContentSubject = PassthroughSubject<DebugCoreDataItem, Never>()
+
         private let tableView = UITableView()
 
         override init(frame: CGRect) {
@@ -76,8 +77,17 @@
                 for: indexPath
             )
 
+            let section = DebugDevelopmentSection.allCases[indexPath.section]
+
+            switch section {
+            case .development, .coreData:
+                cell.isUserInteractionEnabled = true
+
+            default:
+                cell.isUserInteractionEnabled = false
+            }
+
             cell.configure(item: item)
-            cell.isUserInteractionEnabled = DebugDevelopmentSection.allCases[indexPath.section] == .coreData
 
             return cell
         }
@@ -147,14 +157,27 @@
                 animated: false
             )
 
-            guard
-                DebugDevelopmentSection.allCases[indexPath.section] == .coreData,
-                let item = DebugCoreDataItem.allCases[safe: indexPath.row]
-            else {
-                return
-            }
+            let section = DebugDevelopmentSection.allCases[indexPath.section]
 
-            didSelectContentSubject.send(item)
+            switch section {
+            case .development:
+                UIControl().sendAction(
+                    #selector(URLSessionTask.suspend),
+                    to: UIApplication.shared,
+                    for: nil
+                )
+
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+                    exit(0)
+                }
+
+            case .coreData:
+                let item = DebugCoreDataItem.allCases[indexPath.row]
+                didSelectContentSubject.send(item)
+
+            default:
+                break
+            }
         }
     }
 
