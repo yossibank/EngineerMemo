@@ -37,11 +37,13 @@
 
 "debug.section.git" = "Git";
 "debug.section.device" = "端末情報";
+"debug.section.development" = "開発用操作";
 "debug.section.coreData" = "CoreData";
 "debug.git.commitHash" = "コミットハッシュ";
 "debug.device.version" = "バージョン";
 "debug.device.name" = "端末名";
 "debug.device.udid" = "端末ID";
+"debug.development.shutdown" = "アプリ終了";
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.create" = "作成";
 "debug.coreData.update" = "更新";
