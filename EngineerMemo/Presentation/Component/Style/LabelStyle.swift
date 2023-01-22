@@ -15,6 +15,12 @@ extension ViewStyle where T: UILabel {
                 $0.text = L10n.Profile.settingDescription
             }
         }
+
+        static var profileNoSetting: ViewStyle<T> {
+            .init {
+                $0.text = .noSetting
+            }
+        }
     }
 
     // MARK: - 文字サイズ
@@ -81,6 +87,12 @@ extension ViewStyle where T: UILabel {
 
     // MARK: - 文字色
 
+    static var textTheme: ViewStyle<T> {
+        .init {
+            $0.textColor = .dynamicColor(light: .black, dark: .white)
+        }
+    }
+
     static var textPrimary: ViewStyle<T> {
         .init {
             $0.textColor = .dynamicColor(light: .white, dark: .black)
@@ -102,6 +114,12 @@ extension ViewStyle where T: UILabel {
     static var textLightGray: ViewStyle<T> {
         .init {
             $0.textColor = .lightGray
+        }
+    }
+
+    static var textPlaceholder: ViewStyle<T> {
+        .init {
+            $0.textColor = .placeholderText
         }
     }
 

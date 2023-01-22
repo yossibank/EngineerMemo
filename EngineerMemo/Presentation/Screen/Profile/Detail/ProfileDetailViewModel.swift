@@ -18,10 +18,12 @@ final class ProfileDetailViewModel: ViewModel {
     private var cancellables: Set<AnyCancellable> = .init()
 
     private let model: ProfileModelInput
+    private let routing: ProfileDetailRoutingInput
     private let analytics: FirebaseAnalyzable
 
     init(
         model: ProfileModelInput,
+        routing: ProfileDetailRoutingInput,
         analytics: FirebaseAnalyzable
     ) {
         let input = Input()
@@ -30,6 +32,7 @@ final class ProfileDetailViewModel: ViewModel {
         self.input = input
         self.output = output
         self.model = model
+        self.routing = routing
         self.analytics = analytics
 
         // MARK: - プロフィール情報取得
@@ -54,7 +57,7 @@ final class ProfileDetailViewModel: ViewModel {
         // MARK: - 設定ボタンタップ
 
         input.settingButtonTapped.sink { _ in
-            Logger.debug(message: "設定ボタンタップ")
+            routing.showUpdateScreen()
         }
         .store(in: &cancellables)
     }

@@ -55,6 +55,12 @@ extension ViewStyle where T: UIButton {
 
     // MARK: - 文字サイズ
 
+    static var system17: ViewStyle<T> {
+        .init {
+            $0.titleLabel?.font = .systemFont(ofSize: 17)
+        }
+    }
+
     static var bold14: ViewStyle<T> {
         .init {
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
@@ -87,6 +93,14 @@ extension ViewStyle where T: UIButton {
                 .white,
                 for: .normal
             )
+        }
+    }
+
+    // MARK: - 文字位置
+
+    static var titleLeft: ViewStyle<T> {
+        .init {
+            $0.contentHorizontalAlignment = .leading
         }
     }
 }

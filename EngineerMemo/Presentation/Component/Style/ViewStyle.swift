@@ -29,6 +29,13 @@ extension ViewStyle where T: UIView {
 
     // MARK: - 角丸
 
+    static var cornerRadius4: ViewStyle<T> {
+        .init {
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 4
+        }
+    }
+
     static var cornerRadius8: ViewStyle<T> {
         .init {
             $0.clipsToBounds = true
