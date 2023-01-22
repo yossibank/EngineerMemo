@@ -26,10 +26,13 @@
 "profile.gender.other" = "その他";
 "profile.email" = "メールアドレス";
 "profile.phoneNumber" = "電話番号";
+"profile.postOfficeNumber" = "郵便番号";
 "profile.address" = "住所";
+"profile.addressDescription" = "住所詳細";
 "profile.station" = "最寄駅";
 "profile.old" = "歳";
 "profile.settingDescription" = "プロフィールを設定しましょう。\n基本情報、職務経歴、自己PRなどをまとまることができます。";
+"profile.hyphen" = "-";
 "profile.example.name" = "例) 山田 太郎";
 "profile.example.email" = "例) sample@sample.com";
 "profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";

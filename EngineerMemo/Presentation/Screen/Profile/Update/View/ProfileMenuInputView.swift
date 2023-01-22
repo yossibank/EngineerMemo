@@ -43,7 +43,7 @@ final class ProfileMenuInputView: UIView {
         return $0
     }(UIStackView(arrangedSubviews: [
         titleView,
-        inputButtonView
+        buttonInputView
     ]))
 
     private lazy var titleView: UIView = {
@@ -57,7 +57,7 @@ final class ProfileMenuInputView: UIView {
         ]
     ))
 
-    private lazy var inputButtonView: UIView = {
+    private lazy var buttonInputView: UIView = {
         $0.addSubview(menuButton)
         return $0
     }(UIView(style: .backgroundPrimary))
@@ -132,12 +132,12 @@ private extension ProfileMenuInputView {
             $0.height.equalTo(40)
         }
 
-        inputButtonView.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-
         titleLabel.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(8)
+        }
+
+        buttonInputView.snp.makeConstraints {
+            $0.height.equalTo(80)
         }
 
         menuButton.snp.makeConstraints {

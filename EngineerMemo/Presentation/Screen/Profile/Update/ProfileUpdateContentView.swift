@@ -20,6 +20,7 @@ final class ProfileUpdateContentView: UIView {
         genderInputView,
         emailInputView,
         phoneNumberInputView,
+        addressInputView,
         stationInputView
     ]))
 
@@ -49,6 +50,11 @@ final class ProfileUpdateContentView: UIView {
         $0.configure(title: L10n.Profile.phoneNumber)
         $0.placeholder(L10n.Profile.Example.phoneNumber)
         $0.phoneNumber()
+        return $0
+    }(ProfileTextInputView())
+
+    private let addressInputView: ProfileTextInputView = {
+        $0.configure(title: L10n.Profile.address)
         return $0
     }(ProfileTextInputView())
 

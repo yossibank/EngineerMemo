@@ -10,7 +10,7 @@ final class ProfileTextInputView: UIView {
         return $0
     }(UIStackView(arrangedSubviews: [
         titleView,
-        inputTextView
+        textInputView
     ]))
 
     private lazy var titleView: UIView = {
@@ -24,7 +24,7 @@ final class ProfileTextInputView: UIView {
         ]
     ))
 
-    private lazy var inputTextView: UIView = {
+    private lazy var textInputView: UIView = {
         $0.addSubview(inputTextField)
         return $0
     }(UIView(style: .backgroundPrimary))
@@ -51,6 +51,7 @@ final class ProfileTextInputView: UIView {
 
         setupViews()
         setupConstraints()
+        setupTextField()
     }
 
     @available(*, unavailable)
@@ -133,18 +134,22 @@ private extension ProfileTextInputView {
             $0.height.equalTo(40)
         }
 
-        inputTextView.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-
         titleLabel.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(8)
+        }
+
+        textInputView.snp.makeConstraints {
+            $0.height.equalTo(80)
         }
 
         inputTextField.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(16)
             $0.leading.trailing.equalToSuperview()
         }
+    }
+
+    func setupTextField() {
+        inputTextField.delegate = self
     }
 }
 

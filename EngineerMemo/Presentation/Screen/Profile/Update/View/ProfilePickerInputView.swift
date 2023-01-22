@@ -10,7 +10,7 @@ final class ProfilePickerInputView: UIView {
         return $0
     }(UIStackView(arrangedSubviews: [
         titleView,
-        inputPickerView
+        pickerInputView
     ]))
 
     private lazy var titleView: UIView = {
@@ -24,7 +24,7 @@ final class ProfilePickerInputView: UIView {
         ]
     ))
 
-    private lazy var inputPickerView: UIView = {
+    private lazy var pickerInputView: UIView = {
         $0.addSubview(inputDatePicker)
         $0.addSubview(pickerLabel)
         return $0
@@ -52,7 +52,7 @@ final class ProfilePickerInputView: UIView {
     ))
 
     private let pickerLabel = UILabel(
-        style: .LabelTitle.profileNoSetting
+        style: .LabelTitle.noSetting
     )
 
     private var cancellables: Set<AnyCancellable> = .init()
@@ -113,12 +113,12 @@ private extension ProfilePickerInputView {
             $0.height.equalTo(40)
         }
 
-        inputPickerView.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-
         titleLabel.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(8)
+        }
+
+        pickerInputView.snp.makeConstraints {
+            $0.height.equalTo(80)
         }
 
         inputDatePicker.snp.makeConstraints {
