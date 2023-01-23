@@ -1,3 +1,7 @@
+// MARK: - 全共通項
+
+"common.done" = "完了";
+
 // MARK: - タブ
 
 "tab.home" = "ホーム";
@@ -36,6 +40,7 @@
 "profile.example.name" = "例) 山田 太郎";
 "profile.example.email" = "例) sample@sample.com";
 "profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";
+"profile.example.address" = "例) 東京都港区虎ノ門○-○-○";
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
 
 // MARK: - FirebaseAnalytics

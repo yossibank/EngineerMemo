@@ -95,7 +95,7 @@ extension ProfileTextInputView {
         )
 
         let doneBarButtonItem = UIBarButtonItem(
-            title: "完了",
+            title: L10n.Common.done,
             style: .done,
             target: nil,
             action: nil

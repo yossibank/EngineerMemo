@@ -51,6 +51,12 @@ extension ViewStyle where T: UIButton {
                 $0.setTitle("設定する", for: .normal)
             }
         }
+
+        static var saveProfile: ViewStyle<T> {
+            .init {
+                $0.setTitle("プロフィール入力情報を保存する", for: .normal)
+            }
+        }
     }
 
     // MARK: - 文字サイズ

@@ -12,7 +12,8 @@ final class ProfileUpdateContentView: UIView {
 
     private lazy var stackView: UIStackView = {
         $0.axis = .vertical
-        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
         return $0
     }(UIStackView(arrangedSubviews: [
         nameInputView,
@@ -21,8 +22,14 @@ final class ProfileUpdateContentView: UIView {
         emailInputView,
         phoneNumberInputView,
         addressInputView,
-        stationInputView
+        stationInputView,
+        buttonView
     ]))
+
+    private lazy var buttonView: UIView = {
+        $0.addSubview(saveButton)
+        return $0
+    }(UIView())
 
     private let nameInputView: ProfileTextInputView = {
         $0.configure(title: L10n.Profile.name)
@@ -55,6 +62,7 @@ final class ProfileUpdateContentView: UIView {
 
     private let addressInputView: ProfileTextInputView = {
         $0.configure(title: L10n.Profile.address)
+        $0.placeholder(L10n.Profile.Example.address)
         return $0
     }(ProfileTextInputView())
 
@@ -63,6 +71,15 @@ final class ProfileUpdateContentView: UIView {
         $0.placeholder(L10n.Profile.Example.station)
         return $0
     }(ProfileTextInputView())
+
+    private let saveButton = UIButton(
+        styles: [
+            .ButtonTitle.saveProfile,
+            .titlePrimary,
+            .borderPrimary,
+            .cornerRadius8
+        ]
+    )
 
     private var cancellables: Set<AnyCancellable> = .init()
 
@@ -76,6 +93,14 @@ final class ProfileUpdateContentView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            saveButton.apply(.borderPrimary)
+        }
     }
 }
 
@@ -95,6 +120,13 @@ extension ProfileUpdateContentView: ContentView {
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalTo(scrollView.snp.width)
+        }
+
+        saveButton.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(32)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(60)
         }
     }
 }
