@@ -5,6 +5,8 @@ import UIKit
 // MARK: - stored properties & init
 
 final class ProfileTextInputView: UIView {
+    private(set) lazy var inputPublisher = inputTextField.textDidChangePublisher
+
     private lazy var stackView: UIStackView = {
         $0.axis = .vertical
         return $0

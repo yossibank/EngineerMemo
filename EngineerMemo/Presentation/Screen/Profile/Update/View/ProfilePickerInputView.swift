@@ -5,6 +5,8 @@ import UIKit
 // MARK: - stored properties & init
 
 final class ProfilePickerInputView: UIView {
+    private(set) lazy var inputPublisher = inputDatePicker.publisher
+
     private lazy var stackView: UIStackView = {
         $0.axis = .vertical
         return $0

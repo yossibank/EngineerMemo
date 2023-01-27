@@ -5,6 +5,15 @@ import UIKit
 // MARK: - stored properties & init
 
 final class ProfileUpdateContentView: UIView {
+    private(set) lazy var nameInputPublisher = nameInputView.inputPublisher
+    private(set) lazy var birthdayInputPublisher = birthdayInputView.inputPublisher
+    private(set) lazy var genderInputPublisher = genderInputView.$selectedType
+    private(set) lazy var emailInputPublisher = emailInputView.inputPublisher
+    private(set) lazy var phoneNumberInputPublisher = phoneNumberInputView.inputPublisher
+    private(set) lazy var addressInputPublisher = addressInputView.inputPublisher
+    private(set) lazy var stationInputPublisher = stationInputView.inputPublisher
+    private(set) lazy var didTapSaveButtonPublisher = saveButton.publisher(for: .touchUpInside)
+
     private lazy var scrollView: UIScrollView = {
         $0.addSubview(stackView)
         return $0
