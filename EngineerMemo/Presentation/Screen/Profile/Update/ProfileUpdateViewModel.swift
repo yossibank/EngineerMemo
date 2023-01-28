@@ -13,6 +13,7 @@ final class ProfileUpdateViewModel: ViewModel {
     }
 
     final class Input: InputObject {
+        let viewWillAppear = PassthroughSubject<Void, Never>()
         let saveButtonTapped = PassthroughSubject<Void, Never>()
     }
 
@@ -86,6 +87,14 @@ final class ProfileUpdateViewModel: ViewModel {
         let station = binding.$station.sink { [weak self] station in
             self?.modelObject.station = station
         }
+
+        // MARK: - viewWillAppear
+
+        input.viewWillAppear
+            .sink { _ in
+                analytics.sendEvent(.screenView)
+            }
+            .store(in: &cancellables)
 
         // MARK: - 作成ボタンタップ
 

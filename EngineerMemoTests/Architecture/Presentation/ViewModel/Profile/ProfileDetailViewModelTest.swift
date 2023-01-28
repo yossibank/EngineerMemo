@@ -55,6 +55,17 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         wait(for: [expectation], timeout: 0.1)
     }
+
+    func test_settingButtonTapped_routing_showUpdateScreenが呼び出されること() {
+        // arrange
+        setupViewModel()
+
+        // act
+        viewModel.input.settingButtonTapped.send(())
+
+        // assert
+        XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
+    }
 }
 
 private extension ProfileDetailViewModelTest {

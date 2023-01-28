@@ -32,6 +32,12 @@ extension ProfileUpdateViewController {
         bindToView()
         bindToViewModel()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        viewModel.input.viewWillAppear.send(())
+    }
 }
 
 // MARK: - private methods

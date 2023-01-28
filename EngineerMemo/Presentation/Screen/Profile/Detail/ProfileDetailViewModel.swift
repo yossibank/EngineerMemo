@@ -49,16 +49,18 @@ final class ProfileDetailViewModel: ViewModel {
 
         // MARK: - viewWillAppear
 
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
+        input.viewWillAppear
+            .sink { _ in
+                analytics.sendEvent(.screenView)
+            }
+            .store(in: &cancellables)
 
         // MARK: - 設定ボタンタップ
 
-        input.settingButtonTapped.sink { _ in
-            routing.showUpdateScreen()
-        }
-        .store(in: &cancellables)
+        input.settingButtonTapped
+            .sink { _ in
+                routing.showUpdateScreen()
+            }
+            .store(in: &cancellables)
     }
 }
