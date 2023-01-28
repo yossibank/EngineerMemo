@@ -27,17 +27,17 @@
             }
         }
 
-        var int: Int? {
+        var date: Date? {
             switch self {
-            case .short: return Int.random(in: 0 ... 10)
-            case .medium: return Int.random(in: 100 ... 10000)
-            case .long: return Int.random(in: 1_000_000 ... 100_000_000)
+            case .short: return Calendar.date(year: 2022, month: 1, day: 1)
+            case .medium: return Calendar.date(year: 2000, month: 1, day: 1)
+            case .long: return Calendar.date(year: 1000, month: 1, day: 1)
             case .none: return nil
             }
         }
 
         static var defaultString: String? { medium.string }
-        static var defaultInt: Int? { medium.int }
+        static var defaultDate: Date? { medium.date }
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none

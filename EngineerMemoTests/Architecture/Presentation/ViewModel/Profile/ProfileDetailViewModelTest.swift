@@ -4,6 +4,7 @@ import XCTest
 
 final class ProfileDetailViewModelTest: XCTestCase {
     private var model: ProfileModelInputMock!
+    private var routing: ProfileDetailRoutingInputMock!
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: ProfileDetailViewModel!
 
@@ -59,6 +60,7 @@ final class ProfileDetailViewModelTest: XCTestCase {
 private extension ProfileDetailViewModelTest {
     func setupViewModel(isSuccess: Bool = true) {
         model = .init()
+        routing = .init()
         analytics = .init(screenId: .profileDetail)
 
         if isSuccess {
@@ -73,6 +75,7 @@ private extension ProfileDetailViewModelTest {
 
         viewModel = .init(
             model: model,
+            routing: routing,
             analytics: analytics
         )
     }

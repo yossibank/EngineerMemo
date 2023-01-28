@@ -3,6 +3,7 @@
     <entity name="Profile" representedClassName="Profile" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String"/>
         <attribute name="age" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="gender" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="identifier" attributeType="String"/>

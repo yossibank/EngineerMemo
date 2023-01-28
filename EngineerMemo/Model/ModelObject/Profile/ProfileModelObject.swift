@@ -2,7 +2,7 @@ import Foundation
 
 struct ProfileModelObject: Hashable {
     var address: String?
-    var age: Int?
+    var birthday: Date?
     var email: String?
     var gender: Gender?
     var name: String?
@@ -34,8 +34,8 @@ extension ProfileModelObject {
     ) {
         profile.address = address
 
-        if let age {
-            profile.age = .init(value: age)
+        if let birthday {
+            profile.birthday = birthday
         }
 
         profile.email = email

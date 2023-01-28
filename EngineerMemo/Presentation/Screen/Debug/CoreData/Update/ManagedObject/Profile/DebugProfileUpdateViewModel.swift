@@ -4,7 +4,7 @@
     final class DebugProfileUpdateViewModel: ViewModel {
         final class Input: InputObject {
             let addressControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let ageControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let birthdayControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let emailControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let genderControlChanged = PassthroughSubject<DebugGenderSegment, Never>()
             let nameControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
@@ -25,7 +25,7 @@
 
         private var modelObject = ProfileModelObjectBuilder()
             .address(DebugCoreDataSegment.defaultString)
-            .age(DebugCoreDataSegment.defaultInt)
+            .birthday(DebugCoreDataSegment.defaultDate)
             .email(DebugCoreDataSegment.defaultString)
             .gender(DebugGenderSegment.defaultGender)
             .name(DebugCoreDataSegment.defaultString)
@@ -68,12 +68,12 @@
                 }
                 .store(in: &cancellables)
 
-            // MARK: - 年齢セグメント
+            // MARK: - 生年月日セグメント
 
-            input.ageControlChanged
+            input.birthdayControlChanged
                 .sink { [weak self] segment in
                     self?.ageSegment = segment
-                    self?.modelObject.age = segment.int
+                    self?.modelObject.birthday = segment.date
                 }
                 .store(in: &cancellables)
 
@@ -135,7 +135,7 @@
 
                     self.modelObject = ProfileModelObjectBuilder()
                         .address(self.addressSegment?.string)
-                        .age(self.ageSegment?.int)
+                        .birthday(self.ageSegment?.date)
                         .email(self.emailSegment?.string)
                         .gender(self.genderSegment?.gender)
                         .name(self.nameSegment?.string)

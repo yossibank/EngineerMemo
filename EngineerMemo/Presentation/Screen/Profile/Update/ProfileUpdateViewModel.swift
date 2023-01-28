@@ -23,6 +23,7 @@ final class ProfileUpdateViewModel: ViewModel {
     let input: Input
     let output: Output
 
+    private var modelObject = ProfileModelObject(identifier: UUID().uuidString)
     private var cancellables: Set<AnyCancellable> = .init()
 
     private let model: ProfileModelInput
@@ -41,5 +42,13 @@ final class ProfileUpdateViewModel: ViewModel {
         self.output = output
         self.model = model
         self.analytics = analytics
+
+        let name = binding.$name.sink { [weak self] name in
+            self?.modelObject.name = name
+        }
+
+        cancellables.formUnion([
+            name
+        ])
     }
 }

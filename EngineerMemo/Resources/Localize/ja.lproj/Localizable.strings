@@ -66,7 +66,7 @@
 "debug.coreData.create" = "作成";
 "debug.coreData.update" = "更新";
 "debug.segment.address" = "address";
-"debug.segment.age" = "age";
+"debug.segment.birthday" = "birthday";
 "debug.segment.email" = "email";
 "debug.segment.gender" = "gender";
 "debug.segment.name" = "name";

@@ -1,7 +1,9 @@
 #if DEBUG
+    import Foundation
+
     final class ProfileModelObjectBuilder {
         private var address: String? = "テスト県テスト市テスト1-1-1"
-        private var age: Int? = 20
+        private var birthday = Calendar.date(year: 2000, month: 1, day: 1)
         private var email: String? = "test@test.com"
         private var gender: ProfileModelObject.Gender? = .man
         private var name: String? = "testName"
@@ -12,7 +14,7 @@
         func build() -> ProfileModelObject {
             .init(
                 address: address,
-                age: age,
+                birthday: birthday,
                 email: email,
                 gender: gender,
                 name: name,
@@ -27,8 +29,8 @@
             return self
         }
 
-        func age(_ age: Int?) -> Self {
-            self.age = age
+        func birthday(_ birthday: Date?) -> Self {
+            self.birthday = birthday
             return self
         }
 

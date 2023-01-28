@@ -8,7 +8,7 @@ struct ProfileConverter: ProfileConverterInput {
         // NOTE: .init(...)生成は型チェックで時間がかかるため型指定して生成
         ProfileModelObject(
             address: object.address ?? .noSetting,
-            age: object.age?.intValue ?? .invalid,
+            birthday: object.birthday,
             email: object.email ?? .noSetting,
             gender: .init(rawValue: object.genderEnum?.rawValue ?? .invalid),
             name: object.name ?? .noSetting,

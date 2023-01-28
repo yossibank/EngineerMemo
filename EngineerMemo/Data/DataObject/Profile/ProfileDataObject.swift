@@ -3,7 +3,7 @@ import CoreData
 @objc(Profile)
 final class Profile: NSManagedObject {
     @NSManaged var address: String?
-    @NSManaged var age: NSNumber?
+    @NSManaged var birthday: Date?
     @NSManaged var email: String?
     @NSManaged var gender: NSNumber?
     @NSManaged var identifier: String

@@ -12,4 +12,27 @@ extension Date {
         formatter.timeZone = .tokyo
         return formatter.string(from: self)
     }
+
+    var ageString: String? {
+        let calendar = Calendar.current
+
+        guard let now = calendar.dateComponents(
+            [.calendar, .year, .month, .day],
+            from: Date()
+        ).date else {
+            return nil
+        }
+
+        guard let birthday = calendar.dateComponents(
+            [.calendar, .year, .month, .day],
+            from: self
+        ).date else {
+            return nil
+        }
+
+        return calendar.dateComponents(
+            [.year],
+            from: birthday, to: now
+        ).year?.description
+    }
 }

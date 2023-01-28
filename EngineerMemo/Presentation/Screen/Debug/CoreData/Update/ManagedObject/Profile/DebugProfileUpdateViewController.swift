@@ -58,10 +58,10 @@
                 }
                 .store(in: &cancellables)
 
-            contentView.ageControlPublisher
+            contentView.birthdayControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.ageControlChanged.send(
+                    self?.viewModel.input.birthdayControlChanged.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }

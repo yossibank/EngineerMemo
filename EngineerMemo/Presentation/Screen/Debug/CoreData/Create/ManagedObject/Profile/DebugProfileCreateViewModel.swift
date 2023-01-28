@@ -4,7 +4,7 @@
     final class DebugProfileCreateViewModel: ViewModel {
         final class Input: InputObject {
             let addressControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let ageControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let birthdayControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let emailControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let genderControlChanged = PassthroughSubject<DebugGenderSegment, Never>()
             let nameControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
@@ -23,7 +23,7 @@
 
         private var modelObject = ProfileModelObjectBuilder()
             .address(DebugCoreDataSegment.defaultString)
-            .age(DebugCoreDataSegment.defaultInt)
+            .birthday(DebugCoreDataSegment.defaultDate)
             .email(DebugCoreDataSegment.defaultString)
             .gender(DebugGenderSegment.defaultGender)
             .name(DebugCoreDataSegment.defaultString)
@@ -45,13 +45,13 @@
                 }
                 .store(in: &cancellables)
 
-            // MARK: - 年齢セグメント
+            // MARK: - 誕生日セグメント
 
-            input.ageControlChanged
-                .sink { [weak self] segment in
-                    self?.modelObject.age = segment.int
-                }
-                .store(in: &cancellables)
+//            input.ageControlChanged
+//                .sink { [weak self] segment in
+//                    self?.modelObject.age = segment.int
+//                }
+//                .store(in: &cancellables)
 
             // MARK: - Eメールセグメント
 
