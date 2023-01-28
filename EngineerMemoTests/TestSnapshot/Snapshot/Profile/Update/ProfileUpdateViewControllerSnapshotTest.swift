@@ -11,7 +11,7 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
 
         folderName = "プロフィール設定画面"
 
-        recordMode = true
+        recordMode = SnapshotTest.recordMode
 
         subject = AppControllers.Profile.Update(type: .setting)
     }
