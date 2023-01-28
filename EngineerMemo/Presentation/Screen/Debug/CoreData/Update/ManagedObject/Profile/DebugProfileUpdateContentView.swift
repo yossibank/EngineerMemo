@@ -14,7 +14,7 @@
         }
 
         private(set) lazy var addressControlPublisher = addressControlSubject.eraseToAnyPublisher()
-        private(set) lazy var ageControlPublisher = ageControlSubject.eraseToAnyPublisher()
+        private(set) lazy var birthdayControlPublisher = birthdayControlSubject.eraseToAnyPublisher()
         private(set) lazy var emailControlPublisher = emailControlSubject.eraseToAnyPublisher()
         private(set) lazy var genderControlPublisher = genderControlSubject.eraseToAnyPublisher()
         private(set) lazy var nameControlPublisher = nameControlSubject.eraseToAnyPublisher()
@@ -35,7 +35,7 @@
         }
 
         private let addressControlSubject = PassthroughSubject<Int, Never>()
-        private let ageControlSubject = PassthroughSubject<Int, Never>()
+        private let birthdayControlSubject = PassthroughSubject<Int, Never>()
         private let emailControlSubject = PassthroughSubject<Int, Never>()
         private let genderControlSubject = PassthroughSubject<Int, Never>()
         private let nameControlSubject = PassthroughSubject<Int, Never>()
@@ -191,8 +191,8 @@
                 }
                 .store(in: &cell.cancellables)
 
-                cell.ageControlPublisher.sink { [weak self] value in
-                    self?.ageControlSubject.send(value)
+                cell.birthdayControlPublisher.sink { [weak self] value in
+                    self?.birthdayControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
@@ -212,12 +212,12 @@
                 .store(in: &cell.cancellables)
 
                 cell.phoneNumberControlPublisher.sink { [weak self] value in
-                    self?.ageControlSubject.send(value)
+                    self?.phoneNumberControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.stationControlPublisher.sink { [weak self] value in
-                    self?.ageControlSubject.send(value)
+                    self?.stationControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 

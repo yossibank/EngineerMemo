@@ -32,7 +32,7 @@ final class SampleEditContentView: UIView {
 
     private let titleTextField = UITextField(
         styles: [
-            .PlaceHolder.title,
+            .Placeholder.title,
             .round,
             .borderPrimary,
             .cornerRadius8
@@ -41,7 +41,7 @@ final class SampleEditContentView: UIView {
 
     private let bodyTextField = UITextField(
         styles: [
-            .PlaceHolder.body,
+            .Placeholder.body,
             .round,
             .borderPrimary,
             .cornerRadius8

@@ -10,9 +10,33 @@ extension ViewStyle where T: UILabel {
             }
         }
 
-        static var profileDescription: ViewStyle<T> {
+        static var settingDescription: ViewStyle<T> {
             .init {
                 $0.text = L10n.Profile.settingDescription
+            }
+        }
+
+        static var addressDescription: ViewStyle<T> {
+            .init {
+                $0.text = L10n.Profile.addressDescription
+            }
+        }
+
+        static var postOfficeNumber: ViewStyle<T> {
+            .init {
+                $0.text = L10n.Profile.postOfficeNumber
+            }
+        }
+
+        static var hyphen: ViewStyle<T> {
+            .init {
+                $0.text = L10n.Profile.hyphen
+            }
+        }
+
+        static var noSetting: ViewStyle<T> {
+            .init {
+                $0.text = .noSetting
             }
         }
     }
@@ -81,6 +105,12 @@ extension ViewStyle where T: UILabel {
 
     // MARK: - 文字色
 
+    static var textTheme: ViewStyle<T> {
+        .init {
+            $0.textColor = .dynamicColor(light: .black, dark: .white)
+        }
+    }
+
     static var textPrimary: ViewStyle<T> {
         .init {
             $0.textColor = .dynamicColor(light: .white, dark: .black)
@@ -102,6 +132,12 @@ extension ViewStyle where T: UILabel {
     static var textLightGray: ViewStyle<T> {
         .init {
             $0.textColor = .lightGray
+        }
+    }
+
+    static var textPlaceholder: ViewStyle<T> {
+        .init {
+            $0.textColor = .placeholderText
         }
     }
 

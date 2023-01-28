@@ -4,6 +4,7 @@ import XCTest
 
 final class ProfileDetailViewModelTest: XCTestCase {
     private var model: ProfileModelInputMock!
+    private var routing: ProfileDetailRoutingInputMock!
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: ProfileDetailViewModel!
 
@@ -54,11 +55,23 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         wait(for: [expectation], timeout: 0.1)
     }
+
+    func test_settingButtonTapped_routing_showUpdateScreenが呼び出されること() {
+        // arrange
+        setupViewModel()
+
+        // act
+        viewModel.input.settingButtonTapped.send(())
+
+        // assert
+        XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
+    }
 }
 
 private extension ProfileDetailViewModelTest {
     func setupViewModel(isSuccess: Bool = true) {
         model = .init()
+        routing = .init()
         analytics = .init(screenId: .profileDetail)
 
         if isSuccess {
@@ -73,6 +86,7 @@ private extension ProfileDetailViewModelTest {
 
         viewModel = .init(
             model: model,
+            routing: routing,
             analytics: analytics
         )
     }

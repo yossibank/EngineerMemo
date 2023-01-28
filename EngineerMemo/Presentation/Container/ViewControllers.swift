@@ -4,11 +4,24 @@ enum AppControllers {
     enum Profile {
         static func Detail() -> ProfileDetailViewController {
             let vc = ProfileDetailViewController()
+            let routing = ProfileDetailRouting(viewController: vc)
 
             vc.title = L10n.Navigation.Title.profileDetail
             vc.inject(
                 contentView: ContentViews.Profile.Detail(),
-                viewModel: ViewModels.Profile.Detail()
+                viewModel: ViewModels.Profile.Detail(routing: routing)
+            )
+
+            return vc
+        }
+
+        static func Update(type: ProfileUpdateType) -> ProfileUpdateViewController {
+            let vc = ProfileUpdateViewController()
+
+            vc.title = type.title
+            vc.inject(
+                contentView: ContentViews.Profile.Update(),
+                viewModel: ViewModels.Profile.Update(screenId: type.screenId)
             )
 
             return vc
@@ -150,4 +163,23 @@ enum AppControllers {
             }
         }
     #endif
+}
+
+enum ProfileUpdateType {
+    case update
+    case setting
+
+    var title: String {
+        switch self {
+        case .update: return L10n.Navigation.Title.profileUpdate
+        case .setting: return L10n.Navigation.Title.profileSetting
+        }
+    }
+
+    var screenId: FAScreenId {
+        switch self {
+        case .update: return .profileUpdate
+        case .setting: return .profileSetting
+        }
+    }
 }

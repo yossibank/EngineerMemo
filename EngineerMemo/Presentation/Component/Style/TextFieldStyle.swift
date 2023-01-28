@@ -3,7 +3,7 @@ import UIKit
 extension ViewStyle where T: UITextField {
     // MARK: - プレースホルダー
 
-    enum PlaceHolder {
+    enum Placeholder {
         static var title: ViewStyle<T> {
             .init {
                 $0.placeholder = "タイトル"

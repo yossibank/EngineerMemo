@@ -29,7 +29,7 @@ final class ProfileSettingCell: UITableViewCell {
 
     private let titleLabel = UILabel(
         styles: [
-            .LabelTitle.profileDescription,
+            .LabelTitle.settingDescription,
             .bold14,
             .textCenter,
             .lineInfinity

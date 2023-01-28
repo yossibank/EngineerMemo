@@ -36,7 +36,7 @@ final class ProfileModelTest: XCTestCase {
         profileConverter.convertHandler = { value in
             // assert
             XCTAssertEqual(value.address, "テスト県テスト市テスト1-1-1")
-            XCTAssertEqual(value.age, 20)
+            XCTAssertEqual(value.birthday, Calendar.date(year: 2000, month: 1, day: 1))
             XCTAssertEqual(value.email, "test@test.com")
             XCTAssertEqual(value.genderEnum, .man)
             XCTAssertEqual(value.identifier, "identifier")
@@ -48,7 +48,7 @@ final class ProfileModelTest: XCTestCase {
 
             return ProfileModelObjectBuilder()
                 .address(value.address!)
-                .age(value.age!.intValue)
+                .birthday(value.birthday!)
                 .email(value.email!)
                 .gender(.init(rawValue: value.genderEnum!.rawValue)!)
                 .name(value.name!)
@@ -69,7 +69,7 @@ final class ProfileModelTest: XCTestCase {
                     modelObject,
                     ProfileModelObjectBuilder()
                         .address("テスト県テスト市テスト1-1-1")
-                        .age(20)
+                        .birthday(Calendar.date(year: 2000, month: 1, day: 1))
                         .email("test@test.com")
                         .gender(.man)
                         .identifier("identifier")
@@ -95,7 +95,7 @@ final class ProfileModelTest: XCTestCase {
         profileConverter.convertHandler = { value in
             // assert
             XCTAssertEqual(value.address, "テスト県テスト市テスト1-1-1")
-            XCTAssertEqual(value.age, 20)
+            XCTAssertEqual(value.birthday, Calendar.date(year: 2000, month: 1, day: 1))
             XCTAssertEqual(value.email, "test@test.com")
             XCTAssertEqual(value.genderEnum, .man)
             XCTAssertEqual(value.identifier, "identifier")
@@ -107,7 +107,7 @@ final class ProfileModelTest: XCTestCase {
 
             return ProfileModelObjectBuilder()
                 .address(value.address!)
-                .age(value.age!.intValue)
+                .birthday(value.birthday!)
                 .email(value.email!)
                 .gender(.init(rawValue: value.genderEnum!.rawValue)!)
                 .name(value.name!)
@@ -129,7 +129,7 @@ final class ProfileModelTest: XCTestCase {
                     [
                         ProfileModelObjectBuilder()
                             .address("テスト県テスト市テスト1-1-1")
-                            .age(20)
+                            .birthday(Calendar.date(year: 2000, month: 1, day: 1))
                             .email("test@test.com")
                             .gender(.man)
                             .identifier("identifier")
@@ -154,7 +154,7 @@ final class ProfileModelTest: XCTestCase {
         model.create(
             modelObject: ProfileModelObjectBuilder()
                 .name("テスト")
-                .age(10)
+                .birthday(Calendar.date(year: 2000, month: 1, day: 1))
                 .build()
         )
 
@@ -163,7 +163,7 @@ final class ProfileModelTest: XCTestCase {
 
             // assert
             XCTAssertEqual(profile.name, "テスト")
-            XCTAssertEqual(profile.age, 10)
+            XCTAssertEqual(profile.birthday, Calendar.date(year: 2000, month: 1, day: 1))
 
             expectation.fulfill()
         }
@@ -182,7 +182,7 @@ final class ProfileModelTest: XCTestCase {
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .name("テスト更新後")
-                .age(100)
+                .birthday(Calendar.date(year: 2000, month: 11, day: 1))
                 .build()
         )
 
@@ -191,7 +191,7 @@ final class ProfileModelTest: XCTestCase {
 
             // assert
             XCTAssertEqual(profile.name, "テスト更新後")
-            XCTAssertEqual(profile.age, 100)
+            XCTAssertEqual(profile.birthday, Calendar.date(year: 2000, month: 11, day: 1))
 
             expectation.fulfill()
         }
@@ -230,7 +230,7 @@ private extension ProfileModelTest {
         storage.create()
             .sink { profile in
                 profile.address = "テスト県テスト市テスト1-1-1"
-                profile.age = 20
+                profile.birthday = Calendar.date(year: 2000, month: 1, day: 1)
                 profile.email = "test@test.com"
                 profile.genderEnum = .man
                 profile.identifier = "identifier"

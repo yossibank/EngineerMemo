@@ -1,3 +1,7 @@
+// MARK: - 全共通項
+
+"common.done" = "完了";
+
 // MARK: - タブ
 
 "tab.home" = "ホーム";
@@ -7,6 +11,8 @@
 // MARK: - ナビゲーション
 
 "navigation.title.profileDetail" = "プロフィール";
+"navigation.title.profileUpdate" = "プロフィール更新";
+"navigation.title.profileSetting" = "プロフィール設定";
 "navigation.title.debugDevelopment" = "開発者用画面";
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";
 "navigation.title.debugCoreDataCreate" = "CoreData作成";
@@ -16,14 +22,26 @@
 
 "profile.basicInformation" = "基本情報";
 "profile.name" = "名前";
+"profile.birthday" = "生年月日";
 "profile.age" = "年齢";
 "profile.gender" = "性別";
+"profile.gender.man" = "男性";
+"profile.gender.woman" = "女性";
+"profile.gender.other" = "その他";
 "profile.email" = "メールアドレス";
 "profile.phoneNumber" = "電話番号";
+"profile.postOfficeNumber" = "郵便番号";
 "profile.address" = "住所";
+"profile.addressDescription" = "住所詳細";
 "profile.station" = "最寄駅";
 "profile.old" = "歳";
 "profile.settingDescription" = "プロフィールを設定しましょう。\n基本情報、職務経歴、自己PRなどをまとまることができます。";
+"profile.hyphen" = "-";
+"profile.example.name" = "例) 山田 太郎";
+"profile.example.email" = "例) sample@sample.com";
+"profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";
+"profile.example.address" = "例) 東京都港区虎ノ門○-○-○";
+"profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
 
 // MARK: - FirebaseAnalytics
 
@@ -48,7 +66,7 @@
 "debug.coreData.create" = "作成";
 "debug.coreData.update" = "更新";
 "debug.segment.address" = "address";
-"debug.segment.age" = "age";
+"debug.segment.birthday" = "birthday";
 "debug.segment.email" = "email";
 "debug.segment.gender" = "gender";
 "debug.segment.name" = "name";

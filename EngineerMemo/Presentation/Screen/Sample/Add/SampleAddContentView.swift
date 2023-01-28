@@ -72,7 +72,7 @@ final class SampleAddContentView: UIView {
 
     private let titleTextField = UITextField(
         styles: [
-            .PlaceHolder.title,
+            .Placeholder.title,
             .round,
             .borderPrimary,
             .cornerRadius8
@@ -89,7 +89,7 @@ final class SampleAddContentView: UIView {
 
     private let bodyTextField = UITextField(
         styles: [
-            .PlaceHolder.body,
+            .Placeholder.body,
             .round,
             .borderPrimary,
             .cornerRadius8

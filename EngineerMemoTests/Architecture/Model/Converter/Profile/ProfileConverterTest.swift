@@ -20,7 +20,7 @@ final class ProfileConverterTest: XCTestCase {
         // arrange
         let input = ProfileDataObjectBuilder()
             .address("テスト県テスト市テスト1-1-1")
-            .age(20)
+            .birthday(Calendar.date(year: 2000, month: 1, day: 1))
             .email("test@test.com")
             .gender(.man)
             .identifier("identifier")
@@ -37,7 +37,7 @@ final class ProfileConverterTest: XCTestCase {
             actual,
             ProfileModelObjectBuilder()
                 .address("テスト県テスト市テスト1-1-1")
-                .age(20)
+                .birthday(Calendar.date(year: 2000, month: 1, day: 1))
                 .email("test@test.com")
                 .gender(.man)
                 .identifier("identifier")
@@ -62,24 +62,6 @@ final class ProfileConverterTest: XCTestCase {
             actual,
             ProfileModelObjectBuilder()
                 .address(.noSetting)
-                .build()
-        )
-    }
-
-    func test_ageがnilの際に不正値に変換されること() {
-        // arrange
-        let input = ProfileDataObjectBuilder()
-            .age(nil)
-            .build()
-
-        // act
-        let actual = converter.convert(input)
-
-        // assert
-        XCTAssertEqual(
-            actual,
-            ProfileModelObjectBuilder()
-                .age(-1)
                 .build()
         )
     }

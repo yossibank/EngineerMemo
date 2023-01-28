@@ -83,7 +83,7 @@ extension ProfileBasicCell {
     func configure(_ modelObject: ProfileModelObject) {
         nameLabel.text = modelObject.name
 
-        if let age = modelObject.age?.withDescription {
+        if let age = modelObject.birthday?.ageString() {
             ageLabel.text = age + L10n.Profile.old
         } else {
             ageLabel.text = .noSetting

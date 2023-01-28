@@ -22,6 +22,14 @@ extension CombineCompatible where Self: UIBarButtonItem {
     }
 }
 
+extension CombineCompatible where Self: UIDatePicker {
+    var publisher: AnyPublisher<Date, Never> {
+        publisher(for: [.valueChanged])
+            .map(\.date)
+            .eraseToAnyPublisher()
+    }
+}
+
 extension CombineCompatible where Self: UISwitch {
     var isOnPublisher: AnyPublisher<Bool, Never> {
         publisher(for: [.allEditingEvents, .valueChanged])

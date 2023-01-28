@@ -1,9 +1,17 @@
 enum ViewModels {
     enum Profile {
-        static func Detail() -> ProfileDetailViewModel {
+        static func Detail(routing: ProfileDetailRoutingInput) -> ProfileDetailViewModel {
             .init(
                 model: Models.Profile(),
+                routing: routing,
                 analytics: FirebaseAnalytics(screenId: .profileDetail)
+            )
+        }
+
+        static func Update(screenId: FAScreenId) -> ProfileUpdateViewModel {
+            .init(
+                model: Models.Profile(),
+                analytics: FirebaseAnalytics(screenId: screenId)
             )
         }
     }

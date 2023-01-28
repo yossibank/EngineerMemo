@@ -10,7 +10,7 @@
         var cancellables: Set<AnyCancellable> = .init()
 
         private(set) lazy var addressControlPublisher = addressControl.segmentIndexPublisher
-        private(set) lazy var ageControlPublisher = ageControl.segmentIndexPublisher
+        private(set) lazy var birthdayControlPublisher = birthdayControl.segmentIndexPublisher
         private(set) lazy var emailControlPublisher = emailControl.segmentIndexPublisher
         private(set) lazy var genderControlPublisher = genderControl.segmentIndexPublisher
         private(set) lazy var nameControlPublisher = nameControl.segmentIndexPublisher
@@ -26,7 +26,7 @@
             return $0
         }(UIStackView(arrangedSubviews: [
             addressControl,
-            ageControl,
+            birthdayControl,
             emailControl,
             genderControl,
             nameControl,
@@ -45,8 +45,8 @@
             return $0
         }(DebugCoreDataSegmentView())
 
-        private let ageControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.age)
+        private let birthdayControl: DebugCoreDataSegmentView = {
+            $0.configure(title: L10n.Debug.Segment.birthday)
             return $0
         }(DebugCoreDataSegmentView())
 

@@ -3,7 +3,7 @@
 
     final class ProfileDataObjectBuilder {
         private var address: String? = "テスト県テスト市テスト1-1-1"
-        private var age: NSNumber? = 20
+        private var birthday = Calendar.date(year: 2000, month: 1, day: 1)
         private var email: String? = "test@test.com"
         private var gender: Profile.Gender? = .man
         private var identifier = "identifier"
@@ -15,7 +15,7 @@
             let context = CoreDataManager.shared.backgroundContext!
             let profile = Profile(context: context)
             profile.address = address
-            profile.age = age
+            profile.birthday = birthday
             profile.email = email
             profile.genderEnum = gender
             profile.identifier = identifier
@@ -30,8 +30,8 @@
             return self
         }
 
-        func age(_ age: NSNumber?) -> Self {
-            self.age = age
+        func birthday(_ birthday: Date?) -> Self {
+            self.birthday = birthday
             return self
         }
 

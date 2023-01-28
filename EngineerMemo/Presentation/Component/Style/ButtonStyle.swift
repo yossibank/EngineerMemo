@@ -51,9 +51,27 @@ extension ViewStyle where T: UIButton {
                 $0.setTitle("設定する", for: .normal)
             }
         }
+
+        static var saveProfile: ViewStyle<T> {
+            .init {
+                $0.setTitle("プロフィール入力情報を保存する", for: .normal)
+            }
+        }
+
+        static var saveProfileDone: ViewStyle<T> {
+            .init {
+                $0.setTitle("プロフィール作成完了✅", for: .normal)
+            }
+        }
     }
 
     // MARK: - 文字サイズ
+
+    static var system17: ViewStyle<T> {
+        .init {
+            $0.titleLabel?.font = .systemFont(ofSize: 17)
+        }
+    }
 
     static var bold14: ViewStyle<T> {
         .init {
@@ -87,6 +105,14 @@ extension ViewStyle where T: UIButton {
                 .white,
                 for: .normal
             )
+        }
+    }
+
+    // MARK: - 文字位置
+
+    static var titleLeft: ViewStyle<T> {
+        .init {
+            $0.contentHorizontalAlignment = .leading
         }
     }
 }
