@@ -13,12 +13,12 @@ extension Date {
         return formatter.string(from: self)
     }
 
-    var ageString: String? {
+    func ageString(now: Date = .init()) -> String? {
         let calendar = Calendar.current
 
         guard let now = calendar.dateComponents(
             [.calendar, .year, .month, .day],
-            from: Date()
+            from: now
         ).date else {
             return nil
         }
