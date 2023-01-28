@@ -150,9 +150,8 @@ extension ProfileUpdateContentView: ContentView {
         }
 
         saveButton.snp.makeConstraints {
-            $0.top.equalToSuperview()
             $0.bottom.equalToSuperview().inset(32)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(60)
         }
     }
