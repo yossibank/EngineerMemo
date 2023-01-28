@@ -45,13 +45,13 @@
                 }
                 .store(in: &cancellables)
 
-            // MARK: - 誕生日セグメント
+            // MARK: - 生年月日セグメント
 
-//            input.ageControlChanged
-//                .sink { [weak self] segment in
-//                    self?.modelObject.age = segment.int
-//                }
-//                .store(in: &cancellables)
+            input.birthdayControlChanged
+                .sink { [weak self] segment in
+                    self?.modelObject.birthday = segment.date
+                }
+                .store(in: &cancellables)
 
             // MARK: - Eメールセグメント
 

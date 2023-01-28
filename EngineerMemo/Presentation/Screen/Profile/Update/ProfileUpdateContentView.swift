@@ -97,6 +97,7 @@ final class ProfileUpdateContentView: UIView {
 
         setupViews()
         setupConstraints()
+        setupEvents()
     }
 
     @available(*, unavailable)
@@ -110,6 +111,23 @@ final class ProfileUpdateContentView: UIView {
 
             saveButton.apply(.borderPrimary)
         }
+    }
+}
+
+// MARK: - private
+
+private extension ProfileUpdateContentView {
+    func setupEvents() {
+        didTapSaveButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.saveButton.apply(.ButtonTitle.saveProfileDone)
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.saveButton.apply(.ButtonTitle.saveProfile)
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 
