@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - stored properties & init
 
@@ -18,19 +19,32 @@ final class SampleDetailContentView: UIView {
     ]))
 
     private let userIdLabel = UILabel(
-        styles: [.bold14, .textRed]
+        styles: [
+            .boldSystemFont(size: 14),
+            .textColor(.red)
+        ]
     )
 
     private let idLabel = UILabel(
-        styles: [.system12, .textLightGray]
+        styles: [
+            .systemFont(size: 12),
+            .textColor(.thinGray)
+        ]
     )
 
     private let titleLabel = UILabel(
-        styles: [.heavy18, .lineInfinity]
+        styles: [
+            .numberOfLines(0),
+            .systemFont(size: 18, weight: .heavy)
+        ]
     )
 
     private let bodyLabel = UILabel(
-        styles: [.italic16, .textLightGray, .lineInfinity]
+        styles: [
+            .italicSystemFont(size: 16),
+            .numberOfLines(0),
+            .textColor(.thinGray)
+        ]
     )
 
     private let modelObject: SampleModelObject
@@ -66,8 +80,10 @@ private extension SampleDetailContentView {
 
 extension SampleDetailContentView: ContentView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(stackView)
+        apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

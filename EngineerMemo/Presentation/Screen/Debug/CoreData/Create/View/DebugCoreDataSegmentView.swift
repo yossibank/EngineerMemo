@@ -2,6 +2,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     enum DebugCoreDataSegment: Int, CaseIterable {
         case short = 0
@@ -58,7 +59,7 @@
             segmentControl
         ]))
 
-        private let titleLabel = UILabel(style: .italic14)
+        private let titleLabel = UILabel(style: .italicSystemFont(size: 14))
 
         private let segmentControl: UISegmentedControl = {
             $0.selectedSegmentIndex = DebugCoreDataSegment.medium.rawValue
@@ -90,8 +91,10 @@
 
     private extension DebugCoreDataSegmentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(stackView)
+            apply([
+                .backgroundColor(.primary),
+                .addSubview(stackView)
+            ])
         }
 
         func setupConstraints() {

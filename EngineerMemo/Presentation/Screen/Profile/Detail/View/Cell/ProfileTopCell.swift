@@ -1,5 +1,6 @@
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - properties & init
 
@@ -15,7 +16,7 @@ final class ProfileTopCell: UITableViewCell {
     ]))
 
     private let iconImageView = UIImageView()
-    private let userNameLabel = UILabel(styles: [.bold14])
+    private let userNameLabel = UILabel(style: .boldSystemFont(size: 14))
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -48,8 +49,10 @@ extension ProfileTopCell {
 
 private extension ProfileTopCell {
     func setupViews() {
-        apply(.backgroundPrimary)
-        contentView.addSubview(stackView)
+        contentView.apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

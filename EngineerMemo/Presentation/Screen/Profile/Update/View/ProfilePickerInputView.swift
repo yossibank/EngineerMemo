@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - stored properties & init
 
@@ -15,27 +16,28 @@ final class ProfilePickerInputView: UIView {
         pickerInputView
     ]))
 
-    private lazy var titleView: UIView = {
-        $0.addSubview(titleLabel)
-        return $0
-    }(UIView(
+    private lazy var titleView = UIView(
         styles: [
-            .backgroundLightGray,
-            .borderPrimary,
-            .cornerRadius4
+            .addSubview(titleLabel),
+            .backgroundColor(.thinGray),
+            .borderColor(.primary),
+            .borderWidth(1.0),
+            .clipsToBounds(true),
+            .cornerRadius(4)
         ]
-    ))
+    )
 
-    private lazy var pickerInputView: UIView = {
-        $0.addSubview(inputDatePicker)
-        $0.addSubview(pickerLabel)
-        return $0
-    }(UIView(style: .backgroundPrimary))
+    private lazy var pickerInputView = UIView(
+        styles: [
+            .addSubviews([inputDatePicker, pickerLabel]),
+            .backgroundColor(.primary)
+        ]
+    )
 
     private let titleLabel = UILabel(
         styles: [
-            .bold16,
-            .textSecondary
+            .boldSystemFont(size: 16),
+            .textColor(.secondary)
         ]
     )
 
@@ -48,13 +50,15 @@ final class ProfilePickerInputView: UIView {
         return $0
     }(UIDatePicker(
         styles: [
-            .borderPrimary,
-            .cornerRadius4
+            .borderWidth(1.0),
+            .borderColor(.theme),
+            .clipsToBounds(true),
+            .cornerRadius(4)
         ]
     ))
 
     private let pickerLabel = UILabel(
-        style: .LabelTitle.noSetting
+        style: .text(.noSetting)
     )
 
     private var cancellables: Set<AnyCancellable> = .init()
@@ -83,7 +87,7 @@ final class ProfilePickerInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputDatePicker].forEach {
-                $0.apply(.borderPrimary)
+                $0.apply(.borderColor(.primary))
             }
         }
     }
@@ -101,8 +105,10 @@ extension ProfilePickerInputView {
 
 private extension ProfilePickerInputView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(stackView)
+        apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

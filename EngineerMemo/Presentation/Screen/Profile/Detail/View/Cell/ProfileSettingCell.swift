@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - properties & init
 
@@ -15,7 +16,11 @@ final class ProfileSettingCell: UITableViewCell {
         $0.axis = .vertical
         $0.alignment = .center
         $0.spacing = 16
-        $0.apply([.backgroundLightGray, .cornerRadius8])
+        $0.apply([
+            .backgroundColor(.thinGray),
+            .clipsToBounds(true),
+            .cornerRadius(8)
+        ])
         return $0
     }(UIStackView(arrangedSubviews: [
         spaceTopView,
@@ -29,20 +34,21 @@ final class ProfileSettingCell: UITableViewCell {
 
     private let titleLabel = UILabel(
         styles: [
-            .LabelTitle.settingDescription,
-            .bold14,
-            .textCenter,
-            .lineInfinity
+            .boldSystemFont(size: 14),
+            .numberOfLines(0),
+            .text(L10n.Profile.settingDescription),
+            .textAlignment(.center)
         ]
     )
 
     private let settingButton = UIButton(
         styles: [
-            .ButtonTitle.setting,
-            .bold14,
-            .titleWhite,
-            .backgroundGray,
-            .cornerRadius8
+            .backgroundColor(.gray),
+            .boldSystemFont(size: 14),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .setTitle("設定する"),
+            .setTitleColor(.white)
         ]
     )
 
@@ -74,8 +80,10 @@ final class ProfileSettingCell: UITableViewCell {
 
 private extension ProfileSettingCell {
     func setupViews() {
-        apply(.backgroundPrimary)
-        contentView.addSubview(stackView)
+        contentView.apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

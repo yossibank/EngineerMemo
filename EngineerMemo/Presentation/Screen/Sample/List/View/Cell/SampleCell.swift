@@ -1,5 +1,6 @@
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - properties & init
 
@@ -26,10 +27,10 @@ final class SampleCell: UITableViewCell {
         bodyLabel
     ]))
 
-    private let idLabel = UILabel(style: .system10)
-    private let userIdLabel = UILabel(style: .system10)
-    private let titleLabel = UILabel(styles: [.bold14, .line2])
-    private let bodyLabel = UILabel(style: .system12)
+    private let idLabel = UILabel(style: .systemFont(size: 10))
+    private let userIdLabel = UILabel(style: .systemFont(size: 10))
+    private let titleLabel = UILabel(styles: [.boldSystemFont(size: 14), .numberOfLines(2)])
+    private let bodyLabel = UILabel(style: .systemFont(size: 12))
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -64,8 +65,10 @@ extension SampleCell {
 
 private extension SampleCell {
     func setupViews() {
-        apply(.backgroundPrimary)
-        contentView.addSubview(mainStackView)
+        contentView.apply([
+            .addSubview(mainStackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

@@ -2,6 +2,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     enum DebugGenderSegment: Int, CaseIterable {
         case man = 0
@@ -48,7 +49,7 @@
             segmentControl
         ]))
 
-        private let titleLabel = UILabel(style: .italic14)
+        private let titleLabel = UILabel(style: .italicSystemFont(size: 14))
 
         private let segmentControl: UISegmentedControl = {
             $0.selectedSegmentIndex = DebugGenderSegment.woman.rawValue
@@ -80,8 +81,10 @@
 
     private extension DebugGenderSegmentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(stackView)
+            apply([
+                .backgroundColor(.primary),
+                .addSubview(stackView)
+            ])
         }
 
         func setupConstraints() {

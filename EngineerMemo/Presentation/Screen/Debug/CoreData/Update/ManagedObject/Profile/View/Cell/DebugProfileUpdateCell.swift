@@ -3,6 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     // MARK: - properties & init
 
@@ -77,10 +78,12 @@
 
         private let updateButton = UIButton(
             styles: [
-                .ButtonTitle.update,
-                .titlePrimary,
-                .borderPrimary,
-                .cornerRadius8
+                .borderColor(.primary),
+                .borderWidth(1.0),
+                .clipsToBounds(true),
+                .cornerRadius(8),
+                .setTitle("更新する"),
+                .setTitleColor(.primary)
             ]
         )
 
@@ -112,10 +115,10 @@
 
     extension DebugProfileUpdateCell {
         func updateView() {
-            updateButton.apply(.ButtonTitle.updateDone)
+            updateButton.apply(.setTitle("更新完了"))
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.updateButton.apply(.ButtonTitle.update)
+                self.updateButton.apply(.setTitle("更新する"))
             }
         }
     }
@@ -124,8 +127,10 @@
 
     private extension DebugProfileUpdateCell {
         func setupViews() {
-            apply(.backgroundPrimary)
-            contentView.addSubview(stackView)
+            apply([
+                .addSubview(stackView),
+                .backgroundColor(.primary)
+            ])
         }
 
         func setupConstraints() {

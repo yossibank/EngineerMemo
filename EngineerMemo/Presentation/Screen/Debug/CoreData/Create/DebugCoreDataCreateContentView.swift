@@ -3,6 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     // MARK: - stored properties & init
 
@@ -11,10 +12,12 @@
 
         private let menuButton = UIButton(
             styles: [
-                .bold14,
-                .titlePrimary,
-                .borderPrimary,
-                .cornerRadius8
+                .boldSystemFont(size: 14),
+                .borderColor(.theme),
+                .borderWidth(1.0),
+                .clipsToBounds(true),
+                .cornerRadius(8),
+                .setTitleColor(.primary)
             ]
         )
 
@@ -35,7 +38,10 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                menuButton.apply(.borderPrimary)
+                menuButton.apply([
+                    .borderWidth(1.0),
+                    .borderColor(.theme)
+                ])
             }
         }
     }
@@ -89,8 +95,10 @@
 
     extension DebugCoreDataCreateContentView: ContentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(menuButton)
+            apply([
+                .backgroundColor(.primary),
+                .addSubview(menuButton)
+            ])
         }
 
         func setupConstraints() {

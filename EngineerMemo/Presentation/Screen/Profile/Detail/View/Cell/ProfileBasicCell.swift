@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - properties & init
 
@@ -27,10 +28,14 @@ final class ProfileBasicCell: UITableViewCell {
         }
     }
 
-    private lazy var mainView: UIView = {
-        $0.addSubview(stackView)
-        return $0
-    }(UIView(styles: [.backgroundLightGray, .cornerRadius8]))
+    private lazy var mainView = UIView(
+        styles: [
+            .addSubview(stackView),
+            .backgroundColor(.thinGray),
+            .clipsToBounds(true),
+            .cornerRadius(8)
+        ]
+    )
 
     private lazy var stackView: UIStackView = {
         $0.axis = .vertical
@@ -50,14 +55,14 @@ final class ProfileBasicCell: UITableViewCell {
         return subviews
     }
 
-    private let basicLabel = UILabel(styles: [.LabelTitle.basicInformation, .bold16])
-    private let nameLabel = UILabel(styles: [.bold16])
-    private let ageLabel = UILabel(styles: [.bold16])
-    private let genderLabel = UILabel(styles: [.bold16])
-    private let emailLabel = UILabel(styles: [.bold16])
-    private let phoneNumberLabel = UILabel(styles: [.bold16])
-    private let addressLabel = UILabel(styles: [.bold16, .lineInfinity])
-    private let stationLabel = UILabel(styles: [.bold16])
+    private let basicLabel = UILabel(styles: [.text(L10n.Profile.basicInformation), .boldSystemFont(size: 16)])
+    private let nameLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let ageLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let genderLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let emailLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let phoneNumberLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let addressLabel = UILabel(styles: [.boldSystemFont(size: 16), .numberOfLines(0)])
+    private let stationLabel = UILabel(style: .boldSystemFont(size: 16))
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -101,8 +106,10 @@ extension ProfileBasicCell {
 
 private extension ProfileBasicCell {
     func setupViews() {
-        apply(.backgroundPrimary)
-        contentView.addSubview(mainView)
+        contentView.apply([
+            .addSubview(mainView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {
@@ -117,7 +124,7 @@ private extension ProfileBasicCell {
     }
 
     private func createTitleLabel(_ type: ObjectType) -> UILabel {
-        let label = UILabel(styles: [.system14, .textSecondary])
+        let label = UILabel(styles: [.systemFont(size: 14), .textColor(.secondary)])
         label.text = type.title
         return label
     }

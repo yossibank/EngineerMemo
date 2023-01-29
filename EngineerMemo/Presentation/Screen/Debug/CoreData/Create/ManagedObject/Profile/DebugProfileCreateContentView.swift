@@ -3,6 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     // MARK: - stored properties & init
 
@@ -77,10 +78,12 @@
 
         private let createButton = UIButton(
             styles: [
-                .ButtonTitle.create,
-                .titlePrimary,
-                .borderPrimary,
-                .cornerRadius8
+                .borderColor(.primary),
+                .borderWidth(1.0),
+                .clipsToBounds(true),
+                .cornerRadius(8),
+                .setTitle("作成する"),
+                .setTitleColor(.primary)
             ]
         )
 
@@ -105,10 +108,10 @@
             didTapCreateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.createButton.apply(.ButtonTitle.createDone)
+                    self?.createButton.apply(.setTitle("作成完了"))
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.createButton.apply(.ButtonTitle.create)
+                        self?.createButton.apply(.setTitle("作成する"))
                     }
                 }
                 .store(in: &cancellables)
@@ -119,8 +122,10 @@
 
     extension DebugProfileCreateContentView: ContentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(stackView)
+            apply([
+                .addSubview(stackView),
+                .backgroundColor(.primary)
+            ])
         }
 
         func setupConstraints() {

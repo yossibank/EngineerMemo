@@ -2,6 +2,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     // MARK: - properties & init
 
@@ -15,8 +16,8 @@
             subTitleLabel
         ]))
 
-        private let titleLabel = UILabel(style: .system14)
-        private let subTitleLabel = UILabel(style: .bold14)
+        private let titleLabel = UILabel(style: .systemFont(size: 14))
+        private let subTitleLabel = UILabel(style: .boldSystemFont(size: 14))
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -44,7 +45,7 @@
             subTitleLabel.text = item.subTitle
 
             if item.subTitle == nil {
-                titleLabel.apply(.bold14)
+                titleLabel.apply(.boldSystemFont(size: 14))
             }
         }
     }
@@ -53,8 +54,10 @@
 
     private extension DebugDevelopmentCell {
         func setupViews() {
-            apply(.backgroundPrimary)
-            contentView.addSubview(stackView)
+            contentView.apply([
+                .backgroundColor(.primary),
+                .addSubview(stackView)
+            ])
         }
 
         func setupConstraints() {

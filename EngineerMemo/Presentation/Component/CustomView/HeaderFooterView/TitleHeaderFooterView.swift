@@ -1,10 +1,11 @@
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - properties & init
 
 final class TitleHeaderFooterView: UITableViewHeaderFooterView {
-    private let titleLabel = UILabel(style: .bold12)
+    private let titleLabel = UILabel(style: .boldSystemFont(size: 12))
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -30,8 +31,10 @@ extension TitleHeaderFooterView {
 
 private extension TitleHeaderFooterView {
     func setupViews() {
-        contentView.apply(.backgroundLightGray)
-        contentView.addSubview(titleLabel)
+        contentView.apply([
+            .backgroundColor(.thinGray),
+            .addSubview(titleLabel)
+        ])
     }
 
     func setupConstraints() {

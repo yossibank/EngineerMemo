@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - stored properties & init
 
@@ -83,10 +84,12 @@ final class ProfileUpdateContentView: UIView {
 
     private let saveButton = UIButton(
         styles: [
-            .ButtonTitle.saveProfile,
-            .titlePrimary,
-            .borderPrimary,
-            .cornerRadius8
+            .borderColor(.primary),
+            .borderWidth(1.0),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .setTitle("プロフィール入力情報を保存する"),
+            .setTitleColor(.primary)
         ]
     )
 
@@ -109,7 +112,7 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            saveButton.apply(.borderPrimary)
+            saveButton.apply(.borderColor(.primary))
         }
     }
 }
@@ -121,10 +124,10 @@ private extension ProfileUpdateContentView {
         didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.saveButton.apply(.ButtonTitle.saveProfileDone)
+                self?.saveButton.apply(.setTitle("プロフィール作成完了✅"))
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.saveButton.apply(.ButtonTitle.saveProfile)
+                    self?.saveButton.apply(.setTitle("プロフィール入力情報を保存する"))
                 }
             }
             .store(in: &cancellables)
@@ -135,8 +138,10 @@ private extension ProfileUpdateContentView {
 
 extension ProfileUpdateContentView: ContentView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(scrollView)
+        apply([
+            .addSubview(scrollView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

@@ -2,6 +2,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     enum DebugPhoneNumberSegment: Int, CaseIterable {
         case phone
@@ -42,7 +43,7 @@
             segmentControl
         ]))
 
-        private let titleLabel = UILabel(style: .italic14)
+        private let titleLabel = UILabel(style: .italicSystemFont(size: 14))
 
         private let segmentControl: UISegmentedControl = {
             $0.selectedSegmentIndex = DebugPhoneNumberSegment.phone.rawValue
@@ -74,8 +75,10 @@
 
     private extension DebugPhoneNumberSegmentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(stackView)
+            apply([
+                .backgroundColor(.primary),
+                .addSubview(stackView)
+            ])
         }
 
         func setupConstraints() {

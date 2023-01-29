@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - stored properties & init
 
@@ -27,33 +28,39 @@ final class SampleEditContentView: UIView {
     }(UIStackView(arrangedSubviews: [editButton]))
 
     private let userIdLabel = UILabel(
-        styles: [.italic16]
+        style: .italicSystemFont(size: 16)
     )
 
     private let titleTextField = UITextField(
         styles: [
-            .Placeholder.title,
-            .round,
-            .borderPrimary,
-            .cornerRadius8
+            .borderColor(.primary),
+            .borderWidth(1.0),
+            .borderStyle(.roundedRect),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .placeholder("タイトル")
         ]
     )
 
     private let bodyTextField = UITextField(
         styles: [
-            .Placeholder.body,
-            .round,
-            .borderPrimary,
-            .cornerRadius8
+            .borderColor(.primary),
+            .borderWidth(1.0),
+            .borderStyle(.roundedRect),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .placeholder("内容")
         ]
     )
 
     private let editButton = UIButton(
         styles: [
-            .ButtonTitle.edit,
-            .titlePrimary,
-            .borderPrimary,
-            .cornerRadius8
+            .borderColor(.primary),
+            .borderWidth(1.0),
+            .clipsToBounds(true),
+            .cornerRadius(9),
+            .setTitle("編集する"),
+            .setTitleColor(.primary)
         ]
     )
 
@@ -79,7 +86,7 @@ final class SampleEditContentView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleTextField, bodyTextField].forEach {
-                $0.apply(.borderPrimary)
+                $0.apply(.borderColor(.primary))
             }
 
             editButton.layer.borderColor = enableColor(isEnabled: editButton.isEnabled).cgColor
@@ -117,8 +124,10 @@ private extension SampleEditContentView {
 
 extension SampleEditContentView: ContentView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(stackView)
+        apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {
