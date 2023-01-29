@@ -33,7 +33,7 @@ final class SampleEditContentView: UIView {
 
     private let titleTextField = UITextField(
         styles: [
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .borderStyle(.roundedRect),
             .clipsToBounds(true),
@@ -44,7 +44,7 @@ final class SampleEditContentView: UIView {
 
     private let bodyTextField = UITextField(
         styles: [
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .borderStyle(.roundedRect),
             .clipsToBounds(true),
@@ -55,12 +55,13 @@ final class SampleEditContentView: UIView {
 
     private let editButton = UIButton(
         styles: [
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
-            .cornerRadius(9),
+            .cornerRadius(8),
             .setTitle("編集する"),
-            .setTitleColor(.primary)
+            .setTitleColor(.theme),
+            .systemFont(size: 15)
         ]
     )
 
@@ -86,7 +87,7 @@ final class SampleEditContentView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleTextField, bodyTextField].forEach {
-                $0.apply(.borderColor(.primary))
+                $0.apply(.borderColor(.theme))
             }
 
             editButton.layer.borderColor = enableColor(isEnabled: editButton.isEnabled).cgColor
@@ -114,9 +115,7 @@ private extension SampleEditContentView {
     }
 
     func enableColor(isEnabled: Bool) -> UIColor {
-        isEnabled
-            ? .dynamicColor(light: .black, dark: .white)
-            : .dynamicColor(light: .black, dark: .white).withAlphaComponent(0.3)
+        isEnabled ? .theme : .theme.withAlphaComponent(0.3)
     }
 }
 

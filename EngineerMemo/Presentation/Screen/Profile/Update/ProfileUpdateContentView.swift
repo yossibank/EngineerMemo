@@ -84,12 +84,13 @@ final class ProfileUpdateContentView: UIView {
 
     private let saveButton = UIButton(
         styles: [
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
             .cornerRadius(8),
+            .systemFont(size: 15),
             .setTitle("プロフィール入力情報を保存する"),
-            .setTitleColor(.primary)
+            .setTitleColor(.theme)
         ]
     )
 
@@ -112,7 +113,7 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            saveButton.apply(.borderColor(.primary))
+            saveButton.apply(.borderColor(.theme))
         }
     }
 }

@@ -51,7 +51,7 @@ final class ProfileMenuInputView: UIView {
         styles: [
             .addSubview(titleLabel),
             .backgroundColor(.thinGray),
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
             .cornerRadius(4)
@@ -102,7 +102,7 @@ final class ProfileMenuInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, menuButton].forEach {
-                $0.apply(.borderColor(.primary))
+                $0.apply(.borderColor(.theme))
             }
         }
     }

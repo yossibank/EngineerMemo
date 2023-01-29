@@ -20,7 +20,7 @@ final class ProfilePickerInputView: UIView {
         styles: [
             .addSubview(titleLabel),
             .backgroundColor(.thinGray),
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
             .cornerRadius(4)
@@ -87,7 +87,7 @@ final class ProfilePickerInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputDatePicker].forEach {
-                $0.apply(.borderColor(.primary))
+                $0.apply(.borderColor(.theme))
             }
         }
     }

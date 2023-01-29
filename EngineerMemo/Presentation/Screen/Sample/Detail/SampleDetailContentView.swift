@@ -28,7 +28,7 @@ final class SampleDetailContentView: UIView {
     private let idLabel = UILabel(
         styles: [
             .systemFont(size: 12),
-            .textColor(.thinGray)
+            .textColor(.lightGray)
         ]
     )
 
@@ -43,7 +43,7 @@ final class SampleDetailContentView: UIView {
         styles: [
             .italicSystemFont(size: 16),
             .numberOfLines(0),
-            .textColor(.thinGray)
+            .textColor(.lightGray)
         ]
     )
 

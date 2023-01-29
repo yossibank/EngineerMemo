@@ -20,7 +20,7 @@ final class ProfileTextInputView: UIView {
         styles: [
             .addSubview(titleLabel),
             .backgroundColor(.thinGray),
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
             .cornerRadius(4)
@@ -71,7 +71,7 @@ final class ProfileTextInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputTextField].forEach {
-                $0.apply(.borderColor(.primary))
+                $0.apply(.borderColor(.theme))
             }
         }
     }

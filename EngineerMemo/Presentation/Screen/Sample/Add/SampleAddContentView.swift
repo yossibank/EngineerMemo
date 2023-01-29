@@ -73,7 +73,7 @@ final class SampleAddContentView: UIView {
 
     private let titleTextField = UITextField(
         styles: [
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .borderStyle(.roundedRect),
             .clipsToBounds(true),
@@ -95,7 +95,7 @@ final class SampleAddContentView: UIView {
 
     private let bodyTextField = UITextField(
         styles: [
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .borderStyle(.roundedRect),
             .clipsToBounds(true),
@@ -113,12 +113,13 @@ final class SampleAddContentView: UIView {
 
     private let createButton = UIButton(
         styles: [
-            .borderColor(.primary),
+            .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
-            .cornerRadius(9),
+            .cornerRadius(8),
             .setTitle("作成する"),
-            .setTitleColor(.primary)
+            .setTitleColor(.theme),
+            .systemFont(size: 15)
         ]
     )
 
@@ -141,7 +142,7 @@ final class SampleAddContentView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleTextField, bodyTextField].forEach {
-                $0.apply(.borderColor(.primary))
+                $0.apply(.borderColor(.theme))
             }
 
             createButton.layer.borderColor = enableColor(isEnabled: createButton.isEnabled).cgColor
@@ -199,9 +200,7 @@ private extension SampleAddContentView {
     }
 
     func enableColor(isEnabled: Bool) -> UIColor {
-        isEnabled
-            ? .dynamicColor(light: .black, dark: .white)
-            : .dynamicColor(light: .black, dark: .white).withAlphaComponent(0.3)
+        isEnabled ? .theme : .theme.withAlphaComponent(0.3)
     }
 }
 
