@@ -8,13 +8,17 @@ import UIStyle
 final class ProfileTextInputView: UIView {
     private(set) lazy var inputPublisher = inputTextField.textDidChangePublisher
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        return $0
-    }(UIStackView(arrangedSubviews: [
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .axis(.vertical)
+        ]
+    )
+
+    private lazy var arrangedSubviews = [
         titleView,
         textInputView
-    ]))
+    ]
 
     private lazy var titleView = UIView(
         styles: [

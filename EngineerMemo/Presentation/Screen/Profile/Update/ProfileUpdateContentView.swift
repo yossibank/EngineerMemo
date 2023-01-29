@@ -15,17 +15,24 @@ final class ProfileUpdateContentView: UIView {
     private(set) lazy var stationInputPublisher = stationInputView.inputPublisher
     private(set) lazy var didTapSaveButtonPublisher = saveButton.publisher(for: .touchUpInside)
 
-    private lazy var scrollView: UIScrollView = {
-        $0.addSubview(stackView)
-        return $0
-    }(UIScrollView())
+    private lazy var scrollView = UIScrollView(
+        style: .addSubview(stackView)
+    )
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        $0.alignment = .fill
-        $0.distribution = .equalSpacing
-        return $0
-    }(UIStackView(arrangedSubviews: [
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .alignment(.fill),
+            .axis(.vertical),
+            .distribution(.equalSpacing)
+        ]
+    )
+
+    private lazy var buttonView = UIView(
+        style: .addSubview(saveButton)
+    )
+
+    private lazy var arrangedSubviews = [
         nameInputView,
         birthdayInputView,
         genderInputView,
@@ -34,12 +41,7 @@ final class ProfileUpdateContentView: UIView {
         addressInputView,
         stationInputView,
         buttonView
-    ]))
-
-    private lazy var buttonView: UIView = {
-        $0.addSubview(saveButton)
-        return $0
-    }(UIView())
+    ]
 
     private let nameInputView: ProfileTextInputView = {
         $0.configure(title: L10n.Profile.name)
@@ -89,7 +91,7 @@ final class ProfileUpdateContentView: UIView {
             .clipsToBounds(true),
             .cornerRadius(8),
             .systemFont(size: 15),
-            .setTitle("プロフィール入力情報を保存する"),
+            .setTitle(L10n.Components.Button.saveProfile),
             .setTitleColor(.theme)
         ]
     )
@@ -125,10 +127,10 @@ private extension ProfileUpdateContentView {
         didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.saveButton.apply(.setTitle("プロフィール作成完了✅"))
+                self?.saveButton.apply(.setTitle(L10n.Components.Button.saveProfileDone))
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.saveButton.apply(.setTitle("プロフィール入力情報を保存する"))
+                    self?.saveButton.apply(.setTitle(L10n.Components.Button.saveProfile))
                 }
             }
             .store(in: &cancellables)

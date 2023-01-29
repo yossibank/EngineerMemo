@@ -12,22 +12,24 @@ final class ProfileSettingCell: UITableViewCell {
         for: .touchUpInside
     )
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        $0.alignment = .center
-        $0.spacing = 16
-        $0.apply([
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .alignment(.center),
+            .axis(.vertical),
             .backgroundColor(.thinGray),
             .clipsToBounds(true),
-            .cornerRadius(8)
-        ])
-        return $0
-    }(UIStackView(arrangedSubviews: [
+            .cornerRadius(8),
+            .spacing(16)
+        ]
+    )
+
+    private lazy var arrangedSubviews = [
         spaceTopView,
         titleLabel,
         settingButton,
         spaceBottomView
-    ]))
+    ]
 
     private let spaceTopView = UIView()
     private let spaceBottomView = UIView()
@@ -47,7 +49,7 @@ final class ProfileSettingCell: UITableViewCell {
             .boldSystemFont(size: 14),
             .clipsToBounds(true),
             .cornerRadius(8),
-            .setTitle("設定する"),
+            .setTitle(L10n.Components.Button.setting),
             .setTitleColor(.white)
         ]
     )

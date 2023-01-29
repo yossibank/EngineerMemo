@@ -8,13 +8,17 @@ import UIStyle
 final class ProfilePickerInputView: UIView {
     private(set) lazy var inputPublisher = inputDatePicker.publisher
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        return $0
-    }(UIStackView(arrangedSubviews: [
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .axis(.vertical)
+        ]
+    )
+
+    private lazy var arrangedSubviews = [
         titleView,
         pickerInputView
-    ]))
+    ]
 
     private lazy var titleView = UIView(
         styles: [

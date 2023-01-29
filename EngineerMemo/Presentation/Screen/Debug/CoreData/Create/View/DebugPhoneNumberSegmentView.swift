@@ -10,7 +10,7 @@
 
         var title: String {
             switch self {
-            case .phone: return "携帯番号"
+            case .phone: return L10n.Debug.Segment.tellNumber
             case .none: return .noSetting
             }
         }
@@ -34,16 +34,22 @@
     final class DebugPhoneNumberSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
-        private lazy var stackView: UIStackView = {
-            $0.axis = .horizontal
-            $0.spacing = 4
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .axis(.horizontal),
+                .spacing(4)
+            ]
+        )
+
+        private lazy var arrangedSubviews = [
             titleLabel,
             segmentControl
-        ]))
+        ]
 
-        private let titleLabel = UILabel(style: .italicSystemFont(size: 14))
+        private let titleLabel = UILabel(
+            style: .italicSystemFont(size: 14)
+        )
 
         private let segmentControl: UISegmentedControl = {
             $0.selectedSegmentIndex = DebugPhoneNumberSegment.phone.rawValue

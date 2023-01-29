@@ -19,13 +19,21 @@
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapUpdateButtonPublisher = updateButton.publisher(for: .touchUpInside)
 
-        private lazy var stackView: UIStackView = {
-            $0.axis = .vertical
-            $0.alignment = .fill
-            $0.spacing = 12
-            $0.setCustomSpacing(32, after: stationControl)
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .alignment(.fill),
+                .axis(.vertical),
+                .setCustomSpacing(32, after: stationControl),
+                .spacing(12)
+            ]
+        )
+
+        private lazy var buttonView = UIView(
+            style: .addSubview(updateButton)
+        )
+
+        private lazy var arrangedSubviews = [
             addressControl,
             birthdayControl,
             emailControl,
@@ -34,12 +42,7 @@
             phoneNumberControl,
             stationControl,
             buttonView
-        ]))
-
-        private lazy var buttonView: UIView = {
-            $0.addSubview(updateButton)
-            return $0
-        }(UIView())
+        ]
 
         private let addressControl: DebugCoreDataSegmentView = {
             $0.configure(title: L10n.Debug.Segment.address)
@@ -78,12 +81,12 @@
 
         private let updateButton = UIButton(
             styles: [
-                .borderColor(.primary),
+                .borderColor(.theme),
                 .borderWidth(1.0),
                 .clipsToBounds(true),
                 .cornerRadius(8),
-                .setTitle("更新する"),
-                .setTitleColor(.primary)
+                .setTitle(L10n.Components.Button.update),
+                .setTitleColor(.theme)
             ]
         )
 
@@ -115,10 +118,10 @@
 
     extension DebugProfileUpdateCell {
         func updateView() {
-            updateButton.apply(.setTitle("更新完了"))
+            updateButton.apply(.setTitle(L10n.Components.Button.updateDone))
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.updateButton.apply(.setTitle("更新する"))
+                self.updateButton.apply(.setTitle(L10n.Components.Button.update))
             }
         }
     }

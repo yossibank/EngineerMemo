@@ -12,9 +12,9 @@
 
         var title: String {
             switch self {
-            case .man: return "男性"
-            case .woman: return "女性"
-            case .other: return "その他"
+            case .man: return L10n.Debug.Segment.man
+            case .woman: return L10n.Debug.Segment.woman
+            case .other: return L10n.Debug.Segment.other
             case .none: return .noSetting
             }
         }
@@ -40,16 +40,22 @@
     final class DebugGenderSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
-        private lazy var stackView: UIStackView = {
-            $0.axis = .horizontal
-            $0.spacing = 4
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .axis(.horizontal),
+                .spacing(4)
+            ]
+        )
+
+        private lazy var arrangedSubviews = [
             titleLabel,
             segmentControl
-        ]))
+        ]
 
-        private let titleLabel = UILabel(style: .italicSystemFont(size: 14))
+        private let titleLabel = UILabel(
+            style: .italicSystemFont(size: 14)
+        )
 
         private let segmentControl: UISegmentedControl = {
             $0.selectedSegmentIndex = DebugGenderSegment.woman.rawValue

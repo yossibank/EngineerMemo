@@ -5,15 +5,19 @@ import UIStyle
 // MARK: - properties & init
 
 final class ProfileTopCell: UITableViewCell {
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        $0.alignment = .center
-        $0.spacing = 16
-        return $0
-    }(UIStackView(arrangedSubviews: [
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .alignment(.center),
+            .axis(.vertical),
+            .spacing(16)
+        ]
+    )
+
+    private lazy var arrangedSubviews = [
         iconImageView,
         userNameLabel
-    ]))
+    ]
 
     private let iconImageView = UIImageView()
     private let userNameLabel = UILabel(style: .boldSystemFont(size: 14))

@@ -7,14 +7,18 @@
     // MARK: - properties & init
 
     final class DebugDevelopmentCell: UITableViewCell {
-        private lazy var stackView: UIStackView = {
-            $0.axis = .horizontal
-            $0.spacing = 8
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .axis(.horizontal),
+                .spacing(8)
+            ]
+        )
+
+        private lazy var arrangedSubviews = [
             titleLabel,
             subTitleLabel
-        ]))
+        ]
 
         private let titleLabel = UILabel(style: .systemFont(size: 14))
         private let subTitleLabel = UILabel(style: .boldSystemFont(size: 14))

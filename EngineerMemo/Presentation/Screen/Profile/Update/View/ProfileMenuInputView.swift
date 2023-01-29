@@ -39,13 +39,17 @@ enum ProfileMenuGenderType: Int, CaseIterable {
 final class ProfileMenuInputView: UIView {
     @Published private(set) var selectedType: ProfileMenuGenderType = .none
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        return $0
-    }(UIStackView(arrangedSubviews: [
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .axis(.vertical)
+        ]
+    )
+
+    private lazy var arrangedSubviews = [
         titleView,
         buttonInputView
-    ]))
+    ]
 
     private lazy var titleView = UIView(
         styles: [
@@ -173,7 +177,7 @@ private extension ProfileMenuInputView {
             children: actions
         )
         menuButton.showsMenuAsPrimaryAction = true
-        menuButton.setTitle(selectedType.title, for: .normal)
+        menuButton.apply(.setTitle(selectedType.title))
     }
 }
 

@@ -17,7 +17,7 @@
                 .borderWidth(1.0),
                 .clipsToBounds(true),
                 .cornerRadius(8),
-                .setTitleColor(.primary)
+                .setTitleColor(.theme)
             ]
         )
 
@@ -38,10 +38,7 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                menuButton.apply([
-                    .borderWidth(1.0),
-                    .borderColor(.theme)
-                ])
+                menuButton.apply(.borderColor(.theme))
             }
         }
     }
@@ -87,7 +84,7 @@
                 children: actions
             )
             menuButton.showsMenuAsPrimaryAction = true
-            menuButton.setTitle(selectedType.title, for: .normal)
+            menuButton.apply(.setTitle(selectedType.title))
         }
     }
 

@@ -12,9 +12,9 @@
 
         var title: String {
             switch self {
-            case .short: return "短め"
-            case .medium: return "普通"
-            case .long: return "長め"
+            case .short: return L10n.Debug.Segment.short
+            case .medium: return L10n.Debug.Segment.medium
+            case .long: return L10n.Debug.Segment.long
             case .none: return .noSetting
             }
         }
@@ -50,16 +50,22 @@
     final class DebugCoreDataSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
-        private lazy var stackView: UIStackView = {
-            $0.axis = .horizontal
-            $0.spacing = 4
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .axis(.horizontal),
+                .spacing(4)
+            ]
+        )
+
+        private lazy var arrangedSubviews = [
             titleLabel,
             segmentControl
-        ]))
+        ]
 
-        private let titleLabel = UILabel(style: .italicSystemFont(size: 14))
+        private let titleLabel = UILabel(
+            style: .italicSystemFont(size: 14)
+        )
 
         private let segmentControl: UISegmentedControl = {
             $0.selectedSegmentIndex = DebugCoreDataSegment.medium.rawValue

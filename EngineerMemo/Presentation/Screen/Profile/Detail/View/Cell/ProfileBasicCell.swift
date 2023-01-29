@@ -37,17 +37,21 @@ final class ProfileBasicCell: UITableViewCell {
         ]
     )
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        $0.spacing = 16
-        return $0
-    }(UIStackView(arrangedSubviews: arrangedSubviews))
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .axis(.vertical),
+            .spacing(16)
+        ]
+    )
 
-    private lazy var titleStackView: UIStackView = {
-        $0.axis = .vertical
-        $0.alignment = .center
-        return $0
-    }(UIStackView(arrangedSubviews: [basicLabel]))
+    private lazy var titleStackView = UIStackView(
+        styles: [
+            .addArrangedSubview(basicLabel),
+            .axis(.vertical),
+            .alignment(.center)
+        ]
+    )
 
     private var arrangedSubviews: [UIView] {
         var subviews: [UIView] = ObjectType.allCases.map(createStackView)
@@ -157,10 +161,14 @@ private extension ProfileBasicCell {
             valueLabel = stationLabel
         }
 
-        stackView = .init(arrangedSubviews: [titleLabel, valueLabel])
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 8
+        stackView = .init(
+            styles: [
+                .addArrangedSubviews([titleLabel, valueLabel]),
+                .alignment(.leading),
+                .axis(.vertical),
+                .spacing(8)
+            ]
+        )
 
         return stackView
     }

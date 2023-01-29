@@ -17,13 +17,21 @@
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapCreateButtonPublisher = createButton.publisher(for: .touchUpInside)
 
-        private lazy var stackView: UIStackView = {
-            $0.axis = .vertical
-            $0.alignment = .fill
-            $0.spacing = 12
-            $0.setCustomSpacing(32, after: stationControl)
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .alignment(.fill),
+                .axis(.vertical),
+                .setCustomSpacing(32, after: stationControl),
+                .spacing(12)
+            ]
+        )
+
+        private lazy var buttonView = UIView(
+            style: .addSubview(createButton)
+        )
+
+        private lazy var arrangedSubviews = [
             addressControl,
             birthdayControl,
             emailControl,
@@ -32,12 +40,7 @@
             phoneNumberControl,
             stationControl,
             buttonView
-        ]))
-
-        private lazy var buttonView: UIView = {
-            $0.addSubview(createButton)
-            return $0
-        }(UIView())
+        ]
 
         private var cancellables: Set<AnyCancellable> = .init()
 
@@ -78,12 +81,13 @@
 
         private let createButton = UIButton(
             styles: [
-                .borderColor(.primary),
+                .borderColor(.theme),
                 .borderWidth(1.0),
                 .clipsToBounds(true),
                 .cornerRadius(8),
-                .setTitle("作成する"),
-                .setTitleColor(.primary)
+                .systemFont(size: 15),
+                .setTitle(L10n.Components.Button.create),
+                .setTitleColor(.theme)
             ]
         )
 
@@ -108,10 +112,10 @@
             didTapCreateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.createButton.apply(.setTitle("作成完了"))
+                    self?.createButton.apply(.setTitle(L10n.Components.Button.createDone))
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.createButton.apply(.setTitle("作成する"))
+                        self?.createButton.apply(.setTitle(L10n.Components.Button.create))
                     }
                 }
                 .store(in: &cancellables)
