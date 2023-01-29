@@ -77,6 +77,7 @@ final class ProfileMenuInputView: UIView {
             .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
+            .contentEdgeInsets(.left, 8),
             .contentHorizontalAlignment(.leading),
             .cornerRadius(4),
             .setTitleColor(.theme),
