@@ -60,8 +60,7 @@ final class SampleEditContentView: UIView {
             .clipsToBounds(true),
             .cornerRadius(8),
             .setTitle("編集する"),
-            .setTitleColor(.theme),
-            .systemFont(size: 15)
+            .setTitleColor(.theme)
         ]
     )
 

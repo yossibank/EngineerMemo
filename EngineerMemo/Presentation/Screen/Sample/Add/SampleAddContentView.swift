@@ -118,8 +118,7 @@ final class SampleAddContentView: UIView {
             .clipsToBounds(true),
             .cornerRadius(8),
             .setTitle("作成する"),
-            .setTitleColor(.theme),
-            .systemFont(size: 15)
+            .setTitleColor(.theme)
         ]
     )
 

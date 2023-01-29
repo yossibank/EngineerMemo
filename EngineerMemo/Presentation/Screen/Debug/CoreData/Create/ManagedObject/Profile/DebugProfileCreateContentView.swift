@@ -85,7 +85,6 @@
                 .borderWidth(1.0),
                 .clipsToBounds(true),
                 .cornerRadius(8),
-                .systemFont(size: 15),
                 .setTitle(L10n.Components.Button.create),
                 .setTitleColor(.theme)
             ]
