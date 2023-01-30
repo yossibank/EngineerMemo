@@ -23,7 +23,7 @@ final class TitleHeaderFooterView: UITableViewHeaderFooterView {
 
 extension TitleHeaderFooterView {
     func configure(title: String) {
-        titleLabel.text = title
+        titleLabel.apply(.text(title))
     }
 }
 

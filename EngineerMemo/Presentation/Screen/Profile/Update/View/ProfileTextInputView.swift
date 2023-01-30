@@ -88,12 +88,12 @@ extension ProfileTextInputView {
         title: String,
         keyboardType: UIKeyboardType = .default
     ) {
-        titleLabel.text = title
+        titleLabel.apply(.text(title))
         inputTextField.keyboardType = keyboardType
     }
 
     func placeholder(_ placeholder: String) {
-        inputTextField.placeholder = placeholder
+        inputTextField.apply(.placeholder(placeholder))
     }
 
     func phoneNumber() {

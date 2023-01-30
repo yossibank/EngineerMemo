@@ -117,7 +117,7 @@ final class ProfileMenuInputView: UIView {
 
 extension ProfileMenuInputView {
     func configure(title: String) {
-        titleLabel.text = title
+        titleLabel.apply(.text(title))
     }
 }
 

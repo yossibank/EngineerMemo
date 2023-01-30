@@ -101,7 +101,7 @@ final class ProfilePickerInputView: UIView {
 
 extension ProfilePickerInputView {
     func configure(title: String) {
-        titleLabel.text = title
+        titleLabel.apply(.text(title))
     }
 }
 

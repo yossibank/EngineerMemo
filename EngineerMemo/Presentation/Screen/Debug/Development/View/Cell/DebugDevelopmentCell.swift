@@ -45,8 +45,8 @@
 
     extension DebugDevelopmentCell {
         func configure(item: DebugDevelopmentItem) {
-            titleLabel.text = item.title
-            subTitleLabel.text = item.subTitle
+            titleLabel.apply(.text(item.title))
+            subTitleLabel.apply(.text(item.subTitle))
 
             if item.subTitle == nil {
                 titleLabel.apply(.boldSystemFont(size: 14))

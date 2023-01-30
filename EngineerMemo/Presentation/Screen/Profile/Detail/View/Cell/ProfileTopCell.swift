@@ -44,8 +44,8 @@ final class ProfileTopCell: UITableViewCell {
 
 extension ProfileTopCell {
     func configure(_ modelObject: ProfileModelObject?) {
-        iconImageView.image = ImageResources.profile
-        userNameLabel.text = modelObject?.name
+        iconImageView.apply(.image(ImageResources.profile))
+        userNameLabel.apply(.text(modelObject?.name))
     }
 }
 

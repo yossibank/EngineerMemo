@@ -89,7 +89,7 @@
 
     extension DebugCoreDataSegmentView {
         func configure(title: String) {
-            titleLabel.text = title
+            titleLabel.apply(.text(title))
         }
     }
 

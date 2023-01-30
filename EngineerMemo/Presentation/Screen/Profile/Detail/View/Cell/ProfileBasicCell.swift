@@ -90,19 +90,19 @@ final class ProfileBasicCell: UITableViewCell {
 
 extension ProfileBasicCell {
     func configure(_ modelObject: ProfileModelObject) {
-        nameLabel.text = modelObject.name
+        nameLabel.apply(.text(modelObject.name))
 
         if let age = modelObject.birthday?.ageString() {
-            ageLabel.text = age + L10n.Profile.old
+            ageLabel.apply(.text(age + L10n.Profile.old))
         } else {
-            ageLabel.text = .noSetting
+            ageLabel.apply(.text(.noSetting))
         }
 
-        genderLabel.text = modelObject.gender?.value ?? .noSetting
-        emailLabel.text = modelObject.email
-        phoneNumberLabel.text = modelObject.phoneNumber?.phoneText ?? .noSetting
-        addressLabel.text = modelObject.address
-        stationLabel.text = modelObject.station
+        genderLabel.apply(.text(modelObject.gender?.value ?? .noSetting))
+        emailLabel.apply(.text(modelObject.email))
+        phoneNumberLabel.apply(.text(modelObject.phoneNumber?.phoneText ?? .noSetting))
+        addressLabel.apply(.text(modelObject.address))
+        stationLabel.apply(.text(modelObject.station))
     }
 }
 
@@ -128,9 +128,13 @@ private extension ProfileBasicCell {
     }
 
     private func createTitleLabel(_ type: ObjectType) -> UILabel {
-        let label = UILabel(styles: [.systemFont(size: 14), .textColor(.secondary)])
-        label.text = type.title
-        return label
+        .init(
+            styles: [
+                .systemFont(size: 14),
+                .text(type.title),
+                .textColor(.secondary)
+            ]
+        )
     }
 
     private func createStackView(_ type: ObjectType) -> UIStackView {
