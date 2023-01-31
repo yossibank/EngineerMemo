@@ -67,12 +67,12 @@ private extension FBSnapshotTestCase {
 
             let window = UIWindow(frame: vc.view.frame)
             window.rootViewController = vc
-            window.overrideUserInterfaceStyle = .init(rawValue: colorMode.rawValue)!
+            window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
             window.makeKeyAndVisible()
 
             viewAction?()
 
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
                 self.FBSnapshotVerifyView(
                     vc.view,
                     identifier: colorMode.identifier
@@ -87,7 +87,7 @@ private extension FBSnapshotTestCase {
             let window = UIWindow(frame: vc.view.frame)
             let nc = UINavigationController(rootViewController: vc)
             window.rootViewController = nc
-            window.overrideUserInterfaceStyle = .init(rawValue: colorMode.rawValue)!
+            window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
             window.makeKeyAndVisible()
 
             viewAction?()
