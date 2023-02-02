@@ -51,29 +51,27 @@
             style: .italicSystemFont(size: 14)
         )
 
-        private let segmentControl: UISegmentedControl = {
-            $0.selectedSegmentIndex = DebugPhoneNumberSegment.phone.rawValue
-            return $0
-        }(UISegmentedControl(items: DebugPhoneNumberSegment.allCases.map(\.title)))
+        private let segmentControl = UISegmentedControl(
+            style: .selectedSegmentIndex(DebugPhoneNumberSegment.phone.rawValue),
+            items: DebugPhoneNumberSegment.allCases.map(\.title)
+        )
 
-        override init(frame: CGRect) {
-            super.init(frame: frame)
+        private let title: String
+
+        init(title: String) {
+            self.title = title
+
+            super.init(frame: .zero)
 
             setupViews()
             setupConstraints()
+
+            titleLabel.apply(.text(title))
         }
 
         @available(*, unavailable)
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
-        }
-    }
-
-    // MARK: - internal methods
-
-    extension DebugPhoneNumberSegmentView {
-        func configure(title: String) {
-            titleLabel.apply(.text(title))
         }
     }
 
@@ -105,10 +103,10 @@
     struct DebugPhoneNumberSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugPhoneNumberSegmentView()
-            ) {
-                $0.configure(title: "title")
-            }
+                view: DebugPhoneNumberSegmentView(
+                    title: "title"
+                )
+            )
         }
     }
 #endif

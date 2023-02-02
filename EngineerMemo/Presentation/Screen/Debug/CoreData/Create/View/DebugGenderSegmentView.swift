@@ -57,29 +57,27 @@
             style: .italicSystemFont(size: 14)
         )
 
-        private let segmentControl: UISegmentedControl = {
-            $0.selectedSegmentIndex = DebugGenderSegment.woman.rawValue
-            return $0
-        }(UISegmentedControl(items: DebugGenderSegment.allCases.map(\.title)))
+        private let segmentControl = UISegmentedControl(
+            style: .selectedSegmentIndex(DebugGenderSegment.woman.rawValue),
+            items: DebugGenderSegment.allCases.map(\.title)
+        )
 
-        override init(frame: CGRect) {
-            super.init(frame: frame)
+        private let title: String
+
+        init(title: String) {
+            self.title = title
+
+            super.init(frame: .zero)
 
             setupViews()
             setupConstraints()
+
+            titleLabel.apply(.text(title))
         }
 
         @available(*, unavailable)
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
-        }
-    }
-
-    // MARK: - internal methods
-
-    extension DebugGenderSegmentView {
-        func configure(title: String) {
-            titleLabel.apply(.text(title))
         }
     }
 
@@ -111,10 +109,10 @@
     struct DebugGenderSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugGenderSegmentView()
-            ) {
-                $0.configure(title: "gender")
-            }
+                view: DebugGenderSegmentView(
+                    title: "title"
+                )
+            )
         }
     }
 #endif

@@ -45,21 +45,18 @@ final class ProfilePickerInputView: UIView {
         ]
     )
 
-    private let inputDatePicker: UIDatePicker = {
-        $0.locale = .japan
-        $0.datePickerMode = .date
-        $0.preferredDatePickerStyle = .compact
-        $0.contentHorizontalAlignment = .leading
-        $0.expandPickerRange()
-        return $0
-    }(UIDatePicker(
+    private let inputDatePicker = UIDatePicker(
         styles: [
-            .borderWidth(1.0),
             .borderColor(.theme),
+            .borderWidth(1.0),
             .clipsToBounds(true),
-            .cornerRadius(4)
+            .contentHorizontalAlignment(.leading),
+            .cornerRadius(4),
+            .datePickerMode(.date),
+            .locale(.japan),
+            .preferredDatePickerStyle(.compact)
         ]
-    ))
+    )
 
     private let pickerLabel = UILabel(
         style: .text(.noSetting)
@@ -146,6 +143,7 @@ private extension ProfilePickerInputView {
     }
 
     func setupPicker() {
+        inputDatePicker.expandPickerRange()
         inputDatePicker.publisher
             .sink { [weak self] date in
                 self?.pickerLabel.text = date.toString

@@ -44,40 +44,33 @@
 
         private var cancellables: Set<AnyCancellable> = .init()
 
-        private let addressControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.address)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let addressControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.address
+        )
 
-        private let birthdayControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.birthday)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let birthdayControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.birthday
+        )
 
-        private let emailControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.email)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let emailControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.email
+        )
 
-        private let genderControl: DebugGenderSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.gender)
-            return $0
-        }(DebugGenderSegmentView())
+        private let genderControl = DebugGenderSegmentView(
+            title: L10n.Debug.Segment.gender
+        )
 
-        private let nameControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.name)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let nameControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.name
+        )
 
-        private let phoneNumberControl: DebugPhoneNumberSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.phoneNumber)
-            return $0
-        }(DebugPhoneNumberSegmentView())
+        private let phoneNumberControl = DebugPhoneNumberSegmentView(
+            title: L10n.Debug.Segment.phoneNumber
+        )
 
-        private let stationControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.station)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let stationControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.station
+        )
 
         private let createButton = UIButton(
             styles: [

@@ -67,29 +67,27 @@
             style: .italicSystemFont(size: 14)
         )
 
-        private let segmentControl: UISegmentedControl = {
-            $0.selectedSegmentIndex = DebugCoreDataSegment.medium.rawValue
-            return $0
-        }(UISegmentedControl(items: DebugCoreDataSegment.allCases.map(\.title)))
+        private let segmentControl = UISegmentedControl(
+            style: .selectedSegmentIndex(DebugCoreDataSegment.medium.rawValue),
+            items: DebugCoreDataSegment.allCases.map(\.title)
+        )
 
-        override init(frame: CGRect) {
-            super.init(frame: frame)
+        private let title: String
+
+        init(title: String) {
+            self.title = title
+
+            super.init(frame: .zero)
 
             setupViews()
             setupConstraints()
+
+            titleLabel.apply(.text(title))
         }
 
         @available(*, unavailable)
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
-        }
-    }
-
-    // MARK: - internal methods
-
-    extension DebugCoreDataSegmentView {
-        func configure(title: String) {
-            titleLabel.apply(.text(title))
         }
     }
 
@@ -120,10 +118,10 @@
     struct DebugCoreDataSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugCoreDataSegmentView()
-            ) {
-                $0.configure(title: "title")
-            }
+                view: DebugCoreDataSegmentView(
+                    title: "title"
+                )
+            )
         }
     }
 #endif
