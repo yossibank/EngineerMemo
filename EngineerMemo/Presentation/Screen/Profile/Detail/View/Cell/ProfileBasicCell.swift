@@ -63,7 +63,7 @@ final class ProfileBasicCell: UITableViewCell {
     private let nameLabel = UILabel(style: .boldSystemFont(size: 16))
     private let ageLabel = UILabel(style: .boldSystemFont(size: 16))
     private let genderLabel = UILabel(style: .boldSystemFont(size: 16))
-    private let emailLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let emailLabel = UILabel(styles: [.boldSystemFont(size: 16), .numberOfLines(0)])
     private let phoneNumberLabel = UILabel(style: .boldSystemFont(size: 16))
     private let addressLabel = UILabel(styles: [.boldSystemFont(size: 16), .numberOfLines(0)])
     private let stationLabel = UILabel(style: .boldSystemFont(size: 16))
