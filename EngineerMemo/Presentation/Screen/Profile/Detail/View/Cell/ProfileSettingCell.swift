@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - properties & init
 
@@ -11,38 +12,45 @@ final class ProfileSettingCell: UITableViewCell {
         for: .touchUpInside
     )
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        $0.alignment = .center
-        $0.spacing = 16
-        $0.apply([.backgroundLightGray, .cornerRadius8])
-        return $0
-    }(UIStackView(arrangedSubviews: [
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .alignment(.center),
+            .axis(.vertical),
+            .backgroundColor(.thinGray),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .spacing(16)
+        ]
+    )
+
+    private lazy var arrangedSubviews = [
         spaceTopView,
         titleLabel,
         settingButton,
         spaceBottomView
-    ]))
+    ]
 
     private let spaceTopView = UIView()
     private let spaceBottomView = UIView()
 
     private let titleLabel = UILabel(
         styles: [
-            .LabelTitle.settingDescription,
-            .bold14,
-            .textCenter,
-            .lineInfinity
+            .boldSystemFont(size: 14),
+            .numberOfLines(0),
+            .text(L10n.Profile.settingDescription),
+            .textAlignment(.center)
         ]
     )
 
     private let settingButton = UIButton(
         styles: [
-            .ButtonTitle.setting,
-            .bold14,
-            .titleWhite,
-            .backgroundGray,
-            .cornerRadius8
+            .backgroundColor(.gray),
+            .boldSystemFont(size: 14),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .setTitle(L10n.Components.Button.setting),
+            .setTitleColor(.white)
         ]
     )
 
@@ -74,8 +82,10 @@ final class ProfileSettingCell: UITableViewCell {
 
 private extension ProfileSettingCell {
     func setupViews() {
-        apply(.backgroundPrimary)
-        contentView.addSubview(stackView)
+        contentView.apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

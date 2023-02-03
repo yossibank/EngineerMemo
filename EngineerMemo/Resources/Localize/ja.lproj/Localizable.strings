@@ -2,6 +2,16 @@
 
 "common.done" = "完了";
 
+// MARK: - コンポーネント
+
+"components.button.create" = "作成する";
+"components.button.createDone" = "作成完了";
+"components.button.update" = "更新する";
+"components.button.updateDone" = "更新完了";
+"components.button.setting" = "設定する";
+"components.button.saveProfile" = "プロフィール入力情報を保存する";
+"components.button.saveProfileDone" = "プロフィール作成完了✅";
+
 // MARK: - タブ
 
 "tab.home" = "ホーム";
@@ -65,6 +75,13 @@
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.create" = "作成";
 "debug.coreData.update" = "更新";
+"debug.segment.short" = "短め";
+"debug.segment.medium" = "普通";
+"debug.segment.long" = "長め";
+"debug.segment.man" = "男性";
+"debug.segment.woman" = "女性";
+"debug.segment.other" = "その他";
+"debug.segment.tellNumber" = "携帯番号";
 "debug.segment.address" = "address";
 "debug.segment.birthday" = "birthday";
 "debug.segment.email" = "email";

@@ -2,6 +2,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     enum DebugPhoneNumberSegment: Int, CaseIterable {
         case phone
@@ -9,7 +10,7 @@
 
         var title: String {
             switch self {
-            case .phone: return "携帯番号"
+            case .phone: return L10n.Debug.Segment.tellNumber
             case .none: return .noSetting
             }
         }
@@ -33,27 +34,35 @@
     final class DebugPhoneNumberSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
-        private lazy var stackView: UIStackView = {
-            $0.axis = .horizontal
-            $0.spacing = 4
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .axis(.horizontal),
+                .spacing(4)
+            ]
+        )
+
+        private lazy var arrangedSubviews = [
             titleLabel,
             segmentControl
-        ]))
+        ]
 
-        private let titleLabel = UILabel(style: .italic14)
+        private let titleLabel = UILabel(
+            style: .italicSystemFont(size: 14)
+        )
 
-        private let segmentControl: UISegmentedControl = {
-            $0.selectedSegmentIndex = DebugPhoneNumberSegment.phone.rawValue
-            return $0
-        }(UISegmentedControl(items: DebugPhoneNumberSegment.allCases.map(\.title)))
+        private let segmentControl = UISegmentedControl(
+            style: .selectedSegmentIndex(DebugPhoneNumberSegment.phone.rawValue),
+            items: DebugPhoneNumberSegment.allCases.map(\.title)
+        )
 
-        override init(frame: CGRect) {
-            super.init(frame: frame)
+        init(title: String) {
+            super.init(frame: .zero)
 
             setupViews()
             setupConstraints()
+
+            titleLabel.apply(.text(title))
         }
 
         @available(*, unavailable)
@@ -62,20 +71,14 @@
         }
     }
 
-    // MARK: - internal methods
-
-    extension DebugPhoneNumberSegmentView {
-        func configure(title: String) {
-            titleLabel.text = title
-        }
-    }
-
     // MARK: - private methods
 
     private extension DebugPhoneNumberSegmentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(stackView)
+            apply([
+                .backgroundColor(.primary),
+                .addSubview(stackView)
+            ])
         }
 
         func setupConstraints() {
@@ -96,10 +99,10 @@
     struct DebugPhoneNumberSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugPhoneNumberSegmentView()
-            ) {
-                $0.configure(title: "title")
-            }
+                view: DebugPhoneNumberSegmentView(
+                    title: "title"
+                )
+            )
         }
     }
 #endif

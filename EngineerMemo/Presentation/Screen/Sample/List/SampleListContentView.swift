@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - section & item
 
@@ -27,7 +28,12 @@ final class SampleListContentView: UIView {
 
     private let didSelectContentSubject = PassthroughSubject<IndexPath, Never>()
     private let tableView = UITableView()
-    private let indicator = UIActivityIndicatorView(style: .main)
+    private let indicator = UIActivityIndicatorView(
+        styles: [
+            .color(.gray),
+            .transform(.init(scaleX: 1.5, y: 1.5))
+        ]
+    )
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -150,9 +156,10 @@ extension SampleListContentView: UITableViewDelegate {
 
 extension SampleListContentView: ContentView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(tableView)
-        addSubview(indicator)
+        apply([
+            .addSubviews([tableView, indicator]),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

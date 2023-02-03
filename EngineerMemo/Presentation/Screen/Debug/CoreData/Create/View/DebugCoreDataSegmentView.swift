@@ -2,6 +2,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     enum DebugCoreDataSegment: Int, CaseIterable {
         case short = 0
@@ -11,9 +12,9 @@
 
         var title: String {
             switch self {
-            case .short: return "短め"
-            case .medium: return "普通"
-            case .long: return "長め"
+            case .short: return L10n.Debug.Segment.short
+            case .medium: return L10n.Debug.Segment.medium
+            case .long: return L10n.Debug.Segment.long
             case .none: return .noSetting
             }
         }
@@ -49,27 +50,35 @@
     final class DebugCoreDataSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
-        private lazy var stackView: UIStackView = {
-            $0.axis = .horizontal
-            $0.spacing = 4
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .axis(.horizontal),
+                .spacing(4)
+            ]
+        )
+
+        private lazy var arrangedSubviews = [
             titleLabel,
             segmentControl
-        ]))
+        ]
 
-        private let titleLabel = UILabel(style: .italic14)
+        private let titleLabel = UILabel(
+            style: .italicSystemFont(size: 14)
+        )
 
-        private let segmentControl: UISegmentedControl = {
-            $0.selectedSegmentIndex = DebugCoreDataSegment.medium.rawValue
-            return $0
-        }(UISegmentedControl(items: DebugCoreDataSegment.allCases.map(\.title)))
+        private let segmentControl = UISegmentedControl(
+            style: .selectedSegmentIndex(DebugCoreDataSegment.medium.rawValue),
+            items: DebugCoreDataSegment.allCases.map(\.title)
+        )
 
-        override init(frame: CGRect) {
-            super.init(frame: frame)
+        init(title: String) {
+            super.init(frame: .zero)
 
             setupViews()
             setupConstraints()
+
+            titleLabel.apply(.text(title))
         }
 
         @available(*, unavailable)
@@ -78,20 +87,14 @@
         }
     }
 
-    // MARK: - internal methods
-
-    extension DebugCoreDataSegmentView {
-        func configure(title: String) {
-            titleLabel.text = title
-        }
-    }
-
     // MARK: - private methods
 
     private extension DebugCoreDataSegmentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(stackView)
+            apply([
+                .backgroundColor(.primary),
+                .addSubview(stackView)
+            ])
         }
 
         func setupConstraints() {
@@ -111,10 +114,10 @@
     struct DebugCoreDataSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugCoreDataSegmentView()
-            ) {
-                $0.configure(title: "title")
-            }
+                view: DebugCoreDataSegmentView(
+                    title: "title"
+                )
+            )
         }
     }
 #endif

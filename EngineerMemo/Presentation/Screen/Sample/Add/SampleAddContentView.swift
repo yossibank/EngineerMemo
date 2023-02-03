@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - stored properties & init
 
@@ -63,49 +64,61 @@ final class SampleAddContentView: UIView {
     }(UIStackView(arrangedSubviews: [createButton]))
 
     private let userIdLabel = UILabel(
-        styles: [.italic16]
+        style: .italicSystemFont(size: 16)
     )
 
     private let titleCountLabel = UILabel(
-        style: .system10
+        style: .systemFont(size: 10)
     )
 
     private let titleTextField = UITextField(
         styles: [
-            .Placeholder.title,
-            .round,
-            .borderPrimary,
-            .cornerRadius8
+            .borderColor(.theme),
+            .borderWidth(1.0),
+            .borderStyle(.roundedRect),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .placeholder("タイトル")
         ]
     )
 
     private let titleValidationLabel = UILabel(
-        styles: [.system10, .textRed]
+        styles: [
+            .systemFont(size: 10),
+            .textColor(.red)
+        ]
     )
 
     private let bodyCountLabel = UILabel(
-        style: .system10
+        style: .systemFont(size: 10)
     )
 
     private let bodyTextField = UITextField(
         styles: [
-            .Placeholder.body,
-            .round,
-            .borderPrimary,
-            .cornerRadius8
+            .borderColor(.theme),
+            .borderWidth(1.0),
+            .borderStyle(.roundedRect),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .placeholder("内容")
         ]
     )
 
     private let bodyValidationLabel = UILabel(
-        styles: [.system10, .textRed]
+        styles: [
+            .systemFont(size: 10),
+            .textColor(.red)
+        ]
     )
 
     private let createButton = UIButton(
         styles: [
-            .ButtonTitle.create,
-            .titlePrimary,
-            .borderPrimary,
-            .cornerRadius8
+            .borderColor(.theme),
+            .borderWidth(1.0),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .setTitle("作成する"),
+            .setTitleColor(.theme)
         ]
     )
 
@@ -128,7 +141,7 @@ final class SampleAddContentView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleTextField, bodyTextField].forEach {
-                $0.apply(.borderPrimary)
+                $0.apply(.borderColor(.theme))
             }
 
             createButton.layer.borderColor = enableColor(isEnabled: createButton.isEnabled).cgColor
@@ -186,9 +199,7 @@ private extension SampleAddContentView {
     }
 
     func enableColor(isEnabled: Bool) -> UIColor {
-        isEnabled
-            ? .dynamicColor(light: .black, dark: .white)
-            : .dynamicColor(light: .black, dark: .white).withAlphaComponent(0.3)
+        isEnabled ? .theme : .theme.withAlphaComponent(0.3)
     }
 }
 
@@ -196,8 +207,10 @@ private extension SampleAddContentView {
 
 extension SampleAddContentView: ContentView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(stackView)
+        apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

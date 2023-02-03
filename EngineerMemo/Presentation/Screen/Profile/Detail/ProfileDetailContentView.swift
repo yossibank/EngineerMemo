@@ -139,8 +139,10 @@ extension ProfileDetailContentView: UITableViewDelegate {
 
 extension ProfileDetailContentView: ContentView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(tableView)
+        apply([
+            .addSubview(tableView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

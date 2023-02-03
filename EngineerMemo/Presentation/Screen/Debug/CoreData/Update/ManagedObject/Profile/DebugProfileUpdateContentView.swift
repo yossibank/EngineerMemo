@@ -3,6 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     // MARK: - stored properties & init
 
@@ -245,9 +246,10 @@
 
     extension DebugProfileUpdateContentView: ContentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(searchBar)
-            addSubview(tableView)
+            apply([
+                .addSubviews([searchBar, tableView]),
+                .backgroundColor(.primary)
+            ])
         }
 
         func setupConstraints() {

@@ -1,48 +1,57 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - stored properties & init
 
 final class ProfileTextInputView: UIView {
     private(set) lazy var inputPublisher = inputTextField.textDidChangePublisher
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        return $0
-    }(UIStackView(arrangedSubviews: [
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .axis(.vertical)
+        ]
+    )
+
+    private lazy var arrangedSubviews = [
         titleView,
         textInputView
-    ]))
+    ]
 
-    private lazy var titleView: UIView = {
-        $0.addSubview(titleLabel)
-        return $0
-    }(UIView(
+    private lazy var titleView = UIView(
         styles: [
-            .backgroundLightGray,
-            .borderPrimary,
-            .cornerRadius4
+            .addSubview(titleLabel),
+            .backgroundColor(.thinGray),
+            .borderColor(.theme),
+            .borderWidth(1.0),
+            .clipsToBounds(true),
+            .cornerRadius(4)
         ]
-    ))
+    )
 
-    private lazy var textInputView: UIView = {
-        $0.addSubview(inputTextField)
-        return $0
-    }(UIView(style: .backgroundPrimary))
+    private lazy var textInputView = UIView(
+        styles: [
+            .addSubview(inputTextField),
+            .backgroundColor(.primary)
+        ]
+    )
 
     private let titleLabel = UILabel(
         styles: [
-            .bold16,
-            .textSecondary
+            .boldSystemFont(size: 16),
+            .textColor(.secondary)
         ]
     )
 
     private let inputTextField = UITextField(
         styles: [
-            .round,
-            .borderPrimary,
-            .cornerRadius4
+            .borderColor(.theme),
+            .borderWidth(1.0),
+            .borderStyle(.roundedRect),
+            .clipsToBounds(true),
+            .cornerRadius(4)
         ]
     )
 
@@ -66,7 +75,7 @@ final class ProfileTextInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputTextField].forEach {
-                $0.apply(.borderPrimary)
+                $0.apply(.borderColor(.theme))
             }
         }
     }
@@ -79,12 +88,12 @@ extension ProfileTextInputView {
         title: String,
         keyboardType: UIKeyboardType = .default
     ) {
-        titleLabel.text = title
+        titleLabel.apply(.text(title))
         inputTextField.keyboardType = keyboardType
     }
 
     func placeholder(_ placeholder: String) {
-        inputTextField.placeholder = placeholder
+        inputTextField.apply(.placeholder(placeholder))
     }
 
     func phoneNumber() {
@@ -122,8 +131,10 @@ extension ProfileTextInputView {
 
 private extension ProfileTextInputView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(stackView)
+        apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

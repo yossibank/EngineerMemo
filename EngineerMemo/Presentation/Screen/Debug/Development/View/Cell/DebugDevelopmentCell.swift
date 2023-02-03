@@ -2,21 +2,26 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     // MARK: - properties & init
 
     final class DebugDevelopmentCell: UITableViewCell {
-        private lazy var stackView: UIStackView = {
-            $0.axis = .horizontal
-            $0.spacing = 8
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .axis(.horizontal),
+                .spacing(8)
+            ]
+        )
+
+        private lazy var arrangedSubviews = [
             titleLabel,
             subTitleLabel
-        ]))
+        ]
 
-        private let titleLabel = UILabel(style: .system14)
-        private let subTitleLabel = UILabel(style: .bold14)
+        private let titleLabel = UILabel(style: .systemFont(size: 14))
+        private let subTitleLabel = UILabel(style: .boldSystemFont(size: 14))
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -40,11 +45,11 @@
 
     extension DebugDevelopmentCell {
         func configure(item: DebugDevelopmentItem) {
-            titleLabel.text = item.title
-            subTitleLabel.text = item.subTitle
+            titleLabel.apply(.text(item.title))
+            subTitleLabel.apply(.text(item.subTitle))
 
             if item.subTitle == nil {
-                titleLabel.apply(.bold14)
+                titleLabel.apply(.boldSystemFont(size: 14))
             }
         }
     }
@@ -53,8 +58,10 @@
 
     private extension DebugDevelopmentCell {
         func setupViews() {
-            apply(.backgroundPrimary)
-            contentView.addSubview(stackView)
+            contentView.apply([
+                .backgroundColor(.primary),
+                .addSubview(stackView)
+            ])
         }
 
         func setupConstraints() {

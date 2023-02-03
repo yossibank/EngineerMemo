@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - properties & init
 
@@ -27,22 +28,30 @@ final class ProfileBasicCell: UITableViewCell {
         }
     }
 
-    private lazy var mainView: UIView = {
-        $0.addSubview(stackView)
-        return $0
-    }(UIView(styles: [.backgroundLightGray, .cornerRadius8]))
+    private lazy var mainView = UIView(
+        styles: [
+            .addSubview(stackView),
+            .backgroundColor(.thinGray),
+            .clipsToBounds(true),
+            .cornerRadius(8)
+        ]
+    )
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        $0.spacing = 16
-        return $0
-    }(UIStackView(arrangedSubviews: arrangedSubviews))
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .axis(.vertical),
+            .spacing(16)
+        ]
+    )
 
-    private lazy var titleStackView: UIStackView = {
-        $0.axis = .vertical
-        $0.alignment = .center
-        return $0
-    }(UIStackView(arrangedSubviews: [basicLabel]))
+    private lazy var titleStackView = UIStackView(
+        styles: [
+            .addArrangedSubview(basicLabel),
+            .axis(.vertical),
+            .alignment(.center)
+        ]
+    )
 
     private var arrangedSubviews: [UIView] {
         var subviews: [UIView] = ObjectType.allCases.map(createStackView)
@@ -50,14 +59,14 @@ final class ProfileBasicCell: UITableViewCell {
         return subviews
     }
 
-    private let basicLabel = UILabel(styles: [.LabelTitle.basicInformation, .bold16])
-    private let nameLabel = UILabel(styles: [.bold16])
-    private let ageLabel = UILabel(styles: [.bold16])
-    private let genderLabel = UILabel(styles: [.bold16])
-    private let emailLabel = UILabel(styles: [.bold16])
-    private let phoneNumberLabel = UILabel(styles: [.bold16])
-    private let addressLabel = UILabel(styles: [.bold16, .lineInfinity])
-    private let stationLabel = UILabel(styles: [.bold16])
+    private let basicLabel = UILabel(styles: [.text(L10n.Profile.basicInformation), .boldSystemFont(size: 16)])
+    private let nameLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let ageLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let genderLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let emailLabel = UILabel(styles: [.boldSystemFont(size: 16), .numberOfLines(0)])
+    private let phoneNumberLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let addressLabel = UILabel(styles: [.boldSystemFont(size: 16), .numberOfLines(0)])
+    private let stationLabel = UILabel(style: .boldSystemFont(size: 16))
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -81,19 +90,19 @@ final class ProfileBasicCell: UITableViewCell {
 
 extension ProfileBasicCell {
     func configure(_ modelObject: ProfileModelObject) {
-        nameLabel.text = modelObject.name
+        nameLabel.apply(.text(modelObject.name))
 
         if let age = modelObject.birthday?.ageString() {
-            ageLabel.text = age + L10n.Profile.old
+            ageLabel.apply(.text(age + L10n.Profile.old))
         } else {
-            ageLabel.text = .noSetting
+            ageLabel.apply(.text(.noSetting))
         }
 
-        genderLabel.text = modelObject.gender?.value ?? .noSetting
-        emailLabel.text = modelObject.email
-        phoneNumberLabel.text = modelObject.phoneNumber?.phoneText ?? .noSetting
-        addressLabel.text = modelObject.address
-        stationLabel.text = modelObject.station
+        genderLabel.apply(.text(modelObject.gender?.value ?? .noSetting))
+        emailLabel.apply(.text(modelObject.email))
+        phoneNumberLabel.apply(.text(modelObject.phoneNumber?.phoneText ?? .noSetting))
+        addressLabel.apply(.text(modelObject.address))
+        stationLabel.apply(.text(modelObject.station))
     }
 }
 
@@ -101,8 +110,10 @@ extension ProfileBasicCell {
 
 private extension ProfileBasicCell {
     func setupViews() {
-        apply(.backgroundPrimary)
-        contentView.addSubview(mainView)
+        contentView.apply([
+            .addSubview(mainView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {
@@ -117,9 +128,13 @@ private extension ProfileBasicCell {
     }
 
     private func createTitleLabel(_ type: ObjectType) -> UILabel {
-        let label = UILabel(styles: [.system14, .textSecondary])
-        label.text = type.title
-        return label
+        .init(
+            styles: [
+                .systemFont(size: 14),
+                .text(type.title),
+                .textColor(.secondary)
+            ]
+        )
     }
 
     private func createStackView(_ type: ObjectType) -> UIStackView {
@@ -150,10 +165,14 @@ private extension ProfileBasicCell {
             valueLabel = stationLabel
         }
 
-        stackView = .init(arrangedSubviews: [titleLabel, valueLabel])
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 8
+        stackView = .init(
+            styles: [
+                .addArrangedSubviews([titleLabel, valueLabel]),
+                .alignment(.leading),
+                .axis(.vertical),
+                .spacing(8)
+            ]
+        )
 
         return stackView
     }

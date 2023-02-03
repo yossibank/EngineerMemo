@@ -3,6 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     // MARK: - stored properties & init
 
@@ -16,13 +17,21 @@
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapCreateButtonPublisher = createButton.publisher(for: .touchUpInside)
 
-        private lazy var stackView: UIStackView = {
-            $0.axis = .vertical
-            $0.alignment = .fill
-            $0.spacing = 12
-            $0.setCustomSpacing(32, after: stationControl)
-            return $0
-        }(UIStackView(arrangedSubviews: [
+        private lazy var stackView = UIStackView(
+            styles: [
+                .addArrangedSubviews(arrangedSubviews),
+                .alignment(.fill),
+                .axis(.vertical),
+                .setCustomSpacing(32, after: stationControl),
+                .spacing(12)
+            ]
+        )
+
+        private lazy var buttonView = UIView(
+            style: .addSubview(createButton)
+        )
+
+        private lazy var arrangedSubviews = [
             addressControl,
             birthdayControl,
             emailControl,
@@ -31,56 +40,46 @@
             phoneNumberControl,
             stationControl,
             buttonView
-        ]))
-
-        private lazy var buttonView: UIView = {
-            $0.addSubview(createButton)
-            return $0
-        }(UIView())
+        ]
 
         private var cancellables: Set<AnyCancellable> = .init()
 
-        private let addressControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.address)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let addressControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.address
+        )
 
-        private let birthdayControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.birthday)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let birthdayControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.birthday
+        )
 
-        private let emailControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.email)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let emailControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.email
+        )
 
-        private let genderControl: DebugGenderSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.gender)
-            return $0
-        }(DebugGenderSegmentView())
+        private let genderControl = DebugGenderSegmentView(
+            title: L10n.Debug.Segment.gender
+        )
 
-        private let nameControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.name)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let nameControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.name
+        )
 
-        private let phoneNumberControl: DebugPhoneNumberSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.phoneNumber)
-            return $0
-        }(DebugPhoneNumberSegmentView())
+        private let phoneNumberControl = DebugPhoneNumberSegmentView(
+            title: L10n.Debug.Segment.phoneNumber
+        )
 
-        private let stationControl: DebugCoreDataSegmentView = {
-            $0.configure(title: L10n.Debug.Segment.station)
-            return $0
-        }(DebugCoreDataSegmentView())
+        private let stationControl = DebugCoreDataSegmentView(
+            title: L10n.Debug.Segment.station
+        )
 
         private let createButton = UIButton(
             styles: [
-                .ButtonTitle.create,
-                .titlePrimary,
-                .borderPrimary,
-                .cornerRadius8
+                .borderColor(.theme),
+                .borderWidth(1.0),
+                .clipsToBounds(true),
+                .cornerRadius(8),
+                .setTitle(L10n.Components.Button.create),
+                .setTitleColor(.theme)
             ]
         )
 
@@ -105,10 +104,10 @@
             didTapCreateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.createButton.apply(.ButtonTitle.createDone)
+                    self?.createButton.apply(.setTitle(L10n.Components.Button.createDone))
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.createButton.apply(.ButtonTitle.create)
+                        self?.createButton.apply(.setTitle(L10n.Components.Button.create))
                     }
                 }
                 .store(in: &cancellables)
@@ -119,8 +118,10 @@
 
     extension DebugProfileCreateContentView: ContentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(stackView)
+            apply([
+                .addSubview(stackView),
+                .backgroundColor(.primary)
+            ])
         }
 
         func setupConstraints() {

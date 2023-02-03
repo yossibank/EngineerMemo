@@ -1,6 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - stored properties & init
 
@@ -14,17 +15,24 @@ final class ProfileUpdateContentView: UIView {
     private(set) lazy var stationInputPublisher = stationInputView.inputPublisher
     private(set) lazy var didTapSaveButtonPublisher = saveButton.publisher(for: .touchUpInside)
 
-    private lazy var scrollView: UIScrollView = {
-        $0.addSubview(stackView)
-        return $0
-    }(UIScrollView())
+    private lazy var scrollView = UIScrollView(
+        style: .addSubview(stackView)
+    )
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        $0.alignment = .fill
-        $0.distribution = .equalSpacing
-        return $0
-    }(UIStackView(arrangedSubviews: [
+    private lazy var stackView = UIStackView(
+        styles: [
+            .addArrangedSubviews(arrangedSubviews),
+            .alignment(.fill),
+            .axis(.vertical),
+            .distribution(.equalSpacing)
+        ]
+    )
+
+    private lazy var buttonView = UIView(
+        style: .addSubview(saveButton)
+    )
+
+    private lazy var arrangedSubviews = [
         nameInputView,
         birthdayInputView,
         genderInputView,
@@ -33,12 +41,7 @@ final class ProfileUpdateContentView: UIView {
         addressInputView,
         stationInputView,
         buttonView
-    ]))
-
-    private lazy var buttonView: UIView = {
-        $0.addSubview(saveButton)
-        return $0
-    }(UIView())
+    ]
 
     private let nameInputView: ProfileTextInputView = {
         $0.configure(title: L10n.Profile.name)
@@ -83,10 +86,12 @@ final class ProfileUpdateContentView: UIView {
 
     private let saveButton = UIButton(
         styles: [
-            .ButtonTitle.saveProfile,
-            .titlePrimary,
-            .borderPrimary,
-            .cornerRadius8
+            .borderColor(.theme),
+            .borderWidth(1.0),
+            .clipsToBounds(true),
+            .cornerRadius(8),
+            .setTitle(L10n.Components.Button.saveProfile),
+            .setTitleColor(.theme)
         ]
     )
 
@@ -109,7 +114,7 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            saveButton.apply(.borderPrimary)
+            saveButton.apply(.borderColor(.theme))
         }
     }
 }
@@ -121,10 +126,10 @@ private extension ProfileUpdateContentView {
         didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.saveButton.apply(.ButtonTitle.saveProfileDone)
+                self?.saveButton.apply(.setTitle(L10n.Components.Button.saveProfileDone))
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.saveButton.apply(.ButtonTitle.saveProfile)
+                    self?.saveButton.apply(.setTitle(L10n.Components.Button.saveProfile))
                 }
             }
             .store(in: &cancellables)
@@ -135,8 +140,10 @@ private extension ProfileUpdateContentView {
 
 extension ProfileUpdateContentView: ContentView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(scrollView)
+        apply([
+            .addSubview(scrollView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {

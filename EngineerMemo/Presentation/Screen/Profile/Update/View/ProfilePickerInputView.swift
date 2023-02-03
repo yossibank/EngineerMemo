@@ -1,60 +1,65 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
 // MARK: - stored properties & init
 
 final class ProfilePickerInputView: UIView {
     private(set) lazy var inputPublisher = inputDatePicker.publisher
 
-    private lazy var stackView: UIStackView = {
-        $0.axis = .vertical
-        return $0
-    }(UIStackView(arrangedSubviews: [
-        titleView,
-        pickerInputView
-    ]))
-
-    private lazy var titleView: UIView = {
-        $0.addSubview(titleLabel)
-        return $0
-    }(UIView(
+    private lazy var stackView = UIStackView(
         styles: [
-            .backgroundLightGray,
-            .borderPrimary,
-            .cornerRadius4
-        ]
-    ))
-
-    private lazy var pickerInputView: UIView = {
-        $0.addSubview(inputDatePicker)
-        $0.addSubview(pickerLabel)
-        return $0
-    }(UIView(style: .backgroundPrimary))
-
-    private let titleLabel = UILabel(
-        styles: [
-            .bold16,
-            .textSecondary
+            .addArrangedSubviews(arrangedSubviews),
+            .axis(.vertical)
         ]
     )
 
-    private let inputDatePicker: UIDatePicker = {
-        $0.locale = .japan
-        $0.datePickerMode = .date
-        $0.preferredDatePickerStyle = .compact
-        $0.contentHorizontalAlignment = .leading
-        $0.expandPickerRange()
-        return $0
-    }(UIDatePicker(
+    private lazy var arrangedSubviews = [
+        titleView,
+        pickerInputView
+    ]
+
+    private lazy var titleView = UIView(
         styles: [
-            .borderPrimary,
-            .cornerRadius4
+            .addSubview(titleLabel),
+            .backgroundColor(.thinGray),
+            .borderColor(.theme),
+            .borderWidth(1.0),
+            .clipsToBounds(true),
+            .cornerRadius(4)
         ]
-    ))
+    )
+
+    private lazy var pickerInputView = UIView(
+        styles: [
+            .addSubviews([inputDatePicker, pickerLabel]),
+            .backgroundColor(.primary)
+        ]
+    )
+
+    private let titleLabel = UILabel(
+        styles: [
+            .boldSystemFont(size: 16),
+            .textColor(.secondary)
+        ]
+    )
+
+    private let inputDatePicker = UIDatePicker(
+        styles: [
+            .borderColor(.theme),
+            .borderWidth(1.0),
+            .clipsToBounds(true),
+            .contentHorizontalAlignment(.leading),
+            .cornerRadius(4),
+            .datePickerMode(.date),
+            .locale(.japan),
+            .preferredDatePickerStyle(.compact)
+        ]
+    )
 
     private let pickerLabel = UILabel(
-        style: .LabelTitle.noSetting
+        style: .text(.noSetting)
     )
 
     private var cancellables: Set<AnyCancellable> = .init()
@@ -83,7 +88,7 @@ final class ProfilePickerInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputDatePicker].forEach {
-                $0.apply(.borderPrimary)
+                $0.apply(.borderColor(.theme))
             }
         }
     }
@@ -93,7 +98,7 @@ final class ProfilePickerInputView: UIView {
 
 extension ProfilePickerInputView {
     func configure(title: String) {
-        titleLabel.text = title
+        titleLabel.apply(.text(title))
     }
 }
 
@@ -101,8 +106,10 @@ extension ProfilePickerInputView {
 
 private extension ProfilePickerInputView {
     func setupViews() {
-        apply(.backgroundPrimary)
-        addSubview(stackView)
+        apply([
+            .addSubview(stackView),
+            .backgroundColor(.primary)
+        ])
     }
 
     func setupConstraints() {
@@ -136,6 +143,7 @@ private extension ProfilePickerInputView {
     }
 
     func setupPicker() {
+        inputDatePicker.expandPickerRange()
         inputDatePicker.publisher
             .sink { [weak self] date in
                 self?.pickerLabel.text = date.toString

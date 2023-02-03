@@ -3,6 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
+    import UIStyle
 
     // MARK: - stored properties & init
 
@@ -185,8 +186,10 @@
 
     extension DebugDevelopmentContentView: ContentView {
         func setupViews() {
-            apply(.backgroundPrimary)
-            addSubview(tableView)
+            apply([
+                .addSubview(tableView),
+                .backgroundColor(.primary)
+            ])
         }
 
         func setupConstraints() {
