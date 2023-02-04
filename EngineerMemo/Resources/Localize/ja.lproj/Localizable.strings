@@ -6,6 +6,7 @@
 
 "components.button.create" = "作成する";
 "components.button.createDone" = "作成完了";
+"components.button.edit" = "編集する";
 "components.button.update" = "更新する";
 "components.button.updateDone" = "更新完了";
 "components.button.setting" = "設定する";

@@ -28,9 +28,11 @@ final class ProfileBasicCell: UITableViewCell {
         }
     }
 
+    private(set) lazy var buttonPublisher = editButton.publisher(for: .touchUpInside)
+
     private lazy var mainView = UIView(
         styles: [
-            .addSubview(stackView),
+            .addSubviews([stackView, editButton]),
             .backgroundColor(.thinGray),
             .clipsToBounds(true),
             .cornerRadius(8)
@@ -58,6 +60,13 @@ final class ProfileBasicCell: UITableViewCell {
         subviews.insert(titleStackView, at: 0)
         return subviews
     }
+
+    private let editButton = UIButton(
+        styles: UIStyle.edit(
+            title: L10n.Components.Button.edit,
+            image: ImageResources.edit
+        )
+    )
 
     private let basicLabel = UILabel(styles: [.text(L10n.Profile.basicInformation), .boldSystemFont(size: 16)])
     private let nameLabel = UILabel(style: .boldSystemFont(size: 16))
@@ -124,6 +133,11 @@ private extension ProfileBasicCell {
 
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(16)
+        }
+
+        editButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(12)
+            $0.trailing.equalToSuperview().inset(8)
         }
     }
 
