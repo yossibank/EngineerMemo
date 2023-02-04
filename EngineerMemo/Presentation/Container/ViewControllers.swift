@@ -165,8 +165,8 @@ enum AppControllers {
     #endif
 }
 
-enum ProfileUpdateType {
-    case update
+enum ProfileUpdateType: Equatable {
+    case update(ProfileModelObject)
     case setting
 
     var title: String {

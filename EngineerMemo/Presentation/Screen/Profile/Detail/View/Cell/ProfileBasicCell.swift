@@ -28,7 +28,9 @@ final class ProfileBasicCell: UITableViewCell {
         }
     }
 
-    private(set) lazy var buttonPublisher = editButton.publisher(for: .touchUpInside)
+    var cancellables: Set<AnyCancellable> = .init()
+
+    private(set) lazy var editButtonPublisher = editButton.publisher(for: .touchUpInside)
 
     private lazy var mainView = UIView(
         styles: [
@@ -92,6 +94,12 @@ final class ProfileBasicCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        cancellables.removeAll()
     }
 }
 
