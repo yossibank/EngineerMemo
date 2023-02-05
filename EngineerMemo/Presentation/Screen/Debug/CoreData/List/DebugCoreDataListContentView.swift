@@ -78,13 +78,15 @@
                 )
             }
 
-            menuButton.menu = .init(
-                title: "",
-                options: .displayInline,
-                children: actions
-            )
-            menuButton.showsMenuAsPrimaryAction = true
-            menuButton.apply(.setTitle(selectedType.title))
+            menuButton.apply([
+                .menu(.init(
+                    title: "",
+                    options: .displayInline,
+                    children: actions
+                )),
+                .setTitle(selectedType.title),
+                .showsMenuAsPrimaryAction(true)
+            ])
         }
     }
 

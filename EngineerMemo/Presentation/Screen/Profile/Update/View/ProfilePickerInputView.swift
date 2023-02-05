@@ -64,12 +64,14 @@ final class ProfilePickerInputView: UIView {
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(title: String) {
+        super.init(frame: .zero)
 
         setupViews()
         setupConstraints()
         setupPicker()
+
+        titleLabel.apply(.text(title))
     }
 
     @available(*, unavailable)
@@ -91,14 +93,6 @@ final class ProfilePickerInputView: UIView {
                 $0.apply(.borderColor(.theme))
             }
         }
-    }
-}
-
-// MARK: - internal methods
-
-extension ProfilePickerInputView {
-    func configure(title: String) {
-        titleLabel.apply(.text(title))
     }
 }
 
@@ -159,9 +153,11 @@ private extension ProfilePickerInputView {
 
     struct ProfilePickerInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfilePickerInputView()) {
-                $0.configure(title: "title")
-            }
+            WrapperView(
+                view: ProfilePickerInputView(
+                    title: "title"
+                )
+            )
         }
     }
 #endif
