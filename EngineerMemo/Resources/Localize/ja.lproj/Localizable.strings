@@ -10,7 +10,9 @@
 "components.button.update" = "更新する";
 "components.button.updateDone" = "更新完了";
 "components.button.setting" = "設定する";
+"components.button.updateProfile" = "プロフィール情報を更新する";
 "components.button.saveProfile" = "プロフィール入力情報を保存する";
+"components.button.updateProfileDone" = "プロフィール更新完了✅";
 "components.button.saveProfileDone" = "プロフィール作成完了✅";
 
 // MARK: - タブ

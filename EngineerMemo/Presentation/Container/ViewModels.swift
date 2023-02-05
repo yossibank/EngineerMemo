@@ -8,9 +8,13 @@ enum ViewModels {
             )
         }
 
-        static func Update(screenId: FAScreenId) -> ProfileUpdateViewModel {
+        static func Update(
+            modelObject: ProfileModelObject? = nil,
+            screenId: FAScreenId
+        ) -> ProfileUpdateViewModel {
             .init(
                 model: Models.Profile(),
+                modelObject: modelObject,
                 analytics: FirebaseAnalytics(screenId: screenId)
             )
         }

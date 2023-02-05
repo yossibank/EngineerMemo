@@ -95,6 +95,43 @@ final class ProfileTextInputView: UIView {
     }
 }
 
+// MARK: - internal methods
+
+extension ProfileTextInputView {
+    func updateValue(
+        _ type: ProfileContentType,
+        modelObject: ProfileModelObject?
+    ) {
+        guard let modelObject else {
+            return
+        }
+
+        let input: String?
+
+        switch type {
+        case .name:
+            input = modelObject.name
+
+        case .email:
+            input = modelObject.email
+
+        case .phoneNumber:
+            input = modelObject.phoneNumber
+
+        case .address:
+            input = modelObject.address
+
+        case .station:
+            input = modelObject.station
+
+        default:
+            input = ""
+        }
+
+        inputTextField.apply(.text(input))
+    }
+}
+
 // MARK: - private methods
 
 private extension ProfileTextInputView {

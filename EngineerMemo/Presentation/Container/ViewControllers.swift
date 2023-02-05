@@ -18,11 +18,24 @@ enum AppControllers {
         static func Update(type: ProfileUpdateType) -> ProfileUpdateViewController {
             let vc = ProfileUpdateViewController()
 
-            vc.title = type.title
-            vc.inject(
-                contentView: ContentViews.Profile.Update(),
-                viewModel: ViewModels.Profile.Update(screenId: type.screenId)
-            )
+            switch type {
+            case let .update(modelObject):
+                vc.title = L10n.Navigation.Title.profileUpdate
+                vc.inject(
+                    contentView: ContentViews.Profile.Update(modelObject: modelObject),
+                    viewModel: ViewModels.Profile.Update(
+                        modelObject: modelObject,
+                        screenId: .profileUpdate
+                    )
+                )
+
+            case .setting:
+                vc.title = L10n.Navigation.Title.profileSetting
+                vc.inject(
+                    contentView: ContentViews.Profile.Update(),
+                    viewModel: ViewModels.Profile.Update(screenId: .profileSetting)
+                )
+            }
 
             return vc
         }
@@ -168,18 +181,4 @@ enum AppControllers {
 enum ProfileUpdateType: Equatable {
     case update(ProfileModelObject)
     case setting
-
-    var title: String {
-        switch self {
-        case .update: return L10n.Navigation.Title.profileUpdate
-        case .setting: return L10n.Navigation.Title.profileSetting
-        }
-    }
-
-    var screenId: FAScreenId {
-        switch self {
-        case .update: return .profileUpdate
-        case .setting: return .profileSetting
-        }
-    }
 }

@@ -6,28 +6,6 @@ import UIStyle
 // MARK: - properties & init
 
 final class ProfileBasicCell: UITableViewCell {
-    private enum ObjectType: CaseIterable {
-        case name
-        case age
-        case gender
-        case email
-        case phoneNumber
-        case address
-        case station
-
-        var title: String {
-            switch self {
-            case .name: return L10n.Profile.name
-            case .age: return L10n.Profile.age
-            case .gender: return L10n.Profile.gender
-            case .email: return L10n.Profile.email
-            case .phoneNumber: return L10n.Profile.phoneNumber
-            case .address: return L10n.Profile.address
-            case .station: return L10n.Profile.station
-            }
-        }
-    }
-
     var cancellables: Set<AnyCancellable> = .init()
 
     private(set) lazy var editButtonPublisher = editButton.publisher(for: .touchUpInside)
@@ -58,7 +36,7 @@ final class ProfileBasicCell: UITableViewCell {
     )
 
     private var arrangedSubviews: [UIView] {
-        var subviews: [UIView] = ObjectType.allCases.map(createStackView)
+        var subviews: [UIView] = ProfileContentType.allCases.map(createStackView)
         subviews.insert(titleStackView, at: 0)
         return subviews
     }
@@ -149,7 +127,7 @@ private extension ProfileBasicCell {
         }
     }
 
-    private func createTitleLabel(_ type: ObjectType) -> UILabel {
+    private func createTitleLabel(_ type: ProfileContentType) -> UILabel {
         .init(
             styles: [
                 .systemFont(size: 14),
@@ -159,7 +137,7 @@ private extension ProfileBasicCell {
         )
     }
 
-    private func createStackView(_ type: ObjectType) -> UIStackView {
+    private func createStackView(_ type: ProfileContentType) -> UIStackView {
         let stackView: UIStackView
         let valueLabel: UILabel
         let titleLabel = createTitleLabel(type)

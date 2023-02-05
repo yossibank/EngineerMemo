@@ -96,6 +96,21 @@ final class ProfilePickerInputView: UIView {
     }
 }
 
+// MARK: - internal methods
+
+extension ProfilePickerInputView {
+    func updateValue(modelObject: ProfileModelObject?) {
+        guard
+            let modelObject,
+            let birthday = modelObject.birthday
+        else {
+            return
+        }
+
+        pickerLabel.apply(.text(birthday.toString))
+    }
+}
+
 // MARK: - private methods
 
 private extension ProfilePickerInputView {
@@ -139,8 +154,8 @@ private extension ProfilePickerInputView {
     func setupPicker() {
         inputDatePicker.expandPickerRange()
         inputDatePicker.publisher
-            .sink { [weak self] date in
-                self?.pickerLabel.text = date.toString
+            .sink { [weak self] birthday in
+                self?.pickerLabel.text = birthday.toString
             }
             .store(in: &cancellables)
     }

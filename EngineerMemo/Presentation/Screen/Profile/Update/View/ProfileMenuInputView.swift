@@ -115,6 +115,22 @@ final class ProfileMenuInputView: UIView {
     }
 }
 
+// MARK: - internal methods
+
+extension ProfileMenuInputView {
+    func updateValue(modelObject: ProfileModelObject?) {
+        guard
+            let modelObject,
+            let gender = modelObject.gender
+        else {
+            return
+        }
+
+        selectedType = .init(rawValue: gender.rawValue) ?? .none
+        setupMenu()
+    }
+}
+
 // MARK: - private methods
 
 private extension ProfileMenuInputView {

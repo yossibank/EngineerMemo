@@ -78,25 +78,34 @@ final class ProfileUpdateContentView: UIView {
         placeholder: L10n.Profile.Example.station
     )
 
-    private let saveButton = UIButton(
+    private lazy var saveButton = UIButton(
         styles: [
             .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
             .cornerRadius(8),
-            .setTitle(L10n.Components.Button.saveProfile),
+            .setTitle(
+                modelObject == nil
+                    ? L10n.Components.Button.saveProfile
+                    : L10n.Components.Button.updateProfile
+            ),
             .setTitleColor(.theme)
         ]
     )
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private let modelObject: ProfileModelObject?
+
+    init(modelObject: ProfileModelObject?) {
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupViews()
         setupConstraints()
         setupEvents()
+        setupInitializeValue()
     }
 
     @available(*, unavailable)
@@ -117,16 +126,34 @@ final class ProfileUpdateContentView: UIView {
 
 private extension ProfileUpdateContentView {
     func setupEvents() {
+        let title = modelObject == nil
+            ? L10n.Components.Button.saveProfile
+            : L10n.Components.Button.updateProfile
+
+        let updatedTitle = modelObject == nil
+            ? L10n.Components.Button.saveProfileDone
+            : L10n.Components.Button.updateProfileDone
+
         didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.saveButton.apply(.setTitle(L10n.Components.Button.saveProfileDone))
+                self?.saveButton.apply(.setTitle(updatedTitle))
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.saveButton.apply(.setTitle(L10n.Components.Button.saveProfile))
+                    self?.saveButton.apply(.setTitle(title))
                 }
             }
             .store(in: &cancellables)
+    }
+
+    func setupInitializeValue() {
+        nameInputView.updateValue(.name, modelObject: modelObject)
+        birthdayInputView.updateValue(modelObject: modelObject)
+        genderInputView.updateValue(modelObject: modelObject)
+        emailInputView.updateValue(.email, modelObject: modelObject)
+        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
+        addressInputView.updateValue(.address, modelObject: modelObject)
+        stationInputView.updateValue(.station, modelObject: modelObject)
     }
 }
 
