@@ -61,7 +61,7 @@ private extension ProfileTopCell {
 
     func setupConstraints() {
         stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(32)
+            $0.edges.equalToSuperview().inset(16)
         }
 
         iconImageView.snp.makeConstraints {
