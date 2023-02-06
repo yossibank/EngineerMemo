@@ -110,22 +110,22 @@ extension ProfileTextInputView {
 
         switch type {
         case .name:
-            input = modelObject.name
+            input = modelObject.name?.notNoSettingText
 
         case .email:
-            input = modelObject.email
+            input = modelObject.email?.notNoSettingText
 
         case .phoneNumber:
-            input = modelObject.phoneNumber
+            input = modelObject.phoneNumber?.notNoSettingText
 
         case .address:
-            input = modelObject.address
+            input = modelObject.address?.notNoSettingText
 
         case .station:
-            input = modelObject.station
+            input = modelObject.station?.notNoSettingText
 
         default:
-            input = ""
+            input = nil
         }
 
         inputTextField.apply(.text(input))

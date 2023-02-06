@@ -35,6 +35,7 @@
 
 "profile.basicInformation" = "基本情報";
 "profile.name" = "名前";
+"profile.noSettingName" = "名前未設定";
 "profile.birthday" = "生年月日";
 "profile.age" = "年齢";
 "profile.gender" = "性別";
