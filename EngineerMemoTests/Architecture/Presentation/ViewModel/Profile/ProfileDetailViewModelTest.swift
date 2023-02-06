@@ -60,8 +60,36 @@ final class ProfileDetailViewModelTest: XCTestCase {
         // arrange
         setupViewModel()
 
+        let expectation = XCTestExpectation(description: #function)
+
+        routing.showUpdateScreenHandler = { type in
+            XCTAssertEqual(type, .setting)
+
+            expectation.fulfill()
+        }
+
         // act
         viewModel.input.settingButtonTapped.send(())
+
+        // assert
+        XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
+    }
+
+    func test_editButtonTapped_routing_showUpdateScreenが呼び出されること() {
+        // arrange
+        setupViewModel()
+
+        let expectation = XCTestExpectation(description: #function)
+        let modelObject = ProfileModelObjectBuilder().build()
+
+        routing.showUpdateScreenHandler = { type in
+            XCTAssertEqual(type, .update(modelObject))
+
+            expectation.fulfill()
+        }
+
+        // act
+        viewModel.input.editButtonTapped.send(modelObject)
 
         // assert
         XCTAssertEqual(routing.showUpdateScreenCallCount, 1)

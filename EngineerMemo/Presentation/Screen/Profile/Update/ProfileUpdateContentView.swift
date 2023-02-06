@@ -43,66 +43,69 @@ final class ProfileUpdateContentView: UIView {
         buttonView
     ]
 
-    private let nameInputView: ProfileTextInputView = {
-        $0.configure(title: L10n.Profile.name)
-        $0.placeholder(L10n.Profile.Example.name)
-        return $0
-    }(ProfileTextInputView())
+    private let nameInputView = ProfileTextInputView(
+        title: L10n.Profile.name,
+        placeholder: L10n.Profile.Example.name
+    )
 
-    private let birthdayInputView: ProfilePickerInputView = {
-        $0.configure(title: L10n.Profile.birthday)
-        return $0
-    }(ProfilePickerInputView())
+    private let birthdayInputView = ProfilePickerInputView(
+        title: L10n.Profile.birthday
+    )
 
-    private let genderInputView: ProfileMenuInputView = {
-        $0.configure(title: L10n.Profile.gender)
-        return $0
-    }(ProfileMenuInputView())
+    private let genderInputView = ProfileMenuInputView(
+        title: L10n.Profile.gender
+    )
 
-    private let emailInputView: ProfileTextInputView = {
-        $0.configure(title: L10n.Profile.email, keyboardType: .emailAddress)
-        $0.placeholder(L10n.Profile.Example.email)
-        return $0
-    }(ProfileTextInputView())
+    private let emailInputView = ProfileTextInputView(
+        title: L10n.Profile.email,
+        placeholder: L10n.Profile.Example.email,
+        keyboardType: .emailAddress
+    )
 
-    private let phoneNumberInputView: ProfileTextInputView = {
-        $0.configure(title: L10n.Profile.phoneNumber)
-        $0.placeholder(L10n.Profile.Example.phoneNumber)
-        $0.phoneNumber()
-        return $0
-    }(ProfileTextInputView())
+    private let phoneNumberInputView = ProfileTextInputView(
+        title: L10n.Profile.phoneNumber,
+        placeholder: L10n.Profile.Example.phoneNumber,
+        keyboardType: .numberPad
+    )
 
-    private let addressInputView: ProfileTextInputView = {
-        $0.configure(title: L10n.Profile.address)
-        $0.placeholder(L10n.Profile.Example.address)
-        return $0
-    }(ProfileTextInputView())
+    private let addressInputView = ProfileTextInputView(
+        title: L10n.Profile.address,
+        placeholder: L10n.Profile.Example.address
+    )
 
-    private let stationInputView: ProfileTextInputView = {
-        $0.configure(title: L10n.Profile.station)
-        $0.placeholder(L10n.Profile.Example.station)
-        return $0
-    }(ProfileTextInputView())
+    private let stationInputView = ProfileTextInputView(
+        title: L10n.Profile.station,
+        placeholder: L10n.Profile.Example.station
+    )
 
-    private let saveButton = UIButton(
+    private lazy var saveButton = UIButton(
         styles: [
             .borderColor(.theme),
             .borderWidth(1.0),
             .clipsToBounds(true),
             .cornerRadius(8),
-            .setTitle(L10n.Components.Button.saveProfile),
+            .setTitle(
+                modelObject == nil
+                    ? L10n.Components.Button.saveProfile
+                    : L10n.Components.Button.updateProfile
+            ),
             .setTitleColor(.theme)
         ]
     )
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private let modelObject: ProfileModelObject?
+
+    init(modelObject: ProfileModelObject?) {
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupViews()
         setupConstraints()
         setupEvents()
+        setupInitializeValue()
     }
 
     @available(*, unavailable)
@@ -123,16 +126,34 @@ final class ProfileUpdateContentView: UIView {
 
 private extension ProfileUpdateContentView {
     func setupEvents() {
+        let title = modelObject == nil
+            ? L10n.Components.Button.saveProfile
+            : L10n.Components.Button.updateProfile
+
+        let updatedTitle = modelObject == nil
+            ? L10n.Components.Button.saveProfileDone
+            : L10n.Components.Button.updateProfileDone
+
         didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.saveButton.apply(.setTitle(L10n.Components.Button.saveProfileDone))
+                self?.saveButton.apply(.setTitle(updatedTitle))
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.saveButton.apply(.setTitle(L10n.Components.Button.saveProfile))
+                    self?.saveButton.apply(.setTitle(title))
                 }
             }
             .store(in: &cancellables)
+    }
+
+    func setupInitializeValue() {
+        nameInputView.updateValue(.name, modelObject: modelObject)
+        birthdayInputView.updateValue(modelObject: modelObject)
+        genderInputView.updateValue(modelObject: modelObject)
+        emailInputView.updateValue(.email, modelObject: modelObject)
+        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
+        addressInputView.updateValue(.address, modelObject: modelObject)
+        stationInputView.updateValue(.station, modelObject: modelObject)
     }
 }
 

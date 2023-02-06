@@ -89,12 +89,14 @@ final class ProfileMenuInputView: UIView {
         ]
     )
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(title: String) {
+        super.init(frame: .zero)
 
         setupViews()
         setupConstraints()
         setupMenu()
+
+        titleLabel.apply(.text(title))
     }
 
     @available(*, unavailable)
@@ -116,8 +118,16 @@ final class ProfileMenuInputView: UIView {
 // MARK: - internal methods
 
 extension ProfileMenuInputView {
-    func configure(title: String) {
-        titleLabel.apply(.text(title))
+    func updateValue(modelObject: ProfileModelObject?) {
+        guard
+            let modelObject,
+            let gender = modelObject.gender
+        else {
+            return
+        }
+
+        selectedType = .init(rawValue: gender.rawValue) ?? .none
+        setupMenu()
     }
 }
 
@@ -171,13 +181,15 @@ private extension ProfileMenuInputView {
             )
         }
 
-        menuButton.menu = .init(
-            title: "",
-            options: .displayInline,
-            children: actions
-        )
-        menuButton.showsMenuAsPrimaryAction = true
-        menuButton.apply(.setTitle(selectedType.title))
+        menuButton.apply([
+            .menu(.init(
+                title: "",
+                options: .displayInline,
+                children: actions
+            )),
+            .setTitle(selectedType.title),
+            .showsMenuAsPrimaryAction(true)
+        ])
     }
 }
 
@@ -188,9 +200,11 @@ private extension ProfileMenuInputView {
 
     struct ProfileMenuInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileMenuInputView()) {
-                $0.configure(title: "title")
-            }
+            WrapperView(
+                view: ProfileMenuInputView(
+                    title: "title"
+                )
+            )
         }
     }
 #endif

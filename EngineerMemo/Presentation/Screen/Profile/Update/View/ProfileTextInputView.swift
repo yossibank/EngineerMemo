@@ -57,12 +57,26 @@ final class ProfileTextInputView: UIView {
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(
+        title: String,
+        placeholder: String,
+        keyboardType: UIKeyboardType = .default
+    ) {
+        super.init(frame: .zero)
 
         setupViews()
         setupConstraints()
         setupTextField()
+
+        titleLabel.apply(.text(title))
+        inputTextField.apply([
+            .keyboardType(keyboardType),
+            .placeholder(placeholder)
+        ])
+
+        if keyboardType == .numberPad {
+            setupNumberPad()
+        }
     }
 
     @available(*, unavailable)
@@ -84,46 +98,37 @@ final class ProfileTextInputView: UIView {
 // MARK: - internal methods
 
 extension ProfileTextInputView {
-    func configure(
-        title: String,
-        keyboardType: UIKeyboardType = .default
+    func updateValue(
+        _ type: ProfileContentType,
+        modelObject: ProfileModelObject?
     ) {
-        titleLabel.apply(.text(title))
-        inputTextField.keyboardType = keyboardType
-    }
+        guard let modelObject else {
+            return
+        }
 
-    func placeholder(_ placeholder: String) {
-        inputTextField.apply(.placeholder(placeholder))
-    }
+        let input: String?
 
-    func phoneNumber() {
-        let toolBar = UIToolbar()
+        switch type {
+        case .name:
+            input = modelObject.name?.notNoSettingText
 
-        let spaceBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .flexibleSpace,
-            target: nil,
-            action: nil
-        )
+        case .email:
+            input = modelObject.email?.notNoSettingText
 
-        let doneBarButtonItem = UIBarButtonItem(
-            title: L10n.Common.done,
-            style: .done,
-            target: nil,
-            action: nil
-        )
+        case .phoneNumber:
+            input = modelObject.phoneNumber?.notNoSettingText
 
-        doneBarButtonItem.publisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.inputTextField.resignFirstResponder()
-            }
-            .store(in: &cancellables)
+        case .address:
+            input = modelObject.address?.notNoSettingText
 
-        toolBar.items = [spaceBarButtonItem, doneBarButtonItem]
-        toolBar.sizeToFit()
+        case .station:
+            input = modelObject.station?.notNoSettingText
 
-        inputTextField.inputAccessoryView = toolBar
-        inputTextField.keyboardType = .numberPad
+        default:
+            input = nil
+        }
+
+        inputTextField.apply(.text(input))
     }
 }
 
@@ -164,6 +169,35 @@ private extension ProfileTextInputView {
     func setupTextField() {
         inputTextField.delegate = self
     }
+
+    func setupNumberPad() {
+        let toolBar = UIToolbar()
+
+        let spaceBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+
+        let doneBarButtonItem = UIBarButtonItem(
+            title: L10n.Common.done,
+            style: .done,
+            target: nil,
+            action: nil
+        )
+
+        doneBarButtonItem.publisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.inputTextField.resignFirstResponder()
+            }
+            .store(in: &cancellables)
+
+        toolBar.items = [spaceBarButtonItem, doneBarButtonItem]
+        toolBar.sizeToFit()
+
+        inputTextField.inputAccessoryView = toolBar
+    }
 }
 
 // MARK: - delegate
@@ -182,10 +216,13 @@ extension ProfileTextInputView: UITextFieldDelegate {
 
     struct ProfileTextInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileTextInputView()) {
-                $0.configure(title: "title")
-                $0.placeholder("placeholder")
-            }
+            WrapperView(
+                view: ProfileTextInputView(
+                    title: "title",
+                    placeholder: "placeholder",
+                    keyboardType: .default
+                )
+            )
         }
     }
 #endif

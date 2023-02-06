@@ -3,6 +3,7 @@ import Combine
 final class ProfileDetailViewModel: ViewModel {
     final class Input: InputObject {
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let editButtonTapped = PassthroughSubject<ProfileModelObject, Never>()
         let settingButtonTapped = PassthroughSubject<Void, Never>()
     }
 
@@ -55,11 +56,19 @@ final class ProfileDetailViewModel: ViewModel {
             }
             .store(in: &cancellables)
 
+        // MARK: - 編集ボタンタップ
+
+        input.editButtonTapped
+            .sink { modelObject in
+                routing.showUpdateScreen(type: .update(modelObject))
+            }
+            .store(in: &cancellables)
+
         // MARK: - 設定ボタンタップ
 
         input.settingButtonTapped
             .sink { _ in
-                routing.showUpdateScreen()
+                routing.showUpdateScreen(type: .setting)
             }
             .store(in: &cancellables)
     }

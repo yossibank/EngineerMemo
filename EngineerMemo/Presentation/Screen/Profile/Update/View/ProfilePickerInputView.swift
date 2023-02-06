@@ -64,12 +64,14 @@ final class ProfilePickerInputView: UIView {
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(title: String) {
+        super.init(frame: .zero)
 
         setupViews()
         setupConstraints()
         setupPicker()
+
+        titleLabel.apply(.text(title))
     }
 
     @available(*, unavailable)
@@ -97,8 +99,15 @@ final class ProfilePickerInputView: UIView {
 // MARK: - internal methods
 
 extension ProfilePickerInputView {
-    func configure(title: String) {
-        titleLabel.apply(.text(title))
+    func updateValue(modelObject: ProfileModelObject?) {
+        guard
+            let modelObject,
+            let birthday = modelObject.birthday
+        else {
+            return
+        }
+
+        pickerLabel.apply(.text(birthday.toString))
     }
 }
 
@@ -145,8 +154,8 @@ private extension ProfilePickerInputView {
     func setupPicker() {
         inputDatePicker.expandPickerRange()
         inputDatePicker.publisher
-            .sink { [weak self] date in
-                self?.pickerLabel.text = date.toString
+            .sink { [weak self] birthday in
+                self?.pickerLabel.text = birthday.toString
             }
             .store(in: &cancellables)
     }
@@ -159,9 +168,11 @@ private extension ProfilePickerInputView {
 
     struct ProfilePickerInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfilePickerInputView()) {
-                $0.configure(title: "title")
-            }
+            WrapperView(
+                view: ProfilePickerInputView(
+                    title: "title"
+                )
+            )
         }
     }
 #endif

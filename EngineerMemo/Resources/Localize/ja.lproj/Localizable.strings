@@ -6,10 +6,13 @@
 
 "components.button.create" = "作成する";
 "components.button.createDone" = "作成完了";
+"components.button.edit" = "編集する";
 "components.button.update" = "更新する";
 "components.button.updateDone" = "更新完了";
 "components.button.setting" = "設定する";
+"components.button.updateProfile" = "プロフィール情報を更新する";
 "components.button.saveProfile" = "プロフィール入力情報を保存する";
+"components.button.updateProfileDone" = "プロフィール更新完了✅";
 "components.button.saveProfileDone" = "プロフィール作成完了✅";
 
 // MARK: - タブ
@@ -32,6 +35,7 @@
 
 "profile.basicInformation" = "基本情報";
 "profile.name" = "名前";
+"profile.noSettingName" = "名前未設定";
 "profile.birthday" = "生年月日";
 "profile.age" = "年齢";
 "profile.gender" = "性別";

@@ -34,6 +34,7 @@ final class ProfileUpdateViewModel: ViewModel {
 
     init(
         model: ProfileModelInput,
+        modelObject: ProfileModelObject?,
         analytics: FirebaseAnalyzable
     ) {
         let binding = Binding()
@@ -46,47 +47,65 @@ final class ProfileUpdateViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
+        if let modelObject {
+            self.modelObject = modelObject
+        }
+
         // MARK: - 名前
 
-        let name = binding.$name.sink { [weak self] name in
-            self?.modelObject.name = name
-        }
+        let name = binding.$name
+            .dropFirst()
+            .sink { [weak self] name in
+                self?.modelObject.name = name
+            }
 
         // MARK: - 生年月日
 
-        let birthday = binding.$birthday.sink { [weak self] birthday in
-            self?.modelObject.birthday = birthday
-        }
+        let birthday = binding.$birthday
+            .dropFirst()
+            .sink { [weak self] birthday in
+                self?.modelObject.birthday = birthday
+            }
 
         // MARK: - 性別
 
-        let gender = binding.$gender.sink { [weak self] type in
-            self?.modelObject.gender = type.gender
-        }
+        let gender = binding.$gender
+            .dropFirst()
+            .sink { [weak self] type in
+                self?.modelObject.gender = type.gender
+            }
 
         // MARK: - Eメール
 
-        let email = binding.$email.sink { [weak self] email in
-            self?.modelObject.email = email
-        }
+        let email = binding.$email
+            .dropFirst()
+            .sink { [weak self] email in
+                self?.modelObject.email = email
+            }
 
         // MARK: - 電話番号
 
-        let phoneNumber = binding.$phoneNumber.sink { [weak self] phoneNumber in
-            self?.modelObject.phoneNumber = phoneNumber
-        }
+        let phoneNumber = binding.$phoneNumber
+            .dropFirst()
+            .sink { [weak self] phoneNumber in
+                self?.modelObject.phoneNumber = phoneNumber
+            }
 
         // MARK: - 住所
 
-        let address = binding.$address.sink { [weak self] address in
-            self?.modelObject.address = address
-        }
+        let address = binding.$address
+            .dropFirst()
+            .sink { [weak self] address in
+                self?.modelObject.address = address
+            }
 
         // MARK: - 最寄駅
 
-        let station = binding.$station.sink { [weak self] station in
-            self?.modelObject.station = station
-        }
+        let station = binding.$station
+            .dropFirst()
+            .sink { [weak self] station in
+                self?.modelObject.station = station
+            }
 
         // MARK: - viewWillAppear
 
@@ -96,7 +115,7 @@ final class ProfileUpdateViewModel: ViewModel {
             }
             .store(in: &cancellables)
 
-        // MARK: - 作成ボタンタップ
+        // MARK: - 更新・保存ボタンタップ
 
         input.saveButtonTapped
             .sink { [weak self] _ in
@@ -104,7 +123,12 @@ final class ProfileUpdateViewModel: ViewModel {
                     return
                 }
 
-                self.model.create(modelObject: self.modelObject)
+                if modelObject == nil {
+                    self.model.create(modelObject: self.modelObject)
+                } else {
+                    self.model.update(modelObject: self.modelObject)
+                }
+
                 self.output.isFinish = true
             }
             .store(in: &cancellables)

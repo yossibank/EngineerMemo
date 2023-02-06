@@ -11,10 +11,12 @@ final class ProfileDetailContentView: UIView {
         }
     }
 
+    private(set) lazy var didTapEditButtonPublisher = didTapEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSettingButtonPublisher = didTapSettingButtonSubject.eraseToAnyPublisher()
 
     private var dataSource: UITableViewDiffableDataSource<ProfileDetailSection, ProfileDetailItem>!
 
+    private let didTapEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
     private let tableView = UITableView()
 
@@ -94,6 +96,12 @@ private extension ProfileDetailContentView {
 
                 cell.configure(modelObject)
 
+                cell.editButtonPublisher
+                    .sink { [weak self] _ in
+                        self?.didTapEditButtonSubject.send(modelObject)
+                    }
+                    .store(in: &cell.cancellables)
+
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(
@@ -101,10 +109,11 @@ private extension ProfileDetailContentView {
                     for: indexPath
                 )
 
-                cell.settingButtonTapPublisher.sink { [weak self] _ in
-                    self?.didTapSettingButtonSubject.send(())
-                }
-                .store(in: &cell.cancellables)
+                cell.settingButtonTapPublisher
+                    .sink { [weak self] _ in
+                        self?.didTapSettingButtonSubject.send(())
+                    }
+                    .store(in: &cell.cancellables)
 
                 return cell
             }

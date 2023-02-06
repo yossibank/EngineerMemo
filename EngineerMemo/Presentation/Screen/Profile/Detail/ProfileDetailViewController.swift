@@ -61,6 +61,13 @@ private extension ProfileDetailViewController {
     }
 
     func bindToViewModel() {
+        contentView.didTapEditButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] modelObject in
+                self?.viewModel.input.editButtonTapped.send(modelObject)
+            }
+            .store(in: &cancellables)
+
         contentView.didTapSettingButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in

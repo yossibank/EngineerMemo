@@ -4,8 +4,8 @@ enum ContentViews {
             .init()
         }
 
-        static func Update() -> ProfileUpdateContentView {
-            .init()
+        static func Update(modelObject: ProfileModelObject? = nil) -> ProfileUpdateContentView {
+            .init(modelObject: modelObject)
         }
     }
 

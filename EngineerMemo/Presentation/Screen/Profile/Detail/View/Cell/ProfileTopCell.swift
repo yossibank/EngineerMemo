@@ -45,7 +45,7 @@ final class ProfileTopCell: UITableViewCell {
 extension ProfileTopCell {
     func configure(_ modelObject: ProfileModelObject?) {
         iconImageView.apply(.image(ImageResources.profile))
-        userNameLabel.apply(.text(modelObject?.name))
+        userNameLabel.apply(.text(modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName))
     }
 }
 
@@ -61,7 +61,7 @@ private extension ProfileTopCell {
 
     func setupConstraints() {
         stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(32)
+            $0.edges.equalToSuperview().inset(16)
         }
 
         iconImageView.snp.makeConstraints {

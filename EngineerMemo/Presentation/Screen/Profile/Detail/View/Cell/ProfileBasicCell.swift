@@ -6,31 +6,13 @@ import UIStyle
 // MARK: - properties & init
 
 final class ProfileBasicCell: UITableViewCell {
-    private enum ObjectType: CaseIterable {
-        case name
-        case age
-        case gender
-        case email
-        case phoneNumber
-        case address
-        case station
+    var cancellables: Set<AnyCancellable> = .init()
 
-        var title: String {
-            switch self {
-            case .name: return L10n.Profile.name
-            case .age: return L10n.Profile.age
-            case .gender: return L10n.Profile.gender
-            case .email: return L10n.Profile.email
-            case .phoneNumber: return L10n.Profile.phoneNumber
-            case .address: return L10n.Profile.address
-            case .station: return L10n.Profile.station
-            }
-        }
-    }
+    private(set) lazy var editButtonPublisher = editButton.publisher(for: .touchUpInside)
 
     private lazy var mainView = UIView(
         styles: [
-            .addSubview(stackView),
+            .addSubviews([stackView, editButton]),
             .backgroundColor(.thinGray),
             .clipsToBounds(true),
             .cornerRadius(8)
@@ -54,10 +36,17 @@ final class ProfileBasicCell: UITableViewCell {
     )
 
     private var arrangedSubviews: [UIView] {
-        var subviews: [UIView] = ObjectType.allCases.map(createStackView)
+        var subviews: [UIView] = ProfileContentType.allCases.map(createStackView)
         subviews.insert(titleStackView, at: 0)
         return subviews
     }
+
+    private let editButton = UIButton(
+        styles: UIStyle.edit(
+            title: L10n.Components.Button.edit,
+            image: ImageResources.edit
+        )
+    )
 
     private let basicLabel = UILabel(styles: [.text(L10n.Profile.basicInformation), .boldSystemFont(size: 16)])
     private let nameLabel = UILabel(style: .boldSystemFont(size: 16))
@@ -83,6 +72,12 @@ final class ProfileBasicCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        cancellables.removeAll()
     }
 }
 
@@ -125,9 +120,14 @@ private extension ProfileBasicCell {
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(16)
         }
+
+        editButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(12)
+            $0.trailing.equalToSuperview().inset(8)
+        }
     }
 
-    private func createTitleLabel(_ type: ObjectType) -> UILabel {
+    private func createTitleLabel(_ type: ProfileContentType) -> UILabel {
         .init(
             styles: [
                 .systemFont(size: 14),
@@ -137,7 +137,7 @@ private extension ProfileBasicCell {
         )
     }
 
-    private func createStackView(_ type: ObjectType) -> UIStackView {
+    private func createStackView(_ type: ProfileContentType) -> UIStackView {
         let stackView: UIStackView
         let valueLabel: UILabel
         let titleLabel = createTitleLabel(type)
