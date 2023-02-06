@@ -197,19 +197,19 @@ private extension ProfileUpdateViewModelTest {
         model = .init()
 
         switch type {
-        case let .update(modelObject):
-            analytics = .init(screenId: .profileUpdate)
-            viewModel = .init(
-                model: model,
-                modelObject: modelObject,
-                analytics: analytics
-            )
-
         case .setting:
             analytics = .init(screenId: .profileUpdate)
             viewModel = .init(
                 model: model,
                 modelObject: nil,
+                analytics: analytics
+            )
+
+        case let .update(modelObject):
+            analytics = .init(screenId: .profileUpdate)
+            viewModel = .init(
+                model: model,
+                modelObject: modelObject,
                 analytics: analytics
             )
         }
