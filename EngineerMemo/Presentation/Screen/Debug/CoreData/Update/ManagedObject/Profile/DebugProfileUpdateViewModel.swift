@@ -33,13 +33,13 @@
             .station(DebugCoreDataSegment.defaultString)
             .build()
 
-        private var addressSegment: DebugCoreDataSegment?
-        private var ageSegment: DebugCoreDataSegment?
-        private var emailSegment: DebugCoreDataSegment?
-        private var genderSegment: DebugGenderSegment?
-        private var nameSegment: DebugCoreDataSegment?
-        private var phoneNumberSegment: DebugPhoneNumberSegment?
-        private var stationSegment: DebugCoreDataSegment?
+        private var addressSegment: DebugCoreDataSegment = .medium
+        private var ageSegment: DebugCoreDataSegment = .medium
+        private var emailSegment: DebugCoreDataSegment = .medium
+        private var genderSegment: DebugGenderSegment = .woman
+        private var nameSegment: DebugCoreDataSegment = .medium
+        private var phoneNumberSegment: DebugPhoneNumberSegment = .phone
+        private var stationSegment: DebugCoreDataSegment = .medium
 
         private let model: ProfileModelInput
 
@@ -134,13 +134,13 @@
                     self.model.update(modelObject: self.modelObject)
 
                     self.modelObject = ProfileModelObjectBuilder()
-                        .address(self.addressSegment?.string)
-                        .birthday(self.ageSegment?.date)
-                        .email(self.emailSegment?.string)
-                        .gender(self.genderSegment?.gender)
-                        .name(self.nameSegment?.string)
-                        .phoneNumber(self.phoneNumberSegment?.phoneNumber)
-                        .station(self.stationSegment?.string)
+                        .address(self.addressSegment.string)
+                        .birthday(self.ageSegment.date)
+                        .email(self.emailSegment.string)
+                        .gender(self.genderSegment.gender)
+                        .name(self.nameSegment.string)
+                        .phoneNumber(self.phoneNumberSegment.phoneNumber)
+                        .station(self.stationSegment.string)
                         .identifier(identifier)
                         .build()
                 }

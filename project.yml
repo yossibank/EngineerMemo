@@ -62,36 +62,36 @@ targets:
         product: IQKeyboardManagerSwift
       - package: SnapKit
     preBuildScripts:
-      - path: ./Scripts/Firebase/infoplist.sh
-        name: Setup GoogleServiceInfoPlist
+      - name: Setup GoogleServiceInfoPlist
         basedOnDependencyAnalysis: false
-      - path: ./Scripts/XcodeGen/licensePlist.sh
-        name: Setup LicensePlist
+        path: ./Scripts/Firebase/infoplist.sh
+      - name: Setup LicensePlist
         basedOnDependencyAnalysis: false
-      - path: ./Scripts/XcodeGen/commitHash.sh
-        name: Get CommitHash
+        path: ./Scripts/XcodeGen/licensePlist.sh
+      - name: Get CommitHash
         basedOnDependencyAnalysis: false
+        path: ./Scripts/XcodeGen/commitHash.sh
         inputFiles:
           - ${TEMP_DIR}/Preprocessed-Info.plist
-      - path: ./Scripts/XcodeGen/mockolo.sh
-        name: Generate Mock
+      - name: Generate Mock
         basedOnDependencyAnalysis: false
+        path: ./Scripts/XcodeGen/mockolo.sh
         outputFiles:
           - EngineerMemoTests/TestMock/MockResults.swift
-      - path: ./Scripts/XcodeGen/swiftformat.sh
-        name: Run SwiftFormat
+      - name: Run SwiftFormat
         basedOnDependencyAnalysis: false
-      - path: ./Scripts/XcodeGen/swiftgen.sh
-        name: Run SwiftGen
+        path: ./Scripts/XcodeGen/swiftformat.sh
+      - name: Run SwiftGen
         basedOnDependencyAnalysis: false
+        path: ./Scripts/XcodeGen/swiftgen.sh
     postCompileScripts:
-      - path: ./Scripts/XcodeGen/swiftlint.sh
-        name: Run SwiftLint
+      - name: Run SwiftLint
         basedOnDependencyAnalysis: false
+        path: ./Scripts/XcodeGen/swiftlint.sh
     postBuildScripts:
-      - path: ./Scripts/Firebase/crashlytics.sh
-        name: Run Crashlytics
+      - name: Run Crashlytics
         basedOnDependencyAnalysis: false
+        path: ./Scripts/Firebase/crashlytics.sh
         inputFiles:
           - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
           - $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)

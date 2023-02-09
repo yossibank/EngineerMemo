@@ -33,17 +33,9 @@ extension ProfileModelObject {
         isNew: Bool
     ) {
         profile.address = address
-
-        if let birthday {
-            profile.birthday = birthday
-        }
-
+        profile.birthday = birthday
         profile.email = email
-
-        if let gender {
-            profile.genderEnum = .init(rawValue: gender.rawValue)
-        }
-
+        profile.genderEnum = .init(rawValue: gender?.rawValue ?? .invalid)
         profile.name = name
         profile.phoneNumber = phoneNumber
         profile.station = station

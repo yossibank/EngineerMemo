@@ -24,11 +24,7 @@ extension Profile {
             .init(rawValue: gender?.intValue ?? .invalid)
         }
         set {
-            guard let value = newValue?.rawValue else {
-                return
-            }
-
-            gender = .init(value: value)
+            gender = .init(value: newValue?.rawValue ?? .invalid)
         }
     }
 }
