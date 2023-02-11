@@ -4,6 +4,7 @@ final class TabBarController: UITabBarController {
     private enum TabItem: Int, CaseIterable {
         case home
         case profile
+        case memo
         case debug
 
         var rootViewController: UIViewController {
@@ -15,6 +16,9 @@ final class TabBarController: UITabBarController {
 
             case .profile:
                 rootViewController = .init(rootViewController: AppControllers.Profile.Detail())
+
+            case .memo:
+                rootViewController = .init(rootViewController: AppControllers.Memo.List())
 
             case .debug:
                 rootViewController = .init(rootViewController: AppControllers.Debug.Development())
@@ -33,6 +37,9 @@ final class TabBarController: UITabBarController {
             case .profile:
                 return L10n.Tab.profile
 
+            case .memo:
+                return L10n.Tab.memo
+
             case .debug:
                 return L10n.Tab.debug
             }
@@ -45,6 +52,9 @@ final class TabBarController: UITabBarController {
 
             case .profile:
                 return ImageResources.profile
+
+            case .memo:
+                return ImageResources.memo
 
             case .debug:
                 return ImageResources.debug

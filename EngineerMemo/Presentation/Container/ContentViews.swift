@@ -1,4 +1,10 @@
 enum ContentViews {
+    enum Memo {
+        static func List() -> MemoListContentView {
+            .init()
+        }
+    }
+
     enum Profile {
         static func Detail() -> ProfileDetailContentView {
             .init()
@@ -34,11 +40,11 @@ enum ContentViews {
             }
 
             enum CoreData {
-                static func List() -> DebugCoreDataListContentView {
+                static func Create() -> DebugCoreDataCreateContentView {
                     .init()
                 }
 
-                static func Create() -> DebugCoreDataCreateContentView {
+                static func List() -> DebugCoreDataListContentView {
                     .init()
                 }
 
@@ -48,14 +54,14 @@ enum ContentViews {
             }
 
             enum CoreDataObject {
-                enum List {
-                    static func Profile() -> DebugProfileListContentView {
+                enum Create {
+                    static func Profile() -> DebugProfileCreateContentView {
                         .init()
                     }
                 }
 
-                enum Create {
-                    static func Profile() -> DebugProfileCreateContentView {
+                enum List {
+                    static func Profile() -> DebugProfileListContentView {
                         .init()
                     }
                 }
