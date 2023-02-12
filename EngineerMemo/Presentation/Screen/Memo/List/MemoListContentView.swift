@@ -22,6 +22,7 @@ final class MemoListContentView: UIView {
         setupViews()
         setupConstraints()
         setupCollectionView()
+        setupHeaderView()
         applySnapshot()
     }
 
@@ -35,6 +36,12 @@ final class MemoListContentView: UIView {
 
 private extension MemoListContentView {
     func setupCollectionView() {
+        collectionView.register(
+            MemoListHeaderView.self,
+            forSupplementaryViewOfKind: "section-header-element-kind",
+            withReuseIdentifier: MemoListHeaderView.className
+        )
+
         let cellRegistration = UICollectionView.CellRegistration<
             UICollectionViewListCell,
             MemoItem
@@ -65,8 +72,27 @@ private extension MemoListContentView {
         }
     }
 
+    func setupHeaderView() {
+        dataSource.supplementaryViewProvider = { collectionView, _, indexPath in
+            guard
+                let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: "section-header-element-kind",
+                    withReuseIdentifier: MemoListHeaderView.className,
+                    for: indexPath
+                ) as? MemoListHeaderView
+            else {
+                return .init()
+            }
+
+            header.configure(title: "title")
+
+            return header
+        }
+    }
+
     func createLayout() -> UICollectionViewLayout {
         let estimatedHeight: CGFloat = 56
+        let headerKind = "section-header-element-kind"
 
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -74,12 +100,12 @@ private extension MemoListContentView {
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupLayoutSize = NSCollectionLayoutSize(
+        let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(estimatedHeight)
         )
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupLayoutSize,
+            layoutSize: groupSize,
             subitem: item,
             count: 2
         )
@@ -88,13 +114,25 @@ private extension MemoListContentView {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8.0
 
+        let topInset: CGFloat = 12.0
         let sideInset: CGFloat = 8.0
         section.contentInsets = .init(
-            top: .zero,
+            top: topInset,
             leading: sideInset,
             bottom: .zero,
             trailing: sideInset
         )
+
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(44)
+        )
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: headerKind,
+            alignment: .top
+        )
+        section.boundarySupplementaryItems = [header]
 
         return UICollectionViewCompositionalLayout(section: section)
     }

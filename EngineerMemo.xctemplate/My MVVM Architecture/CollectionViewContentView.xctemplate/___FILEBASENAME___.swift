@@ -88,12 +88,12 @@ private extension ___FILEBASENAME___ {
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupLayoutSize = NSCollectionLayoutSize(
+        let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(estimatedHeight)
         )
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupLayoutSize,
+            layoutSize: groupSize,
             subitem: item,
             count: 2
         )
