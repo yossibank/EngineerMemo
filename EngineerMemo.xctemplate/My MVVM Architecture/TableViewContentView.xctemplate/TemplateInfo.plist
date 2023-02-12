@@ -9,8 +9,8 @@
 		<string>public.swift-source</string>
 	</array>
 	<key>DefaultCompletionName</key>
-	<string>ViewController</string>
+	<string>ContentView</string>
 	<key>SortOrder</key>
-	<string>4</string>
+	<string>1</string>
 </dict>
 </plist>

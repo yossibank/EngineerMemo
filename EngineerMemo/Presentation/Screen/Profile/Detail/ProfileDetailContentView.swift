@@ -14,7 +14,10 @@ final class ProfileDetailContentView: UIView {
     private(set) lazy var didTapEditButtonPublisher = didTapEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSettingButtonPublisher = didTapSettingButtonSubject.eraseToAnyPublisher()
 
-    private var dataSource: UITableViewDiffableDataSource<ProfileDetailSection, ProfileDetailItem>!
+    private var dataSource: UITableViewDiffableDataSource<
+        ProfileDetailSection,
+        ProfileDetailItem
+    >!
 
     private let didTapEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
@@ -121,7 +124,10 @@ private extension ProfileDetailContentView {
     }
 
     func apply() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<ProfileDetailSection, ProfileDetailItem>()
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
+            ProfileDetailSection,
+            ProfileDetailItem
+        >()
         dataSourceSnapshot.appendSections(ProfileDetailSection.allCases)
         dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
         dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)

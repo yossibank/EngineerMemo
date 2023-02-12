@@ -24,7 +24,10 @@ final class SampleListContentView: UIView {
 
     lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
-    private var dataSource: UITableViewDiffableDataSource<SampleListSection, SampleListItem>!
+    private var dataSource: UITableViewDiffableDataSource<
+        SampleListSection,
+        SampleListItem
+    >!
 
     private let didSelectContentSubject = PassthroughSubject<IndexPath, Never>()
     private let tableView = UITableView()
@@ -76,7 +79,10 @@ private extension SampleListContentView {
     }
 
     func apply() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<SampleListSection, SampleListItem>()
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
+            SampleListSection,
+            SampleListItem
+        >()
         dataSourceSnapshot.appendSections([.main])
 
         modelObject.forEach { object in
