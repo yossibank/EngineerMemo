@@ -60,9 +60,6 @@ final class ProfileModelTest: XCTestCase {
         // act
         model.get { result in
             switch result {
-            case let .failure(appError):
-                XCTFail(appError.localizedDescription)
-
             case let .success(modelObject):
                 // assert
                 XCTAssertEqual(
@@ -78,6 +75,9 @@ final class ProfileModelTest: XCTestCase {
                         .station("鶴橋駅")
                         .build()
                 )
+
+            case let .failure(appError):
+                XCTFail(appError.localizedDescription)
             }
 
             expectation.fulfill()
@@ -119,9 +119,6 @@ final class ProfileModelTest: XCTestCase {
         // act
         model.gets { result in
             switch result {
-            case let .failure(appError):
-                XCTFail(appError.localizedDescription)
-
             case let .success(modelObject):
                 // assert
                 XCTAssertEqual(
@@ -139,6 +136,9 @@ final class ProfileModelTest: XCTestCase {
                             .build()
                     ]
                 )
+
+            case let .failure(appError):
+                XCTFail(appError.localizedDescription)
             }
 
             expectation.fulfill()
