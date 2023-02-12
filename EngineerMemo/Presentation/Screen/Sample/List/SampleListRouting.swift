@@ -6,7 +6,7 @@ protocol SampleListRoutingInput {
     func showDetailScreen(_ modelObject: SampleModelObject)
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class SampleListRouting {
     private weak var viewController: UIViewController?

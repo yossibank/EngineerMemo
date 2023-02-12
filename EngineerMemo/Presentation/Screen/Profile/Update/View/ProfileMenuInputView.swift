@@ -34,7 +34,7 @@ enum ProfileMenuGenderType: Int, CaseIterable {
     }
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class ProfileMenuInputView: UIView {
     @Published private(set) var selectedType: ProfileMenuGenderType = .none

@@ -3,7 +3,7 @@ import UIKit
 /// @mockable
 protocol ___FILEBASENAME___Input {}
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class ___FILEBASENAME___ {
     private weak var viewController: UIViewController?

@@ -5,7 +5,7 @@ protocol SampleDetailRoutingInput {
     func showEditScreen(modelObject: SampleModelObject)
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class SampleDetailRouting {
     private weak var viewController: UIViewController?

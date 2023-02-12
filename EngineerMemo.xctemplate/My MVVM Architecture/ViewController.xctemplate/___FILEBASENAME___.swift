@@ -8,7 +8,7 @@ extension ___FILEBASENAME___: VCInjectable {
     typealias VM = NoViewModel
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class ___FILEBASENAME___: UIViewController {
     var viewModel: VM!

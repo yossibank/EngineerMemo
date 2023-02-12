@@ -6,7 +6,7 @@
         func showDebugCoreDataScreen(item: DebugCoreDataItem)
     }
 
-    // MARK: - stored properties & init
+    // MARK: - properties & init
 
     final class DebugDevelopmentRouting {
         private weak var viewController: UIViewController?

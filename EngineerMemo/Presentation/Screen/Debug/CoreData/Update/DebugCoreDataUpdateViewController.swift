@@ -9,7 +9,7 @@
         typealias VM = NoViewModel
     }
 
-    // MARK: - stored properties & init
+    // MARK: - properties & init
 
     final class DebugCoreDataUpdateViewController: UIViewController {
         var viewModel: VM!

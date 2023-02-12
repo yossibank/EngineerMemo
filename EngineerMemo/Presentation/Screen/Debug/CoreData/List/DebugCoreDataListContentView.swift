@@ -5,7 +5,7 @@
     import UIKit
     import UIStyle
 
-    // MARK: - stored properties & init
+    // MARK: - properties & init
 
     final class DebugCoreDataListContentView: UIView {
         @Published private(set) var selectedType: CoreDataMenuType = .profile

@@ -3,7 +3,7 @@ import SnapKit
 import UIKit
 import UIStyle
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class SampleEditContentView: UIView {
     private(set) lazy var didChangeTitleTextPublisher = titleTextField.textDidChangePublisher

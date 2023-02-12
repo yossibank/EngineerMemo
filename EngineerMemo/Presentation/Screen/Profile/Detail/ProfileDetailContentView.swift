@@ -2,7 +2,7 @@ import Combine
 import SnapKit
 import UIKit
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class ProfileDetailContentView: UIView {
     var modelObject: ProfileModelObject? {

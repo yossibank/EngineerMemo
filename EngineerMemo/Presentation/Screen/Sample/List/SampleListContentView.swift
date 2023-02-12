@@ -13,7 +13,7 @@ enum SampleListItem: Hashable {
     case main(SampleModelObject)
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class SampleListContentView: UIView {
     var modelObject: [SampleModelObject] = [] {

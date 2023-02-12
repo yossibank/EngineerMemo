@@ -5,7 +5,7 @@
     import UIKit
     import UIStyle
 
-    // MARK: - stored properties & init
+    // MARK: - properties & init
 
     final class DebugDevelopmentContentView: UIView {
         lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()

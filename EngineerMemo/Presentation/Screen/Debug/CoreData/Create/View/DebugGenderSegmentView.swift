@@ -35,7 +35,7 @@
         }
     }
 
-    // MARK: - stored properties & init
+    // MARK: - properties & init
 
     final class DebugGenderSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher

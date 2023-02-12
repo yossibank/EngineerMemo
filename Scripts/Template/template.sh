@@ -7,3 +7,4 @@ fi
 cp -r EngineerMemo.xctemplate/My\ MVVM\ Architecture "${TEMPLATE_DIR}"
 cp -r EngineerMemo.xctemplate/My\ MVVM\ ArchitectureTest "${TEMPLATE_DIR}"
 cp -r EngineerMemo.xctemplate/My\ SnapshotTest "${TEMPLATE_DIR}"
+cp -r EngineerMemo.xctemplate/My\ UIHelper "${TEMPLATE_DIR}"

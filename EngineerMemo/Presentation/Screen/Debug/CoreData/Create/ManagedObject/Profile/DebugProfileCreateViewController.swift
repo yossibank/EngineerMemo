@@ -9,7 +9,7 @@
         typealias VM = DebugProfileCreateViewModel
     }
 
-    // MARK: - stored properties & init
+    // MARK: - properties & init
 
     final class DebugProfileCreateViewController: UIViewController {
         var viewModel: VM!
