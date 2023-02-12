@@ -29,6 +29,12 @@ extension ___FILEBASENAME___ {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        viewModel.input.viewWillAppear.send(())
+    }
 }
 
 // MARK: - internal methods
