@@ -18,7 +18,7 @@ enum ___FILEBASENAME___Item: Hashable {
 final class ___FILEBASENAME___: UIView {
     private lazy var collectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: collectionViewLayout
+        collectionViewLayout: createLayout()
     )
 
     private var dataSource: UICollectionViewDiffableDataSource<
@@ -26,34 +26,13 @@ final class ___FILEBASENAME___: UIView {
         ___FILEBASENAME___Item
     >!
 
-    private let collectionViewLayout = UICollectionViewCompositionalLayout { _, layoutEnvironment in
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-
-        return .list(
-            using: configuration,
-            layoutEnvironment: layoutEnvironment
-        )
-    }
-
-    private let cellRegistration = UICollectionView.CellRegistration<
-        UICollectionViewListCell,
-        ___FILEBASENAME___Item
-    > { cell, _, item in
-        switch item {
-        case let .main(text):
-            var configuration = cell.defaultContentConfiguration()
-            configuration.text = text
-            cell.contentConfiguration = configuration
-        }
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupViews()
         setupConstraints()
-        setupDataSource()
-        apply()
+        setupCollectionView()
+        applySnapshot()
     }
 
     @available(*, unavailable)
@@ -69,21 +48,72 @@ extension ___FILEBASENAME___ {}
 // MARK: - private methods
 
 private extension ___FILEBASENAME___ {
-    func setupDataSource() {
-        dataSource = .init(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
-            guard let self else {
-                return .init()
-            }
+    func setupCollectionView() {
+        let cellRegistration = UICollectionView.CellRegistration<
+            UICollectionViewListCell,
+            TestContentViewItem
+        > { cell, indexPath, item in
+            switch item {
+            case let .main(text):
+                var configuration = cell.defaultContentConfiguration()
+                configuration.text = text
+                configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
+                configuration.image = .init(systemName: "appletv")
 
-            return collectionView.dequeueConfiguredReusableCell(
-                using: self.cellRegistration,
+                var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
+                backgroundConfig.backgroundColor = indexPath.row % 2 == 0
+                    ? .green
+                    : .orange
+
+                cell.contentConfiguration = configuration
+                cell.backgroundConfiguration = backgroundConfig
+            }
+        }
+
+        dataSource = .init(collectionView: collectionView) { collectionView, indexPath, item in
+            collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
                 for: indexPath,
                 item: item
             )
         }
     }
 
-    func apply() {
+    func createLayout() -> UICollectionViewLayout {
+        let estimatedHeight: CGFloat = 56
+
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(estimatedHeight)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupLayoutSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(estimatedHeight)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupLayoutSize,
+            subitem: item,
+            count: 2
+        )
+        group.interItemSpacing = .fixed(8.0)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8.0
+
+        let sideInset: CGFloat = 8.0
+        section.contentInsets = .init(
+            top: .zero,
+            leading: sideInset,
+            bottom: .zero,
+            trailing: sideInset
+        )
+
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+
+    func applySnapshot() {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
             ___FILEBASENAME___Section,
             ___FILEBASENAME___Item

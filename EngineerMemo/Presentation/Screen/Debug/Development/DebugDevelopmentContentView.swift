@@ -25,7 +25,7 @@
             setupViews()
             setupConstraints()
             setupTableView()
-            apply()
+            applySnapshot()
         }
 
         @available(*, unavailable)
@@ -93,7 +93,7 @@
             return cell
         }
 
-        func apply() {
+        func applySnapshot() {
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
                 DebugDevelopmentSection,
                 DebugDevelopmentItem

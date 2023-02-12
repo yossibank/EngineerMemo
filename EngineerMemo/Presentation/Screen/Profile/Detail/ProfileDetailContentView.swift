@@ -7,7 +7,7 @@ import UIKit
 final class ProfileDetailContentView: UIView {
     var modelObject: ProfileModelObject? {
         didSet {
-            apply()
+            applySnapshot()
         }
     }
 
@@ -123,7 +123,7 @@ private extension ProfileDetailContentView {
         }
     }
 
-    func apply() {
+    func applySnapshot() {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
             ProfileDetailSection,
             ProfileDetailItem
