@@ -8,7 +8,7 @@ extension SampleAddViewController: VCInjectable {
     typealias VM = SampleAddViewModel
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class SampleAddViewController: UIViewController {
     var viewModel: VM!

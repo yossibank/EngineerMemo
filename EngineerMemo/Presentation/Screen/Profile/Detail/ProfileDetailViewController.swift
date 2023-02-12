@@ -8,7 +8,7 @@ extension ProfileDetailViewController: VCInjectable {
     typealias VM = ProfileDetailViewModel
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class ProfileDetailViewController: UIViewController {
     var viewModel: VM!

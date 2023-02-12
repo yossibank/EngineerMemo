@@ -5,7 +5,7 @@ protocol ProfileDetailRoutingInput {
     func showUpdateScreen(type: ProfileUpdateType)
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class ProfileDetailRouting {
     private weak var viewController: UIViewController?

@@ -13,18 +13,21 @@ enum SampleListItem: Hashable {
     case main(SampleModelObject)
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class SampleListContentView: UIView {
     var modelObject: [SampleModelObject] = [] {
         didSet {
-            apply()
+            applySnapshot()
         }
     }
 
     lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
-    private var dataSource: UITableViewDiffableDataSource<SampleListSection, SampleListItem>!
+    private var dataSource: UITableViewDiffableDataSource<
+        SampleListSection,
+        SampleListItem
+    >!
 
     private let didSelectContentSubject = PassthroughSubject<IndexPath, Never>()
     private let tableView = UITableView()
@@ -75,20 +78,6 @@ private extension SampleListContentView {
         tableView.delegate = self
     }
 
-    func apply() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<SampleListSection, SampleListItem>()
-        dataSourceSnapshot.appendSections([.main])
-
-        modelObject.forEach { object in
-            dataSourceSnapshot.appendItems([.main(object)])
-        }
-
-        dataSource.apply(
-            dataSourceSnapshot,
-            animatingDifferences: false
-        )
-    }
-
     func configureDataSource() -> UITableViewDiffableDataSource<
         SampleListSection,
         SampleListItem
@@ -126,6 +115,23 @@ private extension SampleListContentView {
 
             return cell
         }
+    }
+
+    func applySnapshot() {
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
+            SampleListSection,
+            SampleListItem
+        >()
+        dataSourceSnapshot.appendSections([.main])
+
+        modelObject.forEach { object in
+            dataSourceSnapshot.appendItems([.main(object)])
+        }
+
+        dataSource.apply(
+            dataSourceSnapshot,
+            animatingDifferences: false
+        )
     }
 }
 

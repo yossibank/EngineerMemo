@@ -8,7 +8,7 @@ extension SampleListViewController: VCInjectable {
     typealias VM = SampleListViewModel
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class SampleListViewController: UIViewController {
     var viewModel: VM!

@@ -8,7 +8,7 @@ extension SampleDetailViewController: VCInjectable {
     typealias VM = SampleDetailViewModel
 }
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class SampleDetailViewController: UIViewController {
     var viewModel: VM!

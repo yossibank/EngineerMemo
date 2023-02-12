@@ -2,19 +2,22 @@ import Combine
 import SnapKit
 import UIKit
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class ProfileDetailContentView: UIView {
     var modelObject: ProfileModelObject? {
         didSet {
-            apply()
+            applySnapshot()
         }
     }
 
     private(set) lazy var didTapEditButtonPublisher = didTapEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSettingButtonPublisher = didTapSettingButtonSubject.eraseToAnyPublisher()
 
-    private var dataSource: UITableViewDiffableDataSource<ProfileDetailSection, ProfileDetailItem>!
+    private var dataSource: UITableViewDiffableDataSource<
+        ProfileDetailSection,
+        ProfileDetailItem
+    >!
 
     private let didTapEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
@@ -120,8 +123,11 @@ private extension ProfileDetailContentView {
         }
     }
 
-    func apply() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<ProfileDetailSection, ProfileDetailItem>()
+    func applySnapshot() {
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
+            ProfileDetailSection,
+            ProfileDetailItem
+        >()
         dataSourceSnapshot.appendSections(ProfileDetailSection.allCases)
         dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
         dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)
