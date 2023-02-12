@@ -1,13 +1,14 @@
 import Combine
 import SnapKit
 import UIKit
+import UIStyle
 
-// MARK: - stored properties & init
+// MARK: - properties & init
 
 final class MemoListContentView: UIView {
     private lazy var collectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: collectionViewLayout
+        collectionViewLayout: createLayout()
     )
 
     private var dataSource: UICollectionViewDiffableDataSource<
@@ -15,31 +16,13 @@ final class MemoListContentView: UIView {
         MemoItem
     >!
 
-    private let collectionViewLayout = UICollectionViewCompositionalLayout { _, layoutEnvironment in
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-
-        return .list(
-            using: configuration,
-            layoutEnvironment: layoutEnvironment
-        )
-    }
-
-    private let cellRegistration = UICollectionView.CellRegistration<
-        UICollectionViewListCell,
-        MemoItem
-    > { cell, _, memo in
-        var configuration = cell.defaultContentConfiguration()
-        configuration.text = memo.title
-        cell.contentConfiguration = configuration
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupViews()
         setupConstraints()
-        setupDataSource()
-        apply()
+        setupCollectionView()
+        applySnapshot()
     }
 
     @available(*, unavailable)
@@ -51,24 +34,81 @@ final class MemoListContentView: UIView {
 // MARK: - private methods
 
 private extension MemoListContentView {
-    func setupDataSource() {
-        dataSource = .init(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
-            guard let self else {
-                return .init()
-            }
+    func setupCollectionView() {
+        let cellRegistration = UICollectionView.CellRegistration<
+            UICollectionViewListCell,
+            MemoItem
+        > { cell, indexPath, item in
+            switch item {
+            case let .main(text):
+                var configuration = cell.defaultContentConfiguration()
+                configuration.text = text
+                configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
+                configuration.image = .init(systemName: "appletv")
 
-            return collectionView.dequeueConfiguredReusableCell(
-                using: self.cellRegistration,
+                var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
+                backgroundConfig.backgroundColor = indexPath.row % 2 == 0
+                    ? .green
+                    : .orange
+
+                cell.contentConfiguration = configuration
+                cell.backgroundConfiguration = backgroundConfig
+            }
+        }
+
+        dataSource = .init(collectionView: collectionView) { collectionView, indexPath, item in
+            collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
                 for: indexPath,
                 item: item
             )
         }
     }
 
-    func apply() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<MemoListSection, MemoItem>()
+    func createLayout() -> UICollectionViewLayout {
+        let estimatedHeight: CGFloat = 56
+
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(estimatedHeight)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupLayoutSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(estimatedHeight)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupLayoutSize,
+            subitem: item,
+            count: 2
+        )
+        group.interItemSpacing = .fixed(8.0)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8.0
+
+        let sideInset: CGFloat = 8.0
+        section.contentInsets = .init(
+            top: .zero,
+            leading: sideInset,
+            bottom: .zero,
+            trailing: sideInset
+        )
+
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+
+    func applySnapshot() {
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
+            MemoListSection,
+            MemoItem
+        >()
         dataSourceSnapshot.appendSections(MemoListSection.allCases)
-        dataSourceSnapshot.appendItems([.init(title: "Sample")], toSection: .main)
+
+        ["text1", "text2", "text3", "text4", "text5"].forEach {
+            dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
+        }
 
         dataSource.apply(
             dataSourceSnapshot,
