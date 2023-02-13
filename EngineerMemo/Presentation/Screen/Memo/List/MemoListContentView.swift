@@ -11,10 +11,41 @@ final class MemoListContentView: UIView {
         collectionViewLayout: createLayout()
     )
 
-    private var dataSource: UICollectionViewDiffableDataSource<
+    private lazy var dataSource: UICollectionViewDiffableDataSource<
         MemoListSection,
         MemoItem
-    >!
+    > = .init(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
+        guard let self else {
+            return .init()
+        }
+
+        return collectionView.dequeueConfiguredReusableCell(
+            using: self.cellRegistration,
+            for: indexPath,
+            item: item
+        )
+    }
+
+    private let cellRegistration: UICollectionView.CellRegistration<
+        UICollectionViewListCell,
+        MemoItem
+    > = .init { cell, indexPath, item in
+        switch item {
+        case let .main(text):
+            var configuration = cell.defaultContentConfiguration()
+            configuration.text = text
+            configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
+            configuration.image = .init(systemName: "appletv")
+
+            var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
+            backgroundConfig.backgroundColor = indexPath.row % 2 == 0
+                ? .green
+                : .orange
+
+            cell.contentConfiguration = configuration
+            cell.backgroundConfiguration = backgroundConfig
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,53 +67,15 @@ final class MemoListContentView: UIView {
 
 private extension MemoListContentView {
     func setupCollectionView() {
-        collectionView.register(
-            MemoListHeaderView.self,
-            forSupplementaryViewOfKind: "section-header-element-kind",
-            withReuseIdentifier: MemoListHeaderView.className
-        )
-
-        let cellRegistration = UICollectionView.CellRegistration<
-            UICollectionViewListCell,
-            MemoItem
-        > { cell, indexPath, item in
-            switch item {
-            case let .main(text):
-                var configuration = cell.defaultContentConfiguration()
-                configuration.text = text
-                configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
-                configuration.image = .init(systemName: "appletv")
-
-                var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-                backgroundConfig.backgroundColor = indexPath.row % 2 == 0
-                    ? .green
-                    : .orange
-
-                cell.contentConfiguration = configuration
-                cell.backgroundConfiguration = backgroundConfig
-            }
-        }
-
-        dataSource = .init(collectionView: collectionView) { collectionView, indexPath, item in
-            collectionView.dequeueConfiguredReusableCell(
-                using: cellRegistration,
-                for: indexPath,
-                item: item
-            )
-        }
+        collectionView.registerReusableView(with: MemoListHeaderView.self)
     }
 
     func setupHeaderView() {
         dataSource.supplementaryViewProvider = { collectionView, _, indexPath in
-            guard
-                let header = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: "section-header-element-kind",
-                    withReuseIdentifier: MemoListHeaderView.className,
-                    for: indexPath
-                ) as? MemoListHeaderView
-            else {
-                return .init()
-            }
+            let header = collectionView.dequeueReusableSupplementaryView(
+                withType: MemoListHeaderView.self,
+                for: indexPath
+            )
 
             header.configure(title: "title")
 
@@ -92,7 +85,7 @@ private extension MemoListContentView {
 
     func createLayout() -> UICollectionViewLayout {
         let estimatedHeight: CGFloat = 56
-        let headerKind = "section-header-element-kind"
+        let headerKind = String(describing: MemoListHeaderView.self)
 
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
