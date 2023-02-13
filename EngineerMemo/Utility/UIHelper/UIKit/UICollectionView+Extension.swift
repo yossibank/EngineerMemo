@@ -8,15 +8,13 @@ extension UICollectionView {
             withReuseIdentifier: String(describing: type)
         )
     }
+}
 
-    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(
-        withType type: T.Type,
-        for indexPath: IndexPath
-    ) -> T {
-        dequeueReusableSupplementaryView(
-            ofKind: String(describing: type),
-            withReuseIdentifier: String(describing: type),
-            for: indexPath
-        ) as! T
+extension UICollectionView.SupplementaryRegistration {
+    init(handler: @escaping Handler) {
+        self.init(
+            elementKind: String(describing: Supplementary.self),
+            handler: handler
+        )
     }
 }

@@ -17,10 +17,10 @@ final class MemoListContentView: UIView {
         collectionViewLayout: createLayout()
     )
 
-    private lazy var dataSource: UICollectionViewDiffableDataSource<
+    private lazy var dataSource = UICollectionViewDiffableDataSource<
         MemoListSection,
         MemoItem
-    > = .init(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
+    >(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
         guard let self else {
             return .init()
         }
@@ -32,10 +32,10 @@ final class MemoListContentView: UIView {
         )
     }
 
-    private let cellRegistration: UICollectionView.CellRegistration<
+    private let cellRegistration = UICollectionView.CellRegistration<
         UICollectionViewListCell,
         MemoItem
-    > = .init { cell, indexPath, item in
+    > { cell, indexPath, item in
         switch item {
         case let .main(text):
             var configuration = cell.defaultContentConfiguration()
@@ -51,6 +51,12 @@ final class MemoListContentView: UIView {
             cell.contentConfiguration = configuration
             cell.backgroundConfiguration = backgroundConfig
         }
+    }
+
+    private let headerRegistration = UICollectionView.SupplementaryRegistration<
+        MemoListHeaderView
+    > { header, _, _ in
+        header.configure(title: "title")
     }
 
     override init(frame: CGRect) {
@@ -77,13 +83,15 @@ private extension MemoListContentView {
     }
 
     func setupHeaderView() {
-        dataSource.supplementaryViewProvider = { collectionView, _, indexPath in
-            let header = collectionView.dequeueReusableSupplementaryView(
-                withType: MemoListHeaderView.self,
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, _, indexPath in
+            guard let self else {
+                return .init()
+            }
+
+            let header = collectionView.dequeueConfiguredReusableSupplementary(
+                using: self.headerRegistration,
                 for: indexPath
             )
-
-            header.configure(title: "title")
 
             header.button1Publisher
                 .sink { [weak self] _ in
@@ -91,8 +99,8 @@ private extension MemoListContentView {
                         return
                     }
 
-                    collectionView.collectionViewLayout.invalidateLayout()
-                    collectionView.setCollectionViewLayout(self.createLayout(viewType: .one), animated: true)
+                    self.collectionView.collectionViewLayout.invalidateLayout()
+                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .one), animated: true)
                 }
                 .store(in: &header.cancellables)
 
@@ -102,8 +110,8 @@ private extension MemoListContentView {
                         return
                     }
 
-                    collectionView.collectionViewLayout.invalidateLayout()
-                    collectionView.setCollectionViewLayout(self.createLayout(viewType: .two), animated: true)
+                    self.collectionView.collectionViewLayout.invalidateLayout()
+                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .two), animated: true)
                 }
                 .store(in: &header.cancellables)
 
@@ -113,8 +121,8 @@ private extension MemoListContentView {
                         return
                     }
 
-                    collectionView.collectionViewLayout.invalidateLayout()
-                    collectionView.setCollectionViewLayout(self.createLayout(viewType: .three), animated: true)
+                    self.collectionView.collectionViewLayout.invalidateLayout()
+                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .three), animated: true)
                 }
                 .store(in: &header.cancellables)
 
