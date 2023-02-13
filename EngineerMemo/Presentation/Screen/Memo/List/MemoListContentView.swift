@@ -6,6 +6,12 @@ import UIStyle
 // MARK: - properties & init
 
 final class MemoListContentView: UIView {
+    enum ViewType: Int {
+        case one = 1
+        case two
+        case three
+    }
+
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
@@ -79,11 +85,44 @@ private extension MemoListContentView {
 
             header.configure(title: "title")
 
+            header.button1Publisher
+                .sink { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+
+                    collectionView.collectionViewLayout.invalidateLayout()
+                    collectionView.setCollectionViewLayout(self.createLayout(viewType: .one), animated: true)
+                }
+                .store(in: &header.cancellables)
+
+            header.button2Publisher
+                .sink { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+
+                    collectionView.collectionViewLayout.invalidateLayout()
+                    collectionView.setCollectionViewLayout(self.createLayout(viewType: .two), animated: true)
+                }
+                .store(in: &header.cancellables)
+
+            header.button3Publisher
+                .sink { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+
+                    collectionView.collectionViewLayout.invalidateLayout()
+                    collectionView.setCollectionViewLayout(self.createLayout(viewType: .three), animated: true)
+                }
+                .store(in: &header.cancellables)
+
             return header
         }
     }
 
-    func createLayout() -> UICollectionViewLayout {
+    func createLayout(viewType: ViewType = .two) -> UICollectionViewLayout {
         let estimatedHeight: CGFloat = 56
         let headerKind = String(describing: MemoListHeaderView.self)
 
@@ -100,7 +139,7 @@ private extension MemoListContentView {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitem: item,
-            count: 2
+            count: viewType.rawValue
         )
         group.interItemSpacing = .fixed(8.0)
 
