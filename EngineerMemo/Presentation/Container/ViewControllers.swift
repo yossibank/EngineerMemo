@@ -1,6 +1,20 @@
 import SwiftUI
 
 enum AppControllers {
+    enum Memo {
+        static func List() -> MemoListViewController {
+            let vc = MemoListViewController()
+
+            vc.title = L10n.Navigation.Title.memoList
+            vc.inject(
+                contentView: ContentViews.Memo.List(),
+                viewModel: ViewModels.Memo.List()
+            )
+
+            return vc
+        }
+    }
+
     enum Profile {
         static func Detail() -> ProfileDetailViewController {
             let vc = ProfileDetailViewController()
@@ -112,17 +126,17 @@ enum AppControllers {
             }
 
             enum CoreData {
-                static func List() -> DebugCoreDataListViewController {
-                    let vc = DebugCoreDataListViewController()
-                    vc.title = L10n.Navigation.Title.debugCoreDataList
-                    vc.inject(contentView: ContentViews.Debug.CoreData.List())
-                    return vc
-                }
-
                 static func Create() -> DebugCoreDataCreateViewController {
                     let vc = DebugCoreDataCreateViewController()
                     vc.title = L10n.Navigation.Title.debugCoreDataCreate
                     vc.inject(contentView: ContentViews.Debug.CoreData.Create())
+                    return vc
+                }
+
+                static func List() -> DebugCoreDataListViewController {
+                    let vc = DebugCoreDataListViewController()
+                    vc.title = L10n.Navigation.Title.debugCoreDataList
+                    vc.inject(contentView: ContentViews.Debug.CoreData.List())
                     return vc
                 }
 

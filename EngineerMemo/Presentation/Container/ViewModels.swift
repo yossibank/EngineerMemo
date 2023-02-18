@@ -1,4 +1,10 @@
 enum ViewModels {
+    enum Memo {
+        static func List() -> MemoListViewModel {
+            .init(analytics: FirebaseAnalytics(screenId: .memoList))
+        }
+    }
+
     enum Profile {
         static func Detail(routing: ProfileDetailRoutingInput) -> ProfileDetailViewModel {
             .init(
@@ -63,14 +69,14 @@ enum ViewModels {
             }
 
             enum CoreDataObject {
-                enum List {
-                    static func Profile() -> DebugProfileListViewModel {
+                enum Create {
+                    static func Profile() -> DebugProfileCreateViewModel {
                         .init(model: Models.Profile())
                     }
                 }
 
-                enum Create {
-                    static func Profile() -> DebugProfileCreateViewModel {
+                enum List {
+                    static func Profile() -> DebugProfileListViewModel {
                         .init(model: Models.Profile())
                     }
                 }
