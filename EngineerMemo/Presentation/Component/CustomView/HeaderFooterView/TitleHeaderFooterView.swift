@@ -1,17 +1,17 @@
 import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
 final class TitleHeaderFooterView: UITableViewHeaderFooterView {
-    private let titleLabel = UILabel(style: .boldSystemFont(size: 12))
+    private let titleLabel = UILabel()
+        .modifier(\.font, .boldSystemFont(ofSize: 12))
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
 
         setupViews()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -23,7 +23,7 @@ final class TitleHeaderFooterView: UITableViewHeaderFooterView {
 
 extension TitleHeaderFooterView {
     func configure(title: String) {
-        titleLabel.apply(.text(title))
+        titleLabel.modifier(\.text, title)
     }
 }
 
@@ -31,16 +31,13 @@ extension TitleHeaderFooterView {
 
 private extension TitleHeaderFooterView {
     func setupViews() {
-        contentView.apply([
-            .backgroundColor(.thinGray),
-            .addSubview(titleLabel)
-        ])
-    }
+        contentView.modifier(\.backgroundColor, .thinGray)
 
-    func setupConstraints() {
-        titleLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(8)
+        contentView.addSubview(titleLabel) {
+            $0.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.leading.equalToSuperview().inset(8)
+            }
         }
     }
 }

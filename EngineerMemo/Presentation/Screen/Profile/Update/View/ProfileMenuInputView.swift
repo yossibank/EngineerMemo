@@ -1,7 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 enum ProfileMenuGenderType: Int, CaseIterable {
     case man = 0
@@ -39,64 +39,67 @@ enum ProfileMenuGenderType: Int, CaseIterable {
 final class ProfileMenuInputView: UIView {
     @Published private(set) var selectedType: ProfileMenuGenderType = .none
 
-    private lazy var stackView = UIStackView(
-        styles: [
-            .addArrangedSubviews(arrangedSubviews),
-            .axis(.vertical)
-        ]
-    )
+    private var body: UIView {
+        VStackView {
+            titleView
+                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                .modifier(\.layer.borderWidth, 1.0)
+                .modifier(\.layer.cornerRadius, 4)
+                .modifier(\.clipsToBounds, true)
+                .modifier(\.backgroundColor, .thinGray)
 
-    private lazy var arrangedSubviews = [
-        titleView,
-        buttonInputView
-    ]
+            buttonInputView
+        }
+    }
 
-    private lazy var titleView = UIView(
-        styles: [
-            .addSubview(titleLabel),
-            .backgroundColor(.thinGray),
-            .borderColor(.theme),
-            .borderWidth(1.0),
-            .clipsToBounds(true),
-            .cornerRadius(4)
-        ]
-    )
+    private lazy var titleView = UIView()
+        .addSubview(titleLabel) {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview().inset(8)
+            }
+        }
+        .configure {
+            $0.snp.makeConstraints {
+                $0.height.equalTo(40)
+            }
+        }
 
-    private lazy var buttonInputView = UIView(
-        styles: [
-            .addSubview(menuButton),
-            .backgroundColor(.primary)
-        ]
-    )
+    private lazy var buttonInputView = UIView()
+        .addSubview(menuButton) {
+            $0.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview().inset(16)
+                $0.leading.trailing.equalToSuperview()
+            }
+        }
+        .configure {
+            $0.snp.makeConstraints {
+                $0.height.equalTo(80)
+            }
+        }
 
-    private let titleLabel = UILabel(
-        styles: [
-            .boldSystemFont(size: 16),
-            .textColor(.secondary)
-        ]
-    )
+    private let titleLabel = UILabel()
+        .modifier(\.textColor, .secondary)
+        .modifier(\.font, .boldSystemFont(ofSize: 16))
 
-    private let menuButton = UIButton(
-        styles: [
-            .borderColor(.theme),
-            .borderWidth(1.0),
-            .clipsToBounds(true),
-            .contentEdgeInsets(.left, 8),
-            .contentHorizontalAlignment(.leading),
-            .cornerRadius(4),
-            .setTitleColor(.theme),
-            .systemFont(size: 17)
-        ]
-    )
+    private let menuButton = UIButton()
+        .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+        .modifier(\.layer.borderWidth, 1.0)
+        .modifier(\.layer.cornerRadius, 4)
+        .modifier(\.clipsToBounds, true)
+        .modifier(\.contentHorizontalAlignment, .leading)
+        .modifier(\.contentEdgeInsets, .init(top: 0, left: 8, bottom: 0, right: 0))
+        .configure {
+            $0.titleLabel?.font = .systemFont(ofSize: 17)
+            $0.setTitleColor(.theme, for: .normal)
+        }
 
     init(title: String) {
         super.init(frame: .zero)
 
         setupViews()
-        setupConstraints()
         setupMenu()
 
-        titleLabel.apply(.text(title))
+        titleLabel.modifier(\.text, title)
     }
 
     @available(*, unavailable)
@@ -109,7 +112,7 @@ final class ProfileMenuInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, menuButton].forEach {
-                $0.apply(.borderColor(.theme))
+                $0.modifier(\.layer.borderColor, UIColor.theme.cgColor)
             }
         }
     }
@@ -135,33 +138,13 @@ extension ProfileMenuInputView {
 
 private extension ProfileMenuInputView {
     func setupViews() {
-        apply([
-            .addSubview(stackView),
-            .backgroundColor(.primary)
-        ])
-    }
+        modifier(\.backgroundColor, .primary)
 
-    func setupConstraints() {
-        stackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-
-        titleView.snp.makeConstraints {
-            $0.height.equalTo(40)
-        }
-
-        titleLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(8)
-        }
-
-        buttonInputView.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-
-        menuButton.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(16)
-            $0.leading.trailing.equalToSuperview()
+        addSubview(body) {
+            $0.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview().inset(8)
+                $0.leading.trailing.equalToSuperview().inset(16)
+            }
         }
     }
 
@@ -181,15 +164,15 @@ private extension ProfileMenuInputView {
             )
         }
 
-        menuButton.apply([
-            .menu(.init(
+        menuButton.configure {
+            $0.menu = .init(
                 title: "",
                 options: .displayInline,
                 children: actions
-            )),
-            .setTitle(selectedType.title),
-            .showsMenuAsPrimaryAction(true)
-        ])
+            )
+            $0.setTitle(selectedType.title, for: .normal)
+            $0.showsMenuAsPrimaryAction = true
+        }
     }
 }
 

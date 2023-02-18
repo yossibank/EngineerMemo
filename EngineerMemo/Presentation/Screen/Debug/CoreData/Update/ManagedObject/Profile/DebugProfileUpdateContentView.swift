@@ -3,7 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
@@ -51,7 +51,6 @@
             super.init(frame: frame)
 
             setupViews()
-            setupConstraints()
             setupSearchBar()
             setupTableView()
         }
@@ -72,6 +71,7 @@
         }
 
         func setupTableView() {
+            tableView.modifier(\.backgroundColor, .primary)
             tableView.registerCells(
                 with: [
                     UITableViewCell.self,
@@ -246,21 +246,18 @@
 
     extension DebugProfileUpdateContentView: ContentView {
         func setupViews() {
-            apply([
-                .addSubviews([searchBar, tableView]),
-                .backgroundColor(.primary)
-            ])
-        }
-
-        func setupConstraints() {
-            searchBar.snp.makeConstraints {
-                $0.top.leading.trailing.equalToSuperview()
-                $0.height.equalTo(40)
+            addSubview(searchBar) {
+                $0.snp.makeConstraints {
+                    $0.top.leading.trailing.equalToSuperview()
+                    $0.height.equalTo(40)
+                }
             }
 
-            tableView.snp.makeConstraints {
-                $0.top.equalTo(searchBar.snp.bottom).inset(-8)
-                $0.bottom.leading.trailing.equalToSuperview()
+            addSubview(tableView) {
+                $0.snp.makeConstraints {
+                    $0.top.equalTo(self.searchBar.snp.bottom).inset(-8)
+                    $0.bottom.leading.trailing.equalToSuperview()
+                }
             }
         }
     }

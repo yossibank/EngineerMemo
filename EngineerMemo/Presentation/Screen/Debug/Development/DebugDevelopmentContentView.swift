@@ -3,7 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
@@ -23,7 +23,6 @@
             super.init(frame: frame)
 
             setupViews()
-            setupConstraints()
             setupTableView()
             applySnapshot()
         }
@@ -40,6 +39,7 @@
         func setupTableView() {
             dataSource = configureDataSource()
 
+            tableView.modifier(\.backgroundColor, .primary)
             tableView.registerCell(with: DebugDevelopmentCell.self)
             tableView.registerHeaderFooterView(with: TitleHeaderFooterView.self)
             tableView.separatorStyle = .none
@@ -186,15 +186,10 @@
 
     extension DebugDevelopmentContentView: ContentView {
         func setupViews() {
-            apply([
-                .addSubview(tableView),
-                .backgroundColor(.primary)
-            ])
-        }
-
-        func setupConstraints() {
-            tableView.snp.makeConstraints {
-                $0.edges.equalToSuperview()
+            addSubview(tableView) {
+                $0.snp.makeConstraints {
+                    $0.edges.equalToSuperview()
+                }
             }
         }
     }

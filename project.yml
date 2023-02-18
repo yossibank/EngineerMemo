@@ -15,9 +15,9 @@ settings:
       DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
 
 packages:
-  UIStyle:
-    url: https://github.com/yossibank/UIStyle.git
-    from: 0.4.0
+  UIKitHelper:
+    url: https://github.com/yossibank/UIKitHelper.git
+    from: 0.1.1
   firebase-ios-sdk:
     url: https://github.com/firebase/firebase-ios-sdk.git
     from: 10.0.0
@@ -53,7 +53,7 @@ targets:
         release:
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.EngineerMemo
     dependencies:
-      - package: UIStyle
+      - package: UIKitHelper
       - package: firebase-ios-sdk
         product: FirebaseAnalyticsWithoutAdIdSupport
       - package: firebase-ios-sdk

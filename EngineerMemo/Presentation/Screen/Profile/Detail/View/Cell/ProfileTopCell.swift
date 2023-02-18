@@ -1,26 +1,27 @@
 import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
 final class ProfileTopCell: UITableViewCell {
-    private lazy var stackView = UIStackView(
-        styles: [
-            .addArrangedSubviews(arrangedSubviews),
-            .alignment(.center),
-            .axis(.vertical),
-            .spacing(16)
-        ]
-    )
+    private var body: UIView {
+        VStackView(alignment: .center, spacing: 16) {
+            iconImageView
 
-    private lazy var arrangedSubviews = [
-        iconImageView,
-        userNameLabel
-    ]
+            userNameLabel
+                .modifier(\.font, .boldSystemFont(ofSize: 14))
+        }
+    }
 
     private let iconImageView = UIImageView()
-    private let userNameLabel = UILabel(style: .boldSystemFont(size: 14))
+        .configure {
+            $0.snp.makeConstraints {
+                $0.size.equalTo(100)
+            }
+        }
+
+    private let userNameLabel = UILabel()
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -32,7 +33,6 @@ final class ProfileTopCell: UITableViewCell {
         )
 
         setupViews()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -44,8 +44,8 @@ final class ProfileTopCell: UITableViewCell {
 
 extension ProfileTopCell {
     func configure(_ modelObject: ProfileModelObject?) {
-        iconImageView.apply(.image(ImageResources.profile))
-        userNameLabel.apply(.text(modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName))
+        iconImageView.modifier(\.image, ImageResources.profile)
+        userNameLabel.modifier(\.text, modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName)
     }
 }
 
@@ -53,19 +53,12 @@ extension ProfileTopCell {
 
 private extension ProfileTopCell {
     func setupViews() {
-        contentView.apply([
-            .addSubview(stackView),
-            .backgroundColor(.primary)
-        ])
-    }
+        contentView.modifier(\.backgroundColor, .primary)
 
-    func setupConstraints() {
-        stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(16)
-        }
-
-        iconImageView.snp.makeConstraints {
-            $0.size.equalTo(100)
+        contentView.addSubview(body) {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview().inset(16)
+            }
         }
     }
 }

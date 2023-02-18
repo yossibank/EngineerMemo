@@ -1,7 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
@@ -12,47 +12,59 @@ final class ProfileSettingCell: UITableViewCell {
         for: .touchUpInside
     )
 
-    private lazy var stackView = UIStackView(
-        styles: [
-            .addArrangedSubviews(arrangedSubviews),
-            .alignment(.center),
-            .axis(.vertical),
-            .backgroundColor(.thinGray),
-            .clipsToBounds(true),
-            .cornerRadius(8),
-            .spacing(16)
-        ]
-    )
+    private var body: UIView {
+        VStackView(alignment: .center, spacing: 16) {
+            spaceTopView
 
-    private lazy var arrangedSubviews = [
-        spaceTopView,
-        titleLabel,
-        settingButton,
-        spaceBottomView
-    ]
+            titleLabel
+                .modifier(\.font, .boldSystemFont(ofSize: 14))
+                .modifier(\.numberOfLines, 0)
+                .modifier(\.text, L10n.Profile.settingDescription)
+                .modifier(\.textAlignment, .center)
+
+            settingButton
+                .modifier(\.backgroundColor, .gray)
+                .modifier(\.clipsToBounds, true)
+                .modifier(\.layer.cornerRadius, 8)
+
+            spaceBottomView
+        }
+        .modifier(\.backgroundColor, .thinGray)
+        .modifier(\.clipsToBounds, true)
+        .modifier(\.layer.cornerRadius, 8)
+    }
 
     private let spaceTopView = UIView()
+        .configure {
+            $0.snp.makeConstraints {
+                $0.height.equalTo(16)
+            }
+        }
+
     private let spaceBottomView = UIView()
+        .configure {
+            $0.snp.makeConstraints {
+                $0.height.equalTo(16)
+            }
+        }
 
-    private let titleLabel = UILabel(
-        styles: [
-            .boldSystemFont(size: 14),
-            .numberOfLines(0),
-            .text(L10n.Profile.settingDescription),
-            .textAlignment(.center)
-        ]
-    )
+    private let titleLabel = UILabel()
+        .configure {
+            $0.snp.makeConstraints {
+                $0.leading.trailing.equalToSuperview().inset(16)
+            }
+        }
 
-    private let settingButton = UIButton(
-        styles: [
-            .backgroundColor(.gray),
-            .boldSystemFont(size: 14),
-            .clipsToBounds(true),
-            .cornerRadius(8),
-            .setTitle(L10n.Components.Button.setting),
-            .setTitleColor(.white)
-        ]
-    )
+    private let settingButton = UIButton()
+        .configure {
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
+            $0.setTitle(L10n.Components.Button.setting, for: .normal)
+            $0.setTitleColor(.white, for: .normal)
+            $0.snp.makeConstraints {
+                $0.width.equalTo(180)
+                $0.height.equalTo(56)
+            }
+        }
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -64,7 +76,6 @@ final class ProfileSettingCell: UITableViewCell {
         )
 
         setupViews()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -82,30 +93,12 @@ final class ProfileSettingCell: UITableViewCell {
 
 private extension ProfileSettingCell {
     func setupViews() {
-        contentView.apply([
-            .addSubview(stackView),
-            .backgroundColor(.primary)
-        ])
-    }
+        contentView.modifier(\.backgroundColor, .primary)
 
-    func setupConstraints() {
-        stackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(32)
-        }
-
-        titleLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-
-        settingButton.snp.makeConstraints {
-            $0.width.equalTo(180)
-            $0.height.equalTo(56)
-        }
-
-        [spaceTopView, spaceBottomView].forEach {
+        contentView.addSubview(body) {
             $0.snp.makeConstraints {
-                $0.height.equalTo(16)
+                $0.top.bottom.equalToSuperview()
+                $0.leading.trailing.equalToSuperview().inset(32)
             }
         }
     }

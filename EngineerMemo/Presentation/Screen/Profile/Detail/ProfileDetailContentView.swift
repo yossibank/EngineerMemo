@@ -27,7 +27,6 @@ final class ProfileDetailContentView: UIView {
         super.init(frame: frame)
 
         setupViews()
-        setupConstraints()
         setupTableView()
     }
 
@@ -43,6 +42,7 @@ private extension ProfileDetailContentView {
     func setupTableView() {
         dataSource = configureDataSource()
 
+        tableView.modifier(\.backgroundColor, .primary)
         tableView.registerCells(
             with: [
                 ProfileTopCell.self,
@@ -154,15 +154,10 @@ extension ProfileDetailContentView: UITableViewDelegate {
 
 extension ProfileDetailContentView: ContentView {
     func setupViews() {
-        apply([
-            .addSubview(tableView),
-            .backgroundColor(.primary)
-        ])
-    }
-
-    func setupConstraints() {
-        tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        addSubview(tableView) {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
         }
     }
 }

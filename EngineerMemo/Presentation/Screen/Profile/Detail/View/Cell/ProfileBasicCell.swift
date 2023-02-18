@@ -1,7 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
@@ -10,52 +10,54 @@ final class ProfileBasicCell: UITableViewCell {
 
     private(set) lazy var editButtonPublisher = editButton.publisher(for: .touchUpInside)
 
-    private lazy var mainView = UIView(
-        styles: [
-            .addSubviews([stackView, editButton]),
-            .backgroundColor(.thinGray),
-            .clipsToBounds(true),
-            .cornerRadius(8)
-        ]
-    )
+    private var body: UIView {
+        VStackView {
+            VStackView(spacing: 16) {
+                VStackView(alignment: .center) {
+                    basicLabel
+                        .modifier(\.text, L10n.Profile.basicInformation)
+                        .modifier(\.font, .boldSystemFont(ofSize: 16))
 
-    private lazy var stackView = UIStackView(
-        styles: [
-            .addArrangedSubviews(arrangedSubviews),
-            .axis(.vertical),
-            .spacing(16)
-        ]
-    )
+                    createStackView(.name)
+                    createStackView(.age)
+                    createStackView(.gender)
+                    createStackView(.email)
+                    createStackView(.phoneNumber)
+                    createStackView(.address)
+                    createStackView(.station)
+                }
+            }
 
-    private lazy var titleStackView = UIStackView(
-        styles: [
-            .addArrangedSubview(basicLabel),
-            .axis(.vertical),
-            .alignment(.center)
-        ]
-    )
-
-    private var arrangedSubviews: [UIView] {
-        var subviews: [UIView] = ProfileContentType.allCases.map(createStackView)
-        subviews.insert(titleStackView, at: 0)
-        return subviews
+            editButton
+                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                .modifier(\.layer.borderWidth, 1.0)
+                .modifier(\.layer.cornerRadius, 8)
+                .modifier(\.clipsToBounds, true)
+                .modifier(\.tintColor, .theme)
+                .modifier(\.contentEdgeInsets, .init(top: 4, left: 8, bottom: 4, right: 8))
+                .modifier(\.imageEdgeInsets, .init(top: 0, left: -8, bottom: 0, right: 0))
+        }
+        .modifier(\.backgroundColor, .thinGray)
+        .modifier(\.clipsToBounds, true)
+        .modifier(\.layer.cornerRadius, 8)
     }
 
-    private let editButton = UIButton(
-        styles: UIStyle.edit(
-            title: L10n.Components.Button.edit,
-            image: ImageResources.edit
-        )
-    )
+    private let editButton = UIButton()
+        .configure {
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
+            $0.setTitle(L10n.Components.Button.edit, for: .normal)
+            $0.setTitleColor(.theme, for: .normal)
+            $0.setImage(ImageResources.edit, for: .normal)
+        }
 
-    private let basicLabel = UILabel(styles: [.text(L10n.Profile.basicInformation), .boldSystemFont(size: 16)])
-    private let nameLabel = UILabel(style: .boldSystemFont(size: 16))
-    private let ageLabel = UILabel(style: .boldSystemFont(size: 16))
-    private let genderLabel = UILabel(style: .boldSystemFont(size: 16))
-    private let emailLabel = UILabel(styles: [.boldSystemFont(size: 16), .numberOfLines(0)])
-    private let phoneNumberLabel = UILabel(style: .boldSystemFont(size: 16))
-    private let addressLabel = UILabel(styles: [.boldSystemFont(size: 16), .numberOfLines(0)])
-    private let stationLabel = UILabel(style: .boldSystemFont(size: 16))
+    private let basicLabel = UILabel()
+    private let nameLabel = UILabel()
+    private let ageLabel = UILabel()
+    private let genderLabel = UILabel()
+    private let emailLabel = UILabel()
+    private let phoneNumberLabel = UILabel()
+    private let addressLabel = UILabel()
+    private let stationLabel = UILabel()
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -67,7 +69,6 @@ final class ProfileBasicCell: UITableViewCell {
         )
 
         setupViews()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -85,19 +86,19 @@ final class ProfileBasicCell: UITableViewCell {
 
 extension ProfileBasicCell {
     func configure(_ modelObject: ProfileModelObject) {
-        nameLabel.apply(.text(modelObject.name))
+        nameLabel.modifier(\.text, modelObject.name)
 
         if let age = modelObject.birthday?.ageString() {
-            ageLabel.apply(.text(age + L10n.Profile.old))
+            ageLabel.modifier(\.text, age + L10n.Profile.old)
         } else {
-            ageLabel.apply(.text(.noSetting))
+            ageLabel.modifier(\.text, .noSetting)
         }
 
-        genderLabel.apply(.text(modelObject.gender?.value ?? .noSetting))
-        emailLabel.apply(.text(modelObject.email))
-        phoneNumberLabel.apply(.text(modelObject.phoneNumber?.phoneText ?? .noSetting))
-        addressLabel.apply(.text(modelObject.address))
-        stationLabel.apply(.text(modelObject.station))
+        genderLabel.modifier(\.text, modelObject.gender?.value ?? .noSetting)
+        emailLabel.modifier(\.text, modelObject.email)
+        phoneNumberLabel.modifier(\.text, modelObject.phoneNumber?.phoneText ?? .noSetting)
+        addressLabel.modifier(\.text, modelObject.address)
+        stationLabel.modifier(\.text, modelObject.station)
     }
 }
 
@@ -105,36 +106,21 @@ extension ProfileBasicCell {
 
 private extension ProfileBasicCell {
     func setupViews() {
-        contentView.apply([
-            .addSubview(mainView),
-            .backgroundColor(.primary)
-        ])
-    }
+        contentView.modifier(\.backgroundColor, .primary)
 
-    func setupConstraints() {
-        mainView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.bottom.leading.trailing.equalToSuperview().inset(32)
-        }
-
-        stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(16)
-        }
-
-        editButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(12)
-            $0.trailing.equalToSuperview().inset(8)
+        contentView.addSubview(body) {
+            $0.snp.makeConstraints {
+                $0.top.equalToSuperview()
+                $0.bottom.leading.trailing.equalToSuperview().inset(32)
+            }
         }
     }
 
     private func createTitleLabel(_ type: ProfileContentType) -> UILabel {
-        .init(
-            styles: [
-                .systemFont(size: 14),
-                .text(type.title),
-                .textColor(.secondary)
-            ]
-        )
+        .init()
+            .modifier(\.text, type.title)
+            .modifier(\.textColor, .secondary)
+            .modifier(\.font, .systemFont(ofSize: 14))
     }
 
     private func createStackView(_ type: ProfileContentType) -> UIStackView {
@@ -154,25 +140,25 @@ private extension ProfileBasicCell {
 
         case .email:
             valueLabel = emailLabel
+            valueLabel.modifier(\.numberOfLines, 0)
 
         case .phoneNumber:
             valueLabel = phoneNumberLabel
 
         case .address:
             valueLabel = addressLabel
+            valueLabel.modifier(\.numberOfLines, 0)
 
         case .station:
             valueLabel = stationLabel
         }
 
-        stackView = .init(
-            styles: [
-                .addArrangedSubviews([titleLabel, valueLabel]),
-                .alignment(.leading),
-                .axis(.vertical),
-                .spacing(8)
-            ]
-        )
+        valueLabel.modifier(\.font, .boldSystemFont(ofSize: 16))
+
+        stackView = VStackView(alignment: .leading, spacing: 8) {
+            titleLabel
+            valueLabel
+        }
 
         return stackView
     }

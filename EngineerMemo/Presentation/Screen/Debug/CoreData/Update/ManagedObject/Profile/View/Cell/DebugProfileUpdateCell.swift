@@ -3,7 +3,7 @@
     import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
@@ -19,30 +19,29 @@
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapUpdateButtonPublisher = updateButton.publisher(for: .touchUpInside)
 
-        private lazy var stackView = UIStackView(
-            styles: [
-                .addArrangedSubviews(arrangedSubviews),
-                .alignment(.fill),
-                .axis(.vertical),
-                .setCustomSpacing(32, after: stationControl),
-                .spacing(12)
-            ]
-        )
+        private var body: UIView {
+            VStackView(spacing: 12) {
+                addressControl
+                birthdayControl
+                emailControl
+                genderControl
+                nameControl
+                phoneNumberControl
+                stationControl
+                buttonView
+            }
+            .configure {
+                $0.setCustomSpacing(32, after: stationControl)
+            }
+        }
 
-        private lazy var buttonView = UIView(
-            style: .addSubview(updateButton)
-        )
-
-        private lazy var arrangedSubviews = [
-            addressControl,
-            birthdayControl,
-            emailControl,
-            genderControl,
-            nameControl,
-            phoneNumberControl,
-            stationControl,
-            buttonView
-        ]
+        private lazy var buttonView = UIView()
+            .addSubview(updateButton)
+            .configure {
+                $0.snp.makeConstraints {
+                    $0.height.equalTo(48)
+                }
+            }
 
         private let addressControl = DebugCoreDataSegmentView(
             title: L10n.Debug.Segment.address
@@ -72,16 +71,20 @@
             title: L10n.Debug.Segment.station
         )
 
-        private let updateButton = UIButton(
-            styles: [
-                .borderColor(.theme),
-                .borderWidth(1.0),
-                .clipsToBounds(true),
-                .cornerRadius(8),
-                .setTitle(L10n.Components.Button.update),
-                .setTitleColor(.theme)
-            ]
-        )
+        private let updateButton = UIButton()
+            .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+            .modifier(\.layer.borderWidth, 1.0)
+            .modifier(\.layer.cornerRadius, 8)
+            .modifier(\.clipsToBounds, true)
+            .configure {
+                $0.setTitle(L10n.Components.Button.update, for: .normal)
+                $0.setTitleColor(.theme, for: .normal)
+                $0.snp.makeConstraints {
+                    $0.centerX.equalToSuperview()
+                    $0.width.equalTo(160)
+                    $0.height.equalTo(48)
+                }
+            }
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -93,7 +96,6 @@
             )
 
             setupViews()
-            setupConstraints()
         }
 
         required init?(coder: NSCoder) {
@@ -111,10 +113,14 @@
 
     extension DebugProfileUpdateCell {
         func updateView() {
-            updateButton.apply(.setTitle(L10n.Components.Button.updateDone))
+            updateButton.configure {
+                $0.setTitle(L10n.Components.Button.updateDone, for: .normal)
+            }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.updateButton.apply(.setTitle(L10n.Components.Button.update))
+                self.updateButton.configure {
+                    $0.setTitle(L10n.Components.Button.update, for: .normal)
+                }
             }
         }
     }
@@ -123,26 +129,13 @@
 
     private extension DebugProfileUpdateCell {
         func setupViews() {
-            contentView.apply([
-                .addSubview(stackView),
-                .backgroundColor(.primary)
-            ])
-        }
+            contentView.modifier(\.backgroundColor, .primary)
 
-        func setupConstraints() {
-            stackView.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview().inset(16)
-                $0.leading.trailing.equalToSuperview()
-            }
-
-            buttonView.snp.makeConstraints {
-                $0.height.equalTo(48)
-            }
-
-            updateButton.snp.makeConstraints {
-                $0.centerX.equalToSuperview()
-                $0.width.equalTo(160)
-                $0.height.equalTo(48)
+            contentView.addSubview(body) {
+                $0.snp.makeConstraints {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.trailing.equalToSuperview()
+                }
             }
         }
     }

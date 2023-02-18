@@ -5,12 +5,4 @@ enum Models {
             errorConverter: AppErrorConverter()
         )
     }
-
-    static func Sample() -> SampleModel {
-        .init(
-            apiClient: APIClient(),
-            sampleConverter: SampleConverter(),
-            errorConverter: AppErrorConverter()
-        )
-    }
 }

@@ -1,59 +1,67 @@
 import Combine
 import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
 final class ProfileTextInputView: UIView {
     private(set) lazy var inputPublisher = inputTextField.textDidChangePublisher
 
-    private lazy var stackView = UIStackView(
-        styles: [
-            .addArrangedSubviews(arrangedSubviews),
-            .axis(.vertical)
-        ]
-    )
+    private var body: UIView {
+        VStackView {
+            titleView
+                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                .modifier(\.layer.borderWidth, 1.0)
+                .modifier(\.layer.cornerRadius, 4)
+                .modifier(\.clipsToBounds, true)
+                .modifier(\.backgroundColor, .thinGray)
 
-    private lazy var arrangedSubviews = [
-        titleView,
-        textInputView
-    ]
+            textInputView
+                .modifier(\.backgroundColor, .primary)
+        }
+    }
 
-    private lazy var titleView = UIView(
-        styles: [
-            .addSubview(titleLabel),
-            .backgroundColor(.thinGray),
-            .borderColor(.theme),
-            .borderWidth(1.0),
-            .clipsToBounds(true),
-            .cornerRadius(4)
-        ]
-    )
+    private lazy var titleView = UIView()
+        .addSubview(titleLabel) {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview().inset(8)
+            }
+        }
+        .configure {
+            $0.snp.makeConstraints {
+                $0.height.equalTo(40)
+            }
+        }
 
-    private lazy var textInputView = UIView(
-        styles: [
-            .addSubview(inputTextField),
-            .backgroundColor(.primary)
-        ]
-    )
+    private lazy var textInputView = UIView()
+        .addSubview(inputTextField) {
+            $0.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview().inset(16)
+                $0.leading.trailing.equalToSuperview()
+            }
+        }
+        .configure {
+            $0.snp.makeConstraints {
+                $0.height.equalTo(80)
+            }
+        }
 
-    private let titleLabel = UILabel(
-        styles: [
-            .boldSystemFont(size: 16),
-            .textColor(.secondary)
-        ]
-    )
+    private let titleLabel = UILabel()
+        .modifier(\.textColor, .secondary)
+        .modifier(\.font, .boldSystemFont(ofSize: 16))
+        .configure {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview().inset(8)
+            }
+        }
 
-    private let inputTextField = UITextField(
-        styles: [
-            .borderColor(.theme),
-            .borderWidth(1.0),
-            .borderStyle(.roundedRect),
-            .clipsToBounds(true),
-            .cornerRadius(4)
-        ]
-    )
+    private let inputTextField = UITextField()
+        .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+        .modifier(\.layer.borderWidth, 1.0)
+        .modifier(\.layer.cornerRadius, 4)
+        .modifier(\.borderStyle, .roundedRect)
+        .modifier(\.clipsToBounds, true)
 
     private var cancellables: Set<AnyCancellable> = .init()
 
@@ -65,14 +73,11 @@ final class ProfileTextInputView: UIView {
         super.init(frame: .zero)
 
         setupViews()
-        setupConstraints()
         setupTextField()
 
-        titleLabel.apply(.text(title))
-        inputTextField.apply([
-            .keyboardType(keyboardType),
-            .placeholder(placeholder)
-        ])
+        titleLabel.modifier(\.text, title)
+        inputTextField.modifier(\.keyboardType, keyboardType)
+        inputTextField.modifier(\.placeholder, placeholder)
 
         if keyboardType == .numberPad {
             setupNumberPad()
@@ -89,7 +94,7 @@ final class ProfileTextInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputTextField].forEach {
-                $0.apply(.borderColor(.theme))
+                $0.modifier(\.layer.borderColor, UIColor.theme.cgColor)
             }
         }
     }
@@ -128,7 +133,7 @@ extension ProfileTextInputView {
             input = nil
         }
 
-        inputTextField.apply(.text(input))
+        inputTextField.modifier(\.text, input)
     }
 }
 
@@ -136,33 +141,13 @@ extension ProfileTextInputView {
 
 private extension ProfileTextInputView {
     func setupViews() {
-        apply([
-            .addSubview(stackView),
-            .backgroundColor(.primary)
-        ])
-    }
+        modifier(\.backgroundColor, .primary)
 
-    func setupConstraints() {
-        stackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-
-        titleView.snp.makeConstraints {
-            $0.height.equalTo(40)
-        }
-
-        titleLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(8)
-        }
-
-        textInputView.snp.makeConstraints {
-            $0.height.equalTo(80)
-        }
-
-        inputTextField.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(16)
-            $0.leading.trailing.equalToSuperview()
+        addSubview(body) {
+            $0.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview().inset(8)
+                $0.leading.trailing.equalToSuperview().inset(16)
+            }
         }
     }
 

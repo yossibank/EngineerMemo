@@ -1,7 +1,7 @@
 import Combine
 import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
@@ -12,56 +12,55 @@ final class MemoListHeaderView: UICollectionReusableView {
     private(set) lazy var button2Publisher = button2.publisher(for: .touchUpInside)
     private(set) lazy var button3Publisher = button3.publisher(for: .touchUpInside)
 
-    private lazy var stackView = UIStackView(
-        styles: [
-            .addArrangedSubviews([titleLabel, button1, button2, button3]),
-            .axis(.horizontal),
-            .spacing(16)
-        ]
-    )
+    private var body: UIView {
+        HStackView(spacing: 16) {
+            titleLabel
+                .modifier(\.font, .boldSystemFont(ofSize: 14))
 
-    private let titleLabel = UILabel(
-        style: .boldSystemFont(size: 14)
-    )
+            button1
+                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                .modifier(\.layer.borderWidth, 1.0)
+                .modifier(\.layer.cornerRadius, 4)
+                .modifier(\.clipsToBounds, true)
 
-    private let button1 = UIButton(
-        styles: [
-            .borderColor(.theme),
-            .borderWidth(1.0),
-            .clipsToBounds(true),
-            .cornerRadius(4),
-            .setTitle("1"),
-            .setTitleColor(.theme)
-        ]
-    )
+            button2
+                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                .modifier(\.layer.borderWidth, 1.0)
+                .modifier(\.layer.cornerRadius, 4)
+                .modifier(\.clipsToBounds, true)
 
-    private let button2 = UIButton(
-        styles: [
-            .borderColor(.theme),
-            .borderWidth(1.0),
-            .clipsToBounds(true),
-            .cornerRadius(4),
-            .setTitle("2"),
-            .setTitleColor(.theme)
-        ]
-    )
+            button3
+                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                .modifier(\.layer.borderWidth, 1.0)
+                .modifier(\.layer.cornerRadius, 4)
+                .modifier(\.clipsToBounds, true)
+        }
+    }
 
-    private let button3 = UIButton(
-        styles: [
-            .borderColor(.theme),
-            .borderWidth(1.0),
-            .clipsToBounds(true),
-            .cornerRadius(4),
-            .setTitle("3"),
-            .setTitleColor(.theme)
-        ]
-    )
+    private let titleLabel = UILabel()
+
+    private let button1 = UIButton()
+        .configure {
+            $0.setTitle("1", for: .normal)
+            $0.setTitleColor(.theme, for: .normal)
+        }
+
+    private let button2 = UIButton()
+        .configure {
+            $0.setTitle("2", for: .normal)
+            $0.setTitleColor(.theme, for: .normal)
+        }
+
+    private let button3 = UIButton()
+        .configure {
+            $0.setTitle("3", for: .normal)
+            $0.setTitleColor(.theme, for: .normal)
+        }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupViews()
-        setupConstraints()
     }
 
     @available(*, unavailable)
@@ -80,7 +79,7 @@ final class MemoListHeaderView: UICollectionReusableView {
 
 extension MemoListHeaderView {
     func configure(title: String) {
-        titleLabel.apply(.text(title))
+        titleLabel.modifier(\.text, title)
     }
 }
 
@@ -88,15 +87,12 @@ extension MemoListHeaderView {
 
 private extension MemoListHeaderView {
     func setupViews() {
-        apply([
-            .backgroundColor(.thinGray),
-            .addSubview(stackView)
-        ])
-    }
+        modifier(\.backgroundColor, .thinGray)
 
-    func setupConstraints() {
-        stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(8)
+        addSubview(body) {
+            $0.snp.makeConstraints {
+                $0.edges.equalToSuperview().inset(8)
+            }
         }
     }
 }
