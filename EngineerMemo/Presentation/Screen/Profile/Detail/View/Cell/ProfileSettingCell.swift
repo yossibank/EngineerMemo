@@ -55,7 +55,7 @@ final class ProfileSettingCell: UITableViewCell {
             }
         }
 
-    private let settingButton = UIButton()
+    private let settingButton = UIButton(type: .system)
         .configure {
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.setTitle(L10n.Components.Button.setting, for: .normal)

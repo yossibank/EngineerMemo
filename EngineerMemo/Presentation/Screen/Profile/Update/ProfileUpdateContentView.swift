@@ -42,7 +42,7 @@ final class ProfileUpdateContentView: UIView {
             }
         }
 
-    private lazy var saveButton = UIButton()
+    private lazy var saveButton = UIButton(type: .system)
         .modifier(\.layer.borderColor, UIColor.theme.cgColor)
         .modifier(\.layer.borderWidth, 1.0)
         .modifier(\.layer.cornerRadius, 8)

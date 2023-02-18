@@ -39,19 +39,19 @@ final class MemoListHeaderView: UICollectionReusableView {
 
     private let titleLabel = UILabel()
 
-    private let button1 = UIButton()
+    private let button1 = UIButton(type: .system)
         .configure {
             $0.setTitle("1", for: .normal)
             $0.setTitleColor(.theme, for: .normal)
         }
 
-    private let button2 = UIButton()
+    private let button2 = UIButton(type: .system)
         .configure {
             $0.setTitle("2", for: .normal)
             $0.setTitleColor(.theme, for: .normal)
         }
 
-    private let button3 = UIButton()
+    private let button3 = UIButton(type: .system)
         .configure {
             $0.setTitle("3", for: .normal)
             $0.setTitleColor(.theme, for: .normal)

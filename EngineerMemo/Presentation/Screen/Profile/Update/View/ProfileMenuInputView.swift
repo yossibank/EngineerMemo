@@ -81,7 +81,7 @@ final class ProfileMenuInputView: UIView {
         .modifier(\.textColor, .secondary)
         .modifier(\.font, .boldSystemFont(ofSize: 16))
 
-    private let menuButton = UIButton()
+    private let menuButton = UIButton(type: .system)
         .modifier(\.layer.borderColor, UIColor.theme.cgColor)
         .modifier(\.layer.borderWidth, 1.0)
         .modifier(\.layer.cornerRadius, 4)

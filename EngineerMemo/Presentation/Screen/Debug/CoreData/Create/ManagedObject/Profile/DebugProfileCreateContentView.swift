@@ -34,7 +34,13 @@
         }
 
         private lazy var buttonView = UIView()
-            .addSubview(createButton)
+            .addSubview(createButton) {
+                $0.snp.makeConstraints {
+                    $0.centerX.equalToSuperview()
+                    $0.width.equalTo(160)
+                    $0.height.equalTo(48)
+                }
+            }
             .configure {
                 $0.snp.makeConstraints {
                     $0.height.equalTo(48)
@@ -71,7 +77,7 @@
             title: L10n.Debug.Segment.station
         )
 
-        private let createButton = UIButton()
+        private let createButton = UIButton(type: .system)
             .modifier(\.layer.borderColor, UIColor.theme.cgColor)
             .modifier(\.layer.borderWidth, 1.0)
             .modifier(\.layer.cornerRadius, 8)
@@ -79,11 +85,6 @@
             .configure {
                 $0.setTitle(L10n.Components.Button.create, for: .normal)
                 $0.setTitleColor(.theme, for: .normal)
-                $0.snp.makeConstraints {
-                    $0.centerX.equalToSuperview()
-                    $0.width.equalTo(160)
-                    $0.height.equalTo(48)
-                }
             }
 
         override init(frame: CGRect) {

@@ -10,7 +10,7 @@
     final class DebugCoreDataListContentView: UIView {
         @Published private(set) var selectedType: CoreDataMenuType = .profile
 
-        private let menuButton = UIButton()
+        private let menuButton = UIButton(type: .system)
             .modifier(\.layer.borderColor, UIColor.theme.cgColor)
             .modifier(\.layer.borderWidth, 1.0)
             .modifier(\.layer.cornerRadius, 8)
