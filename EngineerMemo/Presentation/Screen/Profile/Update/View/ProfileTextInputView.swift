@@ -18,7 +18,6 @@ final class ProfileTextInputView: UIView {
                 .modifier(\.backgroundColor, .thinGray)
 
             textInputView
-                .modifier(\.backgroundColor, .primary)
         }
     }
 
@@ -50,11 +49,6 @@ final class ProfileTextInputView: UIView {
     private let titleLabel = UILabel()
         .modifier(\.textColor, .secondary)
         .modifier(\.font, .boldSystemFont(ofSize: 16))
-        .configure {
-            $0.snp.makeConstraints {
-                $0.edges.equalToSuperview().inset(8)
-            }
-        }
 
     private let inputTextField = UITextField()
         .modifier(\.layer.borderColor, UIColor.theme.cgColor)

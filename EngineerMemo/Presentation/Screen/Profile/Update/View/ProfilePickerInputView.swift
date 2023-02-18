@@ -18,7 +18,6 @@ final class ProfilePickerInputView: UIView {
                 .modifier(\.backgroundColor, .thinGray)
 
             pickerInputView
-                .modifier(\.backgroundColor, .theme)
         }
     }
 
