@@ -17,7 +17,7 @@ settings:
 packages:
   UIKitHelper:
     url: https://github.com/yossibank/UIKitHelper.git
-    from: 0.1.1
+    from: 0.2.0
   firebase-ios-sdk:
     url: https://github.com/firebase/firebase-ios-sdk.git
     from: 10.0.0

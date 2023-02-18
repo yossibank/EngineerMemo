@@ -67,7 +67,7 @@ final class ProfileBasicCell: UITableViewCell {
             $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
             $0.setTitle(L10n.Components.Button.edit, for: .normal)
             $0.setTitleColor(.theme, for: .normal)
-            $0.setImage(ImageResources.edit, for: .normal)
+            $0.setImage(ImageResources.edit?.resized(size: .init(width: 16, height: 16)), for: .normal)
         }
 
     override init(
