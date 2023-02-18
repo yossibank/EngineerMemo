@@ -1,11 +1,11 @@
 import UIKit
 
 extension UICollectionView {
-    func registerReusableView(with type: UICollectionReusableView.Type) {
+    func registerReusableView<T: UICollectionReusableView>(with type: T.Type) {
         register(
             type,
-            forSupplementaryViewOfKind: String(describing: type),
-            withReuseIdentifier: String(describing: type)
+            forSupplementaryViewOfKind: T.className,
+            withReuseIdentifier: T.className
         )
     }
 }
@@ -13,7 +13,7 @@ extension UICollectionView {
 extension UICollectionView.SupplementaryRegistration {
     init(handler: @escaping Handler) {
         self.init(
-            elementKind: String(describing: Supplementary.self),
+            elementKind: Supplementary.className,
             handler: handler
         )
     }
