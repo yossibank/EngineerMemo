@@ -40,15 +40,12 @@ make setup
 
 ## Snapshotテスト
 
-* [一覧画面](https://github.com/yossibank/EngineerMemo/blob/main/EngineerMemoTests/Reports/Sample%E4%B8%80%E8%A6%A7%E7%94%BB%E9%9D%A2.md)
-* [編集画面](https://github.com/yossibank/EngineerMemo/blob/main/EngineerMemoTests/Reports/Sample%E7%B7%A8%E9%9B%86%E7%94%BB%E9%9D%A2.md)
-* [詳細画面](https://github.com/yossibank/EngineerMemo/blob/main/EngineerMemoTests/Reports/Sample%E8%A9%B3%E7%B4%B0%E7%94%BB%E9%9D%A2.md)
-* [追加画面](https://github.com/yossibank/EngineerMemo/blob/main/EngineerMemoTests/Reports/Sample%E8%BF%BD%E5%8A%A0%E7%94%BB%E9%9D%A2.md)
+* [プロフィール編集・更新画面](https://github.com/yossibank/EngineerMemo/blob/main/EngineerMemoTests/Reports/%E3%83%97%E3%83%AD%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E8%A8%AD%E5%AE%9A%E3%83%BB%E6%9B%B4%E6%96%B0%E7%94%BB%E9%9D%A2.md)
 
 ※ 参考(詳細画面)
 
-|タイトル内容長文ダークモード|タイトル内容長文ライトモード|
+|編集ダークモード|編集ライトモード|
 |:---:|:---:|
 |16.0|16.0|
 |iPhone14|iPhone14|
-|<img src='EngineerMemoTests/TestSnapshot/ReferenceImages_64/Sample詳細画面/testSampleDetailViewController_タイトル_内容_長文_ダークモード_iPhone_16_0_390x844@3x.png' width='200' style='border: 1px solid #999' />|<img src='EngineerMemoTests/TestSnapshot/ReferenceImages_64/Sample詳細画面/testSampleDetailViewController_タイトル_内容_長文_ライトモード_iPhone_16_0_390x844@3x.png' width='200' style='border: 1px solid #999' />|
+|<img src='EngineerMemoTests/TestSnapshot/ReferenceImages_64/プロフィール設定・更新画面/testProfileUpdateViewController_編集_ダークモード_iPhone_16_0_390x844@3x.png' width='200' style='border: 1px solid #999' />|<img src='EngineerMemoTests/TestSnapshot/ReferenceImages_64/プロフィール設定・更新画面/testProfileUpdateViewController_編集_ライトモード_iPhone_16_0_390x844@3x.png' width='200' style='border: 1px solid #999' />|
