@@ -2,6 +2,8 @@ import Combine
 import UIKit
 import UIKitHelper
 
+// MARK: - section & item
+
 enum ___FILEBASENAME___Section: CaseIterable {
     case main
 
@@ -63,10 +65,10 @@ extension ___FILEBASENAME___ {}
 private extension ___FILEBASENAME___ {
     func setupTableView() {
         tableView.configure {
+            $0.registerCells(with: Section.allCases.map(\.cellType))
             $0.backgroundColor = .primary
             $0.delegate = self
             $0.dataSource = dataSource
-            $0.registerCells(with: Section.allCases.map(\.cellType))
         }
     }
 

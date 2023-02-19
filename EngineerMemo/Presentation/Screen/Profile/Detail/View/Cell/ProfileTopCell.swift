@@ -41,8 +41,8 @@ final class ProfileTopCell: UITableViewCell {
 
 extension ProfileTopCell {
     func configure(_ modelObject: ProfileModelObject?) {
-        iconImageView.modifier(\.image, ImageResources.profile)
-        userNameLabel.modifier(\.text, modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName)
+        iconImageView.image = ImageResources.profile
+        userNameLabel.text = modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName
     }
 }
 
@@ -50,7 +50,7 @@ extension ProfileTopCell {
 
 private extension ProfileTopCell {
     func setupView() {
-        contentView.modifier(\.backgroundColor, .primary)
+        contentView.backgroundColor = .primary
 
         contentView.addSubview(body) {
             $0.edges.equalToSuperview().inset(16)

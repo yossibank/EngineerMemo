@@ -12,6 +12,7 @@ final class ___FILEBASENAME___: UITableViewCell {
             UILabel()
                 .modifier(\.text, "Hello World")
         }
+        .modifier(\.backgroundColor, .primary)
     }
 
     override init(
@@ -45,8 +46,6 @@ extension ___FILEBASENAME___ {}
 
 private extension ___FILEBASENAME___ {
     func setupView() {
-        contentView.modifier(\.backgroundColor, .primary)
-
         contentView.addSubview(body) {
             $0.edges.equalToSuperview()
         }

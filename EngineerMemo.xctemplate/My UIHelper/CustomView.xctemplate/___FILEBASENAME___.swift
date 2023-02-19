@@ -9,6 +9,7 @@ final class ___FILEBASENAME___: UIView {
             UILabel()
                 .modifier(\.text, "Hello World")
         }
+        .modifier(\.backgroundColor, .primary)
     }
 
     override init(frame: CGRect) {
@@ -31,8 +32,6 @@ extension ___FILEBASENAME___ {}
 
 private extension ___FILEBASENAME___ {
     func setupView() {
-        modifier(\.backgroundColor, .primary)
-
         addSubview(body) {
             $0.edges.equalToSuperview()
         }

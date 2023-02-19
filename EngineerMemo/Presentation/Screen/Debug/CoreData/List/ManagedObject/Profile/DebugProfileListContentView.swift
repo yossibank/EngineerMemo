@@ -7,7 +7,11 @@
     // MARK: - properties & init
 
     final class DebugProfileListContentView: UIView {
-        var modelObject: [ProfileModelObject] = []
+        var modelObject: [ProfileModelObject] = [] {
+            didSet {
+                tableView.reloadData()
+            }
+        }
 
         private(set) lazy var didDeleteModelObjectPublisher = didDeleteModelObjectSubject.eraseToAnyPublisher()
 
@@ -28,24 +32,17 @@
         }
     }
 
-    // MARK: - internal methods
-
-    extension DebugProfileListContentView {
-        func reload() {
-            tableView.reloadData()
-        }
-    }
-
     // MARK: - private methods
 
     private extension DebugProfileListContentView {
         func setupTableView() {
-            tableView.modifier(\.backgroundColor, .primary)
-            tableView.registerCell(with: ProfileBasicCell.self)
-            tableView.rowHeight = UITableView.automaticDimension
-            tableView.allowsSelection = false
-            tableView.separatorStyle = .none
-            tableView.dataSource = self
+            tableView.configure {
+                $0.registerCell(with: ProfileBasicCell.self)
+                $0.backgroundColor = .primary
+                $0.allowsSelection = false
+                $0.separatorStyle = .none
+                $0.dataSource = self
+            }
         }
     }
 

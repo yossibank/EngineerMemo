@@ -23,7 +23,7 @@
             case .man: return .man
             case .woman: return .woman
             case .other: return .other
-            case .none: return .none
+            case .none: return .noSetting
             }
         }
 
@@ -63,7 +63,7 @@
 
             setupView()
 
-            titleLabel.modifier(\.text, title)
+            titleLabel.text = title
         }
 
         @available(*, unavailable)
@@ -76,7 +76,7 @@
 
     private extension DebugGenderSegmentView {
         func setupView() {
-            modifier(\.backgroundColor, .primary)
+            backgroundColor = .primary
 
             addSubview(body) {
                 $0.top.bottom.equalToSuperview()

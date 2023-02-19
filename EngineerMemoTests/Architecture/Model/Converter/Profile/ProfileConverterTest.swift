@@ -138,7 +138,7 @@ final class ProfileConverterTest: XCTestCase {
         )
     }
 
-    func test_genderがnilの際にnilに変換されること() {
+    func test_genderがnilの際にnoSettingに変換されること() {
         // arrange
         let input = ProfileDataObjectBuilder()
             .gender(nil)
@@ -151,7 +151,7 @@ final class ProfileConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             ProfileModelObjectBuilder()
-                .gender(nil)
+                .gender(.noSetting)
                 .build()
         )
     }

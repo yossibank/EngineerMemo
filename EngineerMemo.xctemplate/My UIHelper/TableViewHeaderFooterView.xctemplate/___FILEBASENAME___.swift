@@ -9,6 +9,7 @@ final class ___FILEBASENAME___: UITableViewHeaderFooterView {
             UILabel()
                 .modifier(\.text, "Hello World")
         }
+        .modifier(\.backgroundColor, .primary)
     }
 
     override init(reuseIdentifier: String?) {
@@ -30,8 +31,6 @@ extension ___FILEBASENAME___ {}
 
 private extension ___FILEBASENAME___ {
     func setupView() {
-        modifier(\.backgroundColor, .primary)
-
         addSubview(body) {
             $0.edges.equalToSuperview()
         }

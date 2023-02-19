@@ -44,7 +44,6 @@
                 .compactMap { $0 }
                 .sink { [weak self] modelObject in
                     self?.contentView.modelObject = modelObject
-                    self?.contentView.reload()
                 }
                 .store(in: &cancellables)
         }

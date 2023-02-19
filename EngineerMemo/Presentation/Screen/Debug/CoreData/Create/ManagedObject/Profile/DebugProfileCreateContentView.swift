@@ -16,6 +16,8 @@
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapCreateButtonPublisher = createButton.publisher(for: .touchUpInside)
 
+        private var cancellables: Set<AnyCancellable> = .init()
+
         private var body: UIView {
             VStackView(spacing: 12) {
                 addressControl
@@ -41,8 +43,6 @@
             .addConstraint {
                 $0.height.equalTo(48)
             }
-
-        private var cancellables: Set<AnyCancellable> = .init()
 
         private let addressControl = DebugCoreDataSegmentView(
             title: L10n.Debug.Segment.address
@@ -102,14 +102,16 @@
             didTapCreateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.createButton.configure {
-                        $0.setTitle(L10n.Components.Button.createDone, for: .normal)
-                    }
+                    self?.createButton.setTitle(
+                        L10n.Components.Button.createDone,
+                        for: .normal
+                    )
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.createButton.configure {
-                            $0.setTitle(L10n.Components.Button.create, for: .normal)
-                        }
+                        self?.createButton.setTitle(
+                            L10n.Components.Button.create,
+                            for: .normal
+                        )
                     }
                 }
                 .store(in: &cancellables)
@@ -120,7 +122,7 @@
 
     extension DebugProfileCreateContentView: ContentView {
         func setupView() {
-            modifier(\.backgroundColor, .primary)
+            backgroundColor = .primary
 
             addSubview(body) {
                 $0.edges.equalToSuperview()

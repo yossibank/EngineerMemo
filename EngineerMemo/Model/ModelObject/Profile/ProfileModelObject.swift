@@ -14,14 +14,14 @@ struct ProfileModelObject: Hashable {
         case man = 0
         case woman
         case other
-        case none
+        case noSetting
 
         var value: String {
             switch self {
             case .man: return L10n.Profile.Gender.man
             case .woman: return L10n.Profile.Gender.woman
             case .other: return L10n.Profile.Gender.other
-            case .none: return .noSetting
+            case .noSetting: return .noSetting
             }
         }
     }

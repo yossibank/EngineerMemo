@@ -2,6 +2,8 @@ import Combine
 import UIKit
 import UIKitHelper
 
+// MARK: - section & item
+
 enum ___FILEBASENAME___Section: CaseIterable {
     case main
 }

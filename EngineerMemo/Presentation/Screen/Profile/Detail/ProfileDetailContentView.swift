@@ -2,9 +2,24 @@ import Combine
 import UIKit
 import UIKitHelper
 
+// MARK: - section & item
+
+enum ProfileDetailContentViewSection: CaseIterable {
+    case top
+    case main
+}
+
+enum ProfileDetailContentViewItem: Hashable {
+    case top(ProfileModelObject?)
+    case main(ProfileModelObject?)
+}
+
 // MARK: - properties & init
 
 final class ProfileDetailContentView: UIView {
+    typealias Section = ProfileDetailContentViewSection
+    typealias Item = ProfileDetailContentViewItem
+
     var modelObject: ProfileModelObject? {
         didSet {
             applySnapshot()
@@ -14,13 +29,24 @@ final class ProfileDetailContentView: UIView {
     private(set) lazy var didTapEditButtonPublisher = didTapEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSettingButtonPublisher = didTapSettingButtonSubject.eraseToAnyPublisher()
 
-    private var dataSource: UITableViewDiffableDataSource<
-        ProfileDetailSection,
-        ProfileDetailItem
-    >!
+    private lazy var dataSource = UITableViewDiffableDataSource<
+        Section,
+        Item
+    >(tableView: tableView) { [weak self] tableView, indexPath, item in
+        guard let self else {
+            return .init()
+        }
+
+        return self.makeCell(
+            tableView: tableView,
+            indexPath: indexPath,
+            item: item
+        )
+    }
 
     private let didTapEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
+
     private let tableView = UITableView()
 
     override init(frame: CGRect) {
@@ -40,44 +66,25 @@ final class ProfileDetailContentView: UIView {
 
 private extension ProfileDetailContentView {
     func setupTableView() {
-        dataSource = configureDataSource()
-
-        tableView.modifier(\.backgroundColor, .primary)
-        tableView.registerCells(
-            with: [
-                ProfileTopCell.self,
-                ProfileSettingCell.self,
-                ProfileBasicCell.self
-            ]
-        )
-
-        tableView.allowsSelection = false
-        tableView.separatorStyle = .none
-        tableView.dataSource = dataSource
-        tableView.delegate = self
-    }
-
-    func configureDataSource() -> UITableViewDiffableDataSource<
-        ProfileDetailSection,
-        ProfileDetailItem
-    > {
-        .init(tableView: tableView) { [weak self] tableView, indexPath, item in
-            guard let self else {
-                return .init()
-            }
-
-            return self.makeCell(
-                tableView: tableView,
-                indexPath: indexPath,
-                item: item
+        tableView.configure {
+            $0.registerCells(
+                with: [
+                    ProfileTopCell.self,
+                    ProfileSettingCell.self,
+                    ProfileBasicCell.self
+                ]
             )
+            $0.backgroundColor = .primary
+            $0.allowsSelection = false
+            $0.separatorStyle = .none
+            $0.dataSource = dataSource
         }
     }
 
     func makeCell(
         tableView: UITableView,
         indexPath: IndexPath,
-        item: ProfileDetailItem
+        item: Item
     ) -> UITableViewCell? {
         switch item {
         case let .top(modelObject):
@@ -124,11 +131,8 @@ private extension ProfileDetailContentView {
     }
 
     func applySnapshot() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
-            ProfileDetailSection,
-            ProfileDetailItem
-        >()
-        dataSourceSnapshot.appendSections(ProfileDetailSection.allCases)
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        dataSourceSnapshot.appendSections(Section.allCases)
         dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
         dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)
 
@@ -136,17 +140,6 @@ private extension ProfileDetailContentView {
             dataSourceSnapshot,
             animatingDifferences: false
         )
-    }
-}
-
-// MARK: - delegate
-
-extension ProfileDetailContentView: UITableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        UITableView.automaticDimension
     }
 }
 

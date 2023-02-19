@@ -109,14 +109,16 @@
 
     extension DebugProfileUpdateCell {
         func updateView() {
-            updateButton.configure {
-                $0.setTitle(L10n.Components.Button.updateDone, for: .normal)
-            }
+            updateButton.setTitle(
+                L10n.Components.Button.updateDone,
+                for: .normal
+            )
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.updateButton.configure {
-                    $0.setTitle(L10n.Components.Button.update, for: .normal)
-                }
+                self.updateButton.setTitle(
+                    L10n.Components.Button.update,
+                    for: .normal
+                )
             }
         }
     }
@@ -125,7 +127,7 @@
 
     private extension DebugProfileUpdateCell {
         func setupView() {
-            contentView.modifier(\.backgroundColor, .primary)
+            contentView.backgroundColor = .primary
 
             contentView.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(16)

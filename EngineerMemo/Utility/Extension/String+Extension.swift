@@ -1,9 +1,9 @@
 import Foundation
 
 extension String {
-    var phoneText: String? {
+    var phoneText: String {
         guard Int(self) != nil else {
-            return nil
+            return .noSetting
         }
 
         var phoneNumber = self

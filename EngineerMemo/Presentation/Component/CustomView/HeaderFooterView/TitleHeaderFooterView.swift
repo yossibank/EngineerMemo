@@ -22,7 +22,7 @@ final class TitleHeaderFooterView: UITableViewHeaderFooterView {
 
 extension TitleHeaderFooterView {
     func configure(title: String) {
-        titleLabel.modifier(\.text, title)
+        titleLabel.text = title
     }
 }
 
@@ -30,7 +30,7 @@ extension TitleHeaderFooterView {
 
 private extension TitleHeaderFooterView {
     func setupView() {
-        contentView.modifier(\.backgroundColor, .thinGray)
+        contentView.backgroundColor = .thinGray
 
         contentView.addSubview(titleLabel) {
             $0.centerY.equalToSuperview()

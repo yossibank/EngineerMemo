@@ -4,6 +4,13 @@
     import UIKit
     import UIKitHelper
 
+    // MARK: - section & item
+
+    enum DebugProfileUpdateSection: CaseIterable {
+        case list
+        case update
+    }
+
     // MARK: - properties & init
 
     final class DebugProfileUpdateContentView: UIView {
@@ -64,22 +71,26 @@
 
     private extension DebugProfileUpdateContentView {
         func setupSearchBar() {
-            searchBar.modifier(\.enablesReturnKeyAutomatically, false)
-            searchBar.modifier(\.backgroundImage, .init())
-            searchBar.modifier(\.delegate, self)
+            searchBar.configure {
+                $0.enablesReturnKeyAutomatically = false
+                $0.backgroundImage = .init()
+                $0.delegate = self
+            }
         }
 
         func setupTableView() {
-            tableView.modifier(\.backgroundColor, .primary)
-            tableView.modifier(\.allowsMultipleSelection, false)
-            tableView.modifier(\.delegate, self)
-            tableView.modifier(\.dataSource, self)
-            tableView.registerCells(
-                with: [
-                    UITableViewCell.self,
-                    DebugProfileUpdateCell.self
-                ]
-            )
+            tableView.configure {
+                $0.registerCells(
+                    with: [
+                        UITableViewCell.self,
+                        DebugProfileUpdateCell.self
+                    ]
+                )
+                $0.backgroundColor = .primary
+                $0.allowsMultipleSelection = false
+                $0.delegate = self
+                $0.dataSource = self
+            }
         }
     }
 
