@@ -79,7 +79,7 @@ final class ProfileTextInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputTextField].forEach {
-                $0.modifier(\.layer.borderColor, .theme)
+                $0.modifier(\.layer.borderColor, UIColor.theme.cgColor)
             }
         }
     }

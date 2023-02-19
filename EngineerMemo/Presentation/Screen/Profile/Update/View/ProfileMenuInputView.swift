@@ -103,7 +103,7 @@ final class ProfileMenuInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, menuButton].forEach {
-                $0.modifier(\.layer.borderColor, .theme)
+                $0.modifier(\.layer.borderColor, UIColor.theme.cgColor)
             }
         }
     }

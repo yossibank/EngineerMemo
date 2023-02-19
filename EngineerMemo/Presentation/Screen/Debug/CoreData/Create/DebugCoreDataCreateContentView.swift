@@ -35,7 +35,7 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                menuButton.modifier(\.layer.borderColor, .theme)
+                menuButton.modifier(\.layer.borderColor, UIColor.theme.cgColor)
             }
         }
     }

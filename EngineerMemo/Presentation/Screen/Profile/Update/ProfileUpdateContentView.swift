@@ -110,7 +110,7 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            saveButton.modifier(\.layer.borderColor, .theme)
+            saveButton.modifier(\.layer.borderColor, UIColor.theme.cgColor)
         }
     }
 }

@@ -7,7 +7,3 @@ extension UIColor {
     static let secondary: UIColor = .dynamicColor(light: .darkGray, dark: .lightGray)
     static let thinGray: UIColor = .lightGray.withAlphaComponent(0.5)
 }
-
-extension CGColor {
-    static let theme: CGColor = UIColor.theme.cgColor
-}
