@@ -1,6 +1,6 @@
 import Combine
-import SnapKit
 import UIKit
+import UIKitHelper
 
 // MARK: - properties & init
 
@@ -155,9 +155,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
 extension ProfileDetailContentView: ContentView {
     func setupViews() {
         addSubview(tableView) {
-            $0.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
+            $0.edges.equalToSuperview()
         }
     }
 }

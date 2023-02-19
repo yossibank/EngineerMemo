@@ -1,5 +1,4 @@
 import Combine
-import SnapKit
 import UIKit
 import UIKitHelper
 
@@ -54,27 +53,19 @@ final class ProfileMenuInputView: UIView {
 
     private lazy var titleView = UIView()
         .addSubview(titleLabel) {
-            $0.snp.makeConstraints {
-                $0.edges.equalToSuperview().inset(8)
-            }
+            $0.edges.equalToSuperview().inset(8)
         }
-        .configure {
-            $0.snp.makeConstraints {
-                $0.height.equalTo(40)
-            }
+        .addConstraint {
+            $0.height.equalTo(40)
         }
 
     private lazy var buttonInputView = UIView()
         .addSubview(menuButton) {
-            $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview().inset(16)
-                $0.leading.trailing.equalToSuperview()
-            }
+            $0.top.bottom.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview()
         }
-        .configure {
-            $0.snp.makeConstraints {
-                $0.height.equalTo(80)
-            }
+        .addConstraint {
+            $0.height.equalTo(80)
         }
 
     private let titleLabel = UILabel()
@@ -141,10 +132,8 @@ private extension ProfileMenuInputView {
         modifier(\.backgroundColor, .primary)
 
         addSubview(body) {
-            $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview().inset(8)
-                $0.leading.trailing.equalToSuperview().inset(16)
-            }
+            $0.top.bottom.equalToSuperview().inset(8)
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
     }
 

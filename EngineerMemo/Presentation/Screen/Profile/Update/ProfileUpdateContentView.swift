@@ -1,5 +1,4 @@
 import Combine
-import SnapKit
 import UIKit
 import UIKitHelper
 
@@ -17,9 +16,7 @@ final class ProfileUpdateContentView: UIView {
 
     private lazy var scrollView = UIScrollView()
         .addSubview(stackView) {
-            $0.snp.makeConstraints {
-                $0.width.edges.equalToSuperview()
-            }
+            $0.width.edges.equalToSuperview()
         }
 
     private lazy var stackView = VStackView(distribution: .equalSpacing) {
@@ -35,11 +32,9 @@ final class ProfileUpdateContentView: UIView {
 
     private lazy var buttonView = UIView()
         .addSubview(saveButton) {
-            $0.snp.makeConstraints {
-                $0.bottom.equalToSuperview().inset(32)
-                $0.top.leading.trailing.equalToSuperview().inset(16)
-                $0.height.equalTo(60)
-            }
+            $0.bottom.equalToSuperview().inset(32)
+            $0.top.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(60)
         }
 
     private lazy var saveButton = UIButton(type: .system)
@@ -166,9 +161,7 @@ extension ProfileUpdateContentView: ContentView {
         modifier(\.backgroundColor, .primary)
 
         addSubview(scrollView) {
-            $0.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
+            $0.edges.equalToSuperview()
         }
     }
 }

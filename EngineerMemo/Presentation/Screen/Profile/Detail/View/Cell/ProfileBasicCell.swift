@@ -1,5 +1,4 @@
 import Combine
-import SnapKit
 import UIKit
 import UIKitHelper
 
@@ -35,15 +34,11 @@ final class ProfileBasicCell: UITableViewCell {
         .modifier(\.clipsToBounds, true)
         .modifier(\.layer.cornerRadius, 8)
         .addSubview(stackView) {
-            $0.snp.makeConstraints {
-                $0.edges.equalToSuperview().inset(16)
-            }
+            $0.edges.equalToSuperview().inset(16)
         }
         .addSubview(editButton) {
-            $0.snp.makeConstraints {
-                $0.top.equalToSuperview().inset(12)
-                $0.trailing.equalToSuperview().inset(8)
-            }
+            $0.top.equalToSuperview().inset(12)
+            $0.trailing.equalToSuperview().inset(8)
         }
 
     private let basicLabel = UILabel()
@@ -120,10 +115,8 @@ private extension ProfileBasicCell {
         contentView.modifier(\.backgroundColor, .primary)
 
         contentView.addSubview(baseView) {
-            $0.snp.makeConstraints {
-                $0.top.equalToSuperview()
-                $0.bottom.leading.trailing.equalToSuperview().inset(32)
-            }
+            $0.top.equalToSuperview()
+            $0.bottom.leading.trailing.equalToSuperview().inset(32)
         }
     }
 

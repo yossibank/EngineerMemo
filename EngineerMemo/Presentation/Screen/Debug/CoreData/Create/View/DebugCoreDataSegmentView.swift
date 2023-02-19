@@ -1,5 +1,4 @@
 #if DEBUG
-    import SnapKit
     import SwiftUI
     import UIKit
     import UIKitHelper
@@ -61,10 +60,8 @@
         }
 
         private let titleLabel = UILabel()
-            .configure {
-                $0.snp.makeConstraints {
-                    $0.width.equalTo(100)
-                }
+            .addConstraint {
+                $0.width.equalTo(100)
             }
 
         private let segmentControl = UISegmentedControl(
@@ -92,10 +89,8 @@
             modifier(\.backgroundColor, .primary)
 
             addSubview(body) {
-                $0.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview()
-                    $0.leading.trailing.equalToSuperview().inset(16)
-                }
+                $0.top.bottom.equalToSuperview()
+                $0.leading.trailing.equalToSuperview().inset(16)
             }
         }
     }

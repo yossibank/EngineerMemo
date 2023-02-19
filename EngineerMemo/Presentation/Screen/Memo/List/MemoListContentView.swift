@@ -1,5 +1,4 @@
 import Combine
-import SnapKit
 import UIKit
 import UIKitHelper
 
@@ -200,9 +199,7 @@ private extension MemoListContentView {
 extension MemoListContentView: ContentView {
     func setupViews() {
         addSubview(collectionView) {
-            $0.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
+            $0.edges.equalToSuperview()
         }
     }
 }

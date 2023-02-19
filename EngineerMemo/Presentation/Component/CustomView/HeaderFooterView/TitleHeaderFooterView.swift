@@ -34,10 +34,8 @@ private extension TitleHeaderFooterView {
         contentView.modifier(\.backgroundColor, .thinGray)
 
         contentView.addSubview(titleLabel) {
-            $0.snp.makeConstraints {
-                $0.centerY.equalToSuperview()
-                $0.leading.equalToSuperview().inset(8)
-            }
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(8)
         }
     }
 }

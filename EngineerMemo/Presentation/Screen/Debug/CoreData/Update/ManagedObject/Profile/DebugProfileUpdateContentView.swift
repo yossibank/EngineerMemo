@@ -1,6 +1,5 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
     import UIKitHelper
@@ -65,24 +64,22 @@
 
     private extension DebugProfileUpdateContentView {
         func setupSearchBar() {
-            searchBar.enablesReturnKeyAutomatically = false
-            searchBar.backgroundImage = .init()
-            searchBar.delegate = self
+            searchBar.modifier(\.enablesReturnKeyAutomatically, false)
+            searchBar.modifier(\.backgroundImage, .init())
+            searchBar.modifier(\.delegate, self)
         }
 
         func setupTableView() {
             tableView.modifier(\.backgroundColor, .primary)
+            tableView.modifier(\.allowsMultipleSelection, false)
+            tableView.modifier(\.delegate, self)
+            tableView.modifier(\.dataSource, self)
             tableView.registerCells(
                 with: [
                     UITableViewCell.self,
                     DebugProfileUpdateCell.self
                 ]
             )
-
-            tableView.rowHeight = UITableView.automaticDimension
-            tableView.allowsMultipleSelection = false
-            tableView.delegate = self
-            tableView.dataSource = self
         }
     }
 
@@ -247,17 +244,13 @@
     extension DebugProfileUpdateContentView: ContentView {
         func setupViews() {
             addSubview(searchBar) {
-                $0.snp.makeConstraints {
-                    $0.top.leading.trailing.equalToSuperview()
-                    $0.height.equalTo(40)
-                }
+                $0.top.leading.trailing.equalToSuperview()
+                $0.height.equalTo(40)
             }
 
             addSubview(tableView) {
-                $0.snp.makeConstraints {
-                    $0.top.equalTo(self.searchBar.snp.bottom).inset(-8)
-                    $0.bottom.leading.trailing.equalToSuperview()
-                }
+                $0.top.equalTo(self.searchBar.snp.bottom).inset(-8)
+                $0.bottom.leading.trailing.equalToSuperview()
             }
         }
     }

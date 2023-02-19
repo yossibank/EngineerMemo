@@ -1,5 +1,4 @@
 import Combine
-import SnapKit
 import UIKit
 import UIKitHelper
 
@@ -35,35 +34,29 @@ final class ProfileSettingCell: UITableViewCell {
     }
 
     private let spaceTopView = UIView()
-        .configure {
-            $0.snp.makeConstraints {
-                $0.height.equalTo(16)
-            }
+        .addConstraint {
+            $0.height.equalTo(16)
         }
 
     private let spaceBottomView = UIView()
-        .configure {
-            $0.snp.makeConstraints {
-                $0.height.equalTo(16)
-            }
+        .addConstraint {
+            $0.height.equalTo(16)
         }
 
     private let titleLabel = UILabel()
-        .configure {
-            $0.snp.makeConstraints {
-                $0.leading.trailing.equalToSuperview().inset(16)
-            }
+        .addConstraint {
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
 
     private let settingButton = UIButton(type: .system)
+        .addConstraint {
+            $0.width.equalTo(180)
+            $0.height.equalTo(56)
+        }
         .configure {
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.setTitle(L10n.Components.Button.setting, for: .normal)
             $0.setTitleColor(.white, for: .normal)
-            $0.snp.makeConstraints {
-                $0.width.equalTo(180)
-                $0.height.equalTo(56)
-            }
         }
 
     override init(
@@ -96,10 +89,8 @@ private extension ProfileSettingCell {
         contentView.modifier(\.backgroundColor, .primary)
 
         contentView.addSubview(body) {
-            $0.snp.makeConstraints {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.trailing.equalToSuperview().inset(32)
-            }
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(32)
         }
     }
 }

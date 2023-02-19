@@ -1,6 +1,5 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
     import UIKitHelper
@@ -50,7 +49,7 @@
             vc.removeFirstChild()
             vc.addSubviewController(containerViewController)
 
-            containerViewController.view.snp.makeConstraints {
+            containerViewController.view.addConstraint {
                 $0.top.equalTo(menuButton.snp.bottom).inset(-24)
                 $0.leading.trailing.equalToSuperview()
             }
@@ -95,12 +94,10 @@
             modifier(\.backgroundColor, .primary)
 
             addSubview(menuButton) {
-                $0.snp.makeConstraints {
-                    $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(24)
-                    $0.centerX.equalToSuperview()
-                    $0.width.equalTo(160)
-                    $0.height.equalTo(40)
-                }
+                $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(24)
+                $0.centerX.equalToSuperview()
+                $0.width.equalTo(160)
+                $0.height.equalTo(40)
             }
         }
     }

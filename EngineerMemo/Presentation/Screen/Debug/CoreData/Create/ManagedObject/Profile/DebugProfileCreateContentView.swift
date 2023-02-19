@@ -1,6 +1,5 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
     import UIKitHelper
@@ -35,16 +34,12 @@
 
         private lazy var buttonView = UIView()
             .addSubview(createButton) {
-                $0.snp.makeConstraints {
-                    $0.centerX.equalToSuperview()
-                    $0.width.equalTo(160)
-                    $0.height.equalTo(48)
-                }
+                $0.centerX.equalToSuperview()
+                $0.width.equalTo(160)
+                $0.height.equalTo(48)
             }
-            .configure {
-                $0.snp.makeConstraints {
-                    $0.height.equalTo(48)
-                }
+            .addConstraint {
+                $0.height.equalTo(48)
             }
 
         private var cancellables: Set<AnyCancellable> = .init()
@@ -128,9 +123,7 @@
             modifier(\.backgroundColor, .primary)
 
             addSubview(body) {
-                $0.snp.makeConstraints {
-                    $0.edges.equalToSuperview()
-                }
+                $0.edges.equalToSuperview()
             }
         }
     }

@@ -1,6 +1,5 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
     import UIKitHelper
@@ -101,9 +100,7 @@
     extension DebugProfileListContentView: ContentView {
         func setupViews() {
             addSubview(tableView) {
-                $0.snp.makeConstraints {
-                    $0.edges.equalToSuperview()
-                }
+                $0.edges.equalToSuperview()
             }
         }
     }

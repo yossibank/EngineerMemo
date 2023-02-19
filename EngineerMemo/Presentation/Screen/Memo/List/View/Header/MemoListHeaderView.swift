@@ -90,9 +90,7 @@ private extension MemoListHeaderView {
         modifier(\.backgroundColor, .thinGray)
 
         addSubview(body) {
-            $0.snp.makeConstraints {
-                $0.edges.equalToSuperview().inset(8)
-            }
+            $0.edges.equalToSuperview().inset(8)
         }
     }
 }

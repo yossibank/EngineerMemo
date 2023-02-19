@@ -1,4 +1,3 @@
-import SnapKit
 import UIKit
 import UIKitHelper
 
@@ -15,10 +14,8 @@ final class ProfileTopCell: UITableViewCell {
     }
 
     private let iconImageView = UIImageView()
-        .configure {
-            $0.snp.makeConstraints {
-                $0.size.equalTo(100)
-            }
+        .addConstraint {
+            $0.size.equalTo(100)
         }
 
     private let userNameLabel = UILabel()
@@ -56,9 +53,7 @@ private extension ProfileTopCell {
         contentView.modifier(\.backgroundColor, .primary)
 
         contentView.addSubview(body) {
-            $0.snp.makeConstraints {
-                $0.edges.equalToSuperview().inset(16)
-            }
+            $0.edges.equalToSuperview().inset(16)
         }
     }
 }

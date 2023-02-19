@@ -1,6 +1,5 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
     import UIKitHelper
@@ -40,11 +39,11 @@
             dataSource = configureDataSource()
 
             tableView.modifier(\.backgroundColor, .primary)
+            tableView.modifier(\.separatorStyle, .none)
+            tableView.modifier(\.delegate, self)
+            tableView.modifier(\.dataSource, dataSource)
             tableView.registerCell(with: DebugDevelopmentCell.self)
             tableView.registerHeaderFooterView(with: TitleHeaderFooterView.self)
-            tableView.separatorStyle = .none
-            tableView.dataSource = dataSource
-            tableView.delegate = self
 
             if #available(iOS 15.0, *) {
                 tableView.sectionHeaderTopPadding = .zero
@@ -187,9 +186,7 @@
     extension DebugDevelopmentContentView: ContentView {
         func setupViews() {
             addSubview(tableView) {
-                $0.snp.makeConstraints {
-                    $0.edges.equalToSuperview()
-                }
+                $0.edges.equalToSuperview()
             }
         }
     }

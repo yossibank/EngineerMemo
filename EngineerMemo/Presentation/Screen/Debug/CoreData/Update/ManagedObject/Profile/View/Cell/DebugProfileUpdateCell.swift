@@ -1,6 +1,5 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
     import UIKitHelper
@@ -37,16 +36,12 @@
 
         private lazy var buttonView = UIView()
             .addSubview(updateButton) {
-                $0.snp.makeConstraints {
-                    $0.centerX.equalToSuperview()
-                    $0.width.equalTo(160)
-                    $0.height.equalTo(48)
-                }
+                $0.centerX.equalToSuperview()
+                $0.width.equalTo(160)
+                $0.height.equalTo(48)
             }
-            .configure {
-                $0.snp.makeConstraints {
-                    $0.height.equalTo(48)
-                }
+            .addConstraint {
+                $0.height.equalTo(48)
             }
 
         private let addressControl = DebugCoreDataSegmentView(
@@ -133,10 +128,8 @@
             contentView.modifier(\.backgroundColor, .primary)
 
             contentView.addSubview(body) {
-                $0.snp.makeConstraints {
-                    $0.top.bottom.equalToSuperview().inset(16)
-                    $0.leading.trailing.equalToSuperview()
-                }
+                $0.top.bottom.equalToSuperview().inset(16)
+                $0.leading.trailing.equalToSuperview()
             }
         }
     }

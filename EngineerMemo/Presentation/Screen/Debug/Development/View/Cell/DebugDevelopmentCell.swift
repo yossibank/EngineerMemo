@@ -57,10 +57,8 @@
             contentView.modifier(\.backgroundColor, .primary)
 
             contentView.addSubview(body) {
-                $0.snp.makeConstraints {
-                    $0.centerY.equalToSuperview()
-                    $0.leading.equalToSuperview().inset(8)
-                }
+                $0.centerY.equalToSuperview()
+                $0.leading.equalToSuperview().inset(8)
             }
         }
     }
