@@ -49,7 +49,7 @@
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
+            setupView()
             setupSearchBar()
             setupTableView()
         }
@@ -242,7 +242,7 @@
     // MARK: - protocol
 
     extension DebugProfileUpdateContentView: ContentView {
-        func setupViews() {
+        func setupView() {
             addSubview(searchBar) {
                 $0.top.leading.trailing.equalToSuperview()
                 $0.height.equalTo(40)

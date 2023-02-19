@@ -68,7 +68,7 @@ final class ProfileSettingCell: UITableViewCell {
             reuseIdentifier: reuseIdentifier
         )
 
-        setupViews()
+        setupView()
     }
 
     required init?(coder: NSCoder) {
@@ -85,7 +85,7 @@ final class ProfileSettingCell: UITableViewCell {
 // MARK: - private methods
 
 private extension ProfileSettingCell {
-    func setupViews() {
+    func setupView() {
         contentView.modifier(\.backgroundColor, .primary)
 
         contentView.addSubview(body) {

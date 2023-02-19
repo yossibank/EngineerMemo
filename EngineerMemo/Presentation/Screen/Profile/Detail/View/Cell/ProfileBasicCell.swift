@@ -74,7 +74,7 @@ final class ProfileBasicCell: UITableViewCell {
             reuseIdentifier: reuseIdentifier
         )
 
-        setupViews()
+        setupView()
     }
 
     required init?(coder: NSCoder) {
@@ -111,7 +111,7 @@ extension ProfileBasicCell {
 // MARK: - private methods
 
 private extension ProfileBasicCell {
-    func setupViews() {
+    func setupView() {
         contentView.modifier(\.backgroundColor, .primary)
 
         contentView.addSubview(baseView) {

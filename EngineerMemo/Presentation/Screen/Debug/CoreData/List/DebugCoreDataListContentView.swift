@@ -22,7 +22,7 @@
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
+            setupView()
             setupMenu()
         }
 
@@ -90,7 +90,7 @@
     // MARK: - protocol
 
     extension DebugCoreDataListContentView: ContentView {
-        func setupViews() {
+        func setupView() {
             modifier(\.backgroundColor, .primary)
 
             addSubview(menuButton) {

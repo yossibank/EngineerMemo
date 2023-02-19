@@ -87,7 +87,7 @@ final class ProfileMenuInputView: UIView {
     init(title: String) {
         super.init(frame: .zero)
 
-        setupViews()
+        setupView()
         setupMenu()
 
         titleLabel.modifier(\.text, title)
@@ -128,7 +128,7 @@ extension ProfileMenuInputView {
 // MARK: - private methods
 
 private extension ProfileMenuInputView {
-    func setupViews() {
+    func setupView() {
         modifier(\.backgroundColor, .primary)
 
         addSubview(body) {

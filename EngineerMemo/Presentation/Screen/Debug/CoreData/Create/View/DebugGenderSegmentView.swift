@@ -61,7 +61,7 @@
         init(title: String) {
             super.init(frame: .zero)
 
-            setupViews()
+            setupView()
 
             titleLabel.modifier(\.text, title)
         }
@@ -75,7 +75,7 @@
     // MARK: - private methods
 
     private extension DebugGenderSegmentView {
-        func setupViews() {
+        func setupView() {
             modifier(\.backgroundColor, .primary)
 
             addSubview(body) {

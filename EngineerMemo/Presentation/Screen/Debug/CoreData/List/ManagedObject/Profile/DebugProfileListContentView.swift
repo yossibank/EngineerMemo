@@ -18,7 +18,7 @@
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
+            setupView()
             setupTableView()
         }
 
@@ -98,7 +98,7 @@
     // MARK: - protocol
 
     extension DebugProfileListContentView: ContentView {
-        func setupViews() {
+        func setupView() {
             addSubview(tableView) {
                 $0.edges.equalToSuperview()
             }

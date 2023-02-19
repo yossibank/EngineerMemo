@@ -57,7 +57,7 @@ final class ProfileTextInputView: UIView {
     ) {
         super.init(frame: .zero)
 
-        setupViews()
+        setupView()
         setupTextField()
 
         titleLabel.modifier(\.text, title)
@@ -125,7 +125,7 @@ extension ProfileTextInputView {
 // MARK: - private methods
 
 private extension ProfileTextInputView {
-    func setupViews() {
+    func setupView() {
         modifier(\.backgroundColor, .primary)
 
         addSubview(body) {

@@ -26,7 +26,7 @@ final class ProfileDetailContentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
+        setupView()
         setupTableView()
     }
 
@@ -153,7 +153,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
 // MARK: - protocol
 
 extension ProfileDetailContentView: ContentView {
-    func setupViews() {
+    func setupView() {
         addSubview(tableView) {
             $0.edges.equalToSuperview()
         }

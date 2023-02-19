@@ -61,7 +61,7 @@ final class MemoListContentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
+        setupView()
         setupCollectionView()
         setupHeaderView()
         applySnapshot()
@@ -197,7 +197,7 @@ private extension MemoListContentView {
 // MARK: - protocol
 
 extension MemoListContentView: ContentView {
-    func setupViews() {
+    func setupView() {
         addSubview(collectionView) {
             $0.edges.equalToSuperview()
         }

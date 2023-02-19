@@ -96,8 +96,8 @@ final class ProfileUpdateContentView: UIView {
 
         super.init(frame: .zero)
 
-        setupViews()
-        setupEvents()
+        setupView()
+        setupEvent()
         setupInitializeValue()
     }
 
@@ -118,7 +118,7 @@ final class ProfileUpdateContentView: UIView {
 // MARK: - private
 
 private extension ProfileUpdateContentView {
-    func setupEvents() {
+    func setupEvent() {
         let title = modelObject == nil
             ? L10n.Components.Button.saveProfile
             : L10n.Components.Button.updateProfile
@@ -157,7 +157,7 @@ private extension ProfileUpdateContentView {
 // MARK: - protocol
 
 extension ProfileUpdateContentView: ContentView {
-    func setupViews() {
+    func setupView() {
         modifier(\.backgroundColor, .primary)
 
         addSubview(scrollView) {

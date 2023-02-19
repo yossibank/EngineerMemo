@@ -29,7 +29,7 @@ final class ProfileTopCell: UITableViewCell {
             reuseIdentifier: reuseIdentifier
         )
 
-        setupViews()
+        setupView()
     }
 
     required init?(coder: NSCoder) {
@@ -49,7 +49,7 @@ extension ProfileTopCell {
 // MARK: - private methods
 
 private extension ProfileTopCell {
-    func setupViews() {
+    func setupView() {
         contentView.modifier(\.backgroundColor, .primary)
 
         contentView.addSubview(body) {

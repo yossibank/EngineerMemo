@@ -10,7 +10,7 @@ final class TitleHeaderFooterView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
 
-        setupViews()
+        setupView()
     }
 
     required init?(coder: NSCoder) {
@@ -29,7 +29,7 @@ extension TitleHeaderFooterView {
 // MARK: - private methods
 
 private extension TitleHeaderFooterView {
-    func setupViews() {
+    func setupView() {
         contentView.modifier(\.backgroundColor, .thinGray)
 
         contentView.addSubview(titleLabel) {

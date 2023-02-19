@@ -28,7 +28,7 @@
                 reuseIdentifier: reuseIdentifier
             )
 
-            setupViews()
+            setupView()
         }
 
         required init?(coder: NSCoder) {
@@ -52,7 +52,7 @@
     // MARK: - private methods
 
     private extension DebugDevelopmentCell {
-        func setupViews() {
+        func setupView() {
             contentView.modifier(\.backgroundColor, .primary)
 
             contentView.addSubview(body) {

@@ -85,8 +85,8 @@
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
-            setupEvents()
+            setupView()
+            setupEvent()
         }
 
         @available(*, unavailable)
@@ -98,7 +98,7 @@
     // MARK: - private methods
 
     private extension DebugProfileCreateContentView {
-        func setupEvents() {
+        func setupEvent() {
             didTapCreateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
@@ -119,7 +119,7 @@
     // MARK: - protocol
 
     extension DebugProfileCreateContentView: ContentView {
-        func setupViews() {
+        func setupView() {
             modifier(\.backgroundColor, .primary)
 
             addSubview(body) {

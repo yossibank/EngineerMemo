@@ -59,7 +59,7 @@ final class MemoListHeaderView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
+        setupView()
     }
 
     @available(*, unavailable)
@@ -85,7 +85,7 @@ extension MemoListHeaderView {
 // MARK: - private methods
 
 private extension MemoListHeaderView {
-    func setupViews() {
+    func setupView() {
         modifier(\.backgroundColor, .thinGray)
 
         addSubview(body) {

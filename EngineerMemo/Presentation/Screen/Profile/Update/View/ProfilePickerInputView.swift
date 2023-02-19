@@ -64,7 +64,7 @@ final class ProfilePickerInputView: UIView {
     init(title: String) {
         super.init(frame: .zero)
 
-        setupViews()
+        setupView()
         setupPicker()
 
         titleLabel.modifier(\.text, title)
@@ -110,7 +110,7 @@ extension ProfilePickerInputView {
 // MARK: - private methods
 
 private extension ProfilePickerInputView {
-    func setupViews() {
+    func setupView() {
         modifier(\.backgroundColor, .primary)
 
         addSubview(body) {
