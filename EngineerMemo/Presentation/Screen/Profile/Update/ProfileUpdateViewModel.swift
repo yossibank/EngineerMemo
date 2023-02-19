@@ -13,12 +13,13 @@ final class ProfileUpdateViewModel: ViewModel {
     }
 
     final class Input: InputObject {
+        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let saveButtonTapped = PassthroughSubject<Void, Never>()
     }
 
     final class Output: OutputObject {
-        @Published fileprivate(set) var isFinish: Bool?
+        @Published fileprivate(set) var isFinished: Bool?
     }
 
     @BindableObject private(set) var binding: Binding
@@ -47,9 +48,23 @@ final class ProfileUpdateViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        if let modelObject {
-            self.modelObject = modelObject
-        }
+        // MARK: - viewDidLoad
+
+        input.viewDidLoad
+            .sink { [weak self] _ in
+                if let modelObject {
+                    self?.modelObject = modelObject
+                }
+            }
+            .store(in: &cancellables)
+
+        // MARK: - viewWillAppear
+
+        input.viewWillAppear
+            .sink { _ in
+                analytics.sendEvent(.screenView)
+            }
+            .store(in: &cancellables)
 
         // MARK: - 名前
 
@@ -107,14 +122,6 @@ final class ProfileUpdateViewModel: ViewModel {
                 self?.modelObject.station = station
             }
 
-        // MARK: - viewWillAppear
-
-        input.viewWillAppear
-            .sink { _ in
-                analytics.sendEvent(.screenView)
-            }
-            .store(in: &cancellables)
-
         // MARK: - 更新・保存ボタンタップ
 
         input.saveButtonTapped
@@ -129,7 +136,7 @@ final class ProfileUpdateViewModel: ViewModel {
                     self.model.update(modelObject: self.modelObject)
                 }
 
-                self.output.isFinish = true
+                self.output.isFinished = true
             }
             .store(in: &cancellables)
 

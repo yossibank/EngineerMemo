@@ -8,9 +8,26 @@ final class ProfileDetailViewModelTest: XCTestCase {
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: ProfileDetailViewModel!
 
+    override func setUp() {
+        super.setUp()
+
+        model = .init()
+        routing = .init()
+        analytics = .init(screenId: .profileDetail)
+        viewModel = .init(
+            model: model,
+            routing: routing,
+            analytics: analytics
+        )
+
+        model.getHandler = { result in
+            result(.success(ProfileModelObjectBuilder().build()))
+        }
+    }
+
     func test_画面表示_成功_プロフィール情報を取得できること() throws {
         // arrange
-        setupViewModel()
+        viewModel.input.viewDidLoad.send(())
 
         // act
         let publisher = viewModel.output.$modelObject.collect(1).first()
@@ -25,7 +42,11 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
     func test_画面表示_失敗_エラー情報を取得できること() throws {
         // arrange
-        setupViewModel(isSuccess: false)
+        model.getHandler = { result in
+            result(.failure(.init(dataError: .coreData(.something("CoreDataエラー")))))
+        }
+
+        viewModel.input.viewDidLoad.send(())
 
         // act
         let publisher = viewModel.output.$appError.collect(1).first()
@@ -40,8 +61,6 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
     func test_viewWillAppear_firebaseAnalytics_screenViewイベントを送信できること() {
         // arrange
-        setupViewModel()
-
         let expectation = XCTestExpectation(description: #function)
 
         analytics.sendEventFAEventHandler = { event in
@@ -58,8 +77,6 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
     func test_settingButtonTapped_routing_showUpdateScreenが呼び出されること() {
         // arrange
-        setupViewModel()
-
         let expectation = XCTestExpectation(description: #function)
 
         routing.showUpdateScreenHandler = { type in
@@ -77,8 +94,6 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
     func test_editButtonTapped_routing_showUpdateScreenが呼び出されること() {
         // arrange
-        setupViewModel()
-
         let expectation = XCTestExpectation(description: #function)
         let modelObject = ProfileModelObjectBuilder().build()
 
@@ -93,29 +108,5 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         // assert
         XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
-    }
-}
-
-private extension ProfileDetailViewModelTest {
-    func setupViewModel(isSuccess: Bool = true) {
-        model = .init()
-        routing = .init()
-        analytics = .init(screenId: .profileDetail)
-
-        if isSuccess {
-            model.getHandler = { result in
-                result(.success(ProfileModelObjectBuilder().build()))
-            }
-        } else {
-            model.getHandler = { result in
-                result(.failure(.init(dataError: .coreData(.something("CoreDataエラー")))))
-            }
-        }
-
-        viewModel = .init(
-            model: model,
-            routing: routing,
-            analytics: analytics
-        )
     }
 }

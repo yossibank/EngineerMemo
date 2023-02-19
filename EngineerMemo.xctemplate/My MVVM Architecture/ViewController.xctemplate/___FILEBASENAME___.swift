@@ -28,6 +28,8 @@ extension ___FILEBASENAME___ {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel.input.viewDidLoad.send(())
     }
 
     override func viewWillAppear(_ animated: Bool) {

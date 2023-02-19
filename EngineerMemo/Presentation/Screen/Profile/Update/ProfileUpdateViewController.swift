@@ -29,6 +29,8 @@ extension ProfileUpdateViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewModel.input.viewDidLoad.send(())
+
         bindToView()
         bindToViewModel()
     }
@@ -44,11 +46,11 @@ extension ProfileUpdateViewController {
 
 private extension ProfileUpdateViewController {
     func bindToView() {
-        viewModel.output.$isFinish
+        viewModel.output.$isFinished
             .debounce(for: 1.0, scheduler: DispatchQueue.main)
             .compactMap { $0 }
-            .sink { [weak self] isFinish in
-                if isFinish {
+            .sink { [weak self] isFinished in
+                if isFinished {
                     self?.navigationController?.popViewController(animated: true)
                 }
             }

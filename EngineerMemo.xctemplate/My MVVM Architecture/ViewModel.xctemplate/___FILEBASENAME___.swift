@@ -7,6 +7,7 @@ final class ___FILEBASENAME___: ViewModel {
     }
 
     final class Input: InputObject {
+        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
     }
 
@@ -31,6 +32,14 @@ final class ___FILEBASENAME___: ViewModel {
         self.input = input
         self.output = output
         self.analytics = analytics
+
+        // MARK: - viewDidLoad
+
+        input.viewDidLoad
+            .sink { _ in
+                // NOTE: 初期化時処理
+            }
+            .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 
