@@ -1,9 +1,8 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
@@ -17,30 +16,31 @@
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapCreateButtonPublisher = createButton.publisher(for: .touchUpInside)
 
-        private lazy var stackView = UIStackView(
-            styles: [
-                .addArrangedSubviews(arrangedSubviews),
-                .alignment(.fill),
-                .axis(.vertical),
-                .setCustomSpacing(32, after: stationControl),
-                .spacing(12)
-            ]
-        )
+        private var body: UIView {
+            VStackView(spacing: 12) {
+                addressControl
+                birthdayControl
+                emailControl
+                genderControl
+                nameControl
+                phoneNumberControl
+                stationControl
+                buttonView
+            }
+            .configure {
+                $0.setCustomSpacing(32, after: stationControl)
+            }
+        }
 
-        private lazy var buttonView = UIView(
-            style: .addSubview(createButton)
-        )
-
-        private lazy var arrangedSubviews = [
-            addressControl,
-            birthdayControl,
-            emailControl,
-            genderControl,
-            nameControl,
-            phoneNumberControl,
-            stationControl,
-            buttonView
-        ]
+        private lazy var buttonView = UIView()
+            .addSubview(createButton) {
+                $0.centerX.equalToSuperview()
+                $0.width.equalTo(160)
+                $0.height.equalTo(48)
+            }
+            .addConstraint {
+                $0.height.equalTo(48)
+            }
 
         private var cancellables: Set<AnyCancellable> = .init()
 
@@ -72,23 +72,21 @@
             title: L10n.Debug.Segment.station
         )
 
-        private let createButton = UIButton(
-            styles: [
-                .borderColor(.theme),
-                .borderWidth(1.0),
-                .clipsToBounds(true),
-                .cornerRadius(8),
-                .setTitle(L10n.Components.Button.create),
-                .setTitleColor(.theme)
-            ]
-        )
+        private let createButton = UIButton(type: .system)
+            .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+            .modifier(\.layer.borderWidth, 1.0)
+            .modifier(\.layer.cornerRadius, 8)
+            .modifier(\.clipsToBounds, true)
+            .configure {
+                $0.setTitle(L10n.Components.Button.create, for: .normal)
+                $0.setTitleColor(.theme, for: .normal)
+            }
 
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
-            setupConstraints()
-            setupEvents()
+            setupView()
+            setupEvent()
         }
 
         @available(*, unavailable)
@@ -100,14 +98,18 @@
     // MARK: - private methods
 
     private extension DebugProfileCreateContentView {
-        func setupEvents() {
+        func setupEvent() {
             didTapCreateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.createButton.apply(.setTitle(L10n.Components.Button.createDone))
+                    self?.createButton.configure {
+                        $0.setTitle(L10n.Components.Button.createDone, for: .normal)
+                    }
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.createButton.apply(.setTitle(L10n.Components.Button.create))
+                        self?.createButton.configure {
+                            $0.setTitle(L10n.Components.Button.create, for: .normal)
+                        }
                     }
                 }
                 .store(in: &cancellables)
@@ -117,26 +119,11 @@
     // MARK: - protocol
 
     extension DebugProfileCreateContentView: ContentView {
-        func setupViews() {
-            apply([
-                .addSubview(stackView),
-                .backgroundColor(.primary)
-            ])
-        }
+        func setupView() {
+            modifier(\.backgroundColor, .primary)
 
-        func setupConstraints() {
-            stackView.snp.makeConstraints {
+            addSubview(body) {
                 $0.edges.equalToSuperview()
-            }
-
-            buttonView.snp.makeConstraints {
-                $0.height.equalTo(48)
-            }
-
-            createButton.snp.makeConstraints {
-                $0.centerX.equalToSuperview()
-                $0.width.equalTo(160)
-                $0.height.equalTo(48)
             }
         }
     }

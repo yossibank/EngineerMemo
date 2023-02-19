@@ -1,16 +1,11 @@
 import UIKit
 
 protocol ContentView: UIView {
-    func setupViews()
-    func setupConstraints()
+    func setupView()
 }
 
 final class NoContentView: UIView, ContentView {
-    func setupViews() {
-        assertionFailure("実装する必要がありません")
-    }
-
-    func setupConstraints() {
+    func setupView() {
         assertionFailure("実装する必要がありません")
     }
 }

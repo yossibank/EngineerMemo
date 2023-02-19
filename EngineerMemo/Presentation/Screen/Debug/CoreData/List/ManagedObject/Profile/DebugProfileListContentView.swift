@@ -1,9 +1,8 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
@@ -19,8 +18,7 @@
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
-            setupConstraints()
+            setupView()
             setupTableView()
         }
 
@@ -42,6 +40,7 @@
 
     private extension DebugProfileListContentView {
         func setupTableView() {
+            tableView.modifier(\.backgroundColor, .primary)
             tableView.registerCell(with: ProfileBasicCell.self)
             tableView.rowHeight = UITableView.automaticDimension
             tableView.allowsSelection = false
@@ -99,15 +98,8 @@
     // MARK: - protocol
 
     extension DebugProfileListContentView: ContentView {
-        func setupViews() {
-            apply([
-                .addSubview(tableView),
-                .backgroundColor(.primary)
-            ])
-        }
-
-        func setupConstraints() {
-            tableView.snp.makeConstraints {
+        func setupView() {
+            addSubview(tableView) {
                 $0.edges.equalToSuperview()
             }
         }

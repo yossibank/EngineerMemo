@@ -1,5 +1,5 @@
-import SnapKit
 import UIKit
+import UIKitHelper
 
 extension UIDatePicker {
     static func makeTransparent(view: UIView) {
@@ -15,7 +15,7 @@ extension UIDatePicker {
     func expandPickerRange() {
         subviews.forEach {
             $0.subviews.forEach {
-                $0.snp.makeConstraints {
+                $0.addConstraint {
                     $0.width.equalTo(snp.width).inset(28)
                 }
             }

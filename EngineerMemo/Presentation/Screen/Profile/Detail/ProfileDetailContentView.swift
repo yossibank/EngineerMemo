@@ -1,6 +1,6 @@
 import Combine
-import SnapKit
 import UIKit
+import UIKitHelper
 
 // MARK: - properties & init
 
@@ -26,8 +26,7 @@ final class ProfileDetailContentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
-        setupConstraints()
+        setupView()
         setupTableView()
     }
 
@@ -43,6 +42,7 @@ private extension ProfileDetailContentView {
     func setupTableView() {
         dataSource = configureDataSource()
 
+        tableView.modifier(\.backgroundColor, .primary)
         tableView.registerCells(
             with: [
                 ProfileTopCell.self,
@@ -153,15 +153,8 @@ extension ProfileDetailContentView: UITableViewDelegate {
 // MARK: - protocol
 
 extension ProfileDetailContentView: ContentView {
-    func setupViews() {
-        apply([
-            .addSubview(tableView),
-            .backgroundColor(.primary)
-        ])
-    }
-
-    func setupConstraints() {
-        tableView.snp.makeConstraints {
+    func setupView() {
+        addSubview(tableView) {
             $0.edges.equalToSuperview()
         }
     }

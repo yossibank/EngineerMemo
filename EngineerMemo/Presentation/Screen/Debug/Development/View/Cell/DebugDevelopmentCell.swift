@@ -1,27 +1,23 @@
 #if DEBUG
-    import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
     final class DebugDevelopmentCell: UITableViewCell {
-        private lazy var stackView = UIStackView(
-            styles: [
-                .addArrangedSubviews(arrangedSubviews),
-                .axis(.horizontal),
-                .spacing(8)
-            ]
-        )
+        private var body: UIView {
+            HStackView(spacing: 8) {
+                titleLabel
+                    .modifier(\.font, .systemFont(ofSize: 14))
 
-        private lazy var arrangedSubviews = [
-            titleLabel,
-            subTitleLabel
-        ]
+                subTitleLabel
+                    .modifier(\.font, .boldSystemFont(ofSize: 14))
+            }
+        }
 
-        private let titleLabel = UILabel(style: .systemFont(size: 14))
-        private let subTitleLabel = UILabel(style: .boldSystemFont(size: 14))
+        private let titleLabel = UILabel()
+        private let subTitleLabel = UILabel()
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -32,8 +28,7 @@
                 reuseIdentifier: reuseIdentifier
             )
 
-            setupViews()
-            setupConstraints()
+            setupView()
         }
 
         required init?(coder: NSCoder) {
@@ -45,11 +40,11 @@
 
     extension DebugDevelopmentCell {
         func configure(item: DebugDevelopmentItem) {
-            titleLabel.apply(.text(item.title))
-            subTitleLabel.apply(.text(item.subTitle))
+            titleLabel.modifier(\.text, item.title)
+            subTitleLabel.modifier(\.text, item.subTitle)
 
             if item.subTitle == nil {
-                titleLabel.apply(.boldSystemFont(size: 14))
+                titleLabel.modifier(\.font, .boldSystemFont(ofSize: 14))
             }
         }
     }
@@ -57,15 +52,10 @@
     // MARK: - private methods
 
     private extension DebugDevelopmentCell {
-        func setupViews() {
-            contentView.apply([
-                .backgroundColor(.primary),
-                .addSubview(stackView)
-            ])
-        }
+        func setupView() {
+            contentView.modifier(\.backgroundColor, .primary)
 
-        func setupConstraints() {
-            stackView.snp.makeConstraints {
+            contentView.addSubview(body) {
                 $0.centerY.equalToSuperview()
                 $0.leading.equalToSuperview().inset(8)
             }

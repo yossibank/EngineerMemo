@@ -1,7 +1,6 @@
 import Combine
-import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
@@ -62,8 +61,7 @@ final class MemoListContentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
-        setupConstraints()
+        setupView()
         setupCollectionView()
         setupHeaderView()
         applySnapshot()
@@ -79,6 +77,7 @@ final class MemoListContentView: UIView {
 
 private extension MemoListContentView {
     func setupCollectionView() {
+        collectionView.modifier(\..backgroundColor, .primary)
         collectionView.registerReusableView(with: MemoListHeaderView.self)
     }
 
@@ -198,15 +197,8 @@ private extension MemoListContentView {
 // MARK: - protocol
 
 extension MemoListContentView: ContentView {
-    func setupViews() {
-        apply([
-            .addSubview(collectionView),
-            .backgroundColor(.primary)
-        ])
-    }
-
-    func setupConstraints() {
-        collectionView.snp.makeConstraints {
+    func setupView() {
+        addSubview(collectionView) {
             $0.edges.equalToSuperview()
         }
     }

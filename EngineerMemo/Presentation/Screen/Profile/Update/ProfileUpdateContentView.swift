@@ -1,7 +1,6 @@
 import Combine
-import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
@@ -15,33 +14,43 @@ final class ProfileUpdateContentView: UIView {
     private(set) lazy var stationInputPublisher = stationInputView.inputPublisher
     private(set) lazy var didTapSaveButtonPublisher = saveButton.publisher(for: .touchUpInside)
 
-    private lazy var scrollView = UIScrollView(
-        style: .addSubview(stackView)
-    )
+    private lazy var scrollView = UIScrollView()
+        .addSubview(stackView) {
+            $0.width.edges.equalToSuperview()
+        }
 
-    private lazy var stackView = UIStackView(
-        styles: [
-            .addArrangedSubviews(arrangedSubviews),
-            .alignment(.fill),
-            .axis(.vertical),
-            .distribution(.equalSpacing)
-        ]
-    )
-
-    private lazy var buttonView = UIView(
-        style: .addSubview(saveButton)
-    )
-
-    private lazy var arrangedSubviews = [
-        nameInputView,
-        birthdayInputView,
-        genderInputView,
-        emailInputView,
-        phoneNumberInputView,
-        addressInputView,
-        stationInputView,
+    private lazy var stackView = VStackView(distribution: .equalSpacing) {
+        nameInputView
+        birthdayInputView
+        genderInputView
+        emailInputView
+        phoneNumberInputView
+        addressInputView
+        stationInputView
         buttonView
-    ]
+    }
+
+    private lazy var buttonView = UIView()
+        .addSubview(saveButton) {
+            $0.bottom.equalToSuperview().inset(32)
+            $0.top.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(60)
+        }
+
+    private lazy var saveButton = UIButton(type: .system)
+        .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+        .modifier(\.layer.borderWidth, 1.0)
+        .modifier(\.layer.cornerRadius, 8)
+        .modifier(\.clipsToBounds, true)
+        .configure {
+            $0.setTitle(
+                modelObject == nil
+                    ? L10n.Components.Button.saveProfile
+                    : L10n.Components.Button.updateProfile,
+                for: .normal
+            )
+            $0.setTitleColor(.theme, for: .normal)
+        }
 
     private let nameInputView = ProfileTextInputView(
         title: L10n.Profile.name,
@@ -78,21 +87,6 @@ final class ProfileUpdateContentView: UIView {
         placeholder: L10n.Profile.Example.station
     )
 
-    private lazy var saveButton = UIButton(
-        styles: [
-            .borderColor(.theme),
-            .borderWidth(1.0),
-            .clipsToBounds(true),
-            .cornerRadius(8),
-            .setTitle(
-                modelObject == nil
-                    ? L10n.Components.Button.saveProfile
-                    : L10n.Components.Button.updateProfile
-            ),
-            .setTitleColor(.theme)
-        ]
-    )
-
     private var cancellables: Set<AnyCancellable> = .init()
 
     private let modelObject: ProfileModelObject?
@@ -102,9 +96,8 @@ final class ProfileUpdateContentView: UIView {
 
         super.init(frame: .zero)
 
-        setupViews()
-        setupConstraints()
-        setupEvents()
+        setupView()
+        setupEvent()
         setupInitializeValue()
     }
 
@@ -117,7 +110,7 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            saveButton.apply(.borderColor(.theme))
+            saveButton.modifier(\.layer.borderColor, UIColor.theme.cgColor)
         }
     }
 }
@@ -125,7 +118,7 @@ final class ProfileUpdateContentView: UIView {
 // MARK: - private
 
 private extension ProfileUpdateContentView {
-    func setupEvents() {
+    func setupEvent() {
         let title = modelObject == nil
             ? L10n.Components.Button.saveProfile
             : L10n.Components.Button.updateProfile
@@ -137,10 +130,14 @@ private extension ProfileUpdateContentView {
         didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.saveButton.apply(.setTitle(updatedTitle))
+                self?.saveButton.configure {
+                    $0.setTitle(updatedTitle, for: .normal)
+                }
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.saveButton.apply(.setTitle(title))
+                    self?.saveButton.configure {
+                        $0.setTitle(title, for: .normal)
+                    }
                 }
             }
             .store(in: &cancellables)
@@ -160,27 +157,11 @@ private extension ProfileUpdateContentView {
 // MARK: - protocol
 
 extension ProfileUpdateContentView: ContentView {
-    func setupViews() {
-        apply([
-            .addSubview(scrollView),
-            .backgroundColor(.primary)
-        ])
-    }
+    func setupView() {
+        modifier(\.backgroundColor, .primary)
 
-    func setupConstraints() {
-        scrollView.snp.makeConstraints {
+        addSubview(scrollView) {
             $0.edges.equalToSuperview()
-        }
-
-        stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalTo(scrollView.snp.width)
-        }
-
-        saveButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(32)
-            $0.top.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(60)
         }
     }
 }
@@ -193,7 +174,7 @@ extension ProfileUpdateContentView: ContentView {
     struct ProfileUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: ProfileUpdateContentView()
+                view: ProfileUpdateContentView(modelObject: nil)
             )
         }
     }

@@ -1,31 +1,28 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
     final class DebugCoreDataUpdateContentView: UIView {
         @Published private(set) var selectedType: CoreDataMenuType = .profile
 
-        private let menuButton = UIButton(
-            styles: [
-                .boldSystemFont(size: 14),
-                .borderColor(.theme),
-                .borderWidth(1.0),
-                .clipsToBounds(true),
-                .cornerRadius(8),
-                .setTitleColor(.theme)
-            ]
-        )
+        private let menuButton = UIButton(type: .system)
+            .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+            .modifier(\.layer.borderWidth, 1.0)
+            .modifier(\.layer.cornerRadius, 8)
+            .modifier(\.clipsToBounds, true)
+            .configure {
+                $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
+                $0.setTitleColor(.theme, for: .normal)
+            }
 
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
-            setupConstraints()
+            setupView()
             setupMenu()
         }
 
@@ -38,7 +35,7 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                menuButton.apply(.borderColor(.theme))
+                menuButton.modifier(\.layer.borderColor, UIColor.theme.cgColor)
             }
         }
     }
@@ -50,9 +47,9 @@
             let containerViewController = selectedType.updateViewController
 
             vc.removeFirstChild()
-            vc.add(containerViewController)
+            vc.addSubviewController(containerViewController)
 
-            containerViewController.view.snp.makeConstraints {
+            containerViewController.view.addConstraint {
                 $0.top.equalTo(menuButton.snp.bottom).inset(-24)
                 $0.bottom.leading.trailing.equalToSuperview()
             }
@@ -78,31 +75,26 @@
                 )
             }
 
-            menuButton.apply([
-                .menu(.init(
+            menuButton.configure {
+                $0.menu = .init(
                     title: "",
                     options: .displayInline,
                     children: actions
-                )),
-                .setTitle(selectedType.title),
-                .showsMenuAsPrimaryAction(true)
-            ])
+                )
+                $0.setTitle(selectedType.title, for: .normal)
+                $0.showsMenuAsPrimaryAction = true
+            }
         }
     }
 
     // MARK: - protocol
 
     extension DebugCoreDataUpdateContentView: ContentView {
-        func setupViews() {
-            apply([
-                .backgroundColor(.primary),
-                .addSubview(menuButton)
-            ])
-        }
+        func setupView() {
+            modifier(\.backgroundColor, .primary)
 
-        func setupConstraints() {
-            menuButton.snp.makeConstraints {
-                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(24)
+            addSubview(menuButton) {
+                $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(24)
                 $0.centerX.equalToSuperview()
                 $0.width.equalTo(160)
                 $0.height.equalTo(40)

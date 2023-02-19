@@ -1,4 +1,5 @@
 import UIKit
+import UIKitHelper
 
 protocol UIAppearanceProtocol {
     func configureAppearance()

@@ -1,9 +1,8 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
@@ -50,8 +49,7 @@
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
-            setupConstraints()
+            setupView()
             setupSearchBar()
             setupTableView()
         }
@@ -66,23 +64,22 @@
 
     private extension DebugProfileUpdateContentView {
         func setupSearchBar() {
-            searchBar.enablesReturnKeyAutomatically = false
-            searchBar.backgroundImage = .init()
-            searchBar.delegate = self
+            searchBar.modifier(\.enablesReturnKeyAutomatically, false)
+            searchBar.modifier(\.backgroundImage, .init())
+            searchBar.modifier(\.delegate, self)
         }
 
         func setupTableView() {
+            tableView.modifier(\.backgroundColor, .primary)
+            tableView.modifier(\.allowsMultipleSelection, false)
+            tableView.modifier(\.delegate, self)
+            tableView.modifier(\.dataSource, self)
             tableView.registerCells(
                 with: [
                     UITableViewCell.self,
                     DebugProfileUpdateCell.self
                 ]
             )
-
-            tableView.rowHeight = UITableView.automaticDimension
-            tableView.allowsMultipleSelection = false
-            tableView.delegate = self
-            tableView.dataSource = self
         }
     }
 
@@ -245,21 +242,14 @@
     // MARK: - protocol
 
     extension DebugProfileUpdateContentView: ContentView {
-        func setupViews() {
-            apply([
-                .addSubviews([searchBar, tableView]),
-                .backgroundColor(.primary)
-            ])
-        }
-
-        func setupConstraints() {
-            searchBar.snp.makeConstraints {
+        func setupView() {
+            addSubview(searchBar) {
                 $0.top.leading.trailing.equalToSuperview()
                 $0.height.equalTo(40)
             }
 
-            tableView.snp.makeConstraints {
-                $0.top.equalTo(searchBar.snp.bottom).inset(-8)
+            addSubview(tableView) {
+                $0.top.equalTo(self.searchBar.snp.bottom).inset(-8)
                 $0.bottom.leading.trailing.equalToSuperview()
             }
         }

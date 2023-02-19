@@ -2,7 +2,6 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     private enum TabItem: Int, CaseIterable {
-        case home
         case profile
         case memo
         case debug
@@ -11,9 +10,6 @@ final class TabBarController: UITabBarController {
             let rootViewController: UINavigationController
 
             switch self {
-            case .home:
-                rootViewController = .init(rootViewController: AppControllers.Sample.List())
-
             case .profile:
                 rootViewController = .init(rootViewController: AppControllers.Profile.Detail())
 
@@ -31,9 +27,6 @@ final class TabBarController: UITabBarController {
 
         private var title: String {
             switch self {
-            case .home:
-                return L10n.Tab.home
-
             case .profile:
                 return L10n.Tab.profile
 
@@ -47,9 +40,6 @@ final class TabBarController: UITabBarController {
 
         private var image: UIImage? {
             switch self {
-            case .home:
-                return ImageResources.house
-
             case .profile:
                 return ImageResources.profile
 

@@ -1,8 +1,7 @@
 #if DEBUG
-    import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     enum DebugPhoneNumberSegment: Int, CaseIterable {
         case phone
@@ -34,35 +33,31 @@
     final class DebugPhoneNumberSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
-        private lazy var stackView = UIStackView(
-            styles: [
-                .addArrangedSubviews(arrangedSubviews),
-                .axis(.horizontal),
-                .spacing(4)
-            ]
-        )
+        private var body: UIView {
+            HStackView(spacing: 4) {
+                titleLabel
+                    .modifier(\.font, .italicSystemFont(ofSize: 14))
 
-        private lazy var arrangedSubviews = [
-            titleLabel,
-            segmentControl
-        ]
+                segmentControl
+                    .modifier(\.selectedSegmentIndex, DebugPhoneNumberSegment.phone.rawValue)
+            }
+        }
 
-        private let titleLabel = UILabel(
-            style: .italicSystemFont(size: 14)
-        )
+        private let titleLabel = UILabel()
+            .addConstraint {
+                $0.width.equalTo(100)
+            }
 
         private let segmentControl = UISegmentedControl(
-            style: .selectedSegmentIndex(DebugPhoneNumberSegment.phone.rawValue),
             items: DebugPhoneNumberSegment.allCases.map(\.title)
         )
 
         init(title: String) {
             super.init(frame: .zero)
 
-            setupViews()
-            setupConstraints()
+            setupView()
 
-            titleLabel.apply(.text(title))
+            titleLabel.modifier(\.text, title)
         }
 
         @available(*, unavailable)
@@ -74,22 +69,12 @@
     // MARK: - private methods
 
     private extension DebugPhoneNumberSegmentView {
-        func setupViews() {
-            apply([
-                .backgroundColor(.primary),
-                .addSubview(stackView)
-            ])
-        }
+        func setupView() {
+            modifier(\.backgroundColor, .primary)
 
-        func setupConstraints() {
-            stackView.snp.makeConstraints {
+            addSubview(body) {
                 $0.top.bottom.equalToSuperview()
                 $0.leading.trailing.equalToSuperview().inset(16)
-                $0.height.equalTo(40)
-            }
-
-            titleLabel.snp.makeConstraints {
-                $0.width.equalTo(100)
             }
         }
     }

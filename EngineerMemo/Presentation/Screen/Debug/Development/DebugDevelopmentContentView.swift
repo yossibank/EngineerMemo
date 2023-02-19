@@ -1,9 +1,8 @@
 #if DEBUG
     import Combine
-    import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     // MARK: - properties & init
 
@@ -22,8 +21,7 @@
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            setupViews()
-            setupConstraints()
+            setupView()
             setupTableView()
             applySnapshot()
         }
@@ -40,11 +38,12 @@
         func setupTableView() {
             dataSource = configureDataSource()
 
+            tableView.modifier(\.backgroundColor, .primary)
+            tableView.modifier(\.separatorStyle, .none)
+            tableView.modifier(\.delegate, self)
+            tableView.modifier(\.dataSource, dataSource)
             tableView.registerCell(with: DebugDevelopmentCell.self)
             tableView.registerHeaderFooterView(with: TitleHeaderFooterView.self)
-            tableView.separatorStyle = .none
-            tableView.dataSource = dataSource
-            tableView.delegate = self
 
             if #available(iOS 15.0, *) {
                 tableView.sectionHeaderTopPadding = .zero
@@ -185,15 +184,8 @@
     // MARK: - protocol
 
     extension DebugDevelopmentContentView: ContentView {
-        func setupViews() {
-            apply([
-                .addSubview(tableView),
-                .backgroundColor(.primary)
-            ])
-        }
-
-        func setupConstraints() {
-            tableView.snp.makeConstraints {
+        func setupView() {
+            addSubview(tableView) {
                 $0.edges.equalToSuperview()
             }
         }

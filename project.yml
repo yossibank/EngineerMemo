@@ -15,15 +15,12 @@ settings:
       DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
 
 packages:
-  UIStyle:
-    url: https://github.com/yossibank/UIStyle.git
-    from: 0.4.0
+  UIKitHelper:
+    url: https://github.com/yossibank/UIKitHelper.git
+    from: 0.3.1
   firebase-ios-sdk:
     url: https://github.com/firebase/firebase-ios-sdk.git
     from: 10.0.0
-  SnapKit:
-    url: https://github.com/SnapKit/SnapKit.git
-    from: 5.6.0
   IQKeyboardManager:
     url: https://github.com/hackiftekhar/IQKeyboardManager
     from: 6.5.0
@@ -53,14 +50,13 @@ targets:
         release:
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.EngineerMemo
     dependencies:
-      - package: UIStyle
+      - package: UIKitHelper
       - package: firebase-ios-sdk
         product: FirebaseAnalyticsWithoutAdIdSupport
       - package: firebase-ios-sdk
         product: FirebaseCrashlytics
       - package: IQKeyboardManager
         product: IQKeyboardManagerSwift
-      - package: SnapKit
     preBuildScripts:
       - name: Setup GoogleServiceInfoPlist
         basedOnDependencyAnalysis: false

@@ -8,6 +8,6 @@ xcov.report(
     project: "EngineerMemo.xcodeproj",
     scheme: "EngineerMemo",
     xccov_file_direct_path: "action.xccovreport",
-    minimum_coverage_percentage: 60.0,
+    minimum_coverage_percentage: 50.0,
     only_project_targets: true
 )

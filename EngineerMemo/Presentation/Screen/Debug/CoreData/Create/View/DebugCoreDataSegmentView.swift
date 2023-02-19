@@ -1,8 +1,7 @@
 #if DEBUG
-    import SnapKit
     import SwiftUI
     import UIKit
-    import UIStyle
+    import UIKitHelper
 
     enum DebugCoreDataSegment: Int, CaseIterable {
         case short = 0
@@ -50,35 +49,31 @@
     final class DebugCoreDataSegmentView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
-        private lazy var stackView = UIStackView(
-            styles: [
-                .addArrangedSubviews(arrangedSubviews),
-                .axis(.horizontal),
-                .spacing(4)
-            ]
-        )
+        private var body: UIView {
+            HStackView(spacing: 4) {
+                titleLabel
+                    .modifier(\.font, .italicSystemFont(ofSize: 14))
 
-        private lazy var arrangedSubviews = [
-            titleLabel,
-            segmentControl
-        ]
+                segmentControl
+                    .modifier(\.selectedSegmentIndex, DebugCoreDataSegment.medium.rawValue)
+            }
+        }
 
-        private let titleLabel = UILabel(
-            style: .italicSystemFont(size: 14)
-        )
+        private let titleLabel = UILabel()
+            .addConstraint {
+                $0.width.equalTo(100)
+            }
 
         private let segmentControl = UISegmentedControl(
-            style: .selectedSegmentIndex(DebugCoreDataSegment.medium.rawValue),
             items: DebugCoreDataSegment.allCases.map(\.title)
         )
 
         init(title: String) {
             super.init(frame: .zero)
 
-            setupViews()
-            setupConstraints()
+            setupView()
 
-            titleLabel.apply(.text(title))
+            titleLabel.modifier(\.text, title)
         }
 
         @available(*, unavailable)
@@ -90,21 +85,12 @@
     // MARK: - private methods
 
     private extension DebugCoreDataSegmentView {
-        func setupViews() {
-            apply([
-                .backgroundColor(.primary),
-                .addSubview(stackView)
-            ])
-        }
+        func setupView() {
+            modifier(\.backgroundColor, .primary)
 
-        func setupConstraints() {
-            stackView.snp.makeConstraints {
+            addSubview(body) {
                 $0.top.bottom.equalToSuperview()
                 $0.leading.trailing.equalToSuperview().inset(16)
-            }
-
-            titleLabel.snp.makeConstraints {
-                $0.width.equalTo(100)
             }
         }
     }
