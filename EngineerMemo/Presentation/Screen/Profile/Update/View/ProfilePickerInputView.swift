@@ -86,7 +86,7 @@ final class ProfilePickerInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputDatePicker].forEach {
-                $0.modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                $0.modifier(\.layer.borderColor, .theme)
             }
         }
     }
