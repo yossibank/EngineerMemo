@@ -1,16 +1,22 @@
 import Combine
-import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UIView {
+    private var body: UIView {
+        VStackView(alignment: .center) {
+            UILabel()
+                .modifier(\.text, "Hello World!")
+        }
+        .modifier(\.backgroundColor, .primary)
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
-        setupConstraints()
+        setupView()
     }
 
     @available(*, unavailable)
@@ -30,8 +36,11 @@ private extension ___FILEBASENAME___ {}
 // MARK: - protocol
 
 extension ___FILEBASENAME___: ContentView {
-    func setupViews() {}
-    func setupConstraints() {}
+    func setupView() {
+        addSubview(body) {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
 
 // MARK: - preview

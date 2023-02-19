@@ -1,9 +1,6 @@
 import Combine
-import SnapKit
 import UIKit
-import UIStyle
-
-// TODO: 各セクション、アイテム(必要な場合は命名変更、別ファイルで管理)
+import UIKitHelper
 
 enum ___FILEBASENAME___Section: CaseIterable {
     case main
@@ -16,22 +13,55 @@ enum ___FILEBASENAME___Item: Hashable {
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UIView {
+    typealias Section = ___FILEBASENAME___Section
+    typealias Item = ___FILEBASENAME___Item
+
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
     )
+    .modifier(\.backgroundColor, .primary)
 
-    private var dataSource: UICollectionViewDiffableDataSource<
-        ___FILEBASENAME___Section,
-        ___FILEBASENAME___Item
-    >!
+    private lazy var dataSource = UICollectionViewDiffableDataSource<
+        Section,
+        Item
+    >(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
+        guard let self else {
+            return .init()
+        }
+
+        return collectionView.dequeueConfiguredReusableCell(
+            using: self.cellRegistration,
+            for: indexPath,
+            item: item
+        )
+    }
+
+    private let cellRegistration = UICollectionView.CellRegistration<
+        UICollectionViewListCell,
+        Item
+    > { cell, indexPath, item in
+        switch item {
+        case let .main(text):
+            var configuration = cell.defaultContentConfiguration()
+            configuration.text = text
+            configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
+            configuration.image = .init(systemName: "appletv")
+
+            var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
+            backgroundConfig.backgroundColor = indexPath.row % 2 == 0
+                ? .green
+                : .orange
+
+            cell.contentConfiguration = configuration
+            cell.backgroundConfiguration = backgroundConfig
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
-        setupConstraints()
-        setupCollectionView()
+        setupView()
         applySnapshot()
     }
 
@@ -48,37 +78,6 @@ extension ___FILEBASENAME___ {}
 // MARK: - private methods
 
 private extension ___FILEBASENAME___ {
-    func setupCollectionView() {
-        let cellRegistration = UICollectionView.CellRegistration<
-            UICollectionViewListCell,
-            TestContentViewItem
-        > { cell, indexPath, item in
-            switch item {
-            case let .main(text):
-                var configuration = cell.defaultContentConfiguration()
-                configuration.text = text
-                configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
-                configuration.image = .init(systemName: "appletv")
-
-                var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-                backgroundConfig.backgroundColor = indexPath.row % 2 == 0
-                    ? .green
-                    : .orange
-
-                cell.contentConfiguration = configuration
-                cell.backgroundConfiguration = backgroundConfig
-            }
-        }
-
-        dataSource = .init(collectionView: collectionView) { collectionView, indexPath, item in
-            collectionView.dequeueConfiguredReusableCell(
-                using: cellRegistration,
-                for: indexPath,
-                item: item
-            )
-        }
-    }
-
     func createLayout() -> UICollectionViewLayout {
         let estimatedHeight: CGFloat = 56
 
@@ -114,11 +113,8 @@ private extension ___FILEBASENAME___ {
     }
 
     func applySnapshot() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
-            ___FILEBASENAME___Section,
-            ___FILEBASENAME___Item
-        >()
-        dataSourceSnapshot.appendSections(___FILEBASENAME___Section.allCases)
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        dataSourceSnapshot.appendSections(Section.allCases)
 
         ["text1", "text2", "text3", "text4", "text5"].forEach {
             dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
@@ -134,15 +130,8 @@ private extension ___FILEBASENAME___ {
 // MARK: - protocol
 
 extension ___FILEBASENAME___: ContentView {
-    func setupViews() {
-        apply([
-            .addSubview(collectionView),
-            .backgroundColor(.primary)
-        ])
-    }
-
-    func setupConstraints() {
-        collectionView.snp.makeConstraints {
+    func setupView() {
+        addSubview(collectionView) {
             $0.edges.equalToSuperview()
         }
     }
