@@ -33,33 +33,31 @@ final class ProfileModelTest: XCTestCase {
 
         let expectation = XCTestExpectation(description: #function)
 
-        profileConverter.convertHandler = { value in
+        profileConverter.convertHandler = {
             // assert
-            XCTAssertEqual(value.address, "テスト県テスト市テスト1-1-1")
-            XCTAssertEqual(value.birthday, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual(value.email, "test@test.com")
-            XCTAssertEqual(value.genderEnum, .man)
-            XCTAssertEqual(value.identifier, "identifier")
-            XCTAssertEqual(value.name, "testName")
-            XCTAssertEqual(value.phoneNumber, "08011112222")
-            XCTAssertEqual(value.station, "鶴橋駅")
-
-            expectation.fulfill()
+            XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
+            XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
+            XCTAssertEqual($0.email, "test@test.com")
+            XCTAssertEqual($0.genderEnum, .man)
+            XCTAssertEqual($0.identifier, "identifier")
+            XCTAssertEqual($0.name, "testName")
+            XCTAssertEqual($0.phoneNumber, "08011112222")
+            XCTAssertEqual($0.station, "鶴橋駅")
 
             return ProfileModelObjectBuilder()
-                .address(value.address!)
-                .birthday(value.birthday!)
-                .email(value.email!)
-                .gender(.init(rawValue: value.genderEnum!.rawValue)!)
-                .name(value.name!)
-                .phoneNumber(value.phoneNumber!)
-                .station(value.station!)
+                .address($0.address!)
+                .birthday($0.birthday!)
+                .email($0.email!)
+                .gender(.init(rawValue: $0.genderEnum!.rawValue)!)
+                .name($0.name!)
+                .phoneNumber($0.phoneNumber!)
+                .station($0.station!)
                 .build()
         }
 
         // act
-        model.get { result in
-            switch result {
+        model.get {
+            switch $0 {
             case let .success(modelObject):
                 // assert
                 XCTAssertEqual(
@@ -92,33 +90,31 @@ final class ProfileModelTest: XCTestCase {
 
         let expectation = XCTestExpectation(description: #function)
 
-        profileConverter.convertHandler = { value in
+        profileConverter.convertHandler = {
             // assert
-            XCTAssertEqual(value.address, "テスト県テスト市テスト1-1-1")
-            XCTAssertEqual(value.birthday, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual(value.email, "test@test.com")
-            XCTAssertEqual(value.genderEnum, .man)
-            XCTAssertEqual(value.identifier, "identifier")
-            XCTAssertEqual(value.name, "testName")
-            XCTAssertEqual(value.phoneNumber, "08011112222")
-            XCTAssertEqual(value.station, "鶴橋駅")
-
-            expectation.fulfill()
+            XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
+            XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
+            XCTAssertEqual($0.email, "test@test.com")
+            XCTAssertEqual($0.genderEnum, .man)
+            XCTAssertEqual($0.identifier, "identifier")
+            XCTAssertEqual($0.name, "testName")
+            XCTAssertEqual($0.phoneNumber, "08011112222")
+            XCTAssertEqual($0.station, "鶴橋駅")
 
             return ProfileModelObjectBuilder()
-                .address(value.address!)
-                .birthday(value.birthday!)
-                .email(value.email!)
-                .gender(.init(rawValue: value.genderEnum!.rawValue)!)
-                .name(value.name!)
-                .phoneNumber(value.phoneNumber!)
-                .station(value.station!)
+                .address($0.address!)
+                .birthday($0.birthday!)
+                .email($0.email!)
+                .gender(.init(rawValue: $0.genderEnum!.rawValue)!)
+                .name($0.name!)
+                .phoneNumber($0.phoneNumber!)
+                .station($0.station!)
                 .build()
         }
 
         // act
-        model.gets { result in
-            switch result {
+        model.gets {
+            switch $0 {
             case let .success(modelObject):
                 // assert
                 XCTAssertEqual(
@@ -228,15 +224,15 @@ final class ProfileModelTest: XCTestCase {
 private extension ProfileModelTest {
     func dataInsert() {
         storage.create()
-            .sink { profile in
-                profile.address = "テスト県テスト市テスト1-1-1"
-                profile.birthday = Calendar.date(year: 2000, month: 1, day: 1)
-                profile.email = "test@test.com"
-                profile.genderEnum = .man
-                profile.identifier = "identifier"
-                profile.name = "testName"
-                profile.phoneNumber = "08011112222"
-                profile.station = "鶴橋駅"
+            .sink {
+                $0.address = "テスト県テスト市テスト1-1-1"
+                $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
+                $0.email = "test@test.com"
+                $0.genderEnum = .man
+                $0.identifier = "identifier"
+                $0.name = "testName"
+                $0.phoneNumber = "08011112222"
+                $0.station = "鶴橋駅"
             }
             .store(in: &cancellables)
     }

@@ -13,29 +13,23 @@ final class ___FILEBASENAME___: XCTestCase {
         viewModel = .init(analytics: analytics)
     }
 
+    func test_input_viewDidLoad_初期化時処理が実行されること() {
+        // arrange
+        viewModel.input.viewDidLoad.send(())
+
+        // act
+
+        // assert
+    }
+
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
-        let expectation = XCTestExpectation(description: #function)
-
         analytics.logEventFAEventHandler = {
             // assert
-            XCTassertEqual(
-                $0,
-                .screenView
-            )
-
-            expectation.fulfill()
+            XCTassertEqual($0, .screenView)
         }
 
         // act
         viewModel.input.viewWillAppear.send(())
-
-        wait(for: [expectation], timeout: 0.1)
     }
-}
-
-private extension ___FILEBASENAME___ {
-    // ViewModel生成時にAPIを叩くなどの成功・失敗のハンドリングが必要な場合
-    // setUp()内に処理を割り当てられないため、各テストケース内で初期化処理を行う
-    // func setupViewModel(isSuccess: Bool = true)のような初期設定関数を作成する
 }

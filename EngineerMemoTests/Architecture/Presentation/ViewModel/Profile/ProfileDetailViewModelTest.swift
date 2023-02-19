@@ -20,12 +20,12 @@ final class ProfileDetailViewModelTest: XCTestCase {
             analytics: analytics
         )
 
-        model.getHandler = { result in
-            result(.success(ProfileModelObjectBuilder().build()))
+        model.getHandler = {
+            $0(.success(ProfileModelObjectBuilder().build()))
         }
     }
 
-    func test_画面表示_成功_プロフィール情報を取得できること() throws {
+    func test_input_viewDidLoad_成功_プロフィール情報を取得できること() throws {
         // arrange
         viewModel.input.viewDidLoad.send(())
 
@@ -40,10 +40,10 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
     }
 
-    func test_画面表示_失敗_エラー情報を取得できること() throws {
+    func test_input_viewDidLoad_失敗_エラー情報を取得できること() throws {
         // arrange
-        model.getHandler = { result in
-            result(.failure(.init(dataError: .coreData(.something("CoreDataエラー")))))
+        model.getHandler = {
+            $0(.failure(.init(dataError: .coreData(.something("CoreDataエラー")))))
         }
 
         viewModel.input.viewDidLoad.send(())
@@ -59,30 +59,21 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
     }
 
-    func test_viewWillAppear_firebaseAnalytics_screenViewイベントを送信できること() {
+    func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
-        let expectation = XCTestExpectation(description: #function)
-
-        analytics.sendEventFAEventHandler = { event in
+        analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual(event, .screenView)
-            expectation.fulfill()
+            XCTAssertEqual($0, .screenView)
         }
 
         // act
         viewModel.input.viewWillAppear.send(())
-
-        wait(for: [expectation], timeout: 0.1)
     }
 
-    func test_settingButtonTapped_routing_showUpdateScreenが呼び出されること() {
+    func test_input_settingButtonTapped_routing_showUpdateScreenが呼び出されること() {
         // arrange
-        let expectation = XCTestExpectation(description: #function)
-
-        routing.showUpdateScreenHandler = { type in
-            XCTAssertEqual(type, .setting)
-
-            expectation.fulfill()
+        routing.showUpdateScreenHandler = {
+            XCTAssertEqual($0, .setting)
         }
 
         // act
@@ -92,15 +83,13 @@ final class ProfileDetailViewModelTest: XCTestCase {
         XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
     }
 
-    func test_editButtonTapped_routing_showUpdateScreenが呼び出されること() {
+    func test_input_editButtonTapped_routing_showUpdateScreenが呼び出されること() {
         // arrange
-        let expectation = XCTestExpectation(description: #function)
         let modelObject = ProfileModelObjectBuilder().build()
 
-        routing.showUpdateScreenHandler = { type in
-            XCTAssertEqual(type, .update(modelObject))
-
-            expectation.fulfill()
+        routing.showUpdateScreenHandler = {
+            // assert
+            XCTAssertEqual($0, .update(modelObject))
         }
 
         // act
