@@ -8,9 +8,26 @@ final class ProfileDetailViewModelTest: XCTestCase {
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: ProfileDetailViewModel!
 
-    func test_画面表示_成功_プロフィール情報を取得できること() throws {
+    override func setUp() {
+        super.setUp()
+
+        model = .init()
+        routing = .init()
+        analytics = .init(screenId: .profileDetail)
+        viewModel = .init(
+            model: model,
+            routing: routing,
+            analytics: analytics
+        )
+
+        model.getHandler = {
+            $0(.success(ProfileModelObjectBuilder().build()))
+        }
+    }
+
+    func test_input_viewDidLoad_成功_プロフィール情報を取得できること() throws {
         // arrange
-        setupViewModel()
+        viewModel.input.viewDidLoad.send(())
 
         // act
         let publisher = viewModel.output.$modelObject.collect(1).first()
@@ -23,9 +40,13 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
     }
 
-    func test_画面表示_失敗_エラー情報を取得できること() throws {
+    func test_input_viewDidLoad_失敗_エラー情報を取得できること() throws {
         // arrange
-        setupViewModel(isSuccess: false)
+        model.getHandler = {
+            $0(.failure(.init(dataError: .coreData(.something("CoreDataエラー")))))
+        }
+
+        viewModel.input.viewDidLoad.send(())
 
         // act
         let publisher = viewModel.output.$appError.collect(1).first()
@@ -38,34 +59,21 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
     }
 
-    func test_viewWillAppear_firebaseAnalytics_screenViewイベントを送信できること() {
+    func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
-        setupViewModel()
-
-        let expectation = XCTestExpectation(description: #function)
-
-        analytics.sendEventFAEventHandler = { event in
+        analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual(event, .screenView)
-            expectation.fulfill()
+            XCTAssertEqual($0, .screenView)
         }
 
         // act
         viewModel.input.viewWillAppear.send(())
-
-        wait(for: [expectation], timeout: 0.1)
     }
 
-    func test_settingButtonTapped_routing_showUpdateScreenが呼び出されること() {
+    func test_input_settingButtonTapped_routing_showUpdateScreenが呼び出されること() {
         // arrange
-        setupViewModel()
-
-        let expectation = XCTestExpectation(description: #function)
-
-        routing.showUpdateScreenHandler = { type in
-            XCTAssertEqual(type, .setting)
-
-            expectation.fulfill()
+        routing.showUpdateScreenHandler = {
+            XCTAssertEqual($0, .setting)
         }
 
         // act
@@ -75,17 +83,13 @@ final class ProfileDetailViewModelTest: XCTestCase {
         XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
     }
 
-    func test_editButtonTapped_routing_showUpdateScreenが呼び出されること() {
+    func test_input_editButtonTapped_routing_showUpdateScreenが呼び出されること() {
         // arrange
-        setupViewModel()
-
-        let expectation = XCTestExpectation(description: #function)
         let modelObject = ProfileModelObjectBuilder().build()
 
-        routing.showUpdateScreenHandler = { type in
-            XCTAssertEqual(type, .update(modelObject))
-
-            expectation.fulfill()
+        routing.showUpdateScreenHandler = {
+            // assert
+            XCTAssertEqual($0, .update(modelObject))
         }
 
         // act
@@ -93,29 +97,5 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         // assert
         XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
-    }
-}
-
-private extension ProfileDetailViewModelTest {
-    func setupViewModel(isSuccess: Bool = true) {
-        model = .init()
-        routing = .init()
-        analytics = .init(screenId: .profileDetail)
-
-        if isSuccess {
-            model.getHandler = { result in
-                result(.success(ProfileModelObjectBuilder().build()))
-            }
-        } else {
-            model.getHandler = { result in
-                result(.failure(.init(dataError: .coreData(.something("CoreDataエラー")))))
-            }
-        }
-
-        viewModel = .init(
-            model: model,
-            routing: routing,
-            analytics: analytics
-        )
     }
 }

@@ -17,8 +17,8 @@ final class ProfileModelObjectTest: XCTestCase {
         XCTAssertEqual(ProfileModelObject.Gender.other.value, "その他")
     }
 
-    func test_gender_none_valueの文字列が未設定であること() {
+    func test_gender_noSetting_valueの文字列が未設定であること() {
         // assert
-        XCTAssertEqual(ProfileModelObject.Gender.none.value, "未設定")
+        XCTAssertEqual(ProfileModelObject.Gender.noSetting.value, "未設定")
     }
 }

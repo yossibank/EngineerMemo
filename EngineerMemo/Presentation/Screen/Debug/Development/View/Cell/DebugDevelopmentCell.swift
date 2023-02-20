@@ -39,12 +39,12 @@
     // MARK: - internal methods
 
     extension DebugDevelopmentCell {
-        func configure(item: DebugDevelopmentItem) {
-            titleLabel.modifier(\.text, item.title)
-            subTitleLabel.modifier(\.text, item.subTitle)
+        func configure(item: DebugDevelopmentContentViewItem) {
+            titleLabel.text = item.title
+            subTitleLabel.text = item.subTitle
 
             if item.subTitle == nil {
-                titleLabel.modifier(\.font, .boldSystemFont(ofSize: 14))
+                titleLabel.font = .boldSystemFont(ofSize: 14)
             }
         }
     }
@@ -53,7 +53,7 @@
 
     private extension DebugDevelopmentCell {
         func setupView() {
-            contentView.modifier(\.backgroundColor, .primary)
+            contentView.backgroundColor = .primary
 
             contentView.addSubview(body) {
                 $0.centerY.equalToSuperview()

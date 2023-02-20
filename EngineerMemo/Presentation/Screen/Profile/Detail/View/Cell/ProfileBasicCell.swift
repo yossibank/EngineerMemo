@@ -7,7 +7,21 @@ import UIKitHelper
 final class ProfileBasicCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var editButtonPublisher = editButton.publisher(for: .touchUpInside)
+    private(set) lazy var editButtonPublisher = editButton.publisher(
+        for: .touchUpInside
+    )
+
+    private lazy var baseView = UIView()
+        .modifier(\.backgroundColor, .thinGray)
+        .modifier(\.clipsToBounds, true)
+        .modifier(\.layer.cornerRadius, 8)
+        .addSubview(stackView) {
+            $0.edges.equalToSuperview().inset(16)
+        }
+        .addSubview(editButton) {
+            $0.top.equalToSuperview().inset(12)
+            $0.trailing.equalToSuperview().inset(8)
+        }
 
     private var stackView: UIView {
         VStackView(spacing: 16) {
@@ -28,18 +42,6 @@ final class ProfileBasicCell: UITableViewCell {
             }
         }
     }
-
-    private lazy var baseView = UIView()
-        .modifier(\.backgroundColor, .thinGray)
-        .modifier(\.clipsToBounds, true)
-        .modifier(\.layer.cornerRadius, 8)
-        .addSubview(stackView) {
-            $0.edges.equalToSuperview().inset(16)
-        }
-        .addSubview(editButton) {
-            $0.top.equalToSuperview().inset(12)
-            $0.trailing.equalToSuperview().inset(8)
-        }
 
     private let basicLabel = UILabel()
     private let nameLabel = UILabel()
@@ -92,19 +94,19 @@ final class ProfileBasicCell: UITableViewCell {
 
 extension ProfileBasicCell {
     func configure(_ modelObject: ProfileModelObject) {
-        nameLabel.modifier(\.text, modelObject.name)
+        nameLabel.text = modelObject.name
 
         if let age = modelObject.birthday?.ageString() {
-            ageLabel.modifier(\.text, age + L10n.Profile.old)
+            ageLabel.text = "\(age)\(L10n.Profile.old)"
         } else {
-            ageLabel.modifier(\.text, .noSetting)
+            ageLabel.text = .noSetting
         }
 
-        genderLabel.modifier(\.text, modelObject.gender?.value ?? .noSetting)
-        emailLabel.modifier(\.text, modelObject.email)
-        phoneNumberLabel.modifier(\.text, modelObject.phoneNumber?.phoneText ?? .noSetting)
-        addressLabel.modifier(\.text, modelObject.address)
-        stationLabel.modifier(\.text, modelObject.station)
+        genderLabel.text = modelObject.gender?.value
+        emailLabel.text = modelObject.email
+        phoneNumberLabel.text = modelObject.phoneNumber?.phoneText
+        addressLabel.text = modelObject.address
+        stationLabel.text = modelObject.station
     }
 }
 
@@ -112,7 +114,7 @@ extension ProfileBasicCell {
 
 private extension ProfileBasicCell {
     func setupView() {
-        contentView.modifier(\.backgroundColor, .primary)
+        contentView.backgroundColor = .primary
 
         contentView.addSubview(baseView) {
             $0.top.equalToSuperview()
@@ -157,7 +159,7 @@ private extension ProfileBasicCell {
             valueLabel = stationLabel
         }
 
-        valueLabel.modifier(\.font, .boldSystemFont(ofSize: 16))
+        valueLabel.font = .boldSystemFont(ofSize: 16)
 
         stackView = VStackView(alignment: .leading, spacing: 8) {
             titleLabel

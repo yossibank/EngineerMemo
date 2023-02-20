@@ -3,7 +3,7 @@
 
     /// @mockable
     protocol DebugDevelopmentRoutingInput {
-        func showDebugCoreDataScreen(item: DebugCoreDataItem)
+        func showDebugCoreDataScreen(action: DebugCoreDataAction)
     }
 
     // MARK: - properties & init
@@ -19,10 +19,10 @@
     // MARK: - protocol
 
     extension DebugDevelopmentRouting: DebugDevelopmentRoutingInput {
-        func showDebugCoreDataScreen(item: DebugCoreDataItem) {
+        func showDebugCoreDataScreen(action: DebugCoreDataAction) {
             let vc: UIViewController
 
-            switch item {
+            switch action {
             case .list:
                 vc = AppControllers.Debug.CoreData.List()
 
@@ -31,9 +31,6 @@
 
             case .update:
                 vc = AppControllers.Debug.CoreData.Update()
-
-            case .delete:
-                vc = .init()
             }
 
             viewController?.navigationController?.pushViewController(

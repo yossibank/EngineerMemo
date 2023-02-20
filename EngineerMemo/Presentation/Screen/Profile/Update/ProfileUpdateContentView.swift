@@ -110,7 +110,7 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            saveButton.modifier(\.layer.borderColor, UIColor.theme.cgColor)
+            saveButton.layer.borderColor = UIColor.theme.cgColor
         }
     }
 }
@@ -130,14 +130,10 @@ private extension ProfileUpdateContentView {
         didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.saveButton.configure {
-                    $0.setTitle(updatedTitle, for: .normal)
-                }
+                self?.saveButton.setTitle(updatedTitle, for: .normal)
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.saveButton.configure {
-                        $0.setTitle(title, for: .normal)
-                    }
+                    self?.saveButton.setTitle(title, for: .normal)
                 }
             }
             .store(in: &cancellables)
@@ -158,7 +154,7 @@ private extension ProfileUpdateContentView {
 
 extension ProfileUpdateContentView: ContentView {
     func setupView() {
-        modifier(\.backgroundColor, .primary)
+        backgroundColor = .primary
 
         addSubview(scrollView) {
             $0.edges.equalToSuperview()

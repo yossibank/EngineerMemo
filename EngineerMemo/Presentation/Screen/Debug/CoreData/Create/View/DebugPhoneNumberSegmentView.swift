@@ -57,7 +57,7 @@
 
             setupView()
 
-            titleLabel.modifier(\.text, title)
+            titleLabel.text = title
         }
 
         @available(*, unavailable)
@@ -70,7 +70,7 @@
 
     private extension DebugPhoneNumberSegmentView {
         func setupView() {
-            modifier(\.backgroundColor, .primary)
+            backgroundColor = .primary
 
             addSubview(body) {
                 $0.top.bottom.equalToSuperview()

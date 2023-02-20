@@ -78,7 +78,7 @@ final class MemoListHeaderView: UICollectionReusableView {
 
 extension MemoListHeaderView {
     func configure(title: String) {
-        titleLabel.modifier(\.text, title)
+        titleLabel.text = title
     }
 }
 
@@ -86,7 +86,7 @@ extension MemoListHeaderView {
 
 private extension MemoListHeaderView {
     func setupView() {
-        modifier(\.backgroundColor, .thinGray)
+        backgroundColor = .thinGray
 
         addSubview(body) {
             $0.edges.equalToSuperview().inset(8)

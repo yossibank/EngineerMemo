@@ -1,18 +1,24 @@
 import Combine
-import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UICollectionViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
+    private var body: UIView {
+        VStackView(alignment: .center) {
+            UILabel()
+                .modifier(\.text, "Hello World")
+        }
+        .modifier(\.backgroundColor, .primary)
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
-        setupConstraints()
+        setupView()
     }
 
     @available(*, unavailable)
@@ -34,8 +40,11 @@ extension ___FILEBASENAME___ {}
 // MARK: - private methods
 
 private extension ___FILEBASENAME___ {
-    func setupViews() {}
-    func setupConstraints() {}
+    func setupView() {
+        contentView.addSubview(body) {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
 
 // MARK: - preview

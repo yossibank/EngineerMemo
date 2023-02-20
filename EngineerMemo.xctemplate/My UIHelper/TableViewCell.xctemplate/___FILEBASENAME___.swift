@@ -1,12 +1,19 @@
 import Combine
-import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
+
+    private var body: UIView {
+        VStackView(alignment: .center) {
+            UILabel()
+                .modifier(\.text, "Hello World")
+        }
+        .modifier(\.backgroundColor, .primary)
+    }
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -17,8 +24,7 @@ final class ___FILEBASENAME___: UITableViewCell {
             reuseIdentifier: reuseIdentifier
         )
 
-        setupViews()
-        setupConstraints()
+        setupView()
     }
 
     required init?(coder: NSCoder) {
@@ -39,8 +45,11 @@ extension ___FILEBASENAME___ {}
 // MARK: - private methods
 
 private extension ___FILEBASENAME___ {
-    func setupViews() {}
-    func setupConstraints() {}
+    func setupView() {
+        contentView.addSubview(body) {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
 
 // MARK: - preview

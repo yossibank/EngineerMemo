@@ -1,12 +1,18 @@
 import Combine
-import SnapKit
 import UIKit
-import UIStyle
+import UIKitHelper
 
-// TODO: 各セクション、アイテム(必要な場合は命名変更、別ファイルで管理)
+// MARK: - section & item
 
 enum ___FILEBASENAME___Section: CaseIterable {
     case main
+
+    var cellType: UITableViewCell.Type {
+        switch self {
+        case .main:
+            return UITableViewCell.self
+        }
+    }
 }
 
 enum ___FILEBASENAME___Item: Hashable {
@@ -16,20 +22,32 @@ enum ___FILEBASENAME___Item: Hashable {
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UIView {
-    private var dataSource: UITableViewDiffableDataSource<
-        ___FILEBASENAME___Section,
-        ___FILEBASENAME___Item
-    >!
+    typealias Section = ___FILEBASENAME___Section
+    typealias Item = ___FILEBASENAME___Item
+
+    private lazy var dataSource = UITableViewDiffableDataSource<
+        Section,
+        Item
+    >(tableView: tableView) { [weak self] tableView, indexPath, item in
+        guard let self else {
+            return .init()
+        }
+
+        return self.makeCell(
+            tableView: tableView,
+            indexPath: indexPath,
+            item: item
+        )
+    }
 
     private let tableView = UITableView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupViews()
-        setupConstraints()
+        setupView()
         setupTableView()
-        apply()
+        applySnapshot()
     }
 
     @available(*, unavailable)
@@ -46,39 +64,25 @@ extension ___FILEBASENAME___ {}
 
 private extension ___FILEBASENAME___ {
     func setupTableView() {
-        dataSource = configureDataSource()
-
-        tableView.registerCell(with: UITableViewCell.self)
-        tableView.dataSource = dataSource
-        tableView.delegate = self
-    }
-
-    func configureDataSource() -> UITableViewDiffableDataSource<
-        ___FILEBASENAME___Section,
-        ___FILEBASENAME___Item
-    > {
-        .init(tableView: tableView) { [weak self] tableView, indexPath, item in
-            guard let self else {
-                return .init()
-            }
-
-            return self.makeCell(
-                tableView: tableView,
-                indexPath: indexPath,
-                item: item
-            )
+        tableView.configure {
+            $0.registerCells(with: Section.allCases.map(\.cellType))
+            $0.backgroundColor = .primary
+            $0.delegate = self
+            $0.dataSource = dataSource
         }
     }
 
     func makeCell(
         tableView: UITableView,
         indexPath: IndexPath,
-        item: ___FILEBASENAME___Item
+        item: Item
     ) -> UITableViewCell? {
+        let cellType = Section.allCases[indexPath.section].cellType
+
         switch item {
         case let .main(text):
             let cell = tableView.dequeueReusableCell(
-                withType: UITableViewCell.self,
+                withType: cellType,
                 for: indexPath
             )
 
@@ -93,12 +97,9 @@ private extension ___FILEBASENAME___ {
         }
     }
 
-    func apply() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
-            ___FILEBASENAME___Section,
-            ___FILEBASENAME___Item
-        >()
-        dataSourceSnapshot.appendSections(___FILEBASENAME___Section.allCases)
+    func applySnapshot() {
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        dataSourceSnapshot.appendSections(Section.allCases)
 
         ["text1", "text2", "text3", "text4", "text5"].forEach {
             dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
@@ -116,24 +117,20 @@ private extension ___FILEBASENAME___ {
 extension ___FILEBASENAME___: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        UITableView.automaticDimension
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: false
+        )
     }
 }
 
 // MARK: - protocol
 
 extension ___FILEBASENAME___: ContentView {
-    func setupViews() {
-        apply([
-            .addSubview(tableView),
-            .backgroundColor(.primary)
-        ])
-    }
-
-    func setupConstraints() {
-        tableView.snp.makeConstraints {
+    func setupView() {
+        addSubview(tableView) {
             $0.edges.equalToSuperview()
         }
     }

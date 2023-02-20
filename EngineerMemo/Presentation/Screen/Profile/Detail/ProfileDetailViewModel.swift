@@ -2,6 +2,7 @@ import Combine
 
 final class ProfileDetailViewModel: ViewModel {
     final class Input: InputObject {
+        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let editButtonTapped = PassthroughSubject<ProfileModelObject, Never>()
         let settingButtonTapped = PassthroughSubject<Void, Never>()
@@ -36,17 +37,21 @@ final class ProfileDetailViewModel: ViewModel {
         self.routing = routing
         self.analytics = analytics
 
-        // MARK: - プロフィール情報取得
+        // MARK: - viewDidLoad
 
-        model.get { result in
-            switch result {
-            case let .failure(appError):
-                output.appError = appError
+        input.viewDidLoad
+            .sink { _ in
+                model.get { result in
+                    switch result {
+                    case let .failure(appError):
+                        output.appError = appError
 
-            case let .success(modelObject):
-                output.modelObject = modelObject
+                    case let .success(modelObject):
+                        output.modelObject = modelObject
+                    }
+                }
             }
-        }
+            .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 

@@ -22,11 +22,11 @@ enum ProfileMenuGenderType: Int, CaseIterable {
         case .man: return .man
         case .woman: return .woman
         case .other: return .other
-        case .none: return .none
+        case .none: return .noSetting
         }
     }
 
-    static var defaultGender: ProfileModelObject.Gender = .none
+    static var defaultGender: ProfileModelObject.Gender = .noSetting
 
     static func menu(_ value: Int) -> Self {
         .init(rawValue: value) ?? .none
@@ -90,7 +90,7 @@ final class ProfileMenuInputView: UIView {
         setupView()
         setupMenu()
 
-        titleLabel.modifier(\.text, title)
+        titleLabel.text = title
     }
 
     @available(*, unavailable)
@@ -103,7 +103,7 @@ final class ProfileMenuInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, menuButton].forEach {
-                $0.modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                $0.layer.borderColor = UIColor.theme.cgColor
             }
         }
     }
@@ -129,7 +129,7 @@ extension ProfileMenuInputView {
 
 private extension ProfileMenuInputView {
     func setupView() {
-        modifier(\.backgroundColor, .primary)
+        backgroundColor = .primary
 
         addSubview(body) {
             $0.top.bottom.equalToSuperview().inset(8)

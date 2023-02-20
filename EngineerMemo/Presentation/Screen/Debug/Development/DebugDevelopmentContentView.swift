@@ -4,17 +4,93 @@
     import UIKit
     import UIKitHelper
 
+    // MARK: - section & item
+
+    enum DebugDevelopmentContentViewSection: CaseIterable {
+        case git
+        case device
+        case development
+        case coreData
+
+        var cellType: DebugDevelopmentCell.Type {
+            DebugDevelopmentCell.self
+        }
+
+        var title: String {
+            switch self {
+            case .git: return L10n.Debug.Section.git
+            case .device: return L10n.Debug.Section.device
+            case .development: return L10n.Debug.Section.development
+            case .coreData: return L10n.Debug.Section.coreData
+            }
+        }
+
+        var items: [DebugDevelopmentContentViewItem] {
+            switch self {
+            case .git:
+                return [
+                    .init(title: L10n.Debug.Git.commitHash, subTitle: Git.commitHash)
+                ]
+
+            case .device:
+                return [
+                    .init(title: L10n.Debug.Device.version, subTitle: UIDevice.current.systemVersion),
+                    .init(title: L10n.Debug.Device.name, subTitle: UIDevice.current.name),
+                    .init(title: L10n.Debug.Device.udid, subTitle: UIDevice.deviceId)
+                ]
+
+            case .development:
+                return [
+                    .init(title: L10n.Debug.Development.shutdown)
+                ]
+
+            case .coreData:
+                return [
+                    .init(title: L10n.Debug.CoreData.list),
+                    .init(title: L10n.Debug.CoreData.create),
+                    .init(title: L10n.Debug.CoreData.update)
+                ]
+            }
+        }
+    }
+
+    struct DebugDevelopmentContentViewItem: Hashable {
+        var title: String
+        var subTitle: String?
+    }
+
+    // MARK: - enum
+
+    enum DebugCoreDataAction: CaseIterable {
+        case list
+        case create
+        case update
+    }
+
     // MARK: - properties & init
 
     final class DebugDevelopmentContentView: UIView {
+        typealias Section = DebugDevelopmentContentViewSection
+        typealias Item = DebugDevelopmentContentViewItem
+
         lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
-        private var dataSource: UITableViewDiffableDataSource<
-            DebugDevelopmentSection,
-            DebugDevelopmentItem
-        >!
+        private lazy var dataSource = UITableViewDiffableDataSource<
+            Section,
+            Item
+        >(tableView: tableView) { [weak self] tableView, indexPath, item in
+            guard let self else {
+                return .init()
+            }
 
-        private let didSelectContentSubject = PassthroughSubject<DebugCoreDataItem, Never>()
+            return self.makeCell(
+                tableView: tableView,
+                indexPath: indexPath,
+                item: item
+            )
+        }
+
+        private let didSelectContentSubject = PassthroughSubject<DebugCoreDataAction, Never>()
 
         private let tableView = UITableView()
 
@@ -36,48 +112,32 @@
 
     private extension DebugDevelopmentContentView {
         func setupTableView() {
-            dataSource = configureDataSource()
+            tableView.configure {
+                $0.registerCells(with: Section.allCases.map(\.cellType))
+                $0.registerHeaderFooterView(with: TitleHeaderFooterView.self)
+                $0.backgroundColor = .primary
+                $0.separatorStyle = .none
+                $0.delegate = self
+                $0.dataSource = dataSource
 
-            tableView.modifier(\.backgroundColor, .primary)
-            tableView.modifier(\.separatorStyle, .none)
-            tableView.modifier(\.delegate, self)
-            tableView.modifier(\.dataSource, dataSource)
-            tableView.registerCell(with: DebugDevelopmentCell.self)
-            tableView.registerHeaderFooterView(with: TitleHeaderFooterView.self)
-
-            if #available(iOS 15.0, *) {
-                tableView.sectionHeaderTopPadding = .zero
-            }
-        }
-
-        func configureDataSource() -> UITableViewDiffableDataSource<
-            DebugDevelopmentSection,
-            DebugDevelopmentItem
-        > {
-            .init(tableView: tableView) { [weak self] tableView, indexPath, item in
-                guard let self else {
-                    return .init()
+                if #available(iOS 15.0, *) {
+                    $0.sectionHeaderTopPadding = .zero
                 }
-
-                return self.makeCell(
-                    tableView: tableView,
-                    indexPath: indexPath,
-                    item: item
-                )
             }
         }
 
         func makeCell(
             tableView: UITableView,
             indexPath: IndexPath,
-            item: DebugDevelopmentItem
+            item: Item
         ) -> UITableViewCell? {
+            let section = Section.allCases[indexPath.section]
+            let cellType = section.cellType
+
             let cell = tableView.dequeueReusableCell(
-                withType: DebugDevelopmentCell.self,
+                withType: cellType,
                 for: indexPath
             )
-
-            let section = DebugDevelopmentSection.allCases[indexPath.section]
 
             switch section {
             case .development, .coreData:
@@ -93,14 +153,10 @@
         }
 
         func applySnapshot() {
-            var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
-                DebugDevelopmentSection,
-                DebugDevelopmentItem
-            >()
+            var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+            dataSourceSnapshot.appendSections(Section.allCases)
 
-            dataSourceSnapshot.appendSections(DebugDevelopmentSection.allCases)
-
-            DebugDevelopmentSection.allCases.forEach {
+            Section.allCases.forEach {
                 dataSourceSnapshot.appendItems(
                     $0.items,
                     toSection: $0
@@ -135,7 +191,7 @@
             _ tableView: UITableView,
             viewForHeaderInSection section: Int
         ) -> UIView? {
-            guard let section = DebugDevelopmentSection.allCases[safe: section] else {
+            guard let section = Section.allCases[safe: section] else {
                 return nil
             }
 
@@ -157,7 +213,7 @@
                 animated: false
             )
 
-            let section = DebugDevelopmentSection.allCases[indexPath.section]
+            let section = Section.allCases[indexPath.section]
 
             switch section {
             case .development:
@@ -172,8 +228,8 @@
                 }
 
             case .coreData:
-                let item = DebugCoreDataItem.allCases[indexPath.row]
-                didSelectContentSubject.send(item)
+                let action = DebugCoreDataAction.allCases[indexPath.row]
+                didSelectContentSubject.send(action)
 
             default:
                 break
@@ -190,6 +246,8 @@
             }
         }
     }
+
+    // MARK: - preview
 
     struct DebugDevelopmentContentViewPreview: PreviewProvider {
         static var previews: some View {

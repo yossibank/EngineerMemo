@@ -60,9 +60,12 @@ final class ProfileTextInputView: UIView {
         setupView()
         setupTextField()
 
-        titleLabel.modifier(\.text, title)
-        inputTextField.modifier(\.keyboardType, keyboardType)
-        inputTextField.modifier(\.placeholder, placeholder)
+        titleLabel.text = title
+
+        inputTextField.configure {
+            $0.keyboardType = keyboardType
+            $0.placeholder = placeholder
+        }
 
         if keyboardType == .numberPad {
             setupNumberPad()
@@ -79,7 +82,7 @@ final class ProfileTextInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputTextField].forEach {
-                $0.modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                $0.layer.borderColor = UIColor.theme.cgColor
             }
         }
     }
@@ -118,7 +121,7 @@ extension ProfileTextInputView {
             input = nil
         }
 
-        inputTextField.modifier(\.text, input)
+        inputTextField.text = input
     }
 }
 
@@ -126,7 +129,7 @@ extension ProfileTextInputView {
 
 private extension ProfileTextInputView {
     func setupView() {
-        modifier(\.backgroundColor, .primary)
+        backgroundColor = .primary
 
         addSubview(body) {
             $0.top.bottom.equalToSuperview().inset(8)

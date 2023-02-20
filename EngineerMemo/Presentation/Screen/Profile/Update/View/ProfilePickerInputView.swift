@@ -67,7 +67,7 @@ final class ProfilePickerInputView: UIView {
         setupView()
         setupPicker()
 
-        titleLabel.modifier(\.text, title)
+        titleLabel.text = title
     }
 
     @available(*, unavailable)
@@ -86,7 +86,7 @@ final class ProfilePickerInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputDatePicker].forEach {
-                $0.modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                $0.layer.borderColor = UIColor.theme.cgColor
             }
         }
     }
@@ -103,7 +103,7 @@ extension ProfilePickerInputView {
             return
         }
 
-        pickerLabel.modifier(\.text, birthday.toString)
+        pickerLabel.text = birthday.toString
     }
 }
 
@@ -111,7 +111,7 @@ extension ProfilePickerInputView {
 
 private extension ProfilePickerInputView {
     func setupView() {
-        modifier(\.backgroundColor, .primary)
+        backgroundColor = .primary
 
         addSubview(body) {
             $0.top.bottom.equalToSuperview().inset(8)
@@ -123,7 +123,7 @@ private extension ProfilePickerInputView {
         inputDatePicker.expandPickerRange()
         inputDatePicker.publisher
             .sink { [weak self] birthday in
-                self?.pickerLabel.modifier(\.text, birthday.toString)
+                self?.pickerLabel.text = birthday.toString
             }
             .store(in: &cancellables)
     }

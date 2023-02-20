@@ -29,6 +29,8 @@ extension ProfileDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewModel.input.viewDidLoad.send(())
+
         bindToView()
         bindToViewModel()
     }

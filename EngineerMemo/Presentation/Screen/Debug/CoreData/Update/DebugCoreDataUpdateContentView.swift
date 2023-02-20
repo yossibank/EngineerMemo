@@ -35,7 +35,7 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                menuButton.modifier(\.layer.borderColor, UIColor.theme.cgColor)
+                menuButton.layer.borderColor = UIColor.theme.cgColor
             }
         }
     }
@@ -91,7 +91,7 @@
 
     extension DebugCoreDataUpdateContentView: ContentView {
         func setupView() {
-            modifier(\.backgroundColor, .primary)
+            backgroundColor = .primary
 
             addSubview(menuButton) {
                 $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(24)

@@ -2,9 +2,22 @@ import Combine
 import UIKit
 import UIKitHelper
 
+// MARK: - section & item
+
+enum MemoListContentViewSection: CaseIterable {
+    case main
+}
+
+enum MemoListContentViewItem: Hashable {
+    case main(String)
+}
+
 // MARK: - properties & init
 
 final class MemoListContentView: UIView {
+    typealias Section = MemoListContentViewSection
+    typealias Item = MemoListContentViewItem
+
     enum ViewType: Int {
         case one = 1
         case two
@@ -17,8 +30,8 @@ final class MemoListContentView: UIView {
     )
 
     private lazy var dataSource = UICollectionViewDiffableDataSource<
-        MemoListSection,
-        MemoItem
+        Section,
+        Item
     >(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
         guard let self else {
             return .init()
@@ -33,7 +46,7 @@ final class MemoListContentView: UIView {
 
     private let cellRegistration = UICollectionView.CellRegistration<
         UICollectionViewListCell,
-        MemoItem
+        Item
     > { cell, indexPath, item in
         switch item {
         case let .main(text):
@@ -77,8 +90,10 @@ final class MemoListContentView: UIView {
 
 private extension MemoListContentView {
     func setupCollectionView() {
-        collectionView.modifier(\..backgroundColor, .primary)
-        collectionView.registerReusableView(with: MemoListHeaderView.self)
+        collectionView.configure {
+            $0.registerReusableView(with: MemoListHeaderView.self)
+            $0.backgroundColor = .primary
+        }
     }
 
     func setupHeaderView() {
@@ -177,11 +192,8 @@ private extension MemoListContentView {
     }
 
     func applySnapshot() {
-        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<
-            MemoListSection,
-            MemoItem
-        >()
-        dataSourceSnapshot.appendSections(MemoListSection.allCases)
+        var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        dataSourceSnapshot.appendSections(Section.allCases)
 
         ["text1", "text2", "text3", "text4", "text5"].forEach {
             dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
