@@ -9,7 +9,7 @@
         var title: String {
             switch self {
             case .profile:
-                return "プロフィール"
+                return L10n.Debug.CoreData.profile
 
             case .sample1:
                 return "サンプル1"
