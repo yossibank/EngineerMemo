@@ -4,18 +4,45 @@
     import UIKit
     import UIKitHelper
 
+    // MARK: - section & item
+
+    enum DebugProfileListContentViewSection: CaseIterable {
+        case main
+
+        var cellType: ProfileBasicCell.Type {
+            switch self {
+            case .main:
+                return ProfileBasicCell.self
+            }
+        }
+    }
+
+    enum DebugProfileListContentViewItem: Hashable {
+        case main(ProfileModelObject)
+    }
+
     // MARK: - properties & init
 
     final class DebugProfileListContentView: UIView {
-        var modelObject: [ProfileModelObject] = [] {
-            didSet {
-                tableView.reloadData()
+        typealias Section = DebugProfileListContentViewSection
+        typealias Item = DebugProfileListContentViewItem
+        typealias DataSource = DebugProfileListDataSource
+
+        private(set) lazy var didDeleteModelObjectPublisher = dataSource.didDeleteModelObjectPublisher
+
+        private(set) lazy var dataSource = DataSource(
+            tableView: tableView
+        ) { [weak self] tableView, indexPath, item in
+            guard let self else {
+                return .init()
             }
+
+            return self.makeCell(
+                tableView: tableView,
+                indexPath: indexPath,
+                item: item
+            )
         }
-
-        private(set) lazy var didDeleteModelObjectPublisher = didDeleteModelObjectSubject.eraseToAnyPublisher()
-
-        private let didDeleteModelObjectSubject = PassthroughSubject<ProfileModelObject, Never>()
 
         private let tableView = UITableView()
 
@@ -37,57 +64,31 @@
     private extension DebugProfileListContentView {
         func setupTableView() {
             tableView.configure {
-                $0.registerCell(with: ProfileBasicCell.self)
+                $0.registerCells(with: Section.allCases.map(\.cellType))
                 $0.backgroundColor = .primary
                 $0.allowsSelection = false
                 $0.separatorStyle = .none
-                $0.dataSource = self
+                $0.dataSource = dataSource
             }
         }
-    }
 
-    // MARK: - delegate
+        func makeCell(
+            tableView: UITableView,
+            indexPath: IndexPath,
+            item: Item
+        ) -> UITableViewCell? {
+            let cellType = Section.allCases[indexPath.section].cellType
 
-    extension DebugProfileListContentView: UITableViewDataSource {
-        func tableView(
-            _ tableView: UITableView,
-            numberOfRowsInSection section: Int
-        ) -> Int {
-            modelObject.count
-        }
+            switch item {
+            case let .main(modelObject):
+                let cell = tableView.dequeueReusableCell(
+                    withType: cellType,
+                    for: indexPath
+                )
 
-        func tableView(
-            _ tableView: UITableView,
-            cellForRowAt indexPath: IndexPath
-        ) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(
-                withType: ProfileBasicCell.self,
-                for: indexPath
-            )
-
-            if let modelObject = modelObject[safe: indexPath.row] {
                 cell.configure(modelObject)
-            }
 
-            return cell
-        }
-
-        func tableView(
-            _ tableView: UITableView,
-            canEditRowAt indexPath: IndexPath
-        ) -> Bool {
-            true
-        }
-
-        func tableView(
-            _ tableView: UITableView,
-            commit editingStyle: UITableViewCell.EditingStyle,
-            forRowAt indexPath: IndexPath
-        ) {
-            if editingStyle == .delete {
-                didDeleteModelObjectSubject.send(modelObject[indexPath.row])
-                modelObject.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
+                return cell
             }
         }
     }
@@ -107,7 +108,9 @@
     struct DebugProfileListContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugProfileListContentView()) {
-                $0.modelObject = [ProfileModelObjectBuilder().build()]
+                $0.dataSource.modelObject = [
+                    ProfileModelObjectBuilder().build()
+                ]
             }
         }
     }

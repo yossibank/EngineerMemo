@@ -43,7 +43,7 @@
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
                 .sink { [weak self] modelObject in
-                    self?.contentView.modelObject = modelObject
+                    self?.contentView.dataSource.modelObject = modelObject
                 }
                 .store(in: &cancellables)
         }
