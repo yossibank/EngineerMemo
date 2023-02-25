@@ -6,17 +6,35 @@
 
     // MARK: - section & item
 
-    enum DebugProfileUpdateSection: CaseIterable {
+    enum DebugProfileUpdateContentViewSection: CaseIterable {
         case list
+        case update
+
+        var cellType: UITableViewCell.Type {
+            switch self {
+            case .list:
+                return DebugProfileListCell.self
+
+            case .update:
+                return DebugProfileUpdateCell.self
+            }
+        }
+    }
+
+    enum DebugProfileUpdateContentViewItem: Hashable {
+        case list(ProfileModelObject)
         case update
     }
 
     // MARK: - properties & init
 
     final class DebugProfileUpdateContentView: UIView {
+        typealias Section = DebugProfileUpdateContentViewSection
+        typealias Item = DebugProfileUpdateContentViewItem
+
         var modelObject: [ProfileModelObject] = [] {
             didSet {
-                searchObject = modelObject
+                applySnapshot()
             }
         }
 
@@ -29,15 +47,24 @@
         private(set) lazy var stationControlPublisher = stationControlSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
 
-        private var searchObject: [ProfileModelObject] = [] {
-            didSet {
-                tableView.reloadData()
+        private lazy var dataSource = UITableViewDiffableDataSource<
+            Section,
+            Item
+        >(tableView: tableView) { [weak self] tableView, indexPath, item in
+            guard let self else {
+                return .init()
             }
+
+            return self.makeCell(
+                tableVIew: tableView,
+                indexPath: indexPath,
+                item: item
+            )
         }
 
         private var selectedIndex: Int? {
             didSet {
-                tableView.reloadData()
+                applySnapshot()
             }
         }
 
@@ -80,117 +107,40 @@
 
         func setupTableView() {
             tableView.configure {
-                $0.registerCells(
-                    with: [
-                        UITableViewCell.self,
-                        DebugProfileUpdateCell.self
-                    ]
-                )
+                $0.registerCells(with: Section.allCases.map(\.cellType))
                 $0.backgroundColor = .primary
                 $0.allowsMultipleSelection = false
                 $0.delegate = self
-                $0.dataSource = self
-            }
-        }
-    }
-
-    // MARK: - delegate
-
-    extension DebugProfileUpdateContentView: UISearchBarDelegate {
-        func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-            selectedIndex = nil
-            searchBar.setShowsCancelButton(true, animated: true)
-        }
-
-        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            searchBar.resignFirstResponder()
-            searchBar.setShowsCancelButton(false, animated: true)
-        }
-
-        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            searchBar.resignFirstResponder()
-            searchBar.setShowsCancelButton(false, animated: true)
-        }
-
-        func searchBar(
-            _ searchBar: UISearchBar,
-            textDidChange searchText: String
-        ) {
-            if searchText.isEmpty {
-                searchObject = modelObject
-            } else {
-                searchObject = modelObject
-                    .filter { $0.name != nil }
-                    .filter { $0.name!.lowercased().contains(searchText.lowercased()) }
-            }
-        }
-    }
-
-    extension DebugProfileUpdateContentView: UITableViewDelegate {
-        func numberOfSections(in tableView: UITableView) -> Int {
-            DebugProfileUpdateSection.allCases.count
-        }
-
-        func tableView(
-            _ tableView: UITableView,
-            didSelectRowAt indexPath: IndexPath
-        ) {
-            if DebugProfileUpdateSection.allCases[indexPath.section] == .list {
-                selectedIndex = indexPath.row
-            }
-        }
-    }
-
-    extension DebugProfileUpdateContentView: UITableViewDataSource {
-        func tableView(
-            _ tableView: UITableView,
-            numberOfRowsInSection section: Int
-        ) -> Int {
-            let section = DebugProfileUpdateSection.allCases[section]
-
-            switch section {
-            case .list:
-                return searchObject.count
-
-            case .update:
-                return selectedIndex != nil ? 1 : 0
+                $0.dataSource = dataSource
             }
         }
 
-        func tableView(
-            _ tableView: UITableView,
-            cellForRowAt indexPath: IndexPath
-        ) -> UITableViewCell {
-            let section = DebugProfileUpdateSection.allCases[indexPath.section]
+        func makeCell(
+            tableVIew: UITableView,
+            indexPath: IndexPath,
+            item: Item
+        ) -> UITableViewCell? {
+            let cellType = Section.allCases[indexPath.section].cellType
+            let cell = tableView.dequeueReusableCell(
+                withType: cellType,
+                for: indexPath
+            )
 
-            switch section {
-            case .list:
-                let cell = tableView.dequeueReusableCell(
-                    withType: UITableViewCell.self,
-                    for: indexPath
-                )
-
-                if let modelObject = searchObject[safe: indexPath.row] {
-                    var content = cell.defaultContentConfiguration()
-                    content.text = "名前: \(modelObject.name ?? .noSetting)"
-                    cell.contentConfiguration = content
-                }
-
-                if let selectedIndex {
-                    cell.accessoryType = selectedIndex == indexPath.row ? .checkmark : .none
-                } else {
-                    cell.accessoryType = .none
+            switch item {
+            case let .list(modelObject):
+                guard let cell = cell as? DebugProfileListCell else {
+                    return .init()
                 }
 
                 cell.selectionStyle = .none
+                cell.configure(modelObject.name ?? .noSetting)
 
                 return cell
 
             case .update:
-                let cell = tableView.dequeueReusableCell(
-                    withType: DebugProfileUpdateCell.self,
-                    for: indexPath
-                )
+                guard let cell = cell as? DebugProfileUpdateCell else {
+                    return .init()
+                }
 
                 cell.selectionStyle = .none
                 cell.separatorInset.right = .greatestFiniteMagnitude
@@ -234,7 +184,7 @@
                     guard
                         let self,
                         let selectedIndex = self.selectedIndex,
-                        let identifier = self.searchObject[safe: selectedIndex]?.identifier
+                        let identifier = self.modelObject[safe: selectedIndex]?.identifier
                     else {
                         return
                     }
@@ -246,6 +196,72 @@
                 .store(in: &cell.cancellables)
 
                 return cell
+            }
+        }
+
+        func applySnapshot() {
+            var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+            dataSourceSnapshot.appendSections(Section.allCases)
+
+            modelObject.forEach {
+                dataSourceSnapshot.appendItems([.list($0)], toSection: .list)
+            }
+
+            if selectedIndex != nil {
+                dataSourceSnapshot.appendItems([.update], toSection: .update)
+            }
+
+            dataSource.apply(
+                dataSourceSnapshot,
+                animatingDifferences: false
+            )
+        }
+    }
+
+    // MARK: - delegate
+
+    extension DebugProfileUpdateContentView: UISearchBarDelegate {
+        func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+            selectedIndex = nil
+            searchBar.setShowsCancelButton(true, animated: true)
+        }
+
+        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.resignFirstResponder()
+            searchBar.setShowsCancelButton(false, animated: true)
+        }
+
+        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.resignFirstResponder()
+            searchBar.setShowsCancelButton(false, animated: true)
+        }
+
+        func searchBar(
+            _ searchBar: UISearchBar,
+            textDidChange searchText: String
+        ) {}
+    }
+
+    extension DebugProfileUpdateContentView: UITableViewDelegate {
+        func tableView(
+            _ tableView: UITableView,
+            heightForRowAt indexPath: IndexPath
+        ) -> CGFloat {
+            switch Section.allCases[indexPath.section] {
+            case .list:
+                return 56
+
+            case .update:
+                return UITableView.automaticDimension
+            }
+        }
+
+        func tableView(
+            _ tableView: UITableView,
+            didSelectRowAt indexPath: IndexPath
+        ) {
+            if Section.allCases[indexPath.section] == .list {
+                selectedIndex = indexPath.row
             }
         }
     }
