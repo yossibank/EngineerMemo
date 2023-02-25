@@ -12,7 +12,7 @@ final class ProfileSettingCell: UITableViewCell {
     )
 
     private var body: UIView {
-        VStackView(alignment: .center, spacing: 16) {
+        VStackView(alignment: .center, spacing: 16, layoutMargins: .init(.horizontal, 16)) {
             spaceTopView
 
             titleLabel
@@ -44,9 +44,6 @@ final class ProfileSettingCell: UITableViewCell {
         }
 
     private let titleLabel = UILabel()
-        .addConstraint {
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
 
     private let settingButton = UIButton(type: .system)
         .addConstraint {

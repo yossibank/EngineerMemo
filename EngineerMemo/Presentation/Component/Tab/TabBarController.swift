@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - properties & init
+
 final class TabBarController: UITabBarController {
     private enum TabItem: Int, CaseIterable {
         case profile
