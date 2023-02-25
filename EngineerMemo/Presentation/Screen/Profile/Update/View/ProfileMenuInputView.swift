@@ -78,7 +78,7 @@ final class ProfileMenuInputView: UIView {
         .modifier(\.layer.cornerRadius, 4)
         .modifier(\.clipsToBounds, true)
         .modifier(\.contentHorizontalAlignment, .leading)
-        .modifier(\.contentEdgeInsets, .init(top: 0, left: 8, bottom: 0, right: 0))
+        .modifier(\.contentEdgeInsets, .init(.left, 8))
         .configure {
             $0.titleLabel?.font = .systemFont(ofSize: 17)
             $0.setTitleColor(.theme, for: .normal)

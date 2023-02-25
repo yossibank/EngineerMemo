@@ -59,7 +59,7 @@ final class ProfileBasicCell: UITableViewCell {
         .modifier(\.clipsToBounds, true)
         .modifier(\.tintColor, .theme)
         .modifier(\.contentEdgeInsets, .init(top: 4, left: 8, bottom: 4, right: 8))
-        .modifier(\.imageEdgeInsets, .init(top: 0, left: -8, bottom: 0, right: 0))
+        .modifier(\.imageEdgeInsets, .init(.left, -8))
         .configure {
             $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
             $0.setTitle(L10n.Components.Button.edit, for: .normal)
