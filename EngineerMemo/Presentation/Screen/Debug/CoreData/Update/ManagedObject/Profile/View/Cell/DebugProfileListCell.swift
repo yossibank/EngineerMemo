@@ -7,8 +7,6 @@
     // MARK: - properties & init
 
     final class DebugProfileListCell: UITableViewCell {
-        var cancellables: Set<AnyCancellable> = .init()
-
         private var body: UIView {
             VStackView {
                 titleLabel
