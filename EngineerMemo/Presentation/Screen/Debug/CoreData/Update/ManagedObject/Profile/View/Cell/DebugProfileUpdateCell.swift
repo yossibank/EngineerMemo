@@ -128,6 +128,7 @@
     private extension DebugProfileUpdateCell {
         func setupView() {
             contentView.backgroundColor = .primary
+            selectionStyle = .none
 
             contentView.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(16)
@@ -135,6 +136,8 @@
             }
         }
     }
+
+    // MARK: - preview
 
     struct DebugProfileUpdateCellPreview: PreviewProvider {
         static var previews: some View {

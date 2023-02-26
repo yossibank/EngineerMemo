@@ -10,7 +10,7 @@ enum ValidationError {
     var description: String {
         switch self {
         case .none:
-            return ""
+            return .empty
 
         case .empty:
             return "文字が入力されていません。"

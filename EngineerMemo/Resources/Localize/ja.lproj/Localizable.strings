@@ -72,6 +72,7 @@
 "debug.coreData.create" = "作成";
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";
+"debug.coreData.profile" = "プロフィール";
 "debug.development.shutdown" = "アプリ終了";
 "debug.device.name" = "端末名";
 "debug.device.udid" = "端末ID";

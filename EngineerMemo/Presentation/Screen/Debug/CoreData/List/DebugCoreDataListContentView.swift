@@ -77,7 +77,7 @@
 
             menuButton.configure {
                 $0.menu = .init(
-                    title: "",
+                    title: .empty,
                     options: .displayInline,
                     children: actions
                 )

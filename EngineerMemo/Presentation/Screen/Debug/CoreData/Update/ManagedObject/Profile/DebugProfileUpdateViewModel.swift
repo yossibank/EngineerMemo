@@ -10,17 +10,19 @@
             let nameControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
             let phoneNumberControlChanged = PassthroughSubject<DebugPhoneNumberSegment, Never>()
             let stationControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let searchTextChanged = PassthroughSubject<String, Never>()
             let updateButtonTapped = PassthroughSubject<String, Never>()
         }
 
         final class Output: OutputObject {
-            @Published fileprivate(set) var modelObject: [ProfileModelObject]?
+            @Published fileprivate(set) var modelObjects: [ProfileModelObject] = []
         }
 
         let input: Input
         let output: Output
         let binding = NoBinding()
 
+        private var originalModelObjects: [ProfileModelObject] = []
         private var cancellables: Set<AnyCancellable> = .init()
 
         private var modelObject = ProfileModelObjectBuilder()
@@ -53,9 +55,10 @@
 
             // MARK: - プロフィール情報取得
 
-            model.gets {
-                if case let .success(modelObject) = $0 {
-                    output.modelObject = modelObject
+            model.gets { [weak self] modelObjects in
+                if case let .success(modelObjects) = modelObjects {
+                    output.modelObjects = modelObjects
+                    self?.originalModelObjects = modelObjects
                 }
             }
 
@@ -119,6 +122,24 @@
                 .sink { [weak self] segment in
                     self?.stationSegment = segment
                     self?.modelObject.station = segment.string
+                }
+                .store(in: &cancellables)
+
+            // MARK: - 文字検索
+
+            input.searchTextChanged
+                .sink { [weak self] searchText in
+                    guard let self else {
+                        return
+                    }
+
+                    if searchText.isEmpty {
+                        output.modelObjects = self.originalModelObjects
+                    } else {
+                        output.modelObjects = self.originalModelObjects
+                            .filter { $0.name != nil }
+                            .filter { $0.name!.lowercased().contains(searchText.lowercased()) }
+                    }
                 }
                 .store(in: &cancellables)
 

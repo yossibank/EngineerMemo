@@ -56,7 +56,7 @@ private enum LocalStorageManager {
             return
         }
 
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
+        let bundleId = Bundle.main.bundleIdentifier ?? .empty
         let dirURL = docURL.appendingPathComponent(bundleId)
 
         manager.enumerator(at: dirURL, includingPropertiesForKeys: nil)?.forEach { url in
@@ -134,7 +134,7 @@ private extension LocalStorageManager {
         fileName: String,
         excludeFromBackup: Bool = true
     ) throws -> URL {
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
+        let bundleId = Bundle.main.bundleIdentifier ?? .empty
         let appSupportDir = FileManager.SearchPathDirectory.applicationSupportDirectory
         let userMask = FileManager.SearchPathDomainMask.userDomainMask
 

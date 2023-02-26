@@ -63,11 +63,11 @@ extension Request {
 
         if let p = parameters as? [Encodable] {
             query = p.flatMap { param in param.dictionary.map { key, value in
-                URLQueryItem(name: key, value: value?.description ?? "")
+                URLQueryItem(name: key, value: value?.description ?? .empty)
             }}
         } else {
             query = parameters.dictionary.map { key, value in
-                URLQueryItem(name: key, value: value?.description ?? "")
+                URLQueryItem(name: key, value: value?.description ?? .empty)
             }
         }
 

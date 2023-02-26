@@ -39,11 +39,11 @@
 
     private extension DebugProfileUpdateViewController {
         func bindToView() {
-            viewModel.output.$modelObject
+            viewModel.output.$modelObjects
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink { [weak self] modelObject in
-                    self?.contentView.modelObject = modelObject
+                .sink { [weak self] modelObjects in
+                    self?.contentView.modelObjects = modelObjects
                 }
                 .store(in: &cancellables)
         }
@@ -109,6 +109,13 @@
                     self?.viewModel.input.stationControlChanged.send(
                         DebugCoreDataSegment.segment(value)
                     )
+                }
+                .store(in: &cancellables)
+
+            contentView.didChangeSearchTextPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] searchText in
+                    self?.viewModel.input.searchTextChanged.send(searchText)
                 }
                 .store(in: &cancellables)
 

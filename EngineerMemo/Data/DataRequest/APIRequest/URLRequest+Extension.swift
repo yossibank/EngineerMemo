@@ -3,7 +3,7 @@ import Foundation
 extension URLRequest {
     var curlString: String {
         guard let url else {
-            return ""
+            return .empty
         }
 
         var baseCommand = "\ncurl \(url.absoluteString)"

@@ -18,6 +18,10 @@ final class StringExtensionTest: XCTestCase {
         XCTAssertEqual("未設定".notNoSettingText, nil)
     }
 
+    func test_empty_空の文字列を取得できること() {
+        XCTAssertEqual(.empty, "")
+    }
+
     func test_noSetting_未設定の文字列を取得できること() {
         XCTAssertEqual(.noSetting, "未設定")
     }
