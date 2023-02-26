@@ -5,12 +5,12 @@ final class UserDefaultsStorage<Value: UserDefaultsCompatible & Equatable> {
     private let publisher: UserDefaults.Publisher<Value>
 
     init(
-        _ key: String,
+        _ key: UserDefaultsKey,
         defaultValue: Value,
         userDefaults: UserDefaultsProtocol = UserDefaults.shared
     ) {
         self.publisher = .init(
-            key: key,
+            key: key.rawValue,
             default: defaultValue,
             userDefaults: userDefaults
         )
