@@ -16,6 +16,18 @@ final class UserDefaultsStorage<Value: UserDefaultsCompatible & Equatable> {
         )
     }
 
+    init(
+        _ key: String,
+        defaultValue: Value,
+        userDefaults: UserDefaultsProtocol = UserDefaults.shared
+    ) {
+        self.publisher = .init(
+            key: key,
+            default: defaultValue,
+            userDefaults: userDefaults
+        )
+    }
+
     var projectedValue: UserDefaults.Publisher<Value> {
         publisher
     }

@@ -19,7 +19,7 @@ final class ___FILEBASENAME___: XCTestCase {
 
     func test_対象DataObjectを対象ModelObjectに変換できること() {
         // arrange
-        let input = ProfileDataObjectBuilder()
+        let input = 対象DataObjectBuilder()
             .プロパティ(値)
             .build()
 
@@ -29,7 +29,7 @@ final class ___FILEBASENAME___: XCTestCase {
         // assert
         XCTAssertEqual(
             actual,
-            ProfileModelObjectBuilder()
+            対象ModelObjectBuilder()
                 .プロパティ(値)
                 .build()
         )
