@@ -6,7 +6,7 @@
 
     // MARK: - section & item
 
-    enum DebugProfileUpdateContentViewSection: CaseIterable {
+    enum DebugProfileUpdateContentViewSection: Int, CaseIterable {
         case list
         case update
 
@@ -45,6 +45,7 @@
         private(set) lazy var nameControlPublisher = nameControlSubject.eraseToAnyPublisher()
         private(set) lazy var phoneNumberControlPublisher = phoneNumberControlSubject.eraseToAnyPublisher()
         private(set) lazy var stationControlPublisher = stationControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
 
         private lazy var dataSource = UITableViewDiffableDataSource<
@@ -56,7 +57,7 @@
             }
 
             return self.makeCell(
-                tableVIew: tableView,
+                tableView: tableView,
                 indexPath: indexPath,
                 item: item
             )
@@ -75,6 +76,7 @@
         private let nameControlSubject = PassthroughSubject<Int, Never>()
         private let phoneNumberControlSubject = PassthroughSubject<Int, Never>()
         private let stationControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeSearchTextSubject = PassthroughSubject<String, Never>()
         private let didTapUpdateButtonSubject = PassthroughSubject<String, Never>()
 
         private let searchBar = UISearchBar()
@@ -116,7 +118,7 @@
         }
 
         func makeCell(
-            tableVIew: UITableView,
+            tableView: UITableView,
             indexPath: IndexPath,
             item: Item
         ) -> UITableViewCell? {
@@ -132,7 +134,14 @@
                     return .init()
                 }
 
-                cell.selectionStyle = .none
+                if let selectedIndex {
+                    tableView.selectRow(
+                        at: .init(row: selectedIndex, section: Section.list.rawValue),
+                        animated: false,
+                        scrollPosition: .top
+                    )
+                }
+
                 cell.configure(modelObject.name ?? .noSetting)
 
                 return cell
@@ -141,9 +150,6 @@
                 guard let cell = cell as? DebugProfileUpdateCell else {
                     return .init()
                 }
-
-                cell.selectionStyle = .none
-                cell.separatorInset.right = .greatestFiniteMagnitude
 
                 cell.addressControlPublisher.sink { [weak self] value in
                     self?.addressControlSubject.send(value)
@@ -192,6 +198,7 @@
                     cell.updateView()
 
                     self.didTapUpdateButtonSubject.send(identifier)
+                    self.searchBar.text = nil
                 }
                 .store(in: &cell.cancellables)
 
@@ -223,6 +230,7 @@
     extension DebugProfileUpdateContentView: UISearchBarDelegate {
         func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
             selectedIndex = nil
+            tableView.reloadData()
             searchBar.setShowsCancelButton(true, animated: true)
         }
 
@@ -239,7 +247,9 @@
         func searchBar(
             _ searchBar: UISearchBar,
             textDidChange searchText: String
-        ) {}
+        ) {
+            didChangeSearchTextSubject.send(searchText)
+        }
     }
 
     extension DebugProfileUpdateContentView: UITableViewDelegate {

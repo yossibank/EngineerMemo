@@ -60,6 +60,8 @@
     private extension DebugProfileListCell {
         func setupView() {
             backgroundColor = .primary
+            separatorInset = .zero
+            selectionStyle = .none
 
             contentView.addSubview(body) {
                 $0.top.bottom.equalToSuperview()

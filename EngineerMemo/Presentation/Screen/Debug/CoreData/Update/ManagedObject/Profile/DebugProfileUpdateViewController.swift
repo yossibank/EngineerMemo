@@ -112,6 +112,13 @@
                 }
                 .store(in: &cancellables)
 
+            contentView.didChangeSearchTextPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] searchText in
+                    self?.viewModel.input.searchTextChanged.send(searchText)
+                }
+                .store(in: &cancellables)
+
             contentView.didTapUpdateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] identifier in
