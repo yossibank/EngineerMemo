@@ -1,68 +1,70 @@
 import UIKit
 
-// MARK: - properties & init
+private enum TabItem: Int, CaseIterable {
+    case profile
+    case memo
 
-final class TabBarController: UITabBarController {
-    private enum TabItem: Int, CaseIterable {
-        case profile
-        case memo
-        case debug
+    var rootViewController: UIViewController {
+        let rootViewController: UINavigationController
+        let title: String
+        let image: UIImage?
+
+        switch self {
+        case .profile:
+            rootViewController = .init(rootViewController: AppControllers.Profile.Detail())
+            title = L10n.Tab.profile
+            image = ImageResources.profile
+
+        case .memo:
+            rootViewController = .init(rootViewController: AppControllers.Memo.List())
+            title = L10n.Tab.memo
+            image = ImageResources.memo
+        }
+
+        rootViewController.tabBarItem = .init(
+            title: title,
+            image: image,
+            tag: rawValue
+        )
+
+        return rootViewController
+    }
+}
+
+#if DEBUG
+    private enum DebugTabItem: Int, CaseIterable {
+        case debug = 2
 
         var rootViewController: UIViewController {
-            let rootViewController: UINavigationController
+            let rootViewController = UINavigationController(
+                rootViewController: AppControllers.Debug.Development()
+            )
 
-            switch self {
-            case .profile:
-                rootViewController = .init(rootViewController: AppControllers.Profile.Detail())
-
-            case .memo:
-                rootViewController = .init(rootViewController: AppControllers.Memo.List())
-
-            case .debug:
-                rootViewController = .init(rootViewController: AppControllers.Debug.Development())
-            }
-
-            rootViewController.tabBarItem = tabBarItem
+            rootViewController.tabBarItem = .init(
+                title: L10n.Tab.debug,
+                image: ImageResources.debug,
+                tag: rawValue
+            )
 
             return rootViewController
         }
-
-        private var title: String {
-            switch self {
-            case .profile:
-                return L10n.Tab.profile
-
-            case .memo:
-                return L10n.Tab.memo
-
-            case .debug:
-                return L10n.Tab.debug
-            }
-        }
-
-        private var image: UIImage? {
-            switch self {
-            case .profile:
-                return ImageResources.profile
-
-            case .memo:
-                return ImageResources.memo
-
-            case .debug:
-                return ImageResources.debug
-            }
-        }
-
-        private var tabBarItem: UITabBarItem {
-            .init(title: title, image: image, tag: rawValue)
-        }
     }
+#endif
 
+// MARK: - properties & init
+
+final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        var viewControllers = TabItem.allCases.map(\.rootViewController)
+
+        #if DEBUG
+            viewControllers.append(contentsOf: DebugTabItem.allCases.map(\.rootViewController))
+        #endif
+
         setViewControllers(
-            TabItem.allCases.map(\.rootViewController),
+            viewControllers,
             animated: false
         )
     }
