@@ -32,7 +32,7 @@
         typealias Section = DebugProfileUpdateContentViewSection
         typealias Item = DebugProfileUpdateContentViewItem
 
-        var modelObject: [ProfileModelObject] = [] {
+        var modelObjects: [ProfileModelObject] = [] {
             didSet {
                 applySnapshot()
             }
@@ -184,7 +184,7 @@
                     guard
                         let self,
                         let selectedIndex = self.selectedIndex,
-                        let identifier = self.modelObject[safe: selectedIndex]?.identifier
+                        let identifier = self.modelObjects[safe: selectedIndex]?.identifier
                     else {
                         return
                     }
@@ -203,7 +203,7 @@
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             dataSourceSnapshot.appendSections(Section.allCases)
 
-            modelObject.forEach {
+            modelObjects.forEach {
                 dataSourceSnapshot.appendItems([.list($0)], toSection: .list)
             }
 

@@ -39,11 +39,11 @@
 
     private extension DebugProfileUpdateViewController {
         func bindToView() {
-            viewModel.output.$modelObject
+            viewModel.output.$modelObjects
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink { [weak self] modelObject in
-                    self?.contentView.modelObject = modelObject
+                .sink { [weak self] modelObjects in
+                    self?.contentView.modelObjects = modelObjects
                 }
                 .store(in: &cancellables)
         }

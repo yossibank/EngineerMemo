@@ -14,13 +14,14 @@
         }
 
         final class Output: OutputObject {
-            @Published fileprivate(set) var modelObject: [ProfileModelObject]?
+            @Published fileprivate(set) var modelObjects: [ProfileModelObject]?
         }
 
         let input: Input
         let output: Output
         let binding = NoBinding()
 
+        private var searchObject: [ProfileModelObject] = []
         private var cancellables: Set<AnyCancellable> = .init()
 
         private var modelObject = ProfileModelObjectBuilder()
@@ -54,8 +55,8 @@
             // MARK: - プロフィール情報取得
 
             model.gets {
-                if case let .success(modelObject) = $0 {
-                    output.modelObject = modelObject
+                if case let .success(modelObjects) = $0 {
+                    output.modelObjects = modelObjects
                 }
             }
 

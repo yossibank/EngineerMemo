@@ -67,10 +67,10 @@ final class ProfileModel: ProfileModelInput {
                     }
                 },
                 receiveValue: { [weak self] values in
-                    let modelObject = values.compactMap {
+                    let modelObjects = values.compactMap {
                         self?.profileConverter.convert($0)
                     }
-                    completion(.success(modelObject))
+                    completion(.success(modelObjects))
                 }
             )
             .store(in: &cancellables)
