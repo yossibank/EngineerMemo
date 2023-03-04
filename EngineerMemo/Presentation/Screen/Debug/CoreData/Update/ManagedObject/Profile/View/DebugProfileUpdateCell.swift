@@ -73,14 +73,7 @@
         )
 
         private let updateButton = UIButton(type: .system)
-            .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-            .modifier(\.layer.borderWidth, 1.0)
-            .modifier(\.layer.cornerRadius, 8)
-            .modifier(\.clipsToBounds, true)
-            .configure {
-                $0.setTitle(L10n.Components.Button.update, for: .normal)
-                $0.setTitleColor(.theme, for: .normal)
-            }
+            .apply(.debugUpdateButton)
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -127,7 +120,7 @@
 
     private extension DebugProfileUpdateCell {
         func setupView() {
-            contentView.backgroundColor = .primary
+            backgroundColor = .primary
             selectionStyle = .none
 
             contentView.addSubview(body) {

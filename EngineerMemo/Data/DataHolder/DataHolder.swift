@@ -5,8 +5,8 @@ enum DataHolder {
     static var someFile: [String]?
 
     @UserDefaultsStorage(
-        UserDefaultsKey.sample.rawValue,
+        .sample,
         defaultValue: .sample1
     )
-    static var sample: UserDefaultsEnum.Sample
+    static var sample: DataHolder.Sample
 }

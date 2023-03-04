@@ -22,8 +22,8 @@
         let output: Output
         let binding = NoBinding()
 
-        private var originalModelObjects: [ProfileModelObject] = []
         private var cancellables: Set<AnyCancellable> = .init()
+        private var originalModelObjects: [ProfileModelObject] = []
 
         private var modelObject = ProfileModelObjectBuilder()
             .address(DebugCoreDataSegment.defaultString)
@@ -138,7 +138,7 @@
                     } else {
                         output.modelObjects = self.originalModelObjects
                             .filter { $0.name != nil }
-                            .filter { $0.name!.lowercased().contains(searchText.lowercased()) }
+                            .filter { $0.name!.localizedStandardContains(searchText) }
                     }
                 }
                 .store(in: &cancellables)

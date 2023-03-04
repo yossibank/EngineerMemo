@@ -5,22 +5,21 @@
 // MARK: - コンポーネント
 
 "components.button.create" = "作成する";
-"components.button.createDone" = "作成完了";
 "components.button.edit" = "編集する";
 "components.button.update" = "更新する";
+"components.button.setting" = "設定する";
+"components.button.createDone" = "作成完了";
 "components.button.updateDone" = "更新完了";
 "components.button.updateProfile" = "プロフィール情報を更新する";
 "components.button.updateProfileDone" = "プロフィール更新完了✅";
 "components.button.saveProfile" = "プロフィール入力情報を保存する";
 "components.button.saveProfileDone" = "プロフィール作成完了✅";
-"components.button.setting" = "設定する";
 
 // MARK: - タブ
 
-"tab.debug" = "開発者用";
-"tab.home" = "ホーム";
-"tab.memo" = "メモ";
 "tab.profile" = "プロフィール";
+"tab.memo" = "メモ";
+"tab.debug" = "開発者用";
 
 // MARK: - ナビゲーション
 
@@ -32,6 +31,11 @@
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";
 "navigation.title.debugCoreDataCreate" = "CoreData作成";
 "navigation.title.debugCoreDataUpdate" = "CoreData更新";
+
+// MARK: - メモ
+
+"memo.title" = "タイトル";
+"memo.content" = "コンテンツ";
 
 // MARK: - プロフィール
 
@@ -63,7 +67,6 @@
 
 "fa.eventName.tapSampleList" = "サンプル一覧タップ";
 "fa.eventName.screenView" = "画面表示";
-
 "fa.parameter.screenId" = "スクリーンID";
 "fa.parameter.userId" = "ユーザーID";
 
@@ -73,6 +76,7 @@
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";
 "debug.coreData.profile" = "プロフィール";
+"debug.coreData.memo" = "メモ";
 "debug.development.shutdown" = "アプリ終了";
 "debug.device.name" = "端末名";
 "debug.device.udid" = "端末ID";
@@ -84,15 +88,17 @@
 "debug.section.git" = "Git";
 "debug.segment.address" = "address";
 "debug.segment.birthday" = "birthday";
+"debug.segment.content" = "content";
 "debug.segment.email" = "email";
 "debug.segment.gender" = "gender";
-"debug.segment.long" = "長め";
-"debug.segment.man" = "男性";
-"debug.segment.medium" = "普通";
 "debug.segment.name" = "name";
-"debug.segment.other" = "その他";
 "debug.segment.phoneNumber" = "phoneNumber";
 "debug.segment.station" = "station";
-"debug.segment.short" = "短め";
+"debug.segment.title" = "title";
 "debug.segment.tellNumber" = "携帯番号";
+"debug.segment.short" = "短め";
+"debug.segment.medium" = "普通";
+"debug.segment.long" = "長め";
+"debug.segment.man" = "男性";
 "debug.segment.woman" = "女性";
+"debug.segment.other" = "その他";

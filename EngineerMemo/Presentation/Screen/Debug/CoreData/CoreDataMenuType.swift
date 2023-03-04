@@ -3,7 +3,7 @@
 
     enum CoreDataMenuType: CaseIterable {
         case profile
-        case sample1
+        case memo
         case sample2
 
         var title: String {
@@ -11,8 +11,8 @@
             case .profile:
                 return L10n.Debug.CoreData.profile
 
-            case .sample1:
-                return "サンプル1"
+            case .memo:
+                return L10n.Debug.CoreData.memo
 
             case .sample2:
                 return "サンプル2"
@@ -24,10 +24,8 @@
             case .profile:
                 return AppControllers.Debug.CoreDataObject.List.Profile()
 
-            case .sample1:
-                let vc = UIViewController()
-                vc.view.backgroundColor = .blue
-                return vc
+            case .memo:
+                return AppControllers.Debug.CoreDataObject.List.Memo()
 
             case .sample2:
                 let vc = UIViewController()
@@ -41,10 +39,8 @@
             case .profile:
                 return AppControllers.Debug.CoreDataObject.Create.Profile()
 
-            case .sample1:
-                let vc = UIViewController()
-                vc.view.backgroundColor = .blue
-                return vc
+            case .memo:
+                return AppControllers.Debug.CoreDataObject.Create.Memo()
 
             case .sample2:
                 let vc = UIViewController()
@@ -58,10 +54,8 @@
             case .profile:
                 return AppControllers.Debug.CoreDataObject.Update.Profile()
 
-            case .sample1:
-                let vc = UIViewController()
-                vc.view.backgroundColor = .blue
-                return vc
+            case .memo:
+                return AppControllers.Debug.CoreDataObject.Update.Memo()
 
             case .sample2:
                 let vc = UIViewController()

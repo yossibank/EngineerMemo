@@ -20,9 +20,9 @@
 
         var string: String? {
             switch self {
-            case .short: return String.randomElement(5)
-            case .medium: return String.randomElement(15)
-            case .long: return String.randomElement(50)
+            case .short: return .randomElement(5)
+            case .medium: return .randomElement(15)
+            case .long: return .randomElement(50)
             case .none: return nil
             }
         }

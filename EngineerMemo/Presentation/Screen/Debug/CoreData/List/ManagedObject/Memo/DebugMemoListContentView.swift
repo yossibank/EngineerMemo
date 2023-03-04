@@ -6,24 +6,24 @@
 
     // MARK: - section & item
 
-    enum DebugProfileListContentViewSection: CaseIterable {
+    enum DebugMemoListContentViewSection: CaseIterable {
         case main
 
-        var cellType: ProfileBasicCell.Type {
-            ProfileBasicCell.self
+        var cellType: DebugMemoListCell.Type {
+            DebugMemoListCell.self
         }
     }
 
-    enum DebugProfileListContentViewItem: Hashable {
-        case main(ProfileModelObject)
+    enum DebugMemoListContentViewItem: Hashable {
+        case main(MemoModelObject)
     }
 
     // MARK: - properties & init
 
-    final class DebugProfileListContentView: UIView {
-        typealias Section = DebugProfileListContentViewSection
-        typealias Item = DebugProfileListContentViewItem
-        typealias DataSource = DebugProfileListDataSource
+    final class DebugMemoListContentView: UIView {
+        typealias Section = DebugMemoListContentViewSection
+        typealias Item = DebugMemoListContentViewItem
+        typealias DataSource = DebugMemoListDataSource
 
         private(set) lazy var didDeleteModelObjectPublisher = dataSource.didDeleteModelObjectPublisher
 
@@ -58,7 +58,7 @@
 
     // MARK: - private methods
 
-    private extension DebugProfileListContentView {
+    private extension DebugMemoListContentView {
         func setupTableView() {
             tableView.configure {
                 $0.registerCells(with: Section.allCases.map(\.cellType))
@@ -92,7 +92,7 @@
 
     // MARK: - protocol
 
-    extension DebugProfileListContentView: ContentView {
+    extension DebugMemoListContentView: ContentView {
         func setupView() {
             addSubview(tableView) {
                 $0.edges.equalToSuperview()
@@ -102,11 +102,11 @@
 
     // MARK: - preview
 
-    struct DebugProfileListContentViewPreview: PreviewProvider {
+    struct DebugMemoListContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugProfileListContentView()) {
+            WrapperView(view: DebugMemoListContentView()) {
                 $0.dataSource.modelObject = [
-                    ProfileModelObjectBuilder().build()
+                    MemoModelObjectBuilder().build()
                 ]
             }
         }

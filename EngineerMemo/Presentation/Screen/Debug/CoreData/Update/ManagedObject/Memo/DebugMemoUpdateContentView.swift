@@ -6,7 +6,7 @@
 
     // MARK: - section & item
 
-    enum DebugProfileUpdateContentViewSection: Int, CaseIterable {
+    enum DebugMemoUpdateContentViewSection: Int, CaseIterable {
         case list
         case update
 
@@ -16,35 +16,30 @@
                 return DebugUpdateListCell.self
 
             case .update:
-                return DebugProfileUpdateCell.self
+                return DebugMemoUpdateCell.self
             }
         }
     }
 
-    enum DebugProfileUpdateContentViewItem: Hashable {
-        case list(ProfileModelObject)
+    enum DebugMemoUpdateContentViewItem: Hashable {
+        case list(MemoModelObject)
         case update
     }
 
     // MARK: - properties & init
 
-    final class DebugProfileUpdateContentView: UIView {
-        typealias Section = DebugProfileUpdateContentViewSection
-        typealias Item = DebugProfileUpdateContentViewItem
+    final class DebugMemoUpdateContentView: UIView {
+        typealias Section = DebugMemoUpdateContentViewSection
+        typealias Item = DebugMemoUpdateContentViewItem
 
-        var modelObjects: [ProfileModelObject] = [] {
+        var modelObjects: [MemoModelObject] = [] {
             didSet {
                 applySnapshot()
             }
         }
 
-        private(set) lazy var addressControlPublisher = addressControlSubject.eraseToAnyPublisher()
-        private(set) lazy var birthdayControlPublisher = birthdayControlSubject.eraseToAnyPublisher()
-        private(set) lazy var emailControlPublisher = emailControlSubject.eraseToAnyPublisher()
-        private(set) lazy var genderControlPublisher = genderControlSubject.eraseToAnyPublisher()
-        private(set) lazy var nameControlPublisher = nameControlSubject.eraseToAnyPublisher()
-        private(set) lazy var phoneNumberControlPublisher = phoneNumberControlSubject.eraseToAnyPublisher()
-        private(set) lazy var stationControlPublisher = stationControlSubject.eraseToAnyPublisher()
+        private(set) lazy var titleControlPublisher = titleControlSubject.eraseToAnyPublisher()
+        private(set) lazy var contentControlPublisher = contentControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
 
@@ -69,13 +64,8 @@
             }
         }
 
-        private let addressControlSubject = PassthroughSubject<Int, Never>()
-        private let birthdayControlSubject = PassthroughSubject<Int, Never>()
-        private let emailControlSubject = PassthroughSubject<Int, Never>()
-        private let genderControlSubject = PassthroughSubject<Int, Never>()
-        private let nameControlSubject = PassthroughSubject<Int, Never>()
-        private let phoneNumberControlSubject = PassthroughSubject<Int, Never>()
-        private let stationControlSubject = PassthroughSubject<Int, Never>()
+        private let titleControlSubject = PassthroughSubject<Int, Never>()
+        private let contentControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSearchTextSubject = PassthroughSubject<String, Never>()
         private let didTapUpdateButtonSubject = PassthroughSubject<String, Never>()
 
@@ -98,7 +88,7 @@
 
     // MARK: - private methods
 
-    private extension DebugProfileUpdateContentView {
+    private extension DebugMemoUpdateContentView {
         func setupSearchBar() {
             searchBar.configure {
                 $0.enablesReturnKeyAutomatically = false
@@ -142,47 +132,22 @@
                     )
                 }
 
-                cell.configure(modelObject.name ?? .noSetting)
+                cell.configure(modelObject.title ?? .noSetting)
 
                 return cell
 
             case .update:
-                guard let cell = cell as? DebugProfileUpdateCell else {
+                guard let cell = cell as? DebugMemoUpdateCell else {
                     return .init()
                 }
 
-                cell.addressControlPublisher.sink { [weak self] value in
-                    self?.addressControlSubject.send(value)
+                cell.titleControlPublisher.sink { [weak self] value in
+                    self?.titleControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.birthdayControlPublisher.sink { [weak self] value in
-                    self?.birthdayControlSubject.send(value)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.emailControlPublisher.sink { [weak self] value in
-                    self?.emailControlSubject.send(value)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.genderControlPublisher.sink { [weak self] value in
-                    self?.genderControlSubject.send(value)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.nameControlPublisher.sink { [weak self] value in
-                    self?.nameControlSubject.send(value)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.phoneNumberControlPublisher.sink { [weak self] value in
-                    self?.phoneNumberControlSubject.send(value)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.stationControlPublisher.sink { [weak self] value in
-                    self?.stationControlSubject.send(value)
+                cell.contentControlPublisher.sink { [weak self] value in
+                    self?.contentControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
@@ -227,7 +192,7 @@
 
     // MARK: - delegate
 
-    extension DebugProfileUpdateContentView: UISearchBarDelegate {
+    extension DebugMemoUpdateContentView: UISearchBarDelegate {
         func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
             selectedIndex = nil
             tableView.reloadData()
@@ -252,7 +217,7 @@
         }
     }
 
-    extension DebugProfileUpdateContentView: UITableViewDelegate {
+    extension DebugMemoUpdateContentView: UITableViewDelegate {
         func tableView(
             _ tableView: UITableView,
             shouldHighlightRowAt indexPath: IndexPath
@@ -285,7 +250,7 @@
 
     // MARK: - protocol
 
-    extension DebugProfileUpdateContentView: ContentView {
+    extension DebugMemoUpdateContentView: ContentView {
         func setupView() {
             addSubview(searchBar) {
                 $0.top.leading.trailing.equalToSuperview()
@@ -301,10 +266,10 @@
 
     // MARK: - preview
 
-    struct DebugProfileUpdateContentViewPreview: PreviewProvider {
+    struct DebugMemoUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugProfileUpdateContentView()
+                view: DebugMemoUpdateContentView()
             )
         }
     }

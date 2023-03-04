@@ -7,8 +7,8 @@ enum AppControllers {
 
             vc.title = L10n.Navigation.Title.memoList
             vc.inject(
-                contentView: ContentViews.Memo.List(),
-                viewModel: ViewModels.Memo.List()
+                contentView: MemoListContentView(),
+                viewModel: MemoListViewModel(analytics: FirebaseAnalytics(screenId: .memoList))
             )
 
             return vc
@@ -22,8 +22,12 @@ enum AppControllers {
 
             vc.title = L10n.Navigation.Title.profileDetail
             vc.inject(
-                contentView: ContentViews.Profile.Detail(),
-                viewModel: ViewModels.Profile.Detail(routing: routing)
+                contentView: ProfileDetailContentView(),
+                viewModel: ProfileDetailViewModel(
+                    model: Models.Profile(),
+                    routing: routing,
+                    analytics: FirebaseAnalytics(screenId: .profileDetail)
+                )
             )
 
             return vc
@@ -36,17 +40,22 @@ enum AppControllers {
             case .setting:
                 vc.title = L10n.Navigation.Title.profileSetting
                 vc.inject(
-                    contentView: ContentViews.Profile.Update(),
-                    viewModel: ViewModels.Profile.Update(screenId: .profileSetting)
+                    contentView: ProfileUpdateContentView(modelObject: nil),
+                    viewModel: ProfileUpdateViewModel(
+                        model: Models.Profile(),
+                        modelObject: nil,
+                        analytics: FirebaseAnalytics(screenId: .profileSetting)
+                    )
                 )
 
             case let .update(modelObject):
                 vc.title = L10n.Navigation.Title.profileUpdate
                 vc.inject(
-                    contentView: ContentViews.Profile.Update(modelObject: modelObject),
-                    viewModel: ViewModels.Profile.Update(
+                    contentView: ProfileUpdateContentView(modelObject: modelObject),
+                    viewModel: ProfileUpdateViewModel(
+                        model: Models.Profile(),
                         modelObject: modelObject,
-                        screenId: .profileUpdate
+                        analytics: FirebaseAnalytics(screenId: .profileUpdate)
                     )
                 )
             }
@@ -63,8 +72,8 @@ enum AppControllers {
 
                 vc.title = L10n.Navigation.Title.debugDevelopment
                 vc.inject(
-                    contentView: ContentViews.Debug.Development(),
-                    viewModel: ViewModels.Debug.Development(routing: routing)
+                    contentView: DebugDevelopmentContentView(),
+                    viewModel: DebugDevelopmentViewModel(routing: routing)
                 )
 
                 return vc
@@ -74,21 +83,21 @@ enum AppControllers {
                 static func Create() -> DebugCoreDataCreateViewController {
                     let vc = DebugCoreDataCreateViewController()
                     vc.title = L10n.Navigation.Title.debugCoreDataCreate
-                    vc.inject(contentView: ContentViews.Debug.CoreData.Create())
+                    vc.inject(contentView: DebugCoreDataCreateContentView())
                     return vc
                 }
 
                 static func List() -> DebugCoreDataListViewController {
                     let vc = DebugCoreDataListViewController()
                     vc.title = L10n.Navigation.Title.debugCoreDataList
-                    vc.inject(contentView: ContentViews.Debug.CoreData.List())
+                    vc.inject(contentView: DebugCoreDataListContentView())
                     return vc
                 }
 
                 static func Update() -> DebugCoreDataUpdateViewController {
                     let vc = DebugCoreDataUpdateViewController()
                     vc.title = L10n.Navigation.Title.debugCoreDataUpdate
-                    vc.inject(contentView: ContentViews.Debug.CoreData.Update())
+                    vc.inject(contentView: DebugCoreDataUpdateContentView())
                     return vc
                 }
             }
@@ -99,8 +108,19 @@ enum AppControllers {
                         let vc = DebugProfileListViewController()
 
                         vc.inject(
-                            contentView: ContentViews.Debug.CoreDataObject.List.Profile(),
-                            viewModel: ViewModels.Debug.CoreDataObject.List.Profile()
+                            contentView: DebugProfileListContentView(),
+                            viewModel: DebugProfileListViewModel(model: Models.Profile())
+                        )
+
+                        return vc
+                    }
+
+                    static func Memo() -> DebugMemoListViewController {
+                        let vc = DebugMemoListViewController()
+
+                        vc.inject(
+                            contentView: DebugMemoListContentView(),
+                            viewModel: DebugMemoListViewModel(model: Models.Memo())
                         )
 
                         return vc
@@ -112,8 +132,19 @@ enum AppControllers {
                         let vc = DebugProfileCreateViewController()
 
                         vc.inject(
-                            contentView: ContentViews.Debug.CoreDataObject.Create.Profile(),
-                            viewModel: ViewModels.Debug.CoreDataObject.Create.Profile()
+                            contentView: DebugProfileCreateContentView(),
+                            viewModel: DebugProfileCreateViewModel(model: Models.Profile())
+                        )
+
+                        return vc
+                    }
+
+                    static func Memo() -> DebugMemoCreateViewController {
+                        let vc = DebugMemoCreateViewController()
+
+                        vc.inject(
+                            contentView: DebugMemoCreateContentView(),
+                            viewModel: DebugMemoCreateViewModel(model: Models.Memo())
                         )
 
                         return vc
@@ -125,8 +156,19 @@ enum AppControllers {
                         let vc = DebugProfileUpdateViewController()
 
                         vc.inject(
-                            contentView: ContentViews.Debug.CoreDataObject.Update.Profile(),
-                            viewModel: ViewModels.Debug.CoreDataObject.Update.Profile()
+                            contentView: DebugProfileUpdateContentView(),
+                            viewModel: DebugProfileUpdateViewModel(model: Models.Profile())
+                        )
+
+                        return vc
+                    }
+
+                    static func Memo() -> DebugMemoUpdateViewController {
+                        let vc = DebugMemoUpdateViewController()
+
+                        vc.inject(
+                            contentView: DebugMemoUpdateContentView(),
+                            viewModel: DebugMemoUpdateViewModel(model: Models.Memo())
                         )
 
                         return vc
