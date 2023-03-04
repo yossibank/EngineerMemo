@@ -37,4 +37,40 @@ final class MemoConverterTest: XCTestCase {
                 .build()
         )
     }
+
+    func test_titleがnilの際に未設定の文字列に変換されること() {
+        // arrange
+        let input = MemoDataObjectBuilder()
+            .title(nil)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            MemoModelObjectBuilder()
+                .title(.noSetting)
+                .build()
+        )
+    }
+
+    func test_contentがnilの際に未設定の文字列に変換されること() {
+        // arrange
+        let input = MemoDataObjectBuilder()
+            .content(nil)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            MemoModelObjectBuilder()
+                .content(.noSetting)
+                .build()
+        )
+    }
 }
