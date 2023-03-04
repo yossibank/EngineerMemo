@@ -57,14 +57,7 @@
         @Published private(set) var selectedType: DebugCoreDataMenuType = .profile
 
         private let menuButton = UIButton(type: .system)
-            .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-            .modifier(\.layer.borderWidth, 1.0)
-            .modifier(\.layer.cornerRadius, 8)
-            .modifier(\.clipsToBounds, true)
-            .configure {
-                $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-                $0.setTitleColor(.theme, for: .normal)
-            }
+            .apply(.debugMenuButton)
 
         override init(frame: CGRect) {
             super.init(frame: frame)
