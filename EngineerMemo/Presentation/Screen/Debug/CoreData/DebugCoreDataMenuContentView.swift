@@ -4,9 +4,56 @@
     import UIKit
     import UIKitHelper
 
+    // MARK: - menu type
+
+    enum DebugCoreDataMenuType: CaseIterable {
+        case profile
+        case memo
+
+        var title: String {
+            switch self {
+            case .profile:
+                return L10n.Debug.CoreData.profile
+
+            case .memo:
+                return L10n.Debug.CoreData.memo
+            }
+        }
+
+        var listViewController: UIViewController {
+            switch self {
+            case .profile:
+                return AppControllers.Debug.CoreDataObject.List.Profile()
+
+            case .memo:
+                return AppControllers.Debug.CoreDataObject.List.Memo()
+            }
+        }
+
+        var createViewController: UIViewController {
+            switch self {
+            case .profile:
+                return AppControllers.Debug.CoreDataObject.Create.Profile()
+
+            case .memo:
+                return AppControllers.Debug.CoreDataObject.Create.Memo()
+            }
+        }
+
+        var updateViewController: UIViewController {
+            switch self {
+            case .profile:
+                return AppControllers.Debug.CoreDataObject.Update.Profile()
+
+            case .memo:
+                return AppControllers.Debug.CoreDataObject.Update.Memo()
+            }
+        }
+    }
+
     // MARK: - properties & init
 
-    final class DebugCoreDataUpdateContentView: UIView {
+    final class DebugCoreDataMenuContentView: UIView {
         @Published private(set) var selectedType: DebugCoreDataMenuType = .profile
 
         private let menuButton = UIButton(type: .system)
@@ -42,9 +89,23 @@
 
     // MARK: - internal methods
 
-    extension DebugCoreDataUpdateContentView {
-        func viewUpdate(vc: UIViewController) {
-            let containerViewController = selectedType.updateViewController
+    extension DebugCoreDataMenuContentView {
+        func viewUpdate(
+            vc: UIViewController,
+            displayType: DebugCoreDataDisplayType
+        ) {
+            let containerViewController: UIViewController = {
+                switch displayType {
+                case .list:
+                    return selectedType.listViewController
+
+                case .create:
+                    return selectedType.createViewController
+
+                case .update:
+                    return selectedType.updateViewController
+                }
+            }()
 
             vc.removeFirstChild()
             vc.addSubviewController(containerViewController)
@@ -58,7 +119,7 @@
 
     // MARK: - private methods
 
-    private extension DebugCoreDataUpdateContentView {
+    private extension DebugCoreDataMenuContentView {
         func setupMenu() {
             var actions = [UIMenuElement]()
 
@@ -89,7 +150,7 @@
 
     // MARK: - protocol
 
-    extension DebugCoreDataUpdateContentView: ContentView {
+    extension DebugCoreDataMenuContentView: ContentView {
         func setupView() {
             backgroundColor = .primary
 
@@ -104,10 +165,10 @@
 
     // MARK: - preview
 
-    struct DebugCoreDataUpdateContentViewPreview: PreviewProvider {
+    struct DebugCoreDataMenuContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(
-                view: DebugCoreDataUpdateContentView()
+                view: DebugCoreDataMenuContentView()
             )
         }
     }

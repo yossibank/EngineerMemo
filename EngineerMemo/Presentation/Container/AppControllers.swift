@@ -80,24 +80,24 @@ enum AppControllers {
             }
 
             enum CoreData {
-                static func Create() -> DebugCoreDataCreateViewController {
-                    let vc = DebugCoreDataCreateViewController()
-                    vc.title = L10n.Navigation.Title.debugCoreDataCreate
-                    vc.inject(contentView: DebugCoreDataCreateContentView())
-                    return vc
-                }
-
-                static func List() -> DebugCoreDataListViewController {
-                    let vc = DebugCoreDataListViewController()
+                static func List() -> DebugCoreDataMenuViewController {
+                    let vc = DebugCoreDataMenuViewController(displayType: .list)
                     vc.title = L10n.Navigation.Title.debugCoreDataList
-                    vc.inject(contentView: DebugCoreDataListContentView())
+                    vc.inject(contentView: DebugCoreDataMenuContentView())
                     return vc
                 }
 
-                static func Update() -> DebugCoreDataUpdateViewController {
-                    let vc = DebugCoreDataUpdateViewController()
+                static func Create() -> DebugCoreDataMenuViewController {
+                    let vc = DebugCoreDataMenuViewController(displayType: .create)
+                    vc.title = L10n.Navigation.Title.debugCoreDataCreate
+                    vc.inject(contentView: DebugCoreDataMenuContentView())
+                    return vc
+                }
+
+                static func Update() -> DebugCoreDataMenuViewController {
+                    let vc = DebugCoreDataMenuViewController(displayType: .update)
                     vc.title = L10n.Navigation.Title.debugCoreDataUpdate
-                    vc.inject(contentView: DebugCoreDataUpdateContentView())
+                    vc.inject(contentView: DebugCoreDataMenuContentView())
                     return vc
                 }
             }
