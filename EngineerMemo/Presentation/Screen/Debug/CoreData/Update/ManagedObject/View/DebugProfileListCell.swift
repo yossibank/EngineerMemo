@@ -6,12 +6,11 @@
 
     // MARK: - properties & init
 
-    final class DebugProfileListCell: UITableViewCell {
+    final class DebugUpdateListCell: UITableViewCell {
         private var body: UIView {
             VStackView {
                 titleLabel
             }
-            .modifier(\.backgroundColor, .primary)
         }
 
         private let titleLabel = UILabel()
@@ -47,7 +46,7 @@
 
     // MARK: - internal methods
 
-    extension DebugProfileListCell {
+    extension DebugUpdateListCell {
         func configure(_ title: String) {
             titleLabel.text = title
         }
@@ -55,7 +54,7 @@
 
     // MARK: - private methods
 
-    private extension DebugProfileListCell {
+    private extension DebugUpdateListCell {
         func setupView() {
             backgroundColor = .primary
             separatorInset = .zero
@@ -70,9 +69,11 @@
 
     // MARK: - preview
 
-    struct DebugProfileListCellPreview: PreviewProvider {
+    struct DebugUpdateListCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugProfileListCell())
+            WrapperView(view: DebugUpdateListCell()) {
+                $0.configure("title")
+            }
         }
     }
 #endif

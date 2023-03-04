@@ -162,6 +162,17 @@ enum AppControllers {
 
                         return vc
                     }
+
+                    static func Memo() -> DebugMemoUpdateViewController {
+                        let vc = DebugMemoUpdateViewController()
+
+                        vc.inject(
+                            contentView: DebugMemoUpdateContentView(),
+                            viewModel: DebugMemoUpdateViewModel(model: Models.Memo())
+                        )
+
+                        return vc
+                    }
                 }
             }
         }
