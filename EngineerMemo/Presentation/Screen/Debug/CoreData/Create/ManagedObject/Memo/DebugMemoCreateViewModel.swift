@@ -12,14 +12,14 @@
         let output = NoOutput()
         let binding = NoBinding()
 
-        private let model: MemoModelInput
-
         private var cancellables: Set<AnyCancellable> = .init()
 
         private var modelObject = MemoModelObjectBuilder()
             .title(DebugCoreDataSegment.defaultString)
             .content(DebugCoreDataSegment.defaultString)
             .build()
+
+        private let model: MemoModelInput
 
         init(model: MemoModelInput) {
             let input = Input()

@@ -25,9 +25,7 @@
                 return AppControllers.Debug.CoreDataObject.List.Profile()
 
             case .memo:
-                let vc = UIViewController()
-                vc.view.backgroundColor = .blue
-                return vc
+                return AppControllers.Debug.CoreDataObject.List.Memo()
 
             case .sample2:
                 let vc = UIViewController()

@@ -32,6 +32,11 @@
 "navigation.title.debugCoreDataCreate" = "CoreData作成";
 "navigation.title.debugCoreDataUpdate" = "CoreData更新";
 
+// MARK: - メモ
+
+"memo.title" = "タイトル";
+"memo.content" = "コンテンツ";
+
 // MARK: - プロフィール
 
 "profile.address" = "住所";

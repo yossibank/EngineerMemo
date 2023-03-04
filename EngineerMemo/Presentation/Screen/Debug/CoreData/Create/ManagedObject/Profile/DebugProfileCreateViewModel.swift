@@ -17,8 +17,6 @@
         let output = NoOutput()
         let binding = NoBinding()
 
-        private let model: ProfileModelInput
-
         private var cancellables: Set<AnyCancellable> = .init()
 
         private var modelObject = ProfileModelObjectBuilder()
@@ -30,6 +28,8 @@
             .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)
             .build()
+
+        private let model: ProfileModelInput
 
         init(model: ProfileModelInput) {
             let input = Input()

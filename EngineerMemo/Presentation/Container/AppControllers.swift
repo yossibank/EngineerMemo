@@ -114,26 +114,37 @@ enum AppControllers {
 
                         return vc
                     }
-                }
 
-                enum Create {
-                    static func Memo() -> DebugMemoCreateViewController {
-                        let vc = DebugMemoCreateViewController()
-                        
+                    static func Memo() -> DebugMemoListViewController {
+                        let vc = DebugMemoListViewController()
+
                         vc.inject(
-                            contentView: DebugMemoCreateContentView(),
-                            viewModel: DebugMemoCreateViewModel(model: Models.Memo())
+                            contentView: DebugMemoListContentView(),
+                            viewModel: DebugMemoListViewModel(model: Models.Memo())
                         )
 
                         return vc
                     }
-                    
+                }
+
+                enum Create {
                     static func Profile() -> DebugProfileCreateViewController {
                         let vc = DebugProfileCreateViewController()
 
                         vc.inject(
                             contentView: DebugProfileCreateContentView(),
                             viewModel: DebugProfileCreateViewModel(model: Models.Profile())
+                        )
+
+                        return vc
+                    }
+
+                    static func Memo() -> DebugMemoCreateViewController {
+                        let vc = DebugMemoCreateViewController()
+
+                        vc.inject(
+                            contentView: DebugMemoCreateContentView(),
+                            viewModel: DebugMemoCreateViewModel(model: Models.Memo())
                         )
 
                         return vc
