@@ -1,7 +1,7 @@
 #if DEBUG
     import UIKit
 
-    enum CoreDataMenuType: CaseIterable {
+    enum DebugCoreDataMenuType: CaseIterable {
         case profile
         case memo
         case sample2

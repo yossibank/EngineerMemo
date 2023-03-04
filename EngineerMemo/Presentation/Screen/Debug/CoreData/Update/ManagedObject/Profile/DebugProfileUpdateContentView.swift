@@ -195,8 +195,6 @@
                         return
                     }
 
-                    cell.updateView()
-
                     self.didTapUpdateButtonSubject.send(identifier)
                     self.searchBar.text = nil
                 }

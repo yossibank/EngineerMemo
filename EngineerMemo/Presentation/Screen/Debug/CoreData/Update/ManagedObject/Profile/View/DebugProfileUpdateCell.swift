@@ -16,32 +16,22 @@
         private(set) lazy var nameControlPublisher = nameControl.segmentIndexPublisher
         private(set) lazy var phoneNumberControlPublisher = phoneNumberControl.segmentIndexPublisher
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
-        private(set) lazy var didTapUpdateButtonPublisher = updateButton.publisher(for: .touchUpInside)
+        private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
-        private var body: UIView {
-            VStackView(spacing: 12) {
-                addressControl
-                birthdayControl
-                emailControl
-                genderControl
-                nameControl
-                phoneNumberControl
-                stationControl
-                buttonView
-            }
+        private lazy var body = DebugCoreDataSegmentContentView()
             .configure {
-                $0.setCustomSpacing(32, after: stationControl)
-            }
-        }
-
-        private lazy var buttonView = UIView()
-            .addSubview(updateButton) {
-                $0.centerX.equalToSuperview()
-                $0.width.equalTo(160)
-                $0.height.equalTo(48)
-            }
-            .addConstraint {
-                $0.height.equalTo(48)
+                $0.setupContentView(
+                    view: VStackView(spacing: 12) {
+                        addressControl
+                        birthdayControl
+                        emailControl
+                        genderControl
+                        nameControl
+                        phoneNumberControl
+                        stationControl
+                    },
+                    type: .update
+                )
             }
 
         private let addressControl = DebugCoreDataSegmentView(
@@ -72,9 +62,6 @@
             title: L10n.Debug.Segment.station
         )
 
-        private let updateButton = UIButton(type: .system)
-            .apply(.debugUpdateButton)
-
         override init(
             style: UITableViewCell.CellStyle,
             reuseIdentifier: String?
@@ -95,24 +82,6 @@
             super.prepareForReuse()
 
             cancellables.removeAll()
-        }
-    }
-
-    // MARK: - internal methods
-
-    extension DebugProfileUpdateCell {
-        func updateView() {
-            updateButton.setTitle(
-                L10n.Components.Button.updateDone,
-                for: .normal
-            )
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.updateButton.setTitle(
-                    L10n.Components.Button.update,
-                    for: .normal
-                )
-            }
         }
     }
 

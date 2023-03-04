@@ -7,7 +7,7 @@
     // MARK: - properties & init
 
     final class DebugCoreDataUpdateContentView: UIView {
-        @Published private(set) var selectedType: CoreDataMenuType = .profile
+        @Published private(set) var selectedType: DebugCoreDataMenuType = .profile
 
         private let menuButton = UIButton(type: .system)
             .modifier(\.layer.borderColor, UIColor.theme.cgColor)
@@ -62,7 +62,7 @@
         func setupMenu() {
             var actions = [UIMenuElement]()
 
-            CoreDataMenuType.allCases.forEach { type in
+            DebugCoreDataMenuType.allCases.forEach { type in
                 actions.append(
                     UIAction(
                         title: type.title,
