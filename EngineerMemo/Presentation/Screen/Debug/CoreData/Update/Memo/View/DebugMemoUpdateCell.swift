@@ -11,27 +11,17 @@
 
         private(set) lazy var titleControlPublisher = titleControl.segmentIndexPublisher
         private(set) lazy var contentControlPublisher = contentControl.segmentIndexPublisher
-        private(set) lazy var didTapUpdateButtonPublisher = updateButton.publisher(for: .touchUpInside)
+        private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
-        private var body: UIView {
-            VStackView(spacing: 12) {
-                titleControl
-                contentControl
-                buttonView
-            }
+        private lazy var body = DebugCoreDataSegmentContentView()
             .configure {
-                $0.setCustomSpacing(32, after: contentControl)
-            }
-        }
-
-        private lazy var buttonView = UIView()
-            .addSubview(updateButton) {
-                $0.centerX.equalToSuperview()
-                $0.width.equalTo(160)
-                $0.height.equalTo(48)
-            }
-            .addConstraint {
-                $0.height.equalTo(48)
+                $0.setupContentView(
+                    view: VStackView(spacing: 12) {
+                        titleControl
+                        contentControl
+                    },
+                    type: .update
+                )
             }
 
         private let titleControl = DebugCoreDataSegmentView(
@@ -41,9 +31,6 @@
         private let contentControl = DebugCoreDataSegmentView(
             title: L10n.Debug.Segment.content
         )
-
-        private let updateButton = UIButton(type: .system)
-            .apply(.debugUpdateButton)
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -65,24 +52,6 @@
             super.prepareForReuse()
 
             cancellables.removeAll()
-        }
-    }
-
-    // MARK: - internal methods
-
-    extension DebugMemoUpdateCell {
-        func updateView() {
-            updateButton.setTitle(
-                L10n.Components.Button.updateDone,
-                for: .normal
-            )
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.updateButton.setTitle(
-                    L10n.Components.Button.update,
-                    for: .normal
-                )
-            }
         }
     }
 
