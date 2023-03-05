@@ -89,6 +89,7 @@
 "debug.coreData.profile" = "プロフィール";
 "debug.coreData.memo" = "メモ";
 "debug.userDefaults.status" = "状態";
+"debug.userDefaults.value" = "保存値";
 "debug.segment.address" = "address";
 "debug.segment.birthday" = "birthday";
 "debug.segment.content" = "content";

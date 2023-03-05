@@ -7,6 +7,10 @@ protocol UserDefaultsCompatible {
 }
 
 extension UserDefaultsCompatible where Self: RawRepresentable {
+    var description: String {
+        String(describing: self)
+    }
+
     init?(userDefaultsObject: Any) {
         guard
             let rawValue = userDefaultsObject as? Self.RawValue,
