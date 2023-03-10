@@ -5,8 +5,8 @@
 
     // MARK: - properties & init
 
-    final class DebugUserDefaultsEnumView: UIView {
-        private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
+    final class DebugUserDefaultsTextView: UIView {
+        private(set) lazy var didChangeTextPublisher = inputTextField.textDidChangePublisher
 
         private var body: UIView {
             VStackView(spacing: 32) {
@@ -20,13 +20,14 @@
                         .modifier(\.numberOfLines, 0)
                 }
 
-                segmentControl
+                inputTextField
+                    .modifier(\.textAlignment, .center)
             }
         }
 
         private let titleLabel = UILabel()
         private let descriptionLabel = UILabel()
-        private let segmentControl = UISegmentedControl()
+        private let inputTextField = UnderlinedTextField(color: .darkGray)
 
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -42,22 +43,7 @@
 
     // MARK: - internal methods
 
-    extension DebugUserDefaultsEnumView {
-        func updateSegment(
-            items: [String],
-            index: Int
-        ) {
-            items.enumerated().forEach {
-                segmentControl.insertSegment(
-                    withTitle: $1,
-                    at: $0,
-                    animated: false
-                )
-            }
-
-            segmentControl.selectedSegmentIndex = index
-        }
-
+    extension DebugUserDefaultsTextView {
         func updateDescription(_ description: String) {
             descriptionLabel.text = description
         }
@@ -65,7 +51,7 @@
 
     // MARK: - private methods
 
-    private extension DebugUserDefaultsEnumView {
+    private extension DebugUserDefaultsTextView {
         func setupView() {
             addSubview(body) {
                 $0.edges.equalToSuperview().inset(16)
@@ -81,14 +67,10 @@
 
     // MARK: - preview
 
-    struct DebugUserDefaultsEnumViewPreview: PreviewProvider {
+    struct DebugUserDefaultsTextViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugUserDefaultsEnumView()) {
-                $0.updateSegment(
-                    items: DataHolder.Sample.allCases.map(\.description),
-                    index: DataHolder.sample.rawValue
-                )
-                $0.updateDescription(DataHolder.sample.description)
+            WrapperView(view: DebugUserDefaultsTextView()) {
+                $0.updateDescription("UserDefaults保存値")
             }
             .frame(height: 200)
         }

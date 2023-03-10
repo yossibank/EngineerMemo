@@ -80,8 +80,8 @@
         typealias Section = DebugDevelopmentContentViewSection
         typealias Item = DebugDevelopmentContentViewItem
 
-        lazy var didSelectCoreDataPublisher = didSelectCoreDataSubject.eraseToAnyPublisher()
-        lazy var didSelectUserDefaultsPublisher = didSelectUserDefaultsSubject.eraseToAnyPublisher()
+        lazy var didTapCoreDataCellPublisher = didTapCoreDataCellSubject.eraseToAnyPublisher()
+        lazy var didTapUserDefaultsCellPublisher = didTapUserDefaultsCellSubject.eraseToAnyPublisher()
 
         private lazy var dataSource = UITableViewDiffableDataSource<
             Section,
@@ -98,8 +98,8 @@
             )
         }
 
-        private let didSelectCoreDataSubject = PassthroughSubject<DebugCoreDataAction, Never>()
-        private let didSelectUserDefaultsSubject = PassthroughSubject<Void, Never>()
+        private let didTapCoreDataCellSubject = PassthroughSubject<DebugCoreDataAction, Never>()
+        private let didTapUserDefaultsCellSubject = PassthroughSubject<Void, Never>()
 
         private let tableView = UITableView()
 
@@ -238,10 +238,10 @@
 
             case .coreData:
                 let action = DebugCoreDataAction.allCases[indexPath.row]
-                didSelectCoreDataSubject.send(action)
+                didTapCoreDataCellSubject.send(action)
 
             case .userDefaults:
-                didSelectUserDefaultsSubject.send(())
+                didTapUserDefaultsCellSubject.send(())
 
             default:
                 break

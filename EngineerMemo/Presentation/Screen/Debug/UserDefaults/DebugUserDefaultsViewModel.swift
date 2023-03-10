@@ -3,8 +3,9 @@
 
     final class DebugUserDefaultsViewModel: ViewModel {
         final class Input: InputObject {
-            let selectedTypeChanged = PassthroughSubject<DebugUserDefaultsMenuType, Never>()
-            let segmentControlChanged = PassthroughSubject<Int, Never>()
+            let didChangeUserDefaultsKey = PassthroughSubject<UserDefaultsKey, Never>()
+            let didChangeSegmentIndex = PassthroughSubject<Int, Never>()
+            let didChangeInputText = PassthroughSubject<String, Never>()
         }
 
         final class Output: OutputObject {
@@ -28,10 +29,10 @@
 
             // MARK: - セグメント変更
 
-            input.segmentControlChanged
-                .withLatestFrom(input.selectedTypeChanged) { ($0, $1) }
-                .sink { [weak self] index, menuType in
-                    switch menuType {
+            input.didChangeSegmentIndex
+                .withLatestFrom(input.didChangeUserDefaultsKey) { ($0, $1) }
+                .sink { [weak self] index, key in
+                    switch key {
                     case .sample:
                         self?.model.updateSample(.init(rawValue: index)!)
                         self?.output.description = DataHolder.sample.description
@@ -39,6 +40,25 @@
                     case .test:
                         self?.model.updateTest(.init(rawValue: index)!)
                         self?.output.description = DataHolder.test.description
+
+                    default:
+                        break
+                    }
+                }
+                .store(in: &cancellables)
+
+            // MARK: - テキストフィールド文字変更
+
+            input.didChangeInputText
+                .withLatestFrom(input.didChangeUserDefaultsKey) { ($0, $1) }
+                .sink { [weak self] text, key in
+                    switch key {
+                    case .textField:
+                        self?.model.updateTextField(text)
+                        self?.output.description = DataHolder.textField.description
+
+                    default:
+                        break
                     }
                 }
                 .store(in: &cancellables)

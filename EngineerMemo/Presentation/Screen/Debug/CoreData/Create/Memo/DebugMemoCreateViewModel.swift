@@ -3,9 +3,9 @@
 
     final class DebugMemoCreateViewModel: ViewModel {
         final class Input: InputObject {
-            let titleControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let contentControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let createButtonTapped = PassthroughSubject<Void, Never>()
+            let didChangeTitleControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeContentControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didTapCreateButton = PassthroughSubject<Void, Never>()
         }
 
         let input: Input
@@ -29,7 +29,7 @@
 
             // MARK: - タイトルセグメント
 
-            input.titleControlChanged
+            input.didChangeTitleControl
                 .sink { [weak self] segment in
                     self?.modelObject.title = segment.string
                 }
@@ -37,7 +37,7 @@
 
             // MARK: - コンテンツセグメント
 
-            input.contentControlChanged
+            input.didChangeContentControl
                 .sink { [weak self] segment in
                     self?.modelObject.content = segment.string
                 }
@@ -45,7 +45,7 @@
 
             // MARK: - 作成ボタンタップ
 
-            input.createButtonTapped
+            input.didTapCreateButton
                 .sink { [weak self] in
                     guard let self else {
                         return

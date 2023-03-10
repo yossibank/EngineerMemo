@@ -4,8 +4,8 @@ final class ProfileDetailViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
-        let editButtonTapped = PassthroughSubject<ProfileModelObject, Never>()
-        let settingButtonTapped = PassthroughSubject<Void, Never>()
+        let didTapEditButton = PassthroughSubject<ProfileModelObject, Never>()
+        let didTapSettingButton = PassthroughSubject<Void, Never>()
     }
 
     final class Output: OutputObject {
@@ -63,7 +63,7 @@ final class ProfileDetailViewModel: ViewModel {
 
         // MARK: - 編集ボタンタップ
 
-        input.editButtonTapped
+        input.didTapEditButton
             .sink { modelObject in
                 routing.showUpdateScreen(type: .update(modelObject))
             }
@@ -71,7 +71,7 @@ final class ProfileDetailViewModel: ViewModel {
 
         // MARK: - 設定ボタンタップ
 
-        input.settingButtonTapped
+        input.didTapSettingButton
             .sink { _ in
                 routing.showUpdateScreen(type: .setting)
             }

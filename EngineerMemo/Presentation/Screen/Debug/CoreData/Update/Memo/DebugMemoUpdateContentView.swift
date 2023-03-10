@@ -38,8 +38,8 @@
             }
         }
 
-        private(set) lazy var titleControlPublisher = titleControlSubject.eraseToAnyPublisher()
-        private(set) lazy var contentControlPublisher = contentControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeTitleControlPublisher = didChangeTitleControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeContentControlPublisher = didChangeContentControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
 
@@ -64,8 +64,8 @@
             }
         }
 
-        private let titleControlSubject = PassthroughSubject<Int, Never>()
-        private let contentControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeTitleControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeContentControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSearchTextSubject = PassthroughSubject<String, Never>()
         private let didTapUpdateButtonSubject = PassthroughSubject<String, Never>()
 
@@ -142,12 +142,12 @@
                 }
 
                 cell.titleControlPublisher.sink { [weak self] value in
-                    self?.titleControlSubject.send(value)
+                    self?.didChangeTitleControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.contentControlPublisher.sink { [weak self] value in
-                    self?.contentControlSubject.send(value)
+                    self?.didChangeContentControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 

@@ -49,18 +49,26 @@
         }
 
         func bindToViewModel() {
-            contentView.$selectedType
+            contentView.$selectedKey
                 .removeDuplicates()
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] menuType in
-                    self?.viewModel.input.selectedTypeChanged.send(menuType)
+                .sink { [weak self] key in
+                    self?.viewModel.input.didChangeUserDefaultsKey.send(key)
                 }
                 .store(in: &cancellables)
 
-            contentView.selectedIndexPublisher
+            contentView.didChangeSegmentIndexPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] index in
-                    self?.viewModel.input.segmentControlChanged.send(index)
+                    self?.viewModel.input.didChangeSegmentIndex.send(index)
+                }
+                .store(in: &cancellables)
+
+            contentView.didChangeInputTextPublisher
+                .removeDuplicates()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] text in
+                    self?.viewModel.input.didChangeInputText.send(text)
                 }
                 .store(in: &cancellables)
         }

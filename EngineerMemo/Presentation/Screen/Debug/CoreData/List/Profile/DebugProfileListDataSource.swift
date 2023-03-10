@@ -17,9 +17,9 @@
             }
         }
 
-        private(set) lazy var didDeleteModelObjectPublisher = didDeleteModelObjectSubject.eraseToAnyPublisher()
+        private(set) lazy var didDeletedModelObjectPublisher = didDeletedModelObjectSubject.eraseToAnyPublisher()
 
-        private let didDeleteModelObjectSubject = PassthroughSubject<ProfileModelObject, Never>()
+        private let didDeletedModelObjectSubject = PassthroughSubject<ProfileModelObject, Never>()
 
         override func tableView(
             _ tableView: UITableView,
@@ -38,7 +38,7 @@
             }
 
             if editingStyle == .delete {
-                didDeleteModelObjectSubject.send(modelObject[indexPath.row])
+                didDeletedModelObjectSubject.send(modelObject[indexPath.row])
                 var snapshot = snapshot()
                 snapshot.deleteItems([item])
                 apply(snapshot, animatingDifferences: true)

@@ -38,17 +38,17 @@
 
     private extension DebugDevelopmentViewController {
         func bindToViewModel() {
-            contentView.didSelectCoreDataPublisher
+            contentView.didTapCoreDataCellPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] action in
-                    self?.viewModel.input.coreDataTapped.send(action)
+                    self?.viewModel.input.didTapCoreDataCell.send(action)
                 }
                 .store(in: &cancellables)
 
-            contentView.didSelectUserDefaultsPublisher
+            contentView.didTapUserDefaultsCellPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.viewModel.input.userDefaultsTapped.send(())
+                    self?.viewModel.input.didTapUserDefaultsCell.send(())
                 }
                 .store(in: &cancellables)
         }

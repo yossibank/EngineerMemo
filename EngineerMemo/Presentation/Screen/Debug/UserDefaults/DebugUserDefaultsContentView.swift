@@ -6,28 +6,50 @@
 
     // MARK: - menu type
 
-    enum DebugUserDefaultsMenuType: String, CaseIterable {
-        case sample
-        case test
+    extension UserDefaultsKey {
+        enum DebugViewType {
+            case dataHolderEnum(DataHolderEnumStructure)
+            case textField(TextFieldStructure)
 
-        var items: [String] {
-            switch self {
-            case .sample: return DataHolder.Sample.allCases.map(\.description)
-            case .test: return DataHolder.Test.allCases.map(\.description)
+            struct DataHolderEnumStructure {
+                let items: [String]
+                let index: Int
+                let description: String
+            }
+
+            struct TextFieldStructure {
+                let description: String
             }
         }
 
-        var index: Int {
+        var debugViewType: DebugViewType {
             switch self {
-            case .sample: return DataHolder.sample.rawValue
-            case .test: return DataHolder.test.rawValue
-            }
-        }
+            case .sample:
+                return .dataHolderEnum(
+                    .init(
+                        items: DataHolder.Sample.allCases.map(\.description),
+                        index: DataHolder.sample.rawValue,
+                        description: DataHolder.sample.description
+                    )
+                )
 
-        var description: String {
-            switch self {
-            case .sample: return DataHolder.sample.description
-            case .test: return DataHolder.test.description
+            case .test:
+                return .dataHolderEnum(
+                    .init(
+                        items: DataHolder.Test.allCases.map(\.description),
+                        index: DataHolder.test.rawValue,
+                        description: DataHolder.test.description
+                    )
+                )
+
+            case .textField:
+                return .textField(
+                    .init(
+                        description: DataHolder.textField.isEmpty
+                            ? .noSetting
+                            : DataHolder.textField
+                    )
+                )
             }
         }
     }
@@ -35,9 +57,10 @@
     // MARK: - properties & init
 
     final class DebugUserDefaultsContentView: UIView {
-        private(set) lazy var selectedIndexPublisher = selectedIndexSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeSegmentIndexPublisher = didChangeSegmentIndexSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeInputTextPublisher = didChangeInputTextSubject.eraseToAnyPublisher()
 
-        @Published private(set) var selectedType: DebugUserDefaultsMenuType = .sample
+        @Published private(set) var selectedKey: UserDefaultsKey = .sample
 
         private var cancellables: Set<AnyCancellable> = .init()
 
@@ -50,14 +73,15 @@
 
         private let contentView = UIView()
 
-        private let selectedIndexSubject = PassthroughSubject<Int, Never>()
+        private let didChangeSegmentIndexSubject = PassthroughSubject<Int, Never>()
+        private let didChangeInputTextSubject = PassthroughSubject<String, Never>()
 
         override init(frame: CGRect) {
             super.init(frame: frame)
 
             setupView()
             setupMenu()
-            setupContentView(menuType: .sample)
+            setupContentView(key: .sample)
             setupEvent()
         }
 
@@ -79,11 +103,15 @@
 
     extension DebugUserDefaultsContentView {
         func updateEnumView(description: String) {
-            guard let userDefaultsEnumView = contentView.subviews.first as? DebugUserDefaultsEnumView else {
+            if let userDefaultsEnumView = contentView.subviews.first as? DebugUserDefaultsEnumView {
+                userDefaultsEnumView.updateDescription(description)
                 return
             }
 
-            userDefaultsEnumView.updateDescription(description)
+            if let userDefaultsTextView = contentView.subviews.first as? DebugUserDefaultsTextView {
+                userDefaultsTextView.updateDescription(description)
+                return
+            }
         }
     }
 
@@ -93,13 +121,13 @@
         func setupMenu() {
             var actions = [UIMenuElement]()
 
-            DebugUserDefaultsMenuType.allCases.forEach { type in
+            UserDefaultsKey.allCases.forEach { key in
                 actions.append(
                     UIAction(
-                        title: type.rawValue,
-                        state: type == selectedType ? .on : .off,
+                        title: key.rawValue,
+                        state: key == selectedKey ? .on : .off,
                         handler: { [weak self] _ in
-                            self?.selectedType = type
+                            self?.selectedKey = key
                             self?.setupMenu()
                         }
                     )
@@ -112,38 +140,55 @@
                     options: .displayInline,
                     children: actions
                 )
-                $0.setTitle(selectedType.rawValue, for: .normal)
+                $0.setTitle(selectedKey.rawValue, for: .normal)
                 $0.showsMenuAsPrimaryAction = true
             }
         }
 
-        func setupContentView(menuType: DebugUserDefaultsMenuType) {
+        func setupContentView(key: UserDefaultsKey) {
             if !contentView.subviews.isEmpty {
                 contentView.subviews.forEach {
                     $0.removeFromSuperview()
                 }
             }
 
-            let userDefaultsEnumView = DebugUserDefaultsEnumView()
-                .configure {
-                    $0.updateSegment(items: menuType.items, index: menuType.index)
-                    $0.updateDescription(menuType.description)
-                    $0.segmentIndexPublisher.sink { [weak self] index in
-                        self?.selectedIndexSubject.send(index)
+            switch key.debugViewType {
+            case let .dataHolderEnum(data):
+                let userDefaultsEnumView = DebugUserDefaultsEnumView()
+                    .configure {
+                        $0.updateSegment(items: data.items, index: data.index)
+                        $0.updateDescription(data.description)
+                        $0.segmentIndexPublisher.sink { [weak self] index in
+                            self?.didChangeSegmentIndexSubject.send(index)
+                        }
+                        .store(in: &cancellables)
                     }
-                    .store(in: &cancellables)
+
+                contentView.addSubview(userDefaultsEnumView) {
+                    $0.edges.equalToSuperview()
                 }
 
-            contentView.addSubview(userDefaultsEnumView) {
-                $0.edges.equalToSuperview()
+            case let .textField(data):
+                let userDefaultsTextView = DebugUserDefaultsTextView()
+                    .configure {
+                        $0.updateDescription(data.description)
+                        $0.didChangeTextPublisher.sink { [weak self] text in
+                            self?.didChangeInputTextSubject.send(text)
+                        }
+                        .store(in: &cancellables)
+                    }
+
+                contentView.addSubview(userDefaultsTextView) {
+                    $0.edges.equalToSuperview()
+                }
             }
         }
 
         func setupEvent() {
-            $selectedType
+            $selectedKey
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] menuType in
-                    self?.setupContentView(menuType: menuType)
+                .sink { [weak self] key in
+                    self?.setupContentView(key: key)
                 }
                 .store(in: &cancellables)
         }
@@ -161,7 +206,8 @@
             }
 
             addSubview(contentView) {
-                $0.center.equalToSuperview()
+                $0.centerY.equalToSuperview()
+                $0.leading.trailing.equalToSuperview().inset(24)
             }
         }
     }

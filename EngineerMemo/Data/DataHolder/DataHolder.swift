@@ -15,4 +15,10 @@ enum DataHolder {
         defaultValue: .test1
     )
     static var test: DataHolder.Test
+
+    @UserDefaultsStorage(
+        .textField,
+        defaultValue: ""
+    )
+    static var textField: String
 }

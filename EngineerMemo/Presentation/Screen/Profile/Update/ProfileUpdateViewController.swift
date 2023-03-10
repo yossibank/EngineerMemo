@@ -95,7 +95,7 @@ private extension ProfileUpdateViewController {
         contentView.didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.input.saveButtonTapped.send(())
+                self?.viewModel.input.didTapSaveButton.send(())
             }
             .store(in: &cancellables)
     }

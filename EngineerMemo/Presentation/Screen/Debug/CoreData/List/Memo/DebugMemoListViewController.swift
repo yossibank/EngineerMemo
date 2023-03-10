@@ -49,9 +49,9 @@
         }
 
         func bindToViewModel() {
-            contentView.didDeleteModelObjectPublisher
+            contentView.didDeletedModelObjectPublisher
                 .sink { [weak self] modelObject in
-                    self?.viewModel.input.deleteModelObject.send(modelObject)
+                    self?.viewModel.input.didDeletedModelObject.send(modelObject)
                 }
                 .store(in: &cancellables)
         }

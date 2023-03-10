@@ -3,15 +3,15 @@
 
     final class DebugProfileUpdateViewModel: ViewModel {
         final class Input: InputObject {
-            let addressControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let birthdayControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let emailControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let genderControlChanged = PassthroughSubject<DebugGenderSegment, Never>()
-            let nameControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let phoneNumberControlChanged = PassthroughSubject<DebugPhoneNumberSegment, Never>()
-            let stationControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let searchTextChanged = PassthroughSubject<String, Never>()
-            let updateButtonTapped = PassthroughSubject<String, Never>()
+            let didChangeAddressControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeBirthdayControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeEmailControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeGenderControl = PassthroughSubject<DebugGenderSegment, Never>()
+            let didChangeNameControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangePhoneNumberControl = PassthroughSubject<DebugPhoneNumberSegment, Never>()
+            let didChangeStationControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeSearchText = PassthroughSubject<String, Never>()
+            let didTapUpdateButton = PassthroughSubject<String, Never>()
         }
 
         final class Output: OutputObject {
@@ -64,7 +64,7 @@
 
             // MARK: - 住所セグメント
 
-            input.addressControlChanged
+            input.didChangeAddressControl
                 .sink { [weak self] segment in
                     self?.addressSegment = segment
                     self?.modelObject.address = segment.string
@@ -73,7 +73,7 @@
 
             // MARK: - 生年月日セグメント
 
-            input.birthdayControlChanged
+            input.didChangeBirthdayControl
                 .sink { [weak self] segment in
                     self?.ageSegment = segment
                     self?.modelObject.birthday = segment.date
@@ -82,7 +82,7 @@
 
             // MARK: - Eメールセグメント
 
-            input.emailControlChanged
+            input.didChangeEmailControl
                 .sink { [weak self] segment in
                     self?.emailSegment = segment
                     self?.modelObject.email = segment.string
@@ -91,7 +91,7 @@
 
             // MARK: - 性別セグメント
 
-            input.genderControlChanged
+            input.didChangeGenderControl
                 .sink { [weak self] segment in
                     self?.genderSegment = segment
                     self?.modelObject.gender = segment.gender
@@ -100,7 +100,7 @@
 
             // MARK: - 名前セグメント
 
-            input.nameControlChanged
+            input.didChangeNameControl
                 .sink { [weak self] segment in
                     self?.nameSegment = segment
                     self?.modelObject.name = segment.string
@@ -109,7 +109,7 @@
 
             // MARK: - 電話番号セグメント
 
-            input.phoneNumberControlChanged
+            input.didChangePhoneNumberControl
                 .sink { [weak self] segment in
                     self?.phoneNumberSegment = segment
                     self?.modelObject.phoneNumber = segment.phoneNumber
@@ -118,7 +118,7 @@
 
             // MARK: - 最寄駅セグメント
 
-            input.stationControlChanged
+            input.didChangeStationControl
                 .sink { [weak self] segment in
                     self?.stationSegment = segment
                     self?.modelObject.station = segment.string
@@ -127,7 +127,7 @@
 
             // MARK: - 文字検索
 
-            input.searchTextChanged
+            input.didChangeSearchText
                 .sink { [weak self] searchText in
                     guard let self else {
                         return
@@ -145,7 +145,7 @@
 
             // MARK: - 更新ボタンタップ
 
-            input.updateButtonTapped
+            input.didTapUpdateButton
                 .sink { [weak self] identifier in
                     guard let self else {
                         return

@@ -38,19 +38,19 @@
 
     private extension DebugMemoCreateViewController {
         func bindToViewModel() {
-            contentView.titleControlPublisher
+            contentView.didChangeTitleControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.titleControlChanged.send(
+                    self?.viewModel.input.didChangeTitleControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
 
-            contentView.contentControlPublisher
+            contentView.didChangeContentControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.contentControlChanged.send(
+                    self?.viewModel.input.didChangeContentControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
@@ -59,7 +59,7 @@
             contentView.didTapCreateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.viewModel.input.createButtonTapped.send(())
+                    self?.viewModel.input.didTapCreateButton.send(())
                 }
                 .store(in: &cancellables)
         }

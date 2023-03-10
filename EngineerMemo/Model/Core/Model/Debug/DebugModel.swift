@@ -7,5 +7,9 @@
         func updateTest(_ test: DataHolder.Test) {
             DataHolder.test = test
         }
+
+        func updateTextField(_ text: String) {
+            DataHolder.textField = text
+        }
     }
 #endif
