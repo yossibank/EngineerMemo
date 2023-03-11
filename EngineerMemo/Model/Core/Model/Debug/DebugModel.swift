@@ -1,4 +1,6 @@
 #if DEBUG
+    import Foundation
+
     final class DebugModel {
         func updateSample(_ value: DataHolder.Sample) {
             DataHolder.sample = value
@@ -18,6 +20,10 @@
 
         func updateBool(_ value: Bool) {
             DataHolder.bool = value
+        }
+
+        func updateDate(_ value: Date) {
+            DataHolder.date = value
         }
 
         func updateOptional(_ value: String?) {

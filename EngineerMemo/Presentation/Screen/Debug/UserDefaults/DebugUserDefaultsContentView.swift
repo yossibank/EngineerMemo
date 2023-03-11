@@ -11,6 +11,7 @@
             case dataHolderEnum(DataHolderEnumStructure)
             case textField(TextFieldStructure)
             case bool(BoolStructure)
+            case date(DateStructure)
 
             struct DataHolderEnumStructure {
                 let items: [String]
@@ -26,6 +27,11 @@
             struct BoolStructure {
                 let isOptional: Bool
                 let index: Int
+                let description: String
+            }
+
+            struct DateStructure {
+                let isOptional: Bool
                 let description: String
             }
         }
@@ -75,6 +81,14 @@
                     )
                 )
 
+            case .date:
+                return .date(
+                    .init(
+                        isOptional: false,
+                        description: DataHolder.date.toString
+                    )
+                )
+
             case .optional:
                 return .textField(
                     .init(
@@ -100,6 +114,7 @@
     final class DebugUserDefaultsContentView: UIView {
         private(set) lazy var didChangeSegmentIndexPublisher = didChangeSegmentIndexSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeInputTextPublisher = didChangeInputTextSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeInputDatePublisher = didChangeInputDateSubject.eraseToAnyPublisher()
         private(set) lazy var didTapNilButtonPublisher = didTapNilButtonSubject.eraseToAnyPublisher()
 
         @Published private(set) var selectedKey: UserDefaultsKey = .sample
@@ -117,6 +132,7 @@
 
         private let didChangeSegmentIndexSubject = PassthroughSubject<Int, Never>()
         private let didChangeInputTextSubject = PassthroughSubject<String, Never>()
+        private let didChangeInputDateSubject = PassthroughSubject<Date, Never>()
         private let didTapNilButtonSubject = PassthroughSubject<Void, Never>()
 
         override init(frame: CGRect) {
@@ -158,6 +174,11 @@
 
             if let userDefaultsBoolView = contentView.subviews.first as? DebugUserDefaultsBoolView {
                 userDefaultsBoolView.updateDescription(description)
+                return
+            }
+
+            if let userDefaultsDateView = contentView.subviews.first as? DebugUserDefaultsDateView {
+                userDefaultsDateView.updateDescription(description)
                 return
             }
         }
@@ -223,7 +244,7 @@
                         $0.configureNilButton(data.isOptional)
                         $0.updateDescription(data.description)
 
-                        $0.didChangeTextPublisher.sink { [weak self] text in
+                        $0.didChangeInputTextPublisher.sink { [weak self] text in
                             self?.didChangeInputTextSubject.send(text)
                         }
                         .store(in: &cancellables)
@@ -252,6 +273,27 @@
                     }
 
                 contentView.addSubview(userDefaultsBoolView) {
+                    $0.edges.equalToSuperview()
+                }
+
+            case let .date(data):
+                let userDefaultsDateView = DebugUserDefaultsDateView()
+                    .configure {
+                        $0.configureNilButton(data.isOptional)
+                        $0.updateDescription(data.description)
+
+                        $0.didChangeInputDatePublisher.sink { [weak self] date in
+                            self?.didChangeInputDateSubject.send(date)
+                        }
+                        .store(in: &cancellables)
+
+                        $0.didTapNilButtonPublisher.sink { [weak self] _ in
+                            self?.didTapNilButtonSubject.send(())
+                        }
+                        .store(in: &cancellables)
+                    }
+
+                contentView.addSubview(userDefaultsDateView) {
                     $0.edges.equalToSuperview()
                 }
             }

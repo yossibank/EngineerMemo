@@ -1,13 +1,16 @@
 #if DEBUG
+    import Combine
     import SwiftUI
     import UIKit
     import UIKitHelper
 
     // MARK: - properties & init
 
-    final class DebugUserDefaultsTextView: UIView {
-        private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
+    final class DebugUserDefaultsDateView: UIView {
+        private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
         private(set) lazy var didTapNilButtonPublisher = nilButton.publisher(for: .touchUpInside)
+
+        private var cancellables: Set<AnyCancellable> = .init()
 
         private var body: UIView {
             VStackView(spacing: 32) {
@@ -21,14 +24,37 @@
                         .modifier(\.numberOfLines, 0)
                 }
 
-                inputTextField
-                    .modifier(\.textAlignment, .center)
+                pickerInputView
             }
         }
 
+        private lazy var pickerInputView = UIView()
+            .addSubview(inputDatePicker) {
+                $0.top.bottom.equalToSuperview().inset(16)
+                $0.leading.trailing.equalToSuperview().inset(32)
+            }
+            .addSubview(pickerLabel) {
+                $0.center.equalToSuperview()
+            }
+            .addConstraint {
+                $0.height.equalTo(80)
+            }
+
         private let titleLabel = UILabel()
         private let descriptionLabel = UILabel()
-        private let inputTextField = UnderlinedTextField(color: .theme)
+
+        private let pickerLabel = UILabel()
+            .modifier(\.textAlignment, .center)
+
+        private let inputDatePicker = UIDatePicker()
+            .modifier(\.layer.borderColor, UIColor.theme.cgColor)
+            .modifier(\.layer.borderWidth, 1.0)
+            .modifier(\.layer.cornerRadius, 4)
+            .modifier(\.clipsToBounds, true)
+            .modifier(\.contentHorizontalAlignment, .center)
+            .modifier(\.datePickerMode, .date)
+            .modifier(\.locale, .japan)
+            .modifier(\.preferredDatePickerStyle, .compact)
 
         private let nilButton = UIButton(type: .system)
             .apply(.debugNilButton)
@@ -37,6 +63,7 @@
             super.init(frame: frame)
 
             setupView()
+            setupPicker()
         }
 
         @available(*, unavailable)
@@ -44,18 +71,26 @@
             fatalError("init(coder:) has not been implemented")
         }
 
+        override func layoutSubviews() {
+            super.layoutSubviews()
+
+            UIDatePicker.makeTransparent(view: inputDatePicker)
+        }
+
         override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                nilButton.layer.borderColor = UIColor.theme.cgColor
+                [nilButton, inputDatePicker].forEach {
+                    $0.layer.borderColor = UIColor.theme.cgColor
+                }
             }
         }
     }
 
     // MARK: - internal methods
 
-    extension DebugUserDefaultsTextView {
+    extension DebugUserDefaultsDateView {
         func configureNilButton(_ isOptional: Bool) {
             nilButton.isHidden = !isOptional
         }
@@ -67,7 +102,7 @@
 
     // MARK: - private methods
 
-    private extension DebugUserDefaultsTextView {
+    private extension DebugUserDefaultsDateView {
         func setupView() {
             addSubview(body) {
                 $0.edges.equalToSuperview().inset(16)
@@ -84,13 +119,22 @@
                 $0.layer.cornerRadius = 8
             }
         }
+
+        func setupPicker() {
+            inputDatePicker.expandPickerRange()
+            inputDatePicker.publisher
+                .sink { [weak self] date in
+                    self?.pickerLabel.text = date.toString
+                }
+                .store(in: &cancellables)
+        }
     }
 
     // MARK: - preview
 
-    struct DebugUserDefaultsTextViewPreview: PreviewProvider {
+    struct DebugUserDefaultsDateViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugUserDefaultsTextView()) {
+            WrapperView(view: DebugUserDefaultsDateView()) {
                 $0.updateDescription("UserDefaults保存値")
             }
             .frame(height: 200)

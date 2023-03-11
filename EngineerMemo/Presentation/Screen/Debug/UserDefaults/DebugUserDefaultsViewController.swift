@@ -72,6 +72,14 @@
                 }
                 .store(in: &cancellables)
 
+            contentView.didChangeInputDatePublisher
+                .removeDuplicates()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] date in
+                    self?.viewModel.input.didChangeInputDate.send(date)
+                }
+                .store(in: &cancellables)
+
             contentView.didTapNilButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in

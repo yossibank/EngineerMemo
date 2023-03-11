@@ -4,6 +4,7 @@ enum UserDefaultsKey: String, CaseIterable {
     case string
     case int
     case bool
+    case date
     case optional
     case optionalBool
 }

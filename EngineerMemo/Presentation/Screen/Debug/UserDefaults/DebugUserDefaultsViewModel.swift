@@ -1,11 +1,13 @@
 #if DEBUG
     import Combine
+    import Foundation
 
     final class DebugUserDefaultsViewModel: ViewModel {
         final class Input: InputObject {
             let didChangeUserDefaultsKey = PassthroughSubject<UserDefaultsKey, Never>()
             let didChangeSegmentIndex = PassthroughSubject<Int, Never>()
             let didChangeInputText = PassthroughSubject<String, Never>()
+            let didChangeInputDate = PassthroughSubject<Date, Never>()
             let didTapNilButton = PassthroughSubject<Void, Never>()
         }
 
@@ -92,6 +94,22 @@
                         }()
 
                         self?.output.description = value
+
+                    default:
+                        break
+                    }
+                }
+                .store(in: &cancellables)
+
+            // MARK: - ピッカー日付変更
+
+            input.didChangeInputDate
+                .withLatestFrom(input.didChangeUserDefaultsKey) { ($0, $1) }
+                .sink { [weak self] date, key in
+                    switch key {
+                    case .date:
+                        self?.model.updateDate(date)
+                        self?.output.description = DataHolder.date.toString
 
                     default:
                         break

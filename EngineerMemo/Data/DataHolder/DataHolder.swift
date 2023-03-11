@@ -1,3 +1,5 @@
+import Foundation
+
 enum DataHolder {
     @FileStorage(
         fileName: FileName.someFile.rawValue
@@ -33,6 +35,12 @@ enum DataHolder {
         defaultValue: false
     )
     static var bool: Bool
+
+    @UserDefaultsStorage(
+        .date,
+        defaultValue: Date()
+    )
+    static var date: Date
 
     @UserDefaultsStorage(
         .optional,
