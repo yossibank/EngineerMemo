@@ -18,6 +18,16 @@ final class IntExtensionTest: XCTestCase {
         XCTAssertEqual(value.withDescription, "10")
     }
 
+    func test_boolValue_0の際にtureを取得できること() {
+        XCTAssertEqual(0.boolValue, true)
+    }
+
+    func test_boolValue_0以外の際にfalseを取得できること() {
+        XCTAssertEqual(1.boolValue, false)
+        XCTAssertEqual(11.boolValue, false)
+        XCTAssertEqual(111.boolValue, false)
+    }
+
     func test_invalid_マイナス1の数値を取得できること() {
         // arrange
         let value = -1

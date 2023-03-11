@@ -22,6 +22,10 @@ final class StringExtensionTest: XCTestCase {
         XCTAssertEqual(.empty, "")
     }
 
+    func test_emptyWord_空文字の文字列を取得できること() {
+        XCTAssertEqual(.emptyWord, "空文字")
+    }
+
     func test_noSetting_未設定の文字列を取得できること() {
         XCTAssertEqual(.noSetting, "未設定")
     }

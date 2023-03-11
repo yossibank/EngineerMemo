@@ -10,6 +10,7 @@
         enum DebugViewType {
             case dataHolderEnum(DataHolderEnumStructure)
             case textField(TextFieldStructure)
+            case bool(BoolStructure)
 
             struct DataHolderEnumStructure {
                 let items: [String]
@@ -18,6 +19,11 @@
             }
 
             struct TextFieldStructure {
+                let description: String
+            }
+
+            struct BoolStructure {
+                let index: Int
                 let description: String
             }
         }
@@ -42,13 +48,31 @@
                     )
                 )
 
-            case .textField:
+            case .string:
                 return .textField(
                     .init(
-                        description: DataHolder.textField.isEmpty
-                            ? .noSetting
-                            : DataHolder.textField
+                        description: DataHolder.string.isEmpty
+                            ? .emptyWord
+                            : DataHolder.string
                     )
+                )
+
+            case .int:
+                return .textField(
+                    .init(description: DataHolder.int.description)
+                )
+
+            case .bool:
+                return .bool(
+                    .init(
+                        index: DataHolder.bool.boolValue,
+                        description: DataHolder.bool.description
+                    )
+                )
+
+            case .optional:
+                return .textField(
+                    .init(description: DataHolder.optional?.description ?? "nil")
                 )
             }
         }
@@ -110,6 +134,11 @@
 
             if let userDefaultsTextView = contentView.subviews.first as? DebugUserDefaultsTextView {
                 userDefaultsTextView.updateDescription(description)
+                return
+            }
+
+            if let userDefaultsBoolView = contentView.subviews.first as? DebugUserDefaultsBoolView {
+                userDefaultsBoolView.updateDescription(description)
                 return
             }
         }
@@ -179,6 +208,21 @@
                     }
 
                 contentView.addSubview(userDefaultsTextView) {
+                    $0.edges.equalToSuperview()
+                }
+
+            case let .bool(data):
+                let userDefaultsBoolView = DebugUserDefaultsBoolView()
+                    .configure {
+                        $0.updateSegment(index: data.index)
+                        $0.updateDescription(data.description)
+                        $0.segmentIndexPublisher.sink { [weak self] index in
+                            self?.didChangeSegmentIndexSubject.send(index)
+                        }
+                        .store(in: &cancellables)
+                    }
+
+                contentView.addSubview(userDefaultsBoolView) {
                     $0.edges.equalToSuperview()
                 }
             }

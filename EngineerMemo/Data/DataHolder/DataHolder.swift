@@ -17,8 +17,26 @@ enum DataHolder {
     static var test: DataHolder.Test
 
     @UserDefaultsStorage(
-        .textField,
+        .string,
         defaultValue: ""
     )
-    static var textField: String
+    static var string: String
+
+    @UserDefaultsStorage(
+        .int,
+        defaultValue: 0
+    )
+    static var int: Int
+
+    @UserDefaultsStorage(
+        .bool,
+        defaultValue: false
+    )
+    static var bool: Bool
+
+    @UserDefaultsStorage(
+        .optional,
+        defaultValue: nil
+    )
+    static var optional: String?
 }

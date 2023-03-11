@@ -5,7 +5,7 @@
 
     // MARK: - properties & init
 
-    final class DebugUserDefaultsEnumView: UIView {
+    final class DebugUserDefaultsBoolView: UIView {
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
         private var body: UIView {
@@ -25,7 +25,7 @@
 
         private let titleLabel = UILabel()
         private let descriptionLabel = UILabel()
-        private let segmentControl = UISegmentedControl()
+        private let segmentControl = UISegmentedControl(items: [true, false].map(\.description))
 
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -41,19 +41,8 @@
 
     // MARK: - internal methods
 
-    extension DebugUserDefaultsEnumView {
-        func updateSegment(
-            items: [String],
-            index: Int
-        ) {
-            items.enumerated().forEach {
-                segmentControl.insertSegment(
-                    withTitle: $1,
-                    at: $0,
-                    animated: false
-                )
-            }
-
+    extension DebugUserDefaultsBoolView {
+        func updateSegment(index: Int) {
             segmentControl.selectedSegmentIndex = index
         }
 
@@ -64,7 +53,7 @@
 
     // MARK: - private methods
 
-    private extension DebugUserDefaultsEnumView {
+    private extension DebugUserDefaultsBoolView {
         func setupView() {
             addSubview(body) {
                 $0.edges.equalToSuperview().inset(16)
@@ -80,16 +69,14 @@
 
     // MARK: - preview
 
-    struct DebugUserDefaultsEnumViewPreview: PreviewProvider {
+    struct DebugUserDefaultsBoolViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugUserDefaultsEnumView()) {
-                $0.updateSegment(
-                    items: DataHolder.Sample.allCases.map(\.description),
-                    index: DataHolder.sample.rawValue
-                )
-                $0.updateDescription(DataHolder.sample.description)
+            WrapperView(view: DebugUserDefaultsBoolView()) {
+                $0.updateSegment(index: DataHolder.bool.boolValue)
+                $0.updateDescription(DataHolder.bool.description)
             }
-            .frame(height: 200)
+            .frame(height: 150)
         }
     }
+
 #endif

@@ -32,7 +32,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
     }
 
     func test_binding_birthday_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -47,7 +47,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
     }
 
     func test_binding_gender_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -62,7 +62,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
     }
 
     func test_binding_email_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -77,7 +77,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
     }
 
     func test_binding_phoneNumber_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -92,7 +92,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
     }
 
     func test_binding_address_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -107,7 +107,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
     }
 
     func test_binding_station_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -122,7 +122,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
     }
 
     func test_input_saveButtonTapped_output_isFinishedがtrueを取得できること() {
@@ -130,7 +130,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         setupViewModel()
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
 
         // arrange
         XCTAssertTrue(viewModel.output.isFinished!)
@@ -141,7 +141,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         setupViewModel(.update(ProfileModelObjectBuilder().build()))
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
 
         // arrange
         XCTAssertEqual(model.updateCallCount, 1)
@@ -152,7 +152,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         setupViewModel()
 
         // act
-        viewModel.input.saveButtonTapped.send(())
+        viewModel.input.didTapSaveButton.send(())
 
         // arrange
         XCTAssertEqual(model.createCallCount, 1)

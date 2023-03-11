@@ -17,6 +17,7 @@ extension String {
     }
 
     static let empty = ""
+    static let emptyWord = "空文字"
     static let noSetting = "未設定"
     static let unknown = "不明"
 

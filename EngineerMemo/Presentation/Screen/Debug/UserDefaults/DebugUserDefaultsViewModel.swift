@@ -41,6 +41,10 @@
                         self?.model.updateTest(.init(rawValue: index)!)
                         self?.output.description = DataHolder.test.description
 
+                    case .bool:
+                        self?.model.updateBool(index.boolValue)
+                        self?.output.description = DataHolder.bool.description
+
                     default:
                         break
                     }
@@ -53,9 +57,19 @@
                 .withLatestFrom(input.didChangeUserDefaultsKey) { ($0, $1) }
                 .sink { [weak self] text, key in
                     switch key {
-                    case .textField:
-                        self?.model.updateTextField(text)
-                        self?.output.description = DataHolder.textField.description
+                    case .string:
+                        self?.model.updateString(text)
+                        self?.output.description = DataHolder.string.isEmpty
+                            ? .emptyWord
+                            : DataHolder.string
+
+                    case .int:
+                        guard let value = Int(text) else {
+                            return
+                        }
+
+                        self?.model.updateInt(value)
+                        self?.output.description = DataHolder.int.description
 
                     default:
                         break
