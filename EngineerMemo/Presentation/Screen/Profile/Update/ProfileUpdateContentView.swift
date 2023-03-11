@@ -43,6 +43,7 @@ final class ProfileUpdateContentView: UIView {
         .modifier(\.layer.cornerRadius, 8)
         .modifier(\.clipsToBounds, true)
         .configure {
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.setTitle(
                 modelObject == nil
                     ? L10n.Components.Button.saveProfile
