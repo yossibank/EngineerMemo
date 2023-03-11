@@ -80,6 +80,20 @@
                 }
                 .store(in: &cancellables)
 
+            contentView.didTapAddButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] text in
+                    self?.viewModel.input.didTapAddButton.send(text)
+                }
+                .store(in: &cancellables)
+
+            contentView.didTapDeleteButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] text in
+                    self?.viewModel.input.didTapDeleteButton.send(text)
+                }
+                .store(in: &cancellables)
+
             contentView.didTapNilButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in

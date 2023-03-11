@@ -12,6 +12,7 @@
             case textField(TextFieldStructure)
             case bool(BoolStructure)
             case date(DateStructure)
+            case array(ArrayStructure)
 
             struct DataHolderEnumStructure {
                 let items: [String]
@@ -32,6 +33,10 @@
 
             struct DateStructure {
                 let isOptional: Bool
+                let description: String
+            }
+
+            struct ArrayStructure {
                 let description: String
             }
         }
@@ -89,6 +94,11 @@
                     )
                 )
 
+            case .array:
+                return .array(
+                    .init(description: DataHolder.array.joined(separator: ", "))
+                )
+
             case .optional:
                 return .textField(
                     .init(
@@ -115,6 +125,8 @@
         private(set) lazy var didChangeSegmentIndexPublisher = didChangeSegmentIndexSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeInputTextPublisher = didChangeInputTextSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeInputDatePublisher = didChangeInputDateSubject.eraseToAnyPublisher()
+        private(set) lazy var didTapAddButtonPublisher = didTapAddButtonSubject.eraseToAnyPublisher()
+        private(set) lazy var didTapDeleteButtonPublisher = didTapDeleteButtonSubject.eraseToAnyPublisher()
         private(set) lazy var didTapNilButtonPublisher = didTapNilButtonSubject.eraseToAnyPublisher()
 
         @Published private(set) var selectedKey: UserDefaultsKey = .sample
@@ -133,6 +145,8 @@
         private let didChangeSegmentIndexSubject = PassthroughSubject<Int, Never>()
         private let didChangeInputTextSubject = PassthroughSubject<String, Never>()
         private let didChangeInputDateSubject = PassthroughSubject<Date, Never>()
+        private let didTapAddButtonSubject = PassthroughSubject<String, Never>()
+        private let didTapDeleteButtonSubject = PassthroughSubject<String, Never>()
         private let didTapNilButtonSubject = PassthroughSubject<Void, Never>()
 
         override init(frame: CGRect) {
@@ -179,6 +193,11 @@
 
             if let userDefaultsDateView = contentView.subviews.first as? DebugUserDefaultsDateView {
                 userDefaultsDateView.updateDescription(description)
+                return
+            }
+
+            if let userDefaultsArrayView = contentView.subviews.first as? DebugUserDefaultsArrayView {
+                userDefaultsArrayView.updateDescription(description)
                 return
             }
         }
@@ -294,6 +313,26 @@
                     }
 
                 contentView.addSubview(userDefaultsDateView) {
+                    $0.edges.equalToSuperview()
+                }
+
+            case let .array(data):
+                let userDefaultsArrayView = DebugUserDefaultsArrayView()
+                    .configure {
+                        $0.updateDescription(data.description)
+
+                        $0.didTapAddButtonPublisher.sink { [weak self] text in
+                            self?.didTapAddButtonSubject.send(text)
+                        }
+                        .store(in: &cancellables)
+
+                        $0.didTapDeleteButtonPublisher.sink { [weak self] text in
+                            self?.didTapDeleteButtonSubject.send(text)
+                        }
+                        .store(in: &cancellables)
+                    }
+
+                contentView.addSubview(userDefaultsArrayView) {
                     $0.edges.equalToSuperview()
                 }
             }

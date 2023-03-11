@@ -2,6 +2,11 @@
     import Foundation
 
     final class DebugModel {
+        enum ArrayType {
+            case add
+            case delete
+        }
+
         func updateSample(_ value: DataHolder.Sample) {
             DataHolder.sample = value
         }
@@ -24,6 +29,21 @@
 
         func updateDate(_ value: Date) {
             DataHolder.date = value
+        }
+
+        func updateArray(
+            type: ArrayType,
+            _ value: String
+        ) {
+            switch type {
+            case .add:
+                DataHolder.array.append(value)
+
+            case .delete:
+                DataHolder.array = DataHolder.array.filter {
+                    $0 != value
+                }
+            }
         }
 
         func updateOptional(_ value: String?) {

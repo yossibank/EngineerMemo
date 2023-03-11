@@ -8,6 +8,8 @@
             let didChangeSegmentIndex = PassthroughSubject<Int, Never>()
             let didChangeInputText = PassthroughSubject<String, Never>()
             let didChangeInputDate = PassthroughSubject<Date, Never>()
+            let didTapAddButton = PassthroughSubject<String, Never>()
+            let didTapDeleteButton = PassthroughSubject<String, Never>()
             let didTapNilButton = PassthroughSubject<Void, Never>()
         }
 
@@ -110,6 +112,38 @@
                     case .date:
                         self?.model.updateDate(date)
                         self?.output.description = DataHolder.date.toString
+
+                    default:
+                        break
+                    }
+                }
+                .store(in: &cancellables)
+
+            // MARK: - 配列追加ボタンタップ
+
+            input.didTapAddButton
+                .withLatestFrom(input.didChangeUserDefaultsKey) { ($0, $1) }
+                .sink { [weak self] value, key in
+                    switch key {
+                    case .array:
+                        self?.model.updateArray(type: .add, value)
+                        self?.output.description = DataHolder.array.joined(separator: ", ")
+
+                    default:
+                        break
+                    }
+                }
+                .store(in: &cancellables)
+
+            // MARK: - 配列削除ボタンタップ
+
+            input.didTapDeleteButton
+                .withLatestFrom(input.didChangeUserDefaultsKey) { ($0, $1) }
+                .sink { [weak self] value, key in
+                    switch key {
+                    case .array:
+                        self?.model.updateArray(type: .delete, value)
+                        self?.output.description = DataHolder.array.joined(separator: ", ")
 
                     default:
                         break

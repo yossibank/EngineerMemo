@@ -43,6 +43,12 @@ enum DataHolder {
     static var date: Date
 
     @UserDefaultsStorage(
+        .array,
+        defaultValue: [String]()
+    )
+    static var array: [String]
+
+    @UserDefaultsStorage(
         .optional,
         defaultValue: nil
     )
