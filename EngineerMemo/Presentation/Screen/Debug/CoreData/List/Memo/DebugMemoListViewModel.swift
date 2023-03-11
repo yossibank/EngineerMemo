@@ -3,7 +3,7 @@
 
     final class DebugMemoListViewModel: ViewModel {
         final class Input: InputObject {
-            let deleteModelObject = PassthroughSubject<MemoModelObject, Never>()
+            let didDeletedModelObject = PassthroughSubject<MemoModelObject, Never>()
         }
 
         final class Output: OutputObject {
@@ -36,7 +36,7 @@
 
             // MARK: - メモ情報削除
 
-            input.deleteModelObject
+            input.didDeletedModelObject
                 .sink { modelObject in
                     model.delete(modelObject: modelObject)
                 }

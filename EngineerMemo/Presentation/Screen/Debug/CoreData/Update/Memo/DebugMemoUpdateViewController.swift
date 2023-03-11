@@ -49,19 +49,19 @@
         }
 
         func bindToViewModel() {
-            contentView.titleControlPublisher
+            contentView.didChangeTitleControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.titleControlChanged.send(
+                    self?.viewModel.input.didChangeTitleControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
 
-            contentView.contentControlPublisher
+            contentView.didChangeContentControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.contentControlChanged.send(
+                    self?.viewModel.input.didChangeContentControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
@@ -70,14 +70,14 @@
             contentView.didChangeSearchTextPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] searchText in
-                    self?.viewModel.input.searchTextChanged.send(searchText)
+                    self?.viewModel.input.didChangeSearchText.send(searchText)
                 }
                 .store(in: &cancellables)
 
             contentView.didTapUpdateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] identifier in
-                    self?.viewModel.input.updateButtonTapped.send(identifier)
+                    self?.viewModel.input.didTapUpdateButton.send(identifier)
                 }
                 .store(in: &cancellables)
         }

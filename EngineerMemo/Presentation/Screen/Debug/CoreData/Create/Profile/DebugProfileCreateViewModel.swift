@@ -3,14 +3,14 @@
 
     final class DebugProfileCreateViewModel: ViewModel {
         final class Input: InputObject {
-            let addressControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let birthdayControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let emailControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let genderControlChanged = PassthroughSubject<DebugGenderSegment, Never>()
-            let nameControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let phoneNumberControlChanged = PassthroughSubject<DebugPhoneNumberSegment, Never>()
-            let stationControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let createButtonTapped = PassthroughSubject<Void, Never>()
+            let didChangeAddressControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeBirthdayControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeEmailControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeGenderControl = PassthroughSubject<DebugGenderSegment, Never>()
+            let didChangeNameControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangePhoneNumberControl = PassthroughSubject<DebugPhoneNumberSegment, Never>()
+            let didChangeStationControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didTapCreateButton = PassthroughSubject<Void, Never>()
         }
 
         let input: Input
@@ -39,7 +39,7 @@
 
             // MARK: - 住所セグメント
 
-            input.addressControlChanged
+            input.didChangeAddressControl
                 .sink { [weak self] segment in
                     self?.modelObject.address = segment.string
                 }
@@ -47,7 +47,7 @@
 
             // MARK: - 生年月日セグメント
 
-            input.birthdayControlChanged
+            input.didChangeBirthdayControl
                 .sink { [weak self] segment in
                     self?.modelObject.birthday = segment.date
                 }
@@ -55,7 +55,7 @@
 
             // MARK: - Eメールセグメント
 
-            input.emailControlChanged
+            input.didChangeEmailControl
                 .sink { [weak self] segment in
                     self?.modelObject.email = segment.string
                 }
@@ -63,7 +63,7 @@
 
             // MARK: - 性別セグメント
 
-            input.genderControlChanged
+            input.didChangeGenderControl
                 .sink { [weak self] segment in
                     self?.modelObject.gender = segment.gender
                 }
@@ -71,7 +71,7 @@
 
             // MARK: - 名前セグメント
 
-            input.nameControlChanged
+            input.didChangeNameControl
                 .sink { [weak self] segment in
                     self?.modelObject.name = segment.string
                 }
@@ -79,7 +79,7 @@
 
             // MARK: - 電話番号セグメント
 
-            input.phoneNumberControlChanged
+            input.didChangePhoneNumberControl
                 .sink { [weak self] segment in
                     self?.modelObject.phoneNumber = segment.phoneNumber
                 }
@@ -87,7 +87,7 @@
 
             // MARK: - 最寄駅セグメント
 
-            input.stationControlChanged
+            input.didChangeStationControl
                 .sink { [weak self] segment in
                     self?.modelObject.station = segment.string
                 }
@@ -95,7 +95,7 @@
 
             // MARK: - 作成ボタンタップ
 
-            input.createButtonTapped
+            input.didTapCreateButton
                 .sink { [weak self] in
                     guard let self else {
                         return

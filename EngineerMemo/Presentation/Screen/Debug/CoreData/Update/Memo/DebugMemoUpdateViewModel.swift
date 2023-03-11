@@ -3,10 +3,10 @@
 
     final class DebugMemoUpdateViewModel: ViewModel {
         final class Input: InputObject {
-            let titleControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let contentControlChanged = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let searchTextChanged = PassthroughSubject<String, Never>()
-            let updateButtonTapped = PassthroughSubject<String, Never>()
+            let didChangeTitleControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeContentControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeSearchText = PassthroughSubject<String, Never>()
+            let didTapUpdateButton = PassthroughSubject<String, Never>()
         }
 
         final class Output: OutputObject {
@@ -49,7 +49,7 @@
 
             // MARK: - タイトルセグメント
 
-            input.titleControlChanged
+            input.didChangeTitleControl
                 .sink { [weak self] segment in
                     self?.titleSegment = segment
                     self?.modelObject.title = segment.string
@@ -58,7 +58,7 @@
 
             // MARK: - コンテンツセグメント
 
-            input.contentControlChanged
+            input.didChangeContentControl
                 .sink { [weak self] segment in
                     self?.contentSegment = segment
                     self?.modelObject.content = segment.string
@@ -67,7 +67,7 @@
 
             // MARK: - 文字検索
 
-            input.searchTextChanged
+            input.didChangeSearchText
                 .sink { [weak self] searchText in
                     guard let self else {
                         return
@@ -85,7 +85,7 @@
 
             // MARK: - 更新ボタンタップ
 
-            input.updateButtonTapped
+            input.didTapUpdateButton
                 .sink { [weak self] identifier in
                     guard let self else {
                         return

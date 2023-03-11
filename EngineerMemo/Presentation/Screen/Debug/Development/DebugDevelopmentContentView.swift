@@ -11,6 +11,7 @@
         case device
         case development
         case coreData
+        case userDefaults
 
         var cellType: DebugDevelopmentCell.Type {
             DebugDevelopmentCell.self
@@ -22,6 +23,7 @@
             case .device: return L10n.Debug.Section.device
             case .development: return L10n.Debug.Section.development
             case .coreData: return L10n.Debug.Section.coreData
+            case .userDefaults: return L10n.Debug.Section.userDefaults
             }
         }
 
@@ -50,6 +52,11 @@
                     .init(title: L10n.Debug.CoreData.create),
                     .init(title: L10n.Debug.CoreData.update)
                 ]
+
+            case .userDefaults:
+                return [
+                    .init(title: L10n.Debug.UserDefaults.status)
+                ]
             }
         }
     }
@@ -73,7 +80,8 @@
         typealias Section = DebugDevelopmentContentViewSection
         typealias Item = DebugDevelopmentContentViewItem
 
-        lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
+        lazy var didTapCoreDataCellPublisher = didTapCoreDataCellSubject.eraseToAnyPublisher()
+        lazy var didTapUserDefaultsCellPublisher = didTapUserDefaultsCellSubject.eraseToAnyPublisher()
 
         private lazy var dataSource = UITableViewDiffableDataSource<
             Section,
@@ -90,7 +98,8 @@
             )
         }
 
-        private let didSelectContentSubject = PassthroughSubject<DebugCoreDataAction, Never>()
+        private let didTapCoreDataCellSubject = PassthroughSubject<DebugCoreDataAction, Never>()
+        private let didTapUserDefaultsCellSubject = PassthroughSubject<Void, Never>()
 
         private let tableView = UITableView()
 
@@ -140,7 +149,7 @@
             )
 
             switch section {
-            case .development, .coreData:
+            case .development, .coreData, .userDefaults:
                 cell.isUserInteractionEnabled = true
 
             default:
@@ -229,7 +238,10 @@
 
             case .coreData:
                 let action = DebugCoreDataAction.allCases[indexPath.row]
-                didSelectContentSubject.send(action)
+                didTapCoreDataCellSubject.send(action)
+
+            case .userDefaults:
+                didTapUserDefaultsCellSubject.send(())
 
             default:
                 break

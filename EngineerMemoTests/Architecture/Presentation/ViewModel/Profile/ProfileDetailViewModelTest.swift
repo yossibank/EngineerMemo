@@ -77,7 +77,7 @@ final class ProfileDetailViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.settingButtonTapped.send(())
+        viewModel.input.didTapSettingButton.send(())
 
         // assert
         XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
@@ -93,7 +93,7 @@ final class ProfileDetailViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.editButtonTapped.send(modelObject)
+        viewModel.input.didTapEditButton.send(modelObject)
 
         // assert
         XCTAssertEqual(routing.showUpdateScreenCallCount, 1)

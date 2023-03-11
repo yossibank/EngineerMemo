@@ -4,6 +4,7 @@
     /// @mockable
     protocol DebugDevelopmentRoutingInput {
         func showDebugCoreDataScreen(action: DebugCoreDataAction)
+        func showDebugUserDefaultsScreen()
     }
 
     // MARK: - properties & init
@@ -35,6 +36,13 @@
 
             viewController?.navigationController?.pushViewController(
                 vc,
+                animated: true
+            )
+        }
+
+        func showDebugUserDefaultsScreen() {
+            viewController?.navigationController?.pushViewController(
+                AppControllers.Debug.UserDefaults(),
                 animated: true
             )
         }

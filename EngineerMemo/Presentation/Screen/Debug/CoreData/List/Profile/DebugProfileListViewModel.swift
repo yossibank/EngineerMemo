@@ -3,7 +3,7 @@
 
     final class DebugProfileListViewModel: ViewModel {
         final class Input: InputObject {
-            let deleteModelObject = PassthroughSubject<ProfileModelObject, Never>()
+            let didDeletedModelObject = PassthroughSubject<ProfileModelObject, Never>()
         }
 
         final class Output: OutputObject {
@@ -36,7 +36,7 @@
 
             // MARK: - プロフィール情報削除
 
-            input.deleteModelObject
+            input.didDeletedModelObject
                 .sink { modelObject in
                     model.delete(modelObject: modelObject)
                 }

@@ -5,13 +5,13 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfileUpdateContentView: UIView {
-    private(set) lazy var nameInputPublisher = nameInputView.inputPublisher
-    private(set) lazy var birthdayInputPublisher = birthdayInputView.inputPublisher
-    private(set) lazy var genderInputPublisher = genderInputView.$selectedType
-    private(set) lazy var emailInputPublisher = emailInputView.inputPublisher
-    private(set) lazy var phoneNumberInputPublisher = phoneNumberInputView.inputPublisher
-    private(set) lazy var addressInputPublisher = addressInputView.inputPublisher
-    private(set) lazy var stationInputPublisher = stationInputView.inputPublisher
+    private(set) lazy var didChangeNameInputPublisher = nameInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeBirthdayInputPublisher = birthdayInputView.didChangeInputDatePublisher
+    private(set) lazy var didChangeGenderInputPublisher = genderInputView.$selectedType
+    private(set) lazy var didChangeEmailInputPublisher = emailInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangePhoneNumberInputPublisher = phoneNumberInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeAddressInputPublisher = addressInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeStationInputPublisher = stationInputView.didChangeInputTextPublisher
     private(set) lazy var didTapSaveButtonPublisher = saveButton.publisher(for: .touchUpInside)
 
     private lazy var scrollView = UIScrollView()
@@ -43,6 +43,7 @@ final class ProfileUpdateContentView: UIView {
         .modifier(\.layer.cornerRadius, 8)
         .modifier(\.clipsToBounds, true)
         .configure {
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.setTitle(
                 modelObject == nil
                     ? L10n.Components.Button.saveProfile

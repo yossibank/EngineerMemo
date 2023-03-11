@@ -5,7 +5,7 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfilePickerInputView: UIView {
-    private(set) lazy var inputPublisher = inputDatePicker.publisher
+    private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
 
     private var body: UIView {
         VStackView {

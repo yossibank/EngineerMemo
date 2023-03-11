@@ -38,64 +38,64 @@
 
     private extension DebugProfileCreateViewController {
         func bindToViewModel() {
-            contentView.addressControlPublisher
+            contentView.didChangeAddressControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.addressControlChanged.send(
+                    self?.viewModel.input.didChangeAddressControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
 
-            contentView.birthdayControlPublisher
+            contentView.didChangeBirthdayControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.birthdayControlChanged.send(
+                    self?.viewModel.input.didChangeBirthdayControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
 
-            contentView.emailControlPublisher
+            contentView.didChangeEmailControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.emailControlChanged.send(
+                    self?.viewModel.input.didChangeEmailControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
 
-            contentView.genderControlPublisher
+            contentView.didChangeGenderControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.genderControlChanged.send(
+                    self?.viewModel.input.didChangeGenderControl.send(
                         DebugGenderSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
 
-            contentView.nameControlPublisher
+            contentView.didChangeNameControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.nameControlChanged.send(
+                    self?.viewModel.input.didChangeNameControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
 
-            contentView.phoneNumberControlPublisher
+            contentView.didChangePhoneNumberControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.phoneNumberControlChanged.send(
+                    self?.viewModel.input.didChangePhoneNumberControl.send(
                         DebugPhoneNumberSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)
 
-            contentView.stationControlPublisher
+            contentView.didChangeStationControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.stationControlChanged.send(
+                    self?.viewModel.input.didChangeStationControl.send(
                         DebugCoreDataSegment.segment(value)
                     )
                 }
@@ -104,7 +104,7 @@
             contentView.didTapCreateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.viewModel.input.createButtonTapped.send(())
+                    self?.viewModel.input.didTapCreateButton.send(())
                 }
                 .store(in: &cancellables)
         }

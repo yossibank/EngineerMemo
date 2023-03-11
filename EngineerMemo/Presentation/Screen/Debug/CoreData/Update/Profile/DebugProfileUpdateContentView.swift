@@ -38,13 +38,14 @@
             }
         }
 
-        private(set) lazy var addressControlPublisher = addressControlSubject.eraseToAnyPublisher()
-        private(set) lazy var birthdayControlPublisher = birthdayControlSubject.eraseToAnyPublisher()
-        private(set) lazy var emailControlPublisher = emailControlSubject.eraseToAnyPublisher()
-        private(set) lazy var genderControlPublisher = genderControlSubject.eraseToAnyPublisher()
-        private(set) lazy var nameControlPublisher = nameControlSubject.eraseToAnyPublisher()
-        private(set) lazy var phoneNumberControlPublisher = phoneNumberControlSubject.eraseToAnyPublisher()
-        private(set) lazy var stationControlPublisher = stationControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeAddressControlPublisher = didChangeAddressControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeBirthdayControlPublisher = didChangeBirthdayControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeEmailControlPublisher = didChangeEmailControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeGenderControlPublisher = didChangeGenderControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeNameControlPublisher = didChangeNameControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangePhoneNumberControlPublisher = didChangePhoneNumberControlSubject
+            .eraseToAnyPublisher()
+        private(set) lazy var didChangeStationControlPublisher = didChangeStationControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
 
@@ -69,13 +70,13 @@
             }
         }
 
-        private let addressControlSubject = PassthroughSubject<Int, Never>()
-        private let birthdayControlSubject = PassthroughSubject<Int, Never>()
-        private let emailControlSubject = PassthroughSubject<Int, Never>()
-        private let genderControlSubject = PassthroughSubject<Int, Never>()
-        private let nameControlSubject = PassthroughSubject<Int, Never>()
-        private let phoneNumberControlSubject = PassthroughSubject<Int, Never>()
-        private let stationControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeAddressControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeBirthdayControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeEmailControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeGenderControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeNameControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangePhoneNumberControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeStationControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSearchTextSubject = PassthroughSubject<String, Never>()
         private let didTapUpdateButtonSubject = PassthroughSubject<String, Never>()
 
@@ -152,37 +153,37 @@
                 }
 
                 cell.addressControlPublisher.sink { [weak self] value in
-                    self?.addressControlSubject.send(value)
+                    self?.didChangeAddressControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.birthdayControlPublisher.sink { [weak self] value in
-                    self?.birthdayControlSubject.send(value)
+                    self?.didChangeBirthdayControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.emailControlPublisher.sink { [weak self] value in
-                    self?.emailControlSubject.send(value)
+                    self?.didChangeEmailControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.genderControlPublisher.sink { [weak self] value in
-                    self?.genderControlSubject.send(value)
+                    self?.didChangeGenderControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.nameControlPublisher.sink { [weak self] value in
-                    self?.nameControlSubject.send(value)
+                    self?.didChangeNameControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.phoneNumberControlPublisher.sink { [weak self] value in
-                    self?.phoneNumberControlSubject.send(value)
+                    self?.didChangePhoneNumberControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.stationControlPublisher.sink { [weak self] value in
-                    self?.stationControlSubject.send(value)
+                    self?.didChangeStationControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 

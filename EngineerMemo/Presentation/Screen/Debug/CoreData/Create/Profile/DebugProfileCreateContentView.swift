@@ -7,13 +7,13 @@
     // MARK: - properties & init
 
     final class DebugProfileCreateContentView: UIView {
-        private(set) lazy var addressControlPublisher = addressControl.segmentIndexPublisher
-        private(set) lazy var birthdayControlPublisher = birthdayControl.segmentIndexPublisher
-        private(set) lazy var emailControlPublisher = emailControl.segmentIndexPublisher
-        private(set) lazy var genderControlPublisher = genderControl.segmentIndexPublisher
-        private(set) lazy var nameControlPublisher = nameControl.segmentIndexPublisher
-        private(set) lazy var phoneNumberControlPublisher = phoneNumberControl.segmentIndexPublisher
-        private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
+        private(set) lazy var didChangeAddressControlPublisher = addressControl.segmentIndexPublisher
+        private(set) lazy var didChangeBirthdayControlPublisher = birthdayControl.segmentIndexPublisher
+        private(set) lazy var didChangeEmailControlPublisher = emailControl.segmentIndexPublisher
+        private(set) lazy var didChangeGenderControlPublisher = genderControl.segmentIndexPublisher
+        private(set) lazy var didChangeNameControlPublisher = nameControl.segmentIndexPublisher
+        private(set) lazy var didChangePhoneNumberControlPublisher = phoneNumberControl.segmentIndexPublisher
+        private(set) lazy var didChangeStationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapCreateButtonPublisher = body.didTapActionButtonPublisher
 
         private var cancellables: Set<AnyCancellable> = .init()

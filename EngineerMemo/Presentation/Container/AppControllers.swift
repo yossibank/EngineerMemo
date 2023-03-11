@@ -79,6 +79,18 @@ enum AppControllers {
                 return vc
             }
 
+            static func UserDefaults() -> DebugUserDefaultsViewController {
+                let vc = DebugUserDefaultsViewController()
+
+                vc.title = L10n.Navigation.Title.debugUserDefaults
+                vc.inject(
+                    contentView: DebugUserDefaultsContentView(),
+                    viewModel: DebugUserDefaultsViewModel()
+                )
+
+                return vc
+            }
+
             enum CoreData {
                 static func List() -> DebugCoreDataMenuViewController {
                     let vc = DebugCoreDataMenuViewController(displayType: .list)

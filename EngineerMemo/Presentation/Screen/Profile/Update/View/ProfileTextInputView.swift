@@ -5,7 +5,7 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfileTextInputView: UIView {
-    private(set) lazy var inputPublisher = inputTextField.textDidChangePublisher
+    private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
     private var body: UIView {
         VStackView {

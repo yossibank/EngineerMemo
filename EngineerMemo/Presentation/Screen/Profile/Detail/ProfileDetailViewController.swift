@@ -66,14 +66,14 @@ private extension ProfileDetailViewController {
         contentView.didTapEditButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] modelObject in
-                self?.viewModel.input.editButtonTapped.send(modelObject)
+                self?.viewModel.input.didTapEditButton.send(modelObject)
             }
             .store(in: &cancellables)
 
         contentView.didTapSettingButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.input.settingButtonTapped.send(())
+                self?.viewModel.input.didTapSettingButton.send(())
             }
             .store(in: &cancellables)
     }

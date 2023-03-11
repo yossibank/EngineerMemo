@@ -4,6 +4,9 @@
 
 // MARK: - コンポーネント
 
+"components.button.nil" = "nil";
+"components.button.add" = "追加する";
+"components.button.delete" = "削除する";
 "components.button.create" = "作成する";
 "components.button.edit" = "編集する";
 "components.button.update" = "更新する";
@@ -31,6 +34,7 @@
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";
 "navigation.title.debugCoreDataCreate" = "CoreData作成";
 "navigation.title.debugCoreDataUpdate" = "CoreData更新";
+"navigation.title.debugUserDefaults" = "UserDefaults一覧";
 
 // MARK: - メモ
 
@@ -72,20 +76,23 @@
 
 // MARK: - 開発者用
 
+"debug.section.git" = "Git";
+"debug.section.device" = "端末情報";
+"debug.section.development" = "開発用操作";
+"debug.section.coreData" = "CoreData";
+"debug.section.userDefaults" = "UserDefaults";
+"debug.git.commitHash" = "コミットハッシュ";
+"debug.device.version" = "バージョン";
+"debug.device.name" = "端末名";
+"debug.device.udid" = "端末ID";
+"debug.development.shutdown" = "アプリ終了";
 "debug.coreData.create" = "作成";
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";
 "debug.coreData.profile" = "プロフィール";
 "debug.coreData.memo" = "メモ";
-"debug.development.shutdown" = "アプリ終了";
-"debug.device.name" = "端末名";
-"debug.device.udid" = "端末ID";
-"debug.device.version" = "バージョン";
-"debug.git.commitHash" = "コミットハッシュ";
-"debug.section.coreData" = "CoreData";
-"debug.section.development" = "開発用操作";
-"debug.section.device" = "端末情報";
-"debug.section.git" = "Git";
+"debug.userDefaults.status" = "状態";
+"debug.userDefaults.value" = "保存値";
 "debug.segment.address" = "address";
 "debug.segment.birthday" = "birthday";
 "debug.segment.content" = "content";

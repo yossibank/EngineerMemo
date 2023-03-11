@@ -3,7 +3,8 @@
 
     final class DebugDevelopmentViewModel: ViewModel {
         final class Input: InputObject {
-            let contentTapped = PassthroughSubject<DebugCoreDataAction, Never>()
+            let didTapCoreDataCell = PassthroughSubject<DebugCoreDataAction, Never>()
+            let didTapUserDefaultsCell = PassthroughSubject<Void, Never>()
         }
 
         let input: Input
@@ -18,10 +19,17 @@
             self.input = Input()
             self.routing = routing
 
-            // MARK: - セルタップ
+            // MARK: - CoreDataセルタップ
 
-            input.contentTapped.sink { action in
+            input.didTapCoreDataCell.sink { action in
                 routing.showDebugCoreDataScreen(action: action)
+            }
+            .store(in: &cancellables)
+
+            // MARK: - UserDefaultsセルタップ
+
+            input.didTapUserDefaultsCell.sink {
+                routing.showDebugUserDefaultsScreen()
             }
             .store(in: &cancellables)
         }

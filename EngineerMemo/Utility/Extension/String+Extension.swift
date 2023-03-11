@@ -17,6 +17,8 @@ extension String {
     }
 
     static let empty = ""
+    static let emptyWord = "空文字"
+    static let nilWord = "nil"
     static let noSetting = "未設定"
     static let unknown = "不明"
 
@@ -30,5 +32,11 @@ extension String {
         }
 
         return randomString
+    }
+}
+
+extension String? {
+    var isNil: Bool {
+        self == nil
     }
 }

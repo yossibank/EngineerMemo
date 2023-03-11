@@ -58,36 +58,36 @@ private extension ProfileUpdateViewController {
     }
 
     func bindToViewModel() {
-        contentView.nameInputPublisher
+        contentView.didChangeNameInputPublisher
             .map { Optional($0) }
             .assign(to: \.name, on: viewModel.binding)
             .store(in: &cancellables)
 
-        contentView.birthdayInputPublisher
+        contentView.didChangeBirthdayInputPublisher
             .map { Optional($0) }
             .assign(to: \.birthday, on: viewModel.binding)
             .store(in: &cancellables)
 
-        contentView.genderInputPublisher
+        contentView.didChangeGenderInputPublisher
             .assign(to: \.gender, on: viewModel.binding)
             .store(in: &cancellables)
 
-        contentView.emailInputPublisher
+        contentView.didChangeEmailInputPublisher
             .map { Optional($0) }
             .assign(to: \.email, on: viewModel.binding)
             .store(in: &cancellables)
 
-        contentView.phoneNumberInputPublisher
+        contentView.didChangePhoneNumberInputPublisher
             .map { Optional($0) }
             .assign(to: \.phoneNumber, on: viewModel.binding)
             .store(in: &cancellables)
 
-        contentView.addressInputPublisher
+        contentView.didChangeAddressInputPublisher
             .map { Optional($0) }
             .assign(to: \.address, on: viewModel.binding)
             .store(in: &cancellables)
 
-        contentView.stationInputPublisher
+        contentView.didChangeStationInputPublisher
             .map { Optional($0) }
             .assign(to: \.station, on: viewModel.binding)
             .store(in: &cancellables)
@@ -95,7 +95,7 @@ private extension ProfileUpdateViewController {
         contentView.didTapSaveButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.input.saveButtonTapped.send(())
+                self?.viewModel.input.didTapSaveButton.send(())
             }
             .store(in: &cancellables)
     }
