@@ -19,10 +19,12 @@
             }
 
             struct TextFieldStructure {
+                let isOptional: Bool
                 let description: String
             }
 
             struct BoolStructure {
+                let isOptional: Bool
                 let index: Int
                 let description: String
             }
@@ -51,20 +53,23 @@
             case .string:
                 return .textField(
                     .init(
-                        description: DataHolder.string.isEmpty
-                            ? .emptyWord
-                            : DataHolder.string
+                        isOptional: false,
+                        description: DataHolder.string.isEmpty ? .emptyWord : DataHolder.string
                     )
                 )
 
             case .int:
                 return .textField(
-                    .init(description: DataHolder.int.description)
+                    .init(
+                        isOptional: false,
+                        description: DataHolder.int.description
+                    )
                 )
 
             case .bool:
                 return .bool(
                     .init(
+                        isOptional: false,
                         index: DataHolder.bool.boolValue,
                         description: DataHolder.bool.description
                     )
@@ -72,7 +77,19 @@
 
             case .optional:
                 return .textField(
-                    .init(description: DataHolder.optional?.description ?? "nil")
+                    .init(
+                        isOptional: true,
+                        description: DataHolder.optional?.description ?? .nilWord
+                    )
+                )
+
+            case .optionalBool:
+                return .bool(
+                    .init(
+                        isOptional: true,
+                        index: DataHolder.optionalBool?.boolValue ?? .nilIndex,
+                        description: DataHolder.optionalBool?.description ?? .nilWord
+                    )
                 )
             }
         }
@@ -83,6 +100,7 @@
     final class DebugUserDefaultsContentView: UIView {
         private(set) lazy var didChangeSegmentIndexPublisher = didChangeSegmentIndexSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeInputTextPublisher = didChangeInputTextSubject.eraseToAnyPublisher()
+        private(set) lazy var didTapNilButtonPublisher = didTapNilButtonSubject.eraseToAnyPublisher()
 
         @Published private(set) var selectedKey: UserDefaultsKey = .sample
 
@@ -99,6 +117,7 @@
 
         private let didChangeSegmentIndexSubject = PassthroughSubject<Int, Never>()
         private let didChangeInputTextSubject = PassthroughSubject<String, Never>()
+        private let didTapNilButtonSubject = PassthroughSubject<Void, Never>()
 
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -126,7 +145,7 @@
     // MARK: - internal methods
 
     extension DebugUserDefaultsContentView {
-        func updateEnumView(description: String) {
+        func updateDescription(description: String) {
             if let userDefaultsEnumView = contentView.subviews.first as? DebugUserDefaultsEnumView {
                 userDefaultsEnumView.updateDescription(description)
                 return
@@ -187,6 +206,7 @@
                     .configure {
                         $0.updateSegment(items: data.items, index: data.index)
                         $0.updateDescription(data.description)
+
                         $0.segmentIndexPublisher.sink { [weak self] index in
                             self?.didChangeSegmentIndexSubject.send(index)
                         }
@@ -200,9 +220,16 @@
             case let .textField(data):
                 let userDefaultsTextView = DebugUserDefaultsTextView()
                     .configure {
+                        $0.configureNilButton(data.isOptional)
                         $0.updateDescription(data.description)
+
                         $0.didChangeTextPublisher.sink { [weak self] text in
                             self?.didChangeInputTextSubject.send(text)
+                        }
+                        .store(in: &cancellables)
+
+                        $0.didTapNilButtonPublisher.sink { [weak self] _ in
+                            self?.didTapNilButtonSubject.send(())
                         }
                         .store(in: &cancellables)
                     }
@@ -214,8 +241,10 @@
             case let .bool(data):
                 let userDefaultsBoolView = DebugUserDefaultsBoolView()
                     .configure {
+                        $0.configureNilSegment(data.isOptional)
                         $0.updateSegment(index: data.index)
                         $0.updateDescription(data.description)
+
                         $0.segmentIndexPublisher.sink { [weak self] index in
                             self?.didChangeSegmentIndexSubject.send(index)
                         }

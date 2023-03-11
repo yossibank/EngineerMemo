@@ -4,6 +4,7 @@
 
 // MARK: - コンポーネント
 
+"components.button.nil" = "nil";
 "components.button.create" = "作成する";
 "components.button.edit" = "編集する";
 "components.button.update" = "更新する";

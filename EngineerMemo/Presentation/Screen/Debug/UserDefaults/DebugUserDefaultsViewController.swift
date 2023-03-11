@@ -43,7 +43,7 @@
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
                 .sink { [weak self] description in
-                    self?.contentView.updateEnumView(description: description)
+                    self?.contentView.updateDescription(description: description)
                 }
                 .store(in: &cancellables)
         }
@@ -69,6 +69,13 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] text in
                     self?.viewModel.input.didChangeInputText.send(text)
+                }
+                .store(in: &cancellables)
+
+            contentView.didTapNilButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.viewModel.input.didTapNilButton.send(())
                 }
                 .store(in: &cancellables)
         }

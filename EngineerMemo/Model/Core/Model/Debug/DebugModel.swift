@@ -19,5 +19,13 @@
         func updateBool(_ value: Bool) {
             DataHolder.bool = value
         }
+
+        func updateOptional(_ value: String?) {
+            DataHolder.optional = value
+        }
+
+        func updateOptionalBool(_ value: Bool?) {
+            DataHolder.optionalBool = value
+        }
     }
 #endif

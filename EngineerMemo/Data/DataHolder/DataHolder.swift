@@ -39,4 +39,10 @@ enum DataHolder {
         defaultValue: nil
     )
     static var optional: String?
+
+    @UserDefaultsStorage(
+        .optionalBool,
+        defaultValue: nil
+    )
+    static var optionalBool: Bool?
 }

@@ -6,6 +6,7 @@
             let didChangeUserDefaultsKey = PassthroughSubject<UserDefaultsKey, Never>()
             let didChangeSegmentIndex = PassthroughSubject<Int, Never>()
             let didChangeInputText = PassthroughSubject<String, Never>()
+            let didTapNilButton = PassthroughSubject<Void, Never>()
         }
 
         final class Output: OutputObject {
@@ -45,6 +46,10 @@
                         self?.model.updateBool(index.boolValue)
                         self?.output.description = DataHolder.bool.description
 
+                    case .optionalBool:
+                        self?.model.updateOptionalBool(index.optionalBoolValue)
+                        self?.output.description = DataHolder.optionalBool?.description ?? .nilWord
+
                     default:
                         break
                     }
@@ -70,6 +75,39 @@
 
                         self?.model.updateInt(value)
                         self?.output.description = DataHolder.int.description
+
+                    case .optional:
+                        self?.model.updateOptional(text)
+
+                        let value: String? = {
+                            guard let value = DataHolder.optional else {
+                                return nil
+                            }
+
+                            if DataHolder.optional.isNil {
+                                return .nilWord
+                            }
+
+                            return value.isEmpty ? .emptyWord : value
+                        }()
+
+                        self?.output.description = value
+
+                    default:
+                        break
+                    }
+                }
+                .store(in: &cancellables)
+
+            // MARK: - nilボタンタップ
+
+            input.didTapNilButton
+                .withLatestFrom(input.didChangeUserDefaultsKey)
+                .sink { [weak self] key in
+                    switch key {
+                    case .optional:
+                        self?.model.updateOptional(nil)
+                        self?.output.description = .nilWord
 
                     default:
                         break

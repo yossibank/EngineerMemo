@@ -9,5 +9,19 @@ extension Int {
         self == 0 ? true : false
     }
 
+    var optionalBoolValue: Bool? {
+        switch self {
+        case 0:
+            return true
+
+        case 1:
+            return false
+
+        default:
+            return nil
+        }
+    }
+
     static let invalid = -1
+    static let nilIndex = 2
 }

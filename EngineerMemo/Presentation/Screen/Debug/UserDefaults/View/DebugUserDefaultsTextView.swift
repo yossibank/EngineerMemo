@@ -6,6 +6,7 @@
     // MARK: - properties & init
 
     final class DebugUserDefaultsTextView: UIView {
+        private(set) lazy var didTapNilButtonPublisher = nilButton.publisher(for: .touchUpInside)
         private(set) lazy var didChangeTextPublisher = inputTextField.textDidChangePublisher
 
         private var body: UIView {
@@ -28,6 +29,8 @@
         private let titleLabel = UILabel()
         private let descriptionLabel = UILabel()
         private let inputTextField = UnderlinedTextField(color: .darkGray)
+        private let nilButton = UIButton(type: .system)
+            .apply(.debugNilButton)
 
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -44,6 +47,10 @@
     // MARK: - internal methods
 
     extension DebugUserDefaultsTextView {
+        func configureNilButton(_ isOptional: Bool) {
+            nilButton.isHidden = !isOptional
+        }
+
         func updateDescription(_ description: String) {
             descriptionLabel.text = description
         }
@@ -55,6 +62,11 @@
         func setupView() {
             addSubview(body) {
                 $0.edges.equalToSuperview().inset(16)
+            }
+
+            addSubview(nilButton) {
+                $0.top.trailing.equalToSuperview().inset(8)
+                $0.width.equalTo(40)
             }
 
             configure {

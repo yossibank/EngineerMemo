@@ -26,6 +26,10 @@ final class StringExtensionTest: XCTestCase {
         XCTAssertEqual(.emptyWord, "空文字")
     }
 
+    func test_nilWord_nilの文字列を取得できること() {
+        XCTAssertEqual(.nilWord, "nil")
+    }
+
     func test_noSetting_未設定の文字列を取得できること() {
         XCTAssertEqual(.noSetting, "未設定")
     }
@@ -36,5 +40,19 @@ final class StringExtensionTest: XCTestCase {
 
     func test_randomElement_引数の数値分のランダムな文字列を取得できること() {
         XCTAssertEqual(String.randomElement(10).count, 10)
+    }
+
+    func test_isNil_オプショナルで値がnilの際にtrueを取得できること() {
+        // arrange
+        let value: String? = nil
+
+        XCTAssertTrue(value.isNil)
+    }
+
+    func test_isNil_オプショナルで値が文字列の際にfalseを取得できること() {
+        // arrange
+        let value: String? = .randomElement(10)
+
+        XCTAssertFalse(value.isNil)
     }
 }

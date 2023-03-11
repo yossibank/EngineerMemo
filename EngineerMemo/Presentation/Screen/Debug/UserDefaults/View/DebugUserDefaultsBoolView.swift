@@ -42,6 +42,16 @@
     // MARK: - internal methods
 
     extension DebugUserDefaultsBoolView {
+        func configureNilSegment(_ isOptional: Bool) {
+            if isOptional {
+                segmentControl.insertSegment(
+                    withTitle: .nilWord,
+                    at: .nilIndex,
+                    animated: false
+                )
+            }
+        }
+
         func updateSegment(index: Int) {
             segmentControl.selectedSegmentIndex = index
         }

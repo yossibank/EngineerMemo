@@ -24,6 +24,18 @@ extension ViewStyle where T: UIButton {
         }
     }
 
+    static var debugNilButton: ViewStyle<T> {
+        .init {
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 13)
+            $0.setTitle(L10n.Components.Button.nil, for: .normal)
+            $0.setTitleColor(.theme, for: .normal)
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
+            $0.layer.cornerRadius = 8
+            $0.clipsToBounds = true
+        }
+    }
+
     static var debugMenuButton: ViewStyle<T> {
         .init {
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
