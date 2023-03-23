@@ -51,11 +51,13 @@
 
         private var body: UIView {
             HStackView(spacing: 4) {
-                titleLabel
-                    .modifier(\.font, .italicSystemFont(ofSize: 14))
+                titleLabel.configure {
+                    $0.font = .italicSystemFont(ofSize: 14)
+                }
 
-                segmentControl
-                    .modifier(\.selectedSegmentIndex, DebugCoreDataSegment.medium.rawValue)
+                segmentControl.configure {
+                    $0.selectedSegmentIndex = DebugCoreDataSegment.medium.rawValue
+                }
             }
         }
 

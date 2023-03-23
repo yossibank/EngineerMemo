@@ -4,8 +4,9 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class TitleHeaderFooterView: UITableViewHeaderFooterView {
-    private let titleLabel = UILabel()
-        .modifier(\.font, .boldSystemFont(ofSize: 12))
+    private let titleLabel = UILabel().configure {
+        $0.font = .boldSystemFont(ofSize: 12)
+    }
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

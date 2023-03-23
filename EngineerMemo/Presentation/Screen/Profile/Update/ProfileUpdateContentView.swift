@@ -37,21 +37,20 @@ final class ProfileUpdateContentView: UIView {
             $0.height.equalTo(60)
         }
 
-    private lazy var saveButton = UIButton(type: .system)
-        .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-        .modifier(\.layer.borderWidth, 1.0)
-        .modifier(\.layer.cornerRadius, 8)
-        .modifier(\.clipsToBounds, true)
-        .configure {
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.setTitle(
-                modelObject == nil
-                    ? L10n.Components.Button.saveProfile
-                    : L10n.Components.Button.updateProfile,
-                for: .normal
-            )
-            $0.setTitleColor(.theme, for: .normal)
-        }
+    private lazy var saveButton = UIButton(type: .system).configure {
+        $0.clipsToBounds = true
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        $0.setTitle(
+            modelObject == nil
+                ? L10n.Components.Button.saveProfile
+                : L10n.Components.Button.updateProfile,
+            for: .normal
+        )
+        $0.setTitleColor(.theme, for: .normal)
+        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderWidth = 1.0
+        $0.layer.cornerRadius = 8
+    }
 
     private let nameInputView = ProfileTextInputView(
         title: L10n.Profile.name,

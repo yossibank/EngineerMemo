@@ -8,8 +8,9 @@ final class ProfileTopCell: UITableViewCell {
         VStackView(alignment: .center, spacing: 16) {
             iconImageView
 
-            userNameLabel
-                .modifier(\.font, .boldSystemFont(ofSize: 14))
+            userNameLabel.configure {
+                $0.font = .boldSystemFont(ofSize: 14)
+            }
         }
     }
 
