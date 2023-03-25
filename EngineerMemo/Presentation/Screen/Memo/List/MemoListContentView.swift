@@ -86,7 +86,14 @@ final class MemoListContentView: UIView {
         return UICollectionViewCompositionalLayout(section: section)
     }
 
-    private var viewType: ViewType = .two
+    private var viewType: ViewType = .two {
+        didSet {
+            UIView.animate(withDuration: 0.2) {
+                self.collectionView.collectionViewLayout.invalidateLayout()
+                self.collectionView.collectionViewLayout = self.collectionViewLayout
+            }
+        }
+    }
 
     private let cellRegistration = UICollectionView.CellRegistration<
         UICollectionViewListCell,

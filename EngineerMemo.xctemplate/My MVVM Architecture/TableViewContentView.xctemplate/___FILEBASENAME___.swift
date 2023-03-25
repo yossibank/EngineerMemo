@@ -2,7 +2,7 @@ import Combine
 import UIKit
 import UIKitHelper
 
-// MARK: - section & item
+// MARK: - section
 
 enum ___FILEBASENAME___Section: CaseIterable {
     case main
@@ -15,15 +15,11 @@ enum ___FILEBASENAME___Section: CaseIterable {
     }
 }
 
-enum ___FILEBASENAME___Item: Hashable {
-    case main(String)
-}
-
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UIView {
     typealias Section = ___FILEBASENAME___Section
-    typealias Item = ___FILEBASENAME___Item
+    typealias Item = String
 
     private lazy var dataSource = UITableViewDiffableDataSource<
         Section,
@@ -79,22 +75,18 @@ private extension ___FILEBASENAME___ {
     ) -> UITableViewCell? {
         let cellType = Section.allCases[indexPath.section].cellType
 
-        switch item {
-        case let .main(text):
-            let cell = tableView.dequeueReusableCell(
-                withType: cellType,
-                for: indexPath
-            )
+        let cell = tableView.dequeueReusableCell(
+            withType: cellType,
+            for: indexPath
+        )
 
-            var content = cell.defaultContentConfiguration()
-            content.text = text
-            content.secondaryText = "IndexPath Row: \(indexPath.row)"
-            content.image = .init(systemName: "appletv")
+        var content = cell.defaultContentConfiguration()
+        content.text = item
+        content.secondaryText = "IndexPath Row: \(indexPath.row)"
+        content.image = .init(systemName: "appletv")
+        cell.contentConfiguration = content
 
-            cell.contentConfiguration = content
-
-            return cell
-        }
+        return cell
     }
 
     func applySnapshot() {
@@ -102,7 +94,7 @@ private extension ___FILEBASENAME___ {
         dataSourceSnapshot.appendSections(Section.allCases)
 
         ["text1", "text2", "text3", "text4", "text5"].forEach {
-            dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
+            dataSourceSnapshot.appendItems([$0], toSection: .main)
         }
 
         dataSource.apply(

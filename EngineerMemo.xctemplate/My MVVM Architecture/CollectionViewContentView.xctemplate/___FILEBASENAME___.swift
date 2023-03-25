@@ -8,19 +8,15 @@ enum ___FILEBASENAME___Section: CaseIterable {
     case main
 }
 
-enum ___FILEBASENAME___Item: Hashable {
-    case main(String)
-}
-
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UIView {
     typealias Section = ___FILEBASENAME___Section
-    typealias Item = ___FILEBASENAME___Item
+    typealias Item = String
 
     private lazy var collectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: createLayout()
+        collectionViewLayout: collectionViewLayout
     )
 
     private lazy var dataSource = UICollectionViewDiffableDataSource<
@@ -38,48 +34,7 @@ final class ___FILEBASENAME___: UIView {
         )
     }
 
-    private let cellRegistration = UICollectionView.CellRegistration<
-        UICollectionViewListCell,
-        Item
-    > { cell, indexPath, item in
-        switch item {
-        case let .main(text):
-            var configuration = cell.defaultContentConfiguration()
-            configuration.text = text
-            configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
-            configuration.image = .init(systemName: "appletv")
-
-            var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-            backgroundConfig.backgroundColor = indexPath.row % 2 == 0
-                ? .green
-                : .orange
-
-            cell.contentConfiguration = configuration
-            cell.backgroundConfiguration = backgroundConfig
-        }
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setupView()
-        applySnapshot()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - internal methods
-
-extension ___FILEBASENAME___ {}
-
-// MARK: - private methods
-
-private extension ___FILEBASENAME___ {
-    func createLayout() -> UICollectionViewLayout {
+    private var collectionViewLayout: UICollectionViewLayout {
         let estimatedHeight: CGFloat = 56
 
         let itemSize = NSCollectionLayoutSize(
@@ -113,12 +68,57 @@ private extension ___FILEBASENAME___ {
         return UICollectionViewCompositionalLayout(section: section)
     }
 
+    private let cellRegistration = UICollectionView.CellRegistration<
+        UICollectionViewListCell,
+        Item
+    > { cell, indexPath, item in
+        var configuration = cell.defaultContentConfiguration()
+        configuration.text = item
+        configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
+        configuration.image = .init(systemName: "appletv")
+
+        var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
+        backgroundConfig.backgroundColor = indexPath.row % 2 == 0
+            ? .green
+            : .orange
+
+        cell.contentConfiguration = configuration
+        cell.backgroundConfiguration = backgroundConfig
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        setupView()
+        setupCollectionView()
+        applySnapshot()
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - internal methods
+
+extension ___FILEBASENAME___ {}
+
+// MARK: - private methods
+
+private extension ___FILEBASENAME___ {
+    func setupCollectionView() {
+        collectionView.configure {
+            $0.backgroundColor = .primary
+        }
+    }
+
     func applySnapshot() {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
         ["text1", "text2", "text3", "text4", "text5"].forEach {
-            dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
+            dataSourceSnapshot.appendItems([$0], toSection: .main)
         }
 
         dataSource.apply(
