@@ -2,21 +2,17 @@ import Combine
 import UIKit
 import UIKitHelper
 
-// MARK: - section & item
+// MARK: - section
 
 enum MemoListContentViewSection: CaseIterable {
     case main
-}
-
-enum MemoListContentViewItem: Hashable {
-    case main(String)
 }
 
 // MARK: - properties & init
 
 final class MemoListContentView: UIView {
     typealias Section = MemoListContentViewSection
-    typealias Item = MemoListContentViewItem
+    typealias Item = String
 
     enum ViewType: Int {
         case one = 1
@@ -26,7 +22,7 @@ final class MemoListContentView: UIView {
 
     private lazy var collectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: createLayout()
+        collectionViewLayout: collectionViewLayout
     )
 
     private lazy var dataSource = UICollectionViewDiffableDataSource<
@@ -44,109 +40,8 @@ final class MemoListContentView: UIView {
         )
     }
 
-    private let cellRegistration = UICollectionView.CellRegistration<
-        UICollectionViewListCell,
-        Item
-    > { cell, indexPath, item in
-        switch item {
-        case let .main(text):
-            var configuration = cell.defaultContentConfiguration()
-            configuration.text = text
-            configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
-            configuration.image = .init(systemName: "appletv")
-
-            var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-            backgroundConfig.backgroundColor = indexPath.row % 2 == 0
-                ? .green
-                : .orange
-
-            cell.contentConfiguration = configuration
-            cell.backgroundConfiguration = backgroundConfig
-        }
-    }
-
-    private let headerRegistration = UICollectionView.SupplementaryRegistration<
-        MemoListHeaderView
-    > { header, _, _ in
-        header.configure(title: "title")
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setupView()
-        setupCollectionView()
-        setupHeaderView()
-        applySnapshot()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - private methods
-
-private extension MemoListContentView {
-    func setupCollectionView() {
-        collectionView.configure {
-            $0.registerReusableView(with: MemoListHeaderView.self)
-            $0.backgroundColor = .primary
-        }
-    }
-
-    func setupHeaderView() {
-        dataSource.supplementaryViewProvider = { [weak self] collectionView, _, indexPath in
-            guard let self else {
-                return .init()
-            }
-
-            let header = collectionView.dequeueConfiguredReusableSupplementary(
-                using: self.headerRegistration,
-                for: indexPath
-            )
-
-            header.button1Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
-
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .one), animated: true)
-                }
-                .store(in: &header.cancellables)
-
-            header.button2Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
-
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .two), animated: true)
-                }
-                .store(in: &header.cancellables)
-
-            header.button3Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
-
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .three), animated: true)
-                }
-                .store(in: &header.cancellables)
-
-            return header
-        }
-    }
-
-    func createLayout(viewType: ViewType = .two) -> UICollectionViewLayout {
+    private var collectionViewLayout: UICollectionViewLayout {
         let estimatedHeight: CGFloat = 56
-        let headerKind = String(describing: MemoListHeaderView.self)
 
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -183,7 +78,7 @@ private extension MemoListContentView {
         )
         let header = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
-            elementKind: headerKind,
+            elementKind: MemoListHeaderView.className,
             alignment: .top
         )
         section.boundarySupplementaryItems = [header]
@@ -191,12 +86,107 @@ private extension MemoListContentView {
         return UICollectionViewCompositionalLayout(section: section)
     }
 
+    private var viewType: ViewType = .two
+
+    private let cellRegistration = UICollectionView.CellRegistration<
+        UICollectionViewListCell,
+        Item
+    > { cell, indexPath, item in
+        var configuration = cell.defaultContentConfiguration()
+        configuration.text = item
+        configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
+        configuration.image = .init(systemName: "appletv")
+
+        var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
+        backgroundConfig.backgroundColor = indexPath.row % 2 == 0
+            ? .green
+            : .orange
+
+        cell.contentConfiguration = configuration
+        cell.backgroundConfiguration = backgroundConfig
+    }
+
+    private let headerRegistration = UICollectionView.SupplementaryRegistration<
+        MemoListHeaderView
+    > { header, _, _ in
+        header.configure(title: "title")
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        setupView()
+        setupCollectionView()
+        setupHeaderView()
+        applySnapshot()
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - private methods
+
+private extension MemoListContentView {
+    func setupCollectionView() {
+        collectionView.configure {
+            $0.backgroundColor = .primary
+        }
+    }
+
+    func setupHeaderView() {
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, _, indexPath in
+            guard let self else {
+                return .init()
+            }
+
+            let header = collectionView.dequeueConfiguredReusableSupplementary(
+                using: self.headerRegistration,
+                for: indexPath
+            )
+
+            header.button1Publisher
+                .sink { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+
+                    self.viewType = .one
+                }
+                .store(in: &header.cancellables)
+
+            header.button2Publisher
+                .sink { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+
+                    self.viewType = .two
+                }
+                .store(in: &header.cancellables)
+
+            header.button3Publisher
+                .sink { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+
+                    self.viewType = .three
+                }
+                .store(in: &header.cancellables)
+
+            return header
+        }
+    }
+
     func applySnapshot() {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
         ["text1", "text2", "text3", "text4", "text5"].forEach {
-            dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
+            dataSourceSnapshot.appendItems([$0], toSection: .main)
         }
 
         dataSource.apply(

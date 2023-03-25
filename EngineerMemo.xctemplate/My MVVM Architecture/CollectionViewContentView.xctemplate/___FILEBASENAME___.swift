@@ -22,7 +22,6 @@ final class ___FILEBASENAME___: UIView {
         frame: .zero,
         collectionViewLayout: createLayout()
     )
-    .modifier(\.backgroundColor, .primary)
 
     private lazy var dataSource = UICollectionViewDiffableDataSource<
         Section,
