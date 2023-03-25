@@ -115,7 +115,9 @@ extension ProfilePickerInputView {
 
 private extension ProfilePickerInputView {
     func setupView() {
-        backgroundColor = .primary
+        configure {
+            $0.backgroundColor = .primary
+        }
 
         addSubview(body) {
             $0.top.bottom.equalToSuperview().inset(8)

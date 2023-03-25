@@ -87,7 +87,9 @@ final class ProfileSettingCell: UITableViewCell {
 
 private extension ProfileSettingCell {
     func setupView() {
-        contentView.backgroundColor = .primary
+        contentView.configure {
+            $0.backgroundColor = .primary
+        }
 
         contentView.addSubview(body) {
             $0.top.bottom.equalToSuperview()

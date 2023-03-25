@@ -154,7 +154,9 @@ private extension ProfileUpdateContentView {
 
 extension ProfileUpdateContentView: ContentView {
     func setupView() {
-        backgroundColor = .primary
+        configure {
+            $0.backgroundColor = .primary
+        }
 
         addSubview(scrollView) {
             $0.edges.equalToSuperview()

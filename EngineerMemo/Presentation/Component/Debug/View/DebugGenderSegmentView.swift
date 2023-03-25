@@ -78,7 +78,9 @@
 
     private extension DebugGenderSegmentView {
         func setupView() {
-            backgroundColor = .primary
+            configure {
+                $0.backgroundColor = .primary
+            }
 
             addSubview(body) {
                 $0.top.bottom.equalToSuperview()

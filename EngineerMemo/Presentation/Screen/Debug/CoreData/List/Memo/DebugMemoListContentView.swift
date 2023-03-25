@@ -14,15 +14,11 @@
         }
     }
 
-    enum DebugMemoListContentViewItem: Hashable {
-        case main(MemoModelObject)
-    }
-
     // MARK: - properties & init
 
     final class DebugMemoListContentView: UIView {
         typealias Section = DebugMemoListContentViewSection
-        typealias Item = DebugMemoListContentViewItem
+        typealias Item = MemoModelObject
         typealias DataSource = DebugMemoListDataSource
 
         private(set) lazy var didDeletedModelObjectPublisher = dataSource.didDeletedModelObjectPublisher
@@ -76,17 +72,14 @@
         ) -> UITableViewCell? {
             let cellType = Section.allCases[indexPath.section].cellType
 
-            switch item {
-            case let .main(modelObject):
-                let cell = tableView.dequeueReusableCell(
-                    withType: cellType,
-                    for: indexPath
-                )
+            let cell = tableView.dequeueReusableCell(
+                withType: cellType,
+                for: indexPath
+            )
 
-                cell.configure(modelObject)
+            cell.configure(item)
 
-                return cell
-            }
+            return cell
         }
     }
 

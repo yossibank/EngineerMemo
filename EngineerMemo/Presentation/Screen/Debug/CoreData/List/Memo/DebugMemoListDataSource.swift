@@ -6,10 +6,10 @@
 
     final class DebugMemoListDataSource: UITableViewDiffableDataSource<
         DebugMemoListContentViewSection,
-        DebugMemoListContentViewItem
+        MemoModelObject
     > {
         typealias Section = DebugMemoListContentViewSection
-        typealias Item = DebugMemoListContentViewItem
+        typealias Item = MemoModelObject
 
         var modelObject: [MemoModelObject] = [] {
             didSet {
@@ -54,7 +54,7 @@
             dataSourceSnapshot.appendSections(Section.allCases)
 
             modelObject.forEach {
-                dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
+                dataSourceSnapshot.appendItems([$0], toSection: .main)
             }
 
             apply(

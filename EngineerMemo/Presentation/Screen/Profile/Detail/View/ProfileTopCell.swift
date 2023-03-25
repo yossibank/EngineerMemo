@@ -51,7 +51,9 @@ extension ProfileTopCell {
 
 private extension ProfileTopCell {
     func setupView() {
-        contentView.backgroundColor = .primary
+        contentView.configure {
+            $0.backgroundColor = .primary
+        }
 
         contentView.addSubview(body) {
             $0.edges.equalToSuperview().inset(16)

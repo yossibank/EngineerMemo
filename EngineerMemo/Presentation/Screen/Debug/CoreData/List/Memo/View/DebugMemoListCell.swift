@@ -80,7 +80,9 @@
 
     private extension DebugMemoListCell {
         func setupView() {
-            contentView.backgroundColor = .primary
+            configure {
+                $0.backgroundColor = .primary
+            }
 
             contentView.addSubview(baseView) {
                 $0.top.equalToSuperview()

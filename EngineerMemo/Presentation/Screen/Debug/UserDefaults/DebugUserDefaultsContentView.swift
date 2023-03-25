@@ -352,7 +352,9 @@
 
     extension DebugUserDefaultsContentView: ContentView {
         func setupView() {
-            backgroundColor = .primary
+            configure {
+                $0.backgroundColor = .primary
+            }
 
             addSubview(menuButton) {
                 $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(72)

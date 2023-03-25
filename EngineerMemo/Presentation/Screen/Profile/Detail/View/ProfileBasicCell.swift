@@ -117,7 +117,9 @@ extension ProfileBasicCell {
 
 private extension ProfileBasicCell {
     func setupView() {
-        contentView.backgroundColor = .primary
+        contentView.configure {
+            $0.backgroundColor = .primary
+        }
 
         contentView.addSubview(baseView) {
             $0.top.equalToSuperview()

@@ -56,9 +56,11 @@
 
     private extension DebugUpdateListCell {
         func setupView() {
-            backgroundColor = .primary
-            separatorInset = .zero
-            selectionStyle = .none
+            configure {
+                $0.backgroundColor = .primary
+                $0.separatorInset = .zero
+                $0.selectionStyle = .none
+            }
 
             contentView.addSubview(body) {
                 $0.top.bottom.equalToSuperview()

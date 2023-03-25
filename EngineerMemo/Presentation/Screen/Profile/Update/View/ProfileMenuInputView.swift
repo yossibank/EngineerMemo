@@ -131,7 +131,9 @@ extension ProfileMenuInputView {
 
 private extension ProfileMenuInputView {
     func setupView() {
-        backgroundColor = .primary
+        configure {
+            $0.backgroundColor = .primary
+        }
 
         addSubview(body) {
             $0.top.bottom.equalToSuperview().inset(8)
