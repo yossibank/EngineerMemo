@@ -49,7 +49,7 @@ final class MemoListContentView: UIView {
     }
 
     private var collectionViewLayout: UICollectionViewLayout {
-        let estimatedHeight: CGFloat = 140
+        let estimatedHeight: CGFloat = 120
 
         let layoutSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
