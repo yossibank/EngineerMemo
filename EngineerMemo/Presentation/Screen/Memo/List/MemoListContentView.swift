@@ -12,12 +12,18 @@ enum MemoListContentViewSection: CaseIterable {
 
 final class MemoListContentView: UIView {
     typealias Section = MemoListContentViewSection
-    typealias Item = String
+    typealias Item = MemoModelObject
 
     enum ViewType: Int {
         case one = 1
         case two
         case three
+    }
+
+    var modelObjects: [MemoModelObject] = [] {
+        didSet {
+            applySnapshot()
+        }
     }
 
     private lazy var collectionView = UICollectionView(
@@ -41,21 +47,16 @@ final class MemoListContentView: UIView {
     }
 
     private var collectionViewLayout: UICollectionViewLayout {
-        let estimatedHeight: CGFloat = 56
+        let estimatedHeight: CGFloat = 140
 
-        let itemSize = NSCollectionLayoutSize(
+        let layoutSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(estimatedHeight)
         )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
-        )
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitem: item,
+            layoutSize: layoutSize,
+            subitem: .init(layoutSize: layoutSize),
             count: viewType.rawValue
         )
         group.interItemSpacing = .fixed(8.0)
@@ -74,7 +75,7 @@ final class MemoListContentView: UIView {
 
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(44)
+            heightDimension: .absolute(44)
         )
         let header = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
@@ -88,29 +89,23 @@ final class MemoListContentView: UIView {
 
     private var viewType: ViewType = .two {
         didSet {
-            UIView.animate(withDuration: 0.2) {
-                self.collectionView.collectionViewLayout.invalidateLayout()
-                self.collectionView.collectionViewLayout = self.collectionViewLayout
+            guard viewType != oldValue else {
+                return
             }
+
+            collectionView.collectionViewLayout.invalidateLayout()
+            collectionView.setCollectionViewLayout(
+                collectionViewLayout,
+                animated: true
+            )
         }
     }
 
     private let cellRegistration = UICollectionView.CellRegistration<
-        UICollectionViewListCell,
+        MemoListCell,
         Item
-    > { cell, indexPath, item in
-        var configuration = cell.defaultContentConfiguration()
-        configuration.text = item
-        configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
-        configuration.image = .init(systemName: "appletv")
-
-        var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-        backgroundConfig.backgroundColor = indexPath.row % 2 == 0
-            ? .green
-            : .orange
-
-        cell.contentConfiguration = configuration
-        cell.backgroundConfiguration = backgroundConfig
+    > { cell, _, item in
+        cell.configure(item)
     }
 
     private let headerRegistration = UICollectionView.SupplementaryRegistration<
@@ -125,7 +120,6 @@ final class MemoListContentView: UIView {
         setupView()
         setupCollectionView()
         setupHeaderView()
-        applySnapshot()
     }
 
     @available(*, unavailable)
@@ -192,7 +186,7 @@ private extension MemoListContentView {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        ["text1", "text2", "text3", "text4", "text5"].forEach {
+        modelObjects.forEach {
             dataSourceSnapshot.appendItems([$0], toSection: .main)
         }
 

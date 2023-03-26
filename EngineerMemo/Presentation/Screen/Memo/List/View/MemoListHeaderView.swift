@@ -81,7 +81,9 @@ extension MemoListHeaderView {
 
 private extension MemoListHeaderView {
     func setupView() {
-        backgroundColor = .thinGray
+        configure {
+            $0.backgroundColor = .primary
+        }
 
         addSubview(body) {
             $0.edges.equalToSuperview().inset(8)

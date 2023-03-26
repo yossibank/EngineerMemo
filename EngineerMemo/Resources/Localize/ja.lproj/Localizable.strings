@@ -69,10 +69,8 @@
 
 // MARK: - FirebaseAnalytics
 
-"fa.eventName.tapSampleList" = "サンプル一覧タップ";
 "fa.eventName.screenView" = "画面表示";
 "fa.parameter.screenId" = "スクリーンID";
-"fa.parameter.userId" = "ユーザーID";
 
 // MARK: - 開発者用
 
