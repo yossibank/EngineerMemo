@@ -70,20 +70,7 @@ final class ProfileDetailViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
-    func test_input_settingButtonTapped_routing_showUpdateScreenが呼び出されること() {
-        // arrange
-        routing.showUpdateScreenHandler = {
-            XCTAssertEqual($0, .setting)
-        }
-
-        // act
-        viewModel.input.didTapSettingButton.send(())
-
-        // assert
-        XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
-    }
-
-    func test_input_editButtonTapped_routing_showUpdateScreenが呼び出されること() {
+    func test_input_didTapEditButton_routing_showUpdateScreenが呼び出されること() {
         // arrange
         let modelObject = ProfileModelObjectBuilder().build()
 
@@ -94,6 +81,19 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         // act
         viewModel.input.didTapEditButton.send(modelObject)
+
+        // assert
+        XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
+    }
+
+    func test_input_didTapSettingButton_routing_showUpdateScreenが呼び出されること() {
+        // arrange
+        routing.showUpdateScreenHandler = {
+            XCTAssertEqual($0, .setting)
+        }
+
+        // act
+        viewModel.input.didTapSettingButton.send(())
 
         // assert
         XCTAssertEqual(routing.showUpdateScreenCallCount, 1)

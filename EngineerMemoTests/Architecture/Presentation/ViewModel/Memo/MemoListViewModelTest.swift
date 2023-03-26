@@ -5,15 +5,18 @@ import XCTest
 final class MemoListViewModelTest: XCTestCase {
     private var model: MemoModelInputMock!
     private var analytics: FirebaseAnalyzableMock!
+    private var routing: MemoListRoutingInputMock!
     private var viewModel: MemoListViewModel!
 
     override func setUp() {
         super.setUp()
 
         model = .init()
+        routing = .init()
         analytics = .init(screenId: .memoList)
         viewModel = .init(
             model: model,
+            routing: routing,
             analytics: analytics
         )
 
@@ -46,5 +49,31 @@ final class MemoListViewModelTest: XCTestCase {
 
         // act
         viewModel.input.viewWillAppear.send(())
+    }
+
+    func test_input_didSelectContent_ログイベントが送信されていること() {
+        // arrange
+        analytics.sendEventFAEventHandler = {
+            // assert
+            XCTAssertEqual($0, .didTapMemoList(title: "title"))
+        }
+
+        // act
+        viewModel.input.didSelectContent.send(
+            MemoModelObjectBuilder()
+                .title("title")
+                .build()
+        )
+    }
+
+    func test_input_didSelectContent_routing_showDetailScreenが呼び出されること() {
+        // arrange
+        routing.showDetailScreenHandler = {
+            // assert
+            XCTAssertEqual($0, MemoModelObjectBuilder().build())
+        }
+
+        // act
+        viewModel.input.didSelectContent.send(MemoModelObjectBuilder().build())
     }
 }

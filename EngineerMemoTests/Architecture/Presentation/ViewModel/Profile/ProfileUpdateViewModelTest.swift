@@ -125,7 +125,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapSaveButton.send(())
     }
 
-    func test_input_saveButtonTapped_output_isFinishedがtrueを取得できること() {
+    func test_input_didTapSaveButton_output_isFinishedがtrueを取得できること() {
         // arrange
         setupViewModel()
 
@@ -136,7 +136,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         XCTAssertTrue(viewModel.output.isFinished!)
     }
 
-    func test_input_buttonTapped_update_プロフィール更新処理が呼ばれること() {
+    func test_input_didTapSaveButton_update_プロフィール更新処理が呼ばれること() {
         // arrange
         setupViewModel(.update(ProfileModelObjectBuilder().build()))
 
@@ -147,7 +147,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         XCTAssertEqual(model.updateCallCount, 1)
     }
 
-    func test_input_buttonTapped_setting_プロフィール作成処理が呼ばれること() {
+    func test_input_didTapSaveButton_setting_プロフィール作成処理が呼ばれること() {
         // arrange
         setupViewModel()
 

@@ -26,6 +26,7 @@
 
 // MARK: - ナビゲーション
 
+"navigation.title.memoDetail" = "メモ詳細";
 "navigation.title.memoList" = "メモ一覧";
 "navigation.title.profileDetail" = "プロフィール";
 "navigation.title.profileUpdate" = "プロフィール更新";
@@ -70,7 +71,9 @@
 // MARK: - FirebaseAnalytics
 
 "fa.eventName.screenView" = "画面表示";
+"fa.eventName.didTapMemoList" = "メモ一覧タップ";
 "fa.parameter.screenId" = "スクリーンID";
+"fa.parameter.memoTitle" = "メモタイトル";
 
 // MARK: - 開発者用
 
