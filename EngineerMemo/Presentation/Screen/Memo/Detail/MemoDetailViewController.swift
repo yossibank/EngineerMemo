@@ -28,8 +28,6 @@ extension MemoDetailViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewModel.input.viewDidLoad.send(())
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -38,11 +36,3 @@ extension MemoDetailViewController {
         viewModel.input.viewWillAppear.send(())
     }
 }
-
-// MARK: - internal methods
-
-extension MemoDetailViewController {}
-
-// MARK: - private methods
-
-private extension MemoDetailViewController {}
