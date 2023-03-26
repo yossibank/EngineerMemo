@@ -19,7 +19,7 @@ final class MemoListCell: UICollectionViewCell {
 
     private var stackView: UIView {
         VStackView(spacing: 16) {
-            VStackView(spacing: 8) {
+            VStackView(spacing: 4) {
                 UILabel().configure {
                     $0.text = L10n.Memo.title
                     $0.textColor = .secondary
@@ -32,11 +32,11 @@ final class MemoListCell: UICollectionViewCell {
                 }
             }
 
-            VStackView(spacing: 8) {
+            VStackView(spacing: 4) {
                 UILabel().configure {
                     $0.text = L10n.Memo.content
                     $0.textColor = .secondary
-                    $0.font = .systemFont(ofSize: 14)
+                    $0.font = .systemFont(ofSize: 12)
                 }
 
                 contentLabel.configure {
