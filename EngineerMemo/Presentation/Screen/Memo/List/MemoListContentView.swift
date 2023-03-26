@@ -2,21 +2,17 @@ import Combine
 import UIKit
 import UIKitHelper
 
-// MARK: - section & item
+// MARK: - section
 
 enum MemoListContentViewSection: CaseIterable {
     case main
-}
-
-enum MemoListContentViewItem: Hashable {
-    case main(String)
 }
 
 // MARK: - properties & init
 
 final class MemoListContentView: UIView {
     typealias Section = MemoListContentViewSection
-    typealias Item = MemoListContentViewItem
+    typealias Item = MemoModelObject
 
     enum ViewType: Int {
         case one = 1
@@ -24,9 +20,15 @@ final class MemoListContentView: UIView {
         case three
     }
 
+    var modelObjects: [MemoModelObject] = [] {
+        didSet {
+            applySnapshot()
+        }
+    }
+
     private lazy var collectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: createLayout()
+        collectionViewLayout: collectionViewLayout
     )
 
     private lazy var dataSource = UICollectionViewDiffableDataSource<
@@ -44,25 +46,66 @@ final class MemoListContentView: UIView {
         )
     }
 
-    private let cellRegistration = UICollectionView.CellRegistration<
-        UICollectionViewListCell,
-        Item
-    > { cell, indexPath, item in
-        switch item {
-        case let .main(text):
-            var configuration = cell.defaultContentConfiguration()
-            configuration.text = text
-            configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
-            configuration.image = .init(systemName: "appletv")
+    private var collectionViewLayout: UICollectionViewLayout {
+        let estimatedHeight: CGFloat = 140
 
-            var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-            backgroundConfig.backgroundColor = indexPath.row % 2 == 0
-                ? .green
-                : .orange
+        let layoutSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(estimatedHeight)
+        )
 
-            cell.contentConfiguration = configuration
-            cell.backgroundConfiguration = backgroundConfig
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: layoutSize,
+            subitem: .init(layoutSize: layoutSize),
+            count: viewType.rawValue
+        )
+        group.interItemSpacing = .fixed(8.0)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8.0
+
+        let topInset: CGFloat = 12.0
+        let sideInset: CGFloat = 8.0
+        section.contentInsets = .init(
+            top: topInset,
+            leading: sideInset,
+            bottom: .zero,
+            trailing: sideInset
+        )
+
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(44)
+        )
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: MemoListHeaderView.className,
+            alignment: .top
+        )
+        section.boundarySupplementaryItems = [header]
+
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+
+    private var viewType: ViewType = .two {
+        didSet {
+            guard viewType != oldValue else {
+                return
+            }
+
+            collectionView.collectionViewLayout.invalidateLayout()
+            collectionView.setCollectionViewLayout(
+                collectionViewLayout,
+                animated: true
+            )
         }
+    }
+
+    private let cellRegistration = UICollectionView.CellRegistration<
+        MemoListCell,
+        Item
+    > { cell, _, item in
+        cell.configure(item)
     }
 
     private let headerRegistration = UICollectionView.SupplementaryRegistration<
@@ -77,7 +120,6 @@ final class MemoListContentView: UIView {
         setupView()
         setupCollectionView()
         setupHeaderView()
-        applySnapshot()
     }
 
     @available(*, unavailable)
@@ -91,7 +133,6 @@ final class MemoListContentView: UIView {
 private extension MemoListContentView {
     func setupCollectionView() {
         collectionView.configure {
-            $0.registerReusableView(with: MemoListHeaderView.self)
             $0.backgroundColor = .primary
         }
     }
@@ -113,8 +154,7 @@ private extension MemoListContentView {
                         return
                     }
 
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .one), animated: true)
+                    self.viewType = .one
                 }
                 .store(in: &header.cancellables)
 
@@ -124,8 +164,7 @@ private extension MemoListContentView {
                         return
                     }
 
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .two), animated: true)
+                    self.viewType = .two
                 }
                 .store(in: &header.cancellables)
 
@@ -135,8 +174,7 @@ private extension MemoListContentView {
                         return
                     }
 
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                    self.collectionView.setCollectionViewLayout(self.createLayout(viewType: .three), animated: true)
+                    self.viewType = .three
                 }
                 .store(in: &header.cancellables)
 
@@ -144,59 +182,12 @@ private extension MemoListContentView {
         }
     }
 
-    func createLayout(viewType: ViewType = .two) -> UICollectionViewLayout {
-        let estimatedHeight: CGFloat = 56
-        let headerKind = String(describing: MemoListHeaderView.self)
-
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
-        )
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitem: item,
-            count: viewType.rawValue
-        )
-        group.interItemSpacing = .fixed(8.0)
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 8.0
-
-        let topInset: CGFloat = 12.0
-        let sideInset: CGFloat = 8.0
-        section.contentInsets = .init(
-            top: topInset,
-            leading: sideInset,
-            bottom: .zero,
-            trailing: sideInset
-        )
-
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(44)
-        )
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: headerKind,
-            alignment: .top
-        )
-        section.boundarySupplementaryItems = [header]
-
-        return UICollectionViewCompositionalLayout(section: section)
-    }
-
     func applySnapshot() {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        ["text1", "text2", "text3", "text4", "text5"].forEach {
-            dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
+        modelObjects.forEach {
+            dataSourceSnapshot.appendItems([$0], toSection: .main)
         }
 
         dataSource.apply(

@@ -89,8 +89,10 @@
 
     private extension DebugProfileUpdateCell {
         func setupView() {
-            backgroundColor = .primary
-            selectionStyle = .none
+            configure {
+                $0.backgroundColor = .primary
+                $0.selectionStyle = .none
+            }
 
             contentView.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(16)

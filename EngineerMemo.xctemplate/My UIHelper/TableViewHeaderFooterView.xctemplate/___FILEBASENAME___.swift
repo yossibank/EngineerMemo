@@ -1,15 +1,18 @@
+import Combine
 import UIKit
 import UIKitHelper
 
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UITableViewHeaderFooterView {
+    var cancellables: Set<AnyCancellable> = .init()
+
     private var body: UIView {
         VStackView(alignment: .center) {
-            UILabel()
-                .modifier(\.text, "Hello World")
+            UILabel().configure {
+                $0.text = "Hello World!"
+            }
         }
-        .modifier(\.backgroundColor, .primary)
     }
 
     override init(reuseIdentifier: String?) {
@@ -21,6 +24,12 @@ final class ___FILEBASENAME___: UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        cancellables.removeAll()
+    }
 }
 
 // MARK: - internal methods
@@ -31,6 +40,10 @@ extension ___FILEBASENAME___ {}
 
 private extension ___FILEBASENAME___ {
     func setupView() {
+        configure {
+            $0.backgroundColor = .primary
+        }
+
         addSubview(body) {
             $0.edges.equalToSuperview()
         }

@@ -99,7 +99,9 @@
 
     extension DebugCoreDataSegmentContentView: ContentView {
         func setupView() {
-            backgroundColor = .primary
+            configure {
+                $0.backgroundColor = .primary
+            }
 
             addSubview(body) {
                 $0.edges.equalToSuperview()

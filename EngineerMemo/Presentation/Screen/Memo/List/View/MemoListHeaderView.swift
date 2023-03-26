@@ -13,48 +13,43 @@ final class MemoListHeaderView: UICollectionReusableView {
 
     private var body: UIView {
         HStackView(spacing: 16) {
-            titleLabel
-                .modifier(\.font, .boldSystemFont(ofSize: 14))
+            titleLabel.configure {
+                $0.font = .boldSystemFont(ofSize: 14)
+            }
 
-            button1
-                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-                .modifier(\.layer.borderWidth, 1.0)
-                .modifier(\.layer.cornerRadius, 4)
-                .modifier(\.clipsToBounds, true)
+            button1.configure {
+                $0.clipsToBounds = true
+                $0.setTitle("1", for: .normal)
+                $0.setTitleColor(.theme, for: .normal)
+                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 4
+            }
 
-            button2
-                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-                .modifier(\.layer.borderWidth, 1.0)
-                .modifier(\.layer.cornerRadius, 4)
-                .modifier(\.clipsToBounds, true)
+            button2.configure {
+                $0.clipsToBounds = true
+                $0.setTitle("2", for: .normal)
+                $0.setTitleColor(.theme, for: .normal)
+                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 4
+            }
 
-            button3
-                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-                .modifier(\.layer.borderWidth, 1.0)
-                .modifier(\.layer.cornerRadius, 4)
-                .modifier(\.clipsToBounds, true)
+            button3.configure {
+                $0.clipsToBounds = true
+                $0.setTitle("3", for: .normal)
+                $0.setTitleColor(.theme, for: .normal)
+                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 4
+            }
         }
     }
 
     private let titleLabel = UILabel()
-
     private let button1 = UIButton(type: .system)
-        .configure {
-            $0.setTitle("1", for: .normal)
-            $0.setTitleColor(.theme, for: .normal)
-        }
-
     private let button2 = UIButton(type: .system)
-        .configure {
-            $0.setTitle("2", for: .normal)
-            $0.setTitleColor(.theme, for: .normal)
-        }
-
     private let button3 = UIButton(type: .system)
-        .configure {
-            $0.setTitle("3", for: .normal)
-            $0.setTitleColor(.theme, for: .normal)
-        }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -72,6 +67,16 @@ final class MemoListHeaderView: UICollectionReusableView {
 
         cancellables.removeAll()
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            button1.layer.borderColor = UIColor.theme.cgColor
+            button2.layer.borderColor = UIColor.theme.cgColor
+            button3.layer.borderColor = UIColor.theme.cgColor
+        }
+    }
 }
 
 // MARK: - internal methods
@@ -86,7 +91,9 @@ extension MemoListHeaderView {
 
 private extension MemoListHeaderView {
     func setupView() {
-        backgroundColor = .thinGray
+        configure {
+            $0.backgroundColor = .primary
+        }
 
         addSubview(body) {
             $0.edges.equalToSuperview().inset(8)

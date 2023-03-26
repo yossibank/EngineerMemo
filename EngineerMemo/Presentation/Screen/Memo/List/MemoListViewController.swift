@@ -28,13 +28,36 @@ extension MemoListViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel.input.viewDidLoad.send(())
+
+        bindToView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        viewModel.input.viewWillAppear.send(())
     }
 }
 
-// MARK: - internal methods
-
-extension MemoListViewController {}
-
 // MARK: - private methods
 
-private extension MemoListViewController {}
+private extension MemoListViewController {
+    func bindToView() {
+        viewModel.output.$modelObjects
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] modelObjects in
+                self?.contentView.modelObjects = modelObjects
+            }
+            .store(in: &cancellables)
+
+        viewModel.output.$appError
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .sink { error in
+                Logger.error(message: error.localizedDescription)
+            }
+            .store(in: &cancellables)
+    }
+}

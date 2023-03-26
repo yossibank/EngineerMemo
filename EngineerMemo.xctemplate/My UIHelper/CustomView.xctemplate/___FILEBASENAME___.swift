@@ -6,10 +6,10 @@ import UIKitHelper
 final class ___FILEBASENAME___: UIView {
     private var body: UIView {
         VStackView(alignment: .center) {
-            UILabel()
-                .modifier(\.text, "Hello World")
+            UILabel().configure {
+                $0.text = "Hello World!"
+            }
         }
-        .modifier(\.backgroundColor, .primary)
     }
 
     override init(frame: CGRect) {
@@ -32,6 +32,10 @@ extension ___FILEBASENAME___ {}
 
 private extension ___FILEBASENAME___ {
     func setupView() {
+        configure {
+            $0.backgroundColor = .primary
+        }
+
         addSubview(body) {
             $0.edges.equalToSuperview()
         }

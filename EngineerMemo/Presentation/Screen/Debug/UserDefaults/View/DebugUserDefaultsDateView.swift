@@ -15,13 +15,15 @@
         private var body: UIView {
             VStackView(spacing: 32) {
                 VStackView(alignment: .center, spacing: 16) {
-                    titleLabel
-                        .modifier(\.text, L10n.Debug.UserDefaults.value)
-                        .modifier(\.font, .boldSystemFont(ofSize: 13))
+                    titleLabel.configure {
+                        $0.text = L10n.Debug.UserDefaults.value
+                        $0.font = .boldSystemFont(ofSize: 13)
+                    }
 
-                    descriptionLabel
-                        .modifier(\.font, .boldSystemFont(ofSize: 16))
-                        .modifier(\.numberOfLines, 0)
+                    descriptionLabel.configure {
+                        $0.font = .boldSystemFont(ofSize: 16)
+                        $0.numberOfLines = 0
+                    }
                 }
 
                 pickerInputView
@@ -43,18 +45,20 @@
         private let titleLabel = UILabel()
         private let descriptionLabel = UILabel()
 
-        private let pickerLabel = UILabel()
-            .modifier(\.textAlignment, .center)
+        private let pickerLabel = UILabel().configure {
+            $0.textAlignment = .center
+        }
 
-        private let inputDatePicker = UIDatePicker()
-            .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-            .modifier(\.layer.borderWidth, 1.0)
-            .modifier(\.layer.cornerRadius, 4)
-            .modifier(\.clipsToBounds, true)
-            .modifier(\.contentHorizontalAlignment, .center)
-            .modifier(\.datePickerMode, .date)
-            .modifier(\.locale, .japan)
-            .modifier(\.preferredDatePickerStyle, .compact)
+        private let inputDatePicker = UIDatePicker().configure {
+            $0.clipsToBounds = true
+            $0.contentHorizontalAlignment = .leading
+            $0.datePickerMode = .date
+            $0.locale = .japan
+            $0.preferredDatePickerStyle = .compact
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
+            $0.layer.cornerRadius = 4
+        }
 
         private let nilButton = UIButton(type: .system)
             .apply(.debugNilButton)

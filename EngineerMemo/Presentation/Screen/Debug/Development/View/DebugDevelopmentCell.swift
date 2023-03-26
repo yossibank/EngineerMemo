@@ -8,11 +8,13 @@
     final class DebugDevelopmentCell: UITableViewCell {
         private var body: UIView {
             HStackView(spacing: 8) {
-                titleLabel
-                    .modifier(\.font, .systemFont(ofSize: 14))
+                titleLabel.configure {
+                    $0.font = .systemFont(ofSize: 14)
+                }
 
-                subTitleLabel
-                    .modifier(\.font, .boldSystemFont(ofSize: 14))
+                subTitleLabel.configure {
+                    $0.font = .boldSystemFont(ofSize: 14)
+                }
             }
         }
 
@@ -53,7 +55,9 @@
 
     private extension DebugDevelopmentCell {
         func setupView() {
-            contentView.backgroundColor = .primary
+            contentView.configure {
+                $0.backgroundColor = .primary
+            }
 
             contentView.addSubview(body) {
                 $0.centerY.equalToSuperview()

@@ -9,12 +9,13 @@ final class ProfilePickerInputView: UIView {
 
     private var body: UIView {
         VStackView {
-            titleView
-                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-                .modifier(\.layer.borderWidth, 1.0)
-                .modifier(\.layer.cornerRadius, 4)
-                .modifier(\.clipsToBounds, true)
-                .modifier(\.backgroundColor, .thinGray)
+            titleView.configure {
+                $0.backgroundColor = .thinGray
+                $0.clipsToBounds = true
+                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 4
+            }
 
             pickerInputView
         }
@@ -42,22 +43,25 @@ final class ProfilePickerInputView: UIView {
             $0.height.equalTo(80)
         }
 
-    private let titleLabel = UILabel()
-        .modifier(\.textColor, .secondary)
-        .modifier(\.font, .boldSystemFont(ofSize: 16))
+    private let titleLabel = UILabel().configure {
+        $0.textColor = .secondary
+        $0.font = .boldSystemFont(ofSize: 16)
+    }
 
-    private let inputDatePicker = UIDatePicker()
-        .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-        .modifier(\.layer.borderWidth, 1.0)
-        .modifier(\.layer.cornerRadius, 4)
-        .modifier(\.clipsToBounds, true)
-        .modifier(\.contentHorizontalAlignment, .leading)
-        .modifier(\.datePickerMode, .date)
-        .modifier(\.locale, .japan)
-        .modifier(\.preferredDatePickerStyle, .compact)
+    private let inputDatePicker = UIDatePicker().configure {
+        $0.clipsToBounds = true
+        $0.contentHorizontalAlignment = .leading
+        $0.datePickerMode = .date
+        $0.locale = .japan
+        $0.preferredDatePickerStyle = .compact
+        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderWidth = 1.0
+        $0.layer.cornerRadius = 4
+    }
 
-    private let pickerLabel = UILabel()
-        .modifier(\.text, .noSetting)
+    private let pickerLabel = UILabel().configure {
+        $0.text = .noSetting
+    }
 
     private var cancellables: Set<AnyCancellable> = .init()
 
@@ -111,7 +115,9 @@ extension ProfilePickerInputView {
 
 private extension ProfilePickerInputView {
     func setupView() {
-        backgroundColor = .primary
+        configure {
+            $0.backgroundColor = .primary
+        }
 
         addSubview(body) {
             $0.top.bottom.equalToSuperview().inset(8)

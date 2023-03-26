@@ -8,8 +8,9 @@ final class ProfileTopCell: UITableViewCell {
         VStackView(alignment: .center, spacing: 16) {
             iconImageView
 
-            userNameLabel
-                .modifier(\.font, .boldSystemFont(ofSize: 14))
+            userNameLabel.configure {
+                $0.font = .boldSystemFont(ofSize: 14)
+            }
         }
     }
 
@@ -50,7 +51,9 @@ extension ProfileTopCell {
 
 private extension ProfileTopCell {
     func setupView() {
-        contentView.backgroundColor = .primary
+        contentView.configure {
+            $0.backgroundColor = .primary
+        }
 
         contentView.addSubview(body) {
             $0.edges.equalToSuperview().inset(16)

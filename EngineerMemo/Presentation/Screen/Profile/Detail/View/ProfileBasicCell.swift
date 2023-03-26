@@ -12,9 +12,6 @@ final class ProfileBasicCell: UITableViewCell {
     )
 
     private lazy var baseView = UIView()
-        .modifier(\.backgroundColor, .thinGray)
-        .modifier(\.clipsToBounds, true)
-        .modifier(\.layer.cornerRadius, 8)
         .addSubview(stackView) {
             $0.edges.equalToSuperview().inset(16)
         }
@@ -22,13 +19,19 @@ final class ProfileBasicCell: UITableViewCell {
             $0.top.equalToSuperview().inset(12)
             $0.trailing.equalToSuperview().inset(8)
         }
+        .configure {
+            $0.backgroundColor = .thinGray
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 8
+        }
 
     private var stackView: UIView {
         VStackView(spacing: 16) {
             VStackView(alignment: .center) {
-                basicLabel
-                    .modifier(\.text, L10n.Profile.basicInformation)
-                    .modifier(\.font, .boldSystemFont(ofSize: 16))
+                basicLabel.configure {
+                    $0.text = L10n.Profile.basicInformation
+                    $0.font = .boldSystemFont(ofSize: 16)
+                }
             }
 
             VStackView(alignment: .leading, spacing: 16) {
@@ -53,18 +56,18 @@ final class ProfileBasicCell: UITableViewCell {
     private let stationLabel = UILabel()
 
     private let editButton = UIButton(type: .system)
-        .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-        .modifier(\.layer.borderWidth, 1.0)
-        .modifier(\.layer.cornerRadius, 8)
-        .modifier(\.clipsToBounds, true)
-        .modifier(\.tintColor, .theme)
-        .modifier(\.contentEdgeInsets, .init(top: 4, left: 8, bottom: 4, right: 8))
-        .modifier(\.imageEdgeInsets, .init(.left, -8))
         .configure {
+            $0.clipsToBounds = true
+            $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
+            $0.imageEdgeInsets = .init(.left, -8)
+            $0.tintColor = .theme
             $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
             $0.setTitle(L10n.Components.Button.edit, for: .normal)
             $0.setTitleColor(.theme, for: .normal)
             $0.setImage(ImageResources.edit?.resized(size: .init(width: 16, height: 16)), for: .normal)
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
+            $0.layer.cornerRadius = 8
         }
 
     override init(
@@ -114,7 +117,9 @@ extension ProfileBasicCell {
 
 private extension ProfileBasicCell {
     func setupView() {
-        contentView.backgroundColor = .primary
+        contentView.configure {
+            $0.backgroundColor = .primary
+        }
 
         contentView.addSubview(baseView) {
             $0.top.equalToSuperview()
@@ -123,10 +128,11 @@ private extension ProfileBasicCell {
     }
 
     private func createTitleLabel(_ type: ProfileContentType) -> UILabel {
-        .init()
-            .modifier(\.text, type.title)
-            .modifier(\.textColor, .secondary)
-            .modifier(\.font, .systemFont(ofSize: 14))
+        .init().configure {
+            $0.text = type.title
+            $0.textColor = .secondary
+            $0.font = .systemFont(ofSize: 14)
+        }
     }
 
     private func createStackView(_ type: ProfileContentType) -> UIStackView {
@@ -146,14 +152,18 @@ private extension ProfileBasicCell {
 
         case .email:
             valueLabel = emailLabel
-            valueLabel.modifier(\.numberOfLines, 0)
+            valueLabel.configure {
+                $0.numberOfLines = 0
+            }
 
         case .phoneNumber:
             valueLabel = phoneNumberLabel
 
         case .address:
             valueLabel = addressLabel
-            valueLabel.modifier(\.numberOfLines, 0)
+            valueLabel.configure {
+                $0.numberOfLines = 0
+            }
 
         case .station:
             valueLabel = stationLabel

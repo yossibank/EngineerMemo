@@ -31,11 +31,11 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         // act
         let publisher = viewModel.output.$modelObject.collect(1).first()
-        let output = try awaitOutputPublisher(publisher)
+        let output = try awaitOutputPublisher(publisher).first
 
         // assert
         XCTAssertEqual(
-            output.first,
+            output,
             ProfileModelObjectBuilder().build()
         )
     }
@@ -50,11 +50,11 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         // act
         let publisher = viewModel.output.$appError.collect(1).first()
-        let output = try awaitOutputPublisher(publisher)
+        let output = try awaitOutputPublisher(publisher).first
 
         // assert
         XCTAssertEqual(
-            output.first,
+            output,
             .init(dataError: .coreData(.something("CoreDataエラー")))
         )
     }

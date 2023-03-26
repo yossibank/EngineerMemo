@@ -11,12 +11,14 @@
         private var body: UIView {
             VStackView(spacing: 32) {
                 VStackView(alignment: .center, spacing: 16) {
-                    titleLabel
-                        .modifier(\.text, L10n.Debug.UserDefaults.value)
-                        .modifier(\.font, .boldSystemFont(ofSize: 13))
+                    titleLabel.configure {
+                        $0.text = L10n.Debug.UserDefaults.value
+                        $0.font = .boldSystemFont(ofSize: 13)
+                    }
 
-                    descriptionLabel
-                        .modifier(\.font, .boldSystemFont(ofSize: 16))
+                    descriptionLabel.configure {
+                        $0.font = .boldSystemFont(ofSize: 16)
+                    }
                 }
 
                 segmentControl

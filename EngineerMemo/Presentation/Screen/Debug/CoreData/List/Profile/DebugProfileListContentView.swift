@@ -14,15 +14,11 @@
         }
     }
 
-    enum DebugProfileListContentViewItem: Hashable {
-        case main(ProfileModelObject)
-    }
-
     // MARK: - properties & init
 
     final class DebugProfileListContentView: UIView {
         typealias Section = DebugProfileListContentViewSection
-        typealias Item = DebugProfileListContentViewItem
+        typealias Item = ProfileModelObject
         typealias DataSource = DebugProfileListDataSource
 
         private(set) lazy var didDeletedModelObjectPublisher = dataSource.didDeletedModelObjectPublisher
@@ -76,17 +72,14 @@
         ) -> UITableViewCell? {
             let cellType = Section.allCases[indexPath.section].cellType
 
-            switch item {
-            case let .main(modelObject):
-                let cell = tableView.dequeueReusableCell(
-                    withType: cellType,
-                    for: indexPath
-                )
+            let cell = tableView.dequeueReusableCell(
+                withType: cellType,
+                for: indexPath
+            )
 
-                cell.configure(modelObject)
+            cell.configure(item)
 
-                return cell
-            }
+            return cell
         }
     }
 

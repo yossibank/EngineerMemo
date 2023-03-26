@@ -9,12 +9,13 @@ final class ProfileTextInputView: UIView {
 
     private var body: UIView {
         VStackView {
-            titleView
-                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-                .modifier(\.layer.borderWidth, 1.0)
-                .modifier(\.layer.cornerRadius, 4)
-                .modifier(\.clipsToBounds, true)
-                .modifier(\.backgroundColor, .thinGray)
+            titleView.configure {
+                $0.backgroundColor = .thinGray
+                $0.clipsToBounds = true
+                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 4
+            }
 
             textInputView
         }
@@ -37,16 +38,18 @@ final class ProfileTextInputView: UIView {
             $0.height.equalTo(80)
         }
 
-    private let titleLabel = UILabel()
-        .modifier(\.textColor, .secondary)
-        .modifier(\.font, .boldSystemFont(ofSize: 16))
+    private let titleLabel = UILabel().configure {
+        $0.textColor = .secondary
+        $0.font = .boldSystemFont(ofSize: 16)
+    }
 
-    private let inputTextField = UITextField()
-        .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-        .modifier(\.layer.borderWidth, 1.0)
-        .modifier(\.layer.cornerRadius, 4)
-        .modifier(\.borderStyle, .roundedRect)
-        .modifier(\.clipsToBounds, true)
+    private let inputTextField = UITextField().configure {
+        $0.borderStyle = .roundedRect
+        $0.clipsToBounds = true
+        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderWidth = 1.0
+        $0.layer.cornerRadius = 4
+    }
 
     private var cancellables: Set<AnyCancellable> = .init()
 
@@ -129,7 +132,9 @@ extension ProfileTextInputView {
 
 private extension ProfileTextInputView {
     func setupView() {
-        backgroundColor = .primary
+        configure {
+            $0.backgroundColor = .primary
+        }
 
         addSubview(body) {
             $0.top.bottom.equalToSuperview().inset(8)

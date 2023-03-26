@@ -6,10 +6,10 @@
 
     final class DebugProfileListDataSource: UITableViewDiffableDataSource<
         DebugProfileListContentViewSection,
-        DebugProfileListContentViewItem
+        ProfileModelObject
     > {
         typealias Section = DebugProfileListContentViewSection
-        typealias Item = DebugProfileListContentViewItem
+        typealias Item = ProfileModelObject
 
         var modelObject: [ProfileModelObject] = [] {
             didSet {
@@ -54,7 +54,7 @@
             dataSourceSnapshot.appendSections(Section.allCases)
 
             modelObject.forEach {
-                dataSourceSnapshot.appendItems([.main($0)], toSection: .main)
+                dataSourceSnapshot.appendItems([$0], toSection: .main)
             }
 
             apply(

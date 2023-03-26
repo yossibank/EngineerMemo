@@ -78,7 +78,9 @@
 
     extension DebugProfileCreateContentView: ContentView {
         func setupView() {
-            backgroundColor = .primary
+            configure {
+                $0.backgroundColor = .primary
+            }
 
             addSubview(body) {
                 $0.top.leading.trailing.equalToSuperview()

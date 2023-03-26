@@ -9,10 +9,10 @@ final class ___FILEBASENAME___: UITableViewCell {
 
     private var body: UIView {
         VStackView(alignment: .center) {
-            UILabel()
-                .modifier(\.text, "Hello World")
+            UILabel().configure {
+                $0.text = "Hello World!"
+            }
         }
-        .modifier(\.backgroundColor, .primary)
     }
 
     override init(
@@ -46,6 +46,10 @@ extension ___FILEBASENAME___ {}
 
 private extension ___FILEBASENAME___ {
     func setupView() {
+        configure {
+            $0.backgroundColor = .primary
+        }
+
         contentView.addSubview(body) {
             $0.edges.equalToSuperview()
         }

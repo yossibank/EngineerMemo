@@ -2,36 +2,46 @@ import Combine
 @testable import EngineerMemo
 import XCTest
 
-final class ___FILEBASENAME___: XCTestCase {
-    private var model: 対象ModelMock!
+final class MemoListViewModelTest: XCTestCase {
+    private var model: MemoModelInputMock!
     private var analytics: FirebaseAnalyzableMock!
-    private var viewModel: 対象ViewModel!
+    private var viewModel: MemoListViewModel!
 
     override func setUp() {
         super.setUp()
 
         model = .init()
-        analytics = .init(screenId: 対象スクリーンID)
+        analytics = .init(screenId: .memoList)
         viewModel = .init(
             model: model,
             analytics: analytics
         )
+
+        model.getsHandler = {
+            $0(.success([MemoModelObjectBuilder().build()]))
+        }
     }
 
-    func test_input_viewDidLoad_初期化時処理が実行されること() {
+    func test_input_viewDidLoad_メモ情報を取得できること() throws {
         // arrange
         viewModel.input.viewDidLoad.send(())
 
         // act
+        let publisher = viewModel.output.$modelObjects.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first
 
         // assert
+        XCTAssertEqual(
+            output,
+            [MemoModelObjectBuilder().build()]
+        )
     }
 
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTassertEqual($0, .screenView)
+            XCTAssertEqual($0, .screenView)
         }
 
         // act

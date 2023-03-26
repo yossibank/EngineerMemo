@@ -15,22 +15,26 @@ final class ProfileSettingCell: UITableViewCell {
         VStackView(alignment: .center, spacing: 16, layoutMargins: .init(.horizontal, 16)) {
             spaceTopView
 
-            titleLabel
-                .modifier(\.font, .boldSystemFont(ofSize: 14))
-                .modifier(\.numberOfLines, 0)
-                .modifier(\.text, L10n.Profile.settingDescription)
-                .modifier(\.textAlignment, .center)
+            titleLabel.configure {
+                $0.font = .boldSystemFont(ofSize: 14)
+                $0.text = L10n.Profile.settingDescription
+                $0.textAlignment = .center
+                $0.numberOfLines = 0
+            }
 
-            settingButton
-                .modifier(\.backgroundColor, .gray)
-                .modifier(\.clipsToBounds, true)
-                .modifier(\.layer.cornerRadius, 8)
+            settingButton.configure {
+                $0.backgroundColor = .gray
+                $0.clipsToBounds = true
+                $0.layer.cornerRadius = 8
+            }
 
             spaceBottomView
         }
-        .modifier(\.backgroundColor, .thinGray)
-        .modifier(\.clipsToBounds, true)
-        .modifier(\.layer.cornerRadius, 8)
+        .configure {
+            $0.backgroundColor = .thinGray
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 8
+        }
     }
 
     private let spaceTopView = UIView()
@@ -83,7 +87,9 @@ final class ProfileSettingCell: UITableViewCell {
 
 private extension ProfileSettingCell {
     func setupView() {
-        contentView.backgroundColor = .primary
+        contentView.configure {
+            $0.backgroundColor = .primary
+        }
 
         contentView.addSubview(body) {
             $0.top.bottom.equalToSuperview()

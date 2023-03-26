@@ -40,12 +40,13 @@ final class ProfileMenuInputView: UIView {
 
     private var body: UIView {
         VStackView {
-            titleView
-                .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-                .modifier(\.layer.borderWidth, 1.0)
-                .modifier(\.layer.cornerRadius, 4)
-                .modifier(\.clipsToBounds, true)
-                .modifier(\.backgroundColor, .thinGray)
+            titleView.configure {
+                $0.backgroundColor = .thinGray
+                $0.clipsToBounds = true
+                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 4
+            }
 
             buttonInputView
         }
@@ -68,20 +69,21 @@ final class ProfileMenuInputView: UIView {
             $0.height.equalTo(80)
         }
 
-    private let titleLabel = UILabel()
-        .modifier(\.textColor, .secondary)
-        .modifier(\.font, .boldSystemFont(ofSize: 16))
+    private let titleLabel = UILabel().configure {
+        $0.textColor = .secondary
+        $0.font = .boldSystemFont(ofSize: 16)
+    }
 
     private let menuButton = UIButton(type: .system)
-        .modifier(\.layer.borderColor, UIColor.theme.cgColor)
-        .modifier(\.layer.borderWidth, 1.0)
-        .modifier(\.layer.cornerRadius, 4)
-        .modifier(\.clipsToBounds, true)
-        .modifier(\.contentHorizontalAlignment, .leading)
-        .modifier(\.contentEdgeInsets, .init(.left, 8))
         .configure {
+            $0.clipsToBounds = true
+            $0.contentHorizontalAlignment = .leading
+            $0.contentEdgeInsets = .init(.left, 8)
             $0.titleLabel?.font = .systemFont(ofSize: 17)
             $0.setTitleColor(.theme, for: .normal)
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
+            $0.layer.cornerRadius = 4
         }
 
     init(title: String) {
@@ -129,7 +131,9 @@ extension ProfileMenuInputView {
 
 private extension ProfileMenuInputView {
     func setupView() {
-        backgroundColor = .primary
+        configure {
+            $0.backgroundColor = .primary
+        }
 
         addSubview(body) {
             $0.top.bottom.equalToSuperview().inset(8)
