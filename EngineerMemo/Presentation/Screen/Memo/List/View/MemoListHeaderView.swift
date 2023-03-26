@@ -67,6 +67,16 @@ final class MemoListHeaderView: UICollectionReusableView {
 
         cancellables.removeAll()
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            button1.layer.borderColor = UIColor.theme.cgColor
+            button2.layer.borderColor = UIColor.theme.cgColor
+            button3.layer.borderColor = UIColor.theme.cgColor
+        }
+    }
 }
 
 // MARK: - internal methods
