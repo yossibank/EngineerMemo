@@ -197,6 +197,34 @@ final class ProfileModelTest: XCTestCase {
         wait(for: [expectation], timeout: 0.3)
     }
 
+    func test_iconImageUpdate_iconImageを更新できること() {
+        // arrange
+        dataInsert()
+
+        let expectation = XCTestExpectation(description: #function)
+
+        // act
+        model.iconImageUpdate(
+            modelObject: ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .iconImage(ImageResources.debug?.pngData())
+                .build()
+        )
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let profile = self.storage.allObjects.first!
+
+            XCTAssertEqual(
+                profile.iconImage,
+                ImageResources.debug?.pngData()
+            )
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.3)
+    }
+
     func test_delete_情報を削除できること() {
         // arrange
         dataInsert()
@@ -231,6 +259,7 @@ private extension ProfileModelTest {
                 $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
                 $0.email = "test@test.com"
                 $0.genderEnum = .man
+                $0.iconImage = ImageResources.profile?.pngData()
                 $0.identifier = "identifier"
                 $0.name = "testName"
                 $0.phoneNumber = "08011112222"

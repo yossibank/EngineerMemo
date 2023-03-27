@@ -19,6 +19,7 @@
             profile.birthday = birthday
             profile.email = email
             profile.genderEnum = gender
+            profile.iconImage = iconImage
             profile.identifier = identifier
             profile.name = name
             profile.phoneNumber = phoneNumber

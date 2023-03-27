@@ -5,6 +5,7 @@ struct ProfileModelObject: Hashable {
     var birthday: Date?
     var email: String?
     var gender: Gender?
+    var iconImage: Data?
     var name: String?
     var phoneNumber: String?
     var station: String?
@@ -43,5 +44,9 @@ extension ProfileModelObject {
         if isNew {
             profile.identifier = UUID().uuidString
         }
+    }
+
+    func iconImageInsert(_ profile: Profile) {
+        profile.iconImage = iconImage
     }
 }
