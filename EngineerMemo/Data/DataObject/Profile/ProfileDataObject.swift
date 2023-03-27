@@ -6,6 +6,7 @@ final class Profile: NSManagedObject {
     @NSManaged var birthday: Date?
     @NSManaged var email: String?
     @NSManaged var gender: NSNumber?
+    @NSManaged var iconImage: Data?
     @NSManaged var identifier: String
     @NSManaged var name: String?
     @NSManaged var phoneNumber: String?
