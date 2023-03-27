@@ -26,6 +26,8 @@ final class MemoListContentView: UIView {
         }
     }
 
+    private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
+
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout
@@ -47,7 +49,7 @@ final class MemoListContentView: UIView {
     }
 
     private var collectionViewLayout: UICollectionViewLayout {
-        let estimatedHeight: CGFloat = 140
+        let estimatedHeight: CGFloat = 120
 
         let layoutSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -114,6 +116,8 @@ final class MemoListContentView: UIView {
         header.configure(title: "title")
     }
 
+    private let didSelectContentSubject = PassthroughSubject<Item, Never>()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -134,6 +138,7 @@ private extension MemoListContentView {
     func setupCollectionView() {
         collectionView.configure {
             $0.backgroundColor = .primary
+            $0.delegate = self
         }
     }
 
@@ -194,6 +199,26 @@ private extension MemoListContentView {
             dataSourceSnapshot,
             animatingDifferences: false
         )
+    }
+}
+
+// MARK: - delegate
+
+extension MemoListContentView: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        collectionView.deselectItem(
+            at: indexPath,
+            animated: false
+        )
+
+        guard let item = modelObjects[safe: indexPath.item] else {
+            return
+        }
+
+        didSelectContentSubject.send(item)
     }
 }
 

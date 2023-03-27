@@ -7,5 +7,10 @@ final class FAParameterTest: XCTestCase {
             FAParameter.screenId.rawValue,
             "スクリーンID"
         )
+
+        XCTAssertEqual(
+            FAParameter.memoTitle.rawValue,
+            "メモタイトル"
+        )
     }
 }

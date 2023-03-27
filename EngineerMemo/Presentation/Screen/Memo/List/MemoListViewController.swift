@@ -32,6 +32,7 @@ extension MemoListViewController {
         viewModel.input.viewDidLoad.send(())
 
         bindToView()
+        bindToViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +58,15 @@ private extension MemoListViewController {
             .compactMap { $0 }
             .sink { error in
                 Logger.error(message: error.localizedDescription)
+            }
+            .store(in: &cancellables)
+    }
+
+    func bindToViewModel() {
+        contentView.didSelectContentPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] modelObject in
+                self?.viewModel.input.didSelectContent.send(modelObject)
             }
             .store(in: &cancellables)
     }

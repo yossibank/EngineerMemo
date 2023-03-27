@@ -4,44 +4,42 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class MemoListCell: UICollectionViewCell {
+final class MemoDetailCell: UICollectionViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private lazy var baseView = UIView()
-        .addSubview(stackView) {
-            $0.edges.equalToSuperview().inset(16)
-        }
-        .configure {
-            $0.backgroundColor = .thinGray
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 8
-        }
-
-    private var stackView: UIView {
-        VStackView(spacing: 16) {
-            VStackView(spacing: 4) {
+    private var body: UIView {
+        VStackView(spacing: 32) {
+            VStackView(spacing: 8) {
                 UILabel().configure {
                     $0.text = L10n.Memo.title
                     $0.textColor = .secondary
-                    $0.font = .systemFont(ofSize: 14)
+                    $0.font = .boldSystemFont(ofSize: 18)
                 }
+
+                UIView()
+                    .configure { $0.backgroundColor = .secondary }
+                    .addConstraint { $0.height.equalTo(1) }
 
                 titleLabel.configure {
                     $0.font = .boldSystemFont(ofSize: 14)
-                    $0.numberOfLines = 1
+                    $0.numberOfLines = 0
                 }
             }
 
-            VStackView(spacing: 4) {
+            VStackView(spacing: 8) {
                 UILabel().configure {
                     $0.text = L10n.Memo.content
                     $0.textColor = .secondary
-                    $0.font = .systemFont(ofSize: 14)
+                    $0.font = .boldSystemFont(ofSize: 18)
                 }
 
+                UIView()
+                    .configure { $0.backgroundColor = .secondary }
+                    .addConstraint { $0.height.equalTo(1) }
+
                 contentLabel.configure {
-                    $0.font = .boldSystemFont(ofSize: 14)
-                    $0.numberOfLines = 1
+                    $0.font = .systemFont(ofSize: 14)
+                    $0.numberOfLines = 0
                 }
             }
         }
@@ -70,7 +68,7 @@ final class MemoListCell: UICollectionViewCell {
 
 // MARK: - internal methods
 
-extension MemoListCell {
+extension MemoDetailCell {
     func configure(_ modelObject: MemoModelObject) {
         titleLabel.text = modelObject.title
         contentLabel.text = modelObject.content
@@ -79,13 +77,13 @@ extension MemoListCell {
 
 // MARK: - private methods
 
-private extension MemoListCell {
+private extension MemoDetailCell {
     func setupView() {
         configure {
             $0.backgroundColor = .primary
         }
 
-        contentView.addSubview(baseView) {
+        contentView.addSubview(body) {
             $0.edges.equalToSuperview()
         }
     }
@@ -96,11 +94,11 @@ private extension MemoListCell {
 #if DEBUG
     import SwiftUI
 
-    struct MemoListCellPreview: PreviewProvider {
+    struct MemoDetailCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: MemoListCell()) {
-                $0.configure(MemoModelObjectBuilder().build())
-            }
+            WrapperView(
+                view: MemoDetailCell()
+            )
         }
     }
 #endif

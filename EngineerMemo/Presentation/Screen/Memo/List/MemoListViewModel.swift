@@ -4,6 +4,7 @@ final class MemoListViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let didSelectContent = PassthroughSubject<MemoModelObject, Never>()
     }
 
     final class Output: OutputObject {
@@ -18,10 +19,12 @@ final class MemoListViewModel: ViewModel {
     private var cancellables: Set<AnyCancellable> = .init()
 
     private let model: MemoModelInput
+    private let routing: MemoListRoutingInput
     private let analytics: FirebaseAnalyzable
 
     init(
         model: MemoModelInput,
+        routing: MemoListRoutingInput,
         analytics: FirebaseAnalyzable
     ) {
         let input = Input()
@@ -30,6 +33,7 @@ final class MemoListViewModel: ViewModel {
         self.input = input
         self.output = output
         self.model = model
+        self.routing = routing
         self.analytics = analytics
 
         // MARK: - viewDidLoad
@@ -53,6 +57,20 @@ final class MemoListViewModel: ViewModel {
         input.viewWillAppear
             .sink { _ in
                 analytics.sendEvent(.screenView)
+            }
+            .store(in: &cancellables)
+
+        // MARK: - メモコンテンツ選択
+
+        input.didSelectContent
+            .sink { modelObject in
+                analytics.sendEvent(
+                    .didTapMemoList(
+                        title: modelObject.title ?? .noSetting
+                    )
+                )
+
+                routing.showDetailScreen(modelObject: modelObject)
             }
             .store(in: &cancellables)
     }
