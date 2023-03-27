@@ -9,8 +9,8 @@
     enum DebugProfileListContentViewSection: CaseIterable {
         case main
 
-        var cellType: ProfileBasicCell.Type {
-            ProfileBasicCell.self
+        var cellType: DebugProfileListCell.Type {
+            DebugProfileListCell.self
         }
     }
 

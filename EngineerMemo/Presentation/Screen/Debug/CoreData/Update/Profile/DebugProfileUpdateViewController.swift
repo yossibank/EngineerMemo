@@ -85,6 +85,15 @@
                 }
                 .store(in: &cancellables)
 
+            contentView.didChangeIconImageControlPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] value in
+                    self?.viewModel.input.didChangeIconImageControl.send(
+                        DebugIconImageSegment.segment(value)
+                    )
+                }
+                .store(in: &cancellables)
+
             contentView.didChangeNameControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in

@@ -91,6 +91,14 @@ final class ProfileBasicCell: UITableViewCell {
 
         cancellables.removeAll()
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            editButton.layer.borderColor = UIColor.theme.cgColor
+        }
+    }
 }
 
 // MARK: - internal methods

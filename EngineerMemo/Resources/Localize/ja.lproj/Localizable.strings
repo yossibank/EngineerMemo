@@ -99,10 +99,12 @@
 "debug.segment.content" = "content";
 "debug.segment.email" = "email";
 "debug.segment.gender" = "gender";
+"debug.segment.iconImage" = "iconImage";
 "debug.segment.name" = "name";
 "debug.segment.phoneNumber" = "phoneNumber";
 "debug.segment.station" = "station";
 "debug.segment.title" = "title";
+"debug.segment.randomImage" = "画像(ランダム)";
 "debug.segment.tellNumber" = "携帯番号";
 "debug.segment.short" = "短め";
 "debug.segment.medium" = "普通";

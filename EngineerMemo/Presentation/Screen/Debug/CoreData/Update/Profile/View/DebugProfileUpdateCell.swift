@@ -13,6 +13,7 @@
         private(set) lazy var birthdayControlPublisher = birthdayControl.segmentIndexPublisher
         private(set) lazy var emailControlPublisher = emailControl.segmentIndexPublisher
         private(set) lazy var genderControlPublisher = genderControl.segmentIndexPublisher
+        private(set) lazy var iconImageControlPublisher = iconImageControl.segmentIndexPublisher
         private(set) lazy var nameControlPublisher = nameControl.segmentIndexPublisher
         private(set) lazy var phoneNumberControlPublisher = phoneNumberControl.segmentIndexPublisher
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
@@ -26,6 +27,7 @@
                         birthdayControl
                         emailControl
                         genderControl
+                        iconImageControl
                         nameControl
                         phoneNumberControl
                         stationControl
@@ -48,6 +50,10 @@
 
         private let genderControl = DebugGenderSegmentView(
             title: L10n.Debug.Segment.gender
+        )
+
+        private let iconImageControl = DebugIconImageSegmentView(
+            title: L10n.Debug.Segment.iconImage
         )
 
         private let nameControl = DebugCoreDataSegmentView(

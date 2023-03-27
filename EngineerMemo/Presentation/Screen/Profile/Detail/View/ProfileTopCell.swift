@@ -6,7 +6,9 @@ import UIKitHelper
 final class ProfileTopCell: UITableViewCell {
     private var body: UIView {
         VStackView(alignment: .center, spacing: 16) {
-            iconImageView
+            iconImageView.configure {
+                $0.contentMode = .scaleAspectFit
+            }
 
             userNameLabel.configure {
                 $0.font = .boldSystemFont(ofSize: 14)
@@ -42,7 +44,13 @@ final class ProfileTopCell: UITableViewCell {
 
 extension ProfileTopCell {
     func configure(_ modelObject: ProfileModelObject?) {
-        iconImageView.image = ImageResources.profile
+        if let data = modelObject?.iconImage,
+           let image = UIImage(data: data) {
+            iconImageView.image = image
+        } else {
+            iconImageView.image = ImageResources.profile
+        }
+
         userNameLabel.text = modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName
     }
 }
