@@ -16,10 +16,13 @@
 
         var image: UIImage? {
             let images = [
-                ImageResources.profile!,
-                ImageResources.house!,
-                ImageResources.memo!,
-                ImageResources.debug!
+                Asset.penguin.image,
+                Asset.elephant.image,
+                Asset.fox.image,
+                Asset.octopus.image,
+                Asset.panda.image,
+                Asset.seal.image,
+                Asset.sheep.image
             ]
 
             switch self {
@@ -28,7 +31,7 @@
             }
         }
 
-        static var defaultImage: UIImage? { ImageResources.house }
+        static var defaultImage: UIImage? { Asset.penguin.image }
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none

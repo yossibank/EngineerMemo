@@ -8,6 +8,8 @@ final class ProfileTopCell: UITableViewCell {
         VStackView(alignment: .center, spacing: 16) {
             iconImageView.configure {
                 $0.contentMode = .scaleAspectFit
+                $0.clipsToBounds = true
+                $0.layer.cornerRadius = 50
             }
 
             userNameLabel.configure {
