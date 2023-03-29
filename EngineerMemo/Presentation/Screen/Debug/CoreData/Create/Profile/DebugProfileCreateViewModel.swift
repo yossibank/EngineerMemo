@@ -29,6 +29,15 @@
             .station(DebugCoreDataSegment.defaultString)
             .build()
 
+        private var addressSegment: DebugCoreDataSegment = .medium
+        private var ageSegment: DebugCoreDataSegment = .medium
+        private var emailSegment: DebugCoreDataSegment = .medium
+        private var genderSegment: DebugGenderSegment = .woman
+        private var iconImageSegment: DebugIconImageSegment = .image
+        private var nameSegment: DebugCoreDataSegment = .medium
+        private var phoneNumberSegment: DebugPhoneNumberSegment = .phone
+        private var stationSegment: DebugCoreDataSegment = .medium
+
         private let model: ProfileModelInput
 
         init(model: ProfileModelInput) {
@@ -102,6 +111,16 @@
                     }
 
                     self.model.create(modelObject: self.modelObject)
+                    self.modelObject = ProfileModelObjectBuilder()
+                        .address(self.addressSegment.string)
+                        .birthday(self.ageSegment.date)
+                        .email(self.emailSegment.string)
+                        .gender(self.genderSegment.gender)
+                        .iconImage(self.iconImageSegment.image?.pngData())
+                        .name(self.nameSegment.string)
+                        .phoneNumber(self.phoneNumberSegment.phoneNumber)
+                        .station(self.stationSegment.string)
+                        .build()
                 }
                 .store(in: &cancellables)
         }
