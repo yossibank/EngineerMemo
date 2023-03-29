@@ -36,37 +36,14 @@
                 )
             }
 
-        private let addressControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.address
-        )
-
-        private let birthdayControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.birthday
-        )
-
-        private let emailControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.email
-        )
-
-        private let genderControl = DebugGenderSegmentView(
-            title: L10n.Debug.Segment.gender
-        )
-
-        private let iconImageControl = DebugIconImageSegmentView(
-            title: L10n.Debug.Segment.iconImage
-        )
-
-        private let nameControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.name
-        )
-
-        private let phoneNumberControl = DebugPhoneNumberSegmentView(
-            title: L10n.Debug.Segment.phoneNumber
-        )
-
-        private let stationControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.station
-        )
+        private let addressControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.address)
+        private let birthdayControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.birthday)
+        private let emailControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.email)
+        private let genderControl = DebugGenderSegmentView(title: L10n.Debug.Segment.gender)
+        private let iconImageControl = DebugIconImageSegmentView(title: L10n.Debug.Segment.iconImage)
+        private let nameControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.name)
+        private let phoneNumberControl = DebugPhoneNumberSegmentView(title: L10n.Debug.Segment.phoneNumber)
+        private let stationControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.station)
 
         override init(
             style: UITableViewCell.CellStyle,
