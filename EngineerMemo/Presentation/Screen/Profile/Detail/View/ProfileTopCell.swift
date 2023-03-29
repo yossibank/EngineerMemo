@@ -1,15 +1,32 @@
+import Combine
 import UIKit
 import UIKitHelper
 
 // MARK: - properties & init
 
 final class ProfileTopCell: UITableViewCell {
+    var cancellables: Set<AnyCancellable> = .init()
+
+    private(set) lazy var didTapIconChangeButtonPublisher = iconChangeButton.publisher(
+        for: .touchUpInside
+    )
+
     private var body: UIView {
         VStackView(alignment: .center, spacing: 16) {
             iconImageView.configure {
                 $0.contentMode = .scaleAspectFit
                 $0.clipsToBounds = true
                 $0.layer.cornerRadius = 50
+            }
+
+            iconChangeButton.configure {
+                $0.clipsToBounds = true
+                $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
+                $0.setTitle(L10n.Components.Button.changeProfileIcon, for: .normal)
+                $0.setTitleColor(.theme, for: .normal)
+                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderWidth = 1.0
+                $0.layer.cornerRadius = 8
             }
 
             userNameLabel.configure {
@@ -21,6 +38,12 @@ final class ProfileTopCell: UITableViewCell {
     private let iconImageView = UIImageView()
         .addConstraint {
             $0.size.equalTo(100)
+        }
+
+    private let iconChangeButton = UIButton(type: .system)
+        .addConstraint {
+            $0.width.equalTo(140)
+            $0.height.equalTo(28)
         }
 
     private let userNameLabel = UILabel()
@@ -39,6 +62,14 @@ final class ProfileTopCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            iconChangeButton.layer.borderColor = UIColor.theme.cgColor
+        }
     }
 }
 

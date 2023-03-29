@@ -7,7 +7,7 @@ import UIKitHelper
 final class ProfileBasicCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var editButtonPublisher = editButton.publisher(
+    private(set) lazy var didTapEditButtonPublisher = editButton.publisher(
         for: .touchUpInside
     )
 

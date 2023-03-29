@@ -7,7 +7,7 @@ import UIKitHelper
 final class ProfileSettingCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var settingButtonTapPublisher = settingButton.publisher(
+    private(set) lazy var didTapSettingButtonPublisher = settingButton.publisher(
         for: .touchUpInside
     )
 
