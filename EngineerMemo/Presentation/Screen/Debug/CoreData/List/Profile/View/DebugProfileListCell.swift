@@ -105,8 +105,8 @@
             }
 
             contentView.addSubview(baseView) {
-                $0.top.equalToSuperview()
-                $0.bottom.leading.trailing.equalToSuperview().inset(32)
+                $0.top.bottom.equalToSuperview().inset(16)
+                $0.leading.trailing.equalToSuperview().inset(32)
             }
         }
 

@@ -70,10 +70,8 @@
             indexPath: IndexPath,
             item: Item
         ) -> UITableViewCell? {
-            let cellType = Section.allCases[indexPath.section].cellType
-
             let cell = tableView.dequeueReusableCell(
-                withType: cellType,
+                withType: DebugMemoListContentViewSection.main.cellType,
                 for: indexPath
             )
 
