@@ -42,11 +42,9 @@
         private(set) lazy var didChangeBirthdayControlPublisher = didChangeBirthdayControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeEmailControlPublisher = didChangeEmailControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeGenderControlPublisher = didChangeGenderControlSubject.eraseToAnyPublisher()
-        private(set) lazy var didChangeIconImageControlPublisher = didChangeIconImageControlSubject
-            .eraseToAnyPublisher()
+        private(set) lazy var didChangeIconImageControlPublisher = didChangeIconImageControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeNameControlPublisher = didChangeNameControlSubject.eraseToAnyPublisher()
-        private(set) lazy var didChangePhoneNumberControlPublisher = didChangePhoneNumberControlSubject
-            .eraseToAnyPublisher()
+        private(set) lazy var didChangePhoneNumberControlPublisher = didChangePhoneNumberControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeStationControlPublisher = didChangeStationControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
