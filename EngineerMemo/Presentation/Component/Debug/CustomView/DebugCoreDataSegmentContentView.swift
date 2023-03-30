@@ -19,21 +19,20 @@
         private var cancellables: Set<AnyCancellable> = .init()
 
         private var body: UIView {
-            VStackView(spacing: 32) {
+            VStackView(spacing: 16) {
                 contentView
-                buttonView
+
+                UIView()
+                    .addSubview(actionButton) {
+                        $0.centerX.equalToSuperview()
+                        $0.width.equalTo(160)
+                        $0.height.equalTo(48)
+                    }
+                    .addConstraint {
+                        $0.height.equalTo(48)
+                    }
             }
         }
-
-        private lazy var buttonView = UIView()
-            .addSubview(actionButton) {
-                $0.centerX.equalToSuperview()
-                $0.width.equalTo(160)
-                $0.height.equalTo(48)
-            }
-            .addConstraint {
-                $0.height.equalTo(48)
-            }
 
         private let contentView = UIView()
         private let actionButton = UIButton(type: .system)
@@ -61,34 +60,28 @@
                 $0.edges.equalToSuperview()
             }
 
-            let defaultTitle: String
-            let doneTitle: String
+            let defaultViewStyle: ViewStyle<UIButton>
+            let updatedViewStyle: ViewStyle<UIButton>
 
             switch type {
             case .create:
-                defaultTitle = L10n.Components.Button.create
-                doneTitle = L10n.Components.Button.createDone
-                actionButton.apply(.debugCreateButton)
+                defaultViewStyle = .debugCreateButton
+                updatedViewStyle = .debugCreateDoneButton
 
             case .update:
-                defaultTitle = L10n.Components.Button.update
-                doneTitle = L10n.Components.Button.updateDone
-                actionButton.apply(.debugUpdateButton)
+                defaultViewStyle = .debugUpdateButton
+                updatedViewStyle = .debugUpdateDoneButton
             }
+
+            actionButton.apply(defaultViewStyle)
 
             didTapActionButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.actionButton.setTitle(
-                        doneTitle,
-                        for: .normal
-                    )
+                    self?.actionButton.apply(updatedViewStyle)
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.actionButton.setTitle(
-                            defaultTitle,
-                            for: .normal
-                        )
+                        self?.actionButton.apply(defaultViewStyle)
                     }
                 }
                 .store(in: &cancellables)

@@ -74,6 +74,7 @@
         func setupView() {
             configure {
                 $0.backgroundColor = .primary
+                $0.separatorInset = .zero
                 $0.selectionStyle = .none
             }
 
