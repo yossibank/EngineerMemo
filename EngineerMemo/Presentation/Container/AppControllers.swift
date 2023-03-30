@@ -52,6 +52,20 @@ enum AppControllers {
             return vc
         }
 
+        static func Icon() -> ProfileIconViewController {
+            let vc = ProfileIconViewController()
+
+            vc.title = L10n.Navigation.Title.profileIcon
+            vc.inject(
+                contentView: ProfileIconContentView(),
+                viewModel: ProfileIconViewModel(
+                    analytics: FirebaseAnalytics(screenId: .profileIcon)
+                )
+            )
+
+            return vc
+        }
+
         static func Update(type: ProfileUpdateType) -> ProfileUpdateViewController {
             let vc = ProfileUpdateViewController()
 

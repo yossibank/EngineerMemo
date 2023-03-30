@@ -66,7 +66,7 @@ final class ProfileDetailViewModel: ViewModel {
 
         input.didTapIconChangeButton
             .sink { _ in
-                // 画面遷移
+                routing.showIconScreen()
             }
             .store(in: &cancellables)
 
