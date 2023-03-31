@@ -26,6 +26,7 @@ final class ProfileDetailContentView: UIView {
         }
     }
 
+    private(set) lazy var didTapIconChangeButtonPublisher = didTapIconChangeButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapEditButtonPublisher = didTapEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSettingButtonPublisher = didTapSettingButtonSubject.eraseToAnyPublisher()
 
@@ -44,6 +45,7 @@ final class ProfileDetailContentView: UIView {
         )
     }
 
+    private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
 
@@ -95,6 +97,14 @@ private extension ProfileDetailContentView {
 
             cell.configure(modelObject)
 
+            cell.didTapIconChangeButtonPublisher
+                .sink { [weak self] _ in
+                    if let modelObject {
+                        self?.didTapIconChangeButtonSubject.send(modelObject)
+                    }
+                }
+                .store(in: &cell.cancellables)
+
             return cell
 
         case let .main(modelObject):
@@ -106,7 +116,7 @@ private extension ProfileDetailContentView {
 
                 cell.configure(modelObject)
 
-                cell.editButtonPublisher
+                cell.didTapEditButtonPublisher
                     .sink { [weak self] _ in
                         self?.didTapEditButtonSubject.send(modelObject)
                     }
@@ -119,7 +129,7 @@ private extension ProfileDetailContentView {
                     for: indexPath
                 )
 
-                cell.settingButtonTapPublisher
+                cell.didTapSettingButtonPublisher
                     .sink { [weak self] _ in
                         self?.didTapSettingButtonSubject.send(())
                     }

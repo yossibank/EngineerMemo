@@ -1,7 +1,7 @@
 --commas inline
 --header strip
 --redundanttype inferred
---maxwidth 120
+--maxwidth 150
 --self init-only
 --stripunusedargs closure-only
 --wraparguments before-first

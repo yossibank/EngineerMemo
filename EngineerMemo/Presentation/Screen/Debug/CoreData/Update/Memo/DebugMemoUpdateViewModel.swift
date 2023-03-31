@@ -93,7 +93,6 @@
 
                     self.modelObject.identifier = identifier
                     self.model.update(modelObject: self.modelObject)
-
                     self.modelObject = MemoModelObjectBuilder()
                         .title(self.titleSegment.string)
                         .content(self.contentSegment.string)

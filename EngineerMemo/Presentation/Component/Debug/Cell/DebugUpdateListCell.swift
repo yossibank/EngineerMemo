@@ -9,7 +9,10 @@
     final class DebugUpdateListCell: UITableViewCell {
         private var body: UIView {
             VStackView {
-                titleLabel
+                titleLabel.configure {
+                    $0.font = .systemFont(ofSize: 16)
+                    $0.numberOfLines = 1
+                }
             }
         }
 
@@ -40,7 +43,7 @@
                 animated: animated
             )
 
-            accessoryType = selected ? .checkmark : .none
+            accessoryView?.isHidden = !selected
         }
     }
 
@@ -60,6 +63,10 @@
                 $0.backgroundColor = .primary
                 $0.separatorInset = .zero
                 $0.selectionStyle = .none
+                $0.accessoryView = UIImageView().configure {
+                    $0.frame = .init(x: 0, y: 0, width: 20, height: 20)
+                    $0.image = Asset.check.image
+                }
             }
 
             contentView.addSubview(body) {

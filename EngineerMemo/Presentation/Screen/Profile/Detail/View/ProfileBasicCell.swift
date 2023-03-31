@@ -7,7 +7,7 @@ import UIKitHelper
 final class ProfileBasicCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var editButtonPublisher = editButton.publisher(
+    private(set) lazy var didTapEditButtonPublisher = editButton.publisher(
         for: .touchUpInside
     )
 
@@ -90,6 +90,14 @@ final class ProfileBasicCell: UITableViewCell {
         super.prepareForReuse()
 
         cancellables.removeAll()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            editButton.layer.borderColor = UIColor.theme.cgColor
+        }
     }
 }
 

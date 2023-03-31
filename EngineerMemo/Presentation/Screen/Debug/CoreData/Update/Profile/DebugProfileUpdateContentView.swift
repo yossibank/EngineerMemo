@@ -42,9 +42,9 @@
         private(set) lazy var didChangeBirthdayControlPublisher = didChangeBirthdayControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeEmailControlPublisher = didChangeEmailControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeGenderControlPublisher = didChangeGenderControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeIconImageControlPublisher = didChangeIconImageControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeNameControlPublisher = didChangeNameControlSubject.eraseToAnyPublisher()
-        private(set) lazy var didChangePhoneNumberControlPublisher = didChangePhoneNumberControlSubject
-            .eraseToAnyPublisher()
+        private(set) lazy var didChangePhoneNumberControlPublisher = didChangePhoneNumberControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeStationControlPublisher = didChangeStationControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
@@ -74,6 +74,7 @@
         private let didChangeBirthdayControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeEmailControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeGenderControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeIconImageControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeNameControlSubject = PassthroughSubject<Int, Never>()
         private let didChangePhoneNumberControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeStationControlSubject = PassthroughSubject<Int, Never>()
@@ -139,7 +140,7 @@
                     tableView.selectRow(
                         at: .init(row: selectedIndex, section: Section.list.rawValue),
                         animated: false,
-                        scrollPosition: .top
+                        scrollPosition: .none
                     )
                 }
 
@@ -169,6 +170,11 @@
 
                 cell.genderControlPublisher.sink { [weak self] value in
                     self?.didChangeGenderControlSubject.send(value)
+                }
+                .store(in: &cell.cancellables)
+
+                cell.iconImageControlPublisher.sink { [weak self] value in
+                    self?.didChangeIconImageControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 

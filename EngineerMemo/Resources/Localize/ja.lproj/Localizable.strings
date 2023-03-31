@@ -13,6 +13,7 @@
 "components.button.setting" = "設定する";
 "components.button.createDone" = "作成完了";
 "components.button.updateDone" = "更新完了";
+"components.button.changeProfileIcon" = "プロフィール画像変更";
 "components.button.updateProfile" = "プロフィール情報を更新する";
 "components.button.updateProfileDone" = "プロフィール更新完了✅";
 "components.button.saveProfile" = "プロフィール入力情報を保存する";
@@ -29,6 +30,7 @@
 "navigation.title.memoDetail" = "メモ詳細";
 "navigation.title.memoList" = "メモ一覧";
 "navigation.title.profileDetail" = "プロフィール";
+"navigation.title.profileIcon" = "プロフィールアイコン変更";
 "navigation.title.profileUpdate" = "プロフィール更新";
 "navigation.title.profileSetting" = "プロフィール設定";
 "navigation.title.debugDevelopment" = "開発者用画面";
@@ -44,6 +46,13 @@
 
 // MARK: - プロフィール
 
+"profile.icon.elephant" = "ゾウ";
+"profile.icon.fox" = "キツネ";
+"profile.icon.octopus" = "タコ";
+"profile.icon.panda" = "パンダ";
+"profile.icon.penguin" = "ペンギン";
+"profile.icon.seal" = "アザラシ";
+"profile.icon.sheep" = "ヒツジ";
 "profile.address" = "住所";
 "profile.addressDescription" = "住所詳細";
 "profile.age" = "年齢";
@@ -99,10 +108,12 @@
 "debug.segment.content" = "content";
 "debug.segment.email" = "email";
 "debug.segment.gender" = "gender";
+"debug.segment.iconImage" = "iconImage";
 "debug.segment.name" = "name";
 "debug.segment.phoneNumber" = "phoneNumber";
 "debug.segment.station" = "station";
 "debug.segment.title" = "title";
+"debug.segment.randomImage" = "画像(ランダム)";
 "debug.segment.tellNumber" = "携帯番号";
 "debug.segment.short" = "短め";
 "debug.segment.medium" = "普通";

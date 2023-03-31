@@ -43,7 +43,7 @@
 
         var debugViewType: DebugViewType {
             switch self {
-            case .sample:
+            case .profileIcon, .sample:
                 return .dataHolderEnum(
                     .init(
                         items: DataHolder.Sample.allCases.map(\.description),
@@ -357,7 +357,7 @@
             }
 
             addSubview(menuButton) {
-                $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(72)
+                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(72)
                 $0.centerX.equalToSuperview()
             }
 

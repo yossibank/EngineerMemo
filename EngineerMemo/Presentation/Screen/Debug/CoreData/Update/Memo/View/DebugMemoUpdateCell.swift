@@ -24,13 +24,8 @@
                 )
             }
 
-        private let titleControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.title
-        )
-
-        private let contentControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.content
-        )
+        private let titleControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.title)
+        private let contentControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.content)
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -61,6 +56,7 @@
         func setupView() {
             configure {
                 $0.backgroundColor = .primary
+                $0.separatorInset = .zero
                 $0.selectionStyle = .none
             }
 

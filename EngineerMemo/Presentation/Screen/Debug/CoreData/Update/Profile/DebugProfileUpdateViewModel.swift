@@ -7,6 +7,7 @@
             let didChangeBirthdayControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangeEmailControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangeGenderControl = PassthroughSubject<DebugGenderSegment, Never>()
+            let didChangeIconImageControl = PassthroughSubject<DebugIconImageSegment, Never>()
             let didChangeNameControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangePhoneNumberControl = PassthroughSubject<DebugPhoneNumberSegment, Never>()
             let didChangeStationControl = PassthroughSubject<DebugCoreDataSegment, Never>()
@@ -30,6 +31,7 @@
             .birthday(DebugCoreDataSegment.defaultDate)
             .email(DebugCoreDataSegment.defaultString)
             .gender(DebugGenderSegment.defaultGender)
+            .iconImage(DebugIconImageSegment.defaultImage?.pngData())
             .name(DebugCoreDataSegment.defaultString)
             .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)
@@ -39,6 +41,7 @@
         private var ageSegment: DebugCoreDataSegment = .medium
         private var emailSegment: DebugCoreDataSegment = .medium
         private var genderSegment: DebugGenderSegment = .woman
+        private var iconImageSegment: DebugIconImageSegment = .image
         private var nameSegment: DebugCoreDataSegment = .medium
         private var phoneNumberSegment: DebugPhoneNumberSegment = .phone
         private var stationSegment: DebugCoreDataSegment = .medium
@@ -98,6 +101,15 @@
                 }
                 .store(in: &cancellables)
 
+            // MARK: - アイコン画像セグメント
+
+            input.didChangeIconImageControl
+                .sink { [weak self] segment in
+                    self?.iconImageSegment = segment
+                    self?.modelObject.iconImage = segment.image?.pngData()
+                }
+                .store(in: &cancellables)
+
             // MARK: - 名前セグメント
 
             input.didChangeNameControl
@@ -153,12 +165,13 @@
 
                     self.modelObject.identifier = identifier
                     self.model.update(modelObject: self.modelObject)
-
+                    self.model.iconImageUpdate(modelObject: self.modelObject)
                     self.modelObject = ProfileModelObjectBuilder()
                         .address(self.addressSegment.string)
                         .birthday(self.ageSegment.date)
                         .email(self.emailSegment.string)
                         .gender(self.genderSegment.gender)
+                        .iconImage(self.iconImageSegment.image?.pngData())
                         .name(self.nameSegment.string)
                         .phoneNumber(self.phoneNumberSegment.phoneNumber)
                         .station(self.stationSegment.string)

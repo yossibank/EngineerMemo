@@ -150,7 +150,7 @@
             }
 
             addSubview(menuButton) {
-                $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(24)
+                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(24)
                 $0.centerX.equalToSuperview()
                 $0.width.equalTo(160)
                 $0.height.equalTo(40)

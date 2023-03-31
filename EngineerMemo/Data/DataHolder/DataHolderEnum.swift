@@ -12,4 +12,14 @@ extension DataHolder {
         case test2
         case test3
     }
+
+    enum ProfileIcon: Int, CaseIterable, UserDefaultsCompatible {
+        case elephant
+        case fox
+        case octopus
+        case panda
+        case penguin
+        case seal
+        case sheep
+    }
 }

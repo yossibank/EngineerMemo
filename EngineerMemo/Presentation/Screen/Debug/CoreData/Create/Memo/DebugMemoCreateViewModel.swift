@@ -19,6 +19,9 @@
             .content(DebugCoreDataSegment.defaultString)
             .build()
 
+        private var titleSegment: DebugCoreDataSegment = .medium
+        private var contentSegment: DebugCoreDataSegment = .medium
+
         private let model: MemoModelInput
 
         init(model: MemoModelInput) {
@@ -52,6 +55,10 @@
                     }
 
                     self.model.create(modelObject: self.modelObject)
+                    self.modelObject = MemoModelObjectBuilder()
+                        .title(self.titleSegment.string)
+                        .content(self.contentSegment.string)
+                        .build()
                 }
                 .store(in: &cancellables)
         }

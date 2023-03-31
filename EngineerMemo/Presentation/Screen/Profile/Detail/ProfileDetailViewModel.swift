@@ -4,6 +4,7 @@ final class ProfileDetailViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let didTapIconChangeButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapEditButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapSettingButton = PassthroughSubject<Void, Never>()
     }
@@ -43,11 +44,11 @@ final class ProfileDetailViewModel: ViewModel {
             .sink { _ in
                 model.get { result in
                     switch result {
-                    case let .failure(appError):
-                        output.appError = appError
-
                     case let .success(modelObject):
                         output.modelObject = modelObject
+
+                    case let .failure(appError):
+                        output.appError = appError
                     }
                 }
             }
@@ -58,6 +59,14 @@ final class ProfileDetailViewModel: ViewModel {
         input.viewWillAppear
             .sink { _ in
                 analytics.sendEvent(.screenView)
+            }
+            .store(in: &cancellables)
+
+        // MARK: - プロフィール画像変更ボタンタップ
+
+        input.didTapIconChangeButton
+            .sink { modelObject in
+                routing.showIconScreen(modelObject: modelObject)
             }
             .store(in: &cancellables)
 

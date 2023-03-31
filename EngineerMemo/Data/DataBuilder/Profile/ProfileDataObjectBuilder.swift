@@ -6,6 +6,7 @@
         private var birthday = Calendar.date(year: 2000, month: 1, day: 1)
         private var email: String? = "test@test.com"
         private var gender: Profile.Gender? = .man
+        private var iconImage: Data? = ImageResources.profile?.pngData()
         private var identifier = "identifier"
         private var name: String? = "testName"
         private var phoneNumber: String? = "08011112222"
@@ -18,6 +19,7 @@
             profile.birthday = birthday
             profile.email = email
             profile.genderEnum = gender
+            profile.iconImage = iconImage
             profile.identifier = identifier
             profile.name = name
             profile.phoneNumber = phoneNumber
@@ -42,6 +44,11 @@
 
         func gender(_ gender: Profile.Gender?) -> Self {
             self.gender = gender
+            return self
+        }
+
+        func iconImage(_ iconImage: Data?) -> Self {
+            self.iconImage = iconImage
             return self
         }
 

@@ -13,6 +13,7 @@
         private(set) lazy var birthdayControlPublisher = birthdayControl.segmentIndexPublisher
         private(set) lazy var emailControlPublisher = emailControl.segmentIndexPublisher
         private(set) lazy var genderControlPublisher = genderControl.segmentIndexPublisher
+        private(set) lazy var iconImageControlPublisher = iconImageControl.segmentIndexPublisher
         private(set) lazy var nameControlPublisher = nameControl.segmentIndexPublisher
         private(set) lazy var phoneNumberControlPublisher = phoneNumberControl.segmentIndexPublisher
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
@@ -26,6 +27,7 @@
                         birthdayControl
                         emailControl
                         genderControl
+                        iconImageControl
                         nameControl
                         phoneNumberControl
                         stationControl
@@ -34,33 +36,14 @@
                 )
             }
 
-        private let addressControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.address
-        )
-
-        private let birthdayControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.birthday
-        )
-
-        private let emailControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.email
-        )
-
-        private let genderControl = DebugGenderSegmentView(
-            title: L10n.Debug.Segment.gender
-        )
-
-        private let nameControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.name
-        )
-
-        private let phoneNumberControl = DebugPhoneNumberSegmentView(
-            title: L10n.Debug.Segment.phoneNumber
-        )
-
-        private let stationControl = DebugCoreDataSegmentView(
-            title: L10n.Debug.Segment.station
-        )
+        private let addressControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.address)
+        private let birthdayControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.birthday)
+        private let emailControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.email)
+        private let genderControl = DebugGenderSegmentView(title: L10n.Debug.Segment.gender)
+        private let iconImageControl = DebugIconImageSegmentView(title: L10n.Debug.Segment.iconImage)
+        private let nameControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.name)
+        private let phoneNumberControl = DebugPhoneNumberSegmentView(title: L10n.Debug.Segment.phoneNumber)
+        private let stationControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.station)
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -91,6 +74,7 @@
         func setupView() {
             configure {
                 $0.backgroundColor = .primary
+                $0.separatorInset = .zero
                 $0.selectionStyle = .none
             }
 

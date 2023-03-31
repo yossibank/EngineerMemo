@@ -128,7 +128,7 @@
                     tableView.selectRow(
                         at: .init(row: selectedIndex, section: Section.list.rawValue),
                         animated: false,
-                        scrollPosition: .top
+                        scrollPosition: .none
                     )
                 }
 

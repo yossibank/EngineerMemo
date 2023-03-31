@@ -1,4 +1,5 @@
 enum UserDefaultsKey: String, CaseIterable {
+    case profileIcon
     case sample
     case test
     case string

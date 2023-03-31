@@ -70,6 +70,22 @@ final class ProfileDetailViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
+    func test_input_didTapIconChangeButton_routing_showIconScreenが呼び出されること() {
+        // arrange
+        let modelObject = ProfileModelObjectBuilder().build()
+
+        routing.showIconScreenHandler = {
+            // assert
+            XCTAssertEqual($0, modelObject)
+        }
+
+        // act
+        viewModel.input.didTapIconChangeButton.send(modelObject)
+
+        // assert
+        XCTAssertEqual(routing.showIconScreenCallCount, 1)
+    }
+
     func test_input_didTapEditButton_routing_showUpdateScreenが呼び出されること() {
         // arrange
         let modelObject = ProfileModelObjectBuilder().build()
