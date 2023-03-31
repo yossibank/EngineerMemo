@@ -26,6 +26,8 @@ final class ProfileModelTest: XCTestCase {
 
         cancellables.removeAll()
 
+        resetUserDefaults()
+
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
@@ -223,6 +225,22 @@ final class ProfileModelTest: XCTestCase {
         }
 
         wait(for: [expectation], timeout: 0.3)
+    }
+
+    func test_iconImageUpdate_有効値の場合にuserDefaultsを更新できること() {
+        // arrange
+        model.iconImageUpdate(index: 0)
+
+        // assert
+        XCTAssertEqual(DataHolder.profileIcon, .elephant)
+    }
+
+    func test_iconImageUpdate_不正値の場合にデフォルト設定でuserDefaultsを更新できること() {
+        // arrange
+        model.iconImageUpdate(index: 100)
+
+        // assert
+        XCTAssertEqual(DataHolder.profileIcon, .penguin)
     }
 
     func test_delete_情報を削除できること() {
