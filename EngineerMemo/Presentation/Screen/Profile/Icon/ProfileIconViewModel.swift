@@ -1,51 +1,65 @@
 import Combine
+import Foundation
 
 final class ProfileIconViewModel: ViewModel {
-    // 不要な場合はNoBinding使用
-    final class Binding: BindingObject {
-        @Published var sample = ""
-    }
-
     final class Input: InputObject {
-        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let didChangeIconData = PassthroughSubject<Data?, Never>()
+        let didChangeIconIndex = PassthroughSubject<Int, Never>()
     }
 
     final class Output: OutputObject {}
 
-    @BindableObject private(set) var binding: Binding
-
     let input: Input
     let output: Output
-    // let binding = NoBinding()
+    let binding = NoBinding()
 
+    private var modelObject: ProfileModelObject
     private var cancellables: Set<AnyCancellable> = .init()
 
+    private let model: ProfileModelInput
     private let analytics: FirebaseAnalyzable
 
-    init(analytics: FirebaseAnalyzable) {
-        let binding = Binding()
+    init(
+        model: ProfileModelInput,
+        modelObject: ProfileModelObject,
+        analytics: FirebaseAnalyzable
+    ) {
         let input = Input()
         let output = Output()
 
-        self.binding = binding
         self.input = input
         self.output = output
+        self.model = model
+        self.modelObject = modelObject
         self.analytics = analytics
-
-        // MARK: - viewDidLoad
-
-        input.viewDidLoad
-            .sink { _ in
-                // NOTE: 初期化時処理
-            }
-            .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 
         input.viewWillAppear
             .sink { _ in
                 analytics.sendEvent(.screenView)
+            }
+            .store(in: &cancellables)
+
+        // MARK: - アイコン変更(CoreData)
+
+        input.didChangeIconData
+            .sink { [weak self] iconImage in
+                guard let self else {
+                    return
+                }
+
+                self.modelObject.iconImage = iconImage
+                self.model.iconImageUpdate(modelObject: self.modelObject)
+            }
+            .store(in: &cancellables)
+
+        // MARK: - アイコン変更(UserDefaults)
+
+        input.didChangeIconIndex
+            .sink { index in
+                model.iconImageUpdate(index: index)
             }
             .store(in: &cancellables)
     }

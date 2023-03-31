@@ -64,6 +64,12 @@ final class ProfileTopCell: UITableViewCell {
         super.init(coder: coder)
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        cancellables.removeAll()
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
@@ -81,7 +87,7 @@ extension ProfileTopCell {
            let image = UIImage(data: data) {
             iconImageView.image = image
         } else {
-            iconImageView.image = ImageResources.profile
+            iconImageView.image = Asset.penguin.image
         }
 
         userNameLabel.text = modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName

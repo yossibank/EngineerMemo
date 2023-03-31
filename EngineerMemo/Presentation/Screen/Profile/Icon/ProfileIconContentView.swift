@@ -4,15 +4,33 @@ import UIKitHelper
 
 // MARK: - section & item
 
-enum ProfileIconContentViewSection: CaseIterable {
+enum ProfileIconContentViewSection: Int, CaseIterable {
     case main
+}
+
+struct ProfileIconContentViewItem: Hashable {
+    let icon: UIImage
+    let title: String
+
+    static let contents: [ProfileIconContentViewItem] = [
+        .init(icon: Asset.elephant.image, title: L10n.Profile.Icon.elephant),
+        .init(icon: Asset.fox.image, title: L10n.Profile.Icon.fox),
+        .init(icon: Asset.octopus.image, title: L10n.Profile.Icon.octopus),
+        .init(icon: Asset.panda.image, title: L10n.Profile.Icon.panda),
+        .init(icon: Asset.penguin.image, title: L10n.Profile.Icon.penguin),
+        .init(icon: Asset.seal.image, title: L10n.Profile.Icon.seal),
+        .init(icon: Asset.sheep.image, title: L10n.Profile.Icon.sheep)
+    ]
 }
 
 // MARK: - properties & init
 
 final class ProfileIconContentView: UIView {
     typealias Section = ProfileIconContentViewSection
-    typealias Item = String
+    typealias Item = ProfileIconContentViewItem
+
+    private(set) lazy var didChangeIconDataPublisher = didChangeIconDataSubject.eraseToAnyPublisher()
+    private(set) lazy var didChangeIconIndexPublisher = didChangeIconIndexSubject.eraseToAnyPublisher()
 
     private lazy var collectionView = UICollectionView(
         frame: .zero,
@@ -27,6 +45,15 @@ final class ProfileIconContentView: UIView {
             return .init()
         }
 
+        collectionView.selectItem(
+            at: .init(
+                item: DataHolder.profileIcon.rawValue,
+                section: Section.main.rawValue
+            ),
+            animated: false,
+            scrollPosition: .left
+        )
+
         return collectionView.dequeueConfiguredReusableCell(
             using: self.cellRegistration,
             for: indexPath,
@@ -35,27 +62,20 @@ final class ProfileIconContentView: UIView {
     }
 
     private var collectionViewLayout: UICollectionViewLayout {
-        let estimatedHeight: CGFloat = 56
-
-        let itemSize = NSCollectionLayoutSize(
+        let layoutSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
+            heightDimension: .absolute(180)
         )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
-        )
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitem: item,
+            layoutSize: layoutSize,
+            subitem: .init(layoutSize: layoutSize),
             count: 2
         )
-        group.interItemSpacing = .fixed(8.0)
+        group.interItemSpacing = .fixed(8)
 
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 8.0
+        section.interGroupSpacing = 24.0
 
         let sideInset: CGFloat = 8.0
         section.contentInsets = .init(
@@ -69,22 +89,17 @@ final class ProfileIconContentView: UIView {
     }
 
     private let cellRegistration = UICollectionView.CellRegistration<
-        UICollectionViewListCell,
+        ProfileIconCell,
         Item
-    > { cell, indexPath, item in
-        var configuration = cell.defaultContentConfiguration()
-        configuration.text = item
-        configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
-        configuration.image = .init(systemName: "appletv")
-
-        var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-        backgroundConfig.backgroundColor = indexPath.row % 2 == 0
-            ? .green
-            : .orange
-
-        cell.contentConfiguration = configuration
-        cell.backgroundConfiguration = backgroundConfig
+    > { cell, _, item in
+        cell.configure(
+            icon: item.icon,
+            title: item.title
+        )
     }
+
+    private let didChangeIconDataSubject = PassthroughSubject<Data?, Never>()
+    private let didChangeIconIndexSubject = PassthroughSubject<Int, Never>()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -100,16 +115,13 @@ final class ProfileIconContentView: UIView {
     }
 }
 
-// MARK: - internal methods
-
-extension ProfileIconContentView {}
-
 // MARK: - private methods
 
 private extension ProfileIconContentView {
     func setupCollectionView() {
         collectionView.configure {
             $0.backgroundColor = .primary
+            $0.delegate = self
         }
     }
 
@@ -117,14 +129,32 @@ private extension ProfileIconContentView {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        ["text1", "text2", "text3", "text4", "text5"].forEach {
-            dataSourceSnapshot.appendItems([$0], toSection: .main)
+        Item.contents.forEach {
+            dataSourceSnapshot.appendItems(
+                [$0],
+                toSection: .main
+            )
         }
 
         dataSource.apply(
             dataSourceSnapshot,
             animatingDifferences: false
         )
+    }
+}
+
+// MARK: - delegate
+
+extension ProfileIconContentView: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        didChangeIconIndexSubject.send(indexPath.item)
+
+        if let item = Item.contents[safe: indexPath.item] {
+            didChangeIconDataSubject.send(item.icon.pngData())
+        }
     }
 }
 

@@ -4,7 +4,7 @@ final class ProfileDetailViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
-        let didTapIconChangeButton = PassthroughSubject<Void, Never>()
+        let didTapIconChangeButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapEditButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapSettingButton = PassthroughSubject<Void, Never>()
     }
@@ -65,8 +65,8 @@ final class ProfileDetailViewModel: ViewModel {
         // MARK: - プロフィール画像変更ボタンタップ
 
         input.didTapIconChangeButton
-            .sink { _ in
-                routing.showIconScreen()
+            .sink { modelObject in
+                routing.showIconScreen(modelObject: modelObject)
             }
             .store(in: &cancellables)
 

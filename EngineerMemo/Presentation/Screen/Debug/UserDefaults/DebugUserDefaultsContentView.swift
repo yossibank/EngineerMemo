@@ -43,7 +43,7 @@
 
         var debugViewType: DebugViewType {
             switch self {
-            case .sample:
+            case .profileIcon, .sample:
                 return .dataHolderEnum(
                     .init(
                         items: DataHolder.Sample.allCases.map(\.description),

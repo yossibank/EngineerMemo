@@ -29,7 +29,7 @@ extension ProfileIconViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.input.viewDidLoad.send(())
+        bindToViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -39,10 +39,20 @@ extension ProfileIconViewController {
     }
 }
 
-// MARK: - internal methods
-
-extension ProfileIconViewController {}
-
 // MARK: - private methods
 
-private extension ProfileIconViewController {}
+private extension ProfileIconViewController {
+    func bindToViewModel() {
+        contentView.didChangeIconDataPublisher
+            .sink { [weak self] data in
+                self?.viewModel.input.didChangeIconData.send(data)
+            }
+            .store(in: &cancellables)
+
+        contentView.didChangeIconIndexPublisher
+            .sink { [weak self] index in
+                self?.viewModel.input.didChangeIconIndex.send(index)
+            }
+            .store(in: &cancellables)
+    }
+}

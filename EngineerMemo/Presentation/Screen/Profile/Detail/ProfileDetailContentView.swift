@@ -45,7 +45,7 @@ final class ProfileDetailContentView: UIView {
         )
     }
 
-    private let didTapIconChangeButtonSubject = PassthroughSubject<Void, Never>()
+    private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
 
@@ -99,7 +99,9 @@ private extension ProfileDetailContentView {
 
             cell.didTapIconChangeButtonPublisher
                 .sink { [weak self] _ in
-                    self?.didTapIconChangeButtonSubject.send(())
+                    if let modelObject {
+                        self?.didTapIconChangeButtonSubject.send(modelObject)
+                    }
                 }
                 .store(in: &cell.cancellables)
 

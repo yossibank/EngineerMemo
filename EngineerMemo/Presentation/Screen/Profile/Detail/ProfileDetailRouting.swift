@@ -2,7 +2,7 @@ import UIKit
 
 /// @mockable
 protocol ProfileDetailRoutingInput {
-    func showIconScreen()
+    func showIconScreen(modelObject: ProfileModelObject)
     func showUpdateScreen(type: ProfileUpdateType)
 }
 
@@ -19,9 +19,9 @@ final class ProfileDetailRouting {
 // MARK: - protocol
 
 extension ProfileDetailRouting: ProfileDetailRoutingInput {
-    func showIconScreen() {
+    func showIconScreen(modelObject: ProfileModelObject) {
         viewController?.navigationController?.pushViewController(
-            AppControllers.Profile.Icon(),
+            AppControllers.Profile.Icon(modelObject: modelObject),
             animated: true
         )
     }

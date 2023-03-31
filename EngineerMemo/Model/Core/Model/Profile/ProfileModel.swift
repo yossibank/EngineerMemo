@@ -8,6 +8,7 @@ protocol ProfileModelInput: Model {
     func create(modelObject: ProfileModelObject)
     func update(modelObject: ProfileModelObject)
     func iconImageUpdate(modelObject: ProfileModelObject)
+    func iconImageUpdate(index: Int)
     func delete(modelObject: ProfileModelObject)
 }
 
@@ -105,6 +106,10 @@ final class ProfileModel: ProfileModelInput {
                 modelObject.iconImageInsert(profile)
             }
             .store(in: &cancellables)
+    }
+
+    func iconImageUpdate(index: Int) {
+        DataHolder.profileIcon = .init(rawValue: index) ?? .penguin
     }
 
     func delete(modelObject: ProfileModelObject) {

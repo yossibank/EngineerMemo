@@ -46,6 +46,13 @@
 
 // MARK: - プロフィール
 
+"profile.icon.elephant" = "ゾウ";
+"profile.icon.fox" = "キツネ";
+"profile.icon.octopus" = "タコ";
+"profile.icon.panda" = "パンダ";
+"profile.icon.penguin" = "ペンギン";
+"profile.icon.seal" = "アザラシ";
+"profile.icon.sheep" = "ヒツジ";
 "profile.address" = "住所";
 "profile.addressDescription" = "住所詳細";
 "profile.age" = "年齢";

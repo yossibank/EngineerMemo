@@ -7,6 +7,12 @@ enum DataHolder {
     static var someFile: [String]?
 
     @UserDefaultsStorage(
+        .profileIcon,
+        defaultValue: .penguin
+    )
+    static var profileIcon: DataHolder.ProfileIcon
+
+    @UserDefaultsStorage(
         .sample,
         defaultValue: .sample1
     )
