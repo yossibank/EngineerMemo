@@ -75,11 +75,11 @@ final class ProfileIconContentView: UIView {
         group.interItemSpacing = .fixed(8)
 
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 24.0
+        section.interGroupSpacing = 20
 
-        let sideInset: CGFloat = 8.0
+        let sideInset: CGFloat = 8
         section.contentInsets = .init(
-            top: .zero,
+            top: 16,
             leading: sideInset,
             bottom: .zero,
             trailing: sideInset
@@ -163,7 +163,9 @@ extension ProfileIconContentView: UICollectionViewDelegate {
 extension ProfileIconContentView: ContentView {
     func setupView() {
         addSubview(collectionView) {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview()
         }
     }
 }
