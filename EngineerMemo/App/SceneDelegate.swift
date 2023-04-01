@@ -1,8 +1,11 @@
+import Combine
 import IQKeyboardManagerSwift
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProtocol {
     var window: UIWindow?
+
+    private var cancellables: Set<AnyCancellable> = .init()
 
     func scene(
         _ scene: UIScene,
@@ -27,6 +30,20 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
         window = .init(windowScene: windowScene)
         window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
+
+        DataHolder.$colorTheme.sink { [weak self] colorScheme in
+            switch colorScheme {
+            case .system:
+                self?.window?.overrideUserInterfaceStyle = .unspecified
+
+            case .light:
+                self?.window?.overrideUserInterfaceStyle = .light
+
+            case .dark:
+                self?.window?.overrideUserInterfaceStyle = .dark
+            }
+        }
+        .store(in: &cancellables)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

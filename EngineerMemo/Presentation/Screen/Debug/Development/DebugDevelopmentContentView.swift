@@ -9,21 +9,27 @@
     enum DebugDevelopmentContentViewSection: CaseIterable {
         case git
         case device
+        case colorTheme
         case development
         case coreData
-        case userDefaults
 
-        var cellType: DebugDevelopmentCell.Type {
-            DebugDevelopmentCell.self
+        var cellType: UITableViewCell.Type {
+            switch self {
+            case .colorTheme:
+                return DebugColorThemeCell.self
+
+            default:
+                return DebugDevelopmentCell.self
+            }
         }
 
         var title: String {
             switch self {
             case .git: return L10n.Debug.Section.git
             case .device: return L10n.Debug.Section.device
+            case .colorTheme: return L10n.Debug.Section.colorTheme
             case .development: return L10n.Debug.Section.development
             case .coreData: return L10n.Debug.Section.coreData
-            case .userDefaults: return L10n.Debug.Section.userDefaults
             }
         }
 
@@ -41,6 +47,11 @@
                     .init(title: L10n.Debug.Device.udid, subTitle: UIDevice.deviceId)
                 ]
 
+            case .colorTheme:
+                return [
+                    .init(title: .empty)
+                ]
+
             case .development:
                 return [
                     .init(title: L10n.Debug.Development.shutdown)
@@ -51,11 +62,6 @@
                     .init(title: L10n.Debug.CoreData.list),
                     .init(title: L10n.Debug.CoreData.create),
                     .init(title: L10n.Debug.CoreData.update)
-                ]
-
-            case .userDefaults:
-                return [
-                    .init(title: L10n.Debug.UserDefaults.status)
                 ]
             }
         }
@@ -80,8 +86,8 @@
         typealias Section = DebugDevelopmentContentViewSection
         typealias Item = DebugDevelopmentContentViewItem
 
+        lazy var didChangeColorThemeIndexPublisher = didChangeColorThemeIndexSubject.eraseToAnyPublisher()
         lazy var didTapCoreDataCellPublisher = didTapCoreDataCellSubject.eraseToAnyPublisher()
-        lazy var didTapUserDefaultsCellPublisher = didTapUserDefaultsCellSubject.eraseToAnyPublisher()
 
         private lazy var dataSource = UITableViewDiffableDataSource<
             Section,
@@ -98,8 +104,8 @@
             )
         }
 
+        private let didChangeColorThemeIndexSubject = PassthroughSubject<Int, Never>()
         private let didTapCoreDataCellSubject = PassthroughSubject<DebugCoreDataAction, Never>()
-        private let didTapUserDefaultsCellSubject = PassthroughSubject<Void, Never>()
 
         private let tableView = UITableView()
 
@@ -149,14 +155,23 @@
             )
 
             switch section {
-            case .development, .coreData, .userDefaults:
+            case .colorTheme, .development, .coreData:
                 cell.isUserInteractionEnabled = true
 
             default:
                 cell.isUserInteractionEnabled = false
             }
 
-            cell.configure(item: item)
+            if let cell = cell as? DebugColorThemeCell {
+                cell.segmentIndexPublisher.sink { [weak self] index in
+                    self?.didChangeColorThemeIndexSubject.send(index)
+                }
+                .store(in: &cell.cancellables)
+            }
+
+            if let cell = cell as? DebugDevelopmentCell {
+                cell.configure(item: item)
+            }
 
             return cell
         }
@@ -239,9 +254,6 @@
             case .coreData:
                 let action = DebugCoreDataAction.allCases[indexPath.row]
                 didTapCoreDataCellSubject.send(action)
-
-            case .userDefaults:
-                didTapUserDefaultsCellSubject.send(())
 
             default:
                 break

@@ -108,19 +108,10 @@ enum AppControllers {
                 vc.title = L10n.Navigation.Title.debugDevelopment
                 vc.inject(
                     contentView: DebugDevelopmentContentView(),
-                    viewModel: DebugDevelopmentViewModel(routing: routing)
-                )
-
-                return vc
-            }
-
-            static func UserDefaults() -> DebugUserDefaultsViewController {
-                let vc = DebugUserDefaultsViewController()
-
-                vc.title = L10n.Navigation.Title.debugUserDefaults
-                vc.inject(
-                    contentView: DebugUserDefaultsContentView(),
-                    viewModel: DebugUserDefaultsViewModel()
+                    viewModel: DebugDevelopmentViewModel(
+                        model: DebugModel(),
+                        routing: routing
+                    )
                 )
 
                 return vc
