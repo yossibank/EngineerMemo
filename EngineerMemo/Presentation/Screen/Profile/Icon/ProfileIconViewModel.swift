@@ -36,31 +36,28 @@ final class ProfileIconViewModel: ViewModel {
 
         // MARK: - viewWillAppear
 
-        input.viewWillAppear
-            .sink { _ in
-                analytics.sendEvent(.screenView)
-            }
-            .store(in: &cancellables)
+        input.viewWillAppear.sink { _ in
+            analytics.sendEvent(.screenView)
+        }
+        .store(in: &cancellables)
 
         // MARK: - アイコン変更(CoreData)
 
-        input.didChangeIconData
-            .sink { [weak self] iconImage in
-                guard let self else {
-                    return
-                }
-
-                self.modelObject.iconImage = iconImage
-                self.model.iconImageUpdate(modelObject: self.modelObject)
+        input.didChangeIconData.sink { [weak self] iconImage in
+            guard let self else {
+                return
             }
-            .store(in: &cancellables)
+
+            self.modelObject.iconImage = iconImage
+            self.model.iconImageUpdate(modelObject: self.modelObject)
+        }
+        .store(in: &cancellables)
 
         // MARK: - アイコン変更(UserDefaults)
 
-        input.didChangeIconIndex
-            .sink { index in
-                model.iconImageUpdate(index: index)
-            }
-            .store(in: &cancellables)
+        input.didChangeIconIndex.sink { index in
+            model.iconImageUpdate(index: index)
+        }
+        .store(in: &cancellables)
     }
 }

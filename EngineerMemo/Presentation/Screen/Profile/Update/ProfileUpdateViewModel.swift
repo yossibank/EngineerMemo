@@ -50,21 +50,19 @@ final class ProfileUpdateViewModel: ViewModel {
 
         // MARK: - viewDidLoad
 
-        input.viewDidLoad
-            .sink { [weak self] _ in
-                if let modelObject {
-                    self?.modelObject = modelObject
-                }
+        input.viewDidLoad.sink { [weak self] _ in
+            if let modelObject {
+                self?.modelObject = modelObject
             }
-            .store(in: &cancellables)
+        }
+        .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 
-        input.viewWillAppear
-            .sink { _ in
-                analytics.sendEvent(.screenView)
-            }
-            .store(in: &cancellables)
+        input.viewWillAppear.sink { _ in
+            analytics.sendEvent(.screenView)
+        }
+        .store(in: &cancellables)
 
         // MARK: - 名前
 
@@ -124,21 +122,20 @@ final class ProfileUpdateViewModel: ViewModel {
 
         // MARK: - 更新・保存ボタンタップ
 
-        input.didTapSaveButton
-            .sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                if modelObject == nil {
-                    self.model.create(modelObject: self.modelObject)
-                } else {
-                    self.model.update(modelObject: self.modelObject)
-                }
-
-                self.output.isFinished = true
+        input.didTapSaveButton.sink { [weak self] _ in
+            guard let self else {
+                return
             }
-            .store(in: &cancellables)
+
+            if modelObject == nil {
+                self.model.create(modelObject: self.modelObject)
+            } else {
+                self.model.update(modelObject: self.modelObject)
+            }
+
+            self.output.isFinished = true
+        }
+        .store(in: &cancellables)
 
         cancellables.formUnion([
             name,

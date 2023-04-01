@@ -38,40 +38,37 @@ final class MemoListViewModel: ViewModel {
 
         // MARK: - viewDidLoad
 
-        input.viewDidLoad
-            .sink { _ in
-                model.gets {
-                    switch $0 {
-                    case let .failure(appError):
-                        output.appError = appError
+        input.viewDidLoad.sink { _ in
+            model.gets {
+                switch $0 {
+                case let .failure(appError):
+                    output.appError = appError
 
-                    case let .success(modelObjects):
-                        output.modelObjects = modelObjects
-                    }
+                case let .success(modelObjects):
+                    output.modelObjects = modelObjects
                 }
             }
-            .store(in: &cancellables)
+        }
+        .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 
-        input.viewWillAppear
-            .sink { _ in
-                analytics.sendEvent(.screenView)
-            }
-            .store(in: &cancellables)
+        input.viewWillAppear.sink { _ in
+            analytics.sendEvent(.screenView)
+        }
+        .store(in: &cancellables)
 
         // MARK: - メモコンテンツ選択
 
-        input.didSelectContent
-            .sink { modelObject in
-                analytics.sendEvent(
-                    .didTapMemoList(
-                        title: modelObject.title ?? .noSetting
-                    )
+        input.didSelectContent.sink { modelObject in
+            analytics.sendEvent(
+                .didTapMemoList(
+                    title: modelObject.title ?? .noSetting
                 )
+            )
 
-                routing.showDetailScreen(modelObject: modelObject)
-            }
-            .store(in: &cancellables)
+            routing.showDetailScreen(modelObject: modelObject)
+        }
+        .store(in: &cancellables)
     }
 }
