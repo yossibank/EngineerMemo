@@ -1,4 +1,4 @@
-// MARK: - 全共通項
+// MARK: - 共通項
 
 "common.done" = "完了";
 
@@ -88,6 +88,7 @@
 
 "debug.section.git" = "Git";
 "debug.section.device" = "端末情報";
+"debug.section.colorTheme" = "カラーテーマ";
 "debug.section.development" = "開発用操作";
 "debug.section.coreData" = "CoreData";
 "debug.section.userDefaults" = "UserDefaults";
@@ -121,3 +122,6 @@
 "debug.segment.man" = "男性";
 "debug.segment.woman" = "女性";
 "debug.segment.other" = "その他";
+"debug.segment.system" = "システム";
+"debug.segment.light" = "ライト";
+"debug.segment.dark" = "ダーク";

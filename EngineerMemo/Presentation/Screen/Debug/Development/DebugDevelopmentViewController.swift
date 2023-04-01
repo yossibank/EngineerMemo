@@ -38,17 +38,17 @@
 
     private extension DebugDevelopmentViewController {
         func bindToViewModel() {
+            contentView.didChangeColorThemeIndexPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] index in
+                    self?.viewModel.input.didChangeColorThemeIndex.send(index)
+                }
+                .store(in: &cancellables)
+
             contentView.didTapCoreDataCellPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] action in
                     self?.viewModel.input.didTapCoreDataCell.send(action)
-                }
-                .store(in: &cancellables)
-
-            contentView.didTapUserDefaultsCellPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    self?.viewModel.input.didTapUserDefaultsCell.send(())
                 }
                 .store(in: &cancellables)
         }
