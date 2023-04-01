@@ -36,11 +36,10 @@
 
             // MARK: - メモ情報削除
 
-            input.didDeletedModelObject
-                .sink { modelObject in
-                    model.delete(modelObject: modelObject)
-                }
-                .store(in: &cancellables)
+            input.didDeletedModelObject.sink { modelObject in
+                model.delete(modelObject: modelObject)
+            }
+            .store(in: &cancellables)
         }
     }
 #endif

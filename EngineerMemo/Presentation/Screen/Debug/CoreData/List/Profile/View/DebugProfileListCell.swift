@@ -50,7 +50,11 @@
         private let phoneNumberLabel = UILabel()
         private let addressLabel = UILabel()
         private let stationLabel = UILabel()
-        private let iconImageView = UIImageView()
+
+        private let iconImageView = UIImageView().configure {
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 30
+        }
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -91,7 +95,7 @@
                let image = UIImage(data: data) {
                 iconImageView.image = image
             } else {
-                iconImageView.image = ImageResources.profile
+                iconImageView.image = Asset.penguin.image
             }
         }
     }

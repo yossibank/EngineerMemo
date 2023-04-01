@@ -32,35 +32,32 @@
 
             // MARK: - タイトルセグメント
 
-            input.didChangeTitleControl
-                .sink { [weak self] segment in
-                    self?.modelObject.title = segment.string
-                }
-                .store(in: &cancellables)
+            input.didChangeTitleControl.sink { [weak self] segment in
+                self?.modelObject.title = segment.string
+            }
+            .store(in: &cancellables)
 
             // MARK: - コンテンツセグメント
 
-            input.didChangeContentControl
-                .sink { [weak self] segment in
-                    self?.modelObject.content = segment.string
-                }
-                .store(in: &cancellables)
+            input.didChangeContentControl.sink { [weak self] segment in
+                self?.modelObject.content = segment.string
+            }
+            .store(in: &cancellables)
 
             // MARK: - 作成ボタンタップ
 
-            input.didTapCreateButton
-                .sink { [weak self] in
-                    guard let self else {
-                        return
-                    }
-
-                    self.model.create(modelObject: self.modelObject)
-                    self.modelObject = MemoModelObjectBuilder()
-                        .title(self.titleSegment.string)
-                        .content(self.contentSegment.string)
-                        .build()
+            input.didTapCreateButton.sink { [weak self] in
+                guard let self else {
+                    return
                 }
-                .store(in: &cancellables)
+
+                self.model.create(modelObject: self.modelObject)
+                self.modelObject = MemoModelObjectBuilder()
+                    .title(self.titleSegment.string)
+                    .content(self.contentSegment.string)
+                    .build()
+            }
+            .store(in: &cancellables)
         }
     }
 #endif

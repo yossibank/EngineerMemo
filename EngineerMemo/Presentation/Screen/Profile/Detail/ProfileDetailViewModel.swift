@@ -40,50 +40,45 @@ final class ProfileDetailViewModel: ViewModel {
 
         // MARK: - viewDidLoad
 
-        input.viewDidLoad
-            .sink { _ in
-                model.get { result in
-                    switch result {
-                    case let .success(modelObject):
-                        output.modelObject = modelObject
+        input.viewDidLoad.sink { _ in
+            model.get {
+                switch $0 {
+                case let .success(modelObject):
+                    output.modelObject = modelObject
 
-                    case let .failure(appError):
-                        output.appError = appError
-                    }
+                case let .failure(appError):
+                    output.appError = appError
                 }
             }
-            .store(in: &cancellables)
+        }
+        .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 
-        input.viewWillAppear
-            .sink { _ in
-                analytics.sendEvent(.screenView)
-            }
-            .store(in: &cancellables)
+        input.viewWillAppear.sink { _ in
+            analytics.sendEvent(.screenView)
+        }
+        .store(in: &cancellables)
 
         // MARK: - プロフィール画像変更ボタンタップ
 
-        input.didTapIconChangeButton
-            .sink { modelObject in
-                routing.showIconScreen(modelObject: modelObject)
-            }
-            .store(in: &cancellables)
+        input.didTapIconChangeButton.sink { modelObject in
+            routing.showIconScreen(modelObject: modelObject)
+        }
+        .store(in: &cancellables)
 
         // MARK: - 編集ボタンタップ
 
-        input.didTapEditButton
-            .sink { modelObject in
-                routing.showUpdateScreen(type: .update(modelObject))
-            }
-            .store(in: &cancellables)
+        input.didTapEditButton.sink { modelObject in
+            routing.showUpdateScreen(type: .update(modelObject))
+        }
+        .store(in: &cancellables)
 
         // MARK: - 設定ボタンタップ
 
-        input.didTapSettingButton
-            .sink { _ in
-                routing.showUpdateScreen(type: .setting)
-            }
-            .store(in: &cancellables)
+        input.didTapSettingButton.sink { _ in
+            routing.showUpdateScreen(type: .setting)
+        }
+        .store(in: &cancellables)
     }
 }
