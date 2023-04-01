@@ -16,14 +16,14 @@ final class DataHolderTest: XCTestCase {
 
     func test_dataHolder_publisherで値を受け取れること() throws {
         // arrange
-        let samplePublisher = DataHolder.$sample.collect(1).first()
+        let publisher = DataHolder.$colorTheme.collect(1).first()
 
-        DataHolder.sample = .sample3
+        DataHolder.colorTheme = .dark
 
         // act
-        let output = try awaitOutputPublisher(samplePublisher)
+        let output = try awaitOutputPublisher(publisher)
 
         // assert
-        XCTAssertEqual(output.first, .sample3)
+        XCTAssertEqual(output.first, .dark)
     }
 }
