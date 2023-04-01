@@ -91,6 +91,7 @@ extension ProfileTopCell {
         }
 
         userNameLabel.text = modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName
+        iconChangeButton.isHidden = modelObject == nil
     }
 }
 
