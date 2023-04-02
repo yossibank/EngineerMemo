@@ -56,12 +56,12 @@
     private extension DebugDevelopmentCell {
         func setupView() {
             contentView.configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(body) {
+                    $0.centerY.equalToSuperview()
+                    $0.leading.equalToSuperview().inset(8)
+                }
 
-            contentView.addSubview(body) {
-                $0.centerY.equalToSuperview()
-                $0.leading.equalToSuperview().inset(8)
+                $0.backgroundColor = .primary
             }
         }
     }

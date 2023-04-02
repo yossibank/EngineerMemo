@@ -21,13 +21,19 @@
     // MARK: - properties & init
 
     final class DebugColorThemeCell: UITableViewCell {
+        typealias Segment = DebugColorThemeSegment
+
         var cancellables: Set<AnyCancellable> = .init()
 
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
-        private let segmentControl = UISegmentedControl(
-            items: DebugColorThemeSegment.allCases.map(\.title)
-        )
+        private let segmentControl = UISegmentedControl(items: Segment.allCases.map(\.title)).configure {
+            $0.selectedSegmentIndex = DataHolder.colorTheme.rawValue
+            $0.setTitleTextAttributes(
+                [.font: UIFont.boldSystemFont(ofSize: 14)],
+                for: .normal
+            )
+        }
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -57,21 +63,16 @@
     private extension DebugColorThemeCell {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
                 $0.selectedBackgroundView = .init()
             }
 
-            contentView.addSubview(segmentControl) {
-                $0.centerY.equalToSuperview()
-                $0.leading.equalToSuperview().inset(8)
-            }
+            contentView.configure {
+                $0.addSubview(segmentControl) {
+                    $0.centerY.equalToSuperview()
+                    $0.leading.equalToSuperview().inset(8)
+                }
 
-            segmentControl.configure {
-                $0.selectedSegmentIndex = DataHolder.colorTheme.rawValue
-                $0.setTitleTextAttributes(
-                    [.font: UIFont.boldSystemFont(ofSize: 14)],
-                    for: .normal
-                )
+                $0.backgroundColor = .primary
             }
         }
     }

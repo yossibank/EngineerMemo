@@ -80,13 +80,13 @@
 
     private extension DebugMemoListCell {
         func setupView() {
-            configure {
-                $0.backgroundColor = .primary
-            }
+            contentView.configure {
+                $0.addSubview(baseView) {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.trailing.equalToSuperview().inset(32)
+                }
 
-            contentView.addSubview(baseView) {
-                $0.top.bottom.equalToSuperview().inset(16)
-                $0.leading.trailing.equalToSuperview().inset(32)
+                $0.backgroundColor = .primary
             }
         }
     }

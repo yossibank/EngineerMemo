@@ -41,12 +41,12 @@ extension ___FILEBASENAME___ {}
 
 private extension ___FILEBASENAME___ {
     func setupView() {
-        configure {
-            $0.backgroundColor = .primary
-        }
+        contentView.configure {
+            $0.addSubview(body) {
+                $0.edges.equalToSuperview()
+            }
 
-        contentView.addSubview(body) {
-            $0.edges.equalToSuperview()
+            $0.backgroundColor = .primary
         }
     }
 }
@@ -58,9 +58,7 @@ private extension ___FILEBASENAME___ {
 
     struct ___FILEBASENAME___Preview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: ___FILEBASENAME___()
-            )
+            WrapperView(view: ___FILEBASENAME___())
         }
     }
 #endif

@@ -60,7 +60,6 @@
     private extension DebugUpdateListCell {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
                 $0.separatorInset = .zero
                 $0.selectionStyle = .none
                 $0.accessoryView = UIImageView().configure {
@@ -69,9 +68,13 @@
                 }
             }
 
-            contentView.addSubview(body) {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.trailing.equalToSuperview().inset(16)
+            contentView.configure {
+                $0.addSubview(body) {
+                    $0.top.bottom.equalToSuperview()
+                    $0.leading.trailing.equalToSuperview().inset(16)
+                }
+
+                $0.backgroundColor = .primary
             }
         }
     }

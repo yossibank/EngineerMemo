@@ -153,35 +153,32 @@ private extension MemoListContentView {
                 for: indexPath
             )
 
-            header.button1Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
-
-                    self.viewType = .one
+            header.button1Publisher.sink { [weak self] _ in
+                guard let self else {
+                    return
                 }
-                .store(in: &header.cancellables)
 
-            header.button2Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
+                self.viewType = .one
+            }
+            .store(in: &header.cancellables)
 
-                    self.viewType = .two
+            header.button2Publisher.sink { [weak self] _ in
+                guard let self else {
+                    return
                 }
-                .store(in: &header.cancellables)
 
-            header.button3Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
+                self.viewType = .two
+            }
+            .store(in: &header.cancellables)
 
-                    self.viewType = .three
+            header.button3Publisher.sink { [weak self] _ in
+                guard let self else {
+                    return
                 }
-                .store(in: &header.cancellables)
+
+                self.viewType = .three
+            }
+            .store(in: &header.cancellables)
 
             return header
         }
@@ -192,7 +189,10 @@ private extension MemoListContentView {
         dataSourceSnapshot.appendSections(Section.allCases)
 
         modelObjects.forEach {
-            dataSourceSnapshot.appendItems([$0], toSection: .main)
+            dataSourceSnapshot.appendItems(
+                [$0],
+                toSection: .main
+            )
         }
 
         dataSource.apply(
@@ -239,9 +239,7 @@ extension MemoListContentView: ContentView {
 
     struct MemoListContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: MemoListContentView()
-            )
+            WrapperView(view: MemoListContentView())
         }
     }
 #endif

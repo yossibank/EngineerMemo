@@ -13,16 +13,15 @@
         private(set) lazy var contentControlPublisher = contentControl.segmentIndexPublisher
         private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
-        private lazy var body = DebugCoreDataSegmentContentView()
-            .configure {
-                $0.setupContentView(
-                    view: VStackView(spacing: 12) {
-                        titleControl
-                        contentControl
-                    },
-                    type: .update
-                )
-            }
+        private lazy var body = DebugCoreDataSegmentContentView().configure {
+            $0.setupContentView(
+                view: VStackView(spacing: 12) {
+                    titleControl
+                    contentControl
+                },
+                type: .update
+            )
+        }
 
         private let titleControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.title)
         private let contentControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.content)
@@ -55,14 +54,17 @@
     private extension DebugMemoUpdateCell {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
                 $0.separatorInset = .zero
                 $0.selectionStyle = .none
             }
 
-            contentView.addSubview(body) {
-                $0.top.bottom.equalToSuperview().inset(16)
-                $0.leading.trailing.equalToSuperview()
+            contentView.configure {
+                $0.addSubview(body) {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.trailing.equalToSuperview()
+                }
+
+                $0.backgroundColor = .primary
             }
         }
     }

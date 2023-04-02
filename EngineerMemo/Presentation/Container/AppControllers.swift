@@ -8,9 +8,7 @@ enum AppControllers {
             vc.title = L10n.Navigation.Title.memoDetail
             vc.inject(
                 contentView: MemoDetailContentView(modelObject: modelObject),
-                viewModel: MemoDetailViewModel(
-                    analytics: FirebaseAnalytics(screenId: .memoDetail)
-                )
+                viewModel: MemoDetailViewModel(analytics: FirebaseAnalytics(screenId: .memoDetail))
             )
 
             return vc
@@ -98,8 +96,10 @@ enum AppControllers {
             return vc
         }
     }
+}
 
-    #if DEBUG
+#if DEBUG
+    extension AppControllers {
         enum Debug {
             static func Development() -> DebugDevelopmentViewController {
                 let vc = DebugDevelopmentViewController()
@@ -214,8 +214,8 @@ enum AppControllers {
                 }
             }
         }
-    #endif
-}
+    }
+#endif
 
 enum ProfileUpdateType: Equatable {
     case setting

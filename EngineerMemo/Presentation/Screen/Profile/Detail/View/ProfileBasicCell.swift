@@ -7,9 +7,7 @@ import UIKitHelper
 final class ProfileBasicCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapEditButtonPublisher = editButton.publisher(
-        for: .touchUpInside
-    )
+    private(set) lazy var didTapEditButtonPublisher = editButton.publisher(for: .touchUpInside)
 
     private lazy var baseView = UIView()
         .addSubview(stackView) {
@@ -57,14 +55,23 @@ final class ProfileBasicCell: UITableViewCell {
 
     private let editButton = UIButton(type: .system)
         .configure {
+            $0.setTitle(
+                L10n.Components.Button.edit,
+                for: .normal
+            )
+            $0.setTitleColor(
+                .theme,
+                for: .normal
+            )
+            $0.setImage(
+                ImageResources.edit?.resized(size: .init(width: 16, height: 16)),
+                for: .normal
+            )
             $0.clipsToBounds = true
             $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
             $0.imageEdgeInsets = .init(.left, -8)
             $0.tintColor = .theme
             $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-            $0.setTitle(L10n.Components.Button.edit, for: .normal)
-            $0.setTitleColor(.theme, for: .normal)
-            $0.setImage(ImageResources.edit?.resized(size: .init(width: 16, height: 16)), for: .normal)
             $0.layer.borderColor = UIColor.theme.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8
@@ -126,12 +133,12 @@ extension ProfileBasicCell {
 private extension ProfileBasicCell {
     func setupView() {
         contentView.configure {
-            $0.backgroundColor = .primary
-        }
+            $0.addSubview(baseView) {
+                $0.top.equalToSuperview()
+                $0.bottom.leading.trailing.equalToSuperview().inset(32)
+            }
 
-        contentView.addSubview(baseView) {
-            $0.top.equalToSuperview()
-            $0.bottom.leading.trailing.equalToSuperview().inset(32)
+            $0.backgroundColor = .primary
         }
     }
 
@@ -144,9 +151,7 @@ private extension ProfileBasicCell {
     }
 
     private func createStackView(_ type: ProfileContentType) -> UIStackView {
-        let stackView: UIStackView
         let valueLabel: UILabel
-        let titleLabel = createTitleLabel(type)
 
         switch type {
         case .name:
@@ -177,14 +182,17 @@ private extension ProfileBasicCell {
             valueLabel = stationLabel
         }
 
-        valueLabel.font = .boldSystemFont(ofSize: 16)
+        return VStackView(alignment: .leading, spacing: 8) {
+            UILabel().configure {
+                $0.text = type.title
+                $0.textColor = .secondary
+                $0.font = .systemFont(ofSize: 14)
+            }
 
-        stackView = VStackView(alignment: .leading, spacing: 8) {
-            titleLabel
-            valueLabel
+            valueLabel.configure {
+                $0.font = .boldSystemFont(ofSize: 16)
+            }
         }
-
-        return stackView
     }
 }
 

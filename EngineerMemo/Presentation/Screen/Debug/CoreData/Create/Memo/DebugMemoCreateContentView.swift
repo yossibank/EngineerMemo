@@ -44,11 +44,11 @@
     extension DebugMemoCreateContentView: ContentView {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(body) {
+                    $0.top.leading.trailing.equalToSuperview()
+                }
 
-            addSubview(body) {
-                $0.top.leading.trailing.equalToSuperview()
+                $0.backgroundColor = .primary
             }
         }
     }
@@ -57,9 +57,7 @@
 
     struct DebugMemoCreateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugMemoCreateContentView()
-            )
+            WrapperView(view: DebugMemoCreateContentView())
         }
     }
 #endif

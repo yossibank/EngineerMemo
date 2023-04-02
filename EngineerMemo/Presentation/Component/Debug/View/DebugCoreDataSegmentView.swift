@@ -47,28 +47,28 @@
     // MARK: - properties & init
 
     final class DebugCoreDataSegmentView: UIView {
+        typealias Segment = DebugCoreDataSegment
+
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
         private var body: UIView {
             HStackView(spacing: 4) {
-                titleLabel.configure {
-                    $0.font = .italicSystemFont(ofSize: 14)
-                }
+                titleLabel
+                    .addConstraint {
+                        $0.width.equalTo(100)
+                    }
+                    .configure {
+                        $0.font = .italicSystemFont(ofSize: 14)
+                    }
 
                 segmentControl.configure {
-                    $0.selectedSegmentIndex = DebugCoreDataSegment.medium.rawValue
+                    $0.selectedSegmentIndex = Segment.medium.rawValue
                 }
             }
         }
 
         private let titleLabel = UILabel()
-            .addConstraint {
-                $0.width.equalTo(100)
-            }
-
-        private let segmentControl = UISegmentedControl(
-            items: DebugCoreDataSegment.allCases.map(\.title)
-        )
+        private let segmentControl = UISegmentedControl(items: Segment.allCases.map(\.title))
 
         init(title: String) {
             super.init(frame: .zero)
@@ -89,12 +89,12 @@
     private extension DebugCoreDataSegmentView {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(body) {
+                    $0.top.bottom.equalToSuperview()
+                    $0.leading.trailing.equalToSuperview().inset(16)
+                }
 
-            addSubview(body) {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.trailing.equalToSuperview().inset(16)
+                $0.backgroundColor = .primary
             }
         }
     }
@@ -103,11 +103,7 @@
 
     struct DebugCoreDataSegmentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugCoreDataSegmentView(
-                    title: "title"
-                )
-            )
+            WrapperView(view: DebugCoreDataSegmentView(title: "title"))
         }
     }
 #endif

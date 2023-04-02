@@ -18,27 +18,45 @@ final class MemoListHeaderView: UICollectionReusableView {
             }
 
             button1.configure {
+                $0.setTitle(
+                    "1",
+                    for: .normal
+                )
+                $0.setTitleColor(
+                    .theme,
+                    for: .normal
+                )
                 $0.clipsToBounds = true
-                $0.setTitle("1", for: .normal)
-                $0.setTitleColor(.theme, for: .normal)
                 $0.layer.borderColor = UIColor.theme.cgColor
                 $0.layer.borderWidth = 1.0
                 $0.layer.cornerRadius = 4
             }
 
             button2.configure {
+                $0.setTitle(
+                    "2",
+                    for: .normal
+                )
+                $0.setTitleColor(
+                    .theme,
+                    for: .normal
+                )
                 $0.clipsToBounds = true
-                $0.setTitle("2", for: .normal)
-                $0.setTitleColor(.theme, for: .normal)
                 $0.layer.borderColor = UIColor.theme.cgColor
                 $0.layer.borderWidth = 1.0
                 $0.layer.cornerRadius = 4
             }
 
             button3.configure {
+                $0.setTitle(
+                    "3",
+                    for: .normal
+                )
+                $0.setTitleColor(
+                    .theme,
+                    for: .normal
+                )
                 $0.clipsToBounds = true
-                $0.setTitle("3", for: .normal)
-                $0.setTitleColor(.theme, for: .normal)
                 $0.layer.borderColor = UIColor.theme.cgColor
                 $0.layer.borderWidth = 1.0
                 $0.layer.cornerRadius = 4
@@ -92,11 +110,11 @@ extension MemoListHeaderView {
 private extension MemoListHeaderView {
     func setupView() {
         configure {
-            $0.backgroundColor = .primary
-        }
+            $0.addSubview(body) {
+                $0.edges.equalToSuperview().inset(8)
+            }
 
-        addSubview(body) {
-            $0.edges.equalToSuperview().inset(8)
+            $0.backgroundColor = .primary
         }
     }
 }
@@ -108,9 +126,7 @@ private extension MemoListHeaderView {
 
     struct MemoListHeaderViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: MemoListHeaderView()
-            )
+            WrapperView(view: MemoListHeaderView())
         }
     }
 #endif

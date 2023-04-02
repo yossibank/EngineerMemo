@@ -37,28 +37,28 @@
     // MARK: - properties & init
 
     final class DebugGenderSegmentView: UIView {
+        typealias Segment = DebugGenderSegment
+
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
         private var body: UIView {
             HStackView(spacing: 4) {
-                titleLabel.configure {
-                    $0.font = .italicSystemFont(ofSize: 14)
-                }
+                titleLabel
+                    .addConstraint {
+                        $0.width.equalTo(100)
+                    }
+                    .configure {
+                        $0.font = .italicSystemFont(ofSize: 14)
+                    }
 
                 segmentControl.configure {
-                    $0.selectedSegmentIndex = DebugGenderSegment.woman.rawValue
+                    $0.selectedSegmentIndex = Segment.woman.rawValue
                 }
             }
         }
 
         private let titleLabel = UILabel()
-            .addConstraint {
-                $0.width.equalTo(100)
-            }
-
-        private let segmentControl = UISegmentedControl(
-            items: DebugGenderSegment.allCases.map(\.title)
-        )
+        private let segmentControl = UISegmentedControl(items: Segment.allCases.map(\.title))
 
         init(title: String) {
             super.init(frame: .zero)
@@ -79,13 +79,13 @@
     private extension DebugGenderSegmentView {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(body) {
+                    $0.top.bottom.equalToSuperview()
+                    $0.leading.trailing.equalToSuperview().inset(16)
+                    $0.height.equalTo(40)
+                }
 
-            addSubview(body) {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.trailing.equalToSuperview().inset(16)
-                $0.height.equalTo(40)
+                $0.backgroundColor = .primary
             }
         }
     }
@@ -94,11 +94,7 @@
 
     struct DebugGenderSegmentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugGenderSegmentView(
-                    title: "title"
-                )
-            )
+            WrapperView(view: DebugGenderSegmentView(title: "title"))
         }
     }
 #endif

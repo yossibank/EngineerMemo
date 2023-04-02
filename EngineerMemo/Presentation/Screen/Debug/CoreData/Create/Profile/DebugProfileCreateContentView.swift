@@ -18,21 +18,20 @@
 
         private var cancellables: Set<AnyCancellable> = .init()
 
-        private lazy var body = DebugCoreDataSegmentContentView()
-            .configure {
-                $0.setupContentView(
-                    view: VStackView(spacing: 12) {
-                        addressControl
-                        birthdayControl
-                        emailControl
-                        genderControl
-                        nameControl
-                        phoneNumberControl
-                        stationControl
-                    },
-                    type: .create
-                )
-            }
+        private lazy var body = DebugCoreDataSegmentContentView().configure {
+            $0.setupContentView(
+                view: VStackView(spacing: 12) {
+                    addressControl
+                    birthdayControl
+                    emailControl
+                    genderControl
+                    nameControl
+                    phoneNumberControl
+                    stationControl
+                },
+                type: .create
+            )
+        }
 
         private let addressControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.address)
         private let birthdayControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.birthday)
@@ -59,11 +58,11 @@
     extension DebugProfileCreateContentView: ContentView {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(body) {
+                    $0.top.leading.trailing.equalToSuperview()
+                }
 
-            addSubview(body) {
-                $0.top.leading.trailing.equalToSuperview()
+                $0.backgroundColor = .primary
             }
         }
     }
@@ -72,9 +71,7 @@
 
     struct DebugProfileCreateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugProfileCreateContentView()
-            )
+            WrapperView(view: DebugProfileCreateContentView())
         }
     }
 #endif

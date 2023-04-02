@@ -41,7 +41,11 @@
                 didDeletedModelObjectSubject.send(modelObject[indexPath.row])
                 var snapshot = snapshot()
                 snapshot.deleteItems([item])
-                apply(snapshot, animatingDifferences: true)
+
+                apply(
+                    snapshot,
+                    animatingDifferences: true
+                )
             }
         }
     }
@@ -54,7 +58,10 @@
             dataSourceSnapshot.appendSections(Section.allCases)
 
             modelObject.forEach {
-                dataSourceSnapshot.appendItems([$0], toSection: .main)
+                dataSourceSnapshot.appendItems(
+                    [$0],
+                    toSection: .main
+                )
             }
 
             apply(

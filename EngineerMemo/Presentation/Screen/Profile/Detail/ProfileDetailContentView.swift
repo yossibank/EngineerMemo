@@ -97,13 +97,12 @@ private extension ProfileDetailContentView {
 
             cell.configure(modelObject)
 
-            cell.didTapIconChangeButtonPublisher
-                .sink { [weak self] _ in
-                    if let modelObject {
-                        self?.didTapIconChangeButtonSubject.send(modelObject)
-                    }
+            cell.didTapIconChangeButtonPublisher.sink { [weak self] _ in
+                if let modelObject {
+                    self?.didTapIconChangeButtonSubject.send(modelObject)
                 }
-                .store(in: &cell.cancellables)
+            }
+            .store(in: &cell.cancellables)
 
             return cell
 
@@ -116,11 +115,10 @@ private extension ProfileDetailContentView {
 
                 cell.configure(modelObject)
 
-                cell.didTapEditButtonPublisher
-                    .sink { [weak self] _ in
-                        self?.didTapEditButtonSubject.send(modelObject)
-                    }
-                    .store(in: &cell.cancellables)
+                cell.didTapEditButtonPublisher.sink { [weak self] _ in
+                    self?.didTapEditButtonSubject.send(modelObject)
+                }
+                .store(in: &cell.cancellables)
 
                 return cell
             } else {
@@ -129,11 +127,10 @@ private extension ProfileDetailContentView {
                     for: indexPath
                 )
 
-                cell.didTapSettingButtonPublisher
-                    .sink { [weak self] _ in
-                        self?.didTapSettingButtonSubject.send(())
-                    }
-                    .store(in: &cell.cancellables)
+                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                    self?.didTapSettingButtonSubject.send(())
+                }
+                .store(in: &cell.cancellables)
 
                 return cell
             }
@@ -143,8 +140,16 @@ private extension ProfileDetailContentView {
     func applySnapshot() {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
-        dataSourceSnapshot.appendItems([.top(modelObject)], toSection: .top)
-        dataSourceSnapshot.appendItems([.main(modelObject)], toSection: .main)
+
+        dataSourceSnapshot.appendItems(
+            [.top(modelObject)],
+            toSection: .top
+        )
+
+        dataSourceSnapshot.appendItems(
+            [.main(modelObject)],
+            toSection: .main
+        )
 
         dataSource.apply(
             dataSourceSnapshot,

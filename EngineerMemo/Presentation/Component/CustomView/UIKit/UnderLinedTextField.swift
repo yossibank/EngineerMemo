@@ -5,7 +5,7 @@ import UIKit
 final class UnderlinedTextField: UITextField {
     private let color: UIColor
     private let underlineLayer = CALayer()
-    private let paddingInsets = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
+    private let paddingInsets: UIEdgeInsets = .init(.vertical, 4)
 
     init(color: UIColor) {
         self.color = color
@@ -55,3 +55,17 @@ private extension UnderlinedTextField {
         underlineLayer.backgroundColor = color.cgColor
     }
 }
+
+// MARK: - preview
+
+#if DEBUG
+    import SwiftUI
+
+    struct UnderlinedTextFieldPreview: PreviewProvider {
+        static var previews: some View {
+            WrapperView(view: UnderlinedTextField(color: .blue)) {
+                $0.text = "TEXT FIELD"
+            }
+        }
+    }
+#endif

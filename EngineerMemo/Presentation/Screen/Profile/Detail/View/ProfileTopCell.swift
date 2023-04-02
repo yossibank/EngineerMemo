@@ -7,9 +7,7 @@ import UIKitHelper
 final class ProfileTopCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapIconChangeButtonPublisher = iconChangeButton.publisher(
-        for: .touchUpInside
-    )
+    private(set) lazy var didTapIconChangeButtonPublisher = iconChangeButton.publisher(for: .touchUpInside)
 
     private var body: UIView {
         VStackView(alignment: .center, spacing: 16) {
@@ -29,10 +27,16 @@ final class ProfileTopCell: UITableViewCell {
                     $0.height.equalTo(28)
                 }
                 .configure {
+                    $0.setTitle(
+                        L10n.Components.Button.changeProfileIcon,
+                        for: .normal
+                    )
+                    $0.setTitleColor(
+                        .theme,
+                        for: .normal
+                    )
                     $0.clipsToBounds = true
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-                    $0.setTitle(L10n.Components.Button.changeProfileIcon, for: .normal)
-                    $0.setTitleColor(.theme, for: .normal)
                     $0.layer.borderColor = UIColor.theme.cgColor
                     $0.layer.borderWidth = 1.0
                     $0.layer.cornerRadius = 8
@@ -101,11 +105,11 @@ extension ProfileTopCell {
 private extension ProfileTopCell {
     func setupView() {
         contentView.configure {
-            $0.backgroundColor = .primary
-        }
+            $0.addSubview(body) {
+                $0.edges.equalToSuperview().inset(16)
+            }
 
-        contentView.addSubview(body) {
-            $0.edges.equalToSuperview().inset(16)
+            $0.backgroundColor = .primary
         }
     }
 
@@ -115,7 +119,10 @@ private extension ProfileTopCell {
             : .thinGray
 
         iconChangeButton.configure {
-            $0.setTitleColor(color, for: .normal)
+            $0.setTitleColor(
+                color,
+                for: .normal
+            )
             $0.layer.borderColor = color.cgColor
         }
     }

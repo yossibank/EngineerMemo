@@ -31,28 +31,28 @@
     // MARK: - properties & init
 
     final class DebugPhoneNumberSegmentView: UIView {
+        typealias Segment = DebugPhoneNumberSegment
+
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
         private var body: UIView {
             HStackView(spacing: 4) {
-                titleLabel.configure {
-                    $0.font = .italicSystemFont(ofSize: 14)
-                }
+                titleLabel
+                    .addConstraint {
+                        $0.width.equalTo(100)
+                    }
+                    .configure {
+                        $0.font = .italicSystemFont(ofSize: 14)
+                    }
 
                 segmentControl.configure {
-                    $0.selectedSegmentIndex = DebugPhoneNumberSegment.phone.rawValue
+                    $0.selectedSegmentIndex = Segment.phone.rawValue
                 }
             }
         }
 
         private let titleLabel = UILabel()
-            .addConstraint {
-                $0.width.equalTo(100)
-            }
-
-        private let segmentControl = UISegmentedControl(
-            items: DebugPhoneNumberSegment.allCases.map(\.title)
-        )
+        private let segmentControl = UISegmentedControl(items: Segment.allCases.map(\.title))
 
         init(title: String) {
             super.init(frame: .zero)
@@ -73,12 +73,12 @@
     private extension DebugPhoneNumberSegmentView {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(body) {
+                    $0.top.bottom.equalToSuperview()
+                    $0.leading.trailing.equalToSuperview().inset(16)
+                }
 
-            addSubview(body) {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.trailing.equalToSuperview().inset(16)
+                $0.backgroundColor = .primary
             }
         }
     }
@@ -87,11 +87,7 @@
 
     struct DebugPhoneNumberSegmentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugPhoneNumberSegmentView(
-                    title: "title"
-                )
-            )
+            WrapperView(view: DebugPhoneNumberSegmentView(title: "title"))
         }
     }
 #endif

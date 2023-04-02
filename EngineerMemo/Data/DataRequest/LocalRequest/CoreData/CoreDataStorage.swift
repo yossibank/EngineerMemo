@@ -14,19 +14,23 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
         return result
     }
 
-    func object(identifier: String) -> T? {
-        allObjects.filter {
-            $0.identifier == identifier
-        }.first
+    func publisher(sortDescriptors: [NSSortDescriptor]? = nil) -> CoreDataPublisher<T> {
+        let request = NSFetchRequest<T>(entityName: String(describing: T.self))
+        request.sortDescriptors = sortDescriptors
+
+        return .init(
+            request: request,
+            context: shared.backgroundContext
+        )
     }
 
     func create() -> AnyPublisher<T, Never> {
         Deferred {
             Future<T, Never> { promise in
-                shared.performBackgroundTask {
-                    let object = T(context: shared.backgroundContext)
+                shared.performBackgroundTask { context in
+                    let object = T(context: context)
                     promise(.success(object))
-                    shared.backgroundContext.saveIfNeeded()
+                    context.saveIfNeeded()
                 }
             }
         }
@@ -36,10 +40,10 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
     func update(identifier: String) -> AnyPublisher<T, Never> {
         Deferred {
             Future<T, Never> { promise in
-                shared.performBackgroundTask {
+                shared.performBackgroundTask { context in
                     if let object = object(identifier: identifier) {
                         promise(.success(object))
-                        shared.backgroundContext.saveIfNeeded()
+                        context.saveIfNeeded()
                     }
                 }
             }
@@ -48,21 +52,19 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
     }
 
     func delete(identifier: String) {
-        shared.performBackgroundTask {
+        shared.performBackgroundTask { context in
             if let object = object(identifier: identifier) {
-                shared.backgroundContext.delete(object)
-                shared.backgroundContext.saveIfNeeded()
+                context.delete(object)
+                context.saveIfNeeded()
             }
         }
     }
+}
 
-    func publisher(sortDescriptors: [NSSortDescriptor]? = nil) -> CoreDataPublisher<T> {
-        let request = NSFetchRequest<T>(entityName: String(describing: T.self))
-        request.sortDescriptors = sortDescriptors
-
-        return .init(
-            request: request,
-            context: shared.backgroundContext
-        )
+private extension CoreDataStorage {
+    func object(identifier: String) -> T? {
+        allObjects.filter {
+            $0.identifier == identifier
+        }.first
     }
 }

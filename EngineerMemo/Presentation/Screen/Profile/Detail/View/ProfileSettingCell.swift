@@ -7,13 +7,13 @@ import UIKitHelper
 final class ProfileSettingCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapSettingButtonPublisher = settingButton.publisher(
-        for: .touchUpInside
-    )
+    private(set) lazy var didTapSettingButtonPublisher = settingButton.publisher(for: .touchUpInside)
 
     private var body: UIView {
         VStackView(alignment: .center, spacing: 16, layoutMargins: .init(.horizontal, 16)) {
-            spaceTopView.addConstraint { $0.height.equalTo(16) }
+            spaceTopView.addConstraint {
+                $0.height.equalTo(16)
+            }
 
             titleLabel.configure {
                 $0.font = .boldSystemFont(ofSize: 14)
@@ -28,15 +28,23 @@ final class ProfileSettingCell: UITableViewCell {
                     $0.height.equalTo(56)
                 }
                 .configure {
+                    $0.setTitle(
+                        L10n.Components.Button.setting,
+                        for: .normal
+                    )
+                    $0.setTitleColor(
+                        .white,
+                        for: .normal
+                    )
                     $0.backgroundColor = .gray
                     $0.clipsToBounds = true
                     $0.layer.cornerRadius = 8
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-                    $0.setTitle(L10n.Components.Button.setting, for: .normal)
-                    $0.setTitleColor(.white, for: .normal)
                 }
 
-            spaceBottomView.addConstraint { $0.height.equalTo(16) }
+            spaceBottomView.addConstraint {
+                $0.height.equalTo(16)
+            }
         }
         .configure {
             $0.backgroundColor = .thinGray
@@ -78,12 +86,12 @@ final class ProfileSettingCell: UITableViewCell {
 private extension ProfileSettingCell {
     func setupView() {
         contentView.configure {
-            $0.backgroundColor = .primary
-        }
+            $0.addSubview(body) {
+                $0.top.bottom.equalToSuperview()
+                $0.leading.trailing.equalToSuperview().inset(32)
+            }
 
-        contentView.addSubview(body) {
-            $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(32)
+            $0.backgroundColor = .primary
         }
     }
 }

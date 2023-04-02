@@ -19,22 +19,21 @@
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
-        private lazy var body = DebugCoreDataSegmentContentView()
-            .configure {
-                $0.setupContentView(
-                    view: VStackView(spacing: 12) {
-                        addressControl
-                        birthdayControl
-                        emailControl
-                        genderControl
-                        iconImageControl
-                        nameControl
-                        phoneNumberControl
-                        stationControl
-                    },
-                    type: .update
-                )
-            }
+        private lazy var body = DebugCoreDataSegmentContentView().configure {
+            $0.setupContentView(
+                view: VStackView(spacing: 12) {
+                    addressControl
+                    birthdayControl
+                    emailControl
+                    genderControl
+                    iconImageControl
+                    nameControl
+                    phoneNumberControl
+                    stationControl
+                },
+                type: .update
+            )
+        }
 
         private let addressControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.address)
         private let birthdayControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.birthday)
@@ -73,14 +72,17 @@
     private extension DebugProfileUpdateCell {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
                 $0.separatorInset = .zero
                 $0.selectionStyle = .none
             }
 
-            contentView.addSubview(body) {
-                $0.top.bottom.equalToSuperview().inset(16)
-                $0.leading.trailing.equalToSuperview()
+            contentView.configure {
+                $0.addSubview(body) {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.trailing.equalToSuperview()
+                }
+
+                $0.backgroundColor = .primary
             }
         }
     }

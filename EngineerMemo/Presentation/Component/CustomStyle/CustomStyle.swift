@@ -42,8 +42,11 @@ extension ViewStyle where T: UIButton {
 
     static var debugMenuButton: ViewStyle<T> {
         .init {
+            $0.setTitleColor(
+                .theme,
+                for: .normal
+            )
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.setTitleColor(.theme, for: .normal)
             $0.layer.borderColor = UIColor.theme.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8
@@ -53,12 +56,21 @@ extension ViewStyle where T: UIButton {
 
     private static func debugButton(title: String) -> ViewStyle<T> {
         .init {
+            $0.setTitle(
+                title,
+                for: .normal
+            )
+            $0.setTitleColor(
+                .theme,
+                for: .normal
+            )
+            $0.setImage(
+                nil,
+                for: .normal
+            )
             $0.imageEdgeInsets = .zero
             $0.titleEdgeInsets = .zero
             $0.titleLabel?.font = .boldSystemFont(ofSize: 13)
-            $0.setTitle(title, for: .normal)
-            $0.setTitleColor(.theme, for: .normal)
-            $0.setImage(nil, for: .normal)
             $0.layer.borderColor = UIColor.theme.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8
@@ -71,12 +83,21 @@ extension ViewStyle where T: UIButton {
         image: UIImage
     ) -> ViewStyle<T> {
         .init {
+            $0.setTitle(
+                title,
+                for: .normal
+            )
+            $0.setTitleColor(
+                .theme,
+                for: .normal
+            )
+            $0.setImage(
+                image,
+                for: .normal
+            )
             $0.imageEdgeInsets = .init(.left, 120)
             $0.titleEdgeInsets = .init(.right, 20)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 13)
-            $0.setTitle(title, for: .normal)
-            $0.setTitleColor(.theme, for: .normal)
-            $0.setImage(image, for: .normal)
             $0.layer.borderColor = UIColor.theme.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8

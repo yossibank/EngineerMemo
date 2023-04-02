@@ -42,6 +42,12 @@ extension CoreDataManager {
         }
     }
 
+    func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
+        backgroundContext.perform {
+            block(self.backgroundContext)
+        }
+    }
+
     func deleteAllObjects() {
         let context = persistentContainer.viewContext
 

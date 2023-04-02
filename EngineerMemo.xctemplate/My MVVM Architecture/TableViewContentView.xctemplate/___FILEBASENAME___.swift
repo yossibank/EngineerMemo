@@ -94,7 +94,10 @@ private extension ___FILEBASENAME___ {
         dataSourceSnapshot.appendSections(Section.allCases)
 
         ["text1", "text2", "text3", "text4", "text5"].forEach {
-            dataSourceSnapshot.appendItems([$0], toSection: .main)
+            dataSourceSnapshot.appendItems(
+                [$0],
+                toSection: .main
+            )
         }
 
         dataSource.apply(
@@ -135,9 +138,7 @@ extension ___FILEBASENAME___: ContentView {
 
     struct ___FILEBASENAME___Preview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: ___FILEBASENAME___()
-            )
+            WrapperView(view: ___FILEBASENAME___())
         }
     }
 #endif

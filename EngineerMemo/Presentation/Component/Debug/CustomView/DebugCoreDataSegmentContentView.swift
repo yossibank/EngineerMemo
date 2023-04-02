@@ -12,9 +12,7 @@
             case update
         }
 
-        private(set) lazy var didTapActionButtonPublisher = actionButton.publisher(
-            for: .touchUpInside
-        )
+        private(set) lazy var didTapActionButtonPublisher = actionButton.publisher(for: .touchUpInside)
 
         private var cancellables: Set<AnyCancellable> = .init()
 
@@ -93,11 +91,11 @@
     extension DebugCoreDataSegmentContentView: ContentView {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(body) {
+                    $0.edges.equalToSuperview()
+                }
 
-            addSubview(body) {
-                $0.edges.equalToSuperview()
+                $0.backgroundColor = .primary
             }
         }
     }
@@ -106,9 +104,7 @@
 
     struct DebugCoreDataSegmentContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugCoreDataSegmentContentView()
-            )
+            WrapperView(view: DebugCoreDataSegmentContentView())
         }
     }
 #endif

@@ -38,15 +38,18 @@ final class ProfileUpdateContentView: UIView {
         }
 
     private lazy var saveButton = UIButton(type: .system).configure {
-        $0.clipsToBounds = true
-        $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
         $0.setTitle(
             modelObject == nil
                 ? L10n.Components.Button.saveProfile
                 : L10n.Components.Button.updateProfile,
             for: .normal
         )
-        $0.setTitleColor(.theme, for: .normal)
+        $0.setTitleColor(
+            .theme,
+            for: .normal
+        )
+        $0.clipsToBounds = true
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
         $0.layer.borderColor = UIColor.theme.cgColor
         $0.layer.borderWidth = 1.0
         $0.layer.cornerRadius = 8
@@ -155,11 +158,11 @@ private extension ProfileUpdateContentView {
 extension ProfileUpdateContentView: ContentView {
     func setupView() {
         configure {
-            $0.backgroundColor = .primary
-        }
+            $0.addSubview(scrollView) {
+                $0.edges.equalToSuperview()
+            }
 
-        addSubview(scrollView) {
-            $0.edges.equalToSuperview()
+            $0.backgroundColor = .primary
         }
     }
 }
@@ -171,9 +174,7 @@ extension ProfileUpdateContentView: ContentView {
 
     struct ProfileUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: ProfileUpdateContentView(modelObject: nil)
-            )
+            WrapperView(view: ProfileUpdateContentView(modelObject: nil))
         }
     }
 #endif

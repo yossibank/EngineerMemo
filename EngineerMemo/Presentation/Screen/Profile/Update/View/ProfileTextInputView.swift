@@ -9,34 +9,34 @@ final class ProfileTextInputView: UIView {
 
     private var body: UIView {
         VStackView {
-            titleView.configure {
-                $0.backgroundColor = .thinGray
-                $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 4
-            }
+            titleView
+                .addSubview(titleLabel) {
+                    $0.edges.equalToSuperview().inset(8)
+                }
+                .addConstraint {
+                    $0.height.equalTo(40)
+                }
+                .configure {
+                    $0.backgroundColor = .thinGray
+                    $0.clipsToBounds = true
+                    $0.layer.borderColor = UIColor.theme.cgColor
+                    $0.layer.borderWidth = 1.0
+                    $0.layer.cornerRadius = 4
+                }
 
             textInputView
+                .addSubview(inputTextField) {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.trailing.equalToSuperview()
+                }
+                .addConstraint {
+                    $0.height.equalTo(80)
+                }
         }
     }
 
-    private lazy var titleView = UIView()
-        .addSubview(titleLabel) {
-            $0.edges.equalToSuperview().inset(8)
-        }
-        .addConstraint {
-            $0.height.equalTo(40)
-        }
-
-    private lazy var textInputView = UIView()
-        .addSubview(inputTextField) {
-            $0.top.bottom.equalToSuperview().inset(16)
-            $0.leading.trailing.equalToSuperview()
-        }
-        .addConstraint {
-            $0.height.equalTo(80)
-        }
+    private let titleView = UIView()
+    private let textInputView = UIView()
 
     private let titleLabel = UILabel().configure {
         $0.textColor = .secondary
@@ -133,17 +133,19 @@ extension ProfileTextInputView {
 private extension ProfileTextInputView {
     func setupView() {
         configure {
-            $0.backgroundColor = .primary
-        }
+            $0.addSubview(body) {
+                $0.top.bottom.equalToSuperview().inset(8)
+                $0.leading.trailing.equalToSuperview().inset(16)
+            }
 
-        addSubview(body) {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.backgroundColor = .primary
         }
     }
 
     func setupTextField() {
-        inputTextField.delegate = self
+        inputTextField.configure {
+            $0.delegate = self
+        }
     }
 
     func setupNumberPad() {

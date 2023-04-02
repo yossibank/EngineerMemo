@@ -81,12 +81,12 @@ extension MemoListCell {
 
 private extension MemoListCell {
     func setupView() {
-        configure {
-            $0.backgroundColor = .primary
-        }
+        contentView.configure {
+            $0.addSubview(baseView) {
+                $0.edges.equalToSuperview()
+            }
 
-        contentView.addSubview(baseView) {
-            $0.edges.equalToSuperview()
+            $0.backgroundColor = .primary
         }
     }
 }
