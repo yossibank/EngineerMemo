@@ -7,64 +7,75 @@ import UIKitHelper
 final class MemoListHeaderView: UICollectionReusableView {
     var cancellables: Set<AnyCancellable> = .init()
 
+    private(set) lazy var didTapDeleteButonPublisher = deleteButton.publisher(for: .touchUpInside)
+    private(set) lazy var didTapCreateButonPublisher = createButton.publisher(for: .touchUpInside)
     private(set) lazy var button1Publisher = button1.publisher(for: .touchUpInside)
     private(set) lazy var button2Publisher = button2.publisher(for: .touchUpInside)
     private(set) lazy var button3Publisher = button3.publisher(for: .touchUpInside)
 
     private var body: UIView {
-        HStackView(spacing: 16) {
-            titleLabel.configure {
-                $0.font = .boldSystemFont(ofSize: 14)
+        HStackView(alignment: .center) {
+            HStackView(spacing: 8) {
+                deleteButton
+                    .apply(.memoDeleteButton)
+
+                createButton
+                    .apply(.memoCreateButton)
             }
 
-            button1.configure {
-                $0.setTitle(
-                    "1",
-                    for: .normal
-                )
-                $0.setTitleColor(
-                    .theme,
-                    for: .normal
-                )
-                $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 4
-            }
+            UIView()
 
-            button2.configure {
-                $0.setTitle(
-                    "2",
-                    for: .normal
-                )
-                $0.setTitleColor(
-                    .theme,
-                    for: .normal
-                )
-                $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 4
-            }
+            HStackView(spacing: 8) {
+                button1.configure {
+                    $0.setTitle(
+                        "1",
+                        for: .normal
+                    )
+                    $0.setTitleColor(
+                        .theme,
+                        for: .normal
+                    )
+                    $0.clipsToBounds = true
+                    $0.layer.borderColor = UIColor.theme.cgColor
+                    $0.layer.borderWidth = 1.0
+                    $0.layer.cornerRadius = 4
+                }
 
-            button3.configure {
-                $0.setTitle(
-                    "3",
-                    for: .normal
-                )
-                $0.setTitleColor(
-                    .theme,
-                    for: .normal
-                )
-                $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 4
+                button2.configure {
+                    $0.setTitle(
+                        "2",
+                        for: .normal
+                    )
+                    $0.setTitleColor(
+                        .theme,
+                        for: .normal
+                    )
+                    $0.clipsToBounds = true
+                    $0.layer.borderColor = UIColor.theme.cgColor
+                    $0.layer.borderWidth = 1.0
+                    $0.layer.cornerRadius = 4
+                }
+
+                button3.configure {
+                    $0.setTitle(
+                        "3",
+                        for: .normal
+                    )
+                    $0.setTitleColor(
+                        .theme,
+                        for: .normal
+                    )
+                    $0.clipsToBounds = true
+                    $0.layer.borderColor = UIColor.theme.cgColor
+                    $0.layer.borderWidth = 1.0
+                    $0.layer.cornerRadius = 4
+                }
             }
         }
     }
 
-    private let titleLabel = UILabel()
+    private let deleteButton = UIButton(type: .system)
+    private let createButton = UIButton(type: .system)
     private let button1 = UIButton(type: .system)
     private let button2 = UIButton(type: .system)
     private let button3 = UIButton(type: .system)
@@ -90,18 +101,10 @@ final class MemoListHeaderView: UICollectionReusableView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            button1.layer.borderColor = UIColor.theme.cgColor
-            button2.layer.borderColor = UIColor.theme.cgColor
-            button3.layer.borderColor = UIColor.theme.cgColor
+            [createButton, deleteButton, button1, button2, button3].forEach {
+                $0.layer.borderColor = UIColor.theme.cgColor
+            }
         }
-    }
-}
-
-// MARK: - internal methods
-
-extension MemoListHeaderView {
-    func configure(title: String) {
-        titleLabel.text = title
     }
 }
 
@@ -111,7 +114,7 @@ private extension MemoListHeaderView {
     func setupView() {
         configure {
             $0.addSubview(body) {
-                $0.edges.equalToSuperview().inset(8)
+                $0.edges.equalToSuperview()
             }
 
             $0.backgroundColor = .primary
@@ -127,6 +130,7 @@ private extension MemoListHeaderView {
     struct MemoListHeaderViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: MemoListHeaderView())
+                .frame(height: 40)
         }
     }
 #endif

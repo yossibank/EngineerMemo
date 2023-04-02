@@ -5,12 +5,14 @@
 // MARK: - コンポーネント
 
 "components.button.nil" = "nil";
-"components.button.add" = "追加する";
-"components.button.delete" = "削除する";
-"components.button.create" = "作成する";
-"components.button.edit" = "編集する";
-"components.button.update" = "更新する";
-"components.button.setting" = "設定する";
+"components.button.create" = "作成";
+"components.button.delete" = "削除";
+"components.button.do.add" = "追加する";
+"components.button.do.delete" = "削除する";
+"components.button.do.create" = "作成する";
+"components.button.do.edit" = "編集する";
+"components.button.do.update" = "更新する";
+"components.button.do.setting" = "設定する";
 "components.button.createDone" = "作成完了";
 "components.button.updateDone" = "更新完了";
 "components.button.changeProfileIcon" = "プロフィール画像変更";

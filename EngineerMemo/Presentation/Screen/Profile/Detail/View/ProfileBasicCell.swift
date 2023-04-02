@@ -56,7 +56,7 @@ final class ProfileBasicCell: UITableViewCell {
     private let editButton = UIButton(type: .system)
         .configure {
             $0.setTitle(
-                L10n.Components.Button.edit,
+                L10n.Components.Button.Do.edit,
                 for: .normal
             )
             $0.setTitleColor(
@@ -64,7 +64,7 @@ final class ProfileBasicCell: UITableViewCell {
                 for: .normal
             )
             $0.setImage(
-                ImageResources.edit?.resized(size: .init(width: 16, height: 16)),
+                ImageResources.Profile.edit?.resized(size: .init(width: 16, height: 16)),
                 for: .normal
             )
             $0.clipsToBounds = true

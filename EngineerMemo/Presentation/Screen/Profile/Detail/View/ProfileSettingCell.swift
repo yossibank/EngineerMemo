@@ -29,7 +29,7 @@ final class ProfileSettingCell: UITableViewCell {
                 }
                 .configure {
                     $0.setTitle(
-                        L10n.Components.Button.setting,
+                        L10n.Components.Button.Do.setting,
                         for: .normal
                     )
                     $0.setTitleColor(

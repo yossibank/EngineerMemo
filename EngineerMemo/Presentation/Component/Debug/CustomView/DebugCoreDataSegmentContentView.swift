@@ -45,6 +45,14 @@
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+
+        override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                super.traitCollectionDidChange(previousTraitCollection)
+
+                actionButton.layer.borderColor = UIColor.theme.cgColor
+            }
+        }
     }
 
     // MARK: - internal methods

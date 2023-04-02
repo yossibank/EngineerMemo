@@ -112,9 +112,7 @@ final class MemoListContentView: UIView {
 
     private let headerRegistration = UICollectionView.SupplementaryRegistration<
         MemoListHeaderView
-    > { header, _, _ in
-        header.configure(title: "title")
-    }
+    > { _, _, _ in }
 
     private let didSelectContentSubject = PassthroughSubject<Item, Never>()
 
@@ -152,6 +150,16 @@ private extension MemoListContentView {
                 using: self.headerRegistration,
                 for: indexPath
             )
+
+            header.didTapDeleteButonPublisher.sink { _ in
+                print("削除ボタンタップ")
+            }
+            .store(in: &header.cancellables)
+
+            header.didTapCreateButonPublisher.sink { _ in
+                print("作成ボタンタップ")
+            }
+            .store(in: &header.cancellables)
 
             header.button1Publisher.sink { [weak self] _ in
                 guard let self else {

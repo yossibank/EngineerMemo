@@ -209,7 +209,7 @@ final class ProfileModelTest: XCTestCase {
         model.iconImageUpdate(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .iconImage(ImageResources.debug?.pngData())
+                .iconImage(ImageResources.Tab.debug?.pngData())
                 .build()
         )
 
@@ -218,7 +218,7 @@ final class ProfileModelTest: XCTestCase {
 
             XCTAssertEqual(
                 profile.iconImage,
-                ImageResources.debug?.pngData()
+                ImageResources.Tab.debug?.pngData()
             )
 
             expectation.fulfill()
@@ -277,7 +277,7 @@ private extension ProfileModelTest {
                 $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
                 $0.email = "test@test.com"
                 $0.genderEnum = .man
-                $0.iconImage = ImageResources.profile?.pngData()
+                $0.iconImage = ImageResources.Profile.edit?.pngData()
                 $0.identifier = "identifier"
                 $0.name = "testName"
                 $0.phoneNumber = "08011112222"
