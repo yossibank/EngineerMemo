@@ -26,6 +26,7 @@ final class MemoListContentView: UIView {
         }
     }
 
+    private(set) lazy var didTapCreateButtonPublisher = didTapCreateButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
     private lazy var collectionView = UICollectionView(
@@ -66,10 +67,9 @@ final class MemoListContentView: UIView {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8.0
 
-        let topInset: CGFloat = 12.0
         let sideInset: CGFloat = 8.0
         section.contentInsets = .init(
-            top: topInset,
+            top: .zero,
             leading: sideInset,
             bottom: .zero,
             trailing: sideInset
@@ -114,6 +114,7 @@ final class MemoListContentView: UIView {
         MemoListHeaderView
     > { _, _, _ in }
 
+    private let didTapCreateButtonSubject = PassthroughSubject<Void, Never>()
     private let didSelectContentSubject = PassthroughSubject<Item, Never>()
 
     override init(frame: CGRect) {
@@ -156,8 +157,8 @@ private extension MemoListContentView {
             }
             .store(in: &header.cancellables)
 
-            header.didTapCreateButonPublisher.sink { _ in
-                print("作成ボタンタップ")
+            header.didTapCreateButonPublisher.sink { [weak self] _ in
+                self?.didTapCreateButtonSubject.send(())
             }
             .store(in: &header.cancellables)
 

@@ -51,6 +51,14 @@ final class MemoListViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
+    func test_input_didTapCreateButton_routing_showCreateScreenが呼び出されること() {
+        // act
+        viewModel.input.didTapCreateButton.send(())
+
+        // assert
+        XCTAssertEqual(routing.showCreateScreenCallCount, 1)
+    }
+
     func test_input_didSelectContent_ログイベントが送信されていること() {
         // arrange
         analytics.sendEventFAEventHandler = {

@@ -2,6 +2,7 @@ import UIKit
 
 /// @mockable
 protocol MemoListRoutingInput {
+    func showCreateScreen()
     func showDetailScreen(modelObject: MemoModelObject)
 }
 
@@ -18,6 +19,13 @@ final class MemoListRouting {
 // MARK: - protocol
 
 extension MemoListRouting: MemoListRoutingInput {
+    func showCreateScreen() {
+        viewController?.navigationController?.pushViewController(
+            AppControllers.Memo.Create(),
+            animated: true
+        )
+    }
+
     func showDetailScreen(modelObject: MemoModelObject) {
         viewController?.navigationController?.pushViewController(
             AppControllers.Memo.Detail(modelObject: modelObject),

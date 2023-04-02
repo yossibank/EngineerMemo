@@ -2,6 +2,18 @@ import SwiftUI
 
 enum AppControllers {
     enum Memo {
+        static func Create() -> MemoCreateViewController {
+            let vc = MemoCreateViewController()
+
+            vc.title = L10n.Navigation.Title.memoCreate
+            vc.inject(
+                contentView: MemoCreateContentView(),
+                viewModel: MemoCreateViewModel(analytics: FirebaseAnalytics(screenId: .memoCreate))
+            )
+
+            return vc
+        }
+
         static func Detail(modelObject: MemoModelObject) -> MemoDetailViewController {
             let vc = MemoDetailViewController()
 

@@ -4,6 +4,7 @@ final class MemoListViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let didTapCreateButton = PassthroughSubject<Void, Never>()
         let didSelectContent = PassthroughSubject<MemoModelObject, Never>()
     }
 
@@ -55,6 +56,13 @@ final class MemoListViewModel: ViewModel {
 
         input.viewWillAppear.sink { _ in
             analytics.sendEvent(.screenView)
+        }
+        .store(in: &cancellables)
+
+        // MARK: - メモ作成ボタンタップ
+
+        input.didTapCreateButton.sink { _ in
+            routing.showCreateScreen()
         }
         .store(in: &cancellables)
 

@@ -63,6 +63,13 @@ private extension MemoListViewController {
     }
 
     func bindToViewModel() {
+        contentView.didTapCreateButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapCreateButton.send(())
+            }
+            .store(in: &cancellables)
+
         contentView.didSelectContentPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] modelObject in

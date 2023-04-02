@@ -14,10 +14,9 @@ final class ProfileUpdateContentView: UIView {
     private(set) lazy var didChangeStationInputPublisher = stationInputView.didChangeInputTextPublisher
     private(set) lazy var didTapSaveButtonPublisher = saveButton.publisher(for: .touchUpInside)
 
-    private lazy var scrollView = UIScrollView()
-        .addSubview(stackView) {
-            $0.width.edges.equalToSuperview()
-        }
+    private lazy var scrollView = UIScrollView().addSubview(stackView) {
+        $0.width.edges.equalToSuperview()
+    }
 
     private lazy var stackView = VStackView(distribution: .equalSpacing) {
         nameInputView
@@ -30,12 +29,11 @@ final class ProfileUpdateContentView: UIView {
         buttonView
     }
 
-    private lazy var buttonView = UIView()
-        .addSubview(saveButton) {
-            $0.bottom.equalToSuperview().inset(32)
-            $0.top.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(60)
-        }
+    private lazy var buttonView = UIView().addSubview(saveButton) {
+        $0.bottom.equalToSuperview().inset(32)
+        $0.top.leading.trailing.equalToSuperview().inset(16)
+        $0.height.equalTo(60)
+    }
 
     private lazy var saveButton = UIButton(type: .system).configure {
         $0.setTitle(
