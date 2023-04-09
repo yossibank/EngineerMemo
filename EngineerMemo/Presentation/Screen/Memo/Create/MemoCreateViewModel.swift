@@ -14,6 +14,7 @@ final class MemoCreateViewModel: ViewModel {
 
     final class Output: OutputObject {
         @Published fileprivate(set) var isFinished = false
+        @Published fileprivate(set) var isEnabled = false
     }
 
     @BindableObject private(set) var binding: Binding
@@ -60,6 +61,18 @@ final class MemoCreateViewModel: ViewModel {
         let content = binding.$content.sink { content in
             self.modelObject.content = content
         }
+
+        // MARK: - 作成ボタン有効化
+
+        Publishers.CombineLatest(
+            binding.$title,
+            binding.$content
+        )
+        .map { !$0.0.isEmpty && !$0.1.isEmpty }
+        .sink { isEnabled in
+            output.isEnabled = isEnabled
+        }
+        .store(in: &cancellables)
 
         // MARK: - 作成ボタンタップ
 

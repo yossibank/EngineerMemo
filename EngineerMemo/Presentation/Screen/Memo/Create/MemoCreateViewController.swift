@@ -51,6 +51,13 @@ private extension MemoCreateViewController {
     }
 
     func bindToView() {
+        viewModel.output.$isEnabled
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isEnabled in
+                self?.contentView.configureBarButton(isEnabled: isEnabled)
+            }
+            .store(in: &cancellables)
+
         viewModel.output.$isFinished
             .debounce(for: 0.8, scheduler: DispatchQueue.main)
             .sink { [weak self] isFinished in

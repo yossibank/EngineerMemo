@@ -55,6 +55,19 @@ final class MemoCreateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
+    func test_各binding値代入時にoutput_isEnabledがtrueを取得できること() throws {
+        // arrange
+        viewModel.binding.title = "title"
+        viewModel.binding.content = "content"
+
+        // act
+        let publisher = viewModel.output.$isEnabled.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!
+
+        // assert
+        XCTAssertTrue(output)
+    }
+
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // act
         viewModel.input.didTapBarButton.send(())

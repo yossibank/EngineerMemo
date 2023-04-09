@@ -109,6 +109,15 @@ final class MemoCreateContentView: UIView {
     }
 }
 
+// MARK: - internal methods
+
+extension MemoCreateContentView {
+    func configureBarButton(isEnabled: Bool) {
+        barButton.isEnabled = isEnabled
+        barButton.alpha = isEnabled ? 1.0 : 0.5
+    }
+}
+
 // MARK: - private methods
 
 private extension MemoCreateContentView {
