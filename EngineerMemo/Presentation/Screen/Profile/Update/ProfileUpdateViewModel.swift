@@ -15,7 +15,7 @@ final class ProfileUpdateViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
-        let didTapSaveButton = PassthroughSubject<Void, Never>()
+        let didTapBarButton = PassthroughSubject<Void, Never>()
     }
 
     final class Output: OutputObject {
@@ -122,7 +122,7 @@ final class ProfileUpdateViewModel: ViewModel {
 
         // MARK: - 更新・保存ボタンタップ
 
-        input.didTapSaveButton.sink { [weak self] _ in
+        input.didTapBarButton.sink { [weak self] _ in
             guard let self else {
                 return
             }

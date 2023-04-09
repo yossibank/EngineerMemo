@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-final class MemoCreateViewModel: ViewModel {
+final class MemoUpdateViewModel: ViewModel {
     final class Binding: BindingObject {
         @Published var title = ""
         @Published var content = ""
@@ -9,11 +9,12 @@ final class MemoCreateViewModel: ViewModel {
 
     final class Input: InputObject {
         let viewWillAppear = PassthroughSubject<Void, Never>()
-        let didTapCreateButton = PassthroughSubject<Void, Never>()
+        let didTapBarButton = PassthroughSubject<Void, Never>()
     }
 
     final class Output: OutputObject {
         @Published fileprivate(set) var isFinished = false
+        @Published fileprivate(set) var isEnabled = false
     }
 
     @BindableObject private(set) var binding: Binding
@@ -61,9 +62,21 @@ final class MemoCreateViewModel: ViewModel {
             self.modelObject.content = content
         }
 
+        // MARK: - 作成ボタン有効化
+
+        Publishers.CombineLatest(
+            binding.$title,
+            binding.$content
+        )
+        .map { !$0.0.isEmpty && !$0.1.isEmpty }
+        .sink { isEnabled in
+            output.isEnabled = isEnabled
+        }
+        .store(in: &cancellables)
+
         // MARK: - 作成ボタンタップ
 
-        input.didTapCreateButton.sink { [weak self] _ in
+        input.didTapBarButton.sink { [weak self] _ in
             guard let self else {
                 return
             }

@@ -21,7 +21,7 @@ final class MemoListRouting {
 extension MemoListRouting: MemoListRoutingInput {
     func showCreateScreen() {
         viewController?.navigationController?.pushViewController(
-            AppControllers.Memo.Create(),
+            AppControllers.Memo.Update(),
             animated: true
         )
     }

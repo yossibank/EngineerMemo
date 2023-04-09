@@ -48,7 +48,7 @@ private extension ProfileUpdateViewControllerSnapshotTest {
                 x: .zero,
                 y: .zero,
                 width: UIScreen.main.bounds.width,
-                height: 1200
+                height: 1100
             )
         )
     }

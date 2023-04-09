@@ -13,15 +13,14 @@
 
         private var cancellables: Set<AnyCancellable> = .init()
 
-        private lazy var body = DebugCoreDataSegmentContentView(.create)
-            .configure {
-                $0.setupContentView(
-                    view: VStackView(spacing: 12) {
-                        titleControl
-                        contentControl
-                    }
-                )
-            }
+        private lazy var body = DebugCoreDataSegmentContentView(.create).configure {
+            $0.setupContentView(
+                view: VStackView(spacing: 12) {
+                    titleControl
+                    contentControl
+                }
+            )
+        }
 
         private let titleControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.title)
         private let contentControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.content)
