@@ -1,20 +1,22 @@
 import Foundation
 
 enum DataHolder {
-    @FileStorage(
-        fileName: FileName.someFile.rawValue
+    @UserDefaultsStorage(
+        .colorTheme,
+        defaultValue: .system
     )
-    static var someFile: [String]?
+    static var colorTheme: DataHolder.ColorTheme
 
     @UserDefaultsStorage(
         .profileIcon,
         defaultValue: .penguin
     )
     static var profileIcon: DataHolder.ProfileIcon
+}
 
-    @UserDefaultsStorage(
-        .colorTheme,
-        defaultValue: .system
+extension DataHolder {
+    @FileStorage(
+        fileName: FileName.someFile.rawValue
     )
-    static var colorTheme: DataHolder.ColorTheme
+    static var someFile: [String]?
 }

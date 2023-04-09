@@ -56,8 +56,7 @@
     final class DebugCoreDataMenuContentView: UIView {
         @Published private(set) var selectedType: DebugCoreDataMenuType = .profile
 
-        private let menuButton = UIButton(type: .system)
-            .apply(.debugMenuButton)
+        private let menuButton = UIButton(type: .system).apply(.debugMenuButton)
 
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -135,7 +134,10 @@
                     options: .displayInline,
                     children: actions
                 )
-                $0.setTitle(selectedType.title, for: .normal)
+                $0.setTitle(
+                    selectedType.title,
+                    for: .normal
+                )
                 $0.showsMenuAsPrimaryAction = true
             }
         }
@@ -146,14 +148,14 @@
     extension DebugCoreDataMenuContentView: ContentView {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(menuButton) {
+                    $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(24)
+                    $0.centerX.equalToSuperview()
+                    $0.width.equalTo(160)
+                    $0.height.equalTo(40)
+                }
 
-            addSubview(menuButton) {
-                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(24)
-                $0.centerX.equalToSuperview()
-                $0.width.equalTo(160)
-                $0.height.equalTo(40)
+                $0.backgroundColor = .primary
             }
         }
     }
@@ -162,9 +164,7 @@
 
     struct DebugCoreDataMenuContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugCoreDataMenuContentView()
-            )
+            WrapperView(view: DebugCoreDataMenuContentView())
         }
     }
 #endif

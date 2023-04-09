@@ -31,11 +31,13 @@ extension TitleHeaderFooterView {
 
 private extension TitleHeaderFooterView {
     func setupView() {
-        contentView.backgroundColor = .thinGray
+        contentView.configure {
+            $0.addSubview(titleLabel) {
+                $0.centerY.equalToSuperview()
+                $0.leading.equalToSuperview().inset(8)
+            }
 
-        contentView.addSubview(titleLabel) {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(8)
+            $0.backgroundColor = .thinGray
         }
     }
 }

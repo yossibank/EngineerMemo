@@ -177,9 +177,7 @@ extension ProfileIconContentView: ContentView {
 
     struct ProfileIconContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: ProfileIconContentView()
-            )
+            WrapperView(view: ProfileIconContentView())
         }
     }
 #endif

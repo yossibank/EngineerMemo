@@ -6,7 +6,7 @@
         private var birthday = Calendar.date(year: 2000, month: 1, day: 1)
         private var email: String? = "test@test.com"
         private var gender: Profile.Gender? = .man
-        private var iconImage: Data? = ImageResources.profile?.pngData()
+        private var iconImage: Data? = ImageResources.Profile.edit?.pngData()
         private var identifier = "identifier"
         private var name: String? = "testName"
         private var phoneNumber: String? = "08011112222"

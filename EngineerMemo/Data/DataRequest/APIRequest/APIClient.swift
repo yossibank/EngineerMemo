@@ -90,7 +90,10 @@ private extension APIClient {
                 return $0
             }(JSONDecoder())
 
-            let value = try decoder.decode(T.self, from: data)
+            let value = try decoder.decode(
+                T.self,
+                from: data
+            )
             completion(.success(value))
         } catch {
             completion(.failure(.decodeError))

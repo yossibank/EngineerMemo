@@ -88,12 +88,12 @@ extension ProfileIconCell {
 
 private extension ProfileIconCell {
     func setupView() {
-        configure {
-            $0.backgroundColor = .primary
-        }
+        contentView.configure {
+            $0.addSubview(body) {
+                $0.edges.equalToSuperview()
+            }
 
-        contentView.addSubview(body) {
-            $0.edges.equalToSuperview()
+            $0.backgroundColor = .primary
         }
     }
 }

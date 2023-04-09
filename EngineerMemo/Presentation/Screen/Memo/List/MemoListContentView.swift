@@ -26,6 +26,7 @@ final class MemoListContentView: UIView {
         }
     }
 
+    private(set) lazy var didTapCreateButtonPublisher = didTapCreateButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
     private lazy var collectionView = UICollectionView(
@@ -66,10 +67,9 @@ final class MemoListContentView: UIView {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8.0
 
-        let topInset: CGFloat = 12.0
         let sideInset: CGFloat = 8.0
         section.contentInsets = .init(
-            top: topInset,
+            top: .zero,
             leading: sideInset,
             bottom: .zero,
             trailing: sideInset
@@ -112,10 +112,9 @@ final class MemoListContentView: UIView {
 
     private let headerRegistration = UICollectionView.SupplementaryRegistration<
         MemoListHeaderView
-    > { header, _, _ in
-        header.configure(title: "title")
-    }
+    > { _, _, _ in }
 
+    private let didTapCreateButtonSubject = PassthroughSubject<Void, Never>()
     private let didSelectContentSubject = PassthroughSubject<Item, Never>()
 
     override init(frame: CGRect) {
@@ -153,35 +152,42 @@ private extension MemoListContentView {
                 for: indexPath
             )
 
-            header.button1Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
+            header.didTapDeleteButonPublisher.sink { _ in
+                print("削除ボタンタップ")
+            }
+            .store(in: &header.cancellables)
 
-                    self.viewType = .one
+            header.didTapCreateButonPublisher.sink { [weak self] _ in
+                self?.didTapCreateButtonSubject.send(())
+            }
+            .store(in: &header.cancellables)
+
+            header.button1Publisher.sink { [weak self] _ in
+                guard let self else {
+                    return
                 }
-                .store(in: &header.cancellables)
 
-            header.button2Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
+                self.viewType = .one
+            }
+            .store(in: &header.cancellables)
 
-                    self.viewType = .two
+            header.button2Publisher.sink { [weak self] _ in
+                guard let self else {
+                    return
                 }
-                .store(in: &header.cancellables)
 
-            header.button3Publisher
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
+                self.viewType = .two
+            }
+            .store(in: &header.cancellables)
 
-                    self.viewType = .three
+            header.button3Publisher.sink { [weak self] _ in
+                guard let self else {
+                    return
                 }
-                .store(in: &header.cancellables)
+
+                self.viewType = .three
+            }
+            .store(in: &header.cancellables)
 
             return header
         }
@@ -192,7 +198,10 @@ private extension MemoListContentView {
         dataSourceSnapshot.appendSections(Section.allCases)
 
         modelObjects.forEach {
-            dataSourceSnapshot.appendItems([$0], toSection: .main)
+            dataSourceSnapshot.appendItems(
+                [$0],
+                toSection: .main
+            )
         }
 
         dataSource.apply(
@@ -239,9 +248,7 @@ extension MemoListContentView: ContentView {
 
     struct MemoListContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: MemoListContentView()
-            )
+            WrapperView(view: MemoListContentView())
         }
     }
 #endif

@@ -12,7 +12,10 @@ extension FirebaseAnalytics {
                 : $0
         }
 
-        Analytics.logEvent(name, parameters: params)
+        Analytics.logEvent(
+            name,
+            parameters: params
+        )
     }
 
     func sendEvent(_ event: FAEvent) {

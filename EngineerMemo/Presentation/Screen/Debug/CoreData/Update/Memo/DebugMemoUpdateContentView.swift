@@ -174,11 +174,17 @@
             dataSourceSnapshot.appendSections(Section.allCases)
 
             modelObjects.forEach {
-                dataSourceSnapshot.appendItems([.list($0)], toSection: .list)
+                dataSourceSnapshot.appendItems(
+                    [.list($0)],
+                    toSection: .list
+                )
             }
 
             if selectedIndex != nil {
-                dataSourceSnapshot.appendItems([.update], toSection: .update)
+                dataSourceSnapshot.appendItems(
+                    [.update],
+                    toSection: .update
+                )
             }
 
             dataSource.apply(
@@ -194,17 +200,27 @@
         func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
             selectedIndex = nil
             tableView.reloadData()
-            searchBar.setShowsCancelButton(true, animated: true)
+
+            searchBar.setShowsCancelButton(
+                true,
+                animated: true
+            )
         }
 
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
             searchBar.resignFirstResponder()
-            searchBar.setShowsCancelButton(false, animated: true)
+            searchBar.setShowsCancelButton(
+                false,
+                animated: true
+            )
         }
 
         func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
             searchBar.resignFirstResponder()
-            searchBar.setShowsCancelButton(false, animated: true)
+            searchBar.setShowsCancelButton(
+                false,
+                animated: true
+            )
         }
 
         func searchBar(
@@ -220,7 +236,7 @@
             _ tableView: UITableView,
             shouldHighlightRowAt indexPath: IndexPath
         ) -> Bool {
-            Section.list.rawValue == indexPath.section
+            indexPath.section == Section.list.rawValue
         }
 
         func tableView(
@@ -266,9 +282,7 @@
 
     struct DebugMemoUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugMemoUpdateContentView()
-            )
+            WrapperView(view: DebugMemoUpdateContentView())
         }
     }
 #endif

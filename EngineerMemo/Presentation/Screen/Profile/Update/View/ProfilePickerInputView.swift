@@ -9,39 +9,33 @@ final class ProfilePickerInputView: UIView {
 
     private var body: UIView {
         VStackView {
-            titleView.configure {
-                $0.backgroundColor = .thinGray
-                $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 4
-            }
+            titleView
+                .addSubview(titleLabel) {
+                    $0.edges.equalToSuperview().inset(8)
+                }
+                .addConstraint {
+                    $0.height.equalTo(40)
+                }
+                .apply(.inputView)
 
             pickerInputView
+                .addSubview(inputDatePicker) {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.trailing.equalToSuperview()
+                }
+                .addSubview(pickerLabel) {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.equalToSuperview().inset(8)
+                    $0.trailing.equalToSuperview()
+                }
+                .addConstraint {
+                    $0.height.equalTo(80)
+                }
         }
     }
 
-    private lazy var titleView = UIView()
-        .addSubview(titleLabel) {
-            $0.edges.equalToSuperview().inset(8)
-        }
-        .addConstraint {
-            $0.height.equalTo(40)
-        }
-
-    private lazy var pickerInputView = UIView()
-        .addSubview(inputDatePicker) {
-            $0.top.bottom.equalToSuperview().inset(16)
-            $0.leading.trailing.equalToSuperview()
-        }
-        .addSubview(pickerLabel) {
-            $0.top.bottom.equalToSuperview().inset(16)
-            $0.leading.equalToSuperview().inset(8)
-            $0.trailing.equalToSuperview()
-        }
-        .addConstraint {
-            $0.height.equalTo(80)
-        }
+    private let titleView = UIView()
+    private let pickerInputView = UIView()
 
     private let titleLabel = UILabel().configure {
         $0.textColor = .secondary
@@ -116,22 +110,21 @@ extension ProfilePickerInputView {
 private extension ProfilePickerInputView {
     func setupView() {
         configure {
-            $0.backgroundColor = .primary
-        }
+            $0.addSubview(body) {
+                $0.top.bottom.equalToSuperview().inset(8)
+                $0.leading.trailing.equalToSuperview().inset(16)
+            }
 
-        addSubview(body) {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.backgroundColor = .primary
         }
     }
 
     func setupPicker() {
         inputDatePicker.expandPickerRange()
-        inputDatePicker.publisher
-            .sink { [weak self] birthday in
-                self?.pickerLabel.text = birthday.toString
-            }
-            .store(in: &cancellables)
+        inputDatePicker.publisher.sink { [weak self] birthday in
+            self?.pickerLabel.text = birthday.toString
+        }
+        .store(in: &cancellables)
     }
 }
 
@@ -142,11 +135,7 @@ private extension ProfilePickerInputView {
 
     struct ProfilePickerInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: ProfilePickerInputView(
-                    title: "title"
-                )
-            )
+            WrapperView(view: ProfilePickerInputView(title: "title"))
         }
     }
 #endif

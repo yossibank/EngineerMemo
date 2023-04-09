@@ -247,7 +247,10 @@
                     for: nil
                 )
 
-                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+                Timer.scheduledTimer(
+                    withTimeInterval: 0.2,
+                    repeats: false
+                ) { _ in
                     exit(0)
                 }
 

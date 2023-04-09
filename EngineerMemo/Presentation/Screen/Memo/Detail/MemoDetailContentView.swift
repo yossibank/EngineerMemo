@@ -96,7 +96,11 @@ private extension MemoDetailContentView {
     func applySnapshot() {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
-        dataSourceSnapshot.appendItems([modelObject], toSection: .main)
+
+        dataSourceSnapshot.appendItems(
+            [modelObject],
+            toSection: .main
+        )
 
         dataSource.apply(
             dataSourceSnapshot,

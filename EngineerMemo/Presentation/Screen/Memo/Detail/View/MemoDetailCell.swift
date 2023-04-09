@@ -17,8 +17,12 @@ final class MemoDetailCell: UICollectionViewCell {
                 }
 
                 UIView()
-                    .configure { $0.backgroundColor = .secondary }
-                    .addConstraint { $0.height.equalTo(1) }
+                    .addConstraint {
+                        $0.height.equalTo(1)
+                    }
+                    .configure {
+                        $0.backgroundColor = .secondary
+                    }
 
                 titleLabel.configure {
                     $0.font = .boldSystemFont(ofSize: 14)
@@ -34,8 +38,12 @@ final class MemoDetailCell: UICollectionViewCell {
                 }
 
                 UIView()
-                    .configure { $0.backgroundColor = .secondary }
-                    .addConstraint { $0.height.equalTo(1) }
+                    .addConstraint {
+                        $0.height.equalTo(1)
+                    }
+                    .configure {
+                        $0.backgroundColor = .secondary
+                    }
 
                 contentLabel.configure {
                     $0.font = .systemFont(ofSize: 14)
@@ -79,12 +87,12 @@ extension MemoDetailCell {
 
 private extension MemoDetailCell {
     func setupView() {
-        configure {
-            $0.backgroundColor = .primary
-        }
+        contentView.configure {
+            $0.addSubview(body) {
+                $0.edges.equalToSuperview()
+            }
 
-        contentView.addSubview(body) {
-            $0.edges.equalToSuperview()
+            $0.backgroundColor = .primary
         }
     }
 }
@@ -96,9 +104,7 @@ private extension MemoDetailCell {
 
     struct MemoDetailCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: MemoDetailCell()
-            )
+            WrapperView(view: MemoDetailCell())
         }
     }
 #endif

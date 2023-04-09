@@ -13,14 +13,13 @@
 
         private var cancellables: Set<AnyCancellable> = .init()
 
-        private lazy var body = DebugCoreDataSegmentContentView()
+        private lazy var body = DebugCoreDataSegmentContentView(.create)
             .configure {
                 $0.setupContentView(
                     view: VStackView(spacing: 12) {
                         titleControl
                         contentControl
-                    },
-                    type: .create
+                    }
                 )
             }
 
@@ -44,11 +43,11 @@
     extension DebugMemoCreateContentView: ContentView {
         func setupView() {
             configure {
-                $0.backgroundColor = .primary
-            }
+                $0.addSubview(body) {
+                    $0.top.leading.trailing.equalToSuperview()
+                }
 
-            addSubview(body) {
-                $0.top.leading.trailing.equalToSuperview()
+                $0.backgroundColor = .primary
             }
         }
     }
@@ -57,9 +56,7 @@
 
     struct DebugMemoCreateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: DebugMemoCreateContentView()
-            )
+            WrapperView(view: DebugMemoCreateContentView())
         }
     }
 #endif

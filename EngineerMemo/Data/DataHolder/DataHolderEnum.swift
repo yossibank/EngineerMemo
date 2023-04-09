@@ -1,6 +1,12 @@
 import Foundation
 
 extension DataHolder {
+    enum ColorTheme: Int, CaseIterable, UserDefaultsCompatible {
+        case system
+        case light
+        case dark
+    }
+
     enum ProfileIcon: Int, CaseIterable, UserDefaultsCompatible {
         case elephant
         case fox
@@ -9,11 +15,5 @@ extension DataHolder {
         case penguin
         case seal
         case sheep
-    }
-
-    enum ColorTheme: Int, CaseIterable, UserDefaultsCompatible {
-        case system
-        case light
-        case dark
     }
 }

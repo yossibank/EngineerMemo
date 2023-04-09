@@ -7,27 +7,40 @@ import UIKitHelper
 final class ProfileTopCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapIconChangeButtonPublisher = iconChangeButton.publisher(
-        for: .touchUpInside
-    )
+    private(set) lazy var didTapIconChangeButtonPublisher = iconChangeButton.publisher(for: .touchUpInside)
 
     private var body: UIView {
         VStackView(alignment: .center, spacing: 16) {
-            iconImageView.configure {
-                $0.contentMode = .scaleAspectFit
-                $0.clipsToBounds = true
-                $0.layer.cornerRadius = 50
-            }
+            iconImageView
+                .addConstraint {
+                    $0.size.equalTo(100)
+                }
+                .configure {
+                    $0.contentMode = .scaleAspectFit
+                    $0.clipsToBounds = true
+                    $0.layer.cornerRadius = 50
+                }
 
-            iconChangeButton.configure {
-                $0.clipsToBounds = true
-                $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-                $0.setTitle(L10n.Components.Button.changeProfileIcon, for: .normal)
-                $0.setTitleColor(.theme, for: .normal)
-                $0.layer.borderColor = UIColor.theme.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 8
-            }
+            iconChangeButton
+                .addConstraint {
+                    $0.width.equalTo(140)
+                    $0.height.equalTo(28)
+                }
+                .configure {
+                    $0.setTitle(
+                        L10n.Components.Button.changeProfileIcon,
+                        for: .normal
+                    )
+                    $0.setTitleColor(
+                        .theme,
+                        for: .normal
+                    )
+                    $0.clipsToBounds = true
+                    $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
+                    $0.layer.borderColor = UIColor.theme.cgColor
+                    $0.layer.borderWidth = 1.0
+                    $0.layer.cornerRadius = 8
+                }
 
             userNameLabel.configure {
                 $0.font = .boldSystemFont(ofSize: 14)
@@ -36,16 +49,7 @@ final class ProfileTopCell: UITableViewCell {
     }
 
     private let iconImageView = UIImageView()
-        .addConstraint {
-            $0.size.equalTo(100)
-        }
-
     private let iconChangeButton = UIButton(type: .system)
-        .addConstraint {
-            $0.width.equalTo(140)
-            $0.height.equalTo(28)
-        }
-
     private let userNameLabel = UILabel()
 
     override init(
@@ -74,7 +78,7 @@ final class ProfileTopCell: UITableViewCell {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            iconChangeButton.layer.borderColor = UIColor.theme.cgColor
+            setupButton()
         }
     }
 }
@@ -91,7 +95,8 @@ extension ProfileTopCell {
         }
 
         userNameLabel.text = modelObject?.name?.notNoSettingText ?? L10n.Profile.noSettingName
-        iconChangeButton.isHidden = modelObject == nil
+        iconChangeButton.isEnabled = modelObject != nil
+        setupButton()
     }
 }
 
@@ -100,11 +105,25 @@ extension ProfileTopCell {
 private extension ProfileTopCell {
     func setupView() {
         contentView.configure {
+            $0.addSubview(body) {
+                $0.edges.equalToSuperview().inset(16)
+            }
+
             $0.backgroundColor = .primary
         }
+    }
 
-        contentView.addSubview(body) {
-            $0.edges.equalToSuperview().inset(16)
+    func setupButton() {
+        let color: UIColor = iconChangeButton.isEnabled
+            ? .theme
+            : .thinGray
+
+        iconChangeButton.configure {
+            $0.setTitleColor(
+                color,
+                for: .normal
+            )
+            $0.layer.borderColor = color.cgColor
         }
     }
 }

@@ -54,7 +54,10 @@ extension UserDefaultsCompatible where Self: NSObject, Self: NSCoding {
             return nil
         }
 
-        if let value = try? NSKeyedUnarchiver.unarchivedObject(ofClass: Self.self, from: data) {
+        if let value = try? NSKeyedUnarchiver.unarchivedObject(
+            ofClass: Self.self,
+            from: data
+        ) {
             self = value
         } else {
             return nil
@@ -213,7 +216,9 @@ extension URL: UserDefaultsCompatible {
     init?(userDefaultsObject: Any) {
         guard
             let data = userDefaultsObject as? Data,
-            let url = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSURL.self, from: data) as? URL
+            let url = try? NSKeyedUnarchiver.unarchivedObject(
+                ofClass: NSURL.self, from: data
+            ) as? URL
         else {
             return nil
         }

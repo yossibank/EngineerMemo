@@ -1,4 +1,5 @@
 enum FAScreenId: String {
+    case memoCreate = "memo_create"
     case memoDetail = "memo_detail"
     case memoList = "memo_list"
     case profileDetail = "profile_detail"

@@ -35,18 +35,16 @@ final class ___FILEBASENAME___: ViewModel {
 
         // MARK: - viewDidLoad
 
-        input.viewDidLoad
-            .sink { _ in
-                // NOTE: 初期化時処理
-            }
-            .store(in: &cancellables)
+        input.viewDidLoad.sink { _ in
+            // NOTE: 初期化時処理
+        }
+        .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 
-        input.viewWillAppear
-            .sink { _ in
-                analytics.sendEvent(.screenView)
-            }
-            .store(in: &cancellables)
+        input.viewWillAppear.sink { _ in
+            analytics.sendEvent(.screenView)
+        }
+        .store(in: &cancellables)
     }
 }

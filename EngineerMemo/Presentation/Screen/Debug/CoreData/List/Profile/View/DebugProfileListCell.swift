@@ -105,27 +105,17 @@
     private extension DebugProfileListCell {
         func setupView() {
             contentView.configure {
+                $0.addSubview(baseView) {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.trailing.equalToSuperview().inset(32)
+                }
+
                 $0.backgroundColor = .primary
             }
-
-            contentView.addSubview(baseView) {
-                $0.top.bottom.equalToSuperview().inset(16)
-                $0.leading.trailing.equalToSuperview().inset(32)
-            }
         }
 
-        private func createTitleLabel(_ type: ProfileContentType) -> UILabel {
-            .init().configure {
-                $0.text = type.title
-                $0.textColor = .secondary
-                $0.font = .systemFont(ofSize: 14)
-            }
-        }
-
-        private func createStackView(_ type: ProfileContentType) -> UIStackView {
-            let stackView: UIStackView
+        func createStackView(_ type: ProfileContentType) -> UIStackView {
             let valueLabel: UILabel
-            let titleLabel = createTitleLabel(type)
 
             switch type {
             case .name:
@@ -156,14 +146,17 @@
                 valueLabel = stationLabel
             }
 
-            valueLabel.font = .boldSystemFont(ofSize: 16)
+            return VStackView(alignment: .leading, spacing: 8) {
+                UILabel().configure {
+                    $0.text = type.title
+                    $0.textColor = .secondary
+                    $0.font = .systemFont(ofSize: 14)
+                }
 
-            stackView = VStackView(alignment: .leading, spacing: 8) {
-                titleLabel
-                valueLabel
+                valueLabel.configure {
+                    $0.font = .boldSystemFont(ofSize: 16)
+                }
             }
-
-            return stackView
         }
     }
 

@@ -40,51 +40,47 @@ final class ProfileMenuInputView: UIView {
 
     private var body: UIView {
         VStackView {
-            titleView.configure {
-                $0.backgroundColor = .thinGray
-                $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 4
-            }
+            titleView
+                .addSubview(titleLabel) {
+                    $0.edges.equalToSuperview().inset(8)
+                }
+                .addConstraint {
+                    $0.height.equalTo(40)
+                }
+                .apply(.inputView)
 
             buttonInputView
+                .addSubview(menuButton) {
+                    $0.top.bottom.equalToSuperview().inset(16)
+                    $0.leading.trailing.equalToSuperview()
+                }
+                .addConstraint {
+                    $0.height.equalTo(80)
+                }
         }
     }
 
-    private lazy var titleView = UIView()
-        .addSubview(titleLabel) {
-            $0.edges.equalToSuperview().inset(8)
-        }
-        .addConstraint {
-            $0.height.equalTo(40)
-        }
-
-    private lazy var buttonInputView = UIView()
-        .addSubview(menuButton) {
-            $0.top.bottom.equalToSuperview().inset(16)
-            $0.leading.trailing.equalToSuperview()
-        }
-        .addConstraint {
-            $0.height.equalTo(80)
-        }
+    private let titleView = UIView()
+    private let buttonInputView = UIView()
 
     private let titleLabel = UILabel().configure {
         $0.textColor = .secondary
         $0.font = .boldSystemFont(ofSize: 16)
     }
 
-    private let menuButton = UIButton(type: .system)
-        .configure {
-            $0.clipsToBounds = true
-            $0.contentHorizontalAlignment = .leading
-            $0.contentEdgeInsets = .init(.left, 8)
-            $0.titleLabel?.font = .systemFont(ofSize: 17)
-            $0.setTitleColor(.theme, for: .normal)
-            $0.layer.borderColor = UIColor.theme.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.layer.cornerRadius = 4
-        }
+    private let menuButton = UIButton(type: .system).configure {
+        $0.setTitleColor(
+            .theme,
+            for: .normal
+        )
+        $0.clipsToBounds = true
+        $0.contentHorizontalAlignment = .leading
+        $0.contentEdgeInsets = .init(.left, 8)
+        $0.titleLabel?.font = .systemFont(ofSize: 17)
+        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderWidth = 1.0
+        $0.layer.cornerRadius = 4
+    }
 
     init(title: String) {
         super.init(frame: .zero)
@@ -132,12 +128,12 @@ extension ProfileMenuInputView {
 private extension ProfileMenuInputView {
     func setupView() {
         configure {
-            $0.backgroundColor = .primary
-        }
+            $0.addSubview(body) {
+                $0.top.bottom.equalToSuperview().inset(8)
+                $0.leading.trailing.equalToSuperview().inset(16)
+            }
 
-        addSubview(body) {
-            $0.top.bottom.equalToSuperview().inset(8)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.backgroundColor = .primary
         }
     }
 
@@ -163,7 +159,10 @@ private extension ProfileMenuInputView {
                 options: .displayInline,
                 children: actions
             )
-            $0.setTitle(selectedType.title, for: .normal)
+            $0.setTitle(
+                selectedType.title,
+                for: .normal
+            )
             $0.showsMenuAsPrimaryAction = true
         }
     }
@@ -176,11 +175,7 @@ private extension ProfileMenuInputView {
 
     struct ProfileMenuInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: ProfileMenuInputView(
-                    title: "title"
-                )
-            )
+            WrapperView(view: ProfileMenuInputView(title: "title"))
         }
     }
 #endif
