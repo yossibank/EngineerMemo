@@ -9,7 +9,7 @@ final class MemoCreateViewModel: ViewModel {
 
     final class Input: InputObject {
         let viewWillAppear = PassthroughSubject<Void, Never>()
-        let didTapCreateButton = PassthroughSubject<Void, Never>()
+        let didTapBarButton = PassthroughSubject<Void, Never>()
     }
 
     final class Output: OutputObject {
@@ -63,7 +63,7 @@ final class MemoCreateViewModel: ViewModel {
 
         // MARK: - 作成ボタンタップ
 
-        input.didTapCreateButton.sink { [weak self] _ in
+        input.didTapBarButton.sink { [weak self] _ in
             guard let self else {
                 return
             }

@@ -11,7 +11,7 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
 
         folderName = "プロフィール設定・更新画面"
 
-        recordMode = true
+        recordMode = SnapshotTest.recordMode
     }
 
     func testProfileUpdateViewController_設定() {

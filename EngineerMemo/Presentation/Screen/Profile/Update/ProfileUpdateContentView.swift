@@ -98,7 +98,7 @@ final class ProfileUpdateContentView: UIView {
         super.init(frame: .zero)
 
         setupView()
-        setupEvent()
+        setupBarButton()
     }
 
     @available(*, unavailable)
@@ -118,14 +118,14 @@ final class ProfileUpdateContentView: UIView {
 // MARK: - private methods
 
 private extension ProfileUpdateContentView {
-    func setupEvent() {
+    func setupBarButton() {
         let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
-            ? .settingButton
-            : .updateButton
+            ? .settingNavigationButton
+            : .updateNavigationButton
 
         let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
-            ? .settingDoneButton
-            : .updateDoneButton
+            ? .settingDoneNavigationButton
+            : .updateDoneNavigationButton
 
         barButton.apply(defaultButtonStyle)
 

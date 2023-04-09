@@ -18,19 +18,27 @@ extension ViewStyle where T: UIView {
 // MARK: - ナビゲーションバー
 
 extension ViewStyle where T: UIButton {
-    static var updateButton: ViewStyle<T> {
+    static var createNavigationButton: ViewStyle<T> {
+        navigationButton(title: L10n.Components.Button.create)
+    }
+
+    static var createDoneNavigationButton: ViewStyle<T> {
+        navigationDoneButton(title: L10n.Components.Button.create)
+    }
+
+    static var updateNavigationButton: ViewStyle<T> {
         navigationButton(title: L10n.Components.Button.update)
     }
 
-    static var updateDoneButton: ViewStyle<T> {
+    static var updateDoneNavigationButton: ViewStyle<T> {
         navigationDoneButton(title: L10n.Components.Button.update)
     }
 
-    static var settingButton: ViewStyle<T> {
+    static var settingNavigationButton: ViewStyle<T> {
         navigationButton(title: L10n.Components.Button.setting)
     }
 
-    static var settingDoneButton: ViewStyle<T> {
+    static var settingDoneNavigationButton: ViewStyle<T> {
         navigationDoneButton(title: L10n.Components.Button.setting)
     }
 
@@ -92,28 +100,6 @@ extension ViewStyle where T: UIButton {
         )
     }
 
-    static var memoCreateDoneButton: ViewStyle<T> {
-        .init {
-            $0.setTitle(
-                "作成",
-                for: .normal
-            )
-            $0.setTitleColor(
-                .theme,
-                for: .normal
-            )
-            $0.setImage(
-                Asset.check.image
-                    .resized(size: .init(width: 20, height: 20))
-                    .withRenderingMode(.alwaysOriginal),
-                for: .normal
-            )
-            $0.imageEdgeInsets = .init(.left, 55)
-            $0.titleEdgeInsets = .init(.right, 20)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        }
-    }
-
     static var memoDeleteButton: ViewStyle<T> {
         memoButton(
             title: L10n.Components.Button.delete,
@@ -142,6 +128,7 @@ extension ViewStyle where T: UIButton {
             $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
             $0.imageEdgeInsets = .init(.left, -8)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
+            $0.tintColor = .dynamicColor(light: .blue, dark: .green)
             $0.layer.borderColor = UIColor.theme.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8

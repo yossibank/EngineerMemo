@@ -7,6 +7,12 @@ import UIKitHelper
 final class MemoCreateContentView: UIView {
     private(set) lazy var didChangeTitleTextPublisher = titleTextView.textDidChangePublisher
     private(set) lazy var didChangeContentTextPublisher = contentTextView.textDidChangePublisher
+    private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
+
+    private(set) lazy var barButton = UIButton(type: .system).addConstraint {
+        $0.width.equalTo(72)
+        $0.height.equalTo(32)
+    }
 
     private var cancellables: Set<AnyCancellable> = .init()
 
@@ -84,6 +90,7 @@ final class MemoCreateContentView: UIView {
         super.init(frame: frame)
 
         setupView()
+        setupBarButton()
     }
 
     @available(*, unavailable)
@@ -95,10 +102,29 @@ final class MemoCreateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [titleView, titleTextView, contentView, contentTextView].forEach {
+            [titleView, titleTextView, contentView, contentTextView, barButton].forEach {
                 $0.layer.borderColor = UIColor.theme.cgColor
             }
         }
+    }
+}
+
+// MARK: - private methods
+
+private extension MemoCreateContentView {
+    func setupBarButton() {
+        barButton.apply(.createNavigationButton)
+
+        barButton.publisher(for: .touchUpInside)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.barButton.apply(.createDoneNavigationButton)
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    self?.barButton.apply(.createNavigationButton)
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 

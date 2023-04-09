@@ -39,7 +39,7 @@ final class MemoCreateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapCreateButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
     func test_binding_content_作成ボタンタップ時にmodelObjectに反映されること() {
@@ -52,12 +52,12 @@ final class MemoCreateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapCreateButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
-    func test_input_didTapCreateButton_output_isFinishedがtrueを取得できること() {
+    func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // act
-        viewModel.input.didTapCreateButton.send(())
+        viewModel.input.didTapBarButton.send(())
 
         // assert
         XCTAssertTrue(viewModel.output.isFinished)
