@@ -15,6 +15,73 @@ extension ViewStyle where T: UIView {
     }
 }
 
+// MARK: - ナビゲーションバー
+
+extension ViewStyle where T: UIButton {
+    static var updateButton: ViewStyle<T> {
+        navigationButton(title: L10n.Components.Button.update)
+    }
+
+    static var updateDoneButton: ViewStyle<T> {
+        navigationDoneButton(title: L10n.Components.Button.update)
+    }
+
+    static var settingButton: ViewStyle<T> {
+        navigationButton(title: L10n.Components.Button.setting)
+    }
+
+    static var settingDoneButton: ViewStyle<T> {
+        navigationDoneButton(title: L10n.Components.Button.setting)
+    }
+
+    private static func navigationButton(title: String) -> ViewStyle<T> {
+        .init {
+            $0.setTitle(
+                title,
+                for: .normal
+            )
+            $0.setTitleColor(
+                .theme,
+                for: .normal
+            )
+            $0.setImage(
+                nil,
+                for: .normal
+            )
+            $0.imageEdgeInsets = .zero
+            $0.titleEdgeInsets = .zero
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 15)
+            $0.layer.cornerRadius = 8
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
+        }
+    }
+
+    private static func navigationDoneButton(title: String) -> ViewStyle<T> {
+        .init {
+            $0.setTitle(
+                title,
+                for: .normal
+            )
+            $0.setTitleColor(
+                .theme,
+                for: .normal
+            )
+            $0.setImage(
+                Asset.check.image
+                    .resized(size: .init(width: 20, height: 20))
+                    .withRenderingMode(.alwaysOriginal),
+                for: .normal
+            )
+            $0.imageEdgeInsets = .init(.left, -8)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 15)
+            $0.layer.cornerRadius = 8
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
+        }
+    }
+}
+
 // MARK: - メモ
 
 extension ViewStyle where T: UIButton {

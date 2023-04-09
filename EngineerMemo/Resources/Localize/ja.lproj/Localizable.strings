@@ -4,22 +4,17 @@
 
 // MARK: - コンポーネント
 
-"components.button.nil" = "nil";
 "components.button.create" = "作成";
 "components.button.delete" = "削除";
-"components.button.do.add" = "追加する";
-"components.button.do.delete" = "削除する";
+"components.button.setting" = "設定";
+"components.button.update" = "更新";
 "components.button.do.create" = "作成する";
 "components.button.do.edit" = "編集する";
-"components.button.do.update" = "更新する";
 "components.button.do.setting" = "設定する";
+"components.button.do.update" = "更新する";
 "components.button.createDone" = "作成完了";
 "components.button.updateDone" = "更新完了";
 "components.button.changeProfileIcon" = "プロフィール画像変更";
-"components.button.updateProfile" = "プロフィール情報を更新する";
-"components.button.updateProfileDone" = "プロフィール更新完了✅";
-"components.button.saveProfile" = "プロフィール入力情報を保存する";
-"components.button.saveProfileDone" = "プロフィール作成完了✅";
 
 // MARK: - タブ
 

@@ -12,45 +12,45 @@ final class ProfileUpdateContentView: UIView {
     private(set) lazy var didChangePhoneNumberInputPublisher = phoneNumberInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeAddressInputPublisher = addressInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeStationInputPublisher = stationInputView.didChangeInputTextPublisher
-    private(set) lazy var didTapSaveButtonPublisher = saveButton.publisher(for: .touchUpInside)
+    private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
+
+    private(set) lazy var barButton = UIButton(type: .system).addConstraint {
+        $0.width.equalTo(72)
+        $0.height.equalTo(32)
+    }
 
     private lazy var scrollView = UIScrollView().addSubview(stackView) {
         $0.width.edges.equalToSuperview()
     }
 
     private lazy var stackView = VStackView(distribution: .equalSpacing) {
-        nameInputView
-        birthdayInputView
-        genderInputView
-        emailInputView
-        phoneNumberInputView
-        addressInputView
-        stationInputView
-        buttonView
-    }
+        nameInputView.configure {
+            $0.updateValue(.name, modelObject: modelObject)
+        }
 
-    private lazy var buttonView = UIView().addSubview(saveButton) {
-        $0.bottom.equalToSuperview().inset(32)
-        $0.top.leading.trailing.equalToSuperview().inset(16)
-        $0.height.equalTo(60)
-    }
+        birthdayInputView.configure {
+            $0.updateValue(modelObject: modelObject)
+        }
 
-    private lazy var saveButton = UIButton(type: .system).configure {
-        $0.setTitle(
-            modelObject == nil
-                ? L10n.Components.Button.saveProfile
-                : L10n.Components.Button.updateProfile,
-            for: .normal
-        )
-        $0.setTitleColor(
-            .theme,
-            for: .normal
-        )
-        $0.clipsToBounds = true
-        $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        $0.layer.borderColor = UIColor.theme.cgColor
-        $0.layer.borderWidth = 1.0
-        $0.layer.cornerRadius = 8
+        genderInputView.configure {
+            $0.updateValue(modelObject: modelObject)
+        }
+
+        emailInputView.configure {
+            $0.updateValue(.email, modelObject: modelObject)
+        }
+
+        phoneNumberInputView.configure {
+            $0.updateValue(.phoneNumber, modelObject: modelObject)
+        }
+
+        addressInputView.configure {
+            $0.updateValue(.address, modelObject: modelObject)
+        }
+
+        stationInputView.configure {
+            $0.updateValue(.station, modelObject: modelObject)
+        }
     }
 
     private let nameInputView = ProfileTextInputView(
@@ -99,7 +99,6 @@ final class ProfileUpdateContentView: UIView {
 
         setupView()
         setupEvent()
-        setupInitializeValue()
     }
 
     @available(*, unavailable)
@@ -111,43 +110,35 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            saveButton.layer.borderColor = UIColor.theme.cgColor
+            barButton.layer.borderColor = UIColor.theme.cgColor
         }
     }
 }
 
-// MARK: - private
+// MARK: - private methods
 
 private extension ProfileUpdateContentView {
     func setupEvent() {
-        let title = modelObject == nil
-            ? L10n.Components.Button.saveProfile
-            : L10n.Components.Button.updateProfile
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
+            ? .settingButton
+            : .updateButton
 
-        let updatedTitle = modelObject == nil
-            ? L10n.Components.Button.saveProfileDone
-            : L10n.Components.Button.updateProfileDone
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
+            ? .settingDoneButton
+            : .updateDoneButton
 
-        didTapSaveButtonPublisher
+        barButton.apply(defaultButtonStyle)
+
+        barButton.publisher(for: .touchUpInside)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.saveButton.setTitle(updatedTitle, for: .normal)
+                self?.barButton.apply(updatedButtonStyle)
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.saveButton.setTitle(title, for: .normal)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    self?.barButton.apply(defaultButtonStyle)
                 }
             }
             .store(in: &cancellables)
-    }
-
-    func setupInitializeValue() {
-        nameInputView.updateValue(.name, modelObject: modelObject)
-        birthdayInputView.updateValue(modelObject: modelObject)
-        genderInputView.updateValue(modelObject: modelObject)
-        emailInputView.updateValue(.email, modelObject: modelObject)
-        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
-        addressInputView.updateValue(.address, modelObject: modelObject)
-        stationInputView.updateValue(.station, modelObject: modelObject)
     }
 }
 

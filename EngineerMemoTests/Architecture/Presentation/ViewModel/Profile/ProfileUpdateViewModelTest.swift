@@ -32,7 +32,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
     func test_binding_birthday_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -47,7 +47,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
     func test_binding_gender_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -62,7 +62,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
     func test_binding_email_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -77,7 +77,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
     func test_binding_phoneNumber_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -92,7 +92,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
     func test_binding_address_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -107,7 +107,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
     func test_binding_station_保存ボタンタップ時にmodelObjectに反映されること() {
@@ -122,37 +122,37 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
     }
 
-    func test_input_didTapSaveButton_output_isFinishedがtrueを取得できること() {
+    func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // arrange
         setupViewModel()
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
 
         // assert
         XCTAssertTrue(viewModel.output.isFinished)
     }
 
-    func test_input_didTapSaveButton_update_プロフィール更新処理が呼ばれること() {
+    func test_input_didTapBarButton_update_プロフィール更新処理が呼ばれること() {
         // arrange
         setupViewModel(.update(ProfileModelObjectBuilder().build()))
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
 
         // assert
         XCTAssertEqual(model.updateCallCount, 1)
     }
 
-    func test_input_didTapSaveButton_setting_プロフィール作成処理が呼ばれること() {
+    func test_input_didTapBarButton_setting_プロフィール作成処理が呼ばれること() {
         // arrange
         setupViewModel()
 
         // act
-        viewModel.input.didTapSaveButton.send(())
+        viewModel.input.didTapBarButton.send(())
 
         // assert
         XCTAssertEqual(model.createCallCount, 1)

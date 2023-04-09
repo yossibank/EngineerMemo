@@ -11,7 +11,7 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
 
         folderName = "プロフィール設定・更新画面"
 
-        recordMode = SnapshotTest.recordMode
+        recordMode = true
     }
 
     func testProfileUpdateViewController_設定() {
@@ -48,7 +48,7 @@ private extension ProfileUpdateViewControllerSnapshotTest {
                 x: .zero,
                 y: .zero,
                 width: UIScreen.main.bounds.width,
-                height: 1200
+                height: 1100
             )
         )
     }

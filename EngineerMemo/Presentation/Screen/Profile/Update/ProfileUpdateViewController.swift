@@ -1,5 +1,6 @@
 import Combine
 import UIKit
+import UIKitHelper
 
 // MARK: - inject
 
@@ -31,6 +32,7 @@ extension ProfileUpdateViewController {
 
         viewModel.input.viewDidLoad.send(())
 
+        setupNavigation()
         bindToView()
         bindToViewModel()
     }
@@ -45,9 +47,15 @@ extension ProfileUpdateViewController {
 // MARK: - private methods
 
 private extension ProfileUpdateViewController {
+    func setupNavigation() {
+        navigationItem.rightBarButtonItem = .init(
+            customView: contentView.barButton
+        )
+    }
+
     func bindToView() {
         viewModel.output.$isFinished
-            .debounce(for: 1.0, scheduler: DispatchQueue.main)
+            .debounce(for: 0.8, scheduler: DispatchQueue.main)
             .sink { [weak self] isFinished in
                 if isFinished {
                     self?.navigationController?.popViewController(animated: true)
@@ -57,6 +65,13 @@ private extension ProfileUpdateViewController {
     }
 
     func bindToViewModel() {
+        contentView.didTapBarButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapBarButton.send(())
+            }
+            .store(in: &cancellables)
+
         contentView.didChangeNameInputPublisher
             .map { Optional($0) }
             .assign(to: \.name, on: viewModel.binding)
@@ -89,13 +104,6 @@ private extension ProfileUpdateViewController {
         contentView.didChangeStationInputPublisher
             .map { Optional($0) }
             .assign(to: \.station, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didTapSaveButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapSaveButton.send(())
-            }
             .store(in: &cancellables)
     }
 }
