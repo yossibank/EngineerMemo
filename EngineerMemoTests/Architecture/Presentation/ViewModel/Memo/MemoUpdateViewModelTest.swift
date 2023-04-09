@@ -2,10 +2,10 @@ import Combine
 @testable import EngineerMemo
 import XCTest
 
-final class MemoCreateViewModelTest: XCTestCase {
+final class MemoUpdateViewModelTest: XCTestCase {
     private var model: MemoModelInputMock!
     private var analytics: FirebaseAnalyzableMock!
-    private var viewModel: MemoCreateViewModel!
+    private var viewModel: MemoUpdateViewModel!
 
     override func setUp() {
         super.setUp()

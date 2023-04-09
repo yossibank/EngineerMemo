@@ -3,14 +3,14 @@ import UIKit
 
 // MARK: - inject
 
-extension MemoCreateViewController: VCInjectable {
-    typealias CV = MemoCreateContentView
-    typealias VM = MemoCreateViewModel
+extension MemoUpdateViewController: VCInjectable {
+    typealias CV = MemoUpdateContentView
+    typealias VM = MemoUpdateViewModel
 }
 
 // MARK: - properties & init
 
-final class MemoCreateViewController: UIViewController {
+final class MemoUpdateViewController: UIViewController {
     var viewModel: VM!
     var contentView: CV!
 
@@ -19,7 +19,7 @@ final class MemoCreateViewController: UIViewController {
 
 // MARK: - override methods
 
-extension MemoCreateViewController {
+extension MemoUpdateViewController {
     override func loadView() {
         super.loadView()
 
@@ -43,7 +43,7 @@ extension MemoCreateViewController {
 
 // MARK: - private methods
 
-private extension MemoCreateViewController {
+private extension MemoUpdateViewController {
     func setupNavigation() {
         navigationItem.rightBarButtonItem = .init(
             customView: contentView.barButton

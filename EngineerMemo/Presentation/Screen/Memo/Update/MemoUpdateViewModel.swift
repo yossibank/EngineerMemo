@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-final class MemoCreateViewModel: ViewModel {
+final class MemoUpdateViewModel: ViewModel {
     final class Binding: BindingObject {
         @Published var title = ""
         @Published var content = ""

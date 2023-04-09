@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class MemoCreateContentView: UIView {
+final class MemoUpdateContentView: UIView {
     private(set) lazy var didChangeTitleTextPublisher = titleTextView.textDidChangePublisher
     private(set) lazy var didChangeContentTextPublisher = contentTextView.textDidChangePublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
@@ -111,7 +111,7 @@ final class MemoCreateContentView: UIView {
 
 // MARK: - internal methods
 
-extension MemoCreateContentView {
+extension MemoUpdateContentView {
     func configureBarButton(isEnabled: Bool) {
         barButton.isEnabled = isEnabled
         barButton.alpha = isEnabled ? 1.0 : 0.5
@@ -120,7 +120,7 @@ extension MemoCreateContentView {
 
 // MARK: - private methods
 
-private extension MemoCreateContentView {
+private extension MemoUpdateContentView {
     func setupBarButton() {
         barButton.apply(.createNavigationButton)
 
@@ -139,7 +139,7 @@ private extension MemoCreateContentView {
 
 // MARK: - protocol
 
-extension MemoCreateContentView: ContentView {
+extension MemoUpdateContentView: ContentView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -159,7 +159,7 @@ extension MemoCreateContentView: ContentView {
 
     struct MemoCreateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: MemoCreateContentView())
+            WrapperView(view: MemoUpdateContentView())
         }
     }
 #endif
