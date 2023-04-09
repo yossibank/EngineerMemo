@@ -49,6 +49,8 @@ final class MemoUpdateViewModel: ViewModel {
         input.viewDidLoad.sink { [weak self] _ in
             if let modelObject {
                 self?.modelObject = modelObject
+                self?.binding.title = modelObject.title ?? .empty
+                self?.binding.content = modelObject.content ?? .empty
             }
         }
         .store(in: &cancellables)
@@ -91,7 +93,12 @@ final class MemoUpdateViewModel: ViewModel {
                 return
             }
 
-            self.model.create(modelObject: self.modelObject)
+            if modelObject == nil {
+                self.model.create(modelObject: self.modelObject)
+            } else {
+                self.model.update(modelObject: self.modelObject)
+            }
+
             self.output.isFinished = true
         }
         .store(in: &cancellables)
