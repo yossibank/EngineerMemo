@@ -4,8 +4,8 @@ import XCTest
 
 final class MemoListViewModelTest: XCTestCase {
     private var model: MemoModelInputMock!
-    private var analytics: FirebaseAnalyzableMock!
     private var routing: MemoListRoutingInputMock!
+    private var analytics: FirebaseAnalyzableMock!
     private var viewModel: MemoListViewModel!
 
     override func setUp() {

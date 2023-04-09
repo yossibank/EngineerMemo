@@ -28,11 +28,33 @@ extension MemoDetailViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupNavigation()
+        bindToViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         viewModel.input.viewWillAppear.send(())
+    }
+}
+
+// MARK: - private methods
+
+private extension MemoDetailViewController {
+    func setupNavigation() {
+        navigationItem.rightBarButtonItem = .init(
+            customView: contentView.barButton
+        )
+    }
+
+    func bindToViewModel() {
+        contentView.didTapBarButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapBarButton.send(())
+            }
+            .store(in: &cancellables)
     }
 }

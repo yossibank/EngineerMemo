@@ -29,6 +29,8 @@ extension MemoUpdateViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewModel.input.viewDidLoad.send(())
+
         setupNavigation()
         bindToView()
         bindToViewModel()

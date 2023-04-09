@@ -14,6 +14,21 @@ final class MemoDetailContentView: UIView {
     typealias Section = MemoDetailContentViewSection
     typealias Item = MemoModelObject
 
+    private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
+
+    private(set) lazy var barButton = UIButton(type: .system)
+        .addConstraint {
+            $0.size.equalTo(32)
+        }
+        .configure {
+            $0.setImage(
+                Asset.memoEdit.image
+                    .resized(size: .init(width: 32, height: 32))
+                    .withRenderingMode(.alwaysOriginal),
+                for: .normal
+            )
+        }
+
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout

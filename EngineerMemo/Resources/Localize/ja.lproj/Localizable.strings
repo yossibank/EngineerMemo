@@ -27,6 +27,7 @@
 "navigation.title.memoCreate" = "メモ作成";
 "navigation.title.memoDetail" = "メモ詳細";
 "navigation.title.memoList" = "メモ一覧";
+"navigation.title.memoUpdate" = "メモ更新";
 "navigation.title.profileDetail" = "プロフィール";
 "navigation.title.profileIcon" = "プロフィールアイコン変更";
 "navigation.title.profileUpdate" = "プロフィール更新";
