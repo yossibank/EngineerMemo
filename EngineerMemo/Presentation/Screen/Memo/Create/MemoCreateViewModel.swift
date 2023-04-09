@@ -1,29 +1,36 @@
 import Combine
+import Foundation
 
 final class MemoCreateViewModel: ViewModel {
-    // 不要な場合はNoBinding使用
     final class Binding: BindingObject {
-        @Published var sample = ""
+        @Published var title = ""
+        @Published var content = ""
     }
 
     final class Input: InputObject {
-        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let didTapCreateButton = PassthroughSubject<Void, Never>()
     }
 
-    final class Output: OutputObject {}
+    final class Output: OutputObject {
+        @Published fileprivate(set) var isFinished = false
+    }
 
     @BindableObject private(set) var binding: Binding
 
     let input: Input
     let output: Output
-    // let binding = NoBinding()
 
+    private var modelObject = MemoModelObject(identifier: UUID().uuidString)
     private var cancellables: Set<AnyCancellable> = .init()
 
+    private let model: MemoModelInput
     private let analytics: FirebaseAnalyzable
 
-    init(analytics: FirebaseAnalyzable) {
+    init(
+        model: MemoModelInput,
+        analytics: FirebaseAnalyzable
+    ) {
         let binding = Binding()
         let input = Input()
         let output = Output()
@@ -31,15 +38,8 @@ final class MemoCreateViewModel: ViewModel {
         self.binding = binding
         self.input = input
         self.output = output
+        self.model = model
         self.analytics = analytics
-
-        // MARK: - viewDidLoad
-
-        input.viewDidLoad
-            .sink { _ in
-                // NOTE: 初期化時処理
-            }
-            .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 
@@ -48,5 +48,34 @@ final class MemoCreateViewModel: ViewModel {
                 analytics.sendEvent(.screenView)
             }
             .store(in: &cancellables)
+
+        // MARK: - タイトル
+
+        let title = binding.$title.sink { [weak self] title in
+            self?.modelObject.title = title
+        }
+
+        // MARK: - コンテンツ
+
+        let content = binding.$content.sink { content in
+            self.modelObject.content = content
+        }
+
+        // MARK: - 作成ボタンタップ
+
+        input.didTapCreateButton.sink { [weak self] _ in
+            guard let self else {
+                return
+            }
+
+            self.model.create(modelObject: self.modelObject)
+            self.output.isFinished = true
+        }
+        .store(in: &cancellables)
+
+        cancellables.formUnion([
+            title,
+            content
+        ])
     }
 }

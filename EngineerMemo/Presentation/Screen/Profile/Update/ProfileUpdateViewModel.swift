@@ -19,7 +19,7 @@ final class ProfileUpdateViewModel: ViewModel {
     }
 
     final class Output: OutputObject {
-        @Published fileprivate(set) var isFinished: Bool?
+        @Published fileprivate(set) var isFinished = false
     }
 
     @BindableObject private(set) var binding: Binding

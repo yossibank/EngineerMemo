@@ -132,8 +132,8 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         // act
         viewModel.input.didTapSaveButton.send(())
 
-        // arrange
-        XCTAssertTrue(viewModel.output.isFinished!)
+        // assert
+        XCTAssertTrue(viewModel.output.isFinished)
     }
 
     func test_input_didTapSaveButton_update_プロフィール更新処理が呼ばれること() {
@@ -143,7 +143,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         // act
         viewModel.input.didTapSaveButton.send(())
 
-        // arrange
+        // assert
         XCTAssertEqual(model.updateCallCount, 1)
     }
 
@@ -154,7 +154,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         // act
         viewModel.input.didTapSaveButton.send(())
 
-        // arrange
+        // assert
         XCTAssertEqual(model.createCallCount, 1)
     }
 }

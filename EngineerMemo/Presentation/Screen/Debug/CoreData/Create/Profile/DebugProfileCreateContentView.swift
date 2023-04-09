@@ -18,7 +18,7 @@
 
         private var cancellables: Set<AnyCancellable> = .init()
 
-        private lazy var body = DebugCoreDataSegmentContentView().configure {
+        private lazy var body = DebugCoreDataSegmentContentView(.create).configure {
             $0.setupContentView(
                 view: VStackView(spacing: 12) {
                     addressControl
@@ -28,8 +28,7 @@
                     nameControl
                     phoneNumberControl
                     stationControl
-                },
-                type: .create
+                }
             )
         }
 

@@ -16,13 +16,7 @@ final class ProfilePickerInputView: UIView {
                 .addConstraint {
                     $0.height.equalTo(40)
                 }
-                .configure {
-                    $0.backgroundColor = .thinGray
-                    $0.clipsToBounds = true
-                    $0.layer.borderColor = UIColor.theme.cgColor
-                    $0.layer.borderWidth = 1.0
-                    $0.layer.cornerRadius = 4
-                }
+                .apply(.inputView)
 
             pickerInputView
                 .addSubview(inputDatePicker) {

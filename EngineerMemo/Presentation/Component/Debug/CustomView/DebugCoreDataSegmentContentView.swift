@@ -34,9 +34,12 @@
 
         private let contentView = UIView()
         private let actionButton = UIButton(type: .system)
+        private let buttonType: ButtonType
 
-        override init(frame: CGRect) {
-            super.init(frame: frame)
+        init(_ buttonType: ButtonType) {
+            self.buttonType = buttonType
+
+            super.init(frame: .zero)
 
             setupView()
         }
@@ -58,10 +61,7 @@
     // MARK: - internal methods
 
     extension DebugCoreDataSegmentContentView {
-        func setupContentView(
-            view: UIView,
-            type: ButtonType
-        ) {
+        func setupContentView(view: UIView) {
             contentView.addSubview(view) {
                 $0.edges.equalToSuperview()
             }
@@ -69,7 +69,7 @@
             let defaultViewStyle: ViewStyle<UIButton>
             let updatedViewStyle: ViewStyle<UIButton>
 
-            switch type {
+            switch buttonType {
             case .create:
                 defaultViewStyle = .debugCreateButton
                 updatedViewStyle = .debugCreateDoneButton
@@ -112,7 +112,7 @@
 
     struct DebugCoreDataSegmentContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugCoreDataSegmentContentView())
+            WrapperView(view: DebugCoreDataSegmentContentView(.create))
         }
     }
 #endif

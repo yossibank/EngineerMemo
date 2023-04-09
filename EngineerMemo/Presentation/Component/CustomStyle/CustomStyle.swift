@@ -1,22 +1,56 @@
 import UIKit
 import UIKitHelper
 
+// MARK: - 入力
+
+extension ViewStyle where T: UIView {
+    static var inputView: ViewStyle<T> {
+        .init {
+            $0.backgroundColor = .thinGray
+            $0.clipsToBounds = true
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
+            $0.layer.cornerRadius = 4
+        }
+    }
+}
+
 // MARK: - メモ
 
 extension ViewStyle where T: UIButton {
     static var memoCreateButton: ViewStyle<T> {
         memoButton(
             title: L10n.Components.Button.create,
-            image: ImageResources.Memo.add?
-                .resized(size: .init(width: 20, height: 20))
+            image: ImageResources.Memo.add
         )
+    }
+
+    static var memoCreateDoneButton: ViewStyle<T> {
+        .init {
+            $0.setTitle(
+                "作成",
+                for: .normal
+            )
+            $0.setTitleColor(
+                .theme,
+                for: .normal
+            )
+            $0.setImage(
+                Asset.check.image
+                    .resized(size: .init(width: 20, height: 20))
+                    .withRenderingMode(.alwaysOriginal),
+                for: .normal
+            )
+            $0.imageEdgeInsets = .init(.left, 55)
+            $0.titleEdgeInsets = .init(.right, 20)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        }
     }
 
     static var memoDeleteButton: ViewStyle<T> {
         memoButton(
             title: L10n.Components.Button.delete,
-            image: ImageResources.Memo.delete?
-                .resized(size: .init(width: 20, height: 20))
+            image: ImageResources.Memo.delete
         )
     }
 
@@ -120,10 +154,6 @@ extension ViewStyle where T: UIButton {
             $0.imageEdgeInsets = .zero
             $0.titleEdgeInsets = .zero
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.layer.borderColor = UIColor.theme.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.layer.cornerRadius = 8
-            $0.clipsToBounds = true
         }
     }
 
@@ -147,10 +177,6 @@ extension ViewStyle where T: UIButton {
             $0.imageEdgeInsets = .init(.left, 120)
             $0.titleEdgeInsets = .init(.right, 20)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.layer.borderColor = UIColor.theme.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.layer.cornerRadius = 8
-            $0.clipsToBounds = true
         }
     }
 }

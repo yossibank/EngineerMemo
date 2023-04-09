@@ -48,7 +48,6 @@ private extension ProfileUpdateViewController {
     func bindToView() {
         viewModel.output.$isFinished
             .debounce(for: 1.0, scheduler: DispatchQueue.main)
-            .compactMap { $0 }
             .sink { [weak self] isFinished in
                 if isFinished {
                     self?.navigationController?.popViewController(animated: true)

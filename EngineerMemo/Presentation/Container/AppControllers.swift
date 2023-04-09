@@ -8,7 +8,10 @@ enum AppControllers {
             vc.title = L10n.Navigation.Title.memoCreate
             vc.inject(
                 contentView: MemoCreateContentView(),
-                viewModel: MemoCreateViewModel(analytics: FirebaseAnalytics(screenId: .memoCreate))
+                viewModel: MemoCreateViewModel(
+                    model: Models.Memo(),
+                    analytics: FirebaseAnalytics(screenId: .memoCreate)
+                )
             )
 
             return vc

@@ -13,13 +13,12 @@
         private(set) lazy var contentControlPublisher = contentControl.segmentIndexPublisher
         private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
-        private lazy var body = DebugCoreDataSegmentContentView().configure {
+        private lazy var body = DebugCoreDataSegmentContentView(.update).configure {
             $0.setupContentView(
                 view: VStackView(spacing: 12) {
                     titleControl
                     contentControl
-                },
-                type: .update
+                }
             )
         }
 
