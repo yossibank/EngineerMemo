@@ -48,14 +48,6 @@
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-
-        override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                super.traitCollectionDidChange(previousTraitCollection)
-
-                actionButton.layer.borderColor = UIColor.theme.cgColor
-            }
-        }
     }
 
     // MARK: - internal methods
@@ -66,28 +58,26 @@
                 $0.edges.equalToSuperview()
             }
 
-            let defaultViewStyle: ViewStyle<UIButton>
-            let updatedViewStyle: ViewStyle<UIButton>
+            let defaultButtonStyle: ViewStyle<UIButton>
+            let updatedButtonStyle: ViewStyle<UIButton>
 
             switch buttonType {
             case .create:
-                defaultViewStyle = .debugCreateButton
-                updatedViewStyle = .debugCreateDoneButton
+                defaultButtonStyle = .debugCreateButton
+                updatedButtonStyle = .debugCreateDoneButton
 
             case .update:
-                defaultViewStyle = .debugUpdateButton
-                updatedViewStyle = .debugUpdateDoneButton
+                defaultButtonStyle = .debugUpdateButton
+                updatedButtonStyle = .debugUpdateDoneButton
             }
-
-            actionButton.apply(defaultViewStyle)
 
             didTapActionButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.actionButton.apply(updatedViewStyle)
+                    self?.actionButton.apply(updatedButtonStyle)
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self?.actionButton.apply(defaultViewStyle)
+                        self?.actionButton.apply(defaultButtonStyle)
                     }
                 }
                 .store(in: &cancellables)
@@ -105,6 +95,15 @@
 
                 $0.backgroundColor = .primary
             }
+
+            let defaultButtonStyle: ViewStyle<UIButton>
+
+            switch buttonType {
+            case .create: defaultButtonStyle = .debugCreateButton
+            case .update: defaultButtonStyle = .debugUpdateButton
+            }
+
+            actionButton.apply(defaultButtonStyle)
         }
     }
 

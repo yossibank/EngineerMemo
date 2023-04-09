@@ -85,14 +85,6 @@ extension ViewStyle where T: UIButton {
 // MARK: - デバッグ
 
 extension ViewStyle where T: UIButton {
-    static var debugAddButton: ViewStyle<T> {
-        debugButton(title: L10n.Components.Button.Do.add)
-    }
-
-    static var debugDeleteButton: ViewStyle<T> {
-        debugButton(title: L10n.Components.Button.Do.delete)
-    }
-
     static var debugCreateButton: ViewStyle<T> {
         debugButton(title: L10n.Components.Button.Do.create)
     }
@@ -117,10 +109,6 @@ extension ViewStyle where T: UIButton {
                 .resized(size: .init(width: 20, height: 20))
                 .withRenderingMode(.alwaysOriginal)
         )
-    }
-
-    static var debugNilButton: ViewStyle<T> {
-        debugButton(title: L10n.Components.Button.nil)
     }
 
     static var debugMenuButton: ViewStyle<T> {
@@ -151,9 +139,13 @@ extension ViewStyle where T: UIButton {
                 nil,
                 for: .normal
             )
+            $0.clipsToBounds = true
             $0.imageEdgeInsets = .zero
             $0.titleEdgeInsets = .zero
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
+            $0.layer.cornerRadius = 8
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
         }
     }
 
@@ -174,9 +166,13 @@ extension ViewStyle where T: UIButton {
                 image,
                 for: .normal
             )
+            $0.clipsToBounds = true
             $0.imageEdgeInsets = .init(.left, 120)
             $0.titleEdgeInsets = .init(.right, 20)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
+            $0.layer.cornerRadius = 8
+            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderWidth = 1.0
         }
     }
 }
