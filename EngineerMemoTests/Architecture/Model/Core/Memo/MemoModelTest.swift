@@ -29,7 +29,7 @@ final class MemoModelTest: XCTestCase {
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
-    func test_get_成功_情報を取得できること() {
+    func test_fetch_成功_情報を取得できること() {
         // arrange
         dataInsert()
 
@@ -49,50 +49,7 @@ final class MemoModelTest: XCTestCase {
         }
 
         // act
-        model.get {
-            switch $0 {
-            case let .success(modelObject):
-                // assert
-                XCTAssertEqual(
-                    modelObject,
-                    MemoModelObjectBuilder()
-                        .content("コンテンツ")
-                        .identifier("identifier")
-                        .title("タイトル")
-                        .build()
-                )
-
-            case let .failure(appError):
-                XCTFail(appError.localizedDescription)
-            }
-
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: 0.1)
-    }
-
-    func test_gets_成功_情報を取得できること() {
-        // arrange
-        dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
-
-        memoConverter.convertHandler = {
-            // assert
-            XCTAssertEqual($0.content, "コンテンツ")
-            XCTAssertEqual($0.identifier, "identifier")
-            XCTAssertEqual($0.title, "タイトル")
-
-            return MemoModelObjectBuilder()
-                .content($0.content!)
-                .identifier($0.identifier)
-                .title($0.title!)
-                .build()
-        }
-
-        // act
-        model.gets {
+        model.fetch {
             switch $0 {
             case let .success(modelObject):
                 // assert
@@ -105,6 +62,49 @@ final class MemoModelTest: XCTestCase {
                             .title("タイトル")
                             .build()
                     ]
+                )
+
+            case let .failure(appError):
+                XCTFail(appError.localizedDescription)
+            }
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.1)
+    }
+
+    func test_find_成功_情報を取得できること() {
+        // arrange
+        dataInsert()
+
+        let expectation = XCTestExpectation(description: #function)
+
+        memoConverter.convertHandler = {
+            // assert
+            XCTAssertEqual($0.content, "コンテンツ")
+            XCTAssertEqual($0.identifier, "identifier")
+            XCTAssertEqual($0.title, "タイトル")
+
+            return MemoModelObjectBuilder()
+                .content($0.content!)
+                .identifier($0.identifier)
+                .title($0.title!)
+                .build()
+        }
+
+        // act
+        model.find(identifier: "identifier") {
+            switch $0 {
+            case let .success(modelObject):
+                // assert
+                XCTAssertEqual(
+                    modelObject,
+                    MemoModelObjectBuilder()
+                        .content("コンテンツ")
+                        .identifier("identifier")
+                        .title("タイトル")
+                        .build()
                 )
 
             case let .failure(appError):
@@ -197,12 +197,11 @@ final class MemoModelTest: XCTestCase {
 
 private extension MemoModelTest {
     func dataInsert() {
-        storage.create()
-            .sink {
-                $0.content = "コンテンツ"
-                $0.identifier = "identifier"
-                $0.title = "タイトル"
-            }
-            .store(in: &cancellables)
+        storage.create().sink {
+            $0.identifier = "identifier"
+            $0.title = "タイトル"
+            $0.content = "コンテンツ"
+        }
+        .store(in: &cancellables)
     }
 }

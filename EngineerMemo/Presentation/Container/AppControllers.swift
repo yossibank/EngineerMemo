@@ -2,15 +2,16 @@ import SwiftUI
 
 enum AppControllers {
     enum Memo {
-        static func Detail(modelObject: MemoModelObject) -> MemoDetailViewController {
+        static func Detail(identifier: String) -> MemoDetailViewController {
             let vc = MemoDetailViewController()
             let routing = MemoDetailRouting(viewController: vc)
 
             vc.title = L10n.Navigation.Title.memoDetail
             vc.inject(
-                contentView: MemoDetailContentView(modelObject: modelObject),
+                contentView: MemoDetailContentView(),
                 viewModel: MemoDetailViewModel(
-                    modelObject: modelObject,
+                    identifier: identifier,
+                    model: Models.Memo(),
                     routing: routing,
                     analytics: FirebaseAnalytics(screenId: .memoDetail)
                 )

@@ -40,13 +40,13 @@ final class MemoListViewModel: ViewModel {
         // MARK: - viewDidLoad
 
         input.viewDidLoad.sink { _ in
-            model.gets {
+            model.fetch {
                 switch $0 {
-                case let .failure(appError):
-                    output.appError = appError
-
                 case let .success(modelObjects):
                     output.modelObjects = modelObjects
+
+                case let .failure(appError):
+                    output.appError = appError
                 }
             }
         }
@@ -75,7 +75,7 @@ final class MemoListViewModel: ViewModel {
                 )
             )
 
-            routing.showDetailScreen(modelObject: modelObject)
+            routing.showDetailScreen(identifier: modelObject.identifier)
         }
         .store(in: &cancellables)
     }

@@ -3,7 +3,7 @@ import UIKit
 /// @mockable
 protocol MemoListRoutingInput {
     func showCreateScreen()
-    func showDetailScreen(modelObject: MemoModelObject)
+    func showDetailScreen(identifier: String)
 }
 
 // MARK: - properties & init
@@ -26,9 +26,9 @@ extension MemoListRouting: MemoListRoutingInput {
         )
     }
 
-    func showDetailScreen(modelObject: MemoModelObject) {
+    func showDetailScreen(identifier: String) {
         viewController?.navigationController?.pushViewController(
-            AppControllers.Memo.Detail(modelObject: modelObject),
+            AppControllers.Memo.Detail(identifier: identifier),
             animated: true
         )
     }

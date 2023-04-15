@@ -3,7 +3,7 @@ import Combine
 import XCTest
 
 final class MemoDetailViewModelTest: XCTestCase {
-    private var modelObject: MemoModelObject!
+    private var model: MemoModelInputMock!
     private var routing: MemoDetailRoutingInputMock!
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: MemoDetailViewModel!
@@ -11,13 +11,33 @@ final class MemoDetailViewModelTest: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        modelObject = MemoModelObjectBuilder().build()
+        model = .init()
         routing = .init()
         analytics = .init(screenId: .memoDetail)
         viewModel = .init(
-            modelObject: modelObject,
+            identifier: "identifier",
+            model: model,
             routing: routing,
             analytics: analytics
+        )
+
+        model.findHandler = { _, completion in
+            completion(.success(MemoModelObjectBuilder().build()))
+        }
+    }
+
+    func test_input_viewDidLoad_メモ情報を取得できること() throws {
+        // arrange
+        viewModel.input.viewDidLoad.send(())
+
+        // act
+        let publisher = viewModel.output.$modelObject.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first
+
+        // assert
+        XCTAssertEqual(
+            output,
+            MemoModelObjectBuilder().build()
         )
     }
 

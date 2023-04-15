@@ -20,7 +20,7 @@ final class MemoListViewModelTest: XCTestCase {
             analytics: analytics
         )
 
-        model.getsHandler = {
+        model.fetchHandler = {
             $0(.success([MemoModelObjectBuilder().build()]))
         }
     }
@@ -78,7 +78,7 @@ final class MemoListViewModelTest: XCTestCase {
         // arrange
         routing.showDetailScreenHandler = {
             // assert
-            XCTAssertEqual($0, MemoModelObjectBuilder().build())
+            XCTAssertEqual($0, "identifier")
         }
 
         // act

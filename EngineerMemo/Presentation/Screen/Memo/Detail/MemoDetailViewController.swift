@@ -29,7 +29,10 @@ extension MemoDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewModel.input.viewDidLoad.send(())
+
         setupNavigation()
+        bindToView()
         bindToViewModel()
     }
 
@@ -47,6 +50,15 @@ private extension MemoDetailViewController {
         navigationItem.rightBarButtonItem = .init(
             customView: contentView.barButton
         )
+    }
+
+    func bindToView() {
+        viewModel.output.$modelObject
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] modelObject in
+                self?.contentView.modelObject = modelObject
+            }
+            .store(in: &cancellables)
     }
 
     func bindToViewModel() {

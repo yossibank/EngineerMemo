@@ -14,6 +14,12 @@ final class MemoDetailContentView: UIView {
     typealias Section = MemoDetailContentViewSection
     typealias Item = MemoModelObject
 
+    var modelObject: MemoModelObject? {
+        didSet {
+            applySnapshot()
+        }
+    }
+
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
     private(set) lazy var barButton = UIButton(type: .system)
@@ -81,16 +87,11 @@ final class MemoDetailContentView: UIView {
         cell.configure(item)
     }
 
-    private let modelObject: MemoModelObject
-
-    init(modelObject: MemoModelObject) {
-        self.modelObject = modelObject
-
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
         setupView()
         setupCollectionView()
-        applySnapshot()
     }
 
     @available(*, unavailable)
@@ -112,10 +113,12 @@ private extension MemoDetailContentView {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        dataSourceSnapshot.appendItems(
-            [modelObject],
-            toSection: .main
-        )
+        if let modelObject {
+            dataSourceSnapshot.appendItems(
+                [modelObject],
+                toSection: .main
+            )
+        }
 
         dataSource.apply(
             dataSourceSnapshot,
@@ -141,14 +144,12 @@ extension MemoDetailContentView: ContentView {
 
     struct MemoDetailContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: MemoDetailContentView(
-                    modelObject: MemoModelObjectBuilder()
-                        .title("title")
-                        .content("content")
-                        .build()
-                )
-            )
+            WrapperView(view: MemoDetailContentView()) {
+                $0.modelObject = MemoModelObjectBuilder()
+                    .title("title")
+                    .content("content")
+                    .build()
+            }
         }
     }
 #endif
