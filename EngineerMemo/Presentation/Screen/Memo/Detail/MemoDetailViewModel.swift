@@ -4,7 +4,7 @@ final class MemoDetailViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
-        let didTapBarButton = PassthroughSubject<Void, Never>()
+        let didTapEditBarButton = PassthroughSubject<Void, Never>()
     }
 
     final class Output: OutputObject {
@@ -63,7 +63,7 @@ final class MemoDetailViewModel: ViewModel {
 
         // MARK: - 編集ボタンタップ
 
-        input.didTapBarButton.sink {
+        input.didTapEditBarButton.sink {
             if let modelObject = output.modelObject {
                 routing.showUpdateScreen(modelObject: modelObject)
             }

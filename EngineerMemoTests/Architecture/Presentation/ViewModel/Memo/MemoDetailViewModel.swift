@@ -52,7 +52,7 @@ final class MemoDetailViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
-    func test_input_didTapBarButton_routing_showUpdateScreenが呼び出されること() {
+    func test_input_didTapEditBarButton_routing_showUpdateScreenが呼び出されること() {
         // arrange
         routing.showUpdateScreenHandler = {
             // assert
@@ -60,6 +60,6 @@ final class MemoDetailViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapBarButton.send(())
+        viewModel.input.didTapEditBarButton.send(())
     }
 }
