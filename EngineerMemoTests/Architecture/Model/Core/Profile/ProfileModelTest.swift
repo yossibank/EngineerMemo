@@ -31,7 +31,7 @@ final class ProfileModelTest: XCTestCase {
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
-    func test_get_成功_情報を取得できること() {
+    func test_fetch_成功_情報を取得できること() {
         // arrange
         dataInsert()
 
@@ -60,64 +60,7 @@ final class ProfileModelTest: XCTestCase {
         }
 
         // act
-        model.get {
-            switch $0 {
-            case let .success(modelObject):
-                // assert
-                XCTAssertEqual(
-                    modelObject,
-                    ProfileModelObjectBuilder()
-                        .address("テスト県テスト市テスト1-1-1")
-                        .birthday(Calendar.date(year: 2000, month: 1, day: 1))
-                        .email("test@test.com")
-                        .gender(.man)
-                        .identifier("identifier")
-                        .name("testName")
-                        .phoneNumber("08011112222")
-                        .station("鶴橋駅")
-                        .build()
-                )
-
-            case let .failure(appError):
-                XCTFail(appError.localizedDescription)
-            }
-
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: 0.1)
-    }
-
-    func test_gets_成功_情報を取得できること() {
-        // arrange
-        dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
-
-        profileConverter.convertHandler = {
-            // assert
-            XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
-            XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual($0.email, "test@test.com")
-            XCTAssertEqual($0.genderEnum, .man)
-            XCTAssertEqual($0.identifier, "identifier")
-            XCTAssertEqual($0.name, "testName")
-            XCTAssertEqual($0.phoneNumber, "08011112222")
-            XCTAssertEqual($0.station, "鶴橋駅")
-
-            return ProfileModelObjectBuilder()
-                .address($0.address!)
-                .birthday($0.birthday!)
-                .email($0.email!)
-                .gender(.init(rawValue: $0.genderEnum!.rawValue)!)
-                .name($0.name!)
-                .phoneNumber($0.phoneNumber!)
-                .station($0.station!)
-                .build()
-        }
-
-        // act
-        model.gets {
+        model.fetch {
             switch $0 {
             case let .success(modelObject):
                 // assert
@@ -135,6 +78,63 @@ final class ProfileModelTest: XCTestCase {
                             .station("鶴橋駅")
                             .build()
                     ]
+                )
+
+            case let .failure(appError):
+                XCTFail(appError.localizedDescription)
+            }
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.1)
+    }
+
+    func test_find_成功_情報を取得できること() {
+        // arrange
+        dataInsert()
+
+        let expectation = XCTestExpectation(description: #function)
+
+        profileConverter.convertHandler = {
+            // assert
+            XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
+            XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
+            XCTAssertEqual($0.email, "test@test.com")
+            XCTAssertEqual($0.genderEnum, .man)
+            XCTAssertEqual($0.identifier, "identifier")
+            XCTAssertEqual($0.name, "testName")
+            XCTAssertEqual($0.phoneNumber, "08011112222")
+            XCTAssertEqual($0.station, "鶴橋駅")
+
+            return ProfileModelObjectBuilder()
+                .address($0.address!)
+                .birthday($0.birthday!)
+                .email($0.email!)
+                .gender(.init(rawValue: $0.genderEnum!.rawValue)!)
+                .name($0.name!)
+                .phoneNumber($0.phoneNumber!)
+                .station($0.station!)
+                .build()
+        }
+
+        // act
+        model.find(identifier: "identifier") {
+            switch $0 {
+            case let .success(modelObject):
+                // assert
+                XCTAssertEqual(
+                    modelObject,
+                    ProfileModelObjectBuilder()
+                        .address("テスト県テスト市テスト1-1-1")
+                        .birthday(Calendar.date(year: 2000, month: 1, day: 1))
+                        .email("test@test.com")
+                        .gender(.man)
+                        .identifier("identifier")
+                        .name("testName")
+                        .phoneNumber("08011112222")
+                        .station("鶴橋駅")
+                        .build()
                 )
 
             case let .failure(appError):
@@ -271,18 +271,17 @@ final class ProfileModelTest: XCTestCase {
 
 private extension ProfileModelTest {
     func dataInsert() {
-        storage.create()
-            .sink {
-                $0.address = "テスト県テスト市テスト1-1-1"
-                $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
-                $0.email = "test@test.com"
-                $0.genderEnum = .man
-                $0.iconImage = ImageResources.Profile.edit?.pngData()
-                $0.identifier = "identifier"
-                $0.name = "testName"
-                $0.phoneNumber = "08011112222"
-                $0.station = "鶴橋駅"
-            }
-            .store(in: &cancellables)
+        storage.create().sink {
+            $0.address = "テスト県テスト市テスト1-1-1"
+            $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
+            $0.email = "test@test.com"
+            $0.genderEnum = .man
+            $0.iconImage = ImageResources.Profile.edit?.pngData()
+            $0.identifier = "identifier"
+            $0.name = "testName"
+            $0.phoneNumber = "08011112222"
+            $0.station = "鶴橋駅"
+        }
+        .store(in: &cancellables)
     }
 }

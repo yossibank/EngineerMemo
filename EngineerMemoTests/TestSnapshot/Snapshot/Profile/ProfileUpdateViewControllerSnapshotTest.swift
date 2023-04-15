@@ -18,7 +18,7 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
         snapshot(type: .setting)
     }
 
-    func testProfileUpdateViewController_編集() {
+    func testProfileUpdateViewController_更新() {
         snapshot(
             type: .update(
                 ProfileModelObjectBuilder().build()
@@ -26,7 +26,7 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
         )
     }
 
-    func testProfileUpdateViewController_編集_未設定項目あり() {
+    func testProfileUpdateViewController_更新_未設定項目あり() {
         snapshot(
             type: .update(
                 ProfileModelObjectBuilder()

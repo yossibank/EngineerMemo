@@ -2,28 +2,19 @@ import SwiftUI
 
 enum AppControllers {
     enum Memo {
-        static func Update() -> MemoUpdateViewController {
-            let vc = MemoUpdateViewController()
-
-            vc.title = L10n.Navigation.Title.memoCreate
-            vc.inject(
-                contentView: MemoUpdateContentView(),
-                viewModel: MemoUpdateViewModel(
-                    model: Models.Memo(),
-                    analytics: FirebaseAnalytics(screenId: .memoCreate)
-                )
-            )
-
-            return vc
-        }
-
-        static func Detail(modelObject: MemoModelObject) -> MemoDetailViewController {
+        static func Detail(identifier: String) -> MemoDetailViewController {
             let vc = MemoDetailViewController()
+            let routing = MemoDetailRouting(viewController: vc)
 
             vc.title = L10n.Navigation.Title.memoDetail
             vc.inject(
-                contentView: MemoDetailContentView(modelObject: modelObject),
-                viewModel: MemoDetailViewModel(analytics: FirebaseAnalytics(screenId: .memoDetail))
+                contentView: MemoDetailContentView(),
+                viewModel: MemoDetailViewModel(
+                    identifier: identifier,
+                    model: Models.Memo(),
+                    routing: routing,
+                    analytics: FirebaseAnalytics(screenId: .memoDetail)
+                )
             )
 
             return vc
@@ -42,6 +33,36 @@ enum AppControllers {
                     analytics: FirebaseAnalytics(screenId: .memoList)
                 )
             )
+
+            return vc
+        }
+
+        static func Update(type: MemoUpdateType) -> MemoUpdateViewController {
+            let vc = MemoUpdateViewController()
+
+            switch type {
+            case .create:
+                vc.title = L10n.Navigation.Title.memoCreate
+                vc.inject(
+                    contentView: MemoUpdateContentView(modelObject: nil),
+                    viewModel: MemoUpdateViewModel(
+                        model: Models.Memo(),
+                        modelObject: nil,
+                        analytics: FirebaseAnalytics(screenId: .memoCreate)
+                    )
+                )
+
+            case let .update(modelObject):
+                vc.title = L10n.Navigation.Title.memoUpdate
+                vc.inject(
+                    contentView: MemoUpdateContentView(modelObject: modelObject),
+                    viewModel: MemoUpdateViewModel(
+                        model: Models.Memo(),
+                        modelObject: modelObject,
+                        analytics: FirebaseAnalytics(screenId: .memoUpdate)
+                    )
+                )
+            }
 
             return vc
         }
@@ -231,6 +252,11 @@ enum AppControllers {
         }
     }
 #endif
+
+enum MemoUpdateType: Equatable {
+    case create
+    case update(MemoModelObject)
+}
 
 enum ProfileUpdateType: Equatable {
     case setting

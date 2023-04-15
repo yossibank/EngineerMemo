@@ -20,8 +20,8 @@ final class ProfileDetailViewModelTest: XCTestCase {
             analytics: analytics
         )
 
-        model.getHandler = {
-            $0(.success(ProfileModelObjectBuilder().build()))
+        model.fetchHandler = {
+            $0(.success([ProfileModelObjectBuilder().build()]))
         }
     }
 
@@ -42,7 +42,7 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
     func test_input_viewDidLoad_失敗_エラー情報を取得できること() throws {
         // arrange
-        model.getHandler = {
+        model.fetchHandler = {
             $0(.failure(.init(dataError: .coreData(.something("CoreDataエラー")))))
         }
 

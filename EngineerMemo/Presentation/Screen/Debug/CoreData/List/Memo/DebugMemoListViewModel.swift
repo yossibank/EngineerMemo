@@ -28,7 +28,7 @@
 
             // MARK: - メモ情報取得
 
-            model.gets {
+            model.fetch {
                 if case let .success(modelObject) = $0 {
                     output.modelObject = modelObject
                 }

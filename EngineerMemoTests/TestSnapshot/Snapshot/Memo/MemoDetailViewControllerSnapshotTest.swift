@@ -1,3 +1,4 @@
+import Combine
 @testable import EngineerMemo
 import iOSSnapshotTestCase
 import OHHTTPStubs
@@ -5,6 +6,9 @@ import OHHTTPStubsSwift
 
 final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: MemoDetailViewController!
+    private var cancellables: Set<AnyCancellable> = .init()
+
+    private let storage = CoreDataStorage<Memo>()
 
     override func setUp() {
         super.setUp()
@@ -12,6 +16,14 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         folderName = "メモ詳細画面"
 
         recordMode = SnapshotTest.recordMode
+    }
+
+    override func tearDown() {
+        super.tearDown()
+
+        cancellables.removeAll()
+
+        CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
     func testMemoDetailViewController_短文() {
@@ -43,8 +55,21 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 }
 
 extension MemoDetailViewControllerSnapshotTest {
+    func dataInsert(modelObject: MemoModelObject) {
+        storage.create().sink {
+            $0.identifier = "identifier"
+            $0.title = modelObject.title
+            $0.content = modelObject.content
+        }
+        .store(in: &cancellables)
+    }
+}
+
+extension MemoDetailViewControllerSnapshotTest {
     func snapshot(modelObject: MemoModelObject) {
-        subject = AppControllers.Memo.Detail(modelObject: modelObject)
+        dataInsert(modelObject: modelObject)
+        sleep(UInt32(0.5))
+        subject = AppControllers.Memo.Detail(identifier: "identifier")
         snapshotVerifyView(viewMode: .navigation(subject))
     }
 }

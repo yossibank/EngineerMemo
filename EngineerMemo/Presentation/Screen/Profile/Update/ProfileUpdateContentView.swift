@@ -53,6 +53,8 @@ final class ProfileUpdateContentView: UIView {
         }
     }
 
+    private var cancellables: Set<AnyCancellable> = .init()
+
     private let nameInputView = ProfileTextInputView(
         title: L10n.Profile.name,
         placeholder: L10n.Profile.Example.name
@@ -87,8 +89,6 @@ final class ProfileUpdateContentView: UIView {
         title: L10n.Profile.station,
         placeholder: L10n.Profile.Example.station
     )
-
-    private var cancellables: Set<AnyCancellable> = .init()
 
     private let modelObject: ProfileModelObject?
 

@@ -58,7 +58,7 @@
 
             // MARK: - プロフィール情報取得
 
-            model.gets { [weak self] modelObjects in
+            model.fetch { [weak self] modelObjects in
                 if case let .success(modelObjects) = modelObjects {
                     output.modelObjects = modelObjects
                     self?.originalModelObjects = modelObjects

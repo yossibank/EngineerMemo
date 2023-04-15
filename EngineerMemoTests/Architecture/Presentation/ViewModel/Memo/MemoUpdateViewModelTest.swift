@@ -7,19 +7,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: MemoUpdateViewModel!
 
-    override func setUp() {
-        super.setUp()
-
-        model = .init()
-        analytics = .init(screenId: .memoCreate)
-        viewModel = .init(
-            model: model,
-            analytics: analytics
-        )
-    }
-
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
+        setupViewModel()
+
         analytics.sendEventFAEventHandler = {
             // assert
             XCTAssertEqual($0, .screenView)
@@ -31,6 +22,8 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_binding_title_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
+        setupViewModel()
+
         viewModel.binding.title = "title"
 
         model.createHandler = {
@@ -44,6 +37,8 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_binding_content_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
+        setupViewModel()
+
         viewModel.binding.content = "content"
 
         model.createHandler = {
@@ -57,6 +52,8 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_各binding値代入時にoutput_isEnabledがtrueを取得できること() throws {
         // arrange
+        setupViewModel()
+
         viewModel.binding.title = "title"
         viewModel.binding.content = "content"
 
@@ -69,10 +66,39 @@ final class MemoUpdateViewModelTest: XCTestCase {
     }
 
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
+        // arrange
+        setupViewModel()
+
         // act
         viewModel.input.didTapBarButton.send(())
 
         // assert
         XCTAssertTrue(viewModel.output.isFinished)
+    }
+}
+
+private extension MemoUpdateViewModelTest {
+    func setupViewModel(_ type: MemoUpdateType = .create) {
+        model = .init()
+
+        switch type {
+        case .create:
+            analytics = .init(screenId: .memoCreate)
+            viewModel = .init(
+                model: model,
+                modelObject: nil,
+                analytics: analytics
+            )
+
+        case let .update(modelObject):
+            analytics = .init(screenId: .memoUpdate)
+            viewModel = .init(
+                model: model,
+                modelObject: modelObject,
+                analytics: analytics
+            )
+        }
+
+        viewModel.input.viewDidLoad.send(())
     }
 }

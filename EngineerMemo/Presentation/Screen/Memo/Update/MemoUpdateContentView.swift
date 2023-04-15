@@ -38,6 +38,10 @@ final class MemoUpdateContentView: UIView {
                             $0.layer.borderColor = UIColor.theme.cgColor
                             $0.layer.borderWidth = 1.0
                             $0.layer.cornerRadius = 4
+
+                            if let modelObject {
+                                $0.text = modelObject.title
+                            }
                         }
                 }
             }
@@ -62,6 +66,10 @@ final class MemoUpdateContentView: UIView {
                             $0.layer.borderColor = UIColor.theme.cgColor
                             $0.layer.borderWidth = 1.0
                             $0.layer.cornerRadius = 4
+
+                            if let modelObject {
+                                $0.text = modelObject.content
+                            }
                         }
                 }
             }
@@ -86,8 +94,12 @@ final class MemoUpdateContentView: UIView {
 
     private let createButton = UIButton(type: .system)
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private let modelObject: MemoModelObject?
+
+    init(modelObject: MemoModelObject?) {
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupView()
         setupBarButton()
@@ -122,15 +134,23 @@ extension MemoUpdateContentView {
 
 private extension MemoUpdateContentView {
     func setupBarButton() {
-        barButton.apply(.createNavigationButton)
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
+            ? .createNavigationButton
+            : .updateNavigationButton
+
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
+            ? .createDoneNavigationButton
+            : .updateDoneNavigationButton
+
+        barButton.apply(defaultButtonStyle)
 
         barButton.publisher(for: .touchUpInside)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.barButton.apply(.createDoneNavigationButton)
+                self?.barButton.apply(updatedButtonStyle)
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                    self?.barButton.apply(.createNavigationButton)
+                    self?.barButton.apply(defaultButtonStyle)
                 }
             }
             .store(in: &cancellables)
@@ -159,7 +179,7 @@ extension MemoUpdateContentView: ContentView {
 
     struct MemoCreateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: MemoUpdateContentView())
+            WrapperView(view: MemoUpdateContentView(modelObject: nil))
         }
     }
 #endif

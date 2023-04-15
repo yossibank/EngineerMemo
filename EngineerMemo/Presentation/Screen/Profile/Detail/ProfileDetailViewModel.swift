@@ -41,10 +41,10 @@ final class ProfileDetailViewModel: ViewModel {
         // MARK: - viewDidLoad
 
         input.viewDidLoad.sink { _ in
-            model.get {
+            model.fetch {
                 switch $0 {
-                case let .success(modelObject):
-                    output.modelObject = modelObject
+                case let .success(modelObjects):
+                    output.modelObject = modelObjects.first
 
                 case let .failure(appError):
                     output.appError = appError

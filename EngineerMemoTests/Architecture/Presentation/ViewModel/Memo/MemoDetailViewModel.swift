@@ -3,14 +3,42 @@ import Combine
 import XCTest
 
 final class MemoDetailViewModelTest: XCTestCase {
+    private var model: MemoModelInputMock!
+    private var routing: MemoDetailRoutingInputMock!
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: MemoDetailViewModel!
 
     override func setUp() {
         super.setUp()
 
+        model = .init()
+        routing = .init()
         analytics = .init(screenId: .memoDetail)
-        viewModel = .init(analytics: analytics)
+        viewModel = .init(
+            identifier: "identifier",
+            model: model,
+            routing: routing,
+            analytics: analytics
+        )
+
+        model.findHandler = { _, completion in
+            completion(.success(MemoModelObjectBuilder().build()))
+        }
+    }
+
+    func test_input_viewDidLoad_メモ情報を取得できること() throws {
+        // arrange
+        viewModel.input.viewDidLoad.send(())
+
+        // act
+        let publisher = viewModel.output.$modelObject.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first
+
+        // assert
+        XCTAssertEqual(
+            output,
+            MemoModelObjectBuilder().build()
+        )
     }
 
     func test_input_viewWillAppear_ログイベントが送信されていること() {
@@ -22,5 +50,16 @@ final class MemoDetailViewModelTest: XCTestCase {
 
         // act
         viewModel.input.viewWillAppear.send(())
+    }
+
+    func test_input_didTapBarButton_routing_showUpdateScreenが呼び出されること() {
+        // arrange
+        routing.showUpdateScreenHandler = {
+            // assert
+            XCTAssertEqual($0, MemoModelObjectBuilder().build())
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
     }
 }
