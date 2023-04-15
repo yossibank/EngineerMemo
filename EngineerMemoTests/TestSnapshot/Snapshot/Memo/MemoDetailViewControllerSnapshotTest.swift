@@ -16,6 +16,8 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         folderName = "メモ詳細画面"
 
         recordMode = SnapshotTest.recordMode
+
+        subject = AppControllers.Memo.Detail(identifier: "identifier")
     }
 
     override func tearDown() {
@@ -27,34 +29,40 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testMemoDetailViewController_短文() {
-        snapshot(
+        dataInsert(
             modelObject: MemoModelObjectBuilder()
                 .title("title")
                 .content("content")
                 .build()
         )
+
+        snapshotVerifyView(viewMode: .navigation(subject))
     }
 
     func testMemoDetailViewController_標準() {
-        snapshot(
+        dataInsert(
             modelObject: MemoModelObjectBuilder()
                 .title(String(repeating: "title ", count: 10))
                 .content(String(repeating: "content ", count: 20))
                 .build()
         )
+
+        snapshotVerifyView(viewMode: .navigation(subject))
     }
 
     func testMemoDetailViewController_長文() {
-        snapshot(
+        dataInsert(
             modelObject: MemoModelObjectBuilder()
                 .title(String(repeating: "title ", count: 30))
                 .content(String(repeating: "content ", count: 60))
                 .build()
         )
+
+        snapshotVerifyView(viewMode: .navigation(subject))
     }
 }
 
-extension MemoDetailViewControllerSnapshotTest {
+private extension MemoDetailViewControllerSnapshotTest {
     func dataInsert(modelObject: MemoModelObject) {
         storage.create().sink {
             $0.identifier = "identifier"
@@ -62,14 +70,5 @@ extension MemoDetailViewControllerSnapshotTest {
             $0.content = modelObject.content
         }
         .store(in: &cancellables)
-    }
-}
-
-extension MemoDetailViewControllerSnapshotTest {
-    func snapshot(modelObject: MemoModelObject) {
-        dataInsert(modelObject: modelObject)
-        sleep(UInt32(0.5))
-        subject = AppControllers.Memo.Detail(identifier: "identifier")
-        snapshotVerifyView(viewMode: .navigation(subject))
     }
 }
