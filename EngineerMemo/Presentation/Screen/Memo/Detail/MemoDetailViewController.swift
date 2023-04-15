@@ -60,6 +60,14 @@ private extension MemoDetailViewController {
                 self?.contentView.modelObject = modelObject
             }
             .store(in: &cancellables)
+
+        viewModel.output.$isDeleted
+            .receive(on: DispatchQueue.main)
+            .filter { $0 == true }
+            .sink { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &cancellables)
     }
 
     func bindToViewModel() {
@@ -67,6 +75,13 @@ private extension MemoDetailViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.viewModel.input.didTapEditBarButton.send(())
+            }
+            .store(in: &cancellables)
+
+        contentView.didTapDeleteBarButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapDeleteBarButton.send(())
             }
             .store(in: &cancellables)
     }

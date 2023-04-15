@@ -5,11 +5,13 @@ final class MemoDetailViewModel: ViewModel {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapEditBarButton = PassthroughSubject<Void, Never>()
+        let didTapDeleteBarButton = PassthroughSubject<Void, Never>()
     }
 
     final class Output: OutputObject {
         @Published fileprivate(set) var modelObject: MemoModelObject?
         @Published fileprivate(set) var appError: AppError?
+        @Published fileprivate(set) var isDeleted = false
     }
 
     let input: Input
@@ -66,6 +68,16 @@ final class MemoDetailViewModel: ViewModel {
         input.didTapEditBarButton.sink {
             if let modelObject = output.modelObject {
                 routing.showUpdateScreen(modelObject: modelObject)
+            }
+        }
+        .store(in: &cancellables)
+
+        // MARK: - 削除ボタンタップ
+
+        input.didTapDeleteBarButton.sink {
+            if let modelObject = output.modelObject {
+                model.delete(modelObject: modelObject)
+                output.isDeleted = true
             }
         }
         .store(in: &cancellables)
