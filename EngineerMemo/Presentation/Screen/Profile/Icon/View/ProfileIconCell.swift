@@ -43,7 +43,7 @@ final class ProfileIconCell: UICollectionViewCell {
                     $0.size.equalTo(24)
                 }
                 .configure {
-                    $0.image = Asset.check.image
+                    $0.image = Asset.checkmark.image
                     $0.isHidden = true
                 }
         }
