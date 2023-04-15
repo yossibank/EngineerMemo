@@ -64,7 +64,7 @@
                 $0.selectionStyle = .none
                 $0.accessoryView = UIImageView().configure {
                     $0.frame = .init(x: 0, y: 0, width: 20, height: 20)
-                    $0.image = Asset.check.image
+                    $0.image = Asset.checkmark.image
                 }
             }
 

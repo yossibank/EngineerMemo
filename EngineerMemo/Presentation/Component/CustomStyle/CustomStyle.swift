@@ -76,7 +76,7 @@ extension ViewStyle where T: UIButton {
                 for: .normal
             )
             $0.setImage(
-                Asset.check.image
+                Asset.checkmark.image
                     .resized(size: .init(width: 20, height: 20))
                     .withRenderingMode(.alwaysOriginal),
                 for: .normal
@@ -146,7 +146,7 @@ extension ViewStyle where T: UIButton {
     static var debugCreateDoneButton: ViewStyle<T> {
         debugButton(
             title: L10n.Components.Button.createDone,
-            image: Asset.check.image
+            image: Asset.checkmark.image
                 .resized(size: .init(width: 20, height: 20))
                 .withRenderingMode(.alwaysOriginal)
         )
@@ -159,7 +159,7 @@ extension ViewStyle where T: UIButton {
     static var debugUpdateDoneButton: ViewStyle<T> {
         debugButton(
             title: L10n.Components.Button.updateDone,
-            image: Asset.check.image
+            image: Asset.checkmark.image
                 .resized(size: .init(width: 20, height: 20))
                 .withRenderingMode(.alwaysOriginal)
         )

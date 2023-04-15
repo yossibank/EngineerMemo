@@ -62,7 +62,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 }
 
-extension MemoListViewControllerSnapshotTest {
+private extension MemoListViewControllerSnapshotTest {
     func dataInsert(count: Int) {
         (1 ... count).forEach { num in
             storage.create().sink {

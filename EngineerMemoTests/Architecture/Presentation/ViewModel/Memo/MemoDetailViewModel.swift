@@ -24,6 +24,8 @@ final class MemoDetailViewModelTest: XCTestCase {
         model.findHandler = { _, completion in
             completion(.success(MemoModelObjectBuilder().build()))
         }
+
+        viewModel.input.viewDidLoad.send(())
     }
 
     func test_input_viewDidLoad_メモ情報を取得できること() throws {
@@ -52,7 +54,7 @@ final class MemoDetailViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
-    func test_input_didTapBarButton_routing_showUpdateScreenが呼び出されること() {
+    func test_input_didTapEditBarButton_routing_showUpdateScreenが呼び出されること() {
         // arrange
         routing.showUpdateScreenHandler = {
             // assert
@@ -60,6 +62,23 @@ final class MemoDetailViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapBarButton.send(())
+        viewModel.input.didTapEditBarButton.send(())
+    }
+
+    func test_input_didTapDeleteBarButton_output_isDeletedがtrueを取得できること() throws {
+        // arrange
+        model.deleteHandler = {
+            // assert
+            XCTAssertEqual($0, MemoModelObjectBuilder().build())
+        }
+
+        // act
+        viewModel.input.didTapDeleteBarButton.send(())
+
+        let publisher = viewModel.output.$isDeleted.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!
+
+        // assert
+        XCTAssertTrue(output)
     }
 }

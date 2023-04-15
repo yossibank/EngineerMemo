@@ -47,9 +47,10 @@ extension MemoDetailViewController {
 
 private extension MemoDetailViewController {
     func setupNavigation() {
-        navigationItem.rightBarButtonItem = .init(
-            customView: contentView.barButton
-        )
+        navigationItem.rightBarButtonItems = [
+            .init(customView: contentView.editBarButton),
+            .init(customView: contentView.deleteBarButton)
+        ]
     }
 
     func bindToView() {
@@ -59,13 +60,28 @@ private extension MemoDetailViewController {
                 self?.contentView.modelObject = modelObject
             }
             .store(in: &cancellables)
+
+        viewModel.output.$isDeleted
+            .receive(on: DispatchQueue.main)
+            .filter { $0 == true }
+            .sink { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &cancellables)
     }
 
     func bindToViewModel() {
-        contentView.didTapBarButtonPublisher
+        contentView.didTapEditBarButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.input.didTapBarButton.send(())
+                self?.viewModel.input.didTapEditBarButton.send(())
+            }
+            .store(in: &cancellables)
+
+        contentView.didTapDeleteBarButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapDeleteBarButton.send(())
             }
             .store(in: &cancellables)
     }
