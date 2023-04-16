@@ -20,10 +20,7 @@ final class MemoDetailContentView: UIView {
         }
     }
 
-    private(set) lazy var didTapDeleteBarButtonPublisher = deleteBarButton.publisher(for: .touchUpInside)
-    private(set) lazy var didTapEditBarButtonPublisher = editBarButton.publisher(for: .touchUpInside)
-
-    private(set) lazy var deleteBarButton = UIButton(type: .system)
+    private(set) var deleteBarButton = UIButton(type: .system)
         .addConstraint {
             $0.size.equalTo(32)
         }
@@ -36,7 +33,7 @@ final class MemoDetailContentView: UIView {
             )
         }
 
-    private(set) lazy var editBarButton = UIButton(type: .system)
+    private(set) var editBarButton = UIButton(type: .system)
         .addConstraint {
             $0.size.equalTo(32)
         }

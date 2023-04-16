@@ -31,6 +31,7 @@ extension MemoListViewController {
 
         viewModel.input.viewDidLoad.send(())
 
+        setupNavigation()
         bindToView()
         bindToViewModel()
     }
@@ -45,6 +46,12 @@ extension MemoListViewController {
 // MARK: - private methods
 
 private extension MemoListViewController {
+    func setupNavigation() {
+        navigationItem.rightBarButtonItem = .init(
+            customView: contentView.addBarButton
+        )
+    }
+
     func bindToView() {
         viewModel.output.$modelObjects
             .receive(on: DispatchQueue.main)
@@ -63,7 +70,8 @@ private extension MemoListViewController {
     }
 
     func bindToViewModel() {
-        contentView.didTapCreateButtonPublisher
+        contentView.addBarButton
+            .publisher(for: .touchUpInside)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.viewModel.input.didTapCreateButton.send(())
