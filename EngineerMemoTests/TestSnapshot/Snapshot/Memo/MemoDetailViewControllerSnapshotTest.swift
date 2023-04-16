@@ -1,8 +1,6 @@
 import Combine
 @testable import EngineerMemo
 import iOSSnapshotTestCase
-import OHHTTPStubs
-import OHHTTPStubsSwift
 
 final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: MemoDetailViewController!
@@ -42,8 +40,8 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     func testMemoDetailViewController_標準() {
         dataInsert(
             modelObject: MemoModelObjectBuilder()
-                .title(String(repeating: "title ", count: 10))
-                .content(String(repeating: "content ", count: 20))
+                .title("title ".repeat(10))
+                .content("content ".repeat(20))
                 .build()
         )
 
@@ -53,8 +51,8 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     func testMemoDetailViewController_長文() {
         dataInsert(
             modelObject: MemoModelObjectBuilder()
-                .title(String(repeating: "title ", count: 30))
-                .content(String(repeating: "content ", count: 60))
+                .title("title ".repeat(30))
+                .content("content ".repeat(60))
                 .build()
         )
 

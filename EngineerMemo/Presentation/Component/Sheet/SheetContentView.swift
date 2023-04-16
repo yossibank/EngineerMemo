@@ -68,7 +68,7 @@ final class SheetContentView: UIView {
 
     private lazy var actionView = UIStackView().configure { view in
         view.axis = .vertical
-        view.spacing = 8
+        view.spacing = 12
 
         sheetContent.actions.forEach {
             view.addArrangedSubview(createButton($0))
