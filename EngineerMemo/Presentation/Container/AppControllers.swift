@@ -1,6 +1,13 @@
 import SwiftUI
 
 enum AppControllers {
+    static func Sheet(_ sheetContent: SheetContent) -> SheetViewController {
+        let vc = SheetViewController()
+        vc.inject(contentView: SheetContentView(sheetContent: sheetContent))
+        vc.modalPresentationStyle = .overCurrentContext
+        return vc
+    }
+
     enum Memo {
         static func Detail(identifier: String) -> MemoDetailViewController {
             let vc = MemoDetailViewController()

@@ -28,25 +28,27 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func fetch(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void) {
-        storage.publisher().sink(
-            receiveCompletion: { [weak self] receiveCompletion in
-                guard let self else {
-                    return
-                }
+        storage.publisher()
+            .dropFirst()
+            .sink(
+                receiveCompletion: { [weak self] receiveCompletion in
+                    guard let self else {
+                        return
+                    }
 
-                if case let .failure(coreDataError) = receiveCompletion {
-                    let appError = self.errorConverter.convert(.coreData(coreDataError))
-                    completion(.failure(appError))
+                    if case let .failure(coreDataError) = receiveCompletion {
+                        let appError = self.errorConverter.convert(.coreData(coreDataError))
+                        completion(.failure(appError))
+                    }
+                },
+                receiveValue: { [weak self] values in
+                    let modelObjects = values.compactMap {
+                        self?.profileConverter.convert($0)
+                    }
+                    completion(.success(modelObjects))
                 }
-            },
-            receiveValue: { [weak self] values in
-                let modelObjects = values.compactMap {
-                    self?.profileConverter.convert($0)
-                }
-                completion(.success(modelObjects))
-            }
-        )
-        .store(in: &cancellables)
+            )
+            .store(in: &cancellables)
     }
 
     func find(

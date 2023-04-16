@@ -16,6 +16,10 @@ extension String {
         self == .noSetting ? nil : self
     }
 
+    func `repeat`(_ count: Int) -> String {
+        String(repeating: self, count: count)
+    }
+
     static let empty = ""
     static let emptyWord = "空文字"
     static let nilWord = "nil"

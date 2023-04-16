@@ -38,6 +38,14 @@
 "navigation.title.debugCoreDataUpdate" = "CoreData更新";
 "navigation.title.debugUserDefaults" = "UserDefaults一覧";
 
+// MARK: - シート
+
+"sheet.close" = "閉じる";
+"sheet.caution" = "注意";
+"sheet.yes" = "はい";
+"sheet.no" = "いいえ";
+"sheet.memoDelete" = "メモが削除されます。よろしいでしょうか？";
+
 // MARK: - メモ
 
 "memo.title" = "タイトル";

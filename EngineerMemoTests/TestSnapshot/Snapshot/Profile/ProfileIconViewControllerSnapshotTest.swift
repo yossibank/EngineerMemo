@@ -1,7 +1,5 @@
 @testable import EngineerMemo
 import iOSSnapshotTestCase
-import OHHTTPStubs
-import OHHTTPStubsSwift
 
 final class ProfileIconViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: ProfileIconViewController!
