@@ -26,8 +26,20 @@ final class MemoListContentView: UIView {
         }
     }
 
-    private(set) lazy var didTapCreateButtonPublisher = didTapCreateButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
+
+    private(set) var addBarButton = UIButton(type: .system)
+        .addConstraint {
+            $0.size.equalTo(32)
+        }
+        .configure {
+            $0.setImage(
+                Asset.memoAdd.image
+                    .resized(size: .init(width: 32, height: 32))
+                    .withRenderingMode(.alwaysOriginal),
+                for: .normal
+            )
+        }
 
     private lazy var collectionView = UICollectionView(
         frame: .zero,
@@ -151,11 +163,6 @@ private extension MemoListContentView {
                 using: self.headerRegistration,
                 for: indexPath
             )
-
-            header.didTapCreateButonPublisher.sink { [weak self] _ in
-                self?.didTapCreateButtonSubject.send(())
-            }
-            .store(in: &header.cancellables)
 
             header.button1Publisher.sink { [weak self] _ in
                 guard let self else {

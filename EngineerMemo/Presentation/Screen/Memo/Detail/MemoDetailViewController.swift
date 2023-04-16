@@ -71,14 +71,16 @@ private extension MemoDetailViewController {
     }
 
     func bindToViewModel() {
-        contentView.didTapEditBarButtonPublisher
+        contentView.editBarButton
+            .publisher(for: .touchUpInside)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.viewModel.input.didTapEditBarButton.send(())
             }
             .store(in: &cancellables)
 
-        contentView.didTapDeleteBarButtonPublisher
+        contentView.deleteBarButton
+            .publisher(for: .touchUpInside)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 let sheetAction: SheetAction = .init(
