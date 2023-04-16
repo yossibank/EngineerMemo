@@ -81,7 +81,18 @@ private extension MemoDetailViewController {
         contentView.didTapDeleteBarButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.input.didTapDeleteBarButton.send(())
+                let sheetAction: SheetAction = .init(
+                    title: L10n.Sheet.yes,
+                    actionType: .alert
+                ) { [weak self] in
+                    self?.viewModel.input.didTapDeleteBarButton.send(())
+                }
+
+                self?.showActionSheet(
+                    title: L10n.Sheet.caution,
+                    message: L10n.Sheet.memoDelete,
+                    actions: [sheetAction]
+                )
             }
             .store(in: &cancellables)
     }

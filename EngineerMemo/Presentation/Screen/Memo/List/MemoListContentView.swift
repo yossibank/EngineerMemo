@@ -152,11 +152,6 @@ private extension MemoListContentView {
                 for: indexPath
             )
 
-            header.didTapDeleteButonPublisher.sink { _ in
-                print("削除ボタンタップ")
-            }
-            .store(in: &header.cancellables)
-
             header.didTapCreateButonPublisher.sink { [weak self] _ in
                 self?.didTapCreateButtonSubject.send(())
             }

@@ -98,7 +98,6 @@ final class CoreDataPublisher<Entity>: NSObject, NSFetchedResultsControllerDeleg
             subscriber.receive(subscription: self)
 
             self.cancellable = fetchPublisher.subject
-                .filter { !$0.isEmpty }
                 .sink(
                     receiveCompletion: { completion in
                         subscriber.receive(completion: completion)

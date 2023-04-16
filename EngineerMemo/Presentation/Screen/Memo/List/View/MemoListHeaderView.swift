@@ -7,7 +7,6 @@ import UIKitHelper
 final class MemoListHeaderView: UICollectionReusableView {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapDeleteButonPublisher = deleteButton.publisher(for: .touchUpInside)
     private(set) lazy var didTapCreateButonPublisher = createButton.publisher(for: .touchUpInside)
     private(set) lazy var button1Publisher = button1.publisher(for: .touchUpInside)
     private(set) lazy var button2Publisher = button2.publisher(for: .touchUpInside)
@@ -16,9 +15,6 @@ final class MemoListHeaderView: UICollectionReusableView {
     private var body: UIView {
         HStackView(alignment: .center) {
             HStackView(spacing: 8) {
-                deleteButton
-                    .apply(.memoDeleteButton)
-
                 createButton
                     .apply(.memoCreateButton)
             }
@@ -74,7 +70,6 @@ final class MemoListHeaderView: UICollectionReusableView {
         }
     }
 
-    private let deleteButton = UIButton(type: .system)
     private let createButton = UIButton(type: .system)
     private let button1 = UIButton(type: .system)
     private let button2 = UIButton(type: .system)
@@ -101,7 +96,7 @@ final class MemoListHeaderView: UICollectionReusableView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [createButton, deleteButton, button1, button2, button3].forEach {
+            [createButton, button1, button2, button3].forEach {
                 $0.layer.borderColor = UIColor.theme.cgColor
             }
         }

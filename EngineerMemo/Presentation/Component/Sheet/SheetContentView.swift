@@ -153,6 +153,7 @@ private extension SheetContentView {
                 self?.didTapDismissSubject.send(())
 
             default:
+                self?.didTapDismissSubject.send(())
                 sheetAction.action()
             }
         }
