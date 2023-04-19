@@ -33,10 +33,10 @@
 "navigation.title.profileUpdate" = "プロフィール更新";
 "navigation.title.profileSetting" = "プロフィール設定";
 "navigation.title.debugDevelopment" = "開発者用画面";
+"navigation.title.debugAPIResponse" = "APIレスポンス確認";
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";
 "navigation.title.debugCoreDataCreate" = "CoreData作成";
 "navigation.title.debugCoreDataUpdate" = "CoreData更新";
-"navigation.title.debugUserDefaults" = "UserDefaults一覧";
 
 // MARK: - シート
 
@@ -97,6 +97,7 @@
 "debug.section.device" = "端末情報";
 "debug.section.colorTheme" = "カラーテーマ";
 "debug.section.development" = "開発用操作";
+"debug.section.api" = "API";
 "debug.section.coreData" = "CoreData";
 "debug.section.userDefaults" = "UserDefaults";
 "debug.git.commitHash" = "コミットハッシュ";
@@ -104,6 +105,7 @@
 "debug.device.name" = "端末名";
 "debug.device.udid" = "端末ID";
 "debug.development.shutdown" = "アプリ終了";
+"debug.api.confirmResponse" = "レスポンス確認";
 "debug.coreData.create" = "作成";
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";

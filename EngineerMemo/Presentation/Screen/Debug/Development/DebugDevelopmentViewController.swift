@@ -45,6 +45,13 @@
                 }
                 .store(in: &cancellables)
 
+            contentView.didTapAPICellPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.viewModel.input.didTapAPICell.send(())
+                }
+                .store(in: &cancellables)
+
             contentView.didTapCoreDataCellPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] action in

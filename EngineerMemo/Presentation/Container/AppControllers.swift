@@ -160,6 +160,18 @@ enum AppControllers {
                 return vc
             }
 
+            static func API() -> DebugAPIViewController {
+                let vc = DebugAPIViewController()
+
+                vc.title = L10n.Navigation.Title.debugAPIResponse
+                vc.inject(
+                    contentView: DebugAPIContentView(),
+                    viewModel: DebugAPIViewModel()
+                )
+
+                return vc
+            }
+
             enum CoreData {
                 static func List() -> DebugCoreDataMenuViewController {
                     let vc = DebugCoreDataMenuViewController(displayType: .list)

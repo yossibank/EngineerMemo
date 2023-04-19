@@ -5,6 +5,7 @@
     final class DebugDevelopmentViewModel: ViewModel {
         final class Input: InputObject {
             let didChangeColorThemeIndex = PassthroughSubject<Int, Never>()
+            let didTapAPICell = PassthroughSubject<Void, Never>()
             let didTapCoreDataCell = PassthroughSubject<DebugCoreDataAction, Never>()
         }
 
@@ -29,6 +30,13 @@
 
             input.didChangeColorThemeIndex.sink { index in
                 model.updateColorTheme(index)
+            }
+            .store(in: &cancellables)
+
+            // MARK: - APIセルタップ
+
+            input.didTapAPICell.sink { _ in
+                routing.showDebugAPIScreen()
             }
             .store(in: &cancellables)
 
