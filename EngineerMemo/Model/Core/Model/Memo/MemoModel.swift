@@ -26,27 +26,25 @@ final class MemoModel: MemoModelInput {
     }
 
     func fetch(completion: @escaping (Result<[MemoModelObject], AppError>) -> Void) {
-        storage.publisher()
-            .dropFirst()
-            .sink(
-                receiveCompletion: { [weak self] receiveCompletion in
-                    guard let self else {
-                        return
-                    }
-
-                    if case let .failure(coreDataError) = receiveCompletion {
-                        let appError = self.errorConverter.convert(.coreData(coreDataError))
-                        completion(.failure(appError))
-                    }
-                },
-                receiveValue: { [weak self] values in
-                    let modelObjects = values.compactMap {
-                        self?.memoConverter.convert($0)
-                    }
-                    completion(.success(modelObjects))
+        storage.publisher().sink(
+            receiveCompletion: { [weak self] receiveCompletion in
+                guard let self else {
+                    return
                 }
-            )
-            .store(in: &cancellables)
+
+                if case let .failure(coreDataError) = receiveCompletion {
+                    let appError = self.errorConverter.convert(.coreData(coreDataError))
+                    completion(.failure(appError))
+                }
+            },
+            receiveValue: { [weak self] values in
+                let modelObjects = values.compactMap {
+                    self?.memoConverter.convert($0)
+                }
+                completion(.success(modelObjects))
+            }
+        )
+        .store(in: &cancellables)
     }
 
     func find(

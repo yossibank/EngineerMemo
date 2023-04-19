@@ -16,6 +16,8 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         recordMode = SnapshotTest.recordMode
 
         subject = AppControllers.Memo.Detail(identifier: "identifier")
+
+        CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
     override func tearDown() {

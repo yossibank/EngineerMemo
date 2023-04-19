@@ -8,6 +8,8 @@ final class ProfileConverterTest: XCTestCase {
         super.setUp()
 
         converter = .init()
+
+        CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
     override func tearDown() {
