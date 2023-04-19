@@ -21,9 +21,9 @@
 
     extension DebugDevelopmentRouting: DebugDevelopmentRoutingInput {
         func showDebugAPIScreen() {
-            viewController?.navigationController?.pushViewController(
+            viewController?.show(
                 AppControllers.Debug.API(),
-                animated: true
+                sender: nil
             )
         }
 
@@ -41,9 +41,9 @@
                 vc = AppControllers.Debug.CoreData.Update()
             }
 
-            viewController?.navigationController?.pushViewController(
+            viewController?.show(
                 vc,
-                animated: true
+                sender: nil
             )
         }
     }
