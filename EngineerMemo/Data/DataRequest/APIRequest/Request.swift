@@ -41,7 +41,9 @@ extension Request {
     }
 
     var body: Data? {
-        try? JSONEncoder().encode(parameters)
+        method == .get
+            ? nil
+            : try? JSONEncoder().encode(parameters)
     }
 
     var timeoutInterval: TimeInterval {
@@ -79,9 +81,13 @@ extension Request {
             }
         }
 
-        return query.sorted { first, second in
+        let queryItems = query.sorted { first, second in
             first.name < second.name
         }
+
+        return method == .get
+            ? queryItems
+            : nil
     }
 }
 
