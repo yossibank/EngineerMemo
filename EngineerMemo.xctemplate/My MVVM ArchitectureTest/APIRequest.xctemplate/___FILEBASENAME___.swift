@@ -11,7 +11,7 @@ final class ___FILEBASENAME___: XCTestCase {
         super.setUp()
 
         apiClient = .init()
-        expectation = .init()
+        expectation = .init(description: #function)
     }
 
     override func tearDown() {
@@ -48,7 +48,7 @@ final class ___FILEBASENAME___: XCTestCase {
                 XCTFail(error.localizedDescription)
             }
 
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
 
         wait(for: [expectation], timeout: 0.1)
@@ -79,7 +79,7 @@ final class ___FILEBASENAME___: XCTestCase {
                 XCTAssertEqual(error, .decodeError)
             }
 
-            expectation.fulfill()
+            self.expectation.fulfill()
         }
 
         wait(for: [expectation], timeout: 0.1)
