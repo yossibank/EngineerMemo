@@ -4,7 +4,8 @@
 
     final class DebugAPIViewModel: ViewModel {
         final class Binding: BindingObject {
-            @Published var path = 0
+            @Published var menuType: DebugAPIMenuType = .debugGet
+            @Published var path = -1
         }
 
         final class Input: InputObject {
@@ -12,12 +13,16 @@
         }
 
         final class Output: OutputObject {
-            @Published fileprivate(set) var api: API?
+            @Published fileprivate(set) var apiInfo: APIInfo?
+            @Published fileprivate(set) var apiResult: APIResult?
         }
 
-        struct API: Hashable {
+        struct APIInfo: Hashable {
             let httpMethod: String
             let requestURL: String
+        }
+
+        struct APIResult: Hashable {
             let responseJSON: String?
             let responseError: String?
         }
@@ -27,6 +32,7 @@
         let input: Input
         let output: Output
 
+        private var item: (any Request)?
         private var cancellables: Set<AnyCancellable> = .init()
 
         init() {
@@ -38,27 +44,31 @@
             self.input = input
             self.output = output
 
-            // MARK: - API送信ボタン
+            // MARK: - API変更メニューボタン
 
-            input.didTapSendButton.sink { [weak self] menuType in
+            binding.$menuType.sink { [weak self] menuType in
+                guard let self else {
+                    return
+                }
+
                 switch menuType {
                 case .debugDelete:
-                    self?.request(item: DebugDeleteRequest(pathComponent: binding.path))
+                    self.item = DebugDeleteRequest(pathComponent: binding.path)
 
                 case .debugGet:
-                    self?.request(item: DebugGetRequest(parameters: .init(userId: 1)))
+                    self.item = DebugGetRequest(parameters: .init(userId: 1))
 
                 case .debugPost:
-                    self?.request(item: DebugPostRequest(
+                    self.item = DebugPostRequest(
                         parameters: .init(
                             userId: 1,
                             title: "title",
                             body: "body"
                         )
-                    ))
+                    )
 
                 case .debugPut:
-                    self?.request(item: DebugPutRequest(
+                    self.item = DebugPutRequest(
                         parameters: .init(
                             userId: 1,
                             id: 1,
@@ -66,8 +76,68 @@
                             body: "body"
                         ),
                         pathComponent: binding.path
-                    ))
+                    )
                 }
+
+                guard let item else {
+                    return
+                }
+
+                output.apiInfo = .init(
+                    httpMethod: item.method.rawValue,
+                    requestURL: item.baseURL + item.path
+                )
+            }
+            .store(in: &cancellables)
+
+            // MARK: - PathComponent変更
+
+            Publishers.CombineLatest(
+                binding.$menuType,
+                binding.$path
+            ).sink { [weak self] menuType, path in
+                guard let self else {
+                    return
+                }
+
+                switch menuType {
+                case .debugDelete:
+                    self.item = DebugDeleteRequest(pathComponent: path)
+
+                case .debugPut:
+                    if let parameters = self.item?.parameters as? DebugPutRequest.Parameters {
+                        self.item = DebugPutRequest(
+                            parameters: parameters,
+                            pathComponent: path
+                        )
+                    }
+
+                default:
+                    return
+                }
+
+                guard let item else {
+                    return
+                }
+
+                output.apiInfo = .init(
+                    httpMethod: item.method.rawValue,
+                    requestURL: item.baseURL + item.path
+                )
+            }
+            .store(in: &cancellables)
+
+            // MARK: - API送信ボタン
+
+            input.didTapSendButton.sink { [weak self] _ in
+                guard
+                    let self,
+                    let item = self.item
+                else {
+                    return
+                }
+
+                self.request(item: item)
             }
             .store(in: &cancellables)
         }
@@ -76,7 +146,7 @@
     // MARK: - private methods
 
     private extension DebugAPIViewModel {
-        func request(item: some Request<some Encodable>) {
+        func request(item: some Request<some Codable>) {
             APIClient().request(item: item) { [weak self] result in
                 switch result {
                 case let .success(response):
@@ -87,25 +157,19 @@
 
                     if let data = try? encoder.encode(response),
                        let response = String(data: data, encoding: .utf8) {
-                        self?.output.api = .init(
-                            httpMethod: item.method.rawValue,
-                            requestURL: item.baseURL + item.path,
+                        self?.output.apiResult = .init(
                             responseJSON: response,
                             responseError: nil
                         )
                     } else {
-                        self?.output.api = .init(
-                            httpMethod: item.method.rawValue,
-                            requestURL: item.baseURL + item.path,
+                        self?.output.apiResult = .init(
                             responseJSON: nil,
-                            responseError: "エンコードエラーです"
+                            responseError: L10n.Debug.Api.encodeError
                         )
                     }
 
                 case let .failure(error):
-                    self?.output.api = .init(
-                        httpMethod: item.method.rawValue,
-                        requestURL: item.baseURL + item.path,
+                    self?.output.apiResult = .init(
                         responseJSON: nil,
                         responseError: error.errorDescription
                     )

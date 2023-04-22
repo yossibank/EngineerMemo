@@ -112,6 +112,7 @@
 "debug.api.httpMethod" = "【%@】";
 "debug.api.pathComponent" = "PathComponent";
 "debug.api.pathComponentPlaceholder" = "パスに付与するIDなど";
+"debug.api.encodeError" = "エンコードエラーです";
 "debug.coreData.create" = "作成";
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";

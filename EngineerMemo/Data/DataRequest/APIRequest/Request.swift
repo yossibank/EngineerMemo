@@ -13,7 +13,7 @@ enum HTTPMethod: String {
 }
 
 protocol Request<Response> {
-    associatedtype Response: Decodable
+    associatedtype Response: Codable
     associatedtype Parameters: Encodable
     associatedtype PathComponent
 

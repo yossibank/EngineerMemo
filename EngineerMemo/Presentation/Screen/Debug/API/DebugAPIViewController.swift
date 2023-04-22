@@ -39,16 +39,23 @@
 
     private extension DebugAPIViewController {
         func bindToView() {
-            viewModel.output.$api
+            viewModel.output.$apiInfo
                 .receive(on: DispatchQueue.main)
-                .compactMap { $0 }
-                .sink { [weak self] api in
-                    self?.contentView.api = api
-                }
+                .assign(to: \.apiInfo, on: contentView)
+                .store(in: &cancellables)
+
+            viewModel.output.$apiResult
+                .receive(on: DispatchQueue.main)
+                .assign(to: \.apiResult, on: contentView)
                 .store(in: &cancellables)
         }
 
         func bindToViewModel() {
+            contentView.$menuType
+                .receive(on: DispatchQueue.main)
+                .assign(to: \.menuType, on: viewModel.binding)
+                .store(in: &cancellables)
+
             contentView.didChangePathTextFieldPublisher
                 .receive(on: DispatchQueue.main)
                 .assign(to: \.path, on: viewModel.binding)

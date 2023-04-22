@@ -53,9 +53,9 @@
 
     enum DebugAPIContentViewItem: Hashable {
         case pathComponent
-        case requestURL(DebugAPIViewModel.API)
-        case responseJSON(DebugAPIViewModel.API)
-        case responseError(DebugAPIViewModel.API)
+        case requestURL(DebugAPIViewModel.APIInfo)
+        case responseJSON(DebugAPIViewModel.APIResult)
+        case responseError(DebugAPIViewModel.APIResult)
     }
 
     // MARK: - properties & init
@@ -63,15 +63,22 @@
     final class DebugAPIContentView: UIView {
         typealias Section = DebugAPIContentViewSection
         typealias Item = DebugAPIContentViewItem
-        typealias API = DebugAPIViewModel.API
+        typealias APIInfo = DebugAPIViewModel.APIInfo
+        typealias APIResult = DebugAPIViewModel.APIResult
 
-        var api: API? {
+        var apiInfo: APIInfo? {
             didSet {
                 applySnapshot()
             }
         }
 
-        @Published private(set) var selectedType: DebugAPIMenuType = .debugGet {
+        var apiResult: APIResult? {
+            didSet {
+                applySnapshot()
+            }
+        }
+
+        @Published private(set) var menuType: DebugAPIMenuType = .debugGet {
             didSet {
                 applySnapshot()
             }
@@ -166,7 +173,7 @@
                     return
                 }
 
-                self.didTapSendButtonSubject.send(self.selectedType)
+                self.didTapSendButtonSubject.send(self.menuType)
             }
             .store(in: &cancellables)
         }
@@ -178,10 +185,11 @@
                 actions.append(
                     UIAction(
                         title: type.title,
-                        state: type == selectedType ? .on : .off,
+                        state: type == menuType ? .on : .off,
                         handler: { [weak self] _ in
-                            self?.api = nil
-                            self?.selectedType = type
+                            self?.apiInfo = nil
+                            self?.apiResult = nil
+                            self?.menuType = type
                             self?.setupMenu()
                         }
                     )
@@ -195,7 +203,7 @@
                     children: actions
                 )
                 $0.setTitle(
-                    selectedType.title,
+                    menuType.title,
                     for: .normal
                 )
                 $0.showsMenuAsPrimaryAction = true
@@ -262,29 +270,31 @@
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             dataSourceSnapshot.appendSections(Section.allCases)
 
-            if selectedType.hasPathComponent {
+            if let apiInfo {
+                dataSourceSnapshot.appendItems(
+                    [.requestURL(apiInfo)],
+                    toSection: .main
+                )
+            }
+
+            if menuType.hasPathComponent {
                 dataSourceSnapshot.appendItems(
                     [.pathComponent],
                     toSection: .main
                 )
             }
 
-            if let api {
-                dataSourceSnapshot.appendItems(
-                    [.requestURL(api)],
-                    toSection: .main
-                )
-
-                if api.responseJSON != nil {
+            if let apiResult {
+                if apiResult.responseJSON != nil {
                     dataSourceSnapshot.appendItems(
-                        [.responseJSON(api)],
+                        [.responseJSON(apiResult)],
                         toSection: .main
                     )
                 }
 
-                if api.responseError != nil {
+                if apiResult.responseError != nil {
                     dataSourceSnapshot.appendItems(
-                        [.responseError(api)],
+                        [.responseError(apiResult)],
                         toSection: .main
                     )
                 }
@@ -331,7 +341,7 @@
                 }
 
                 $0.addSubview(tableView) {
-                    $0.top.equalTo(sendButton.snp.bottom).inset(-24)
+                    $0.top.equalTo(sendButton.snp.bottom).inset(-8)
                     $0.bottom.leading.trailing.equalToSuperview()
                 }
 
