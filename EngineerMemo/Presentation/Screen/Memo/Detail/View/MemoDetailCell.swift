@@ -5,8 +5,6 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class MemoDetailCell: UICollectionViewCell {
-    var cancellables: Set<AnyCancellable> = .init()
-
     private var body: UIView {
         VStackView(spacing: 32) {
             VStackView(spacing: 8) {
@@ -65,12 +63,6 @@ final class MemoDetailCell: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        cancellables.removeAll()
     }
 }
 

@@ -29,14 +29,32 @@
 
         override func viewDidLoad() {
             super.viewDidLoad()
+
+            bindToView()
+            bindToViewModel()
         }
     }
 
-    // MARK: - internal methods
-
-    extension DebugAPIViewController {}
-
     // MARK: - private methods
 
-    private extension DebugAPIViewController {}
+    private extension DebugAPIViewController {
+        func bindToView() {
+            viewModel.output.$api
+                .receive(on: DispatchQueue.main)
+                .compactMap { $0 }
+                .sink { [weak self] api in
+                    self?.contentView.api = api
+                }
+                .store(in: &cancellables)
+        }
+
+        func bindToViewModel() {
+            contentView.didTapSendButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] menuType in
+                    self?.viewModel.input.didTapSendButton.send(menuType)
+                }
+                .store(in: &cancellables)
+        }
+    }
 #endif

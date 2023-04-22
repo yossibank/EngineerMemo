@@ -4,6 +4,7 @@
 
 // MARK: - コンポーネント
 
+"components.button.send" = "送信";
 "components.button.create" = "作成";
 "components.button.delete" = "削除";
 "components.button.setting" = "設定";
@@ -106,6 +107,9 @@
 "debug.device.udid" = "端末ID";
 "debug.development.shutdown" = "アプリ終了";
 "debug.api.confirmResponse" = "レスポンス確認";
+"debug.api.requestURL" = "リクエストURL";
+"debug.api.resultResponse" = "レスポンス結果";
+"debug.api.httpMethod" = "【%@】";
 "debug.coreData.create" = "作成";
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";
