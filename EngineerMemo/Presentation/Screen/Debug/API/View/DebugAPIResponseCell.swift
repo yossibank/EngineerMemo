@@ -53,8 +53,8 @@
     // MARK: - internal methods
 
     extension DebugAPIResponseCell {
-        func configure(with response: String) {
-            responseLabel.text = response
+        func configure(with text: String?) {
+            responseLabel.text = text
         }
     }
 

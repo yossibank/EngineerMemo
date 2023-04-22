@@ -37,7 +37,8 @@
 
     enum DebugAPIContentViewItem: Hashable {
         case requestURL(DebugAPIViewModel.API)
-        case response(DebugAPIViewModel.API)
+        case responseJSON(DebugAPIViewModel.API)
+        case responseError(DebugAPIViewModel.API)
     }
 
     // MARK: - properties & init
@@ -199,13 +200,23 @@
 
                 return cell
 
-            case let .response(api):
+            case let .responseJSON(api):
                 let cell = tableView.dequeueReusableCell(
                     withType: DebugAPIResponseCell.self,
                     for: indexPath
                 )
 
                 cell.configure(with: api.responseJSON)
+
+                return cell
+
+            case let .responseError(api):
+                let cell = tableView.dequeueReusableCell(
+                    withType: DebugAPIResponseCell.self,
+                    for: indexPath
+                )
+
+                cell.configure(with: api.responseError)
 
                 return cell
             }
@@ -221,10 +232,19 @@
                     toSection: .main
                 )
 
-                dataSourceSnapshot.appendItems(
-                    [.response(api)],
-                    toSection: .main
-                )
+                if api.responseJSON != nil {
+                    dataSourceSnapshot.appendItems(
+                        [.responseJSON(api)],
+                        toSection: .main
+                    )
+                }
+
+                if api.responseError != nil {
+                    dataSourceSnapshot.appendItems(
+                        [.responseError(api)],
+                        toSection: .main
+                    )
+                }
             }
 
             dataSource.apply(

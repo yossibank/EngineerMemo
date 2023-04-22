@@ -14,7 +14,8 @@
         struct API: Hashable {
             let httpMethod: String
             let requestURL: String
-            let responseJSON: String
+            let responseJSON: String?
+            let responseError: String?
         }
 
         let input: Input
@@ -82,12 +83,18 @@
                         self?.output.api = .init(
                             httpMethod: item.method.rawValue,
                             requestURL: item.baseURL + item.path,
-                            responseJSON: response
+                            responseJSON: response,
+                            responseError: nil
                         )
                     }
 
                 case let .failure(error):
-                    print(error.localizedDescription)
+                    self?.output.api = .init(
+                        httpMethod: item.method.rawValue,
+                        requestURL: item.baseURL + item.path,
+                        responseJSON: nil,
+                        responseError: error.errorDescription
+                    )
                 }
             }
         }
