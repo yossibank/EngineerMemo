@@ -9,7 +9,7 @@
     final class DebugPathComponentCell: UITableViewCell {
         var cancellables: Set<AnyCancellable> = .init()
 
-        private(set) lazy var didChangePathTextField = pathTextField.textDidChangePublisher
+        private(set) lazy var didChangePathTextFieldPublisher = pathTextField.textDidChangePublisher
 
         private var body: UIView {
             VStackView(spacing: 12) {

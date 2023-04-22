@@ -15,16 +15,16 @@
         var title: String {
             switch self {
             case .debugDelete:
-                return "テスト【DELETE】"
+                return L10n.Debug.Api.debugDelete
 
             case .debugGet:
-                return "テスト【GET】"
+                return L10n.Debug.Api.debugGet
 
             case .debugPost:
-                return "テスト【POST】"
+                return L10n.Debug.Api.debugPost
 
             case .debugPut:
-                return "テスト【PUT】"
+                return L10n.Debug.Api.debugPut
             }
         }
 
@@ -43,6 +43,22 @@
                 return true
             }
         }
+
+        var hasParameters: Bool {
+            switch self {
+            case .debugDelete:
+                return false
+
+            case .debugGet:
+                return true
+
+            case .debugPost:
+                return true
+
+            case .debugPut:
+                return true
+            }
+        }
     }
 
     // MARK: - section & item
@@ -53,6 +69,7 @@
 
     enum DebugAPIContentViewItem: Hashable {
         case pathComponent
+        case parameters([DebugAPIViewModel.Parameters])
         case requestURL(DebugAPIViewModel.APIInfo)
         case responseJSON(DebugAPIViewModel.APIResult)
         case responseError(DebugAPIViewModel.APIResult)
@@ -85,6 +102,10 @@
         }
 
         private(set) lazy var didChangePathTextFieldPublisher = didChangePathTextFieldSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeUserIdTextFieldPublisher = didChangeUserIdTextFieldSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeIdTextFieldPublisher = didChangeIdTextFieldSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeTitleTextFieldPublisher = didChangeTitleTextFieldSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeBodyTextFieldPublisher = didChangeBodyTextFieldSubject.eraseToAnyPublisher()
         private(set) lazy var didTapSendButtonPublisher = didTapSendButtonSubject.eraseToAnyPublisher()
 
         private lazy var dataSource = UITableViewDiffableDataSource<
@@ -124,6 +145,10 @@
         private let tableView = UITableView()
 
         private let didChangePathTextFieldSubject = PassthroughSubject<Int, Never>()
+        private let didChangeUserIdTextFieldSubject = PassthroughSubject<Int, Never>()
+        private let didChangeIdTextFieldSubject = PassthroughSubject<Int, Never>()
+        private let didChangeTitleTextFieldSubject = PassthroughSubject<String, Never>()
+        private let didChangeBodyTextFieldSubject = PassthroughSubject<String, Never>()
         private let didTapSendButtonSubject = PassthroughSubject<DebugAPIMenuType, Never>()
 
         override init(frame: CGRect) {
@@ -157,6 +182,7 @@
             tableView.configure {
                 $0.registerCells(with: [
                     DebugPathComponentCell.self,
+                    DebugParametersCell.self,
                     DebugAPIRequestURLCell.self,
                     DebugAPIResponseCell.self
                 ])
@@ -222,12 +248,50 @@
                     for: indexPath
                 )
 
-                cell.didChangePathTextField
+                cell.didChangePathTextFieldPublisher
                     .compactMap { Int($0) }
                     .sink { [weak self] path in
                         self?.didChangePathTextFieldSubject.send(path)
                     }
                     .store(in: &cell.cancellables)
+
+                return cell
+
+            case let .parameters(params):
+                let cell = tableView.dequeueReusableCell(
+                    withType: DebugParametersCell.self,
+                    for: indexPath
+                )
+
+                cell.didChangeUserIdTextFieldPublisher
+                    .compactMap { Int($0) }
+                    .sink { [weak self] userId in
+                        self?.didChangeUserIdTextFieldSubject.send(userId)
+                    }
+                    .store(in: &cell.cancellables)
+
+                cell.didChangeIdTextFieldPublisher
+                    .compactMap { Int($0) }
+                    .sink { [weak self] id in
+                        self?.didChangeIdTextFieldSubject.send(id)
+                    }
+                    .store(in: &cell.cancellables)
+
+                cell.didChangeTitleTextFieldPublisher
+                    .compactMap { $0 }
+                    .sink { [weak self] title in
+                        self?.didChangeTitleTextFieldSubject.send(title)
+                    }
+                    .store(in: &cell.cancellables)
+
+                cell.didChangeBodyTextFieldPublisher
+                    .compactMap { $0 }
+                    .sink { [weak self] body in
+                        self?.didChangeBodyTextFieldSubject.send(body)
+                    }
+                    .store(in: &cell.cancellables)
+
+                cell.configure(with: params)
 
                 return cell
 
@@ -282,6 +346,31 @@
                     [.pathComponent],
                     toSection: .main
                 )
+            }
+
+            if menuType.hasParameters {
+                switch menuType {
+                case .debugDelete:
+                    break
+
+                case .debugGet:
+                    dataSourceSnapshot.appendItems(
+                        [.parameters([.userId])],
+                        toSection: .main
+                    )
+
+                case .debugPost:
+                    dataSourceSnapshot.appendItems(
+                        [.parameters([.userId, .title, .body])],
+                        toSection: .main
+                    )
+
+                case .debugPut:
+                    dataSourceSnapshot.appendItems(
+                        [.parameters([.userId, .id, .title, .body])],
+                        toSection: .main
+                    )
+                }
             }
 
             if let apiResult {

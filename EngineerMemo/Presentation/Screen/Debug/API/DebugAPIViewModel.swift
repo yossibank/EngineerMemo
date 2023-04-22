@@ -5,7 +5,11 @@
     final class DebugAPIViewModel: ViewModel {
         final class Binding: BindingObject {
             @Published var menuType: DebugAPIMenuType = .debugGet
-            @Published var path = -1
+            @Published var path = 1
+            @Published var userId = 1
+            @Published var id = 1
+            @Published var title = ""
+            @Published var body = ""
         }
 
         final class Input: InputObject {
@@ -27,12 +31,27 @@
             let responseError: String?
         }
 
+        struct APIDebugParameters {
+            var userId: Int?
+            var id: Int?
+            var title: String?
+            var body: String?
+        }
+
+        enum Parameters {
+            case userId
+            case id
+            case title
+            case body
+        }
+
         @BindableObject private(set) var binding: Binding
 
         let input: Input
         let output: Output
 
         private var item: (any Request)?
+        private var parameters: APIDebugParameters = .init()
         private var cancellables: Set<AnyCancellable> = .init()
 
         init() {
@@ -44,6 +63,9 @@
             self.input = input
             self.output = output
 
+            let menuType = binding.$menuType
+                .multicast(subject: PassthroughSubject<DebugAPIMenuType, Never>())
+
             // MARK: - API変更メニューボタン
 
             binding.$menuType.sink { [weak self] menuType in
@@ -53,27 +75,31 @@
 
                 switch menuType {
                 case .debugDelete:
-                    self.item = DebugDeleteRequest(pathComponent: binding.path)
+                    self.item = DebugDeleteRequest(
+                        pathComponent: binding.path
+                    )
 
                 case .debugGet:
-                    self.item = DebugGetRequest(parameters: .init(userId: 1))
+                    self.item = DebugGetRequest(
+                        parameters: .init(userId: self.parameters.userId)
+                    )
 
                 case .debugPost:
                     self.item = DebugPostRequest(
                         parameters: .init(
-                            userId: 1,
-                            title: "title",
-                            body: "body"
+                            userId: self.parameters.userId ?? 1,
+                            title: self.parameters.title ?? .empty,
+                            body: self.parameters.body ?? .empty
                         )
                     )
 
                 case .debugPut:
                     self.item = DebugPutRequest(
                         parameters: .init(
-                            userId: 1,
-                            id: 1,
-                            title: "title",
-                            body: "body"
+                            userId: self.parameters.userId ?? 1,
+                            id: self.parameters.id ?? 1,
+                            title: self.parameters.title ?? .empty,
+                            body: self.parameters.body ?? .empty
                         ),
                         pathComponent: binding.path
                     )
@@ -92,61 +118,119 @@
 
             // MARK: - PathComponent変更
 
-            Publishers.CombineLatest(
-                binding.$menuType,
-                binding.$path
-            ).sink { [weak self] menuType, path in
-                guard let self else {
-                    return
-                }
-
-                switch menuType {
-                case .debugDelete:
-                    self.item = DebugDeleteRequest(pathComponent: path)
-
-                case .debugPut:
-                    if let parameters = self.item?.parameters as? DebugPutRequest.Parameters {
-                        self.item = DebugPutRequest(
-                            parameters: parameters,
-                            pathComponent: path
-                        )
+            binding.$path
+                .withLatestFrom(menuType) { ($0, $1) }
+                .sink { [weak self] path, menuType in
+                    guard let self else {
+                        return
                     }
 
-                default:
-                    return
-                }
+                    switch menuType {
+                    case .debugDelete:
+                        self.item = DebugDeleteRequest(pathComponent: path)
 
-                guard let item else {
-                    return
-                }
+                    case .debugPut:
+                        if let parameters = self.item?.parameters as? DebugPutRequest.Parameters {
+                            self.item = DebugPutRequest(
+                                parameters: parameters,
+                                pathComponent: path
+                            )
+                        }
 
-                output.apiInfo = .init(
-                    httpMethod: item.method.rawValue,
-                    requestURL: item.baseURL + item.path
-                )
+                    default:
+                        return
+                    }
+
+                    guard let item else {
+                        return
+                    }
+
+                    output.apiInfo = .init(
+                        httpMethod: item.method.rawValue,
+                        requestURL: item.baseURL + item.path
+                    )
+                }
+                .store(in: &cancellables)
+
+            // MARK: - Parameters変更
+
+            binding.$userId.sink { [weak self] userId in
+                self?.parameters.userId = userId
+            }
+            .store(in: &cancellables)
+
+            binding.$id.sink { [weak self] id in
+                self?.parameters.id = id
+            }
+            .store(in: &cancellables)
+
+            binding.$title.sink { [weak self] title in
+                self?.parameters.title = title
+            }
+            .store(in: &cancellables)
+
+            binding.$body.sink { [weak self] body in
+                self?.parameters.body = body
             }
             .store(in: &cancellables)
 
             // MARK: - API送信ボタン
 
-            input.didTapSendButton.sink { [weak self] _ in
-                guard
-                    let self,
-                    let item = self.item
-                else {
-                    return
-                }
+            input.didTapSendButton
+                .withLatestFrom(menuType) { ($0, $1) }
+                .sink { [weak self] _, menuType in
+                    guard let self else {
+                        return
+                    }
 
-                self.request(item: item)
-            }
-            .store(in: &cancellables)
+                    switch menuType {
+                    case .debugDelete:
+                        break
+
+                    case .debugGet:
+                        self.item = DebugGetRequest(
+                            parameters: .init(userId: self.parameters.userId)
+                        )
+
+                    case .debugPost:
+                        self.item = DebugPostRequest(
+                            parameters: .init(
+                                userId: self.parameters.userId ?? 1,
+                                title: self.parameters.title ?? .empty,
+                                body: self.parameters.body ?? .empty
+                            )
+                        )
+
+                    case .debugPut:
+                        self.item = DebugPutRequest(
+                            parameters: .init(
+                                userId: self.parameters.userId ?? 1,
+                                id: self.parameters.id ?? 1,
+                                title: self.parameters.title ?? .empty,
+                                body: self.parameters.body ?? .empty
+                            ),
+                            pathComponent: binding.path
+                        )
+                    }
+
+                    guard let item else {
+                        return
+                    }
+
+                    self.request(item: item)
+                }
+                .store(in: &cancellables)
+
+            menuType
+                .connect()
+                .store(in: &cancellables)
         }
     }
 
     // MARK: - private methods
 
     private extension DebugAPIViewModel {
-        func request(item: some Request<some Codable>) {
+        func request(item: some Request<some Encodable>) {
             APIClient().request(item: item) { [weak self] result in
                 switch result {
                 case let .success(response):

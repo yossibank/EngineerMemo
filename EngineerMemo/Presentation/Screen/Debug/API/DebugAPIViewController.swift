@@ -61,6 +61,26 @@
                 .assign(to: \.path, on: viewModel.binding)
                 .store(in: &cancellables)
 
+            contentView.didChangeUserIdTextFieldPublisher
+                .receive(on: DispatchQueue.main)
+                .assign(to: \.userId, on: viewModel.binding)
+                .store(in: &cancellables)
+
+            contentView.didChangeIdTextFieldPublisher
+                .receive(on: DispatchQueue.main)
+                .assign(to: \.id, on: viewModel.binding)
+                .store(in: &cancellables)
+
+            contentView.didChangeTitleTextFieldPublisher
+                .receive(on: DispatchQueue.main)
+                .assign(to: \.title, on: viewModel.binding)
+                .store(in: &cancellables)
+
+            contentView.didChangeBodyTextFieldPublisher
+                .receive(on: DispatchQueue.main)
+                .assign(to: \.body, on: viewModel.binding)
+                .store(in: &cancellables)
+
             contentView.didTapSendButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] menuType in
