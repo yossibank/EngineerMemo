@@ -49,6 +49,11 @@
         }
 
         func bindToViewModel() {
+            contentView.didChangePathTextFieldPublisher
+                .receive(on: DispatchQueue.main)
+                .assign(to: \.path, on: viewModel.binding)
+                .store(in: &cancellables)
+
             contentView.didTapSendButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] menuType in

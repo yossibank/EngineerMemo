@@ -110,6 +110,8 @@
 "debug.api.requestURL" = "リクエストURL";
 "debug.api.resultResponse" = "レスポンス結果";
 "debug.api.httpMethod" = "【%@】";
+"debug.api.pathComponent" = "PathComponent";
+"debug.api.pathComponentPlaceholder" = "パスに付与するIDなど";
 "debug.coreData.create" = "作成";
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";

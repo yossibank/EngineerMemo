@@ -27,6 +27,22 @@
                 return "テスト【PUT】"
             }
         }
+
+        var hasPathComponent: Bool {
+            switch self {
+            case .debugDelete:
+                return true
+
+            case .debugGet:
+                return false
+
+            case .debugPost:
+                return false
+
+            case .debugPut:
+                return true
+            }
+        }
     }
 
     // MARK: - section & item
@@ -36,6 +52,7 @@
     }
 
     enum DebugAPIContentViewItem: Hashable {
+        case pathComponent
         case requestURL(DebugAPIViewModel.API)
         case responseJSON(DebugAPIViewModel.API)
         case responseError(DebugAPIViewModel.API)
@@ -60,6 +77,7 @@
             }
         }
 
+        private(set) lazy var didChangePathTextFieldPublisher = didChangePathTextFieldSubject.eraseToAnyPublisher()
         private(set) lazy var didTapSendButtonPublisher = didTapSendButtonSubject.eraseToAnyPublisher()
 
         private lazy var dataSource = UITableViewDiffableDataSource<
@@ -98,6 +116,7 @@
         private let menuButton = UIButton(type: .system)
         private let tableView = UITableView()
 
+        private let didChangePathTextFieldSubject = PassthroughSubject<Int, Never>()
         private let didTapSendButtonSubject = PassthroughSubject<DebugAPIMenuType, Never>()
 
         override init(frame: CGRect) {
@@ -130,6 +149,7 @@
         func setupTableView() {
             tableView.configure {
                 $0.registerCells(with: [
+                    DebugPathComponentCell.self,
                     DebugAPIRequestURLCell.self,
                     DebugAPIResponseCell.self
                 ])
@@ -160,6 +180,7 @@
                         title: type.title,
                         state: type == selectedType ? .on : .off,
                         handler: { [weak self] _ in
+                            self?.api = nil
                             self?.selectedType = type
                             self?.setupMenu()
                         }
@@ -187,6 +208,21 @@
             item: Item
         ) -> UITableViewCell? {
             switch item {
+            case .pathComponent:
+                let cell = tableView.dequeueReusableCell(
+                    withType: DebugPathComponentCell.self,
+                    for: indexPath
+                )
+
+                cell.didChangePathTextField
+                    .compactMap { Int($0) }
+                    .sink { [weak self] path in
+                        self?.didChangePathTextFieldSubject.send(path)
+                    }
+                    .store(in: &cell.cancellables)
+
+                return cell
+
             case let .requestURL(api):
                 let cell = tableView.dequeueReusableCell(
                     withType: DebugAPIRequestURLCell.self,
@@ -225,6 +261,13 @@
         func applySnapshot() {
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             dataSourceSnapshot.appendSections(Section.allCases)
+
+            if selectedType.hasPathComponent {
+                dataSourceSnapshot.appendItems(
+                    [.pathComponent],
+                    toSection: .main
+                )
+            }
 
             if let api {
                 dataSourceSnapshot.appendItems(

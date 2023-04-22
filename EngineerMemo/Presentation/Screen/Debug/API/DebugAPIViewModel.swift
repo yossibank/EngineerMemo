@@ -3,6 +3,10 @@
     import Foundation
 
     final class DebugAPIViewModel: ViewModel {
+        final class Binding: BindingObject {
+            @Published var path = 0
+        }
+
         final class Input: InputObject {
             let didTapSendButton = PassthroughSubject<DebugAPIMenuType, Never>()
         }
@@ -18,16 +22,19 @@
             let responseError: String?
         }
 
+        @BindableObject private(set) var binding: Binding
+
         let input: Input
         let output: Output
-        let binding = NoBinding()
 
         private var cancellables: Set<AnyCancellable> = .init()
 
         init() {
+            let binding = Binding()
             let input = Input()
             let output = Output()
 
+            self.binding = binding
             self.input = input
             self.output = output
 
@@ -36,7 +43,7 @@
             input.didTapSendButton.sink { [weak self] menuType in
                 switch menuType {
                 case .debugDelete:
-                    self?.request(item: DebugDeleteRequest(pathComponent: 1))
+                    self?.request(item: DebugDeleteRequest(pathComponent: binding.path))
 
                 case .debugGet:
                     self?.request(item: DebugGetRequest(parameters: .init(userId: 1)))
@@ -58,7 +65,7 @@
                             title: "title",
                             body: "body"
                         ),
-                        pathComponent: 1
+                        pathComponent: binding.path
                     ))
                 }
             }
@@ -85,6 +92,13 @@
                             requestURL: item.baseURL + item.path,
                             responseJSON: response,
                             responseError: nil
+                        )
+                    } else {
+                        self?.output.api = .init(
+                            httpMethod: item.method.rawValue,
+                            requestURL: item.baseURL + item.path,
+                            responseJSON: nil,
+                            responseError: "エンコードエラーです"
                         )
                     }
 
