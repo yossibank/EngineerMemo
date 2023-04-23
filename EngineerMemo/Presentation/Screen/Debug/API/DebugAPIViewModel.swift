@@ -142,7 +142,7 @@
                         return
                     }
 
-                    guard let item else {
+                    guard let item = self.item else {
                         return
                     }
 
@@ -214,7 +214,7 @@
                         )
                     }
 
-                    guard let item else {
+                    guard let item = self.item else {
                         return
                     }
 
