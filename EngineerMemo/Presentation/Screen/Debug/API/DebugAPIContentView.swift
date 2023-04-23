@@ -145,7 +145,7 @@
         private let tableView = UITableView()
 
         private let didChangePathTextFieldSubject = PassthroughSubject<Int, Never>()
-        private let didChangeUserIdTextFieldSubject = PassthroughSubject<Int, Never>()
+        private let didChangeUserIdTextFieldSubject = PassthroughSubject<Int?, Never>()
         private let didChangeIdTextFieldSubject = PassthroughSubject<Int, Never>()
         private let didChangeTitleTextFieldSubject = PassthroughSubject<String, Never>()
         private let didChangeBodyTextFieldSubject = PassthroughSubject<String, Never>()
@@ -264,9 +264,12 @@
                 )
 
                 cell.didChangeUserIdTextFieldPublisher
-                    .compactMap { Int($0) }
                     .sink { [weak self] userId in
-                        self?.didChangeUserIdTextFieldSubject.send(userId)
+                        if let numberId = Int(userId) {
+                            self?.didChangeUserIdTextFieldSubject.send(numberId)
+                        } else {
+                            self?.didChangeUserIdTextFieldSubject.send(nil)
+                        }
                     }
                     .store(in: &cell.cancellables)
 

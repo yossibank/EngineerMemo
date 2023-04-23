@@ -5,11 +5,11 @@
     final class DebugAPIViewModel: ViewModel {
         final class Binding: BindingObject {
             @Published var menuType: DebugAPIMenuType = .debugGet
-            @Published var path = 1
-            @Published var userId = 1
-            @Published var id = 1
-            @Published var title = ""
-            @Published var body = ""
+            @Published var path: Int = .zero
+            @Published var userId: Int?
+            @Published var id: Int = .zero
+            @Published var title: String = .empty
+            @Published var body: String = .empty
         }
 
         final class Input: InputObject {
