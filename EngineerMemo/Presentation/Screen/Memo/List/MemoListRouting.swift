@@ -20,16 +20,16 @@ final class MemoListRouting {
 
 extension MemoListRouting: MemoListRoutingInput {
     func showCreateScreen() {
-        viewController?.navigationController?.pushViewController(
+        viewController?.show(
             AppControllers.Memo.Update(type: .create),
-            animated: true
+            sender: nil
         )
     }
 
     func showDetailScreen(identifier: String) {
-        viewController?.navigationController?.pushViewController(
+        viewController?.show(
             AppControllers.Memo.Detail(identifier: identifier),
-            animated: true
+            sender: nil
         )
     }
 }

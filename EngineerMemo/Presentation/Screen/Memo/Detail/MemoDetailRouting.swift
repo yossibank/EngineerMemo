@@ -19,9 +19,9 @@ final class MemoDetailRouting {
 
 extension MemoDetailRouting: MemoDetailRoutingInput {
     func showUpdateScreen(modelObject: MemoModelObject) {
-        viewController?.navigationController?.pushViewController(
+        viewController?.show(
             AppControllers.Memo.Update(type: .update(modelObject)),
-            animated: true
+            sender: nil
         )
     }
 }

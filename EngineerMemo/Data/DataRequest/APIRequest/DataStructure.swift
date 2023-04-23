@@ -1,1 +1,1 @@
-protocol DataStructure: Decodable, Equatable {}
+protocol DataStructure: Codable, Equatable {}

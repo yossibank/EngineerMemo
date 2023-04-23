@@ -31,7 +31,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
-            viewAfter: 0.5
+            viewAfter: 0.3
         )
     }
 
@@ -40,7 +40,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
-            viewAfter: 0.5
+            viewAfter: 0.3
         )
     }
 
@@ -55,7 +55,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIScreen.main.bounds.width,
                 height: 1500
             ),
-            viewAfter: 0.5
+            viewAfter: 0.3
         )
     }
 }

@@ -42,6 +42,10 @@ extension ViewStyle where T: UIButton {
         navigationDoneButton(title: L10n.Components.Button.setting)
     }
 
+    static var sendNavigationButton: ViewStyle<T> {
+        navigationButton(title: L10n.Components.Button.send)
+    }
+
     private static func navigationButton(title: String) -> ViewStyle<T> {
         .init {
             $0.setTitle(

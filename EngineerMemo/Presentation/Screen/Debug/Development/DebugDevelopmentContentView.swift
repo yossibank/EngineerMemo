@@ -11,6 +11,7 @@
         case device
         case colorTheme
         case development
+        case api
         case coreData
 
         var cellType: UITableViewCell.Type {
@@ -29,6 +30,7 @@
             case .device: return L10n.Debug.Section.device
             case .colorTheme: return L10n.Debug.Section.colorTheme
             case .development: return L10n.Debug.Section.development
+            case .api: return L10n.Debug.Section.api
             case .coreData: return L10n.Debug.Section.coreData
             }
         }
@@ -55,6 +57,11 @@
             case .development:
                 return [
                     .init(title: L10n.Debug.Development.shutdown)
+                ]
+
+            case .api:
+                return [
+                    .init(title: L10n.Debug.Api.confirmResponse)
                 ]
 
             case .coreData:
@@ -86,8 +93,9 @@
         typealias Section = DebugDevelopmentContentViewSection
         typealias Item = DebugDevelopmentContentViewItem
 
-        lazy var didChangeColorThemeIndexPublisher = didChangeColorThemeIndexSubject.eraseToAnyPublisher()
-        lazy var didTapCoreDataCellPublisher = didTapCoreDataCellSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeColorThemeIndexPublisher = didChangeColorThemeIndexSubject.eraseToAnyPublisher()
+        private(set) lazy var didTapAPICellPublisher = didTapAPICellSubject.eraseToAnyPublisher()
+        private(set) lazy var didTapCoreDataCellPublisher = didTapCoreDataCellSubject.eraseToAnyPublisher()
 
         private lazy var dataSource = UITableViewDiffableDataSource<
             Section,
@@ -105,6 +113,7 @@
         }
 
         private let didChangeColorThemeIndexSubject = PassthroughSubject<Int, Never>()
+        private let didTapAPICellSubject = PassthroughSubject<Void, Never>()
         private let didTapCoreDataCellSubject = PassthroughSubject<DebugCoreDataAction, Never>()
 
         private let tableView = UITableView()
@@ -155,7 +164,7 @@
             )
 
             switch section {
-            case .colorTheme, .development, .coreData:
+            case .colorTheme, .development, .api, .coreData:
                 cell.isUserInteractionEnabled = true
 
             default:
@@ -253,6 +262,9 @@
                 ) { _ in
                     exit(0)
                 }
+
+            case .api:
+                didTapAPICellSubject.send(())
 
             case .coreData:
                 let action = DebugCoreDataAction.allCases[indexPath.row]

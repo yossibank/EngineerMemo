@@ -20,16 +20,16 @@ final class ProfileDetailRouting {
 
 extension ProfileDetailRouting: ProfileDetailRoutingInput {
     func showIconScreen(modelObject: ProfileModelObject) {
-        viewController?.navigationController?.pushViewController(
+        viewController?.show(
             AppControllers.Profile.Icon(modelObject: modelObject),
-            animated: true
+            sender: nil
         )
     }
 
     func showUpdateScreen(type: ProfileUpdateType) {
-        viewController?.navigationController?.pushViewController(
+        viewController?.show(
             AppControllers.Profile.Update(type: type),
-            animated: true
+            sender: nil
         )
     }
 }

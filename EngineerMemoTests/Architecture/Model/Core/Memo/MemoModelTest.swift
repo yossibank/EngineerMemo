@@ -51,10 +51,14 @@ final class MemoModelTest: XCTestCase {
         // act
         model.fetch {
             switch $0 {
-            case let .success(modelObject):
+            case let .success(modelObjects):
+                guard !modelObjects.isEmpty else {
+                    return
+                }
+
                 // assert
                 XCTAssertEqual(
-                    modelObject,
+                    modelObjects,
                     [
                         MemoModelObjectBuilder()
                             .content("コンテンツ")

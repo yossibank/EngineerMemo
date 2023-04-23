@@ -4,6 +4,7 @@
 
 // MARK: - コンポーネント
 
+"components.button.send" = "送信";
 "components.button.create" = "作成";
 "components.button.delete" = "削除";
 "components.button.setting" = "設定";
@@ -33,10 +34,10 @@
 "navigation.title.profileUpdate" = "プロフィール更新";
 "navigation.title.profileSetting" = "プロフィール設定";
 "navigation.title.debugDevelopment" = "開発者用画面";
+"navigation.title.debugAPIResponse" = "APIレスポンス確認";
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";
 "navigation.title.debugCoreDataCreate" = "CoreData作成";
 "navigation.title.debugCoreDataUpdate" = "CoreData更新";
-"navigation.title.debugUserDefaults" = "UserDefaults一覧";
 
 // MARK: - シート
 
@@ -97,6 +98,7 @@
 "debug.section.device" = "端末情報";
 "debug.section.colorTheme" = "カラーテーマ";
 "debug.section.development" = "開発用操作";
+"debug.section.api" = "API";
 "debug.section.coreData" = "CoreData";
 "debug.section.userDefaults" = "UserDefaults";
 "debug.git.commitHash" = "コミットハッシュ";
@@ -104,6 +106,23 @@
 "debug.device.name" = "端末名";
 "debug.device.udid" = "端末ID";
 "debug.development.shutdown" = "アプリ終了";
+"debug.api.confirmResponse" = "レスポンス確認";
+"debug.api.debugDelete" = "テスト【DELETE】";
+"debug.api.debugGet" = "テスト【GET】";
+"debug.api.debugPost" = "テスト【POST】";
+"debug.api.debugPut" = "テスト【PUT】";
+"debug.api.requestURL" = "リクエストURL";
+"debug.api.resultResponse" = "レスポンス結果";
+"debug.api.httpMethod" = "【%@】";
+"debug.api.pathComponent" = "パス【オプション】";
+"debug.api.pathComponentPlaceholder" = "パスに付与するIDなど";
+"debug.api.parameters" = "パラメーター【オプション】";
+"debug.api.parameters.userId" = "UserID";
+"debug.api.parameters.id" = "ID";
+"debug.api.parameters.title" = "title";
+"debug.api.parameters.body" = "body";
+"debug.api.loading" = "リクエスト中";
+"debug.api.encodeError" = "エンコードエラーです";
 "debug.coreData.create" = "作成";
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";

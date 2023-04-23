@@ -3,6 +3,7 @@
 
     /// @mockable
     protocol DebugDevelopmentRoutingInput {
+        func showDebugAPIScreen()
         func showDebugCoreDataScreen(action: DebugCoreDataAction)
     }
 
@@ -19,6 +20,13 @@
     // MARK: - protocol
 
     extension DebugDevelopmentRouting: DebugDevelopmentRoutingInput {
+        func showDebugAPIScreen() {
+            viewController?.show(
+                AppControllers.Debug.API(),
+                sender: nil
+            )
+        }
+
         func showDebugCoreDataScreen(action: DebugCoreDataAction) {
             let vc: UIViewController
 
@@ -33,9 +41,9 @@
                 vc = AppControllers.Debug.CoreData.Update()
             }
 
-            viewController?.navigationController?.pushViewController(
+            viewController?.show(
                 vc,
-                animated: true
+                sender: nil
             )
         }
     }

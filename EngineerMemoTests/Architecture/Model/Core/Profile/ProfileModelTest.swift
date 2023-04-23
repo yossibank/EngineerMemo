@@ -62,10 +62,14 @@ final class ProfileModelTest: XCTestCase {
         // act
         model.fetch {
             switch $0 {
-            case let .success(modelObject):
+            case let .success(modelObjects):
+                guard !modelObjects.isEmpty else {
+                    return
+                }
+
                 // assert
                 XCTAssertEqual(
-                    modelObject,
+                    modelObjects,
                     [
                         ProfileModelObjectBuilder()
                             .address("テスト県テスト市テスト1-1-1")

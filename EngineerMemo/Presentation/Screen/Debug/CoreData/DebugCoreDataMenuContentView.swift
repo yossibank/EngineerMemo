@@ -56,7 +56,8 @@
     final class DebugCoreDataMenuContentView: UIView {
         @Published private(set) var selectedType: DebugCoreDataMenuType = .profile
 
-        private let menuButton = UIButton(type: .system).apply(.debugMenuButton)
+        private let menuButton = UIButton(type: .system)
+            .apply(.debugMenuButton)
 
         override init(frame: CGRect) {
             super.init(frame: frame)
