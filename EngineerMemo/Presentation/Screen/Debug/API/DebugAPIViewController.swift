@@ -30,6 +30,7 @@
         override func viewDidLoad() {
             super.viewDidLoad()
 
+            setupNavigation()
             bindToView()
             bindToViewModel()
         }
@@ -38,6 +39,12 @@
     // MARK: - private methods
 
     private extension DebugAPIViewController {
+        func setupNavigation() {
+            navigationItem.rightBarButtonItem = .init(
+                customView: contentView.barButton
+            )
+        }
+
         func bindToView() {
             viewModel.output.$isLoading
                 .receive(on: DispatchQueue.main)

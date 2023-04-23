@@ -116,6 +116,13 @@
         private(set) lazy var didChangeBodyTextFieldPublisher = didChangeBodyTextFieldSubject.eraseToAnyPublisher()
         private(set) lazy var didTapSendButtonPublisher = didTapSendButtonSubject.eraseToAnyPublisher()
 
+        private(set) lazy var barButton = UIButton(type: .system)
+            .addConstraint {
+                $0.width.equalTo(72)
+                $0.height.equalTo(32)
+            }
+            .apply(.sendNavigationButton)
+
         private lazy var dataSource = UITableViewDiffableDataSource<
             Section,
             Item
@@ -131,25 +138,16 @@
             )
         }
 
-        private lazy var buttonView = VStackView(alignment: .center) {
-            menuButton
-                .addConstraint {
-                    $0.width.equalTo(160)
-                    $0.height.equalTo(40)
-                }
-                .apply(.debugMenuButton)
-
-            sendButton.configure {
-                $0.setTitle(L10n.Components.Button.send, for: .normal)
-                $0.setTitleColor(.red, for: .normal)
-            }
-        }
-
         private var cacheCellHeights: [IndexPath: CGFloat] = [:]
         private var cancellables: Set<AnyCancellable> = .init()
 
-        private let sendButton = UIButton(type: .system)
         private let menuButton = UIButton(type: .system)
+            .addConstraint {
+                $0.width.equalTo(160)
+                $0.height.equalTo(40)
+            }
+            .apply(.debugMenuButton)
+
         private let tableView = UITableView()
 
         private let didChangePathTextFieldSubject = PassthroughSubject<Int, Never>()
@@ -163,9 +161,9 @@
             super.init(frame: frame)
 
             setupView()
-            setupTableView()
-            setupEvent()
             setupMenu()
+            setupBarButton()
+            setupTableView()
             applySnapshot()
         }
 
@@ -186,33 +184,6 @@
     // MARK: - private methods
 
     private extension DebugAPIContentView {
-        func setupTableView() {
-            tableView.configure {
-                $0.registerCells(with: [
-                    DebugPathComponentCell.self,
-                    DebugParametersCell.self,
-                    DebugAPIRequestURLCell.self,
-                    DebugAPIResponseCell.self,
-                    DebugAPILoadingCell.self
-                ])
-                $0.backgroundColor = .primary
-                $0.separatorStyle = .none
-                $0.delegate = self
-                $0.dataSource = dataSource
-            }
-        }
-
-        func setupEvent() {
-            sendButton.publisher(for: .touchUpInside).sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                self.didTapSendButtonSubject.send(self.menuType)
-            }
-            .store(in: &cancellables)
-        }
-
         func setupMenu() {
             var actions = [UIMenuElement]()
 
@@ -242,6 +213,35 @@
                     for: .normal
                 )
                 $0.showsMenuAsPrimaryAction = true
+            }
+        }
+
+        func setupBarButton() {
+            barButton.publisher(for: .touchUpInside)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    guard let self else {
+                        return
+                    }
+
+                    self.didTapSendButtonSubject.send(self.menuType)
+                }
+                .store(in: &cancellables)
+        }
+
+        func setupTableView() {
+            tableView.configure {
+                $0.registerCells(with: [
+                    DebugPathComponentCell.self,
+                    DebugParametersCell.self,
+                    DebugAPIRequestURLCell.self,
+                    DebugAPIResponseCell.self,
+                    DebugAPILoadingCell.self
+                ])
+                $0.backgroundColor = .primary
+                $0.separatorStyle = .none
+                $0.delegate = self
+                $0.dataSource = dataSource
             }
         }
 
@@ -453,13 +453,13 @@
     extension DebugAPIContentView: ContentView {
         func setupView() {
             configure {
-                $0.addSubview(buttonView) {
+                $0.addSubview(menuButton) {
                     $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(24)
-                    $0.leading.trailing.equalToSuperview()
+                    $0.centerX.equalToSuperview()
                 }
 
                 $0.addSubview(tableView) {
-                    $0.top.equalTo(sendButton.snp.bottom).inset(-8)
+                    $0.top.equalTo(menuButton.snp.bottom).inset(-8)
                     $0.bottom.leading.trailing.equalToSuperview()
                 }
 
