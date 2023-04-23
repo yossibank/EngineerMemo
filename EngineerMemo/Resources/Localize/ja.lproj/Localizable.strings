@@ -121,6 +121,7 @@
 "debug.api.parameters.id" = "ID";
 "debug.api.parameters.title" = "title";
 "debug.api.parameters.body" = "body";
+"debug.api.loading" = "リクエスト中";
 "debug.api.encodeError" = "エンコードエラーです";
 "debug.coreData.create" = "作成";
 "debug.coreData.list" = "一覧・削除";

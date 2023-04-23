@@ -39,6 +39,11 @@
 
     private extension DebugAPIViewController {
         func bindToView() {
+            viewModel.output.$isLoading
+                .receive(on: DispatchQueue.main)
+                .assign(to: \.isLoading, on: contentView)
+                .store(in: &cancellables)
+
             viewModel.output.$apiInfo
                 .receive(on: DispatchQueue.main)
                 .assign(to: \.apiInfo, on: contentView)

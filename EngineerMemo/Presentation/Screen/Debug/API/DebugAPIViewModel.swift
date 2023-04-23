@@ -17,6 +17,7 @@
         }
 
         final class Output: OutputObject {
+            @Published fileprivate(set) var isLoading = false
             @Published fileprivate(set) var apiInfo: APIInfo?
             @Published fileprivate(set) var apiResult: APIResult?
         }
@@ -231,6 +232,8 @@
 
     private extension DebugAPIViewModel {
         func request(item: some Request<some Encodable>) {
+            output.isLoading = true
+
             APIClient().request(item: item) { [weak self] result in
                 switch result {
                 case let .success(response):
@@ -245,11 +248,13 @@
                             responseJSON: response,
                             responseError: nil
                         )
+                        self?.output.isLoading = false
                     } else {
                         self?.output.apiResult = .init(
                             responseJSON: nil,
                             responseError: L10n.Debug.Api.encodeError
                         )
+                        self?.output.isLoading = false
                     }
 
                 case let .failure(error):
@@ -257,6 +262,7 @@
                         responseJSON: nil,
                         responseError: error.errorDescription
                     )
+                    self?.output.isLoading = false
                 }
             }
         }

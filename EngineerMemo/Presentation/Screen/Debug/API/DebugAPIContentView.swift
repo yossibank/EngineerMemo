@@ -65,6 +65,7 @@
 
     enum DebugAPIContentViewSection: CaseIterable {
         case main
+        case loading
     }
 
     enum DebugAPIContentViewItem: Hashable {
@@ -73,6 +74,7 @@
         case requestURL(DebugAPIViewModel.APIInfo)
         case responseJSON(DebugAPIViewModel.APIResult)
         case responseError(DebugAPIViewModel.APIResult)
+        case loading
     }
 
     // MARK: - properties & init
@@ -90,6 +92,12 @@
         }
 
         var apiResult: APIResult? {
+            didSet {
+                applySnapshot()
+            }
+        }
+
+        var isLoading = false {
             didSet {
                 applySnapshot()
             }
@@ -184,7 +192,8 @@
                     DebugPathComponentCell.self,
                     DebugParametersCell.self,
                     DebugAPIRequestURLCell.self,
-                    DebugAPIResponseCell.self
+                    DebugAPIResponseCell.self,
+                    DebugAPILoadingCell.self
                 ])
                 $0.backgroundColor = .primary
                 $0.separatorStyle = .none
@@ -330,6 +339,16 @@
                 cell.configure(with: api.responseError)
 
                 return cell
+
+            case .loading:
+                let cell = tableView.dequeueReusableCell(
+                    withType: DebugAPILoadingCell.self,
+                    for: indexPath
+                )
+
+                cell.configure(with: isLoading)
+
+                return cell
             }
         }
 
@@ -390,6 +409,13 @@
                         toSection: .main
                     )
                 }
+            }
+
+            if isLoading {
+                dataSourceSnapshot.appendItems(
+                    [.loading],
+                    toSection: .loading
+                )
             }
 
             dataSource.apply(

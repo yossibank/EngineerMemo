@@ -48,6 +48,12 @@
         required init?(coder: NSCoder) {
             super.init(coder: coder)
         }
+
+        override func prepareForReuse() {
+            super.prepareForReuse()
+
+            responseLabel.text = .empty
+        }
     }
 
     // MARK: - internal methods
