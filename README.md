@@ -50,7 +50,9 @@
 
 * APIレスポンス確認
 
+https://user-images.githubusercontent.com/55877379/233827264-f389c7db-126f-4b01-8d08-36446e9c61bb.mov
 
+https://user-images.githubusercontent.com/55877379/233827281-3eb41f69-af39-457d-baff-d5f06e9380dd.mov
 
 ## 対象OS
 
