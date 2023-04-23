@@ -8,8 +8,6 @@ final class MemoConverterTest: XCTestCase {
         super.setUp()
 
         converter = .init()
-
-        CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
     override func tearDown() {

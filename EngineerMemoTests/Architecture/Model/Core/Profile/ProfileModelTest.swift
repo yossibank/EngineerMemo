@@ -19,8 +19,6 @@ final class ProfileModelTest: XCTestCase {
             profileConverter: profileConverter,
             errorConverter: errorConverter
         )
-
-        CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
     override func tearDown() {

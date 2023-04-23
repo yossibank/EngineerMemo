@@ -19,8 +19,6 @@ final class MemoModelTest: XCTestCase {
             memoConverter: memoConverter,
             errorConverter: errorConverter
         )
-
-        CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
     override func tearDown() {
