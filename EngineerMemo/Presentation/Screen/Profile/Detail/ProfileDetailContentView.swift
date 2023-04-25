@@ -6,12 +6,14 @@ import UIKitHelper
 
 enum ProfileDetailContentViewSection: CaseIterable {
     case top
-    case main
+    case basic
+    case skill
 }
 
 enum ProfileDetailContentViewItem: Hashable {
     case top(ProfileModelObject?)
-    case main(ProfileModelObject?)
+    case basic(ProfileModelObject?)
+    case skill
 }
 
 // MARK: - properties & init
@@ -73,7 +75,8 @@ private extension ProfileDetailContentView {
                 with: [
                     ProfileTopCell.self,
                     ProfileSettingCell.self,
-                    ProfileBasicCell.self
+                    ProfileBasicCell.self,
+                    ProfileSkillCell.self
                 ]
             )
             $0.backgroundColor = .primary
@@ -106,7 +109,7 @@ private extension ProfileDetailContentView {
 
             return cell
 
-        case let .main(modelObject):
+        case let .basic(modelObject):
             if let modelObject {
                 let cell = tableView.dequeueReusableCell(
                     withType: ProfileBasicCell.self,
@@ -134,6 +137,14 @@ private extension ProfileDetailContentView {
 
                 return cell
             }
+
+        case .skill:
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileSkillCell.self,
+                for: indexPath
+            )
+
+            return cell
         }
     }
 
@@ -147,8 +158,13 @@ private extension ProfileDetailContentView {
         )
 
         dataSourceSnapshot.appendItems(
-            [.main(modelObject)],
-            toSection: .main
+            [.basic(modelObject)],
+            toSection: .basic
+        )
+
+        dataSourceSnapshot.appendItems(
+            [.skill],
+            toSection: .skill
         )
 
         dataSource.apply(

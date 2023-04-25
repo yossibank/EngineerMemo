@@ -53,29 +53,28 @@ final class ProfileBasicCell: UITableViewCell {
     private let addressLabel = UILabel()
     private let stationLabel = UILabel()
 
-    private let editButton = UIButton(type: .system)
-        .configure {
-            $0.setTitle(
-                L10n.Components.Button.Do.edit,
-                for: .normal
-            )
-            $0.setTitleColor(
-                .theme,
-                for: .normal
-            )
-            $0.setImage(
-                ImageResources.Profile.edit?.resized(size: .init(width: 16, height: 16)),
-                for: .normal
-            )
-            $0.clipsToBounds = true
-            $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
-            $0.imageEdgeInsets = .init(.left, -8)
-            $0.tintColor = .theme
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-            $0.layer.borderColor = UIColor.theme.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.layer.cornerRadius = 8
-        }
+    private let editButton = UIButton(type: .system).configure {
+        $0.setTitle(
+            L10n.Components.Button.Do.edit,
+            for: .normal
+        )
+        $0.setTitleColor(
+            .theme,
+            for: .normal
+        )
+        $0.setImage(
+            ImageResources.Profile.edit?.resized(size: .init(width: 16, height: 16)),
+            for: .normal
+        )
+        $0.clipsToBounds = true
+        $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
+        $0.imageEdgeInsets = .init(.left, -8)
+        $0.tintColor = .theme
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
+        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderWidth = 1.0
+        $0.layer.cornerRadius = 8
+    }
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -134,8 +133,8 @@ private extension ProfileBasicCell {
     func setupView() {
         contentView.configure {
             $0.addSubview(baseView) {
-                $0.top.equalToSuperview()
-                $0.bottom.leading.trailing.equalToSuperview().inset(32)
+                $0.top.bottom.equalToSuperview().inset(8)
+                $0.leading.trailing.equalToSuperview().inset(32)
             }
 
             $0.backgroundColor = .primary

@@ -87,7 +87,7 @@ private extension ProfileSettingCell {
     func setupView() {
         contentView.configure {
             $0.addSubview(body) {
-                $0.top.bottom.equalToSuperview()
+                $0.top.bottom.equalToSuperview().inset(8)
                 $0.leading.trailing.equalToSuperview().inset(32)
             }
 
