@@ -15,9 +15,11 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="station" optional="YES" attributeType="String"/>
+        <relationship name="skill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Skill" inverseName="profile" inverseEntity="Skill"/>
     </entity>
     <entity name="Skill" representedClassName="Skill" syncable="YES">
         <attribute name="career" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="identifier" attributeType="String"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="skill" inverseEntity="Profile"/>
     </entity>
 </model>
