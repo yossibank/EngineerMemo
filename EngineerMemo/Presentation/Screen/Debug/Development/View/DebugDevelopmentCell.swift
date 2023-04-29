@@ -9,10 +9,12 @@
         private var body: UIView {
             HStackView(spacing: 8) {
                 titleLabel.configure {
+                    $0.textColor = .primary
                     $0.font = .systemFont(ofSize: 14)
                 }
 
                 subTitleLabel.configure {
+                    $0.textColor = .primary
                     $0.font = .boldSystemFont(ofSize: 14)
                 }
             }

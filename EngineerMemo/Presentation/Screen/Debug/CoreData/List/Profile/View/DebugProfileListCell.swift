@@ -16,7 +16,7 @@
                 $0.size.equalTo(60)
             }
             .configure {
-                $0.backgroundColor = .tertiary
+                $0.backgroundColor = .primaryGray
                 $0.clipsToBounds = true
                 $0.layer.cornerRadius = 8
             }
@@ -26,6 +26,7 @@
                 VStackView(alignment: .center) {
                     basicLabel.configure {
                         $0.text = L10n.Profile.basicInformation
+                        $0.textColor = .primary
                         $0.font = .boldSystemFont(ofSize: 16)
                     }
                 }
@@ -149,11 +150,12 @@
             return VStackView(alignment: .leading, spacing: 8) {
                 UILabel().configure {
                     $0.text = type.title
-                    $0.textColor = .secondary
+                    $0.textColor = .secondaryGray
                     $0.font = .systemFont(ofSize: 14)
                 }
 
                 valueLabel.configure {
+                    $0.textColor = .primary
                     $0.font = .boldSystemFont(ofSize: 16)
                 }
             }

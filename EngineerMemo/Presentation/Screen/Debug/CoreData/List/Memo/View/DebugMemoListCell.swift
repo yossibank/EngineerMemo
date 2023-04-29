@@ -12,7 +12,7 @@
                 $0.edges.equalToSuperview().inset(16)
             }
             .configure {
-                $0.backgroundColor = .tertiary
+                $0.backgroundColor = .primaryGray
                 $0.clipsToBounds = true
                 $0.layer.cornerRadius = 8
             }
@@ -22,11 +22,12 @@
                 VStackView(spacing: 8) {
                     UILabel().configure {
                         $0.text = L10n.Memo.title
-                        $0.textColor = .secondary
+                        $0.textColor = .secondaryGray
                         $0.font = .systemFont(ofSize: 14)
                     }
 
                     titleLabel.configure {
+                        $0.textColor = .primary
                         $0.font = .boldSystemFont(ofSize: 16)
                         $0.numberOfLines = 0
                     }
@@ -35,11 +36,12 @@
                 VStackView(spacing: 8) {
                     UILabel().configure {
                         $0.text = L10n.Memo.content
-                        $0.textColor = .secondary
+                        $0.textColor = .secondaryGray
                         $0.font = .systemFont(ofSize: 14)
                     }
 
                     contentLabel.configure {
+                        $0.textColor = .primary
                         $0.font = .boldSystemFont(ofSize: 16)
                         $0.numberOfLines = 0
                     }
