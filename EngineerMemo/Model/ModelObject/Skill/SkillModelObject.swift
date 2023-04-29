@@ -2,6 +2,7 @@ import Foundation
 
 struct SkillModelObject: Hashable {
     var career: Int?
+    var identifier: String
 }
 
 extension SkillModelObject {

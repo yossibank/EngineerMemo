@@ -175,14 +175,14 @@ final class ProfileModelTest: XCTestCase {
         wait(for: [expectation], timeout: 0.3)
     }
 
-    func test_update_情報を更新できること() {
+    func test_basicUpdate_情報を更新できること() {
         // arrange
         dataInsert()
 
         let expectation = XCTestExpectation(description: #function)
 
         // act
-        model.update(
+        model.basicUpdate(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .name("テスト更新後")
@@ -196,6 +196,36 @@ final class ProfileModelTest: XCTestCase {
             // assert
             XCTAssertEqual(profile.name, "テスト更新後")
             XCTAssertEqual(profile.birthday, Calendar.date(year: 2000, month: 11, day: 1))
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.3)
+    }
+
+    func test_skillUpdate_skillを更新できること() {
+        // arrange
+        dataInsert()
+
+        let expectation = XCTestExpectation(description: #function)
+
+        // act
+        model.skillUpdate(
+            modelObject: ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .skill(
+                    SKillModelObjectBuilder()
+                        .career(3)
+                        .identifier("identifier")
+                        .build()
+                )
+                .build()
+        )
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let profile = self.storage.allObjects.first!
+
+            XCTAssertEqual(profile.skill?.career, 3)
 
             expectation.fulfill()
         }

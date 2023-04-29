@@ -154,7 +154,7 @@
                 }
 
                 self.modelObject.identifier = identifier
-                self.model.update(modelObject: self.modelObject)
+                self.model.basicUpdate(modelObject: self.modelObject)
                 self.model.iconImageUpdate(modelObject: self.modelObject)
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)

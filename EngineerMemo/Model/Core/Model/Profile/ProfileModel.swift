@@ -6,10 +6,10 @@ protocol ProfileModelInput: Model {
     func fetch(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void)
     func find(identifier: String, completion: @escaping (Result<ProfileModelObject, AppError>) -> Void)
     func create(modelObject: ProfileModelObject)
-    func update(modelObject: ProfileModelObject)
+    func basicUpdate(modelObject: ProfileModelObject)
+    func skillUpdate(modelObject: ProfileModelObject)
     func iconImageUpdate(modelObject: ProfileModelObject)
     func iconImageUpdate(index: Int)
-    func skillUpdate(modelObject: ProfileModelObject)
     func delete(modelObject: ProfileModelObject)
 }
 
@@ -91,12 +91,28 @@ final class ProfileModel: ProfileModelInput {
         .store(in: &cancellables)
     }
 
-    func update(modelObject: ProfileModelObject) {
+    func basicUpdate(modelObject: ProfileModelObject) {
         profileStorage.update(identifier: modelObject.identifier).sink { profile in
             modelObject.basicInsert(
                 profile,
                 isNew: false
             )
+        }
+        .store(in: &cancellables)
+    }
+
+    func skillUpdate(modelObject: ProfileModelObject) {
+        skillStorage.create().sink { [weak self] skill in
+            guard let self else {
+                return
+            }
+
+            modelObject.skill?.skillInsert(skill)
+
+            self.profileStorage.update(identifier: modelObject.identifier).sink { profile in
+                profile.skill = skill
+            }
+            .store(in: &self.cancellables)
         }
         .store(in: &cancellables)
     }
@@ -110,18 +126,6 @@ final class ProfileModel: ProfileModelInput {
 
     func iconImageUpdate(index: Int) {
         DataHolder.profileIcon = .init(rawValue: index) ?? .penguin
-    }
-
-    func skillUpdate(modelObject: ProfileModelObject) {
-        Publishers.CombineLatest(
-            skillStorage.create(),
-            profileStorage.update(identifier: modelObject.identifier)
-        )
-        .sink { skill, profile in
-            modelObject.skill?.skillInsert(skill)
-            profile.skill = skill
-        }
-        .store(in: &cancellables)
     }
 
     func delete(modelObject: ProfileModelObject) {

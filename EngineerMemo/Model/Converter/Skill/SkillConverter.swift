@@ -11,7 +11,8 @@ struct SkillConverter: SkillConverterInput {
         }
 
         return SkillModelObject(
-            career: skill.career?.intValue
+            career: skill.career?.intValue,
+            identifier: skill.identifier
         )
     }
 }
