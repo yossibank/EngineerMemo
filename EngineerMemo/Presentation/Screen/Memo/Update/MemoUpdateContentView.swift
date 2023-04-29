@@ -35,6 +35,7 @@ final class MemoUpdateContentView: UIView {
                         }
                         .configure {
                             $0.font = .boldSystemFont(ofSize: 16)
+                            $0.backgroundColor = .background
                             $0.layer.borderColor = UIColor.primary.cgColor
                             $0.layer.borderWidth = 1.0
                             $0.layer.cornerRadius = 4
@@ -63,6 +64,7 @@ final class MemoUpdateContentView: UIView {
                         }
                         .configure {
                             $0.font = .boldSystemFont(ofSize: 14)
+                            $0.backgroundColor = .background
                             $0.layer.borderColor = UIColor.primary.cgColor
                             $0.layer.borderWidth = 1.0
                             $0.layer.cornerRadius = 4
@@ -80,7 +82,7 @@ final class MemoUpdateContentView: UIView {
     private let titleTextView = UITextView()
     private let titleLabel = UILabel().configure {
         $0.text = L10n.Memo.title
-        $0.textColor = .secondary
+        $0.textColor = .secondaryGray
         $0.font = .boldSystemFont(ofSize: 16)
     }
 
@@ -88,7 +90,7 @@ final class MemoUpdateContentView: UIView {
     private let contentTextView = UITextView()
     private let contentLabel = UILabel().configure {
         $0.text = L10n.Memo.content
-        $0.textColor = .secondary
+        $0.textColor = .secondaryGray
         $0.font = .boldSystemFont(ofSize: 16)
     }
 
