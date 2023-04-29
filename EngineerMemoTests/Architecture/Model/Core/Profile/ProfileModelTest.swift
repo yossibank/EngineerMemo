@@ -310,7 +310,7 @@ private extension ProfileModelTest {
             $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
             $0.email = "test@test.com"
             $0.genderEnum = .man
-            $0.iconImage = ImageResources.Profile.edit?.pngData()
+            $0.iconImage = Asset.penguin.image.pngData()
             $0.identifier = "identifier"
             $0.name = "testName"
             $0.phoneNumber = "08011112222"
