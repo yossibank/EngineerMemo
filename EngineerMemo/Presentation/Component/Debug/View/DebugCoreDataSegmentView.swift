@@ -36,8 +36,18 @@
             }
         }
 
+        var skill: SkillModelObject? {
+            switch self {
+            case .short: return SKillModelObjectBuilder().build()
+            case .medium: return SKillModelObjectBuilder().build()
+            case .long: return SKillModelObjectBuilder().build()
+            case .none: return nil
+            }
+        }
+
         static var defaultString: String? { medium.string }
         static var defaultDate: Date? { medium.date }
+        static var defaultSkill: SkillModelObject? { medium.skill }
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none

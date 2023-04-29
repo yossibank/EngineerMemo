@@ -130,7 +130,7 @@ final class ProfileUpdateViewModel: ViewModel {
             if modelObject == nil {
                 self.model.create(modelObject: self.modelObject)
             } else {
-                self.model.update(modelObject: self.modelObject)
+                self.model.basicUpdate(modelObject: self.modelObject)
             }
 
             self.output.isFinished = true

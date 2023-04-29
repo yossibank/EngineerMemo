@@ -27,5 +27,20 @@ extension UIAppearanceProtocol {
             UITabBar.appearance().standardAppearance = appearance
             UITabBar.appearance().scrollEdgeAppearance = appearance
         }
+
+        UIScrollView.appearance().configure {
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
+        }
+
+        UITableView.appearance().configure {
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
+        }
+
+        UICollectionView.appearance().configure {
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
+        }
     }
 }

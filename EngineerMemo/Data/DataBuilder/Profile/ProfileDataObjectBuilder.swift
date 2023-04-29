@@ -11,6 +11,7 @@
         private var name: String? = "testName"
         private var phoneNumber: String? = "08011112222"
         private var station: String? = "鶴橋駅"
+        private var skill: Skill?
 
         func build() -> Profile {
             let context = CoreDataManager.shared.backgroundContext!
@@ -24,6 +25,7 @@
             profile.name = name
             profile.phoneNumber = phoneNumber
             profile.station = station
+            profile.skill = skill
             return profile
         }
 
@@ -69,6 +71,11 @@
 
         func station(_ station: String?) -> Self {
             self.station = station
+            return self
+        }
+
+        func skill(_ skill: Skill?) -> Self {
+            self.skill = skill
             return self
         }
     }

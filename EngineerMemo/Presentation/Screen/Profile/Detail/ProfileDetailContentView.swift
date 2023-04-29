@@ -6,12 +6,14 @@ import UIKitHelper
 
 enum ProfileDetailContentViewSection: CaseIterable {
     case top
-    case main
+    case basic
+    case skill
 }
 
 enum ProfileDetailContentViewItem: Hashable {
     case top(ProfileModelObject?)
-    case main(ProfileModelObject?)
+    case basic(ProfileModelObject?)
+    case skill(SkillModelObject?)
 }
 
 // MARK: - properties & init
@@ -72,13 +74,14 @@ private extension ProfileDetailContentView {
             $0.registerCells(
                 with: [
                     ProfileTopCell.self,
-                    ProfileSettingCell.self,
-                    ProfileBasicCell.self
+                    ProfileBasicCell.self,
+                    ProfileSkillCell.self
                 ]
             )
             $0.backgroundColor = .primary
             $0.allowsSelection = false
             $0.separatorStyle = .none
+            $0.delegate = self
             $0.dataSource = dataSource
         }
     }
@@ -106,34 +109,37 @@ private extension ProfileDetailContentView {
 
             return cell
 
-        case let .main(modelObject):
-            if let modelObject {
-                let cell = tableView.dequeueReusableCell(
-                    withType: ProfileBasicCell.self,
-                    for: indexPath
-                )
+        case let .basic(modelObject):
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileBasicCell.self,
+                for: indexPath
+            )
 
-                cell.configure(modelObject)
+            cell.configure(modelObject)
 
-                cell.didTapEditButtonPublisher.sink { [weak self] _ in
+            cell.didTapEditButtonPublisher.sink { [weak self] _ in
+                if let modelObject {
                     self?.didTapEditButtonSubject.send(modelObject)
                 }
-                .store(in: &cell.cancellables)
-
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCell(
-                    withType: ProfileSettingCell.self,
-                    for: indexPath
-                )
-
-                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
-                    self?.didTapSettingButtonSubject.send(())
-                }
-                .store(in: &cell.cancellables)
-
-                return cell
             }
+            .store(in: &cell.cancellables)
+
+            cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                self?.didTapSettingButtonSubject.send(())
+            }
+            .store(in: &cell.cancellables)
+
+            return cell
+
+        case let .skill(modelObject):
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileSkillCell.self,
+                for: indexPath
+            )
+
+            cell.configure(modelObject)
+
+            return cell
         }
     }
 
@@ -147,14 +153,39 @@ private extension ProfileDetailContentView {
         )
 
         dataSourceSnapshot.appendItems(
-            [.main(modelObject)],
-            toSection: .main
+            [.basic(modelObject)],
+            toSection: .basic
         )
+
+        if let modelObject {
+            dataSourceSnapshot.appendItems(
+                [.skill(modelObject.skill)],
+                toSection: .skill
+            )
+        }
 
         dataSource.apply(
             dataSourceSnapshot,
             animatingDifferences: false
         )
+    }
+}
+
+// MARK: - delegate
+
+extension ProfileDetailContentView: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        viewForFooterInSection section: Int
+    ) -> UIView? {
+        .init()
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        heightForFooterInSection section: Int
+    ) -> CGFloat {
+        16
     }
 }
 

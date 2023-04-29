@@ -6,7 +6,8 @@ protocol ProfileModelInput: Model {
     func fetch(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void)
     func find(identifier: String, completion: @escaping (Result<ProfileModelObject, AppError>) -> Void)
     func create(modelObject: ProfileModelObject)
-    func update(modelObject: ProfileModelObject)
+    func basicUpdate(modelObject: ProfileModelObject)
+    func skillUpdate(modelObject: ProfileModelObject)
     func iconImageUpdate(modelObject: ProfileModelObject)
     func iconImageUpdate(index: Int)
     func delete(modelObject: ProfileModelObject)
@@ -15,7 +16,8 @@ protocol ProfileModelInput: Model {
 final class ProfileModel: ProfileModelInput {
     private var cancellables: Set<AnyCancellable> = .init()
 
-    private let storage = CoreDataStorage<Profile>()
+    private let profileStorage = CoreDataStorage<Profile>()
+    private let skillStorage = CoreDataStorage<Skill>()
     private let profileConverter: ProfileConverterInput
     private let errorConverter: AppErrorConverterInput
 
@@ -28,7 +30,7 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func fetch(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void) {
-        storage.publisher().sink(
+        profileStorage.publisher().sink(
             receiveCompletion: { [weak self] receiveCompletion in
                 guard let self else {
                     return
@@ -53,7 +55,7 @@ final class ProfileModel: ProfileModelInput {
         identifier: String,
         completion: @escaping (Result<ProfileModelObject, AppError>) -> Void
     ) {
-        storage.publisher().sink(
+        profileStorage.publisher().sink(
             receiveCompletion: { [weak self] receiveCompletion in
                 guard let self else {
                     return
@@ -80,8 +82,8 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func create(modelObject: ProfileModelObject) {
-        storage.create().sink { profile in
-            modelObject.dataInsert(
+        profileStorage.create().sink { profile in
+            modelObject.basicInsert(
                 profile,
                 isNew: true
             )
@@ -89,9 +91,9 @@ final class ProfileModel: ProfileModelInput {
         .store(in: &cancellables)
     }
 
-    func update(modelObject: ProfileModelObject) {
-        storage.update(identifier: modelObject.identifier).sink { profile in
-            modelObject.dataInsert(
+    func basicUpdate(modelObject: ProfileModelObject) {
+        profileStorage.update(identifier: modelObject.identifier).sink { profile in
+            modelObject.basicInsert(
                 profile,
                 isNew: false
             )
@@ -99,8 +101,37 @@ final class ProfileModel: ProfileModelInput {
         .store(in: &cancellables)
     }
 
+    func skillUpdate(modelObject: ProfileModelObject) {
+        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
+            guard let self else {
+                return
+            }
+
+            if let skill = modelObject.skill {
+                if profile.skill == nil {
+                    self.skillStorage.create().sink { skill in
+                        modelObject.skill?.skillInsert(skill)
+                        profile.skill = skill
+                    }
+                    .store(in: &self.cancellables)
+                } else {
+                    self.skillStorage.update(identifier: skill.identifier).sink { skill in
+                        modelObject.skill?.skillInsert(skill)
+                        profile.skill = skill
+                    }
+                    .store(in: &self.cancellables)
+                }
+            } else {
+                if profile.skill != nil {
+                    profile.skill = nil
+                }
+            }
+        }
+        .store(in: &cancellables)
+    }
+
     func iconImageUpdate(modelObject: ProfileModelObject) {
-        storage.update(identifier: modelObject.identifier).sink { profile in
+        profileStorage.update(identifier: modelObject.identifier).sink { profile in
             modelObject.iconImageInsert(profile)
         }
         .store(in: &cancellables)
@@ -111,6 +142,6 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func delete(modelObject: ProfileModelObject) {
-        storage.delete(identifier: modelObject.identifier)
+        profileStorage.delete(identifier: modelObject.identifier)
     }
 }

@@ -144,7 +144,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
 
         // assert
-        XCTAssertEqual(model.updateCallCount, 1)
+        XCTAssertEqual(model.basicUpdateCallCount, 1)
     }
 
     func test_input_didTapBarButton_setting_プロフィール作成処理が呼ばれること() {

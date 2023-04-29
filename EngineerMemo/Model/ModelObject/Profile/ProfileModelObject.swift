@@ -9,6 +9,7 @@ struct ProfileModelObject: Hashable {
     var name: String?
     var phoneNumber: String?
     var station: String?
+    var skill: SkillModelObject?
     var identifier: String
 
     enum Gender: Int {
@@ -29,7 +30,7 @@ struct ProfileModelObject: Hashable {
 }
 
 extension ProfileModelObject {
-    func dataInsert(
+    func basicInsert(
         _ profile: Profile,
         isNew: Bool
     ) {

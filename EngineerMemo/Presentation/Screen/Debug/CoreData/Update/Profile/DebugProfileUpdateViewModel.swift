@@ -11,6 +11,7 @@
             let didChangeNameControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangePhoneNumberControl = PassthroughSubject<DebugPhoneNumberSegment, Never>()
             let didChangeStationControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeSkillControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangeSearchText = PassthroughSubject<String, Never>()
             let didTapUpdateButton = PassthroughSubject<String, Never>()
         }
@@ -35,6 +36,7 @@
             .name(DebugCoreDataSegment.defaultString)
             .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)
+            .skill(DebugCoreDataSegment.defaultSkill)
             .build()
 
         private var addressSegment: DebugCoreDataSegment = .medium
@@ -45,6 +47,7 @@
         private var nameSegment: DebugCoreDataSegment = .medium
         private var phoneNumberSegment: DebugPhoneNumberSegment = .phone
         private var stationSegment: DebugCoreDataSegment = .medium
+        private var skillSegment: DebugCoreDataSegment = .medium
 
         private let model: ProfileModelInput
 
@@ -129,6 +132,14 @@
             }
             .store(in: &cancellables)
 
+            // MARK: - スキルセグメント
+
+            input.didChangeSkillControl.sink { [weak self] segment in
+                self?.skillSegment = segment
+                self?.modelObject.skill = segment.skill
+            }
+            .store(in: &cancellables)
+
             // MARK: - 文字検索
 
             input.didChangeSearchText.sink { [weak self] searchText in
@@ -154,8 +165,9 @@
                 }
 
                 self.modelObject.identifier = identifier
-                self.model.update(modelObject: self.modelObject)
+                self.model.basicUpdate(modelObject: self.modelObject)
                 self.model.iconImageUpdate(modelObject: self.modelObject)
+                self.model.skillUpdate(modelObject: self.modelObject)
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
                     .birthday(self.ageSegment.date)
@@ -165,6 +177,7 @@
                     .name(self.nameSegment.string)
                     .phoneNumber(self.phoneNumberSegment.phoneNumber)
                     .station(self.stationSegment.string)
+                    .skill(self.skillSegment.skill)
                     .identifier(identifier)
                     .build()
             }
