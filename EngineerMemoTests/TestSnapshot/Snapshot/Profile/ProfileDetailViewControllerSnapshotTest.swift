@@ -9,7 +9,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "フォルダ名"
+        folderName = "プロフィール詳細画面"
 
         recordMode = SnapshotTest.recordMode
 
