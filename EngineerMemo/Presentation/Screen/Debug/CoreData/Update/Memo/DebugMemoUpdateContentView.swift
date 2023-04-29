@@ -100,7 +100,7 @@
         func setupTableView() {
             tableView.configure {
                 $0.registerCells(with: Section.allCases.map(\.cellType))
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
                 $0.allowsMultipleSelection = false
                 $0.delegate = self
                 $0.dataSource = dataSource

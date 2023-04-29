@@ -27,7 +27,7 @@
                             $0.height.equalTo(1)
                         }
                         .configure {
-                            $0.backgroundColor = .theme
+                            $0.backgroundColor = .background
                         }
                 }
 
@@ -112,7 +112,7 @@
                     $0.leading.trailing.equalToSuperview().inset(8)
                 }
 
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
             }
         }
     }

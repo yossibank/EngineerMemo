@@ -116,7 +116,7 @@ private extension SheetContentView {
             switch sheetAction.actionType {
             case .default:
                 $0.setTitleColor(
-                    .theme,
+                    .primary,
                     for: .normal
                 )
                 $0.backgroundColor = .dynamicColor(
@@ -143,7 +143,7 @@ private extension SheetContentView {
                     .primary,
                     for: .normal
                 )
-                $0.backgroundColor = .theme
+                $0.backgroundColor = .background
             }
         }
 

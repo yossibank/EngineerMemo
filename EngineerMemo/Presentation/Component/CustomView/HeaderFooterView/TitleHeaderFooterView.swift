@@ -37,7 +37,7 @@ private extension TitleHeaderFooterView {
                 $0.leading.equalToSuperview().inset(8)
             }
 
-            $0.backgroundColor = .thinGray
+            $0.backgroundColor = .tertiary
         }
     }
 }

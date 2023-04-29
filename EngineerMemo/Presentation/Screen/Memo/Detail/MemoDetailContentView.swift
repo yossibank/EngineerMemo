@@ -116,7 +116,7 @@ final class MemoDetailContentView: UIView {
 private extension MemoDetailContentView {
     func setupCollectionView() {
         collectionView.configure {
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 

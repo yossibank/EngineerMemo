@@ -72,7 +72,7 @@
                     $0.leading.equalToSuperview().inset(8)
                 }
 
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
             }
         }
     }

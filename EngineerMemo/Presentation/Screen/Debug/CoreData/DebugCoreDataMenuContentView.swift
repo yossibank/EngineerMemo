@@ -75,7 +75,7 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                menuButton.layer.borderColor = UIColor.theme.cgColor
+                menuButton.layer.borderColor = UIColor.primary.cgColor
             }
         }
     }
@@ -156,7 +156,7 @@
                     $0.height.equalTo(40)
                 }
 
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
             }
         }
     }

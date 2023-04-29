@@ -59,7 +59,7 @@ private extension DebugAPILoadingCell {
                 $0.leading.trailing.equalToSuperview().inset(8)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
             $0.isUserInteractionEnabled = false
         }
     }

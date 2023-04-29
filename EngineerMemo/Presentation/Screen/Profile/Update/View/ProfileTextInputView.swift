@@ -40,7 +40,7 @@ final class ProfileTextInputView: UIView {
     private let inputTextField = UITextField().configure {
         $0.borderStyle = .roundedRect
         $0.clipsToBounds = true
-        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderColor = UIColor.primary.cgColor
         $0.layer.borderWidth = 1.0
         $0.layer.cornerRadius = 4
     }
@@ -79,7 +79,7 @@ final class ProfileTextInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputTextField].forEach {
-                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderColor = UIColor.primary.cgColor
             }
         }
     }
@@ -132,7 +132,7 @@ private extension ProfileTextInputView {
                 $0.leading.trailing.equalToSuperview().inset(16)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 

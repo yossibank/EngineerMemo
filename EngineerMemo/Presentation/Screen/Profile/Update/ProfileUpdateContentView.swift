@@ -110,7 +110,7 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            barButton.layer.borderColor = UIColor.theme.cgColor
+            barButton.layer.borderColor = UIColor.primary.cgColor
         }
     }
 }
@@ -151,7 +151,7 @@ extension ProfileUpdateContentView: ContentView {
                 $0.edges.equalToSuperview()
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 }

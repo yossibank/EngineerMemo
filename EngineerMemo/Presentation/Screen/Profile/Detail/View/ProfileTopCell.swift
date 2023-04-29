@@ -32,12 +32,12 @@ final class ProfileTopCell: UITableViewCell {
                         for: .normal
                     )
                     $0.setTitleColor(
-                        .theme,
+                        .primary,
                         for: .normal
                     )
                     $0.clipsToBounds = true
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-                    $0.layer.borderColor = UIColor.theme.cgColor
+                    $0.layer.borderColor = UIColor.primary.cgColor
                     $0.layer.borderWidth = 1.0
                     $0.layer.cornerRadius = 8
                 }
@@ -110,14 +110,14 @@ private extension ProfileTopCell {
                 $0.leading.trailing.equalToSuperview().inset(32)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 
     func setupButton() {
         let color: UIColor = iconChangeButton.isEnabled
-            ? .theme
-            : .thinGray
+            ? .primary
+            : .tertiary
 
         iconChangeButton.configure {
             $0.setTitleColor(

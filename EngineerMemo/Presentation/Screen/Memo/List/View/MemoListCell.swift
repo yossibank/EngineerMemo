@@ -12,7 +12,7 @@ final class MemoListCell: UICollectionViewCell {
             $0.edges.equalToSuperview().inset(16)
         }
         .configure {
-            $0.backgroundColor = .thinGray
+            $0.backgroundColor = .tertiary
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 8
         }
@@ -86,7 +86,7 @@ private extension MemoListCell {
                 $0.edges.equalToSuperview()
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 }

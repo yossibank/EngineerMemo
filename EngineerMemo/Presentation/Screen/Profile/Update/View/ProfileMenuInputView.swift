@@ -70,14 +70,14 @@ final class ProfileMenuInputView: UIView {
 
     private let menuButton = UIButton(type: .system).configure {
         $0.setTitleColor(
-            .theme,
+            .primary,
             for: .normal
         )
         $0.clipsToBounds = true
         $0.contentHorizontalAlignment = .leading
         $0.contentEdgeInsets = .init(.left, 8)
         $0.titleLabel?.font = .systemFont(ofSize: 17)
-        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderColor = UIColor.primary.cgColor
         $0.layer.borderWidth = 1.0
         $0.layer.cornerRadius = 4
     }
@@ -101,7 +101,7 @@ final class ProfileMenuInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, menuButton].forEach {
-                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderColor = UIColor.primary.cgColor
             }
         }
     }
@@ -133,7 +133,7 @@ private extension ProfileMenuInputView {
                 $0.leading.trailing.equalToSuperview().inset(16)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 

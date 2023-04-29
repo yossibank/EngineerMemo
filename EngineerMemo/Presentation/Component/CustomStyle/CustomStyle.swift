@@ -6,9 +6,9 @@ import UIKitHelper
 extension ViewStyle where T: UIView {
     static var inputView: ViewStyle<T> {
         .init {
-            $0.backgroundColor = .thinGray
+            $0.backgroundColor = .tertiary
             $0.clipsToBounds = true
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 4
         }
@@ -53,7 +53,7 @@ extension ViewStyle where T: UIButton {
                 for: .normal
             )
             $0.setTitleColor(
-                .theme,
+                .primary,
                 for: .normal
             )
             $0.setImage(
@@ -64,7 +64,7 @@ extension ViewStyle where T: UIButton {
             $0.titleEdgeInsets = .zero
             $0.titleLabel?.font = .boldSystemFont(ofSize: 15)
             $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
         }
     }
@@ -76,7 +76,7 @@ extension ViewStyle where T: UIButton {
                 for: .normal
             )
             $0.setTitleColor(
-                .theme,
+                .primary,
                 for: .normal
             )
             $0.setImage(
@@ -88,7 +88,7 @@ extension ViewStyle where T: UIButton {
             $0.imageEdgeInsets = .init(.left, -8)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 15)
             $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
         }
     }
@@ -121,7 +121,7 @@ extension ViewStyle where T: UIButton {
                 for: .normal
             )
             $0.setTitleColor(
-                .theme,
+                .primary,
                 for: .normal
             )
             $0.setImage(
@@ -133,7 +133,7 @@ extension ViewStyle where T: UIButton {
             $0.imageEdgeInsets = .init(.left, -8)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.tintColor = .dynamicColor(light: .blue, dark: .green)
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8
         }
@@ -172,11 +172,11 @@ extension ViewStyle where T: UIButton {
     static var debugMenuButton: ViewStyle<T> {
         .init {
             $0.setTitleColor(
-                .theme,
+                .primary,
                 for: .normal
             )
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8
             $0.clipsToBounds = true
@@ -190,7 +190,7 @@ extension ViewStyle where T: UIButton {
                 for: .normal
             )
             $0.setTitleColor(
-                .theme,
+                .primary,
                 for: .normal
             )
             $0.setImage(
@@ -202,7 +202,7 @@ extension ViewStyle where T: UIButton {
             $0.titleEdgeInsets = .zero
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
         }
     }
@@ -217,7 +217,7 @@ extension ViewStyle where T: UIButton {
                 for: .normal
             )
             $0.setTitleColor(
-                .theme,
+                .primary,
                 for: .normal
             )
             $0.setImage(
@@ -229,7 +229,7 @@ extension ViewStyle where T: UIButton {
             $0.titleEdgeInsets = .init(.right, 20)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
         }
     }
