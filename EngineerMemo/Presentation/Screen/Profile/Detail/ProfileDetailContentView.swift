@@ -13,7 +13,7 @@ enum ProfileDetailContentViewSection: CaseIterable {
 enum ProfileDetailContentViewItem: Hashable {
     case top(ProfileModelObject?)
     case basic(ProfileModelObject?)
-    case skill
+    case skill(SkillModelObject?)
 }
 
 // MARK: - properties & init
@@ -74,7 +74,6 @@ private extension ProfileDetailContentView {
             $0.registerCells(
                 with: [
                     ProfileTopCell.self,
-                    ProfileSettingCell.self,
                     ProfileBasicCell.self,
                     ProfileSkillCell.self
                 ]
@@ -110,39 +109,34 @@ private extension ProfileDetailContentView {
             return cell
 
         case let .basic(modelObject):
-            if let modelObject {
-                let cell = tableView.dequeueReusableCell(
-                    withType: ProfileBasicCell.self,
-                    for: indexPath
-                )
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileBasicCell.self,
+                for: indexPath
+            )
 
-                cell.configure(modelObject)
+            cell.configure(modelObject)
 
-                cell.didTapEditButtonPublisher.sink { [weak self] _ in
+            cell.didTapEditButtonPublisher.sink { [weak self] _ in
+                if let modelObject {
                     self?.didTapEditButtonSubject.send(modelObject)
                 }
-                .store(in: &cell.cancellables)
-
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCell(
-                    withType: ProfileSettingCell.self,
-                    for: indexPath
-                )
-
-                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
-                    self?.didTapSettingButtonSubject.send(())
-                }
-                .store(in: &cell.cancellables)
-
-                return cell
             }
+            .store(in: &cell.cancellables)
 
-        case .skill:
+            cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                self?.didTapSettingButtonSubject.send(())
+            }
+            .store(in: &cell.cancellables)
+
+            return cell
+
+        case let .skill(modelObject):
             let cell = tableView.dequeueReusableCell(
                 withType: ProfileSkillCell.self,
                 for: indexPath
             )
+
+            cell.configure(modelObject)
 
             return cell
         }
@@ -162,10 +156,12 @@ private extension ProfileDetailContentView {
             toSection: .basic
         )
 
-        dataSourceSnapshot.appendItems(
-            [.skill],
-            toSection: .skill
-        )
+        if let modelObject {
+            dataSourceSnapshot.appendItems(
+                [.skill(modelObject.skill)],
+                toSection: .skill
+            )
+        }
 
         dataSource.apply(
             dataSourceSnapshot,

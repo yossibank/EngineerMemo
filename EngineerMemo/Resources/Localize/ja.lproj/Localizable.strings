@@ -61,29 +61,30 @@
 "profile.icon.penguin" = "ペンギン";
 "profile.icon.seal" = "アザラシ";
 "profile.icon.sheep" = "ヒツジ";
-"profile.address" = "住所";
-"profile.addressDescription" = "住所詳細";
-"profile.age" = "年齢";
 "profile.basicInformation" = "基本情報";
+"profile.settingDescription" = "自分のプロフィール情報を設定しましょう。";
+"profile.experienceSkill" = "経験・スキル";
+"profile.skillDescription" = "自分の経験・スキル情報を設定しましょう。";
+"profile.noSettingName" = "名前未設定";
+"profile.name" = "名前";
+"profile.age" = "年齢";
+"profile.old" = "歳";
 "profile.birthday" = "生年月日";
+"profile.gender" = "性別";
+"profile.gender.man" = "男性";
+"profile.gender.other" = "その他";
+"profile.gender.woman" = "女性";
 "profile.email" = "メールアドレス";
+"profile.address" = "住所";
+"profile.phoneNumber" = "電話番号";
+"profile.hyphen" = "-";
+"profile.station" = "最寄駅";
 "profile.example.address" = "例) 東京都港区虎ノ門○-○-○";
 "profile.example.email" = "例) sample@sample.com";
 "profile.example.name" = "例) 山田 太郎";
 "profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
-"profile.gender" = "性別";
-"profile.gender.man" = "男性";
-"profile.gender.other" = "その他";
-"profile.gender.woman" = "女性";
-"profile.hyphen" = "-";
-"profile.name" = "名前";
-"profile.noSettingName" = "名前未設定";
-"profile.old" = "歳";
-"profile.phoneNumber" = "電話番号";
-"profile.postOfficeNumber" = "郵便番号";
-"profile.settingDescription" = "プロフィールを設定しましょう。\n基本情報、職務経歴、自己PRなどをまとまることができます。";
-"profile.station" = "最寄駅";
+"profile.career" = "エンジニア歴";
 
 // MARK: - FirebaseAnalytics
 

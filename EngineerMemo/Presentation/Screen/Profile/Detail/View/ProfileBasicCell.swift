@@ -8,9 +8,10 @@ final class ProfileBasicCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
     private(set) lazy var didTapEditButtonPublisher = editButton.publisher(for: .touchUpInside)
+    private(set) lazy var didTapSettingButtonPublisher = settingButton.publisher(for: .touchUpInside)
 
     private lazy var baseView = UIView()
-        .addSubview(stackView) {
+        .addSubview(body) {
             $0.edges.equalToSuperview().inset(16)
         }
         .addSubview(editButton) {
@@ -23,7 +24,7 @@ final class ProfileBasicCell: UITableViewCell {
             $0.layer.cornerRadius = 8
         }
 
-    private var stackView: UIView {
+    private var body: UIView {
         VStackView(spacing: 16) {
             VStackView(alignment: .center) {
                 basicLabel.configure {
@@ -32,16 +33,40 @@ final class ProfileBasicCell: UITableViewCell {
                 }
             }
 
-            VStackView(alignment: .leading, spacing: 16) {
-                createStackView(.name)
-                createStackView(.age)
-                createStackView(.gender)
-                createStackView(.email)
-                createStackView(.phoneNumber)
-                createStackView(.address)
-                createStackView(.station)
-            }
+            settingView
+
+            basicView
         }
+    }
+
+    private lazy var settingView = VStackView(
+        alignment: .center,
+        spacing: 16
+    ) {
+        UILabel().configure {
+            $0.font = .boldSystemFont(ofSize: 14)
+            $0.text = L10n.Profile.settingDescription
+            $0.textAlignment = .center
+            $0.numberOfLines = 0
+        }
+
+        settingButton.addConstraint {
+            $0.width.equalTo(160)
+            $0.height.equalTo(48)
+        }
+    }
+
+    private lazy var basicView = VStackView(
+        alignment: .leading,
+        spacing: 16
+    ) {
+        createStackView(.name)
+        createStackView(.age)
+        createStackView(.gender)
+        createStackView(.email)
+        createStackView(.phoneNumber)
+        createStackView(.address)
+        createStackView(.station)
     }
 
     private let basicLabel = UILabel()
@@ -73,6 +98,21 @@ final class ProfileBasicCell: UITableViewCell {
         $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
         $0.layer.borderColor = UIColor.theme.cgColor
         $0.layer.borderWidth = 1.0
+        $0.layer.cornerRadius = 8
+    }
+
+    private let settingButton = UIButton(type: .system).configure {
+        $0.setTitle(
+            L10n.Components.Button.Do.setting,
+            for: .normal
+        )
+        $0.setTitleColor(
+            .white,
+            for: .normal
+        )
+        $0.backgroundColor = .gray
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        $0.clipsToBounds = true
         $0.layer.cornerRadius = 8
     }
 
@@ -110,20 +150,29 @@ final class ProfileBasicCell: UITableViewCell {
 // MARK: - internal methods
 
 extension ProfileBasicCell {
-    func configure(_ modelObject: ProfileModelObject) {
+    func configure(_ modelObject: ProfileModelObject?) {
+        guard let modelObject else {
+            settingView.isHidden = false
+            basicView.isHidden = true
+            editButton.isHidden = true
+            return
+        }
+
+        settingView.isHidden = true
+        basicView.isHidden = false
+        editButton.isHidden = false
         nameLabel.text = modelObject.name
+        genderLabel.text = modelObject.gender?.value
+        emailLabel.text = modelObject.email
+        phoneNumberLabel.text = modelObject.phoneNumber?.phoneText
+        addressLabel.text = modelObject.address
+        stationLabel.text = modelObject.station
 
         if let age = modelObject.birthday?.ageString() {
             ageLabel.text = "\(age)\(L10n.Profile.old)"
         } else {
             ageLabel.text = .noSetting
         }
-
-        genderLabel.text = modelObject.gender?.value
-        emailLabel.text = modelObject.email
-        phoneNumberLabel.text = modelObject.phoneNumber?.phoneText
-        addressLabel.text = modelObject.address
-        stationLabel.text = modelObject.station
     }
 }
 
@@ -138,14 +187,6 @@ private extension ProfileBasicCell {
             }
 
             $0.backgroundColor = .primary
-        }
-    }
-
-    private func createTitleLabel(_ type: ProfileContentType) -> UILabel {
-        .init().configure {
-            $0.text = type.title
-            $0.textColor = .secondary
-            $0.font = .systemFont(ofSize: 14)
         }
     }
 
