@@ -1,15 +1,15 @@
 /// @mockable
 protocol MemoConverterInput {
-    func convert(_ object: Memo) -> MemoModelObject
+    func convert(_ memo: Memo) -> MemoModelObject
 }
 
 struct MemoConverter: MemoConverterInput {
-    func convert(_ object: Memo) -> MemoModelObject {
+    func convert(_ memo: Memo) -> MemoModelObject {
         // NOTE: .init(...)生成は型チェックで時間がかかるため型指定して生成
         MemoModelObject(
-            title: object.title ?? .noSetting,
-            content: object.content ?? .noSetting,
-            identifier: object.identifier
+            title: memo.title ?? .noSetting,
+            content: memo.content ?? .noSetting,
+            identifier: memo.identifier
         )
     }
 }
