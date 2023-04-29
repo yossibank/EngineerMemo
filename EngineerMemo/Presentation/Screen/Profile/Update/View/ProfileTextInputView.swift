@@ -33,16 +33,17 @@ final class ProfileTextInputView: UIView {
     private let textInputView = UIView()
 
     private let titleLabel = UILabel().configure {
-        $0.textColor = .secondary
+        $0.textColor = .secondaryGray
         $0.font = .boldSystemFont(ofSize: 16)
     }
 
     private let inputTextField = UITextField().configure {
+        $0.backgroundColor = .background
         $0.borderStyle = .roundedRect
-        $0.clipsToBounds = true
         $0.layer.borderColor = UIColor.primary.cgColor
         $0.layer.borderWidth = 1.0
         $0.layer.cornerRadius = 4
+        $0.clipsToBounds = true
     }
 
     private var cancellables: Set<AnyCancellable> = .init()

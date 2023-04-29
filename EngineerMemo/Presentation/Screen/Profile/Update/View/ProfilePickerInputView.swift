@@ -38,7 +38,7 @@ final class ProfilePickerInputView: UIView {
     private let pickerInputView = UIView()
 
     private let titleLabel = UILabel().configure {
-        $0.textColor = .secondary
+        $0.textColor = .secondaryGray
         $0.font = .boldSystemFont(ofSize: 16)
     }
 

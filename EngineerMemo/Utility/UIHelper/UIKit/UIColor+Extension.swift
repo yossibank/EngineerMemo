@@ -3,8 +3,8 @@ import UIKitHelper
 
 extension UIColor {
     static let background: UIColor = .dynamicColor(light: .hexFFFFFF, dark: .hex181818)
-    static let theme: UIColor = .dynamicColor(light: .hexFFFFFF, dark: .hex000000)
-    static let primary: UIColor = .dynamicColor(light: .hex000000, dark: .hexFFFFFF)
+    static let theme: UIColor = .dynamicColor(light: .hexFFFFFF, dark: .hex080808)
+    static let primary: UIColor = .dynamicColor(light: .hex080808, dark: .hexFFFFFF)
     static let secondary: UIColor = .dynamicColor(light: .hex777777, dark: .hex696969)
     static let tertiary: UIColor = .dynamicColor(light: .hex777777, dark: .hexD0D0D0)
     static let primaryGray: UIColor = .dynamicColor(light: .hexCCCCCC, dark: .hex696969)
@@ -37,6 +37,7 @@ private extension UIColor {
     static let hexF0F0F0: UIColor = .init(hex: "F0F0F0")
     // 黒系
     static let hex000000: UIColor = .init(hex: "000000")
+    static let hex080808: UIColor = .init(hex: "080808")
     static let hex181818: UIColor = .init(hex: "181818")
     static let hex333333: UIColor = .init(hex: "333333")
     // グレー系
