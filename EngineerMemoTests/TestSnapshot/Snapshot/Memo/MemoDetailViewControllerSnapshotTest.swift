@@ -34,7 +34,10 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 .build()
         )
 
-        snapshotVerifyView(viewMode: .navigation(subject))
+        snapshotVerifyView(
+            viewMode: .navigation(subject),
+            viewAfter: 0.3
+        )
     }
 
     func testMemoDetailViewController_標準() {
@@ -45,7 +48,10 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 .build()
         )
 
-        snapshotVerifyView(viewMode: .navigation(subject))
+        snapshotVerifyView(
+            viewMode: .navigation(subject),
+            viewAfter: 0.3
+        )
     }
 
     func testMemoDetailViewController_長文() {
@@ -56,7 +62,10 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 .build()
         )
 
-        snapshotVerifyView(viewMode: .navigation(subject))
+        snapshotVerifyView(
+            viewMode: .navigation(subject),
+            viewAfter: 0.3
+        )
     }
 }
 
