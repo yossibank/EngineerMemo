@@ -46,12 +46,14 @@ final class SheetContentView: UIView {
             VStackView(alignment: .center, spacing: 12) {
                 titleLabel.configure {
                     $0.text = sheetContent.title
+                    $0.textColor = .primary
                     $0.font = .boldSystemFont(ofSize: 20)
                     $0.numberOfLines = 2
                 }
 
                 messageLabel.configure {
                     $0.text = sheetContent.message
+                    $0.textColor = .primary
                     $0.font = .systemFont(ofSize: 14)
                     $0.numberOfLines = 3
                 }
@@ -61,8 +63,8 @@ final class SheetContentView: UIView {
         }
         .configure {
             $0.backgroundColor = .sheet
-            $0.clipsToBounds = true
             $0.layer.cornerRadius = 16
+            $0.clipsToBounds = true
         }
     }
 
@@ -115,35 +117,20 @@ private extension SheetContentView {
 
             switch sheetAction.actionType {
             case .default:
-                $0.setTitleColor(
-                    .primary,
-                    for: .normal
-                )
-                $0.backgroundColor = .dynamicColor(
-                    light: .white,
-                    dark: .darkGray
-                )
+                $0.setTitleColor(.primary, for: .normal)
+                $0.backgroundColor = .background
 
             case .warning:
-                $0.setTitleColor(
-                    .black,
-                    for: .normal
-                )
+                $0.setTitleColor(.black, for: .normal)
                 $0.backgroundColor = .warning
 
             case .alert:
-                $0.setTitleColor(
-                    .white,
-                    for: .normal
-                )
+                $0.setTitleColor(.white, for: .normal)
                 $0.backgroundColor = .alert
 
             case .close:
-                $0.setTitleColor(
-                    .primary,
-                    for: .normal
-                )
-                $0.backgroundColor = .background
+                $0.setTitleColor(.primary, for: .normal)
+                $0.backgroundColor = .primaryGray
             }
         }
 
