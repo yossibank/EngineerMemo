@@ -28,6 +28,12 @@ final class ProfileConverterTest: XCTestCase {
             .name("テスト")
             .phoneNumber("08011112222")
             .station("鶴橋駅")
+            .skill(
+                SkillDataObjectBuilder()
+                    .career(3)
+                    .identifier("identifier")
+                    .build()
+            )
             .build()
 
         // act
@@ -46,6 +52,11 @@ final class ProfileConverterTest: XCTestCase {
                 .name("テスト")
                 .phoneNumber("08011112222")
                 .station("鶴橋駅")
+                .skill(
+                    SKillModelObjectBuilder()
+                        .career(3)
+                        .build()
+                )
                 .build()
         )
     }

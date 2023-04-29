@@ -10,6 +10,7 @@
         private var name: String? = "testName"
         private var phoneNumber: String? = "08011112222"
         private var station: String? = "鶴橋駅"
+        private var skill: SkillModelObject?
         private var identifier = "identifier"
 
         func build() -> ProfileModelObject {
@@ -22,6 +23,7 @@
                 name: name,
                 phoneNumber: phoneNumber,
                 station: station,
+                skill: skill,
                 identifier: identifier
             )
         }
@@ -63,6 +65,11 @@
 
         func station(_ station: String?) -> Self {
             self.station = station
+            return self
+        }
+
+        func skill(_ skill: SkillModelObject?) -> Self {
+            self.skill = skill
             return self
         }
 
