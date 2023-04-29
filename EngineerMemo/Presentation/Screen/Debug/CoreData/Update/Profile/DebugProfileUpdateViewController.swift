@@ -121,6 +121,15 @@
                 }
                 .store(in: &cancellables)
 
+            contentView.didChangeSkillControlPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] value in
+                    self?.viewModel.input.didChangeSkillControl.send(
+                        DebugCoreDataSegment.segment(value)
+                    )
+                }
+                .store(in: &cancellables)
+
             contentView.didChangeSearchTextPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] searchText in

@@ -17,6 +17,7 @@
         private(set) lazy var nameControlPublisher = nameControl.segmentIndexPublisher
         private(set) lazy var phoneNumberControlPublisher = phoneNumberControl.segmentIndexPublisher
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
+        private(set) lazy var skillControlPublisher = skillControl.segmentIndexPublisher
         private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
         private lazy var body = DebugCoreDataSegmentContentView(.update).configure {
@@ -30,6 +31,7 @@
                     nameControl
                     phoneNumberControl
                     stationControl
+                    skillControl
                 }
             )
         }
@@ -42,6 +44,7 @@
         private let nameControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.name)
         private let phoneNumberControl = DebugPhoneNumberSegmentView(title: L10n.Debug.Segment.phoneNumber)
         private let stationControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.station)
+        private let skillControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.skill)
 
         override init(
             style: UITableViewCell.CellStyle,

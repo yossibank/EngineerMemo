@@ -140,6 +140,7 @@
 "debug.segment.name" = "name";
 "debug.segment.phoneNumber" = "phoneNumber";
 "debug.segment.station" = "station";
+"debug.segment.skill" = "skill";
 "debug.segment.title" = "title";
 "debug.segment.randomImage" = "画像(ランダム)";
 "debug.segment.tellNumber" = "携帯番号";

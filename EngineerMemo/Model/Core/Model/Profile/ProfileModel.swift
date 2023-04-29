@@ -102,17 +102,30 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func skillUpdate(modelObject: ProfileModelObject) {
-        skillStorage.create().sink { [weak self] skill in
+        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
             guard let self else {
                 return
             }
 
-            modelObject.skill?.skillInsert(skill)
-
-            self.profileStorage.update(identifier: modelObject.identifier).sink { profile in
-                profile.skill = skill
+            if let skill = modelObject.skill {
+                if profile.skill == nil {
+                    self.skillStorage.create().sink { skill in
+                        modelObject.skill?.skillInsert(skill)
+                        profile.skill = skill
+                    }
+                    .store(in: &self.cancellables)
+                } else {
+                    self.skillStorage.update(identifier: skill.identifier).sink { skill in
+                        modelObject.skill?.skillInsert(skill)
+                        profile.skill = skill
+                    }
+                    .store(in: &self.cancellables)
+                }
+            } else {
+                if profile.skill != nil {
+                    profile.skill = nil
+                }
             }
-            .store(in: &self.cancellables)
         }
         .store(in: &cancellables)
     }

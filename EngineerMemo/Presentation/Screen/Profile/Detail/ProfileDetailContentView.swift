@@ -81,6 +81,7 @@ private extension ProfileDetailContentView {
             $0.backgroundColor = .primary
             $0.allowsSelection = false
             $0.separatorStyle = .none
+            $0.delegate = self
             $0.dataSource = dataSource
         }
     }
@@ -167,6 +168,24 @@ private extension ProfileDetailContentView {
             dataSourceSnapshot,
             animatingDifferences: false
         )
+    }
+}
+
+// MARK: - delegate
+
+extension ProfileDetailContentView: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        viewForFooterInSection section: Int
+    ) -> UIView? {
+        .init()
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        heightForFooterInSection section: Int
+    ) -> CGFloat {
+        16
     }
 }
 
