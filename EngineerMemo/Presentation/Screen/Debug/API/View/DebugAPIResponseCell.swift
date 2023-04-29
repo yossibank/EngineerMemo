@@ -12,6 +12,7 @@
                 VStackView(spacing: 8) {
                     UILabel().configure {
                         $0.text = L10n.Debug.Api.resultResponse
+                        $0.textColor = .primary
                         $0.font = .boldSystemFont(ofSize: 16)
                     }
 
@@ -20,11 +21,12 @@
                             $0.height.equalTo(1)
                         }
                         .configure {
-                            $0.backgroundColor = .theme
+                            $0.backgroundColor = .primary
                         }
                 }
 
                 responseLabel.configure {
+                    $0.textColor = .primary
                     $0.font = .boldSystemFont(ofSize: 14)
                     $0.numberOfLines = 0
                 }
@@ -74,7 +76,7 @@
                     $0.leading.trailing.equalToSuperview().inset(8)
                 }
 
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
             }
         }
     }

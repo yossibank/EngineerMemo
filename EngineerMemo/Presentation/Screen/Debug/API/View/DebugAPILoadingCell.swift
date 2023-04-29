@@ -13,6 +13,7 @@ final class DebugAPILoadingCell: UITableViewCell {
 
             UILabel().configure {
                 $0.text = L10n.Debug.Api.loading
+                $0.textColor = .primary
                 $0.font = .boldSystemFont(ofSize: 12)
             }
         }
@@ -59,7 +60,7 @@ private extension DebugAPILoadingCell {
                 $0.leading.trailing.equalToSuperview().inset(8)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
             $0.isUserInteractionEnabled = false
         }
     }

@@ -148,7 +148,7 @@ final class MemoListContentView: UIView {
 private extension MemoListContentView {
     func setupCollectionView() {
         collectionView.configure {
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
             $0.delegate = self
         }
     }

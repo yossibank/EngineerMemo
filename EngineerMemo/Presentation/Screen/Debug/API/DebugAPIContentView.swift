@@ -176,7 +176,9 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                menuButton.layer.borderColor = UIColor.theme.cgColor
+                [barButton, menuButton].forEach {
+                    $0.layer.borderColor = UIColor.primary.cgColor
+                }
             }
         }
     }
@@ -238,7 +240,7 @@
                     DebugAPIResponseCell.self,
                     DebugAPILoadingCell.self
                 ])
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
                 $0.separatorStyle = .none
                 $0.delegate = self
                 $0.dataSource = dataSource
@@ -463,7 +465,7 @@
                     $0.bottom.leading.trailing.equalToSuperview()
                 }
 
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
             }
         }
     }

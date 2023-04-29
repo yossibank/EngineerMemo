@@ -6,8 +6,6 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: MemoListViewController!
     private var cancellables: Set<AnyCancellable> = .init()
 
-    private let storage = CoreDataStorage<Memo>()
-
     override func setUp() {
         super.setUp()
 
@@ -63,7 +61,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
 private extension MemoListViewControllerSnapshotTest {
     func dataInsert(count: Int) {
         (1 ... count).forEach { num in
-            storage.create().sink {
+            CoreDataStorage<Memo>().create().sink {
                 $0.identifier = "identifier\(num)"
                 $0.title = "memo title\(num)"
                 $0.content = "memo content\(num)"

@@ -6,8 +6,6 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: MemoDetailViewController!
     private var cancellables: Set<AnyCancellable> = .init()
 
-    private let storage = CoreDataStorage<Memo>()
-
     override func setUp() {
         super.setUp()
 
@@ -71,7 +69,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 
 private extension MemoDetailViewControllerSnapshotTest {
     func dataInsert(modelObject: MemoModelObject) {
-        storage.create().sink {
+        CoreDataStorage<Memo>().create().sink {
             $0.identifier = "identifier"
             $0.title = modelObject.title
             $0.content = modelObject.content

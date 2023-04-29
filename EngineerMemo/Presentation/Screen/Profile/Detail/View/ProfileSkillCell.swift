@@ -14,7 +14,7 @@ final class ProfileSkillCell: UITableViewCell {
             $0.edges.equalToSuperview().inset(16)
         }
         .configure {
-            $0.backgroundColor = .thinGray
+            $0.backgroundColor = .primaryGray
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 8
         }
@@ -58,7 +58,7 @@ final class ProfileSkillCell: UITableViewCell {
         VStackView(alignment: .leading, spacing: 8) {
             UILabel().configure {
                 $0.text = L10n.Profile.career
-                $0.textColor = .secondary
+                $0.textColor = .secondaryGray
                 $0.font = .systemFont(ofSize: 14)
             }
 
@@ -71,18 +71,12 @@ final class ProfileSkillCell: UITableViewCell {
     private let skillLabel = UILabel()
 
     private let settingButton = UIButton(type: .system).configure {
-        $0.setTitle(
-            L10n.Components.Button.Do.setting,
-            for: .normal
-        )
-        $0.setTitleColor(
-            .white,
-            for: .normal
-        )
-        $0.backgroundColor = .gray
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 8
+        $0.setTitle(L10n.Components.Button.Do.setting, for: .normal)
+        $0.setTitleColor(.primary, for: .normal)
         $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        $0.backgroundColor = .grayButton
+        $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
     }
 
     override init(
@@ -137,7 +131,7 @@ private extension ProfileSkillCell {
                 $0.leading.trailing.equalToSuperview().inset(32)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 }

@@ -38,7 +38,7 @@ final class ProfilePickerInputView: UIView {
     private let pickerInputView = UIView()
 
     private let titleLabel = UILabel().configure {
-        $0.textColor = .secondary
+        $0.textColor = .secondaryGray
         $0.font = .boldSystemFont(ofSize: 16)
     }
 
@@ -48,7 +48,7 @@ final class ProfilePickerInputView: UIView {
         $0.datePickerMode = .date
         $0.locale = .japan
         $0.preferredDatePickerStyle = .compact
-        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderColor = UIColor.primary.cgColor
         $0.layer.borderWidth = 1.0
         $0.layer.cornerRadius = 4
     }
@@ -84,7 +84,7 @@ final class ProfilePickerInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [titleView, inputDatePicker].forEach {
-                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderColor = UIColor.primary.cgColor
             }
         }
     }
@@ -115,7 +115,7 @@ private extension ProfilePickerInputView {
                 $0.leading.trailing.equalToSuperview().inset(16)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 

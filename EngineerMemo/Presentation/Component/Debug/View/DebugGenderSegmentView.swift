@@ -85,7 +85,7 @@
                     $0.height.equalTo(40)
                 }
 
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
             }
         }
     }

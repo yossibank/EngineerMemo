@@ -5,6 +5,7 @@ import UIKitHelper
 
 final class TitleHeaderFooterView: UITableViewHeaderFooterView {
     private let titleLabel = UILabel().configure {
+        $0.textColor = .primary
         $0.font = .boldSystemFont(ofSize: 12)
     }
 
@@ -37,7 +38,7 @@ private extension TitleHeaderFooterView {
                 $0.leading.equalToSuperview().inset(8)
             }
 
-            $0.backgroundColor = .thinGray
+            $0.backgroundColor = .primaryGray
         }
     }
 }

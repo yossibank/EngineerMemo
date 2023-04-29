@@ -27,23 +27,18 @@ final class ProfileTopCell: UITableViewCell {
                     $0.height.equalTo(28)
                 }
                 .configure {
-                    $0.setTitle(
-                        L10n.Components.Button.changeProfileIcon,
-                        for: .normal
-                    )
-                    $0.setTitleColor(
-                        .theme,
-                        for: .normal
-                    )
-                    $0.clipsToBounds = true
+                    $0.setTitle(L10n.Components.Button.changeProfileIcon, for: .normal)
+                    $0.setTitleColor(.primary, for: .normal)
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-                    $0.layer.borderColor = UIColor.theme.cgColor
+                    $0.layer.borderColor = UIColor.primary.cgColor
                     $0.layer.borderWidth = 1.0
                     $0.layer.cornerRadius = 8
+                    $0.clipsToBounds = true
                 }
 
             userNameLabel.configure {
                 $0.font = .boldSystemFont(ofSize: 14)
+                $0.textColor = .primary
             }
         }
     }
@@ -110,14 +105,14 @@ private extension ProfileTopCell {
                 $0.leading.trailing.equalToSuperview().inset(32)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 
     func setupButton() {
         let color: UIColor = iconChangeButton.isEnabled
-            ? .theme
-            : .thinGray
+            ? .primary
+            : .primary.withAlphaComponent(0.3)
 
         iconChangeButton.configure {
             $0.setTitleColor(

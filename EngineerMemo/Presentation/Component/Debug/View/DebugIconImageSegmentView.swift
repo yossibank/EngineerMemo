@@ -88,7 +88,7 @@
                     $0.leading.trailing.equalToSuperview().inset(16)
                 }
 
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
             }
         }
     }

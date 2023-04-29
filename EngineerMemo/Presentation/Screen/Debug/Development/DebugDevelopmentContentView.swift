@@ -139,7 +139,7 @@
             tableView.configure {
                 $0.registerCells(with: Section.allCases.map(\.cellType))
                 $0.registerHeaderFooterView(with: TitleHeaderFooterView.self)
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
                 $0.showsVerticalScrollIndicator = false
                 $0.separatorStyle = .none
                 $0.delegate = self

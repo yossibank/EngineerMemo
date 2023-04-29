@@ -10,6 +10,7 @@
         private var body: UIView {
             VStackView {
                 titleLabel.configure {
+                    $0.textColor = .primary
                     $0.font = .systemFont(ofSize: 16)
                     $0.numberOfLines = 1
                 }
@@ -60,6 +61,7 @@
     private extension DebugUpdateListCell {
         func setupView() {
             configure {
+                $0.backgroundColor = .background
                 $0.separatorInset = .zero
                 $0.selectionStyle = .none
                 $0.accessoryView = UIImageView().configure {
@@ -74,7 +76,7 @@
                     $0.leading.trailing.equalToSuperview().inset(16)
                 }
 
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
             }
         }
     }

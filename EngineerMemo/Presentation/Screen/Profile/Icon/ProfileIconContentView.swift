@@ -120,7 +120,7 @@ final class ProfileIconContentView: UIView {
 private extension ProfileIconContentView {
     func setupCollectionView() {
         collectionView.configure {
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
             $0.delegate = self
         }
     }

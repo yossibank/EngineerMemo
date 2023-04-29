@@ -19,11 +19,11 @@ final class MemoListHeaderView: UICollectionReusableView {
                     for: .normal
                 )
                 $0.setTitleColor(
-                    .theme,
+                    .primary,
                     for: .normal
                 )
                 $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderColor = UIColor.primary.cgColor
                 $0.layer.borderWidth = 1.0
                 $0.layer.cornerRadius = 4
             }
@@ -34,11 +34,11 @@ final class MemoListHeaderView: UICollectionReusableView {
                     for: .normal
                 )
                 $0.setTitleColor(
-                    .theme,
+                    .primary,
                     for: .normal
                 )
                 $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderColor = UIColor.primary.cgColor
                 $0.layer.borderWidth = 1.0
                 $0.layer.cornerRadius = 4
             }
@@ -49,11 +49,11 @@ final class MemoListHeaderView: UICollectionReusableView {
                     for: .normal
                 )
                 $0.setTitleColor(
-                    .theme,
+                    .primary,
                     for: .normal
                 )
                 $0.clipsToBounds = true
-                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderColor = UIColor.primary.cgColor
                 $0.layer.borderWidth = 1.0
                 $0.layer.cornerRadius = 4
             }
@@ -88,7 +88,7 @@ final class MemoListHeaderView: UICollectionReusableView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [button1, button2, button3].forEach {
-                $0.layer.borderColor = UIColor.theme.cgColor
+                $0.layer.borderColor = UIColor.primary.cgColor
             }
         }
     }
@@ -103,7 +103,7 @@ private extension MemoListHeaderView {
                 $0.edges.equalToSuperview()
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 }

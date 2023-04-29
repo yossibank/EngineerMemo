@@ -78,7 +78,7 @@ private extension ProfileDetailContentView {
                     ProfileSkillCell.self
                 ]
             )
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
             $0.allowsSelection = false
             $0.separatorStyle = .none
             $0.delegate = self

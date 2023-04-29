@@ -26,6 +26,7 @@ final class ProfileIconCell: UICollectionViewCell {
                 }
 
             iconLabel.configure {
+                $0.textColor = .primary
                 $0.font = .boldSystemFont(ofSize: 14)
                 $0.numberOfLines = 1
             }
@@ -93,7 +94,7 @@ private extension ProfileIconCell {
                 $0.edges.equalToSuperview()
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 }

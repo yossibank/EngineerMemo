@@ -58,7 +58,7 @@
         func setupTableView() {
             tableView.configure {
                 $0.registerCells(with: Section.allCases.map(\.cellType))
-                $0.backgroundColor = .primary
+                $0.backgroundColor = .background
                 $0.allowsSelection = false
                 $0.separatorStyle = .none
                 $0.dataSource = dataSource

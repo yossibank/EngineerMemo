@@ -6,11 +6,11 @@ import UIKitHelper
 extension ViewStyle where T: UIView {
     static var inputView: ViewStyle<T> {
         .init {
-            $0.backgroundColor = .thinGray
-            $0.clipsToBounds = true
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.backgroundColor = .primaryGray
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 4
+            $0.clipsToBounds = true
         }
     }
 }
@@ -48,37 +48,22 @@ extension ViewStyle where T: UIButton {
 
     private static func navigationButton(title: String) -> ViewStyle<T> {
         .init {
-            $0.setTitle(
-                title,
-                for: .normal
-            )
-            $0.setTitleColor(
-                .theme,
-                for: .normal
-            )
-            $0.setImage(
-                nil,
-                for: .normal
-            )
+            $0.setTitle(title, for: .normal)
+            $0.setTitleColor(.primary, for: .normal)
+            $0.setImage(nil, for: .normal)
             $0.imageEdgeInsets = .zero
             $0.titleEdgeInsets = .zero
             $0.titleLabel?.font = .boldSystemFont(ofSize: 15)
             $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
         }
     }
 
     private static func navigationDoneButton(title: String) -> ViewStyle<T> {
         .init {
-            $0.setTitle(
-                title,
-                for: .normal
-            )
-            $0.setTitleColor(
-                .theme,
-                for: .normal
-            )
+            $0.setTitle(title, for: .normal)
+            $0.setTitleColor(.primary, for: .normal)
             $0.setImage(
                 Asset.checkmark.image
                     .resized(size: .init(width: 20, height: 20))
@@ -88,8 +73,9 @@ extension ViewStyle where T: UIButton {
             $0.imageEdgeInsets = .init(.left, -8)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 15)
             $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
+            $0.clipsToBounds = true
         }
     }
 }
@@ -116,26 +102,17 @@ extension ViewStyle where T: UIButton {
         image: UIImage?
     ) -> ViewStyle<T> {
         .init {
-            $0.setTitle(
-                title,
-                for: .normal
-            )
-            $0.setTitleColor(
-                .theme,
-                for: .normal
-            )
-            $0.setImage(
-                image?.resized(size: .init(width: 20, height: 20)),
-                for: .normal
-            )
-            $0.clipsToBounds = true
+            $0.setTitle(title, for: .normal)
+            $0.setTitleColor(.primary, for: .normal)
+            $0.setImage(image?.resized(size: .init(width: 20, height: 20)), for: .normal)
             $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
             $0.imageEdgeInsets = .init(.left, -8)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.tintColor = .dynamicColor(light: .blue, dark: .green)
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8
+            $0.clipsToBounds = true
         }
     }
 }
@@ -171,12 +148,9 @@ extension ViewStyle where T: UIButton {
 
     static var debugMenuButton: ViewStyle<T> {
         .init {
-            $0.setTitleColor(
-                .theme,
-                for: .normal
-            )
+            $0.setTitleColor(.primary, for: .normal)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8
             $0.clipsToBounds = true
@@ -185,25 +159,16 @@ extension ViewStyle where T: UIButton {
 
     private static func debugButton(title: String) -> ViewStyle<T> {
         .init {
-            $0.setTitle(
-                title,
-                for: .normal
-            )
-            $0.setTitleColor(
-                .theme,
-                for: .normal
-            )
-            $0.setImage(
-                nil,
-                for: .normal
-            )
-            $0.clipsToBounds = true
+            $0.setTitle(title, for: .normal)
+            $0.setTitleColor(.primary, for: .normal)
+            $0.setImage(nil, for: .normal)
             $0.imageEdgeInsets = .zero
             $0.titleEdgeInsets = .zero
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
+            $0.clipsToBounds = true
         }
     }
 
@@ -212,25 +177,16 @@ extension ViewStyle where T: UIButton {
         image: UIImage
     ) -> ViewStyle<T> {
         .init {
-            $0.setTitle(
-                title,
-                for: .normal
-            )
-            $0.setTitleColor(
-                .theme,
-                for: .normal
-            )
-            $0.setImage(
-                image,
-                for: .normal
-            )
-            $0.clipsToBounds = true
+            $0.setTitle(title, for: .normal)
+            $0.setTitleColor(.primary, for: .normal)
+            $0.setImage(image, for: .normal)
             $0.imageEdgeInsets = .init(.left, 120)
             $0.titleEdgeInsets = .init(.right, 20)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
             $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.theme.cgColor
+            $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
+            $0.clipsToBounds = true
         }
     }
 }

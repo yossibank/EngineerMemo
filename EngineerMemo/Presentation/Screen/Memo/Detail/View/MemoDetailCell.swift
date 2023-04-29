@@ -10,7 +10,7 @@ final class MemoDetailCell: UICollectionViewCell {
             VStackView(spacing: 8) {
                 UILabel().configure {
                     $0.text = L10n.Memo.title
-                    $0.textColor = .secondary
+                    $0.textColor = .secondaryGray
                     $0.font = .boldSystemFont(ofSize: 18)
                 }
 
@@ -19,11 +19,12 @@ final class MemoDetailCell: UICollectionViewCell {
                         $0.height.equalTo(1)
                     }
                     .configure {
-                        $0.backgroundColor = .secondary
+                        $0.backgroundColor = .secondaryGray
                     }
 
                 titleLabel.configure {
-                    $0.font = .boldSystemFont(ofSize: 14)
+                    $0.textColor = .primary
+                    $0.font = .boldSystemFont(ofSize: 16)
                     $0.numberOfLines = 0
                 }
             }
@@ -31,7 +32,7 @@ final class MemoDetailCell: UICollectionViewCell {
             VStackView(spacing: 8) {
                 UILabel().configure {
                     $0.text = L10n.Memo.content
-                    $0.textColor = .secondary
+                    $0.textColor = .secondaryGray
                     $0.font = .boldSystemFont(ofSize: 18)
                 }
 
@@ -40,10 +41,11 @@ final class MemoDetailCell: UICollectionViewCell {
                         $0.height.equalTo(1)
                     }
                     .configure {
-                        $0.backgroundColor = .secondary
+                        $0.backgroundColor = .secondaryGray
                     }
 
                 contentLabel.configure {
+                    $0.textColor = .primary
                     $0.font = .systemFont(ofSize: 14)
                     $0.numberOfLines = 0
                 }
@@ -84,7 +86,7 @@ private extension MemoDetailCell {
                 $0.edges.equalToSuperview()
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 }

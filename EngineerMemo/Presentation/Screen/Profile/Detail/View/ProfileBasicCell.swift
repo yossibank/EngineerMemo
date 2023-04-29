@@ -19,7 +19,7 @@ final class ProfileBasicCell: UITableViewCell {
             $0.trailing.equalToSuperview().inset(8)
         }
         .configure {
-            $0.backgroundColor = .thinGray
+            $0.backgroundColor = .primaryGray
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 8
         }
@@ -29,6 +29,7 @@ final class ProfileBasicCell: UITableViewCell {
             VStackView(alignment: .center) {
                 basicLabel.configure {
                     $0.text = L10n.Profile.basicInformation
+                    $0.textColor = .primary
                     $0.font = .boldSystemFont(ofSize: 16)
                 }
             }
@@ -46,6 +47,7 @@ final class ProfileBasicCell: UITableViewCell {
         UILabel().configure {
             $0.font = .boldSystemFont(ofSize: 14)
             $0.text = L10n.Profile.settingDescription
+            $0.textColor = .primary
             $0.textAlignment = .center
             $0.numberOfLines = 0
         }
@@ -79,14 +81,8 @@ final class ProfileBasicCell: UITableViewCell {
     private let stationLabel = UILabel()
 
     private let editButton = UIButton(type: .system).configure {
-        $0.setTitle(
-            L10n.Components.Button.Do.edit,
-            for: .normal
-        )
-        $0.setTitleColor(
-            .theme,
-            for: .normal
-        )
+        $0.setTitle(L10n.Components.Button.Do.edit, for: .normal)
+        $0.setTitleColor(.primary, for: .normal)
         $0.setImage(
             ImageResources.Profile.edit?.resized(size: .init(width: 16, height: 16)),
             for: .normal
@@ -94,26 +90,20 @@ final class ProfileBasicCell: UITableViewCell {
         $0.clipsToBounds = true
         $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
         $0.imageEdgeInsets = .init(.left, -8)
-        $0.tintColor = .theme
+        $0.tintColor = .primary
         $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-        $0.layer.borderColor = UIColor.theme.cgColor
+        $0.layer.borderColor = UIColor.primary.cgColor
         $0.layer.borderWidth = 1.0
         $0.layer.cornerRadius = 8
     }
 
     private let settingButton = UIButton(type: .system).configure {
-        $0.setTitle(
-            L10n.Components.Button.Do.setting,
-            for: .normal
-        )
-        $0.setTitleColor(
-            .white,
-            for: .normal
-        )
-        $0.backgroundColor = .gray
+        $0.setTitle(L10n.Components.Button.Do.setting, for: .normal)
+        $0.setTitleColor(.primary, for: .normal)
         $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        $0.clipsToBounds = true
+        $0.backgroundColor = .grayButton
         $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
     }
 
     override init(
@@ -142,7 +132,7 @@ final class ProfileBasicCell: UITableViewCell {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            editButton.layer.borderColor = UIColor.theme.cgColor
+            editButton.layer.borderColor = UIColor.primary.cgColor
         }
     }
 }
@@ -186,7 +176,7 @@ private extension ProfileBasicCell {
                 $0.leading.trailing.equalToSuperview().inset(32)
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 
@@ -225,11 +215,12 @@ private extension ProfileBasicCell {
         return VStackView(alignment: .leading, spacing: 8) {
             UILabel().configure {
                 $0.text = type.title
-                $0.textColor = .secondary
+                $0.textColor = .secondaryGray
                 $0.font = .systemFont(ofSize: 14)
             }
 
             valueLabel.configure {
+                $0.textColor = .primary
                 $0.font = .boldSystemFont(ofSize: 16)
             }
         }
