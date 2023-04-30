@@ -95,6 +95,10 @@ iOSInjectionProject/
 # XcodeGen
 *.xcodeproj
 
+# Xcodebuild
+*.xcresult
+SourcePackages
+
 # SwiftGen
 *+Generated.swift
 

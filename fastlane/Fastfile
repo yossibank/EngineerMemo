@@ -22,7 +22,7 @@ platform :ios do
       project: 'EngineerMemo.xcodeproj',
       scheme: "EngineerMemo",
       testplan: "EngineerMemo",
-      device: "iPhone 14",
+      device: "iPhone 14 (16.0)",
       configuration: "Debug",
       cloned_source_packages_path: "SourcePackages",
       derived_data_path: "DerivedData",
