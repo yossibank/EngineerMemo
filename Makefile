@@ -5,6 +5,7 @@ setup:
 	$(MAKE) install-template
 	$(MAKE) install-bundler
 	$(MAKE) install-mint-packages
+	$(MAKE) generate-files
 	$(MAKE) generate-consts
 	$(MAKE) generate-test-mock
 	$(MAKE) generate-xcodeproj
