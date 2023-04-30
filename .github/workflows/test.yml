@@ -82,7 +82,18 @@ jobs:
 
       # テスト
       - name: Xcode Test
-        run: bundle exec fastlane unit_test
+        run: set -o pipefail &&
+          xcodebuild
+          -sdk iphonesimulator
+          -configuration Debug
+          -scheme EngineerMemo
+          -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.0'
+          -testPlan 'EngineerMemo'
+          -clonedSourcePackagesDirPath SourcePackages
+          -resultBundlePath EngineerMemo.xcresult
+          -derivedDataPath DerivedData
+          test
+          | bundle exec xcpretty --report html
 
       # Danger実行
       - uses: MeilCli/danger-action@v5
