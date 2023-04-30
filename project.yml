@@ -128,7 +128,7 @@ schemes:
       targets:
         EngineerMemo: all
         EngineerMemoTests: [test]
-        EngineerMemoUITests: [test]
+        EngineerMemoUITests: []
     run:
       config: Debug
       commandLineArguments:
