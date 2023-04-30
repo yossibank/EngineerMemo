@@ -81,6 +81,8 @@ private extension FBSnapshotTestCase {
                 expectation.fulfill()
             }
 
+            wait(for: [expectation], timeout: 3.0 + viewAfter)
+
         case let .navigation(vc):
             vc.view.frame = viewFrame
 
@@ -100,8 +102,8 @@ private extension FBSnapshotTestCase {
 
                 expectation.fulfill()
             }
-        }
 
-        wait(for: [expectation], timeout: 3.0 + viewAfter)
+            wait(for: [expectation], timeout: 3.0 + viewAfter)
+        }
     }
 }
