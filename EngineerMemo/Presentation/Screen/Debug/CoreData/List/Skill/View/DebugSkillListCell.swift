@@ -1,12 +1,11 @@
 #if DEBUG
-    import Combine
     import SwiftUI
     import UIKit
     import UIKitHelper
 
     // MARK: - properties & init
 
-    final class DebugProfileListCell: UITableViewCell {
+    final class DebugSkillListCell: UITableViewCell {
         private lazy var baseView = UIView()
             .addSubview(body) {
                 $0.edges.equalToSuperview().inset(16)
@@ -24,33 +23,33 @@
         private var body: UIView {
             VStackView(spacing: 16) {
                 VStackView(alignment: .center) {
-                    basicLabel.configure {
-                        $0.text = L10n.Profile.basicInformation
-                        $0.textColor = .primary
+                    UILabel().configure {
+                        $0.text = L10n.Profile.experienceSkill
                         $0.font = .boldSystemFont(ofSize: 16)
                     }
                 }
 
                 VStackView(alignment: .leading, spacing: 16) {
-                    createStackView(.name)
-                    createStackView(.age)
-                    createStackView(.gender)
-                    createStackView(.email)
-                    createStackView(.phoneNumber)
-                    createStackView(.address)
-                    createStackView(.station)
+                    VStackView(alignment: .leading, spacing: 8) {
+                        UILabel().configure {
+                            $0.text = L10n.Profile.name
+                            $0.textColor = .secondaryGray
+                            $0.font = .systemFont(ofSize: 14)
+                        }
+
+                        nameLabel.configure {
+                            $0.textColor = .primary
+                            $0.font = .boldSystemFont(ofSize: 16)
+                        }
+                    }
+
+                    createStackView(.career)
                 }
             }
         }
 
-        private let basicLabel = UILabel()
         private let nameLabel = UILabel()
-        private let ageLabel = UILabel()
-        private let genderLabel = UILabel()
-        private let emailLabel = UILabel()
-        private let phoneNumberLabel = UILabel()
-        private let addressLabel = UILabel()
-        private let stationLabel = UILabel()
+        private let careerLabel = UILabel()
 
         private let iconImageView = UIImageView().configure {
             $0.clipsToBounds = true
@@ -76,19 +75,14 @@
 
     // MARK: - internal methods
 
-    extension DebugProfileListCell {
+    extension DebugSkillListCell {
         func configure(_ modelObject: ProfileModelObject) {
             nameLabel.text = modelObject.name
-            genderLabel.text = modelObject.gender?.value
-            emailLabel.text = modelObject.email
-            phoneNumberLabel.text = modelObject.phoneNumber?.phoneText
-            addressLabel.text = modelObject.address
-            stationLabel.text = modelObject.station
 
-            if let age = modelObject.birthday?.ageString() {
-                ageLabel.text = "\(age)\(L10n.Profile.old)"
+            if let career = modelObject.skill?.career {
+                careerLabel.text = L10n.Profile.careerYear(career)
             } else {
-                ageLabel.text = .noSetting
+                careerLabel.text = .noSetting
             }
 
             if let data = modelObject.iconImage,
@@ -102,7 +96,7 @@
 
     // MARK: - private methods
 
-    private extension DebugProfileListCell {
+    private extension DebugSkillListCell {
         func setupView() {
             contentView.configure {
                 $0.addSubview(baseView) {
@@ -114,36 +108,12 @@
             }
         }
 
-        func createStackView(_ type: ProfileContentType) -> UIStackView {
+        func createStackView(_ type: SkillContentType) -> UIStackView {
             let valueLabel: UILabel
 
             switch type {
-            case .name:
-                valueLabel = nameLabel
-
-            case .age:
-                valueLabel = ageLabel
-
-            case .gender:
-                valueLabel = genderLabel
-
-            case .email:
-                valueLabel = emailLabel
-                valueLabel.configure {
-                    $0.numberOfLines = 0
-                }
-
-            case .phoneNumber:
-                valueLabel = phoneNumberLabel
-
-            case .address:
-                valueLabel = addressLabel
-                valueLabel.configure {
-                    $0.numberOfLines = 0
-                }
-
-            case .station:
-                valueLabel = stationLabel
+            case .career:
+                valueLabel = careerLabel
             }
 
             return VStackView(alignment: .leading, spacing: 8) {
@@ -163,9 +133,9 @@
 
     // MARK: - preview
 
-    struct DebugProfileListCellPreview: PreviewProvider {
+    struct DebugSkillListCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugProfileListCell()) {
+            WrapperView(view: DebugSkillListCell()) {
                 $0.configure(ProfileModelObjectBuilder().build())
             }
         }

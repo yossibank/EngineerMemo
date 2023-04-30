@@ -8,12 +8,16 @@
 
     enum DebugCoreDataMenuType: CaseIterable {
         case profile
+        case skill
         case memo
 
         var title: String {
             switch self {
             case .profile:
                 return L10n.Debug.CoreData.profile
+
+            case .skill:
+                return L10n.Debug.CoreData.skill
 
             case .memo:
                 return L10n.Debug.CoreData.memo
@@ -25,6 +29,9 @@
             case .profile:
                 return AppControllers.Debug.CoreDataObject.List.Profile()
 
+            case .skill:
+                return AppControllers.Debug.CoreDataObject.List.Skill()
+
             case .memo:
                 return AppControllers.Debug.CoreDataObject.List.Memo()
             }
@@ -35,6 +42,9 @@
             case .profile:
                 return AppControllers.Debug.CoreDataObject.Create.Profile()
 
+            case .skill:
+                return AppControllers.Debug.CoreDataObject.List.Skill()
+
             case .memo:
                 return AppControllers.Debug.CoreDataObject.Create.Memo()
             }
@@ -44,6 +54,9 @@
             switch self {
             case .profile:
                 return AppControllers.Debug.CoreDataObject.Update.Profile()
+
+            case .skill:
+                return AppControllers.Debug.CoreDataObject.List.Skill()
 
             case .memo:
                 return AppControllers.Debug.CoreDataObject.Update.Memo()

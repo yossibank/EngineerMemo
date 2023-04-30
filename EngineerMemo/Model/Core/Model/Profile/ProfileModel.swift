@@ -1,5 +1,4 @@
 import Combine
-import CoreData
 
 /// @mockable
 protocol ProfileModelInput: Model {

@@ -85,6 +85,7 @@
 "profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
 "profile.career" = "エンジニア歴";
+"profile.careerYear" = "%@年";
 
 // MARK: - FirebaseAnalytics
 
@@ -128,6 +129,7 @@
 "debug.coreData.list" = "一覧・削除";
 "debug.coreData.update" = "更新";
 "debug.coreData.profile" = "プロフィール";
+"debug.coreData.skill" = "スキル";
 "debug.coreData.memo" = "メモ";
 "debug.userDefaults.status" = "状態";
 "debug.userDefaults.value" = "保存値";
