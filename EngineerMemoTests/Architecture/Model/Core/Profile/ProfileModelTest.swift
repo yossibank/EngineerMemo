@@ -203,7 +203,7 @@ final class ProfileModelTest: XCTestCase {
         wait(for: [expectation], timeout: 0.3)
     }
 
-    func test_skillUpdate_skillを更新できること() {
+    func test_skillUpdate_更新情報なし_skillを作成できること() {
         // arrange
         dataInsert()
 
@@ -226,6 +226,69 @@ final class ProfileModelTest: XCTestCase {
             let profile = self.storage.allObjects.first!
 
             XCTAssertEqual(profile.skill?.career, 3)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.3)
+    }
+
+    func test_skillUpdate_更新情報あり_skillを更新できること() {
+        // arrange
+        dataInsert(
+            SkillDataObjectBuilder()
+                .career(5)
+                .build()
+        )
+
+        let expectation = XCTestExpectation(description: #function)
+
+        // act
+        model.skillUpdate(
+            modelObject: ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .skill(
+                    SKillModelObjectBuilder()
+                        .career(10)
+                        .identifier("identifier")
+                        .build()
+                )
+                .build()
+        )
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let profile = self.storage.allObjects.first!
+
+            XCTAssertEqual(profile.skill?.career, 10)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.3)
+    }
+
+    func test_skillUpdate_更新情報あり_skillをnilにできること() {
+        // arrange
+        dataInsert(
+            SkillDataObjectBuilder()
+                .career(5)
+                .build()
+        )
+
+        let expectation = XCTestExpectation(description: #function)
+
+        // act
+        model.skillUpdate(
+            modelObject: ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .skill(nil)
+                .build()
+        )
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let profile = self.storage.allObjects.first!
+
+            XCTAssertNil(profile.skill)
 
             expectation.fulfill()
         }
@@ -304,7 +367,7 @@ final class ProfileModelTest: XCTestCase {
 }
 
 private extension ProfileModelTest {
-    func dataInsert() {
+    func dataInsert(_ skill: Skill? = nil) {
         storage.create().sink {
             $0.address = "テスト県テスト市テスト1-1-1"
             $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
@@ -315,6 +378,10 @@ private extension ProfileModelTest {
             $0.name = "testName"
             $0.phoneNumber = "08011112222"
             $0.station = "鶴橋駅"
+
+            if let skill {
+                $0.skill = skill
+            }
         }
         .store(in: &cancellables)
     }

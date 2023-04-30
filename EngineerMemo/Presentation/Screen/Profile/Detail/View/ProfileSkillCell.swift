@@ -116,7 +116,7 @@ extension ProfileSkillCell {
         skillView.isHidden = false
 
         if let career = modelObject.career {
-            skillLabel.text = "\(career.description)年"
+            skillLabel.text = L10n.Profile.careerYear(career)
         }
     }
 }
