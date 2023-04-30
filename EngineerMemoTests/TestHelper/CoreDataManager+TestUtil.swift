@@ -2,9 +2,17 @@ import CoreData
 @testable import EngineerMemo
 
 extension CoreDataManager {
+    private static var managedObjectModel = NSManagedObjectModel.mergedModel(
+        from: [Bundle(for: CoreDataManager.self)]
+    )!
+
     func injectInMemoryPersistentContainer() {
         inject(persistentContainer: {
-            let container = NSPersistentCloudKitContainer(name: "EngineerMemo")
+            let container = NSPersistentCloudKitContainer(
+                name: "EngineerMemo",
+                managedObjectModel: CoreDataManager.managedObjectModel
+            )
+
             let persistentStoreDescription = NSPersistentStoreDescription()
             persistentStoreDescription.url = .init(fileURLWithPath: "/dev/null")
 
@@ -12,7 +20,7 @@ extension CoreDataManager {
             container.viewContext.setupMergeConfig()
             container.loadPersistentStores { _, error in
                 if let error {
-                    fatalError(error.localizedDescription)
+                    Logger.error(message: error.localizedDescription)
                 }
             }
 
