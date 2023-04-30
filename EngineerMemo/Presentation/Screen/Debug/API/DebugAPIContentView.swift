@@ -210,10 +210,7 @@
                     options: .displayInline,
                     children: actions
                 )
-                $0.setTitle(
-                    menuType.title,
-                    for: .normal
-                )
+                $0.setTitle(menuType.title, for: .normal)
                 $0.showsMenuAsPrimaryAction = true
             }
         }

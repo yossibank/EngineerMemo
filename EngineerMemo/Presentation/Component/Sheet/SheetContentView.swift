@@ -104,16 +104,14 @@ final class SheetContentView: UIView {
 private extension SheetContentView {
     func createButton(_ sheetAction: SheetAction) -> UIButton {
         let button = UIButton(type: .system).configure {
-            $0.setTitle(
-                sheetAction.title,
-                for: .normal
-            )
-            $0.addConstraint {
-                $0.height.equalTo(48)
-            }
+            $0.setTitle(sheetAction.title, for: .normal)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 8
+
+            $0.addConstraint {
+                $0.height.equalTo(48)
+            }
 
             switch sheetAction.actionType {
             case .default:

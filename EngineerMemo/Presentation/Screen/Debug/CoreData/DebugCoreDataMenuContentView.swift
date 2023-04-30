@@ -42,11 +42,11 @@
             case .profile:
                 return AppControllers.Debug.CoreDataObject.Create.Profile()
 
-            case .skill:
-                return AppControllers.Debug.CoreDataObject.List.Skill()
-
             case .memo:
                 return AppControllers.Debug.CoreDataObject.Create.Memo()
+
+            default:
+                fatalError(.noSetting)
             }
         }
 
@@ -55,11 +55,11 @@
             case .profile:
                 return AppControllers.Debug.CoreDataObject.Update.Profile()
 
-            case .skill:
-                return AppControllers.Debug.CoreDataObject.List.Skill()
-
             case .memo:
                 return AppControllers.Debug.CoreDataObject.Update.Memo()
+
+            default:
+                fatalError(.noSetting)
             }
         }
     }
@@ -68,6 +68,12 @@
 
     final class DebugCoreDataMenuContentView: UIView {
         @Published private(set) var selectedType: DebugCoreDataMenuType = .profile
+
+        private var menus = DebugCoreDataMenuType.allCases {
+            didSet {
+                setupMenu()
+            }
+        }
 
         private let menuButton = UIButton(type: .system)
             .apply(.debugMenuButton)
@@ -100,6 +106,14 @@
             vc: UIViewController,
             displayType: DebugCoreDataDisplayType
         ) {
+            switch displayType {
+            case .list:
+                menus = DebugCoreDataMenuType.allCases
+
+            case .create, .update:
+                menus = [.profile, .memo]
+            }
+
             let containerViewController: UIViewController = {
                 switch displayType {
                 case .list:
@@ -129,7 +143,7 @@
         func setupMenu() {
             var actions = [UIMenuElement]()
 
-            DebugCoreDataMenuType.allCases.forEach { type in
+            menus.forEach { type in
                 actions.append(
                     UIAction(
                         title: type.title,
@@ -148,10 +162,7 @@
                     options: .displayInline,
                     children: actions
                 )
-                $0.setTitle(
-                    selectedType.title,
-                    for: .normal
-                )
+                $0.setTitle(selectedType.title, for: .normal)
                 $0.showsMenuAsPrimaryAction = true
             }
         }
