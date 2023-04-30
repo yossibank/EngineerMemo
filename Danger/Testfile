@@ -2,7 +2,7 @@
 github.dismiss_out_of_range_messages
 
 ### コードカバレッジ ###
-system("mint run xcparse codecov EngineerMemo.xcresult ./")
+system("mint run xcparse codecov EngineerMemoXCResult ./")
 
 xcov.report(
     project: "EngineerMemo.xcodeproj",

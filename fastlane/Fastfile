@@ -27,7 +27,7 @@ platform :ios do
       cloned_source_packages_path: "SourcePackages",
       derived_data_path: "DerivedData",
       result_bundle: true,
-      output_directory: "EngineerMemo.xcresult"
+      output_directory: "EngineerMemoXCResult"
     )
   end
 end
