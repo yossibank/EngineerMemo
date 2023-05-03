@@ -21,6 +21,7 @@ final class SkillConverterTest: XCTestCase {
         let input = SkillDataObjectBuilder()
             .career(3)
             .identifier("identifier")
+            .toeic(600)
             .build()
 
         // act
@@ -31,6 +32,8 @@ final class SkillConverterTest: XCTestCase {
             actual,
             SKillModelObjectBuilder()
                 .career(3)
+                .identifier("identifier")
+                .toeic(600)
                 .build()
         )
     }

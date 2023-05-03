@@ -32,6 +32,7 @@ final class ProfileConverterTest: XCTestCase {
                 SkillDataObjectBuilder()
                     .career(3)
                     .identifier("identifier")
+                    .toeic(600)
                     .build()
             )
             .build()
@@ -55,6 +56,7 @@ final class ProfileConverterTest: XCTestCase {
                 .skill(
                     SKillModelObjectBuilder()
                         .career(3)
+                        .toeic(600)
                         .build()
                 )
                 .build()

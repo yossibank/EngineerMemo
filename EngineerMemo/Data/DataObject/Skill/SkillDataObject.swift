@@ -4,6 +4,7 @@ import CoreData
 final class Skill: NSManagedObject {
     @NSManaged var career: NSNumber?
     @NSManaged var identifier: String
+    @NSManaged var toeic: NSNumber?
     @NSManaged var profile: Profile?
 }
 

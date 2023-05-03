@@ -217,6 +217,7 @@ final class ProfileModelTest: XCTestCase {
                     SKillModelObjectBuilder()
                         .career(3)
                         .identifier("identifier")
+                        .toeic(600)
                         .build()
                 )
                 .build()
@@ -226,6 +227,7 @@ final class ProfileModelTest: XCTestCase {
             let profile = self.storage.allObjects.first!
 
             XCTAssertEqual(profile.skill?.career, 3)
+            XCTAssertEqual(profile.skill?.toeic, 600)
 
             expectation.fulfill()
         }
@@ -238,6 +240,7 @@ final class ProfileModelTest: XCTestCase {
         dataInsert(
             SkillDataObjectBuilder()
                 .career(5)
+                .toeic(400)
                 .build()
         )
 
@@ -251,6 +254,7 @@ final class ProfileModelTest: XCTestCase {
                     SKillModelObjectBuilder()
                         .career(10)
                         .identifier("identifier")
+                        .toeic(600)
                         .build()
                 )
                 .build()
@@ -260,6 +264,7 @@ final class ProfileModelTest: XCTestCase {
             let profile = self.storage.allObjects.first!
 
             XCTAssertEqual(profile.skill?.career, 10)
+            XCTAssertEqual(profile.skill?.toeic, 600)
 
             expectation.fulfill()
         }
