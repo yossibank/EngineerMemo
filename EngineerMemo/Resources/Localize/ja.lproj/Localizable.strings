@@ -86,6 +86,7 @@
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
 "profile.career" = "エンジニア歴";
 "profile.careerYear" = "%@年";
+"profile.toeicScore" = "%@点";
 
 // MARK: - FirebaseAnalytics
 

@@ -55,20 +55,56 @@ final class ProfileSkillCell: UITableViewCell {
         alignment: .leading,
         spacing: 16
     ) {
-        VStackView(alignment: .leading, spacing: 8) {
-            UILabel().configure {
-                $0.text = L10n.Profile.career
-                $0.textColor = .secondaryGray
-                $0.font = .systemFont(ofSize: 14)
-            }
-
-            skillLabel.configure {
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
+        VStackView(alignment: .leading, spacing: 16) {
+            careerView
+            toeicView
         }
     }
 
-    private let skillLabel = UILabel()
+    private lazy var careerView = VStackView(
+        alignment: .leading,
+        spacing: 8
+    ) {
+        UILabel().configure {
+            $0.text = L10n.Profile.career
+            $0.textColor = .secondaryGray
+            $0.font = .systemFont(ofSize: 14)
+        }
+
+        careerLabel.configure {
+            $0.font = .boldSystemFont(ofSize: 16)
+        }
+    }
+
+    private let careerLabel = UILabel()
+
+    private lazy var toeicView = VStackView(
+        alignment: .leading,
+        spacing: 8
+    ) {
+        UILabel().configure {
+            $0.text = "TOEIC"
+            $0.textColor = .secondaryGray
+            $0.font = .systemFont(ofSize: 14)
+        }
+
+        HStackView(spacing: 8) {
+            toeicLabel.configure {
+                $0.font = .boldSystemFont(ofSize: 16)
+            }
+
+            toeicImageView
+                .addConstraint {
+                    $0.size.equalTo(24)
+                }
+                .configure {
+                    $0.contentMode = .scaleAspectFill
+                }
+        }
+    }
+
+    private let toeicImageView = UIImageView()
+    private let toeicLabel = UILabel()
 
     private let settingButton = UIButton(type: .system).configure {
         $0.setTitle(L10n.Components.Button.Do.setting, for: .normal)
@@ -114,9 +150,16 @@ extension ProfileSkillCell {
 
         settingView.isHidden = true
         skillView.isHidden = false
+        careerView.isHidden = modelObject.career == nil
+        toeicView.isHidden = modelObject.toeic == nil
 
         if let career = modelObject.career {
-            skillLabel.text = L10n.Profile.careerYear(career)
+            careerLabel.text = L10n.Profile.careerYear(career)
+        }
+
+        if let toeic = modelObject.toeic {
+            toeicLabel.text = L10n.Profile.toeicScore(toeic)
+            setupToeicImage(toeic)
         }
     }
 }
@@ -134,6 +177,25 @@ private extension ProfileSkillCell {
             $0.backgroundColor = .background
         }
     }
+
+    func setupToeicImage(_ toeic: Int) {
+        switch toeic {
+        case 600 ... 730:
+            toeicImageView.isHidden = false
+            toeicImageView.image = Asset.bronzeTrophy.image
+
+        case 731 ... 860:
+            toeicImageView.isHidden = false
+            toeicImageView.image = Asset.silverTrophy.image
+
+        case 861 ... 990:
+            toeicImageView.isHidden = false
+            toeicImageView.image = Asset.goldTrophy.image
+
+        default:
+            toeicImageView.isHidden = true
+        }
+    }
 }
 
 // MARK: - preview
@@ -144,7 +206,11 @@ private extension ProfileSkillCell {
     struct ProfileSkillCellPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: ProfileSkillCell()) {
-                $0.configure(SKillModelObjectBuilder().build())
+                $0.configure(
+                    SKillModelObjectBuilder()
+                        .toeic(990)
+                        .build()
+                )
             }
         }
     }
