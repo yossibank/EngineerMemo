@@ -44,12 +44,16 @@
                     }
 
                     createStackView(.engineerCareer)
+                    createStackView(.language)
+                    createStackView(.toeic)
                 }
             }
         }
 
         private let nameLabel = UILabel()
         private let engineerCareerLabel = UILabel()
+        private let languageLabel = UILabel()
+        private let toeicLabel = UILabel()
 
         private let iconImageView = UIImageView().configure {
             $0.clipsToBounds = true
@@ -79,10 +83,21 @@
         func configure(_ modelObject: ProfileModelObject) {
             nameLabel.text = modelObject.name
 
-            if let career = modelObject.skill?.engineerCareer {
-                engineerCareerLabel.text = L10n.Profile.year(career)
+            if let engineerCareer = modelObject.skill?.engineerCareer {
+                engineerCareerLabel.text = L10n.Profile.year(engineerCareer)
             } else {
                 engineerCareerLabel.text = .noSetting
+            }
+
+            if let language = modelObject.skill?.language,
+               let languageCareer = modelObject.skill?.languageCareer {
+                languageLabel.text = language + " " + L10n.Profile.year(languageCareer)
+            } else if let language = modelObject.skill?.language {
+                languageLabel.text = language
+            }
+
+            if let toeic = modelObject.skill?.toeic {
+                toeicLabel.text = L10n.Profile.score(toeic)
             }
 
             if let data = modelObject.iconImage,
@@ -114,6 +129,12 @@
             switch type {
             case .engineerCareer:
                 valueLabel = engineerCareerLabel
+
+            case .language:
+                valueLabel = languageLabel
+
+            case .toeic:
+                valueLabel = toeicLabel
             }
 
             return VStackView(alignment: .leading, spacing: 8) {

@@ -29,7 +29,6 @@ final class ProfileSkillCell: UITableViewCell {
             }
 
             settingView
-
             skillView
         }
     }
@@ -56,20 +55,17 @@ final class ProfileSkillCell: UITableViewCell {
         spacing: 16
     ) {
         VStackView(alignment: .leading, spacing: 16) {
-            careerView
+            engineerCareerView
+            languageView
             toeicView
         }
     }
 
-    private lazy var careerView = VStackView(
+    private lazy var engineerCareerView = VStackView(
         alignment: .leading,
         spacing: 8
     ) {
-        UILabel().configure {
-            $0.text = L10n.Profile.engineerCareer
-            $0.textColor = .secondaryGray
-            $0.font = .systemFont(ofSize: 14)
-        }
+        createLabel(.engineerCareer)
 
         engineerCareerLabel.configure {
             $0.font = .boldSystemFont(ofSize: 16)
@@ -78,15 +74,31 @@ final class ProfileSkillCell: UITableViewCell {
 
     private let engineerCareerLabel = UILabel()
 
+    private lazy var languageView = VStackView(
+        alignment: .leading,
+        spacing: 8
+    ) {
+        createLabel(.language)
+
+        HStackView(spacing: 8) {
+            languageLabel.configure {
+                $0.font = .boldSystemFont(ofSize: 16)
+            }
+
+            languageCareerLabel.configure {
+                $0.font = .boldSystemFont(ofSize: 16)
+            }
+        }
+    }
+
+    private let languageLabel = UILabel()
+    private let languageCareerLabel = UILabel()
+
     private lazy var toeicView = VStackView(
         alignment: .leading,
         spacing: 8
     ) {
-        UILabel().configure {
-            $0.text = "TOEIC"
-            $0.textColor = .secondaryGray
-            $0.font = .systemFont(ofSize: 14)
-        }
+        createLabel(.toeic)
 
         HStackView(spacing: 8) {
             toeicLabel.configure {
@@ -150,11 +162,20 @@ extension ProfileSkillCell {
 
         settingView.isHidden = true
         skillView.isHidden = false
-        careerView.isHidden = modelObject.engineerCareer == nil
+        engineerCareerView.isHidden = modelObject.engineerCareer == nil
+        languageView.isHidden = modelObject.language == nil
         toeicView.isHidden = modelObject.toeic == nil
 
         if let engineerCareer = modelObject.engineerCareer {
             engineerCareerLabel.text = L10n.Profile.year(engineerCareer)
+        }
+
+        if let language = modelObject.language {
+            languageLabel.text = language
+
+            if let languageCareer = modelObject.languageCareer {
+                languageCareerLabel.text = L10n.Profile.year(languageCareer)
+            }
         }
 
         if let toeic = modelObject.toeic {
@@ -194,6 +215,14 @@ private extension ProfileSkillCell {
 
         default:
             toeicImageView.isHidden = true
+        }
+    }
+
+    func createLabel(_ type: SkillContentType) -> UILabel {
+        .init().configure {
+            $0.text = type.title
+            $0.textColor = .secondaryGray
+            $0.font = .systemFont(ofSize: 14)
         }
     }
 }
