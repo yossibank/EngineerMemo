@@ -49,6 +49,11 @@
 
 // MARK: - メモ
 
+"memo.category.todo" = "TODO";
+"memo.category.technical" = "技術的";
+"memo.category.interview" = "面接";
+"memo.category.event" = "イベント";
+"memo.category.other" = "その他";
 "memo.title" = "タイトル";
 "memo.content" = "内容";
 

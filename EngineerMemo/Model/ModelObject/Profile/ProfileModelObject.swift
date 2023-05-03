@@ -13,7 +13,7 @@ struct ProfileModelObject: Hashable {
     var identifier: String
 
     enum Gender: Int {
-        case man = 0
+        case man
         case woman
         case other
         case noSetting
