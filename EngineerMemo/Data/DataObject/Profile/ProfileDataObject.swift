@@ -5,7 +5,7 @@ final class Profile: NSManagedObject {
     @NSManaged var address: String?
     @NSManaged var birthday: Date?
     @NSManaged var email: String?
-    @NSManaged var gender: NSNumber?
+    @NSManaged var genderNumber: NSNumber?
     @NSManaged var iconImage: Data?
     @NSManaged var identifier: String
     @NSManaged var name: String?
@@ -21,12 +21,12 @@ extension Profile {
         case other
     }
 
-    var genderEnum: Gender? {
+    var gender: Gender? {
         get {
-            .init(rawValue: gender?.intValue ?? .invalid)
+            .init(rawValue: genderNumber?.intValue ?? .invalid)
         }
         set {
-            gender = .init(value: newValue?.rawValue ?? .invalid)
+            genderNumber = .init(value: newValue?.rawValue ?? .invalid)
         }
     }
 }
