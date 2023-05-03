@@ -2,8 +2,8 @@
 import XCTest
 
 final class SkillContentTypeTest: XCTestCase {
-    func test_career_titleの文字列がエンジニア歴であること() {
+    func test_engineerCareer_titleの文字列がエンジニア歴であること() {
         // assert
-        XCTAssertEqual(SkillContentType.career.title, "エンジニア歴")
+        XCTAssertEqual(SkillContentType.engineerCareer.title, "エンジニア歴")
     }
 }

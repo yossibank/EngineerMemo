@@ -21,7 +21,9 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
 
         model.fetchHandler = {
-            $0(.success([ProfileModelObjectBuilder().build()]))
+            $0(.success(
+                [ProfileModelObjectBuilder().build()])
+            )
         }
     }
 

@@ -30,8 +30,10 @@ final class ProfileConverterTest: XCTestCase {
             .station("鶴橋駅")
             .skill(
                 SkillDataObjectBuilder()
-                    .career(3)
+                    .engineerCareer(3)
                     .identifier("identifier")
+                    .language("Swift")
+                    .languageCareer(2)
                     .toeic(600)
                     .build()
             )
@@ -55,7 +57,9 @@ final class ProfileConverterTest: XCTestCase {
                 .station("鶴橋駅")
                 .skill(
                     SKillModelObjectBuilder()
-                        .career(3)
+                        .engineerCareer(3)
+                        .language("Swift")
+                        .languageCareer(2)
                         .toeic(600)
                         .build()
                 )

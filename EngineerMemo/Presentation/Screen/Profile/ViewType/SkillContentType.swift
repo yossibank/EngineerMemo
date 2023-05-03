@@ -1,9 +1,9 @@
 enum SkillContentType: CaseIterable {
-    case career
+    case engineerCareer
 
     var title: String {
         switch self {
-        case .career: return L10n.Profile.career
+        case .engineerCareer: return L10n.Profile.engineerCareer
         }
     }
 }

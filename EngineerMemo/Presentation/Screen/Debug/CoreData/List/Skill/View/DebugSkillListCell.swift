@@ -43,13 +43,13 @@
                         }
                     }
 
-                    createStackView(.career)
+                    createStackView(.engineerCareer)
                 }
             }
         }
 
         private let nameLabel = UILabel()
-        private let careerLabel = UILabel()
+        private let engineerCareerLabel = UILabel()
 
         private let iconImageView = UIImageView().configure {
             $0.clipsToBounds = true
@@ -79,10 +79,10 @@
         func configure(_ modelObject: ProfileModelObject) {
             nameLabel.text = modelObject.name
 
-            if let career = modelObject.skill?.career {
-                careerLabel.text = L10n.Profile.careerYear(career)
+            if let career = modelObject.skill?.engineerCareer {
+                engineerCareerLabel.text = L10n.Profile.year(career)
             } else {
-                careerLabel.text = .noSetting
+                engineerCareerLabel.text = .noSetting
             }
 
             if let data = modelObject.iconImage,
@@ -112,8 +112,8 @@
             let valueLabel: UILabel
 
             switch type {
-            case .career:
-                valueLabel = careerLabel
+            case .engineerCareer:
+                valueLabel = engineerCareerLabel
             }
 
             return VStackView(alignment: .leading, spacing: 8) {

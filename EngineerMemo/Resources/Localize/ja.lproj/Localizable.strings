@@ -84,9 +84,9 @@
 "profile.example.name" = "例) 山田 太郎";
 "profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
-"profile.career" = "エンジニア歴";
-"profile.careerYear" = "%@年";
-"profile.toeicScore" = "%@点";
+"profile.engineerCareer" = "エンジニア歴";
+"profile.year" = "%@年";
+"profile.score" = "%@点";
 
 // MARK: - FirebaseAnalytics
 

@@ -19,8 +19,10 @@ final class SkillConverterTest: XCTestCase {
     func test_SkillをSkillModelObjectに変換できること() {
         // arrange
         let input = SkillDataObjectBuilder()
-            .career(3)
+            .engineerCareer(3)
             .identifier("identifier")
+            .language("Swift")
+            .languageCareer(2)
             .toeic(600)
             .build()
 
@@ -31,8 +33,10 @@ final class SkillConverterTest: XCTestCase {
         XCTAssertEqual(
             actual,
             SKillModelObjectBuilder()
-                .career(3)
+                .engineerCareer(3)
                 .identifier("identifier")
+                .language("Swift")
+                .languageCareer(2)
                 .toeic(600)
                 .build()
         )

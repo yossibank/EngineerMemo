@@ -66,17 +66,17 @@ final class ProfileSkillCell: UITableViewCell {
         spacing: 8
     ) {
         UILabel().configure {
-            $0.text = L10n.Profile.career
+            $0.text = L10n.Profile.engineerCareer
             $0.textColor = .secondaryGray
             $0.font = .systemFont(ofSize: 14)
         }
 
-        careerLabel.configure {
+        engineerCareerLabel.configure {
             $0.font = .boldSystemFont(ofSize: 16)
         }
     }
 
-    private let careerLabel = UILabel()
+    private let engineerCareerLabel = UILabel()
 
     private lazy var toeicView = VStackView(
         alignment: .leading,
@@ -150,15 +150,15 @@ extension ProfileSkillCell {
 
         settingView.isHidden = true
         skillView.isHidden = false
-        careerView.isHidden = modelObject.career == nil
+        careerView.isHidden = modelObject.engineerCareer == nil
         toeicView.isHidden = modelObject.toeic == nil
 
-        if let career = modelObject.career {
-            careerLabel.text = L10n.Profile.careerYear(career)
+        if let engineerCareer = modelObject.engineerCareer {
+            engineerCareerLabel.text = L10n.Profile.year(engineerCareer)
         }
 
         if let toeic = modelObject.toeic {
-            toeicLabel.text = L10n.Profile.toeicScore(toeic)
+            toeicLabel.text = L10n.Profile.score(toeic)
             setupToeicImage(toeic)
         }
     }

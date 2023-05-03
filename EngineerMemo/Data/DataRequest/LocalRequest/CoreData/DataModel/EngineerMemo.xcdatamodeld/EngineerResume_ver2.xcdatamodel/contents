@@ -18,8 +18,10 @@
         <relationship name="skill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Skill" inverseName="profile" inverseEntity="Skill"/>
     </entity>
     <entity name="Skill" representedClassName="Skill" syncable="YES">
-        <attribute name="career" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="engineerCareer" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="identifier" attributeType="String"/>
+        <attribute name="language" optional="YES" attributeType="String"/>
+        <attribute name="languageCareer" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="toeic" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="skill" inverseEntity="Profile"/>
     </entity>
