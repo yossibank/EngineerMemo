@@ -195,7 +195,7 @@
                 }
                 .store(in: &cell.cancellables)
 
-                cell.stationControlPublisher.sink { [weak self] value in
+                cell.skillControlPublisher.sink { [weak self] value in
                     self?.didChangeSkillControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)

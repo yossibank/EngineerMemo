@@ -11,7 +11,7 @@
             let didChangeNameControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangePhoneNumberControl = PassthroughSubject<DebugPhoneNumberSegment, Never>()
             let didChangeStationControl = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let didChangeSkillControl = PassthroughSubject<DebugCoreDataSegment, Never>()
+            let didChangeSkillControl = PassthroughSubject<DebugDefaultSegment, Never>()
             let didChangeSearchText = PassthroughSubject<String, Never>()
             let didTapUpdateButton = PassthroughSubject<String, Never>()
         }
@@ -36,7 +36,7 @@
             .name(DebugCoreDataSegment.defaultString)
             .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)
-            .skill(DebugCoreDataSegment.defaultSkill)
+            .skill(DebugDefaultSegment.defaultSkill)
             .build()
 
         private var addressSegment: DebugCoreDataSegment = .medium
@@ -47,7 +47,7 @@
         private var nameSegment: DebugCoreDataSegment = .medium
         private var phoneNumberSegment: DebugPhoneNumberSegment = .phone
         private var stationSegment: DebugCoreDataSegment = .medium
-        private var skillSegment: DebugCoreDataSegment = .medium
+        private var skillSegment: DebugDefaultSegment = .default
 
         private let model: ProfileModelInput
 

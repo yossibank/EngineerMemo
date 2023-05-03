@@ -44,7 +44,7 @@
         private let nameControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.name)
         private let phoneNumberControl = DebugPhoneNumberSegmentView(title: L10n.Debug.Segment.phoneNumber)
         private let stationControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.station)
-        private let skillControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.skill)
+        private let skillControl = DebugDefaultSegmentView(title: L10n.Debug.Segment.skill)
 
         override init(
             style: UITableViewCell.CellStyle,

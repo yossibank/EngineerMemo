@@ -146,6 +146,7 @@
 "debug.segment.title" = "title";
 "debug.segment.randomImage" = "画像(ランダム)";
 "debug.segment.tellNumber" = "携帯番号";
+"debug.segment.default" = "デフォルト";
 "debug.segment.short" = "短め";
 "debug.segment.medium" = "普通";
 "debug.segment.long" = "長め";
