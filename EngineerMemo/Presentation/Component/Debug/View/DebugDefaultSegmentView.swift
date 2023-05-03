@@ -3,41 +3,25 @@
     import UIKit
     import UIKitHelper
 
-    enum DebugCoreDataSegment: Int, CaseIterable {
-        case short = 0
-        case medium
-        case long
+    enum DebugDefaultSegment: Int, CaseIterable {
+        case `default` = 0
         case none
 
         var title: String {
             switch self {
-            case .short: return L10n.Debug.Segment.short
-            case .medium: return L10n.Debug.Segment.medium
-            case .long: return L10n.Debug.Segment.long
+            case .default: return L10n.Debug.Segment.default
             case .none: return .noSetting
             }
         }
 
-        var string: String? {
+        var skill: SkillModelObject? {
             switch self {
-            case .short: return .randomElement(5)
-            case .medium: return .randomElement(15)
-            case .long: return .randomElement(50)
+            case .default: return SKillModelObjectBuilder().build()
             case .none: return nil
             }
         }
 
-        var date: Date? {
-            switch self {
-            case .short: return Calendar.date(year: 2022, month: 1, day: 1)
-            case .medium: return Calendar.date(year: 2000, month: 1, day: 1)
-            case .long: return Calendar.date(year: 1000, month: 1, day: 1)
-            case .none: return nil
-            }
-        }
-
-        static var defaultString: String? { medium.string }
-        static var defaultDate: Date? { medium.date }
+        static var defaultSkill: SkillModelObject? { `default`.skill }
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none
@@ -46,8 +30,8 @@
 
     // MARK: - properties & init
 
-    final class DebugCoreDataSegmentView: UIView {
-        typealias Segment = DebugCoreDataSegment
+    final class DebugDefaultSegmentView: UIView {
+        typealias Segment = DebugDefaultSegment
 
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
@@ -62,7 +46,7 @@
                     }
 
                 segmentControl.configure {
-                    $0.selectedSegmentIndex = Segment.medium.rawValue
+                    $0.selectedSegmentIndex = Segment.default.rawValue
                 }
             }
         }
@@ -86,7 +70,7 @@
 
     // MARK: - private methods
 
-    private extension DebugCoreDataSegmentView {
+    private extension DebugDefaultSegmentView {
         func setupView() {
             configure {
                 $0.addSubview(body) {
@@ -101,9 +85,9 @@
 
     // MARK: - preview
 
-    struct DebugCoreDataSegmentViewPreview: PreviewProvider {
+    struct DebugDefaultSegmentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugCoreDataSegmentView(title: "title"))
+            WrapperView(view: DebugDefaultSegmentView(title: "title"))
         }
     }
 #endif

@@ -84,8 +84,11 @@
 "profile.example.name" = "例) 山田 太郎";
 "profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
-"profile.career" = "エンジニア歴";
-"profile.careerYear" = "%@年";
+"profile.engineerCareer" = "エンジニア歴";
+"profile.useLanguage" = "得意言語";
+"profile.toeic" = "TOEIC";
+"profile.year" = "%@年";
+"profile.score" = "%@点";
 
 // MARK: - FirebaseAnalytics
 
@@ -146,6 +149,7 @@
 "debug.segment.title" = "title";
 "debug.segment.randomImage" = "画像(ランダム)";
 "debug.segment.tellNumber" = "携帯番号";
+"debug.segment.default" = "デフォルト";
 "debug.segment.short" = "短め";
 "debug.segment.medium" = "普通";
 "debug.segment.long" = "長め";

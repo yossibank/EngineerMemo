@@ -11,7 +11,10 @@ struct SkillConverter: SkillConverterInput {
         }
 
         return SkillModelObject(
-            career: skill.career?.intValue,
+            engineerCareer: skill.engineerCareer?.intValue,
+            language: skill.language,
+            languageCareer: skill.languageCareer?.intValue,
+            toeic: skill.toeic?.intValue,
             identifier: skill.identifier
         )
     }

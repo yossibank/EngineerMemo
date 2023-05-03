@@ -125,7 +125,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeSkillControl.send(
-                        DebugCoreDataSegment.segment(value)
+                        DebugDefaultSegment.segment(value)
                     )
                 }
                 .store(in: &cancellables)

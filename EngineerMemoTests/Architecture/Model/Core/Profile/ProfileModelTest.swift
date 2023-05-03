@@ -215,8 +215,11 @@ final class ProfileModelTest: XCTestCase {
                 .identifier("identifier")
                 .skill(
                     SKillModelObjectBuilder()
-                        .career(3)
+                        .engineerCareer(3)
                         .identifier("identifier")
+                        .language("Swift")
+                        .languageCareer(2)
+                        .toeic(600)
                         .build()
                 )
                 .build()
@@ -225,7 +228,10 @@ final class ProfileModelTest: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             let profile = self.storage.allObjects.first!
 
-            XCTAssertEqual(profile.skill?.career, 3)
+            XCTAssertEqual(profile.skill?.engineerCareer, 3)
+            XCTAssertEqual(profile.skill?.language, "Swift")
+            XCTAssertEqual(profile.skill?.languageCareer, 2)
+            XCTAssertEqual(profile.skill?.toeic, 600)
 
             expectation.fulfill()
         }
@@ -237,7 +243,10 @@ final class ProfileModelTest: XCTestCase {
         // arrange
         dataInsert(
             SkillDataObjectBuilder()
-                .career(5)
+                .engineerCareer(5)
+                .language("Kotlin")
+                .languageCareer(8)
+                .toeic(400)
                 .build()
         )
 
@@ -249,8 +258,11 @@ final class ProfileModelTest: XCTestCase {
                 .identifier("identifier")
                 .skill(
                     SKillModelObjectBuilder()
-                        .career(10)
+                        .engineerCareer(10)
+                        .language("Swift")
+                        .languageCareer(2)
                         .identifier("identifier")
+                        .toeic(600)
                         .build()
                 )
                 .build()
@@ -259,7 +271,10 @@ final class ProfileModelTest: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             let profile = self.storage.allObjects.first!
 
-            XCTAssertEqual(profile.skill?.career, 10)
+            XCTAssertEqual(profile.skill?.engineerCareer, 10)
+            XCTAssertEqual(profile.skill?.language, "Swift")
+            XCTAssertEqual(profile.skill?.languageCareer, 2)
+            XCTAssertEqual(profile.skill?.toeic, 600)
 
             expectation.fulfill()
         }
@@ -271,7 +286,9 @@ final class ProfileModelTest: XCTestCase {
         // arrange
         dataInsert(
             SkillDataObjectBuilder()
-                .career(5)
+                .engineerCareer(5)
+                .language("Swift")
+                .languageCareer(2)
                 .build()
         )
 
