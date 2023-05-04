@@ -26,7 +26,7 @@ final class MemoDetailContentView: UIView {
         }
         .configure {
             $0.setImage(
-                Asset.memoDelete.image
+                Asset.deleteMemo.image
                     .resized(size: .init(width: 32, height: 32))
                     .withRenderingMode(.alwaysOriginal),
                 for: .normal
@@ -39,7 +39,7 @@ final class MemoDetailContentView: UIView {
         }
         .configure {
             $0.setImage(
-                Asset.memoEdit.image
+                Asset.editMemo.image
                     .resized(size: .init(width: 32, height: 32))
                     .withRenderingMode(.alwaysOriginal),
                 for: .normal

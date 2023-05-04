@@ -5,11 +5,13 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class MemoListCell: UICollectionViewCell {
-    var cancellables: Set<AnyCancellable> = .init()
-
     private lazy var baseView = UIView()
-        .addSubview(stackView) {
+        .addSubview(body) {
             $0.edges.equalToSuperview().inset(16)
+        }
+        .addSubview(categoryImageView) {
+            $0.top.trailing.equalToSuperview().inset(8)
+            $0.size.equalTo(24)
         }
         .configure {
             $0.backgroundColor = .primaryGray
@@ -17,7 +19,7 @@ final class MemoListCell: UICollectionViewCell {
             $0.layer.cornerRadius = 8
         }
 
-    private var stackView: UIView {
+    private var body: UIView {
         VStackView(spacing: 16) {
             VStackView(spacing: 4) {
                 UILabel().configure {
@@ -49,6 +51,7 @@ final class MemoListCell: UICollectionViewCell {
         }
     }
 
+    private let categoryImageView = UIImageView()
     private let titleLabel = UILabel()
     private let contentLabel = UILabel()
 
@@ -62,12 +65,6 @@ final class MemoListCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        cancellables.removeAll()
-    }
 }
 
 // MARK: - internal methods
@@ -76,6 +73,27 @@ extension MemoListCell {
     func configure(_ modelObject: MemoModelObject) {
         titleLabel.text = modelObject.title
         contentLabel.text = modelObject.content
+        categoryImageView.image = {
+            switch modelObject.category {
+            case .todo:
+                return Asset.toDoCategory.image
+
+            case .technical:
+                return Asset.technicalCategory.image
+
+            case .interview:
+                return Asset.interviewCategory.image
+
+            case .event:
+                return Asset.eventCategory.image
+
+            case .other:
+                return Asset.otherCategory.image
+
+            default:
+                return nil
+            }
+        }()
     }
 }
 
@@ -101,7 +119,11 @@ private extension MemoListCell {
     struct MemoListCellPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: MemoListCell()) {
-                $0.configure(MemoModelObjectBuilder().build())
+                $0.configure(
+                    MemoModelObjectBuilder()
+                        .category(.todo)
+                        .build()
+                )
             }
         }
     }
