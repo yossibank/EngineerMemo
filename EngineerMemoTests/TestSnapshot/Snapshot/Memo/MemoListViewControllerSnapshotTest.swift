@@ -38,6 +38,12 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
+            viewFrame: .init(
+                x: 0,
+                y: 0,
+                width: UIScreen.main.bounds.width,
+                height: 1200
+            ),
             viewAfter: 0.3
         )
     }
@@ -51,7 +57,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
                 x: 0,
                 y: 0,
                 width: UIScreen.main.bounds.width,
-                height: 1500
+                height: 2800
             ),
             viewAfter: 0.3
         )
@@ -62,9 +68,10 @@ private extension MemoListViewControllerSnapshotTest {
     func dataInsert(count: Int) {
         (1 ... count).forEach { num in
             CoreDataStorage<Memo>().create().sink {
-                $0.identifier = "identifier\(num)"
+                $0.category = .init(rawValue: num % 5)
                 $0.title = "memo title\(num)"
                 $0.content = "memo content\(num)"
+                $0.identifier = "identifier\(num)"
             }
             .store(in: &cancellables)
         }
