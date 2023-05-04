@@ -37,11 +37,13 @@ final class MemoModelTest: XCTestCase {
 
         memoConverter.convertHandler = {
             // assert
+            XCTAssertEqual($0.category, .technical)
             XCTAssertEqual($0.content, "コンテンツ")
             XCTAssertEqual($0.identifier, "identifier")
             XCTAssertEqual($0.title, "タイトル")
 
             return MemoModelObjectBuilder()
+                .category(.technical)
                 .content($0.content!)
                 .identifier($0.identifier)
                 .title($0.title!)
@@ -61,6 +63,7 @@ final class MemoModelTest: XCTestCase {
                     modelObjects,
                     [
                         MemoModelObjectBuilder()
+                            .category(.technical)
                             .content("コンテンツ")
                             .identifier("identifier")
                             .title("タイトル")
@@ -86,11 +89,13 @@ final class MemoModelTest: XCTestCase {
 
         memoConverter.convertHandler = {
             // assert
+            XCTAssertEqual($0.category, .technical)
             XCTAssertEqual($0.content, "コンテンツ")
             XCTAssertEqual($0.identifier, "identifier")
             XCTAssertEqual($0.title, "タイトル")
 
             return MemoModelObjectBuilder()
+                .category(.technical)
                 .content($0.content!)
                 .identifier($0.identifier)
                 .title($0.title!)
@@ -105,6 +110,7 @@ final class MemoModelTest: XCTestCase {
                 XCTAssertEqual(
                     modelObject,
                     MemoModelObjectBuilder()
+                        .category(.technical)
                         .content("コンテンツ")
                         .identifier("identifier")
                         .title("タイトル")
@@ -127,6 +133,7 @@ final class MemoModelTest: XCTestCase {
 
         model.create(
             modelObject: MemoModelObjectBuilder()
+                .category(.technical)
                 .content("コンテンツ")
                 .title("タイトル")
                 .build()
@@ -136,6 +143,7 @@ final class MemoModelTest: XCTestCase {
             let memo = self.storage.allObjects.first!
 
             // assert
+            XCTAssertEqual(memo.category, .technical)
             XCTAssertEqual(memo.content, "コンテンツ")
             XCTAssertEqual(memo.title, "タイトル")
 
@@ -154,6 +162,7 @@ final class MemoModelTest: XCTestCase {
         // act
         model.update(
             modelObject: MemoModelObjectBuilder()
+                .category(.interview)
                 .content("コンテンツ更新後")
                 .identifier("identifier")
                 .title("タイトル更新後")
@@ -164,6 +173,7 @@ final class MemoModelTest: XCTestCase {
             let memo = self.storage.allObjects.first!
 
             // assert
+            XCTAssertEqual(memo.category, .interview)
             XCTAssertEqual(memo.content, "コンテンツ更新後")
             XCTAssertEqual(memo.title, "タイトル更新後")
 
@@ -202,9 +212,10 @@ final class MemoModelTest: XCTestCase {
 private extension MemoModelTest {
     func dataInsert() {
         storage.create().sink {
+            $0.category = .technical
+            $0.content = "コンテンツ"
             $0.identifier = "identifier"
             $0.title = "タイトル"
-            $0.content = "コンテンツ"
         }
         .store(in: &cancellables)
     }

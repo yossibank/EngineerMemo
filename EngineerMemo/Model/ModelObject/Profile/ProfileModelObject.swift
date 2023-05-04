@@ -13,7 +13,7 @@ struct ProfileModelObject: Hashable {
     var identifier: String
 
     enum Gender: Int {
-        case man = 0
+        case man
         case woman
         case other
         case noSetting
@@ -37,7 +37,7 @@ extension ProfileModelObject {
         profile.address = address
         profile.birthday = birthday
         profile.email = email
-        profile.genderEnum = .init(rawValue: gender?.rawValue ?? .invalid)
+        profile.gender = .init(rawValue: gender?.rawValue ?? .invalid)
         profile.name = name
         profile.phoneNumber = phoneNumber
         profile.station = station

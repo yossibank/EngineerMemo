@@ -4,7 +4,7 @@
     import UIKitHelper
 
     enum DebugDefaultSegment: Int, CaseIterable {
-        case `default` = 0
+        case `default`
         case none
 
         var title: String {
@@ -21,7 +21,7 @@
             }
         }
 
-        static var defaultSkill: SkillModelObject? { `default`.skill }
+        static var defaultSkill = `default`.skill
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none

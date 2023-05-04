@@ -4,7 +4,7 @@
     import UIKitHelper
 
     enum DebugCoreDataSegment: Int, CaseIterable {
-        case short = 0
+        case short
         case medium
         case long
         case none

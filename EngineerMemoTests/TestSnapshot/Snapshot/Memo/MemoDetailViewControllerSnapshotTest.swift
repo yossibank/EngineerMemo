@@ -27,6 +27,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     func testMemoDetailViewController_短文() {
         dataInsert(
             modelObject: MemoModelObjectBuilder()
+                .category(.todo)
                 .title("title")
                 .content("content")
                 .build()
@@ -41,6 +42,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     func testMemoDetailViewController_標準() {
         dataInsert(
             modelObject: MemoModelObjectBuilder()
+                .category(.technical)
                 .title("title ".repeat(10))
                 .content("content ".repeat(20))
                 .build()
@@ -55,6 +57,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     func testMemoDetailViewController_長文() {
         dataInsert(
             modelObject: MemoModelObjectBuilder()
+                .category(.event)
                 .title("title ".repeat(30))
                 .content("content ".repeat(60))
                 .build()
@@ -70,9 +73,10 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 private extension MemoDetailViewControllerSnapshotTest {
     func dataInsert(modelObject: MemoModelObject) {
         CoreDataStorage<Memo>().create().sink {
-            $0.identifier = "identifier"
+            $0.category = .init(rawValue: modelObject.category?.rawValue ?? .invalid)
             $0.title = modelObject.title
             $0.content = modelObject.content
+            $0.identifier = "identifier"
         }
         .store(in: &cancellables)
     }

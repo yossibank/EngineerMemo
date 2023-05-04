@@ -32,7 +32,7 @@
             .birthday(DebugCoreDataSegment.defaultDate)
             .email(DebugCoreDataSegment.defaultString)
             .gender(DebugGenderSegment.defaultGender)
-            .iconImage(DebugIconImageSegment.defaultImage?.pngData())
+            .iconImage(DebugIconImageSegment.defaultImage.pngData())
             .name(DebugCoreDataSegment.defaultString)
             .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)

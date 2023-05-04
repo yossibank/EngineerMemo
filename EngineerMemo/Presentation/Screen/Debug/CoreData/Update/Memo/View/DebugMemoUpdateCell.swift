@@ -9,6 +9,7 @@
     final class DebugMemoUpdateCell: UITableViewCell {
         var cancellables: Set<AnyCancellable> = .init()
 
+        private(set) lazy var categoryControlPublisher = categoryControl.segmentIndexPublisher
         private(set) lazy var titleControlPublisher = titleControl.segmentIndexPublisher
         private(set) lazy var contentControlPublisher = contentControl.segmentIndexPublisher
         private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
@@ -16,12 +17,14 @@
         private lazy var body = DebugCoreDataSegmentContentView(.update).configure {
             $0.setupContentView(
                 view: VStackView(spacing: 12) {
+                    categoryControl
                     titleControl
                     contentControl
                 }
             )
         }
 
+        private let categoryControl = DebugCategorySegmentView(title: L10n.Debug.Segment.category)
         private let titleControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.title)
         private let contentControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.content)
 

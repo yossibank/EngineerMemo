@@ -3,6 +3,7 @@
 
     final class DebugMemoCreateViewModel: ViewModel {
         final class Input: InputObject {
+            let didChangeCategoryControl = PassthroughSubject<DebugCategorySegment, Never>()
             let didChangeTitleControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangeContentControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didTapCreateButton = PassthroughSubject<Void, Never>()
@@ -15,10 +16,12 @@
         private var cancellables: Set<AnyCancellable> = .init()
 
         private var modelObject = MemoModelObjectBuilder()
+            .category(DebugCategorySegment.defaultCategory)
             .title(DebugCoreDataSegment.defaultString)
             .content(DebugCoreDataSegment.defaultString)
             .build()
 
+        private var categroySegment: DebugCategorySegment = .technical
         private var titleSegment: DebugCoreDataSegment = .medium
         private var contentSegment: DebugCoreDataSegment = .medium
 
@@ -29,6 +32,13 @@
 
             self.input = input
             self.model = model
+
+            // MARK: - カテゴリーセグメント
+
+            input.didChangeCategoryControl.sink { [weak self] segment in
+                self?.modelObject.category = segment.category
+            }
+            .store(in: &cancellables)
 
             // MARK: - タイトルセグメント
 
@@ -53,6 +63,7 @@
 
                 self.model.create(modelObject: self.modelObject)
                 self.modelObject = MemoModelObjectBuilder()
+                    .category(self.categroySegment.category)
                     .title(self.titleSegment.string)
                     .content(self.contentSegment.string)
                     .build()

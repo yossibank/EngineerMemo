@@ -34,7 +34,7 @@ final class MemoListContentView: UIView {
         }
         .configure {
             $0.setImage(
-                Asset.memoAdd.image
+                Asset.addMemo.image
                     .resized(size: .init(width: 32, height: 32))
                     .withRenderingMode(.alwaysOriginal),
                 for: .normal
@@ -101,7 +101,7 @@ final class MemoListContentView: UIView {
         return UICollectionViewCompositionalLayout(section: section)
     }
 
-    private var viewType: ViewType = .two {
+    private var viewType: ViewType = .one {
         didSet {
             guard viewType != oldValue else {
                 return

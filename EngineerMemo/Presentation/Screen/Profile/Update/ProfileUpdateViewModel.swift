@@ -5,7 +5,7 @@ final class ProfileUpdateViewModel: ViewModel {
     final class Binding: BindingObject {
         @Published var name: String?
         @Published var birthday: Date?
-        @Published var gender: ProfileMenuGenderType = .none
+        @Published var gender: ProfileMenuGenderType = .noSetting
         @Published var email: String?
         @Published var phoneNumber: String?
         @Published var address: String?

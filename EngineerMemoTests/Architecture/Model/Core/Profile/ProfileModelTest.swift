@@ -42,7 +42,7 @@ final class ProfileModelTest: XCTestCase {
             XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
             XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
             XCTAssertEqual($0.email, "test@test.com")
-            XCTAssertEqual($0.genderEnum, .man)
+            XCTAssertEqual($0.gender, .man)
             XCTAssertEqual($0.identifier, "identifier")
             XCTAssertEqual($0.name, "testName")
             XCTAssertEqual($0.phoneNumber, "08011112222")
@@ -52,7 +52,7 @@ final class ProfileModelTest: XCTestCase {
                 .address($0.address!)
                 .birthday($0.birthday!)
                 .email($0.email!)
-                .gender(.init(rawValue: $0.genderEnum!.rawValue)!)
+                .gender(.init(rawValue: $0.gender!.rawValue)!)
                 .name($0.name!)
                 .phoneNumber($0.phoneNumber!)
                 .station($0.station!)
@@ -105,7 +105,7 @@ final class ProfileModelTest: XCTestCase {
             XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
             XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
             XCTAssertEqual($0.email, "test@test.com")
-            XCTAssertEqual($0.genderEnum, .man)
+            XCTAssertEqual($0.gender, .man)
             XCTAssertEqual($0.identifier, "identifier")
             XCTAssertEqual($0.name, "testName")
             XCTAssertEqual($0.phoneNumber, "08011112222")
@@ -115,7 +115,7 @@ final class ProfileModelTest: XCTestCase {
                 .address($0.address!)
                 .birthday($0.birthday!)
                 .email($0.email!)
-                .gender(.init(rawValue: $0.genderEnum!.rawValue)!)
+                .gender(.init(rawValue: $0.gender!.rawValue)!)
                 .name($0.name!)
                 .phoneNumber($0.phoneNumber!)
                 .station($0.station!)
@@ -389,7 +389,7 @@ private extension ProfileModelTest {
             $0.address = "テスト県テスト市テスト1-1-1"
             $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
             $0.email = "test@test.com"
-            $0.genderEnum = .man
+            $0.gender = .man
             $0.iconImage = Asset.penguin.image.pngData()
             $0.identifier = "identifier"
             $0.name = "testName"

@@ -49,11 +49,20 @@
         }
 
         func bindToViewModel() {
+            contentView.didChangeCategoryControlPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] value in
+                    self?.viewModel.input.didChangeCategoryControl.send(
+                        .segment(value)
+                    )
+                }
+                .store(in: &cancellables)
+
             contentView.didChangeTitleControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeTitleControl.send(
-                        DebugCoreDataSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -62,7 +71,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeContentControl.send(
-                        DebugCoreDataSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
