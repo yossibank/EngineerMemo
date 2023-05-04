@@ -7,9 +7,9 @@ final class MemoModelObjectTest: XCTestCase {
         XCTAssertEqual(MemoModelObject.Category.todo.value, "TODO")
     }
 
-    func test_category_technincal_valueの文字列が技術的であること() {
+    func test_category_technincal_valueの文字列が技術であること() {
         // assert
-        XCTAssertEqual(MemoModelObject.Category.technical.value, "技術的")
+        XCTAssertEqual(MemoModelObject.Category.technical.value, "技術")
     }
 
     func test_category_interview_valueの文字列が面接であること() {

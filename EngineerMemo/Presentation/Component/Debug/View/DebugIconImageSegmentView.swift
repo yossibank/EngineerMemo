@@ -31,7 +31,7 @@
             }
         }
 
-        static var defaultImage: UIImage? { Asset.penguin.image }
+        static var defaultImage: UIImage { Asset.penguin.image }
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none

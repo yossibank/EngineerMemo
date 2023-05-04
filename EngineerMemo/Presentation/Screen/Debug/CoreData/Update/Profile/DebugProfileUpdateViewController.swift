@@ -53,7 +53,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeAddressControl.send(
-                        DebugCoreDataSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -62,7 +62,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeBirthdayControl.send(
-                        DebugCoreDataSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -71,7 +71,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeEmailControl.send(
-                        DebugCoreDataSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -80,7 +80,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeGenderControl.send(
-                        DebugGenderSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -89,7 +89,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeIconImageControl.send(
-                        DebugIconImageSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -98,7 +98,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeNameControl.send(
-                        DebugCoreDataSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -107,7 +107,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangePhoneNumberControl.send(
-                        DebugPhoneNumberSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -116,7 +116,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeStationControl.send(
-                        DebugCoreDataSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)
@@ -125,7 +125,7 @@
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
                     self?.viewModel.input.didChangeSkillControl.send(
-                        DebugDefaultSegment.segment(value)
+                        .segment(value)
                     )
                 }
                 .store(in: &cancellables)

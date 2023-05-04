@@ -19,36 +19,13 @@
 
         private var stackView: UIView {
             VStackView(spacing: 16) {
-                VStackView(spacing: 8) {
-                    UILabel().configure {
-                        $0.text = L10n.Memo.title
-                        $0.textColor = .secondaryGray
-                        $0.font = .systemFont(ofSize: 14)
-                    }
-
-                    titleLabel.configure {
-                        $0.textColor = .primary
-                        $0.font = .boldSystemFont(ofSize: 16)
-                        $0.numberOfLines = 0
-                    }
-                }
-
-                VStackView(spacing: 8) {
-                    UILabel().configure {
-                        $0.text = L10n.Memo.content
-                        $0.textColor = .secondaryGray
-                        $0.font = .systemFont(ofSize: 14)
-                    }
-
-                    contentLabel.configure {
-                        $0.textColor = .primary
-                        $0.font = .boldSystemFont(ofSize: 16)
-                        $0.numberOfLines = 0
-                    }
-                }
+                createStackView(.category)
+                createStackView(.title)
+                createStackView(.content)
             }
         }
 
+        private let categoryLabel = UILabel()
         private let titleLabel = UILabel()
         private let contentLabel = UILabel()
 
@@ -73,6 +50,7 @@
 
     extension DebugMemoListCell {
         func configure(_ modelObject: MemoModelObject) {
+            categoryLabel.text = modelObject.category?.value ?? .noSetting
             titleLabel.text = modelObject.title
             contentLabel.text = modelObject.content
         }
@@ -89,6 +67,40 @@
                 }
 
                 $0.backgroundColor = .background
+            }
+        }
+
+        func createStackView(_ type: MemoContentType) -> UIStackView {
+            let valueLabel: UILabel
+
+            switch type {
+            case .category:
+                valueLabel = categoryLabel
+
+            case .title:
+                valueLabel = titleLabel
+                valueLabel.configure {
+                    $0.numberOfLines = 0
+                }
+
+            case .content:
+                valueLabel = contentLabel
+                valueLabel.configure {
+                    $0.numberOfLines = 0
+                }
+            }
+
+            return VStackView(alignment: .leading, spacing: 8) {
+                UILabel().configure {
+                    $0.text = type.title
+                    $0.textColor = .secondaryGray
+                    $0.font = .systemFont(ofSize: 14)
+                }
+
+                valueLabel.configure {
+                    $0.textColor = .primary
+                    $0.font = .boldSystemFont(ofSize: 16)
+                }
             }
         }
     }

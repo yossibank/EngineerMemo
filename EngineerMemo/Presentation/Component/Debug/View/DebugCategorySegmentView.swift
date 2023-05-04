@@ -3,25 +3,37 @@
     import UIKit
     import UIKitHelper
 
-    enum DebugDefaultSegment: Int, CaseIterable {
-        case `default`
+    enum DebugCategorySegment: Int, CaseIterable {
+        case todo
+        case technical
+        case interview
+        case event
+        case other
         case none
 
         var title: String {
             switch self {
-            case .default: return L10n.Debug.Segment.default
+            case .todo: return L10n.Debug.Segment.todo
+            case .technical: return L10n.Debug.Segment.technical
+            case .interview: return L10n.Debug.Segment.interview
+            case .event: return L10n.Debug.Segment.event
+            case .other: return L10n.Debug.Segment.other
             case .none: return .noSetting
             }
         }
 
-        var skill: SkillModelObject? {
+        var category: MemoModelObject.Category? {
             switch self {
-            case .default: return SKillModelObjectBuilder().build()
+            case .todo: return .todo
+            case .technical: return .technical
+            case .interview: return .interview
+            case .event: return .event
+            case .other: return .other
             case .none: return nil
             }
         }
 
-        static var defaultSkill = `default`.skill
+        static var defaultCategory: MemoModelObject.Category = .technical
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none
@@ -30,8 +42,8 @@
 
     // MARK: - properties & init
 
-    final class DebugDefaultSegmentView: UIView {
-        typealias Segment = DebugDefaultSegment
+    final class DebugCategorySegmentView: UIView {
+        typealias Segment = DebugCategorySegment
 
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 
@@ -39,14 +51,18 @@
             HStackView(spacing: 4) {
                 titleLabel
                     .addConstraint {
-                        $0.width.equalTo(100)
+                        $0.width.equalTo(60)
                     }
                     .configure {
                         $0.font = .italicSystemFont(ofSize: 14)
                     }
 
                 segmentControl.configure {
-                    $0.selectedSegmentIndex = Segment.default.rawValue
+                    $0.setTitleTextAttributes(
+                        [.font: UIFont.systemFont(ofSize: 10)],
+                        for: .normal
+                    )
+                    $0.selectedSegmentIndex = Segment.technical.rawValue
                 }
             }
         }
@@ -70,7 +86,7 @@
 
     // MARK: - private methods
 
-    private extension DebugDefaultSegmentView {
+    private extension DebugCategorySegmentView {
         func setupView() {
             configure {
                 $0.addSubview(body) {
@@ -85,9 +101,9 @@
 
     // MARK: - preview
 
-    struct DebugDefaultSegmentViewPreview: PreviewProvider {
+    struct DebugCategorySegmentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: DebugDefaultSegmentView(title: "title"))
+            WrapperView(view: DebugCategorySegmentView(title: "title"))
         }
     }
 #endif

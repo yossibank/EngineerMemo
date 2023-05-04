@@ -3,40 +3,40 @@ import UIKit
 import UIKitHelper
 
 enum ProfileMenuGenderType: Int, CaseIterable {
-    case man = 0
+    case man
     case woman
     case other
-    case none
+    case noSetting
 
     var title: String {
         switch self {
         case .man: return L10n.Profile.Gender.man
         case .woman: return L10n.Profile.Gender.woman
         case .other: return L10n.Profile.Gender.other
-        case .none: return .noSetting
+        case .noSetting: return .noSetting
         }
     }
 
-    var gender: ProfileModelObject.Gender {
+    var gender: ProfileModelObject.Gender? {
         switch self {
         case .man: return .man
         case .woman: return .woman
         case .other: return .other
-        case .none: return .noSetting
+        case .noSetting: return nil
         }
     }
 
     static var defaultGender: ProfileModelObject.Gender = .noSetting
 
     static func menu(_ value: Int) -> Self {
-        .init(rawValue: value) ?? .none
+        .init(rawValue: value) ?? .noSetting
     }
 }
 
 // MARK: - properties & init
 
 final class ProfileMenuInputView: UIView {
-    @Published private(set) var selectedType: ProfileMenuGenderType = .none
+    @Published private(set) var selectedType: ProfileMenuGenderType = .noSetting
 
     private var body: UIView {
         VStackView {
@@ -115,7 +115,7 @@ extension ProfileMenuInputView {
             return
         }
 
-        selectedType = .init(rawValue: gender.rawValue) ?? .none
+        selectedType = .init(rawValue: gender.rawValue) ?? .noSetting
         setupMenu()
     }
 }

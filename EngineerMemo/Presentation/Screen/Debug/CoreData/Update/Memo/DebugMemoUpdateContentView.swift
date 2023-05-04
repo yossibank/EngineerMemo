@@ -38,6 +38,7 @@
             }
         }
 
+        private(set) lazy var didChangeCategoryControlPublisher = didChangeCategoryControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeTitleControlPublisher = didChangeTitleControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeContentControlPublisher = didChangeContentControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
@@ -64,6 +65,7 @@
             }
         }
 
+        private let didChangeCategoryControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeTitleControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeContentControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSearchTextSubject = PassthroughSubject<String, Never>()
@@ -140,6 +142,11 @@
                 guard let cell = cell as? DebugMemoUpdateCell else {
                     return .init()
                 }
+
+                cell.categoryControlPublisher.sink { [weak self] value in
+                    self?.didChangeCategoryControlSubject.send(value)
+                }
+                .store(in: &cell.cancellables)
 
                 cell.titleControlPublisher.sink { [weak self] value in
                     self?.didChangeTitleControlSubject.send(value)

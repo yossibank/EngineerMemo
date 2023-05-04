@@ -4,7 +4,7 @@
     import UIKitHelper
 
     enum DebugGenderSegment: Int, CaseIterable {
-        case man = 0
+        case man
         case woman
         case other
         case none
@@ -18,12 +18,12 @@
             }
         }
 
-        var gender: ProfileModelObject.Gender {
+        var gender: ProfileModelObject.Gender? {
             switch self {
             case .man: return .man
             case .woman: return .woman
             case .other: return .other
-            case .none: return .noSetting
+            case .none: return nil
             }
         }
 
