@@ -7,52 +7,43 @@ import UIKitHelper
 final class MemoDetailCell: UICollectionViewCell {
     private var body: UIView {
         VStackView(spacing: 32) {
-            VStackView(spacing: 8) {
-                UILabel().configure {
-                    $0.text = L10n.Memo.title
-                    $0.textColor = .secondaryGray
-                    $0.font = .boldSystemFont(ofSize: 18)
-                }
-
-                UIView()
-                    .addConstraint {
-                        $0.height.equalTo(1)
-                    }
-                    .configure {
-                        $0.backgroundColor = .secondaryGray
-                    }
-
-                titleLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 16)
-                    $0.numberOfLines = 0
-                }
-            }
-
-            VStackView(spacing: 8) {
-                UILabel().configure {
-                    $0.text = L10n.Memo.content
-                    $0.textColor = .secondaryGray
-                    $0.font = .boldSystemFont(ofSize: 18)
-                }
-
-                UIView()
-                    .addConstraint {
-                        $0.height.equalTo(1)
-                    }
-                    .configure {
-                        $0.backgroundColor = .secondaryGray
-                    }
-
-                contentLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .systemFont(ofSize: 14)
-                    $0.numberOfLines = 0
-                }
-            }
+            categoryView
+            createStackView(.title)
+            createStackView(.content)
         }
     }
 
+    private lazy var categoryView = VStackView(spacing: 8) {
+        UILabel().configure {
+            $0.text = L10n.Memo.category
+            $0.textColor = .secondaryGray
+            $0.font = .boldSystemFont(ofSize: 18)
+        }
+
+        UIView()
+            .addConstraint {
+                $0.height.equalTo(1)
+            }
+            .configure {
+                $0.backgroundColor = .secondaryGray
+            }
+
+        HStackView(alignment: .center, spacing: 8) {
+            categoryLabel.configure {
+                $0.textColor = .primary
+                $0.font = .boldSystemFont(ofSize: 16)
+            }
+
+            categoryImageView.addConstraint {
+                $0.size.equalTo(24)
+            }
+
+            UIView()
+        }
+    }
+
+    private let categoryLabel = UILabel()
+    private let categoryImageView = UIImageView()
     private let titleLabel = UILabel()
     private let contentLabel = UILabel()
 
@@ -74,6 +65,32 @@ extension MemoDetailCell {
     func configure(_ modelObject: MemoModelObject) {
         titleLabel.text = modelObject.title
         contentLabel.text = modelObject.content
+
+        guard let category = modelObject.category else {
+            categoryView.isHidden = true
+            return
+        }
+
+        categoryView.isHidden = false
+        categoryLabel.text = category.value
+        categoryImageView.image = {
+            switch category {
+            case .todo:
+                return Asset.toDoCategory.image
+
+            case .technical:
+                return Asset.technicalCategory.image
+
+            case .interview:
+                return Asset.interviewCategory.image
+
+            case .event:
+                return Asset.eventCategory.image
+
+            case .other:
+                return Asset.otherCategory.image
+            }
+        }()
     }
 }
 
@@ -87,6 +104,43 @@ private extension MemoDetailCell {
             }
 
             $0.backgroundColor = .background
+        }
+    }
+
+    func createStackView(_ type: MemoContentType) -> UIStackView {
+        let valueLabel: UILabel
+
+        switch type {
+        case .category:
+            valueLabel = categoryLabel
+
+        case .title:
+            valueLabel = titleLabel
+
+        case .content:
+            valueLabel = contentLabel
+        }
+
+        return VStackView(spacing: 8) {
+            UILabel().configure {
+                $0.text = type.title
+                $0.textColor = .secondaryGray
+                $0.font = .boldSystemFont(ofSize: 18)
+            }
+
+            UIView()
+                .addConstraint {
+                    $0.height.equalTo(1)
+                }
+                .configure {
+                    $0.backgroundColor = .secondaryGray
+                }
+
+            valueLabel.configure {
+                $0.textColor = .primary
+                $0.font = .boldSystemFont(ofSize: 16)
+                $0.numberOfLines = 0
+            }
         }
     }
 }
