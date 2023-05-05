@@ -1,5 +1,6 @@
 @testable import EngineerMemo
 import iOSSnapshotTestCase
+import UIKit
 
 enum SnapshotTest {
     static let recordMode = false
@@ -60,54 +61,35 @@ private extension FBSnapshotTestCase {
         fileNameOptions = [.device, .OS, .screenSize, .screenScale]
 
         let expectation = XCTestExpectation(description: #function)
+        let window: UIWindow
 
         switch viewMode {
         case let .normal(vc):
             vc.view.frame = viewFrame
-
-            let window = UIWindow(frame: vc.view.frame)
+            window = .init(frame: viewFrame)
             window.rootViewController = vc
-            window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
-            window.makeKeyAndVisible()
-
-            viewAction?()
-
-            vc.view.layoutIfNeeded()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
-                self.FBSnapshotVerifyView(
-                    window,
-                    identifier: colorMode.identifier
-                )
-
-                expectation.fulfill()
-            }
-
-            wait(for: [expectation], timeout: 3.0 + viewAfter)
 
         case let .navigation(vc):
             vc.view.frame = viewFrame
-
-            let window = UIWindow(frame: vc.view.frame)
-            let nc = UINavigationController(rootViewController: vc)
-            window.rootViewController = nc
-            window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
-            window.makeKeyAndVisible()
-
-            viewAction?()
-
-            vc.view.layoutIfNeeded()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
-                self.FBSnapshotVerifyView(
-                    window,
-                    identifier: colorMode.identifier
-                )
-
-                expectation.fulfill()
-            }
-
-            wait(for: [expectation], timeout: 3.0 + viewAfter)
+            window = .init(frame: viewFrame)
+            window.rootViewController = UINavigationController(rootViewController: vc)
         }
+
+        window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
+        window.rootViewController?.view.layoutIfNeeded()
+        window.makeKeyAndVisible()
+
+        viewAction?()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
+            self.FBSnapshotVerifyView(
+                window,
+                identifier: colorMode.identifier
+            )
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 3.0 + viewAfter)
     }
 }
