@@ -14,18 +14,13 @@ final class MemoListContentView: UIView {
     typealias Section = MemoListContentViewSection
     typealias Item = MemoModelObject
 
-    enum ViewType: Int {
-        case one = 1
-        case two
-        case three
-    }
-
     var modelObjects: [MemoModelObject] = [] {
         didSet {
             applySnapshot()
         }
     }
 
+    private(set) lazy var didChangeCategoryPublisher = didChangeCategorySubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
     private(set) var addBarButton = UIButton(type: .system)
@@ -72,7 +67,7 @@ final class MemoListContentView: UIView {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: layoutSize,
             subitem: .init(layoutSize: layoutSize),
-            count: viewType.rawValue
+            count: 1
         )
         group.interItemSpacing = .fixed(8.0)
 
@@ -103,20 +98,6 @@ final class MemoListContentView: UIView {
         return UICollectionViewCompositionalLayout(section: section)
     }
 
-    private var viewType: ViewType = .one {
-        didSet {
-            guard viewType != oldValue else {
-                return
-            }
-
-            collectionView.collectionViewLayout.invalidateLayout()
-            collectionView.setCollectionViewLayout(
-                collectionViewLayout,
-                animated: true
-            )
-        }
-    }
-
     private let cellRegistration = UICollectionView.CellRegistration<
         MemoListCell,
         Item
@@ -128,7 +109,7 @@ final class MemoListContentView: UIView {
         MemoListHeaderView
     > { _, _, _ in }
 
-    private let didTapCreateButtonSubject = PassthroughSubject<Void, Never>()
+    private let didChangeCategorySubject = PassthroughSubject<MemoCategoryType, Never>()
     private let didSelectContentSubject = PassthroughSubject<Item, Never>()
 
     override init(frame: CGRect) {
@@ -165,6 +146,11 @@ private extension MemoListContentView {
                 using: self.headerRegistration,
                 for: indexPath
             )
+
+            header.$selectedCategoryType.sink { [weak self] category in
+                self?.didChangeCategorySubject.send(category)
+            }
+            .store(in: &header.cancellables)
 
             return header
         }

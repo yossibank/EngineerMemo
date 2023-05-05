@@ -20,15 +20,10 @@ final class MemoListViewModelTest: XCTestCase {
             analytics: analytics
         )
 
-        model.fetchHandler = {
-            $0(.success([MemoModelObjectBuilder().build()]))
-        }
+        viewDidLoad()
     }
 
     func test_input_viewDidLoad_メモ情報を取得できること() throws {
-        // arrange
-        viewModel.input.viewDidLoad.send(())
-
         // act
         let publisher = viewModel.output.$modelObjects.collect(1).first()
         let output = try awaitOutputPublisher(publisher).first
@@ -59,6 +54,27 @@ final class MemoListViewModelTest: XCTestCase {
         XCTAssertEqual(routing.showCreateScreenCallCount, 1)
     }
 
+    func test_input_didChangeCategory_絞り込んだメモ情報を取得できること() throws {
+        // arrange
+        viewDidLoad(modelObjects: [
+            MemoModelObjectBuilder().category(.todo).build(),
+            MemoModelObjectBuilder().category(.technical).build(),
+            MemoModelObjectBuilder().category(.interview).build(),
+            MemoModelObjectBuilder().category(.other).build(),
+            MemoModelObjectBuilder().category(.interview).build(),
+            MemoModelObjectBuilder().category(.todo).build()
+        ])
+
+        // act
+        viewModel.input.didChangeCategory.send(.todo)
+
+        let publisher = viewModel.output.$modelObjects.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!
+
+        // assert
+        XCTAssertEqual(output.count, 2)
+    }
+
     func test_input_didSelectContent_ログイベントが送信されていること() {
         // arrange
         analytics.sendEventFAEventHandler = {
@@ -83,5 +99,15 @@ final class MemoListViewModelTest: XCTestCase {
 
         // act
         viewModel.input.didSelectContent.send(MemoModelObjectBuilder().build())
+    }
+}
+
+private extension MemoListViewModelTest {
+    func viewDidLoad(modelObjects: [MemoModelObject] = [MemoModelObjectBuilder().build()]) {
+        model.fetchHandler = {
+            $0(.success(modelObjects))
+        }
+
+        viewModel.input.viewDidLoad.send(())
     }
 }

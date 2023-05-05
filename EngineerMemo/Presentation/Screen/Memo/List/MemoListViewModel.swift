@@ -5,6 +5,7 @@ final class MemoListViewModel: ViewModel {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapCreateButton = PassthroughSubject<Void, Never>()
+        let didChangeCategory = PassthroughSubject<MemoCategoryType, Never>()
         let didSelectContent = PassthroughSubject<MemoModelObject, Never>()
     }
 
@@ -17,6 +18,7 @@ final class MemoListViewModel: ViewModel {
     let output: Output
     let binding = NoBinding()
 
+    private var originalModelObjects: [MemoModelObject] = []
     private var cancellables: Set<AnyCancellable> = .init()
 
     private let model: MemoModelInput
@@ -40,9 +42,10 @@ final class MemoListViewModel: ViewModel {
         // MARK: - viewDidLoad
 
         input.viewDidLoad.sink { _ in
-            model.fetch {
-                switch $0 {
+            model.fetch { [weak self] result in
+                switch result {
                 case let .success(modelObjects):
+                    self?.originalModelObjects = modelObjects
                     output.modelObjects = modelObjects
 
                 case let .failure(appError):
@@ -63,6 +66,38 @@ final class MemoListViewModel: ViewModel {
 
         input.didTapCreateButton.sink { _ in
             routing.showCreateScreen()
+        }
+        .store(in: &cancellables)
+
+        // MARK: - メモカテゴリー選択
+
+        input.didChangeCategory.sink { [weak self] category in
+            guard let self else {
+                return
+            }
+
+            switch category {
+            case .all:
+                output.modelObjects = self.originalModelObjects
+
+            case .todo:
+                output.modelObjects = self.originalModelObjects.filter { $0.category == .todo }
+
+            case .technical:
+                output.modelObjects = self.originalModelObjects.filter { $0.category == .technical }
+
+            case .interview:
+                output.modelObjects = self.originalModelObjects.filter { $0.category == .interview }
+
+            case .event:
+                output.modelObjects = self.originalModelObjects.filter { $0.category == .event }
+
+            case .other:
+                output.modelObjects = self.originalModelObjects.filter { $0.category == .other }
+
+            case .none:
+                output.modelObjects = self.originalModelObjects.filter { $0.category == nil }
+            }
         }
         .store(in: &cancellables)
 
