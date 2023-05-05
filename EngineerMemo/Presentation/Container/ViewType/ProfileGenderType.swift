@@ -21,10 +21,4 @@ enum ProfileGenderType: Int, CaseIterable {
         case .noSetting: return nil
         }
     }
-
-    static var defaultGender: ProfileModelObject.Gender = .noSetting
-
-    static func menu(_ value: Int) -> Self {
-        .init(rawValue: value) ?? .noSetting
-    }
 }
