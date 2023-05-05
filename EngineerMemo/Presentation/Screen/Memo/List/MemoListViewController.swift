@@ -78,6 +78,13 @@ private extension MemoListViewController {
             }
             .store(in: &cancellables)
 
+        contentView.didChangeCategoryPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] category in
+                self?.viewModel.input.didChangeCategory.send(category)
+            }
+            .store(in: &cancellables)
+
         contentView.didSelectContentPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] modelObject in

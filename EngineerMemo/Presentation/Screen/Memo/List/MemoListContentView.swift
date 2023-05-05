@@ -14,18 +14,13 @@ final class MemoListContentView: UIView {
     typealias Section = MemoListContentViewSection
     typealias Item = MemoModelObject
 
-    enum ViewType: Int {
-        case one = 1
-        case two
-        case three
-    }
-
     var modelObjects: [MemoModelObject] = [] {
         didSet {
             applySnapshot()
         }
     }
 
+    private(set) lazy var didChangeCategoryPublisher = didChangeCategorySubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
     private(set) var addBarButton = UIButton(type: .system)
@@ -72,7 +67,7 @@ final class MemoListContentView: UIView {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: layoutSize,
             subitem: .init(layoutSize: layoutSize),
-            count: viewType.rawValue
+            count: 1
         )
         group.interItemSpacing = .fixed(8.0)
 
@@ -96,23 +91,11 @@ final class MemoListContentView: UIView {
             elementKind: MemoListHeaderView.className,
             alignment: .top
         )
+        header.pinToVisibleBounds = true
+
         section.boundarySupplementaryItems = [header]
 
         return UICollectionViewCompositionalLayout(section: section)
-    }
-
-    private var viewType: ViewType = .one {
-        didSet {
-            guard viewType != oldValue else {
-                return
-            }
-
-            collectionView.collectionViewLayout.invalidateLayout()
-            collectionView.setCollectionViewLayout(
-                collectionViewLayout,
-                animated: true
-            )
-        }
     }
 
     private let cellRegistration = UICollectionView.CellRegistration<
@@ -126,7 +109,7 @@ final class MemoListContentView: UIView {
         MemoListHeaderView
     > { _, _, _ in }
 
-    private let didTapCreateButtonSubject = PassthroughSubject<Void, Never>()
+    private let didChangeCategorySubject = PassthroughSubject<MemoCategoryType, Never>()
     private let didSelectContentSubject = PassthroughSubject<Item, Never>()
 
     override init(frame: CGRect) {
@@ -159,39 +142,17 @@ private extension MemoListContentView {
                 return .init()
             }
 
-            let header = collectionView.dequeueConfiguredReusableSupplementary(
+            let headerView = collectionView.dequeueConfiguredReusableSupplementary(
                 using: self.headerRegistration,
                 for: indexPath
             )
 
-            header.button1Publisher.sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                self.viewType = .one
+            headerView.$selectedCategoryType.sink { [weak self] category in
+                self?.didChangeCategorySubject.send(category)
             }
-            .store(in: &header.cancellables)
+            .store(in: &headerView.cancellables)
 
-            header.button2Publisher.sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                self.viewType = .two
-            }
-            .store(in: &header.cancellables)
-
-            header.button3Publisher.sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                self.viewType = .three
-            }
-            .store(in: &header.cancellables)
-
-            return header
+            return headerView
         }
     }
 

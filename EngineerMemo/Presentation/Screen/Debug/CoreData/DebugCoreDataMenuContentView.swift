@@ -4,72 +4,12 @@
     import UIKit
     import UIKitHelper
 
-    // MARK: - menu type
-
-    enum DebugCoreDataMenuType: CaseIterable {
-        case profile
-        case skill
-        case memo
-
-        var title: String {
-            switch self {
-            case .profile:
-                return L10n.Debug.CoreData.profile
-
-            case .skill:
-                return L10n.Debug.CoreData.skill
-
-            case .memo:
-                return L10n.Debug.CoreData.memo
-            }
-        }
-
-        var listViewController: UIViewController {
-            switch self {
-            case .profile:
-                return AppControllers.Debug.CoreDataObject.List.Profile()
-
-            case .skill:
-                return AppControllers.Debug.CoreDataObject.List.Skill()
-
-            case .memo:
-                return AppControllers.Debug.CoreDataObject.List.Memo()
-            }
-        }
-
-        var createViewController: UIViewController {
-            switch self {
-            case .profile:
-                return AppControllers.Debug.CoreDataObject.Create.Profile()
-
-            case .memo:
-                return AppControllers.Debug.CoreDataObject.Create.Memo()
-
-            default:
-                fatalError(.noSetting)
-            }
-        }
-
-        var updateViewController: UIViewController {
-            switch self {
-            case .profile:
-                return AppControllers.Debug.CoreDataObject.Update.Profile()
-
-            case .memo:
-                return AppControllers.Debug.CoreDataObject.Update.Memo()
-
-            default:
-                fatalError(.noSetting)
-            }
-        }
-    }
-
     // MARK: - properties & init
 
     final class DebugCoreDataMenuContentView: UIView {
-        @Published private(set) var selectedType: DebugCoreDataMenuType = .profile
+        @Published private(set) var selectedMenuType: DebugCoreDataMenuType = .profile
 
-        private var menus = DebugCoreDataMenuType.allCases {
+        private var menuTypes = DebugCoreDataMenuType.allCases {
             didSet {
                 setupMenu()
             }
@@ -108,22 +48,22 @@
         ) {
             switch displayType {
             case .list:
-                menus = DebugCoreDataMenuType.allCases
+                menuTypes = DebugCoreDataMenuType.allCases
 
             case .create, .update:
-                menus = [.profile, .memo]
+                menuTypes = [.profile, .memo]
             }
 
             let containerViewController: UIViewController = {
                 switch displayType {
                 case .list:
-                    return selectedType.listViewController
+                    return selectedMenuType.listViewController
 
                 case .create:
-                    return selectedType.createViewController
+                    return selectedMenuType.createViewController
 
                 case .update:
-                    return selectedType.updateViewController
+                    return selectedMenuType.updateViewController
                 }
             }()
 
@@ -143,13 +83,13 @@
         func setupMenu() {
             var actions = [UIMenuElement]()
 
-            menus.forEach { type in
+            menuTypes.forEach { menuType in
                 actions.append(
                     UIAction(
-                        title: type.title,
-                        state: type == selectedType ? .on : .off,
+                        title: menuType.title,
+                        state: menuType == selectedMenuType ? .on : .off,
                         handler: { [weak self] _ in
-                            self?.selectedType = type
+                            self?.selectedMenuType = menuType
                             self?.setupMenu()
                         }
                     )
@@ -162,7 +102,7 @@
                     options: .displayInline,
                     children: actions
                 )
-                $0.setTitle(selectedType.title, for: .normal)
+                $0.setTitle(selectedMenuType.title, for: .normal)
                 $0.showsMenuAsPrimaryAction = true
             }
         }

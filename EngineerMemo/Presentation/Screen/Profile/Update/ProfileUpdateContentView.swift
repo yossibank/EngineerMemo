@@ -7,7 +7,7 @@ import UIKitHelper
 final class ProfileUpdateContentView: UIView {
     private(set) lazy var didChangeNameInputPublisher = nameInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeBirthdayInputPublisher = birthdayInputView.didChangeInputDatePublisher
-    private(set) lazy var didChangeGenderInputPublisher = genderInputView.$selectedType
+    private(set) lazy var didChangeGenderInputPublisher = genderInputView.$selectedGenderType
     private(set) lazy var didChangeEmailInputPublisher = emailInputView.didChangeInputTextPublisher
     private(set) lazy var didChangePhoneNumberInputPublisher = phoneNumberInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeAddressInputPublisher = addressInputView.didChangeInputTextPublisher

@@ -59,7 +59,7 @@
 
     private extension DebugCoreDataMenuViewController {
         func bindToView() {
-            contentView.$selectedType
+            contentView.$selectedMenuType
                 .removeDuplicates()
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
