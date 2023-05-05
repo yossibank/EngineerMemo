@@ -6,8 +6,8 @@ enum SnapshotTest {
 }
 
 enum SnapshotViewMode {
-    case navigation(UIViewController)
     case normal(UIViewController)
+    case navigation(UIViewController)
 }
 
 enum SnapshotColorMode: Int, CaseIterable {
@@ -72,9 +72,11 @@ private extension FBSnapshotTestCase {
 
             viewAction?()
 
+            vc.view.layoutIfNeeded()
+
             DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
                 self.FBSnapshotVerifyView(
-                    vc.view,
+                    window,
                     identifier: colorMode.identifier
                 )
 
@@ -94,9 +96,11 @@ private extension FBSnapshotTestCase {
 
             viewAction?()
 
+            vc.view.layoutIfNeeded()
+
             DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
                 self.FBSnapshotVerifyView(
-                    nc.view,
+                    window,
                     identifier: colorMode.identifier
                 )
 

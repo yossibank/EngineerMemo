@@ -38,9 +38,6 @@ final class MemoUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
 private extension MemoUpdateViewControllerSnapshotTest {
     func snapshot(type: MemoUpdateType) {
         subject = AppControllers.Memo.Update(type: type)
-
-        snapshotVerifyView(
-            viewMode: .navigation(subject)
-        )
+        snapshotVerifyView(viewMode: .navigation(subject))
     }
 }

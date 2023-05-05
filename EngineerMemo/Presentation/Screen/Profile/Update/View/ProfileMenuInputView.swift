@@ -2,41 +2,10 @@ import Combine
 import UIKit
 import UIKitHelper
 
-enum ProfileMenuGenderType: Int, CaseIterable {
-    case man
-    case woman
-    case other
-    case noSetting
-
-    var title: String {
-        switch self {
-        case .man: return L10n.Profile.Gender.man
-        case .woman: return L10n.Profile.Gender.woman
-        case .other: return L10n.Profile.Gender.other
-        case .noSetting: return .noSetting
-        }
-    }
-
-    var gender: ProfileModelObject.Gender? {
-        switch self {
-        case .man: return .man
-        case .woman: return .woman
-        case .other: return .other
-        case .noSetting: return nil
-        }
-    }
-
-    static var defaultGender: ProfileModelObject.Gender = .noSetting
-
-    static func menu(_ value: Int) -> Self {
-        .init(rawValue: value) ?? .noSetting
-    }
-}
-
 // MARK: - properties & init
 
 final class ProfileMenuInputView: UIView {
-    @Published private(set) var selectedType: ProfileMenuGenderType = .noSetting
+    @Published private(set) var selectedGenderType: ProfileGenderType = .noSetting
 
     private var body: UIView {
         VStackView {
@@ -115,7 +84,7 @@ extension ProfileMenuInputView {
             return
         }
 
-        selectedType = .init(rawValue: gender.rawValue) ?? .noSetting
+        selectedGenderType = .init(rawValue: gender.rawValue) ?? .noSetting
         setupMenu()
     }
 }
@@ -137,13 +106,13 @@ private extension ProfileMenuInputView {
     func setupMenu() {
         var actions = [UIMenuElement]()
 
-        ProfileMenuGenderType.allCases.forEach { type in
+        ProfileGenderType.allCases.forEach { genderType in
             actions.append(
                 UIAction(
-                    title: type.title,
-                    state: type == selectedType ? .on : .off,
+                    title: genderType.title,
+                    state: genderType == selectedGenderType ? .on : .off,
                     handler: { [weak self] _ in
-                        self?.selectedType = type
+                        self?.selectedGenderType = genderType
                         self?.setupMenu()
                     }
                 )
@@ -156,7 +125,7 @@ private extension ProfileMenuInputView {
                 options: .displayInline,
                 children: actions
             )
-            $0.setTitle(selectedType.title, for: .normal)
+            $0.setTitle(selectedGenderType.title, for: .normal)
             $0.showsMenuAsPrimaryAction = true
         }
     }

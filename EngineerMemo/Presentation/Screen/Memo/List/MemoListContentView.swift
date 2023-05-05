@@ -142,17 +142,17 @@ private extension MemoListContentView {
                 return .init()
             }
 
-            let header = collectionView.dequeueConfiguredReusableSupplementary(
+            let headerView = collectionView.dequeueConfiguredReusableSupplementary(
                 using: self.headerRegistration,
                 for: indexPath
             )
 
-            header.$selectedCategoryType.sink { [weak self] category in
+            headerView.$selectedCategoryType.sink { [weak self] category in
                 self?.didChangeCategorySubject.send(category)
             }
-            .store(in: &header.cancellables)
+            .store(in: &headerView.cancellables)
 
-            return header
+            return headerView
         }
     }
 

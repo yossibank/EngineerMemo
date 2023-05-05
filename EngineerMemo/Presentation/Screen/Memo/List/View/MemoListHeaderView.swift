@@ -7,9 +7,7 @@ import UIKitHelper
 final class MemoListHeaderView: UICollectionReusableView {
     var cancellables: Set<AnyCancellable> = .init()
 
-    @Published private(set) var selectedCategoryType: MemoCategoryType = .all
-
-    private var categoryTypes = MemoCategoryType.allCases {
+    @Published private(set) var selectedCategoryType: MemoCategoryType = .all {
         didSet {
             setupCategory()
         }
@@ -82,7 +80,7 @@ private extension MemoListHeaderView {
     func setupCategory() {
         var actions = [UIMenuElement]()
 
-        categoryTypes.forEach { categoryType in
+        MemoCategoryType.allCases.forEach { categoryType in
             actions.append(
                 UIAction(
                     title: categoryType.title,
@@ -90,7 +88,6 @@ private extension MemoListHeaderView {
                     state: categoryType == selectedCategoryType ? .on : .off,
                     handler: { [weak self] _ in
                         self?.selectedCategoryType = categoryType
-                        self?.setupCategory()
                     }
                 )
             )
