@@ -96,6 +96,8 @@ final class MemoListContentView: UIView {
             elementKind: MemoListHeaderView.className,
             alignment: .top
         )
+        header.pinToVisibleBounds = true
+
         section.boundarySupplementaryItems = [header]
 
         return UICollectionViewCompositionalLayout(section: section)
@@ -163,33 +165,6 @@ private extension MemoListContentView {
                 using: self.headerRegistration,
                 for: indexPath
             )
-
-            header.button1Publisher.sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                self.viewType = .one
-            }
-            .store(in: &header.cancellables)
-
-            header.button2Publisher.sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                self.viewType = .two
-            }
-            .store(in: &header.cancellables)
-
-            header.button3Publisher.sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                self.viewType = .three
-            }
-            .store(in: &header.cancellables)
 
             return header
         }

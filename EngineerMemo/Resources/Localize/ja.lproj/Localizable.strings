@@ -47,17 +47,6 @@
 "sheet.no" = "いいえ";
 "sheet.memoDelete" = "メモが削除されます。よろしいでしょうか？";
 
-// MARK: - メモ
-
-"memo.category.todo" = "TODO";
-"memo.category.technical" = "技術";
-"memo.category.interview" = "面接";
-"memo.category.event" = "イベント";
-"memo.category.other" = "その他";
-"memo.category" = "カテゴリー";
-"memo.title" = "タイトル";
-"memo.content" = "内容";
-
 // MARK: - プロフィール
 
 "profile.icon.elephant" = "ゾウ";
@@ -95,6 +84,20 @@
 "profile.toeic" = "TOEIC";
 "profile.year" = "%@年";
 "profile.score" = "%@点";
+
+// MARK: - メモ
+
+"memo.category.filter" = "絞り込み";
+"memo.category.all" = "すべて";
+"memo.category.todo" = "TODO";
+"memo.category.technical" = "技術";
+"memo.category.interview" = "面接";
+"memo.category.event" = "イベント";
+"memo.category.other" = "その他";
+"memo.category.none" = "カテゴリーなし";
+"memo.category" = "カテゴリー";
+"memo.title" = "タイトル";
+"memo.content" = "内容";
 
 // MARK: - FirebaseAnalytics
 
