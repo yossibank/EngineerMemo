@@ -5,7 +5,7 @@ final class MemoListViewModel: ViewModel {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapCreateButton = PassthroughSubject<Void, Never>()
-        let didChangeCategory = PassthroughSubject<MemoCategoryType, Never>()
+        let didChangeCategory = PassthroughSubject<MemoListCategoryType, Never>()
         let didSelectContent = PassthroughSubject<MemoModelObject, Never>()
     }
 

@@ -109,7 +109,7 @@ final class MemoListContentView: UIView {
         MemoListHeaderView
     > { _, _, _ in }
 
-    private let didChangeCategorySubject = PassthroughSubject<MemoCategoryType, Never>()
+    private let didChangeCategorySubject = PassthroughSubject<MemoListCategoryType, Never>()
     private let didSelectContentSubject = PassthroughSubject<Item, Never>()
 
     override init(frame: CGRect) {

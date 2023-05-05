@@ -29,13 +29,13 @@ final class MemoDetailCell: UICollectionViewCell {
             }
 
         HStackView(alignment: .center, spacing: 8) {
+            categoryImageView.addConstraint {
+                $0.size.equalTo(24)
+            }
+
             categoryLabel.configure {
                 $0.textColor = .primary
                 $0.font = .boldSystemFont(ofSize: 16)
-            }
-
-            categoryImageView.addConstraint {
-                $0.size.equalTo(24)
             }
 
             UIView()

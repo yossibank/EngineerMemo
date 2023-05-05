@@ -18,7 +18,7 @@ final class ProfileTextInputView: UIView {
                 }
                 .apply(.inputView)
 
-            textInputView
+            UIView()
                 .addSubview(inputTextField) {
                     $0.top.bottom.equalToSuperview().inset(16)
                     $0.leading.trailing.equalToSuperview()
@@ -30,7 +30,6 @@ final class ProfileTextInputView: UIView {
     }
 
     private let titleView = UIView()
-    private let textInputView = UIView()
 
     private let titleLabel = UILabel().configure {
         $0.textColor = .secondaryGray
@@ -97,27 +96,27 @@ extension ProfileTextInputView {
             return
         }
 
-        let input: String?
+        let input: String? = {
+            switch type {
+            case .name:
+                return modelObject.name?.notNoSettingText
 
-        switch type {
-        case .name:
-            input = modelObject.name?.notNoSettingText
+            case .email:
+                return modelObject.email?.notNoSettingText
 
-        case .email:
-            input = modelObject.email?.notNoSettingText
+            case .phoneNumber:
+                return modelObject.phoneNumber?.notNoSettingText
 
-        case .phoneNumber:
-            input = modelObject.phoneNumber?.notNoSettingText
+            case .address:
+                return modelObject.address?.notNoSettingText
 
-        case .address:
-            input = modelObject.address?.notNoSettingText
+            case .station:
+                return modelObject.station?.notNoSettingText
 
-        case .station:
-            input = modelObject.station?.notNoSettingText
-
-        default:
-            input = nil
-        }
+            default:
+                return nil
+            }
+        }()
 
         inputTextField.text = input
     }
