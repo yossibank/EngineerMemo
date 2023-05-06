@@ -58,9 +58,9 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 15)
                 return outgoing
             }
-            config.background.cornerRadius = 8
-            config.background.strokeColor = .primary
-            config.background.strokeWidth = 1.0
+            $0.layer.cornerRadius = 8
+            $0.layer.borderColor = UIColor.primary.cgColor
+            $0.layer.borderWidth = 1.0
             $0.configuration = config
         }
     }
@@ -79,9 +79,9 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 15)
                 return outgoing
             }
-            config.background.cornerRadius = 8
-            config.background.strokeColor = .primary
-            config.background.strokeWidth = 1.0
+            $0.layer.cornerRadius = 8
+            $0.layer.borderColor = UIColor.primary.cgColor
+            $0.layer.borderWidth = 1.0
             $0.configuration = config
         }
     }

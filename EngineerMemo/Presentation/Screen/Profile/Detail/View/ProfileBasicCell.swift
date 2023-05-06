@@ -135,14 +135,6 @@ final class ProfileBasicCell: UITableViewCell {
 
         cancellables.removeAll()
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            editButton.configuration?.background.strokeColor = .primary
-        }
-    }
 }
 
 // MARK: - internal methods

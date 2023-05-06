@@ -176,9 +176,7 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                [barButton, menuButton].forEach {
-                    $0.configuration?.background.strokeColor = .primary
-                }
+                barButton.layer.borderColor = UIColor.primary.cgColor
             }
         }
     }

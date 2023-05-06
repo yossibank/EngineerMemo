@@ -73,14 +73,6 @@ final class ProfileTopCell: UITableViewCell {
 
         cancellables.removeAll()
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            setupButton()
-        }
-    }
 }
 
 // MARK: - internal methods

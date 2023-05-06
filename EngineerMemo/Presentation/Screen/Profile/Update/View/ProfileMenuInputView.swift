@@ -57,7 +57,6 @@ final class ProfileMenuInputView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             titleView.layer.borderColor = UIColor.primary.cgColor
-            menuButton.configuration?.background.strokeColor = .primary
         }
     }
 }

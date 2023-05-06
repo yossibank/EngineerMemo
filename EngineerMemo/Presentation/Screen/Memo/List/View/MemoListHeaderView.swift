@@ -68,16 +68,6 @@ final class MemoListHeaderView: UICollectionReusableView {
 
         cancellables.removeAll()
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            [sortButton, categoryButton].forEach {
-                $0.configuration?.background.strokeColor = .primary
-            }
-        }
-    }
 }
 
 // MARK: - private methods

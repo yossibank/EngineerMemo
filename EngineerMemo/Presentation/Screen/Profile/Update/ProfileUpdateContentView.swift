@@ -110,7 +110,7 @@ final class ProfileUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            barButton.configuration?.background.strokeColor = .primary
+            barButton.layer.borderColor = UIColor.primary.cgColor
         }
     }
 }

@@ -109,12 +109,8 @@ final class MemoUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [categoryView, titleView, titleTextView, contentView, contentTextView].forEach {
+            [barButton, categoryView, titleView, titleTextView, contentView, contentTextView].forEach {
                 $0.layer.borderColor = UIColor.primary.cgColor
-            }
-
-            [categoryButton, barButton].forEach {
-                $0.configuration?.background.strokeColor = .primary
             }
         }
     }
