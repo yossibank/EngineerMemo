@@ -3,6 +3,7 @@
     <entity name="Memo" representedClassName="Memo" syncable="YES">
         <attribute name="categoryNumber" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="identifier" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>

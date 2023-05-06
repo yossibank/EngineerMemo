@@ -4,6 +4,7 @@
     final class MemoDataObjectBuilder {
         private var category: Memo.Category? = .technical
         private var content: String? = "コンテンツ"
+        private var createdAt = Calendar.date(year: 2000, month: 1, day: 1)!
         private var identifier = "identifier"
         private var title: String? = "タイトル"
 
@@ -12,6 +13,7 @@
             let memo = Memo(context: context)
             memo.category = category
             memo.content = content
+            memo.createdAt = createdAt
             memo.identifier = identifier
             memo.title = title
             return memo
@@ -24,6 +26,11 @@
 
         func content(_ content: String?) -> Self {
             self.content = content
+            return self
+        }
+
+        func createdAt(_ createdAt: Date) -> Self {
+            self.createdAt = createdAt
             return self
         }
 
