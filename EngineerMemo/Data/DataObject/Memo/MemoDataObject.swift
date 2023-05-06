@@ -4,7 +4,7 @@ import CoreData
 final class Memo: NSManagedObject {
     @NSManaged var categoryNumber: NSNumber?
     @NSManaged var content: String?
-    @NSManaged var createdAt: Date
+    @NSManaged var createdAt: Date?
     @NSManaged var identifier: String
     @NSManaged var title: String?
 }
