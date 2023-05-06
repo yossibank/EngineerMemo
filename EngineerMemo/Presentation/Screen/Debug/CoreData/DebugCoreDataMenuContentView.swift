@@ -34,7 +34,7 @@
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 super.traitCollectionDidChange(previousTraitCollection)
 
-                menuButton.layer.borderColor = UIColor.primary.cgColor
+                menuButton.configuration?.background.strokeColor = .primary
             }
         }
     }

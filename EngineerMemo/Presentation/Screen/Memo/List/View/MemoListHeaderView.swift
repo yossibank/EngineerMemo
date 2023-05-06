@@ -74,7 +74,7 @@ final class MemoListHeaderView: UICollectionReusableView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [sortButton, categoryButton].forEach {
-                $0.layer.borderColor = UIColor.primary.cgColor
+                $0.configuration?.background.strokeColor = .primary
             }
         }
     }

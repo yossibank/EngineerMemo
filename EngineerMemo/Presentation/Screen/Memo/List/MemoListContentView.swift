@@ -29,12 +29,11 @@ final class MemoListContentView: UIView {
             $0.size.equalTo(32)
         }
         .configure {
-            $0.setImage(
-                Asset.addMemo.image
-                    .resized(size: .init(width: 32, height: 32))
-                    .withRenderingMode(.alwaysOriginal),
-                for: .normal
-            )
+            var config = UIButton.Configuration.plain()
+            config.image = Asset.addMemo.image
+                .resized(size: .init(width: 32, height: 32))
+                .withRenderingMode(.alwaysOriginal)
+            $0.configuration = config
         }
 
     private lazy var collectionView = UICollectionView(

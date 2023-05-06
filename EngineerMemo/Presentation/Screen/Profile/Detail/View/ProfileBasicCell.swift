@@ -140,7 +140,7 @@ final class ProfileBasicCell: UITableViewCell {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            editButton.layer.borderColor = UIColor.primary.cgColor
+            editButton.configuration?.background.strokeColor = .primary
         }
     }
 }

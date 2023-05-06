@@ -87,7 +87,6 @@ final class MemoUpdateContentView: UIView {
     private let contentView = UIView()
     private let contentLabel = UILabel()
     private let contentTextView = UITextView()
-    private let createButton = UIButton(type: .system)
 
     private let modelObject: MemoModelObject?
 
@@ -110,13 +109,12 @@ final class MemoUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [
-                categoryView, categoryButton,
-                titleView, titleTextView,
-                contentView, contentTextView,
-                barButton
-            ].forEach {
+            [categoryView, titleView, titleTextView, contentView, contentTextView].forEach {
                 $0.layer.borderColor = UIColor.primary.cgColor
+            }
+
+            [categoryButton, barButton].forEach {
+                $0.configuration?.background.strokeColor = .primary
             }
         }
     }
