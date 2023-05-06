@@ -34,6 +34,25 @@ enum MemoListCategoryType: CaseIterable {
     }
 }
 
+enum MemoListSortType: CaseIterable {
+    case descending
+    case ascending
+
+    var title: String {
+        switch self {
+        case .descending: return L10n.Memo.Sort.descendingDate
+        case .ascending: return L10n.Memo.Sort.ascendingDate
+        }
+    }
+
+    var image: UIImage {
+        switch self {
+        case .descending: return Asset.descendingDate.image
+        case .ascending: return Asset.ascendingDate.image
+        }
+    }
+}
+
 enum MemoInputCategoryType: CaseIterable {
     case todo
     case technical

@@ -5,6 +5,7 @@ final class MemoListViewModel: ViewModel {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapCreateButton = PassthroughSubject<Void, Never>()
+        let didChangeSort = PassthroughSubject<MemoListSortType, Never>()
         let didChangeCategory = PassthroughSubject<MemoListCategoryType, Never>()
         let didSelectContent = PassthroughSubject<MemoModelObject, Never>()
     }
@@ -45,12 +46,8 @@ final class MemoListViewModel: ViewModel {
             model.fetch { [weak self] result in
                 switch result {
                 case let .success(modelObjects):
-                    let sortedModelObjects = modelObjects.sorted(by: {
-                        $0.createdAt > $1.createdAt
-                    })
-
-                    self?.originalModelObjects = sortedModelObjects
-                    output.modelObjects = sortedModelObjects
+                    self?.originalModelObjects = modelObjects
+                    output.modelObjects = modelObjects
 
                 case let .failure(appError):
                     output.appError = appError
@@ -73,37 +70,29 @@ final class MemoListViewModel: ViewModel {
         }
         .store(in: &cancellables)
 
-        // MARK: - メモカテゴリー選択
+        // MARK: - メモ並び替え選択
 
-        input.didChangeCategory.sink { [weak self] category in
-            guard let self else {
-                return
+        input.didChangeSort
+            .withLatestFrom(input.didChangeCategory) { ($0, $1) }
+            .sink { [weak self] sort, category in
+                self?.configureModelObjects(
+                    sort: sort,
+                    category: category
+                )
             }
+            .store(in: &cancellables)
 
-            switch category {
-            case .all:
-                output.modelObjects = self.originalModelObjects
+        // MARK: - メモ絞り込み選択
 
-            case .todo:
-                output.modelObjects = self.originalModelObjects.filter { $0.category == .todo }
-
-            case .technical:
-                output.modelObjects = self.originalModelObjects.filter { $0.category == .technical }
-
-            case .interview:
-                output.modelObjects = self.originalModelObjects.filter { $0.category == .interview }
-
-            case .event:
-                output.modelObjects = self.originalModelObjects.filter { $0.category == .event }
-
-            case .other:
-                output.modelObjects = self.originalModelObjects.filter { $0.category == .other }
-
-            case .none:
-                output.modelObjects = self.originalModelObjects.filter { $0.category == nil }
+        input.didChangeCategory
+            .withLatestFrom(input.didChangeSort) { ($0, $1) }
+            .sink { [weak self] category, sort in
+                self?.configureModelObjects(
+                    sort: sort,
+                    category: category
+                )
             }
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
 
         // MARK: - メモコンテンツ選択
 
@@ -117,5 +106,51 @@ final class MemoListViewModel: ViewModel {
             routing.showDetailScreen(identifier: modelObject.identifier)
         }
         .store(in: &cancellables)
+    }
+}
+
+// MARK: - private methods
+
+private extension MemoListViewModel {
+    func configureModelObjects(
+        sort: MemoListSortType,
+        category: MemoListCategoryType
+    ) {
+        var modelObjects = originalModelObjects
+
+        switch sort {
+        case .descending:
+            modelObjects.sort(by: {
+                $0.createdAt > $1.createdAt
+            })
+
+        case .ascending:
+            modelObjects.sort(by: {
+                $0.createdAt < $1.createdAt
+            })
+        }
+
+        switch category {
+        case .all:
+            output.modelObjects = modelObjects
+
+        case .todo:
+            output.modelObjects = modelObjects.filter { $0.category == .todo }
+
+        case .technical:
+            output.modelObjects = modelObjects.filter { $0.category == .technical }
+
+        case .interview:
+            output.modelObjects = modelObjects.filter { $0.category == .interview }
+
+        case .event:
+            output.modelObjects = modelObjects.filter { $0.category == .event }
+
+        case .other:
+            output.modelObjects = modelObjects.filter { $0.category == .other }
+
+        case .none:
+            output.modelObjects = modelObjects.filter { $0.category == nil }
+        }
     }
 }

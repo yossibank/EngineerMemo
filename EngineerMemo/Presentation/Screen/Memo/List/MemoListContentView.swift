@@ -20,6 +20,7 @@ final class MemoListContentView: UIView {
         }
     }
 
+    private(set) lazy var didChangeSortPublisher = didChangeSortSubject.eraseToAnyPublisher()
     private(set) lazy var didChangeCategoryPublisher = didChangeCategorySubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
@@ -84,7 +85,7 @@ final class MemoListContentView: UIView {
 
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(44)
+            heightDimension: .estimated(72)
         )
         let header = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
@@ -109,6 +110,7 @@ final class MemoListContentView: UIView {
         MemoListHeaderView
     > { _, _, _ in }
 
+    private let didChangeSortSubject = PassthroughSubject<MemoListSortType, Never>()
     private let didChangeCategorySubject = PassthroughSubject<MemoListCategoryType, Never>()
     private let didSelectContentSubject = PassthroughSubject<Item, Never>()
 
@@ -146,6 +148,11 @@ private extension MemoListContentView {
                 using: self.headerRegistration,
                 for: indexPath
             )
+
+            headerView.$selectedSortType.sink { [weak self] sort in
+                self?.didChangeSortSubject.send(sort)
+            }
+            .store(in: &headerView.cancellables)
 
             headerView.$selectedCategoryType.sink { [weak self] category in
                 self?.didChangeCategorySubject.send(category)

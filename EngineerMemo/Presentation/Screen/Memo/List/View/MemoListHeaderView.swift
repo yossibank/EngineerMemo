@@ -7,6 +7,12 @@ import UIKitHelper
 final class MemoListHeaderView: UICollectionReusableView {
     var cancellables: Set<AnyCancellable> = .init()
 
+    @Published private(set) var selectedSortType: MemoListSortType = .descending {
+        didSet {
+            setupSort()
+        }
+    }
+
     @Published private(set) var selectedCategoryType: MemoListCategoryType = .all {
         didSet {
             setupCategory()
@@ -14,35 +20,41 @@ final class MemoListHeaderView: UICollectionReusableView {
     }
 
     private var body: UIView {
-        HStackView(alignment: .center, spacing: 8) {
-            UILabel().configure {
-                $0.text = L10n.Memo.Category.filter
-                $0.textColor = .primary
-                $0.font = .boldSystemFont(ofSize: 14)
+        VStackView(spacing: 8) {
+            HStackView(spacing: 8) {
+                UILabel().configure {
+                    $0.text = L10n.Memo.sort
+                    $0.textColor = .primary
+                    $0.font = .boldSystemFont(ofSize: 14)
+                }
+
+                sortButton.apply(.memoMenuButton)
+
+                UIView()
             }
 
-            categoryButton.configure {
-                $0.setTitleColor(.primary, for: .normal)
-                $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-                $0.layer.borderColor = UIColor.primary.cgColor
-                $0.layer.borderWidth = 1.0
-                $0.layer.cornerRadius = 8
-                $0.contentEdgeInsets = .init(top: 4, left: 4, bottom: 4, right: 16)
-                $0.titleEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: -8)
-                $0.imageEdgeInsets = .init(.left, 4)
-                $0.clipsToBounds = true
-            }
+            HStackView(spacing: 8) {
+                UILabel().configure {
+                    $0.text = L10n.Memo.Category.filter
+                    $0.textColor = .primary
+                    $0.font = .boldSystemFont(ofSize: 14)
+                }
 
-            UIView()
+                categoryButton.apply(.memoMenuButton)
+
+                UIView()
+            }
         }
     }
 
+    private let sortButton = UIButton(type: .system)
     private let categoryButton = UIButton(type: .system)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupView()
+        setupSort()
         setupCategory()
     }
 
@@ -61,7 +73,9 @@ final class MemoListHeaderView: UICollectionReusableView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            categoryButton.layer.borderColor = UIColor.primary.cgColor
+            [sortButton, categoryButton].forEach {
+                $0.layer.borderColor = UIColor.primary.cgColor
+            }
         }
     }
 }
@@ -72,10 +86,46 @@ private extension MemoListHeaderView {
     func setupView() {
         configure {
             $0.addSubview(body) {
-                $0.edges.equalToSuperview()
+                $0.edges.equalToSuperview().inset(8)
             }
 
             $0.backgroundColor = .background
+        }
+    }
+
+    func setupSort() {
+        var actions = [UIMenuElement]()
+
+        MemoListSortType.allCases.forEach { sortType in
+            actions.append(
+                UIAction(
+                    title: sortType.title,
+                    image: sortType.image,
+                    state: sortType == selectedSortType ? .on : .off,
+                    handler: { [weak self] _ in
+                        self?.selectedSortType = sortType
+                    }
+                )
+            )
+        }
+
+        sortButton.configure {
+            $0.menu = .init(
+                title: .empty,
+                options: .displayInline,
+                children: actions
+            )
+            $0.setTitle(
+                selectedSortType.title,
+                for: .normal
+            )
+            $0.setImage(
+                selectedSortType.image
+                    .resized(size: .init(width: 18, height: 18))
+                    .withRenderingMode(.alwaysOriginal),
+                for: .normal
+            )
+            $0.showsMenuAsPrimaryAction = true
         }
     }
 
@@ -124,7 +174,7 @@ private extension MemoListHeaderView {
     struct MemoListHeaderViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: MemoListHeaderView())
-                .frame(height: 44)
+                .frame(height: 80)
         }
     }
 #endif
