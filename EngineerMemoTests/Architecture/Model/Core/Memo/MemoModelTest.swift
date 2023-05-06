@@ -39,12 +39,14 @@ final class MemoModelTest: XCTestCase {
             // assert
             XCTAssertEqual($0.category, .technical)
             XCTAssertEqual($0.content, "コンテンツ")
+            XCTAssertEqual($0.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
             XCTAssertEqual($0.identifier, "identifier")
             XCTAssertEqual($0.title, "タイトル")
 
             return MemoModelObjectBuilder()
                 .category(.technical)
                 .content($0.content!)
+                .createdAt($0.createdAt!)
                 .identifier($0.identifier)
                 .title($0.title!)
                 .build()
@@ -65,6 +67,7 @@ final class MemoModelTest: XCTestCase {
                         MemoModelObjectBuilder()
                             .category(.technical)
                             .content("コンテンツ")
+                            .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                             .identifier("identifier")
                             .title("タイトル")
                             .build()
@@ -91,12 +94,14 @@ final class MemoModelTest: XCTestCase {
             // assert
             XCTAssertEqual($0.category, .technical)
             XCTAssertEqual($0.content, "コンテンツ")
+            XCTAssertEqual($0.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
             XCTAssertEqual($0.identifier, "identifier")
             XCTAssertEqual($0.title, "タイトル")
 
             return MemoModelObjectBuilder()
                 .category(.technical)
                 .content($0.content!)
+                .createdAt($0.createdAt!)
                 .identifier($0.identifier)
                 .title($0.title!)
                 .build()
@@ -112,6 +117,7 @@ final class MemoModelTest: XCTestCase {
                     MemoModelObjectBuilder()
                         .category(.technical)
                         .content("コンテンツ")
+                        .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                         .identifier("identifier")
                         .title("タイトル")
                         .build()
@@ -135,6 +141,7 @@ final class MemoModelTest: XCTestCase {
             modelObject: MemoModelObjectBuilder()
                 .category(.technical)
                 .content("コンテンツ")
+                .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                 .title("タイトル")
                 .build()
         )
@@ -145,6 +152,7 @@ final class MemoModelTest: XCTestCase {
             // assert
             XCTAssertEqual(memo.category, .technical)
             XCTAssertEqual(memo.content, "コンテンツ")
+            XCTAssertEqual(memo.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
             XCTAssertEqual(memo.title, "タイトル")
 
             expectation.fulfill()
@@ -164,6 +172,7 @@ final class MemoModelTest: XCTestCase {
             modelObject: MemoModelObjectBuilder()
                 .category(.interview)
                 .content("コンテンツ更新後")
+                .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                 .identifier("identifier")
                 .title("タイトル更新後")
                 .build()
@@ -175,6 +184,7 @@ final class MemoModelTest: XCTestCase {
             // assert
             XCTAssertEqual(memo.category, .interview)
             XCTAssertEqual(memo.content, "コンテンツ更新後")
+            XCTAssertEqual(memo.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
             XCTAssertEqual(memo.title, "タイトル更新後")
 
             expectation.fulfill()
@@ -214,6 +224,7 @@ private extension MemoModelTest {
         storage.create().sink {
             $0.category = .technical
             $0.content = "コンテンツ"
+            $0.createdAt = Calendar.date(year: 2000, month: 1, day: 1)
             $0.identifier = "identifier"
             $0.title = "タイトル"
         }
