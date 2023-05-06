@@ -20,6 +20,21 @@ final class MemoUpdateViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
+    func test_binding_category_作成ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel()
+
+        viewModel.binding.category = .interview
+
+        model.createHandler = {
+            // assert
+            XCTAssertEqual($0.category, .interview)
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+    }
+
     func test_binding_title_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel()
@@ -63,6 +78,28 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
         // assert
         XCTAssertTrue(output)
+    }
+
+    func test_input_didTapBarButton_modelObjectがnilの際に作成側の関数が呼ばれること() {
+        // arrange
+        setupViewModel(.create)
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+
+        // assert
+        XCTAssertEqual(model.createCallCount, 1)
+    }
+
+    func test_input_didTapBarButton_modelObjectに値がある際に作成側の関数が呼ばれること() {
+        // arrange
+        setupViewModel(.update(MemoModelObjectBuilder().build()))
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+
+        // assert
+        XCTAssertEqual(model.updateCallCount, 1)
     }
 
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
