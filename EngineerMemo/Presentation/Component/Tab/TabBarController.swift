@@ -1,6 +1,6 @@
 import UIKit
 
-private enum TabItem: Int, CaseIterable {
+enum TabItem: Int, CaseIterable {
     case profile
     case memo
 
