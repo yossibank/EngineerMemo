@@ -48,34 +48,44 @@ extension ViewStyle where T: UIButton {
 
     private static func navigationButton(title: String) -> ViewStyle<T> {
         .init {
-            $0.setTitle(title, for: .normal)
-            $0.setTitleColor(.primary, for: .normal)
-            $0.setImage(nil, for: .normal)
-            $0.imageEdgeInsets = .zero
-            $0.titleEdgeInsets = .zero
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 15)
+            var config = UIButton.Configuration.bordered()
+            config.title = title
+            config.image = nil
+            config.baseForegroundColor = .primary
+            config.imagePadding = .zero
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .boldSystemFont(ofSize: 15)
+                return outgoing
+            }
+            config.background.backgroundColor = .background
+            // NOTE: SnapshotTestで色変更がされないためlayerを変更する必要あり
             $0.layer.cornerRadius = 8
             $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
+            $0.configuration = config
         }
     }
 
     private static func navigationDoneButton(title: String) -> ViewStyle<T> {
         .init {
-            $0.setTitle(title, for: .normal)
-            $0.setTitleColor(.primary, for: .normal)
-            $0.setImage(
-                Asset.checkmark.image
-                    .resized(size: .init(width: 20, height: 20))
-                    .withRenderingMode(.alwaysOriginal),
-                for: .normal
-            )
-            $0.imageEdgeInsets = .init(.left, -8)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 15)
-            $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.primary.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.clipsToBounds = true
+            var config = UIButton.Configuration.bordered()
+            config.title = title
+            config.image = Asset.checkmark.image
+                .resized(size: .init(width: 16, height: 16))
+                .withRenderingMode(.alwaysOriginal)
+            config.baseForegroundColor = .primary
+            config.imagePadding = 2
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .boldSystemFont(ofSize: 15)
+                return outgoing
+            }
+            config.background.backgroundColor = .background
+            config.background.cornerRadius = 8
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
+            $0.configuration = config
         }
     }
 }
@@ -85,15 +95,20 @@ extension ViewStyle where T: UIButton {
 extension ViewStyle where T: UIButton {
     static var memoMenuButton: ViewStyle<T> {
         .init {
-            $0.setTitleColor(.primary, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-            $0.layer.borderColor = UIColor.primary.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.layer.cornerRadius = 8
-            $0.contentEdgeInsets = .init(top: 4, left: 4, bottom: 4, right: 16)
-            $0.titleEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: -8)
-            $0.imageEdgeInsets = .init(.left, 4)
-            $0.clipsToBounds = true
+            var config = UIButton.Configuration.filled()
+            config.baseForegroundColor = .primary
+            config.imagePadding = 4
+            config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .boldSystemFont(ofSize: 12)
+                return outgoing
+            }
+            config.background.backgroundColor = .background
+            config.background.cornerRadius = 8
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
+            $0.configuration = config
         }
     }
 }
@@ -129,27 +144,37 @@ extension ViewStyle where T: UIButton {
 
     static var debugMenuButton: ViewStyle<T> {
         .init {
-            $0.setTitleColor(.primary, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.layer.borderColor = UIColor.primary.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.layer.cornerRadius = 8
-            $0.clipsToBounds = true
+            var config = UIButton.Configuration.filled()
+            config.baseForegroundColor = .primary
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .boldSystemFont(ofSize: 14)
+                return outgoing
+            }
+            config.background.backgroundColor = .background
+            config.background.cornerRadius = 8
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
+            $0.configuration = config
         }
     }
 
     private static func debugButton(title: String) -> ViewStyle<T> {
         .init {
-            $0.setTitle(title, for: .normal)
-            $0.setTitleColor(.primary, for: .normal)
-            $0.setImage(nil, for: .normal)
-            $0.imageEdgeInsets = .zero
-            $0.titleEdgeInsets = .zero
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.primary.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.clipsToBounds = true
+            var config = UIButton.Configuration.filled()
+            config.title = title
+            config.image = nil
+            config.baseForegroundColor = .primary
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .boldSystemFont(ofSize: 14)
+                return outgoing
+            }
+            config.background.backgroundColor = .background
+            config.background.cornerRadius = 8
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
+            $0.configuration = config
         }
     }
 
@@ -158,16 +183,22 @@ extension ViewStyle where T: UIButton {
         image: UIImage
     ) -> ViewStyle<T> {
         .init {
-            $0.setTitle(title, for: .normal)
-            $0.setTitleColor(.primary, for: .normal)
-            $0.setImage(image, for: .normal)
-            $0.imageEdgeInsets = .init(.left, 120)
-            $0.titleEdgeInsets = .init(.right, 20)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.primary.cgColor
-            $0.layer.borderWidth = 1.0
-            $0.clipsToBounds = true
+            var config = UIButton.Configuration.filled()
+            config.title = title
+            config.image = image
+            config.baseForegroundColor = .primary
+            config.imagePadding = 8
+            config.imagePlacement = .trailing
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .boldSystemFont(ofSize: 14)
+                return outgoing
+            }
+            config.background.backgroundColor = .background
+            config.background.cornerRadius = 8
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
+            $0.configuration = config
         }
     }
 }

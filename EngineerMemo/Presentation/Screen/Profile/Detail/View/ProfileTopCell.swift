@@ -27,13 +27,18 @@ final class ProfileTopCell: UITableViewCell {
                     $0.height.equalTo(28)
                 }
                 .configure {
-                    $0.setTitle(L10n.Components.Button.changeProfileIcon, for: .normal)
-                    $0.setTitleColor(.primary, for: .normal)
-                    $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-                    $0.layer.borderColor = UIColor.primary.cgColor
-                    $0.layer.borderWidth = 1.0
-                    $0.layer.cornerRadius = 8
-                    $0.clipsToBounds = true
+                    var config = UIButton.Configuration.bordered()
+                    config.title = L10n.Components.Button.changeProfileIcon
+                    config.titleTextAttributesTransformer = .init { incoming in
+                        var outgoing = incoming
+                        outgoing.font = .boldSystemFont(ofSize: 12)
+                        return outgoing
+                    }
+                    config.background.backgroundColor = .background
+                    config.background.cornerRadius = 8
+                    config.background.strokeColor = .primary
+                    config.background.strokeWidth = 1.0
+                    $0.configuration = config
                 }
 
             userNameLabel.configure {
@@ -67,14 +72,6 @@ final class ProfileTopCell: UITableViewCell {
         super.prepareForReuse()
 
         cancellables.removeAll()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            setupButton()
-        }
     }
 }
 
@@ -115,11 +112,8 @@ private extension ProfileTopCell {
             : .primary.withAlphaComponent(0.3)
 
         iconChangeButton.configure {
-            $0.setTitleColor(
-                color,
-                for: .normal
-            )
-            $0.layer.borderColor = color.cgColor
+            $0.configuration?.baseForegroundColor = color
+            $0.configuration?.background.strokeColor = color
         }
     }
 }

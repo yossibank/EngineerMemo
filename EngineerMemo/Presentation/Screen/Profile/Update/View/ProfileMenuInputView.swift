@@ -36,16 +36,7 @@ final class ProfileMenuInputView: UIView {
         $0.font = .boldSystemFont(ofSize: 16)
     }
 
-    private let menuButton = UIButton(type: .system).configure {
-        $0.setTitleColor(.primary, for: .normal)
-        $0.titleLabel?.font = .systemFont(ofSize: 16)
-        $0.contentHorizontalAlignment = .leading
-        $0.contentEdgeInsets = .init(.left, 8)
-        $0.layer.borderColor = UIColor.primary.cgColor
-        $0.layer.borderWidth = 1.0
-        $0.layer.cornerRadius = 4
-        $0.clipsToBounds = true
-    }
+    private let menuButton = UIButton(type: .system)
 
     init(title: String) {
         super.init(frame: .zero)
@@ -65,9 +56,7 @@ final class ProfileMenuInputView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [titleView, menuButton].forEach {
-                $0.layer.borderColor = UIColor.primary.cgColor
-            }
+            titleView.layer.borderColor = UIColor.primary.cgColor
         }
     }
 }
@@ -119,13 +108,27 @@ private extension ProfileMenuInputView {
         }
 
         menuButton.configure {
+            var config = UIButton.Configuration.filled()
+            config.title = selectedGenderType.title
+            config.baseForegroundColor = .primary
+            config.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 0)
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .systemFont(ofSize: 16)
+                return outgoing
+            }
+            config.background.backgroundColor = .background
+            config.background.cornerRadius = 4
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
+            $0.configuration = config
+            $0.contentHorizontalAlignment = .leading
+            $0.showsMenuAsPrimaryAction = true
             $0.menu = .init(
                 title: .empty,
                 options: .displayInline,
                 children: actions
             )
-            $0.setTitle(selectedGenderType.title, for: .normal)
-            $0.showsMenuAsPrimaryAction = true
         }
     }
 }

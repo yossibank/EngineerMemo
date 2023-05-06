@@ -7,29 +7,25 @@ protocol UIAppearanceProtocol {
 
 extension UIAppearanceProtocol {
     func configureAppearance() {
-        if #available(iOS 15.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = .background
-            appearance.shadowColor = .clear
-            appearance.backButtonAppearance.normal.titleTextAttributes = [
-                .foregroundColor: UIColor.clear
-            ]
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        }
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.backgroundColor = .background
+        navigationBarAppearance.shadowColor = .clear
+        navigationBarAppearance.backButtonAppearance.normal.titleTextAttributes = [
+            .foregroundColor: UIColor.clear
+        ]
+        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
 
-        if #available(iOS 15.0, *) {
-            let appearance = UITabBarAppearance()
-            appearance.configureWithDefaultBackground()
-            appearance.backgroundColor = .background
-            appearance.shadowColor = .clear
-            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-                .foregroundColor: UIColor.primary
-            ]
-            UITabBar.appearance().standardAppearance = appearance
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithDefaultBackground()
+        tabBarAppearance.backgroundColor = .background
+        tabBarAppearance.shadowColor = .clear
+        tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [
+            .foregroundColor: UIColor.primary
+        ]
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
 
         UIScrollView.appearance().configure {
             $0.showsVerticalScrollIndicator = false
@@ -39,6 +35,7 @@ extension UIAppearanceProtocol {
         UITableView.appearance().configure {
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
+            $0.sectionHeaderTopPadding = .zero
         }
 
         UICollectionView.appearance().configure {

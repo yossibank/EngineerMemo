@@ -103,34 +103,41 @@ final class SheetContentView: UIView {
 
 private extension SheetContentView {
     func createButton(_ sheetAction: SheetAction) -> UIButton {
-        let button = UIButton(type: .system).configure {
-            $0.setTitle(sheetAction.title, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 8
-
-            $0.addConstraint {
+        let button = UIButton(type: .system)
+            .addConstraint {
                 $0.height.equalTo(48)
             }
+            .configure {
+                var config = UIButton.Configuration.filled()
+                config.title = sheetAction.title
+                config.titleTextAttributesTransformer = .init { incoming in
+                    var outgoing = incoming
+                    outgoing.font = .boldSystemFont(ofSize: 16)
+                    return outgoing
+                }
+                config.background.backgroundColor = .background
+                config.background.cornerRadius = 8
 
-            switch sheetAction.actionType {
-            case .default:
-                $0.setTitleColor(.primary, for: .normal)
-                $0.backgroundColor = .background
+                switch sheetAction.actionType {
+                case .default:
+                    config.baseForegroundColor = .primary
+                    config.background.backgroundColor = .background
 
-            case .warning:
-                $0.setTitleColor(.black, for: .normal)
-                $0.backgroundColor = .warning
+                case .warning:
+                    config.baseForegroundColor = .black
+                    config.background.backgroundColor = .warning
 
-            case .alert:
-                $0.setTitleColor(.white, for: .normal)
-                $0.backgroundColor = .alert
+                case .alert:
+                    config.baseForegroundColor = .white
+                    config.background.backgroundColor = .alert
 
-            case .close:
-                $0.setTitleColor(.primary, for: .normal)
-                $0.backgroundColor = .primaryGray
+                case .close:
+                    config.baseForegroundColor = .primary
+                    config.background.backgroundColor = .primaryGray
+                }
+
+                $0.configuration = config
             }
-        }
 
         button.publisher(for: .touchUpInside).sink { [weak self] _ in
             switch sheetAction.actionType {

@@ -25,12 +25,11 @@ final class MemoDetailContentView: UIView {
             $0.size.equalTo(32)
         }
         .configure {
-            $0.setImage(
-                Asset.deleteMemo.image
-                    .resized(size: .init(width: 32, height: 32))
-                    .withRenderingMode(.alwaysOriginal),
-                for: .normal
-            )
+            var config = UIButton.Configuration.plain()
+            config.image = Asset.deleteMemo.image
+                .resized(size: .init(width: 32, height: 32))
+                .withRenderingMode(.alwaysOriginal)
+            $0.configuration = config
         }
 
     private(set) var editBarButton = UIButton(type: .system)
@@ -38,12 +37,11 @@ final class MemoDetailContentView: UIView {
             $0.size.equalTo(32)
         }
         .configure {
-            $0.setImage(
-                Asset.editMemo.image
-                    .resized(size: .init(width: 32, height: 32))
-                    .withRenderingMode(.alwaysOriginal),
-                for: .normal
-            )
+            var config = UIButton.Configuration.plain()
+            config.image = Asset.editMemo.image
+                .resized(size: .init(width: 32, height: 32))
+                .withRenderingMode(.alwaysOriginal)
+            $0.configuration = config
         }
 
     private lazy var collectionView = UICollectionView(
