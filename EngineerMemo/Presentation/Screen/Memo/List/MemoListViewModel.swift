@@ -47,7 +47,10 @@ final class MemoListViewModel: ViewModel {
                 switch result {
                 case let .success(modelObjects):
                     self?.originalModelObjects = modelObjects
-                    output.modelObjects = modelObjects
+                    self?.configureModelObjects(
+                        sort: .descending,
+                        category: .all
+                    )
 
                 case let .failure(appError):
                     output.appError = appError
