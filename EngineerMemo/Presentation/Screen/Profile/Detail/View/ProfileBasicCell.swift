@@ -81,30 +81,37 @@ final class ProfileBasicCell: UITableViewCell {
     private let stationLabel = UILabel()
 
     private let editButton = UIButton(type: .system).configure {
-        $0.setTitle(L10n.Components.Button.Do.edit, for: .normal)
-        $0.setTitleColor(.primary, for: .normal)
-        $0.setImage(
-            Asset.profileEdit.image
-                .resized(size: .init(width: 16, height: 16))
-                .withRenderingMode(.alwaysOriginal),
-            for: .normal
-        )
-        $0.clipsToBounds = true
-        $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
-        $0.imageEdgeInsets = .init(.left, -8)
-        $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
-        $0.layer.borderColor = UIColor.primary.cgColor
-        $0.layer.borderWidth = 1.0
-        $0.layer.cornerRadius = 8
+        var config = UIButton.Configuration.plain()
+        config.title = L10n.Components.Button.Do.edit
+        config.image = Asset.profileEdit.image
+            .resized(size: .init(width: 16, height: 16))
+            .withRenderingMode(.alwaysOriginal)
+        config.baseForegroundColor = .primary
+        config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
+        config.imagePadding = 4
+        config.titleTextAttributesTransformer = .init { incoming in
+            var outgoing = incoming
+            outgoing.font = .boldSystemFont(ofSize: 12)
+            return outgoing
+        }
+        config.background.cornerRadius = 8
+        config.background.strokeColor = .primary
+        config.background.strokeWidth = 1.0
+        $0.configuration = config
     }
 
     private let settingButton = UIButton(type: .system).configure {
-        $0.setTitle(L10n.Components.Button.Do.setting, for: .normal)
-        $0.setTitleColor(.primary, for: .normal)
-        $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        $0.backgroundColor = .grayButton
-        $0.layer.cornerRadius = 8
-        $0.clipsToBounds = true
+        var config = UIButton.Configuration.plain()
+        config.title = L10n.Components.Button.Do.setting
+        config.baseForegroundColor = .primary
+        config.titleTextAttributesTransformer = .init { incoming in
+            var outgoing = incoming
+            outgoing.font = .boldSystemFont(ofSize: 16)
+            return outgoing
+        }
+        config.background.backgroundColor = .grayButton
+        config.background.cornerRadius = 8
+        $0.configuration = config
     }
 
     override init(

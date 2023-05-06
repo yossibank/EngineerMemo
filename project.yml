@@ -4,7 +4,7 @@ options:
   bundleIdPrefix: com.yossibank
   developmentLanguage: ja
   deploymentTarget:
-    iOS: 14.0
+    iOS: 15.0
 
 settings:
   base:

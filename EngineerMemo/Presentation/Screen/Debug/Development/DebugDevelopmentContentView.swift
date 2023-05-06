@@ -141,13 +141,10 @@
                 $0.registerHeaderFooterView(with: TitleHeaderFooterView.self)
                 $0.backgroundColor = .background
                 $0.showsVerticalScrollIndicator = false
+                $0.sectionHeaderTopPadding = .zero
                 $0.separatorStyle = .none
                 $0.delegate = self
                 $0.dataSource = dataSource
-
-                if #available(iOS 15.0, *) {
-                    $0.sectionHeaderTopPadding = .zero
-                }
             }
         }
 

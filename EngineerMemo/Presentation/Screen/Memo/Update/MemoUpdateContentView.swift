@@ -27,20 +27,9 @@ final class MemoUpdateContentView: UIView {
             VStackView(spacing: 8) {
                 categoryLabelView
 
-                categoryButton
-                    .addConstraint {
-                        $0.height.equalTo(48)
-                    }
-                    .configure {
-                        $0.setTitleColor(.primary, for: .normal)
-                        $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
-                        $0.contentHorizontalAlignment = .leading
-                        $0.contentEdgeInsets = .init(.left, 8)
-                        $0.layer.borderColor = UIColor.primary.cgColor
-                        $0.layer.borderWidth = 1.0
-                        $0.layer.cornerRadius = 4
-                        $0.clipsToBounds = true
-                    }
+                categoryButton.addConstraint {
+                    $0.height.equalTo(48)
+                }
             }
 
             VStackView(spacing: 8) {
@@ -209,28 +198,30 @@ private extension MemoUpdateContentView {
         }
 
         categoryButton.configure {
+            var config = UIButton.Configuration.plain()
+            config.title = selectedCategoryType?.title
+            config.image = selectedCategoryType?.image?
+                .resized(size: .init(width: 24, height: 24))
+                .withRenderingMode(.alwaysOriginal)
+            config.baseForegroundColor = .primary
+            config.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 0)
+            config.imagePadding = 8
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .boldSystemFont(ofSize: 16)
+                return outgoing
+            }
+            config.background.cornerRadius = 4
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
+            $0.configuration = config
+            $0.contentHorizontalAlignment = .leading
+            $0.showsMenuAsPrimaryAction = true
             $0.menu = .init(
                 title: .empty,
                 options: .displayInline,
                 children: actions
             )
-            $0.setTitle(
-                selectedCategoryType?.title,
-                for: .normal
-            )
-            $0.setImage(
-                selectedCategoryType?.image?
-                    .resized(size: .init(width: 24, height: 24))
-                    .withRenderingMode(.alwaysOriginal),
-                for: .normal
-            )
-            $0.showsMenuAsPrimaryAction = true
-
-            if selectedCategoryType?.image != nil {
-                $0.titleEdgeInsets = .init(.left, 4)
-            } else {
-                $0.titleEdgeInsets = .zero
-            }
         }
     }
 
