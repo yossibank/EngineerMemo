@@ -24,7 +24,11 @@ final class MemoUpdateViewModel: ViewModel {
     let input: Input
     let output: Output
 
-    private var modelObject = MemoModelObject(identifier: UUID().uuidString)
+    private var modelObject = MemoModelObject(
+        createdAt: .init(),
+        identifier: UUID().uuidString
+    )
+
     private var cancellables: Set<AnyCancellable> = .init()
 
     private let model: MemoModelInput

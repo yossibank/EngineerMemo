@@ -4,6 +4,7 @@ struct MemoModelObject: Hashable {
     var category: Category?
     var title: String?
     var content: String?
+    var createdAt: Date
     var identifier: String
 
     enum Category: Int {
@@ -33,6 +34,7 @@ extension MemoModelObject {
         memo.category = .init(rawValue: category?.rawValue ?? .invalid)
         memo.title = title
         memo.content = content
+        memo.createdAt = createdAt
 
         if isNew {
             memo.identifier = UUID().uuidString

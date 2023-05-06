@@ -10,6 +10,7 @@ struct MemoConverter: MemoConverterInput {
             category: .init(rawValue: memo.category?.rawValue ?? .invalid),
             title: memo.title ?? .noSetting,
             content: memo.content ?? .noSetting,
+            createdAt: memo.createdAt ?? .init(),
             identifier: memo.identifier
         )
     }

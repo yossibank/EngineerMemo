@@ -45,8 +45,12 @@ final class MemoListViewModel: ViewModel {
             model.fetch { [weak self] result in
                 switch result {
                 case let .success(modelObjects):
-                    self?.originalModelObjects = modelObjects
-                    output.modelObjects = modelObjects
+                    let sortedModelObjects = modelObjects.sorted(by: {
+                        $0.createdAt > $1.createdAt
+                    })
+
+                    self?.originalModelObjects = sortedModelObjects
+                    output.modelObjects = sortedModelObjects
 
                 case let .failure(appError):
                     output.appError = appError
