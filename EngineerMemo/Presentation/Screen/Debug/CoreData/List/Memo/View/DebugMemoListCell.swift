@@ -8,6 +8,10 @@
 
     final class DebugMemoListCell: UITableViewCell {
         private lazy var baseView = UIView()
+            .addSubview(createdLabel) {
+                $0.top.equalToSuperview().inset(16)
+                $0.trailing.equalToSuperview().inset(8)
+            }
             .addSubview(stackView) {
                 $0.edges.equalToSuperview().inset(16)
             }
@@ -23,6 +27,11 @@
                 createStackView(.title)
                 createStackView(.content)
             }
+        }
+
+        private let createdLabel = UILabel().configure {
+            $0.textColor = .primary
+            $0.font = .boldSystemFont(ofSize: 12)
         }
 
         private let categoryLabel = UILabel()
@@ -50,6 +59,7 @@
 
     extension DebugMemoListCell {
         func configure(_ modelObject: MemoModelObject) {
+            createdLabel.text = modelObject.createdAt.toString
             categoryLabel.text = modelObject.category?.value ?? .noSetting
             titleLabel.text = modelObject.title
             contentLabel.text = modelObject.content
