@@ -13,12 +13,16 @@ private enum TabItem: Int, CaseIterable {
         case .profile:
             rootViewController = .init(rootViewController: AppControllers.Profile.Detail())
             title = L10n.Tab.profile
-            image = ImageResources.Tab.profile
+            image = Asset.profileTab.image
+                .resized(size: .init(width: 24, height: 24))
+                .withRenderingMode(.alwaysOriginal)
 
         case .memo:
             rootViewController = .init(rootViewController: AppControllers.Memo.List())
             title = L10n.Tab.memo
-            image = ImageResources.Tab.memo
+            image = Asset.memoTab.image
+                .resized(size: .init(width: 24, height: 24))
+                .withRenderingMode(.alwaysOriginal)
         }
 
         rootViewController.tabBarItem = .init(
@@ -42,7 +46,9 @@ private enum TabItem: Int, CaseIterable {
 
             rootViewController.tabBarItem = .init(
                 title: L10n.Tab.debug,
-                image: ImageResources.Tab.debug,
+                image: Asset.developmentTab.image
+                    .resized(size: .init(width: 24, height: 24))
+                    .withRenderingMode(.alwaysOriginal),
                 tag: rawValue
             )
 

@@ -24,6 +24,9 @@ extension UIAppearanceProtocol {
             appearance.configureWithDefaultBackground()
             appearance.backgroundColor = .background
             appearance.shadowColor = .clear
+            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
+                .foregroundColor: UIColor.primary
+            ]
             UITabBar.appearance().standardAppearance = appearance
             UITabBar.appearance().scrollEdgeAppearance = appearance
         }
