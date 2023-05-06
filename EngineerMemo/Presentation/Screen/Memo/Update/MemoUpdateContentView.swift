@@ -89,10 +89,13 @@ final class MemoUpdateContentView: UIView {
     private lazy var titleLabelView = createLabelView(.title)
     private lazy var contentLabelView = createLabelView(.content)
 
+    private let categoryView = UIView()
     private let categoryLabel = UILabel()
     private let categoryButton = UIButton(type: .system)
+    private let titleView = UIView()
     private let titleLabel = UILabel()
     private let titleTextView = UITextView()
+    private let contentView = UIView()
     private let contentLabel = UILabel()
     private let contentTextView = UITextView()
     private let createButton = UIButton(type: .system)
@@ -119,9 +122,9 @@ final class MemoUpdateContentView: UIView {
             super.traitCollectionDidChange(previousTraitCollection)
 
             [
-                categoryLabelView, categoryButton,
-                titleLabelView, titleTextView,
-                contentLabelView, contentTextView,
+                categoryView, categoryButton,
+                titleView, titleTextView,
+                contentView, contentTextView,
                 barButton
             ].forEach {
                 $0.layer.borderColor = UIColor.primary.cgColor
@@ -232,16 +235,20 @@ private extension MemoUpdateContentView {
     }
 
     func createLabelView(_ type: MemoContentType) -> UIView {
+        let labelView: UIView
         let valueLabel: UILabel
 
         switch type {
         case .category:
+            labelView = categoryView
             valueLabel = categoryLabel
 
         case .title:
+            labelView = titleView
             valueLabel = titleLabel
 
         case .content:
+            labelView = contentView
             valueLabel = contentLabel
         }
 
@@ -252,7 +259,7 @@ private extension MemoUpdateContentView {
         }
 
         return VStackView {
-            UIView()
+            labelView
                 .addSubview(valueLabel) {
                     $0.edges.equalToSuperview().inset(8)
                 }
