@@ -54,6 +54,33 @@ final class MemoListViewModelTest: XCTestCase {
         XCTAssertEqual(routing.showCreateScreenCallCount, 1)
     }
 
+    func test_input_didChangeSort_並び替えたメモ情報を取得できること() throws {
+        // arrange
+        viewDidLoad(modelObjects: [
+            MemoModelObjectBuilder().title("title1").createdAt(Calendar.date(year: 2000, month: 1, day: 1)!).build(),
+            MemoModelObjectBuilder().title("title2").createdAt(Calendar.date(year: 2000, month: 1, day: 2)!).build(),
+            MemoModelObjectBuilder().title("title3").createdAt(Calendar.date(year: 2000, month: 1, day: 3)!).build(),
+            MemoModelObjectBuilder().title("title4").createdAt(Calendar.date(year: 2000, month: 1, day: 4)!).build(),
+            MemoModelObjectBuilder().title("title5").createdAt(Calendar.date(year: 2000, month: 1, day: 5)!).build(),
+            MemoModelObjectBuilder().title("title6").createdAt(Calendar.date(year: 2000, month: 1, day: 6)!).build()
+        ])
+
+        // act
+        viewModel.input.didChangeCategory.send(.all)
+        viewModel.input.didChangeSort.send(.descending)
+
+        let publisher = viewModel.output.$modelObjects.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!
+
+        // assert
+        XCTAssertEqual(output[0].title, "title6")
+        XCTAssertEqual(output[1].title, "title5")
+        XCTAssertEqual(output[2].title, "title4")
+        XCTAssertEqual(output[3].title, "title3")
+        XCTAssertEqual(output[4].title, "title2")
+        XCTAssertEqual(output[5].title, "title1")
+    }
+
     func test_input_didChangeCategory_絞り込んだメモ情報を取得できること() throws {
         // arrange
         viewDidLoad(modelObjects: [
@@ -66,6 +93,7 @@ final class MemoListViewModelTest: XCTestCase {
         ])
 
         // act
+        viewModel.input.didChangeSort.send(.descending)
         viewModel.input.didChangeCategory.send(.todo)
 
         let publisher = viewModel.output.$modelObjects.collect(1).first()

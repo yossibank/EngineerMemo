@@ -87,6 +87,9 @@
 
 // MARK: - メモ
 
+"memo.sort" = "並び替え";
+"memo.sort.descendingDate" = "作成日(新しい順)";
+"memo.sort.ascendingDate" = "作成日(古い順)";
 "memo.category.filter" = "絞り込み";
 "memo.category.all" = "すべて";
 "memo.category.todo" = "TODO";

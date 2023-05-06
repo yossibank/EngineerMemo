@@ -84,13 +84,14 @@ final class ProfileBasicCell: UITableViewCell {
         $0.setTitle(L10n.Components.Button.Do.edit, for: .normal)
         $0.setTitleColor(.primary, for: .normal)
         $0.setImage(
-            ImageResources.Profile.edit?.resized(size: .init(width: 16, height: 16)),
+            Asset.profileEdit.image
+                .resized(size: .init(width: 16, height: 16))
+                .withRenderingMode(.alwaysOriginal),
             for: .normal
         )
         $0.clipsToBounds = true
         $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
         $0.imageEdgeInsets = .init(.left, -8)
-        $0.tintColor = .primary
         $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
         $0.layer.borderColor = UIColor.primary.cgColor
         $0.layer.borderWidth = 1.0

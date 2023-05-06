@@ -323,7 +323,7 @@ final class ProfileModelTest: XCTestCase {
         model.iconImageUpdate(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .iconImage(ImageResources.Tab.debug?.pngData())
+                .iconImage(Asset.penguin.image.pngData())
                 .build()
         )
 
@@ -332,7 +332,7 @@ final class ProfileModelTest: XCTestCase {
 
             XCTAssertEqual(
                 profile.iconImage,
-                ImageResources.Tab.debug?.pngData()
+                Asset.penguin.image.pngData()
             )
 
             expectation.fulfill()

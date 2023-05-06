@@ -3,15 +3,17 @@
 
     final class MemoModelObjectBuilder {
         private var category: MemoModelObject.Category? = .technical
-        private var content: String? = "コンテンツ"
-        private var identifier = "identifier"
         private var title: String? = "タイトル"
+        private var content: String? = "コンテンツ"
+        private var createdAt = Calendar.date(year: 2000, month: 1, day: 1)!
+        private var identifier = "identifier"
 
         func build() -> MemoModelObject {
             .init(
                 category: category,
                 title: title,
                 content: content,
+                createdAt: createdAt,
                 identifier: identifier
             )
         }
@@ -28,6 +30,11 @@
 
         func content(_ content: String?) -> Self {
             self.content = content
+            return self
+        }
+
+        func createdAt(_ createdAt: Date) -> Self {
+            self.createdAt = createdAt
             return self
         }
 

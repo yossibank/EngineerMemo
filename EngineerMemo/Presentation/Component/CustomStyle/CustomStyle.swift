@@ -83,35 +83,16 @@ extension ViewStyle where T: UIButton {
 // MARK: - メモ
 
 extension ViewStyle where T: UIButton {
-    static var memoCreateButton: ViewStyle<T> {
-        memoButton(
-            title: L10n.Components.Button.create,
-            image: ImageResources.Memo.add
-        )
-    }
-
-    static var memoDeleteButton: ViewStyle<T> {
-        memoButton(
-            title: L10n.Components.Button.delete,
-            image: ImageResources.Memo.delete
-        )
-    }
-
-    private static func memoButton(
-        title: String,
-        image: UIImage?
-    ) -> ViewStyle<T> {
+    static var memoMenuButton: ViewStyle<T> {
         .init {
-            $0.setTitle(title, for: .normal)
             $0.setTitleColor(.primary, for: .normal)
-            $0.setImage(image?.resized(size: .init(width: 20, height: 20)), for: .normal)
-            $0.contentEdgeInsets = .init(top: 4, left: 8, bottom: 4, right: 8)
-            $0.imageEdgeInsets = .init(.left, -8)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 14)
-            $0.tintColor = .dynamicColor(light: .blue, dark: .green)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 12)
             $0.layer.borderColor = UIColor.primary.cgColor
             $0.layer.borderWidth = 1.0
             $0.layer.cornerRadius = 8
+            $0.contentEdgeInsets = .init(top: 4, left: 4, bottom: 4, right: 16)
+            $0.titleEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: -8)
+            $0.imageEdgeInsets = .init(.left, 4)
             $0.clipsToBounds = true
         }
     }
