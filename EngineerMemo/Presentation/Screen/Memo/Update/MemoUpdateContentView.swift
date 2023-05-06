@@ -109,7 +109,7 @@ final class MemoUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [barButton, categoryView, titleView, titleTextView, contentView, contentTextView].forEach {
+            [categoryView, titleView, titleTextView, contentView, contentTextView].forEach {
                 $0.layer.borderColor = UIColor.primary.cgColor
             }
         }
@@ -192,7 +192,7 @@ private extension MemoUpdateContentView {
         }
 
         categoryButton.configure {
-            var config = UIButton.Configuration.plain()
+            var config = UIButton.Configuration.filled()
             config.title = selectedCategoryType?.title
             config.image = selectedCategoryType?.image?
                 .resized(size: .init(width: 24, height: 24))
@@ -205,6 +205,7 @@ private extension MemoUpdateContentView {
                 outgoing.font = .boldSystemFont(ofSize: 16)
                 return outgoing
             }
+            config.background.backgroundColor = .background
             config.background.cornerRadius = 4
             config.background.strokeColor = .primary
             config.background.strokeWidth = 1.0

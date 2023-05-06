@@ -81,7 +81,7 @@ final class ProfileBasicCell: UITableViewCell {
     private let stationLabel = UILabel()
 
     private let editButton = UIButton(type: .system).configure {
-        var config = UIButton.Configuration.plain()
+        var config = UIButton.Configuration.filled()
         config.title = L10n.Components.Button.Do.edit
         config.image = Asset.profileEdit.image
             .resized(size: .init(width: 16, height: 16))
@@ -94,6 +94,7 @@ final class ProfileBasicCell: UITableViewCell {
             outgoing.font = .boldSystemFont(ofSize: 12)
             return outgoing
         }
+        config.background.backgroundColor = .primaryGray
         config.background.cornerRadius = 8
         config.background.strokeColor = .primary
         config.background.strokeWidth = 1.0
@@ -101,7 +102,7 @@ final class ProfileBasicCell: UITableViewCell {
     }
 
     private let settingButton = UIButton(type: .system).configure {
-        var config = UIButton.Configuration.plain()
+        var config = UIButton.Configuration.filled()
         config.title = L10n.Components.Button.Do.setting
         config.baseForegroundColor = .primary
         config.titleTextAttributesTransformer = .init { incoming in

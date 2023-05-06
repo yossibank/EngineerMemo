@@ -58,9 +58,9 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 15)
                 return outgoing
             }
-            $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.primary.cgColor
-            $0.layer.borderWidth = 1.0
+            config.background.cornerRadius = 8
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
             $0.configuration = config
         }
     }
@@ -79,9 +79,9 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 15)
                 return outgoing
             }
-            $0.layer.cornerRadius = 8
-            $0.layer.borderColor = UIColor.primary.cgColor
-            $0.layer.borderWidth = 1.0
+            config.background.cornerRadius = 8
+            config.background.strokeColor = .primary
+            config.background.strokeWidth = 1.0
             $0.configuration = config
         }
     }
@@ -92,7 +92,7 @@ extension ViewStyle where T: UIButton {
 extension ViewStyle where T: UIButton {
     static var memoMenuButton: ViewStyle<T> {
         .init {
-            var config = UIButton.Configuration.plain()
+            var config = UIButton.Configuration.filled()
             config.baseForegroundColor = .primary
             config.imagePadding = 4
             config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
@@ -101,6 +101,7 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 12)
                 return outgoing
             }
+            config.background.backgroundColor = .background
             config.background.cornerRadius = 8
             config.background.strokeColor = .primary
             config.background.strokeWidth = 1.0
@@ -140,13 +141,14 @@ extension ViewStyle where T: UIButton {
 
     static var debugMenuButton: ViewStyle<T> {
         .init {
-            var config = UIButton.Configuration.plain()
+            var config = UIButton.Configuration.filled()
             config.baseForegroundColor = .primary
             config.titleTextAttributesTransformer = .init { incoming in
                 var outgoing = incoming
                 outgoing.font = .boldSystemFont(ofSize: 14)
                 return outgoing
             }
+            config.background.backgroundColor = .background
             config.background.cornerRadius = 8
             config.background.strokeColor = .primary
             config.background.strokeWidth = 1.0
@@ -156,7 +158,7 @@ extension ViewStyle where T: UIButton {
 
     private static func debugButton(title: String) -> ViewStyle<T> {
         .init {
-            var config = UIButton.Configuration.plain()
+            var config = UIButton.Configuration.filled()
             config.title = title
             config.image = nil
             config.baseForegroundColor = .primary
@@ -165,6 +167,7 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 14)
                 return outgoing
             }
+            config.background.backgroundColor = .background
             config.background.cornerRadius = 8
             config.background.strokeColor = .primary
             config.background.strokeWidth = 1.0
@@ -177,7 +180,7 @@ extension ViewStyle where T: UIButton {
         image: UIImage
     ) -> ViewStyle<T> {
         .init {
-            var config = UIButton.Configuration.plain()
+            var config = UIButton.Configuration.filled()
             config.title = title
             config.image = image
             config.baseForegroundColor = .primary
@@ -188,6 +191,7 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 14)
                 return outgoing
             }
+            config.background.backgroundColor = .background
             config.background.cornerRadius = 8
             config.background.strokeColor = .primary
             config.background.strokeWidth = 1.0

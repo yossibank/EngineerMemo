@@ -108,13 +108,14 @@ private extension SheetContentView {
                 $0.height.equalTo(48)
             }
             .configure {
-                var config = UIButton.Configuration.plain()
+                var config = UIButton.Configuration.filled()
                 config.title = sheetAction.title
                 config.titleTextAttributesTransformer = .init { incoming in
                     var outgoing = incoming
                     outgoing.font = .boldSystemFont(ofSize: 16)
                     return outgoing
                 }
+                config.background.backgroundColor = .background
                 config.background.cornerRadius = 8
 
                 switch sheetAction.actionType {

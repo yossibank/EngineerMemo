@@ -108,7 +108,7 @@ private extension ProfileMenuInputView {
         }
 
         menuButton.configure {
-            var config = UIButton.Configuration.plain()
+            var config = UIButton.Configuration.filled()
             config.title = selectedGenderType.title
             config.baseForegroundColor = .primary
             config.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 0)
@@ -117,6 +117,7 @@ private extension ProfileMenuInputView {
                 outgoing.font = .systemFont(ofSize: 16)
                 return outgoing
             }
+            config.background.backgroundColor = .background
             config.background.cornerRadius = 4
             config.background.strokeColor = .primary
             config.background.strokeWidth = 1.0

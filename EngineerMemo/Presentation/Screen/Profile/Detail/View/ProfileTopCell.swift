@@ -29,7 +29,6 @@ final class ProfileTopCell: UITableViewCell {
                 .configure {
                     var config = UIButton.Configuration.plain()
                     config.title = L10n.Components.Button.changeProfileIcon
-                    config.baseForegroundColor = .primary
                     config.titleTextAttributesTransformer = .init { incoming in
                         var outgoing = incoming
                         outgoing.font = .boldSystemFont(ofSize: 12)

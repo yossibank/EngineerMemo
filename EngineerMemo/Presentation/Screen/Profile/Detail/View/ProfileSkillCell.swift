@@ -119,7 +119,7 @@ final class ProfileSkillCell: UITableViewCell {
     private let toeicLabel = UILabel()
 
     private let settingButton = UIButton(type: .system).configure {
-        var config = UIButton.Configuration.plain()
+        var config = UIButton.Configuration.filled()
         config.title = L10n.Components.Button.Do.setting
         config.baseForegroundColor = .primary
         config.titleTextAttributesTransformer = .init { incoming in
