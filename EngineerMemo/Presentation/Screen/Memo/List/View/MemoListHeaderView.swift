@@ -7,7 +7,7 @@ import UIKitHelper
 final class MemoListHeaderView: UICollectionReusableView {
     var cancellables: Set<AnyCancellable> = .init()
 
-    @Published private(set) var selectedCategoryType: MemoCategoryType = .all {
+    @Published private(set) var selectedCategoryType: MemoListCategoryType = .all {
         didSet {
             setupCategory()
         }
@@ -27,7 +27,9 @@ final class MemoListHeaderView: UICollectionReusableView {
                 $0.layer.borderColor = UIColor.primary.cgColor
                 $0.layer.borderWidth = 1.0
                 $0.layer.cornerRadius = 8
-                $0.contentEdgeInsets = .init(.all, 4)
+                $0.contentEdgeInsets = .init(top: 4, left: 4, bottom: 4, right: 16)
+                $0.titleEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: -8)
+                $0.imageEdgeInsets = .init(.left, 4)
                 $0.clipsToBounds = true
             }
 
@@ -80,7 +82,7 @@ private extension MemoListHeaderView {
     func setupCategory() {
         var actions = [UIMenuElement]()
 
-        MemoCategoryType.allCases.forEach { categoryType in
+        MemoListCategoryType.allCases.forEach { categoryType in
             actions.append(
                 UIAction(
                     title: categoryType.title,

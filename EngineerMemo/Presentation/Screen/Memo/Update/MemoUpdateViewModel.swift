@@ -3,6 +3,7 @@ import Foundation
 
 final class MemoUpdateViewModel: ViewModel {
     final class Binding: BindingObject {
+        @Published var category: MemoInputCategoryType?
         @Published var title = ""
         @Published var content = ""
     }
@@ -62,6 +63,35 @@ final class MemoUpdateViewModel: ViewModel {
         }
         .store(in: &cancellables)
 
+        // MARK: - カテゴリー
+
+        let category = binding.$category.sink { [weak self] category in
+            self?.modelObject.category = {
+                switch category {
+                case .todo:
+                    return .todo
+
+                case .technical:
+                    return .technical
+
+                case .interview:
+                    return .interview
+
+                case .event:
+                    return .event
+
+                case .other:
+                    return .other
+
+                case .noSetting:
+                    return nil
+
+                default:
+                    return nil
+                }
+            }()
+        }
+
         // MARK: - タイトル
 
         let title = binding.$title.sink { [weak self] title in
@@ -104,6 +134,7 @@ final class MemoUpdateViewModel: ViewModel {
         .store(in: &cancellables)
 
         cancellables.formUnion([
+            category,
             title,
             content
         ])

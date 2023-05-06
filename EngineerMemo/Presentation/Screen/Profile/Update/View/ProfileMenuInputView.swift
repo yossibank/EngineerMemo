@@ -18,7 +18,7 @@ final class ProfileMenuInputView: UIView {
                 }
                 .apply(.inputView)
 
-            buttonInputView
+            UIView()
                 .addSubview(menuButton) {
                     $0.top.bottom.equalToSuperview().inset(16)
                     $0.leading.trailing.equalToSuperview()
@@ -30,7 +30,6 @@ final class ProfileMenuInputView: UIView {
     }
 
     private let titleView = UIView()
-    private let buttonInputView = UIView()
 
     private let titleLabel = UILabel().configure {
         $0.textColor = .secondaryGray
@@ -39,7 +38,7 @@ final class ProfileMenuInputView: UIView {
 
     private let menuButton = UIButton(type: .system).configure {
         $0.setTitleColor(.primary, for: .normal)
-        $0.titleLabel?.font = .systemFont(ofSize: 17)
+        $0.titleLabel?.font = .systemFont(ofSize: 16)
         $0.contentHorizontalAlignment = .leading
         $0.contentEdgeInsets = .init(.left, 8)
         $0.layer.borderColor = UIColor.primary.cgColor

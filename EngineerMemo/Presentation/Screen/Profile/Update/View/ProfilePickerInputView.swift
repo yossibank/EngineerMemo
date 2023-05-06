@@ -18,7 +18,7 @@ final class ProfilePickerInputView: UIView {
                 }
                 .apply(.inputView)
 
-            pickerInputView
+            UIView()
                 .addSubview(inputDatePicker) {
                     $0.top.bottom.equalToSuperview().inset(16)
                     $0.leading.trailing.equalToSuperview()
@@ -35,7 +35,6 @@ final class ProfilePickerInputView: UIView {
     }
 
     private let titleView = UIView()
-    private let pickerInputView = UIView()
 
     private let titleLabel = UILabel().configure {
         $0.textColor = .secondaryGray

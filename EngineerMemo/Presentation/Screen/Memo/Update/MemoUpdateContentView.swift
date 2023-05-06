@@ -14,86 +14,90 @@ final class MemoUpdateContentView: UIView {
         $0.height.equalTo(32)
     }
 
+    @Published private(set) var selectedCategoryType: MemoInputCategoryType? {
+        didSet {
+            setupCategory()
+        }
+    }
+
     private var cancellables: Set<AnyCancellable> = .init()
 
     private var body: UIView {
         VStackView(spacing: 16) {
             VStackView(spacing: 8) {
-                titleView
-                    .addSubview(titleLabel) {
-                        $0.edges.equalToSuperview().inset(8)
-                    }
+                categoryLabelView
+
+                categoryButton
                     .addConstraint {
-                        $0.height.equalTo(40)
+                        $0.height.equalTo(48)
                     }
-                    .apply(.inputView)
-
-                VStackView(spacing: 4) {
-                    titleTextView
-                        .addConstraint {
-                            $0.height.equalTo(48)
-                        }
-                        .configure {
-                            $0.font = .boldSystemFont(ofSize: 16)
-                            $0.backgroundColor = .background
-                            $0.layer.borderColor = UIColor.primary.cgColor
-                            $0.layer.borderWidth = 1.0
-                            $0.layer.cornerRadius = 4
-
-                            if let modelObject {
-                                $0.text = modelObject.title
-                            }
-                        }
-                }
+                    .configure {
+                        $0.setTitleColor(.primary, for: .normal)
+                        $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+                        $0.contentHorizontalAlignment = .leading
+                        $0.contentEdgeInsets = .init(.left, 8)
+                        $0.layer.borderColor = UIColor.primary.cgColor
+                        $0.layer.borderWidth = 1.0
+                        $0.layer.cornerRadius = 4
+                        $0.clipsToBounds = true
+                    }
             }
 
             VStackView(spacing: 8) {
-                contentView
-                    .addSubview(contentLabel) {
-                        $0.edges.equalToSuperview().inset(8)
-                    }
+                titleLabelView
+
+                titleTextView
                     .addConstraint {
-                        $0.height.equalTo(40)
+                        $0.height.equalTo(48)
                     }
-                    .apply(.inputView)
+                    .configure {
+                        $0.font = .boldSystemFont(ofSize: 16)
+                        $0.backgroundColor = .background
+                        $0.layer.borderColor = UIColor.primary.cgColor
+                        $0.layer.borderWidth = 1.0
+                        $0.layer.cornerRadius = 4
 
-                VStackView(spacing: 4) {
-                    contentTextView
-                        .addConstraint {
-                            $0.height.equalTo(120)
+                        if let modelObject {
+                            $0.text = modelObject.title
                         }
-                        .configure {
-                            $0.font = .boldSystemFont(ofSize: 14)
-                            $0.backgroundColor = .background
-                            $0.layer.borderColor = UIColor.primary.cgColor
-                            $0.layer.borderWidth = 1.0
-                            $0.layer.cornerRadius = 4
+                    }
+            }
 
-                            if let modelObject {
-                                $0.text = modelObject.content
-                            }
+            VStackView(spacing: 8) {
+                contentLabelView
+
+                contentTextView
+                    .addConstraint {
+                        $0.height.equalTo(120)
+                    }
+                    .configure {
+                        $0.font = .boldSystemFont(ofSize: 14)
+                        $0.backgroundColor = .background
+                        $0.layer.borderColor = UIColor.primary.cgColor
+                        $0.layer.borderWidth = 1.0
+                        $0.layer.cornerRadius = 4
+
+                        if let modelObject {
+                            $0.text = modelObject.content
                         }
-                }
+                    }
             }
         }
     }
 
+    private lazy var categoryLabelView = createLabelView(.category)
+    private lazy var titleLabelView = createLabelView(.title)
+    private lazy var contentLabelView = createLabelView(.content)
+
+    private let categoryView = UIView()
+    private let categoryLabel = UILabel()
+    private let categoryButton = UIButton(type: .system)
     private let titleView = UIView()
+    private let titleLabel = UILabel()
     private let titleTextView = UITextView()
-    private let titleLabel = UILabel().configure {
-        $0.text = L10n.Memo.title
-        $0.textColor = .secondaryGray
-        $0.font = .boldSystemFont(ofSize: 16)
-    }
-
     private let contentView = UIView()
+    private let contentLabel = UILabel()
     private let contentTextView = UITextView()
-    private let contentLabel = UILabel().configure {
-        $0.text = L10n.Memo.content
-        $0.textColor = .secondaryGray
-        $0.font = .boldSystemFont(ofSize: 16)
-    }
-
     private let createButton = UIButton(type: .system)
 
     private let modelObject: MemoModelObject?
@@ -104,6 +108,7 @@ final class MemoUpdateContentView: UIView {
         super.init(frame: .zero)
 
         setupView()
+        setupMenu()
         setupBarButton()
     }
 
@@ -116,7 +121,12 @@ final class MemoUpdateContentView: UIView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [titleView, titleTextView, contentView, contentTextView, barButton].forEach {
+            [
+                categoryView, categoryButton,
+                titleView, titleTextView,
+                contentView, contentTextView,
+                barButton
+            ].forEach {
                 $0.layer.borderColor = UIColor.primary.cgColor
             }
         }
@@ -135,6 +145,30 @@ extension MemoUpdateContentView {
 // MARK: - private methods
 
 private extension MemoUpdateContentView {
+    func setupMenu() {
+        guard let category = modelObject?.category else {
+            selectedCategoryType = .noSetting
+            return
+        }
+
+        switch category {
+        case .todo:
+            selectedCategoryType = .todo
+
+        case .technical:
+            selectedCategoryType = .technical
+
+        case .interview:
+            selectedCategoryType = .interview
+
+        case .event:
+            selectedCategoryType = .event
+
+        case .other:
+            selectedCategoryType = .other
+        }
+    }
+
     func setupBarButton() {
         let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
             ? .createNavigationButton
@@ -156,6 +190,84 @@ private extension MemoUpdateContentView {
                 }
             }
             .store(in: &cancellables)
+    }
+
+    func setupCategory() {
+        var actions = [UIMenuElement]()
+
+        MemoInputCategoryType.allCases.forEach { categoryType in
+            actions.append(
+                UIAction(
+                    title: categoryType.title,
+                    image: categoryType.image,
+                    state: categoryType == selectedCategoryType ? .on : .off,
+                    handler: { [weak self] _ in
+                        self?.selectedCategoryType = categoryType
+                    }
+                )
+            )
+        }
+
+        categoryButton.configure {
+            $0.menu = .init(
+                title: .empty,
+                options: .displayInline,
+                children: actions
+            )
+            $0.setTitle(
+                selectedCategoryType?.title,
+                for: .normal
+            )
+            $0.setImage(
+                selectedCategoryType?.image?
+                    .resized(size: .init(width: 24, height: 24))
+                    .withRenderingMode(.alwaysOriginal),
+                for: .normal
+            )
+            $0.showsMenuAsPrimaryAction = true
+
+            if selectedCategoryType?.image != nil {
+                $0.titleEdgeInsets = .init(.left, 4)
+            } else {
+                $0.titleEdgeInsets = .zero
+            }
+        }
+    }
+
+    func createLabelView(_ type: MemoContentType) -> UIView {
+        let labelView: UIView
+        let valueLabel: UILabel
+
+        switch type {
+        case .category:
+            labelView = categoryView
+            valueLabel = categoryLabel
+
+        case .title:
+            labelView = titleView
+            valueLabel = titleLabel
+
+        case .content:
+            labelView = contentView
+            valueLabel = contentLabel
+        }
+
+        valueLabel.configure {
+            $0.text = type.title
+            $0.textColor = .secondaryGray
+            $0.font = .boldSystemFont(ofSize: 16)
+        }
+
+        return VStackView {
+            labelView
+                .addSubview(valueLabel) {
+                    $0.edges.equalToSuperview().inset(8)
+                }
+                .addConstraint {
+                    $0.height.equalTo(40)
+                }
+                .apply(.inputView)
+        }
     }
 }
 
