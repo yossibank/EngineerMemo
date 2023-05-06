@@ -16,6 +16,11 @@ final class CoreDataManager {
     private init() {
         let container = NSPersistentCloudKitContainer(name: containerName)
 
+        let storeDescription = NSPersistentStoreDescription()
+        storeDescription.shouldMigrateStoreAutomatically = true
+        storeDescription.shouldInferMappingModelAutomatically = true
+
+        container.persistentStoreDescriptions = [storeDescription]
         container.viewContext.setupMergeConfig()
         container.loadPersistentStores { _, error in
             if let error {
