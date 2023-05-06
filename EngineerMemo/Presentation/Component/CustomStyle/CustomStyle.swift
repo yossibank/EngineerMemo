@@ -48,7 +48,7 @@ extension ViewStyle where T: UIButton {
 
     private static func navigationButton(title: String) -> ViewStyle<T> {
         .init {
-            var config = UIButton.Configuration.plain()
+            var config = UIButton.Configuration.bordered()
             config.title = title
             config.image = nil
             config.baseForegroundColor = .primary
@@ -58,16 +58,18 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 15)
                 return outgoing
             }
-            config.background.cornerRadius = 8
-            config.background.strokeColor = .primary
-            config.background.strokeWidth = 1.0
+            config.background.backgroundColor = .background
+            // NOTE: SnapshotTestで色変更がされないためlayerを変更する必要あり
+            $0.layer.cornerRadius = 8
+            $0.layer.borderColor = UIColor.primary.cgColor
+            $0.layer.borderWidth = 1.0
             $0.configuration = config
         }
     }
 
     private static func navigationDoneButton(title: String) -> ViewStyle<T> {
         .init {
-            var config = UIButton.Configuration.plain()
+            var config = UIButton.Configuration.bordered()
             config.title = title
             config.image = Asset.checkmark.image
                 .resized(size: .init(width: 16, height: 16))
@@ -79,6 +81,7 @@ extension ViewStyle where T: UIButton {
                 outgoing.font = .boldSystemFont(ofSize: 15)
                 return outgoing
             }
+            config.background.backgroundColor = .background
             config.background.cornerRadius = 8
             config.background.strokeColor = .primary
             config.background.strokeWidth = 1.0

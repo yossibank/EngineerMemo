@@ -27,13 +27,14 @@ final class ProfileTopCell: UITableViewCell {
                     $0.height.equalTo(28)
                 }
                 .configure {
-                    var config = UIButton.Configuration.plain()
+                    var config = UIButton.Configuration.bordered()
                     config.title = L10n.Components.Button.changeProfileIcon
                     config.titleTextAttributesTransformer = .init { incoming in
                         var outgoing = incoming
                         outgoing.font = .boldSystemFont(ofSize: 12)
                         return outgoing
                     }
+                    config.background.backgroundColor = .background
                     config.background.cornerRadius = 8
                     config.background.strokeColor = .primary
                     config.background.strokeWidth = 1.0
