@@ -109,7 +109,7 @@ extension ___FILEBASENAME___ {}
 private extension ___FILEBASENAME___ {
     func setupCollectionView() {
         collectionView.configure {
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 
