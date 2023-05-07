@@ -35,7 +35,6 @@ final class ProfileBasicCell: UITableViewCell {
             }
 
             settingView
-
             basicView
         }
     }
@@ -45,9 +44,9 @@ final class ProfileBasicCell: UITableViewCell {
         spacing: 16
     ) {
         UILabel().configure {
-            $0.font = .boldSystemFont(ofSize: 14)
             $0.text = L10n.Profile.settingDescription
             $0.textColor = .primary
+            $0.font = .boldSystemFont(ofSize: 14)
             $0.textAlignment = .center
             $0.numberOfLines = 0
         }

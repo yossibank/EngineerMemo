@@ -2,17 +2,22 @@ import Combine
 import UIKit
 import UIKitHelper
 
-// MARK: - section
+// MARK: - section & item
 
 enum MemoListContentViewSection: CaseIterable {
     case main
+}
+
+enum MemoListContentViewItem: Hashable {
+    case list(MemoModelObject)
+    case empty
 }
 
 // MARK: - properties & init
 
 final class MemoListContentView: UIView {
     typealias Section = MemoListContentViewSection
-    typealias Item = MemoModelObject
+    typealias Item = MemoListContentViewItem
 
     var modelObjects: [MemoModelObject] = [] {
         didSet {
@@ -22,6 +27,7 @@ final class MemoListContentView: UIView {
 
     private(set) lazy var didChangeSortPublisher = didChangeSortSubject.eraseToAnyPublisher()
     private(set) lazy var didChangeCategoryPublisher = didChangeCategorySubject.eraseToAnyPublisher()
+    private(set) lazy var didTapCreateButtonPublisher = didTapCreateButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
     private(set) var addBarButton = UIButton(type: .system)
@@ -49,11 +55,27 @@ final class MemoListContentView: UIView {
             return .init()
         }
 
-        return collectionView.dequeueConfiguredReusableCell(
-            using: self.cellRegistration,
-            for: indexPath,
-            item: item
-        )
+        switch item {
+        case .list:
+            return collectionView.dequeueConfiguredReusableCell(
+                using: self.listCellRegistration,
+                for: indexPath,
+                item: item
+            )
+
+        case .empty:
+            let cell = collectionView.dequeueReusableCell(
+                withType: MemoEmptyCell.self,
+                for: indexPath
+            )
+
+            cell.didTapCreateButtonPublisher.sink { [weak self] _ in
+                self?.didTapCreateButtonSubject.send(())
+            }
+            .store(in: &cell.cancellables)
+
+            return cell
+        }
     }
 
     private var collectionViewLayout: UICollectionViewLayout {
@@ -98,11 +120,15 @@ final class MemoListContentView: UIView {
         return UICollectionViewCompositionalLayout(section: section)
     }
 
-    private let cellRegistration = UICollectionView.CellRegistration<
+    private var headerView: MemoListHeaderView?
+
+    private let listCellRegistration = UICollectionView.CellRegistration<
         MemoListCell,
         Item
     > { cell, _, item in
-        cell.configure(item)
+        if case let .list(modelObject) = item {
+            cell.configure(modelObject)
+        }
     }
 
     private let headerRegistration = UICollectionView.SupplementaryRegistration<
@@ -111,7 +137,8 @@ final class MemoListContentView: UIView {
 
     private let didChangeSortSubject = PassthroughSubject<MemoListSortType, Never>()
     private let didChangeCategorySubject = PassthroughSubject<MemoListCategoryType, Never>()
-    private let didSelectContentSubject = PassthroughSubject<Item, Never>()
+    private let didTapCreateButtonSubject = PassthroughSubject<Void, Never>()
+    private let didSelectContentSubject = PassthroughSubject<MemoModelObject, Never>()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -132,6 +159,7 @@ final class MemoListContentView: UIView {
 private extension MemoListContentView {
     func setupCollectionView() {
         collectionView.configure {
+            $0.registerCell(with: MemoEmptyCell.self)
             $0.backgroundColor = .background
             $0.delegate = self
         }
@@ -158,6 +186,9 @@ private extension MemoListContentView {
             }
             .store(in: &headerView.cancellables)
 
+            self.headerView = headerView
+            self.headerView?.isHidden = true
+
             return headerView
         }
     }
@@ -166,12 +197,21 @@ private extension MemoListContentView {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        modelObjects.forEach {
+        if modelObjects.isEmpty {
             dataSourceSnapshot.appendItems(
-                [$0],
+                [.empty],
                 toSection: .main
             )
+        } else {
+            modelObjects.forEach {
+                dataSourceSnapshot.appendItems(
+                    [.list($0)],
+                    toSection: .main
+                )
+            }
         }
+
+        headerView?.isHidden = modelObjects.isEmpty
 
         dataSource.apply(
             dataSourceSnapshot,
@@ -192,11 +232,11 @@ extension MemoListContentView: UICollectionViewDelegate {
             animated: false
         )
 
-        guard let item = modelObjects[safe: indexPath.item] else {
+        guard let modelObject = modelObjects[safe: indexPath.item] else {
             return
         }
 
-        didSelectContentSubject.send(item)
+        didSelectContentSubject.send(modelObject)
     }
 }
 

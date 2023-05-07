@@ -24,6 +24,10 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
+    func testMemoListViewController_件数0() {
+        snapshotVerifyView(viewMode: .navigation(subject))
+    }
+
     func testMemoListViewController_件数少() {
         dataInsert(count: 1)
 

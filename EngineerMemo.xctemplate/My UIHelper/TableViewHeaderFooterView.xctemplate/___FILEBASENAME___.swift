@@ -45,7 +45,7 @@ private extension ___FILEBASENAME___ {
                 $0.edges.equalToSuperview()
             }
 
-            $0.backgroundColor = .primary
+            $0.backgroundColor = .background
         }
     }
 }

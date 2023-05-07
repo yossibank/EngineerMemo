@@ -78,6 +78,13 @@ private extension MemoListViewController {
             }
             .store(in: &cancellables)
 
+        contentView.didTapCreateButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapCreateButton.send(())
+            }
+            .store(in: &cancellables)
+
         contentView.didChangeSortPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] sort in
