@@ -23,7 +23,6 @@ final class ProfileTopCell: UITableViewCell {
 
             iconChangeButton
                 .addConstraint {
-                    $0.width.equalTo(140)
                     $0.height.equalTo(28)
                 }
                 .configure {
