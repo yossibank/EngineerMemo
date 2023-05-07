@@ -64,12 +64,10 @@ final class MemoListContentView: UIView {
             )
 
         case .empty:
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: MemoEmptyCell.className,
+            let cell = collectionView.dequeueReusableCell(
+                withType: MemoEmptyCell.self,
                 for: indexPath
-            ) as? MemoEmptyCell else {
-                return .init()
-            }
+            )
 
             cell.didTapCreateButtonPublisher.sink { [weak self] _ in
                 self?.didTapCreateButtonSubject.send(())
@@ -161,7 +159,7 @@ final class MemoListContentView: UIView {
 private extension MemoListContentView {
     func setupCollectionView() {
         collectionView.configure {
-            $0.register(MemoEmptyCell.self, forCellWithReuseIdentifier: MemoEmptyCell.className)
+            $0.registerCell(with: MemoEmptyCell.self)
             $0.backgroundColor = .background
             $0.delegate = self
         }
