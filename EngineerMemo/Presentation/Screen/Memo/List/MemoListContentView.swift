@@ -189,6 +189,7 @@ private extension MemoListContentView {
             .store(in: &headerView.cancellables)
 
             self.headerView = headerView
+            self.headerView?.isHidden = true
 
             return headerView
         }
