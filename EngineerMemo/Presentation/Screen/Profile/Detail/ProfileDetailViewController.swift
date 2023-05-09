@@ -31,6 +31,7 @@ extension ProfileDetailViewController {
 
         viewModel.input.viewDidLoad.send(())
 
+        setupNavigation()
         bindToView()
         bindToViewModel()
     }
@@ -45,6 +46,26 @@ extension ProfileDetailViewController {
 // MARK: - private methods
 
 private extension ProfileDetailViewController {
+    func setupNavigation() {
+        let reloadBarButtonItem = UIBarButtonItem(
+            image: Asset.reload.image
+                .resized(size: .init(width: 28, height: 28))
+                .withRenderingMode(.alwaysOriginal),
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+
+        reloadBarButtonItem.publisher.sink { [weak self] _ in
+            if self?.contentView.modelObject == nil {
+                self?.viewModel.input.viewDidLoad.send(())
+            }
+        }
+        .store(in: &cancellables)
+
+        navigationItem.leftBarButtonItem = reloadBarButtonItem
+    }
+
     func bindToView() {
         viewModel.output.$modelObject
             .receive(on: DispatchQueue.main)
