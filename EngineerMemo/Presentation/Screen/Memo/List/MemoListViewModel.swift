@@ -11,8 +11,13 @@ final class MemoListViewModel: ViewModel {
     }
 
     final class Output: OutputObject {
-        @Published fileprivate(set) var modelObjects: [MemoModelObject] = []
+        @Published fileprivate(set) var modelObject: ModelObject?
         @Published fileprivate(set) var appError: AppError?
+    }
+
+    struct ModelObject {
+        let isEmpty: Bool
+        let output: [MemoModelObject]
     }
 
     let input: Input
@@ -123,6 +128,8 @@ private extension MemoListViewModel {
     ) {
         var modelObjects = originalModelObjects
 
+        let isEmpty = originalModelObjects.isEmpty
+
         switch sort {
         case .descending:
             modelObjects.sort(by: {
@@ -137,25 +144,46 @@ private extension MemoListViewModel {
 
         switch category {
         case .all:
-            output.modelObjects = modelObjects
+            output.modelObject = .init(
+                isEmpty: isEmpty,
+                output: modelObjects
+            )
 
         case .todo:
-            output.modelObjects = modelObjects.filter { $0.category == .todo }
+            output.modelObject = .init(
+                isEmpty: isEmpty,
+                output: modelObjects.filter { $0.category == .todo }
+            )
 
         case .technical:
-            output.modelObjects = modelObjects.filter { $0.category == .technical }
+            output.modelObject = .init(
+                isEmpty: isEmpty,
+                output: modelObjects.filter { $0.category == .technical }
+            )
 
         case .interview:
-            output.modelObjects = modelObjects.filter { $0.category == .interview }
+            output.modelObject = .init(
+                isEmpty: isEmpty,
+                output: modelObjects.filter { $0.category == .interview }
+            )
 
         case .event:
-            output.modelObjects = modelObjects.filter { $0.category == .event }
+            output.modelObject = .init(
+                isEmpty: isEmpty,
+                output: modelObjects.filter { $0.category == .event }
+            )
 
         case .other:
-            output.modelObjects = modelObjects.filter { $0.category == .other }
+            output.modelObject = .init(
+                isEmpty: isEmpty,
+                output: modelObjects.filter { $0.category == .other }
+            )
 
         case .none:
-            output.modelObjects = modelObjects.filter { $0.category == nil }
+            output.modelObject = .init(
+                isEmpty: isEmpty,
+                output: modelObjects.filter { $0.category == nil }
+            )
         }
     }
 }

@@ -19,7 +19,7 @@ final class MemoListContentView: UIView {
     typealias Section = MemoListContentViewSection
     typealias Item = MemoListContentViewItem
 
-    var modelObjects: [MemoModelObject] = [] {
+    var modelObject: MemoListViewModel.ModelObject? {
         didSet {
             applySnapshot()
         }
@@ -182,16 +182,20 @@ private extension MemoListContentView {
     }
 
     func applySnapshot() {
+        guard let modelObject else {
+            return
+        }
+
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        if modelObjects.isEmpty {
+        if modelObject.isEmpty {
             dataSourceSnapshot.appendItems(
                 [.empty],
                 toSection: .main
             )
         } else {
-            modelObjects.forEach {
+            modelObject.output.forEach {
                 dataSourceSnapshot.appendItems(
                     [.list($0)],
                     toSection: .main
@@ -199,7 +203,7 @@ private extension MemoListContentView {
             }
         }
 
-        headerView?.isHidden = modelObjects.isEmpty
+        headerView?.isHidden = modelObject.isEmpty
 
         dataSource.apply(
             dataSourceSnapshot,
@@ -220,7 +224,7 @@ extension MemoListContentView: UICollectionViewDelegate {
             animated: false
         )
 
-        guard let modelObject = modelObjects[safe: indexPath.item] else {
+        guard let modelObject = modelObject?.output[safe: indexPath.item] else {
             return
         }
 
