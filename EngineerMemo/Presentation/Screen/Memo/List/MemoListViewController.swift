@@ -50,12 +50,12 @@ private extension MemoListViewController {
         let reloadBarButtonItem = UIBarButtonItem(.reload)
         let addMemoBarButtonItem = UIBarButtonItem(.addMemo)
 
-        reloadBarButtonItem.publisher.sink { [weak self] _ in
+        reloadBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
             self?.viewModel.input.viewDidLoad.send(())
         }
         .store(in: &cancellables)
 
-        addMemoBarButtonItem.publisher.sink { [weak self] _ in
+        addMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
             self?.viewModel.input.didTapCreateButton.send(())
         }
         .store(in: &cancellables)

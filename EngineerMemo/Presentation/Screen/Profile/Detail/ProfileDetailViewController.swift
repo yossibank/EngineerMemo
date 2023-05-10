@@ -49,7 +49,7 @@ private extension ProfileDetailViewController {
     func setupNavigation() {
         let reloadBarButtonItem = UIBarButtonItem(.reload)
 
-        reloadBarButtonItem.publisher.sink { [weak self] _ in
+        reloadBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
             if self?.contentView.modelObject == nil {
                 self?.viewModel.input.viewDidLoad.send(())
             }
