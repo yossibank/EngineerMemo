@@ -7,7 +7,7 @@
         }
 
         final class Output: OutputObject {
-            @Published fileprivate(set) var modelObject: [ProfileModelObject]?
+            @Published fileprivate(set) var modelObject: [ProfileModelObject] = []
         }
 
         let input: Input
