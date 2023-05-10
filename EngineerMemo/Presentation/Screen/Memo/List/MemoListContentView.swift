@@ -30,18 +30,6 @@ final class MemoListContentView: UIView {
     private(set) lazy var didTapCreateButtonPublisher = didTapCreateButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
-    private(set) var addBarButton = UIButton(type: .system)
-        .addConstraint {
-            $0.size.equalTo(32)
-        }
-        .configure {
-            var config = UIButton.Configuration.plain()
-            config.image = Asset.addMemo.image
-                .resized(size: .init(width: 32, height: 32))
-                .withRenderingMode(.alwaysOriginal)
-            $0.configuration = config
-        }
-
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout

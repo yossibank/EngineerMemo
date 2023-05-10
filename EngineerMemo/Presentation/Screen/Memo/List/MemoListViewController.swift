@@ -47,9 +47,21 @@ extension MemoListViewController {
 
 private extension MemoListViewController {
     func setupNavigation() {
-        navigationItem.rightBarButtonItem = .init(
-            customView: contentView.addBarButton
-        )
+        let reloadBarButtonItem = UIBarButtonItem(.reload)
+        let addMemoBarButtonItem = UIBarButtonItem(.addMemo)
+
+        reloadBarButtonItem.publisher.sink { [weak self] _ in
+            self?.viewModel.input.viewDidLoad.send(())
+        }
+        .store(in: &cancellables)
+
+        addMemoBarButtonItem.publisher.sink { [weak self] _ in
+            self?.viewModel.input.didTapCreateButton.send(())
+        }
+        .store(in: &cancellables)
+
+        navigationItem.leftBarButtonItem = reloadBarButtonItem
+        navigationItem.rightBarButtonItem = addMemoBarButtonItem
     }
 
     func bindToView() {
@@ -70,14 +82,6 @@ private extension MemoListViewController {
     }
 
     func bindToViewModel() {
-        contentView.addBarButton
-            .publisher(for: .touchUpInside)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapCreateButton.send(())
-            }
-            .store(in: &cancellables)
-
         contentView.didTapCreateButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
