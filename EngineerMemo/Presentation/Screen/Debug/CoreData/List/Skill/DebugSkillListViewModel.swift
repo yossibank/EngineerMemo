@@ -3,6 +3,7 @@
 
     final class DebugSkillListViewModel: ViewModel {
         final class Input: InputObject {
+            let viewDidLoad = PassthroughSubject<Void, Never>()
             let didDeletedModelObject = PassthroughSubject<ProfileModelObject, Never>()
         }
 
@@ -26,15 +27,18 @@
             self.output = output
             self.model = model
 
-            // MARK: - スキル情報習得
+            // MARK: - viewDidLoad
 
-            model.fetch {
-                if case let .success(modelObject) = $0 {
-                    output.modelObject = modelObject.filter {
-                        $0.skill != nil
+            input.viewDidLoad.sink { _ in
+                model.fetch {
+                    if case let .success(modelObject) = $0 {
+                        output.modelObject = modelObject.filter {
+                            $0.skill != nil
+                        }
                     }
                 }
             }
+            .store(in: &cancellables)
 
             // MARK: - スキル情報削除
 

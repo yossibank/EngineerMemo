@@ -3,6 +3,7 @@
 
     final class DebugProfileListViewModel: ViewModel {
         final class Input: InputObject {
+            let viewDidLoad = PassthroughSubject<Void, Never>()
             let didDeletedModelObject = PassthroughSubject<ProfileModelObject, Never>()
         }
 
@@ -26,13 +27,16 @@
             self.output = output
             self.model = model
 
-            // MARK: - プロフィール情報取得
+            // MARK: - viewDidLoad
 
-            model.fetch {
-                if case let .success(modelObject) = $0 {
-                    output.modelObject = modelObject
+            input.viewDidLoad.sink { _ in
+                model.fetch {
+                    if case let .success(modelObject) = $0 {
+                        output.modelObject = modelObject
+                    }
                 }
             }
+            .store(in: &cancellables)
 
             // MARK: - プロフィール情報削除
 
