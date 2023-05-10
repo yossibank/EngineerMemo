@@ -75,9 +75,9 @@ private extension FBSnapshotTestCase {
             window.rootViewController = UINavigationController(rootViewController: vc)
         }
 
+        window.makeKeyAndVisible()
         window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
         window.rootViewController?.view.layoutIfNeeded()
-        window.makeKeyAndVisible()
 
         viewAction?()
 

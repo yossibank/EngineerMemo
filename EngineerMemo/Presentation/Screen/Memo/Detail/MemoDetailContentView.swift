@@ -20,30 +20,6 @@ final class MemoDetailContentView: UIView {
         }
     }
 
-    private(set) var deleteBarButton = UIButton(type: .system)
-        .addConstraint {
-            $0.size.equalTo(32)
-        }
-        .configure {
-            var config = UIButton.Configuration.plain()
-            config.image = Asset.deleteMemo.image
-                .resized(size: .init(width: 32, height: 32))
-                .withRenderingMode(.alwaysOriginal)
-            $0.configuration = config
-        }
-
-    private(set) var editBarButton = UIButton(type: .system)
-        .addConstraint {
-            $0.size.equalTo(32)
-        }
-        .configure {
-            var config = UIButton.Configuration.plain()
-            config.image = Asset.editMemo.image
-                .resized(size: .init(width: 32, height: 32))
-                .withRenderingMode(.alwaysOriginal)
-            $0.configuration = config
-        }
-
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout

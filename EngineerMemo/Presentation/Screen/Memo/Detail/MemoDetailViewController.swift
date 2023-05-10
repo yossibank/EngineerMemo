@@ -33,7 +33,6 @@ extension MemoDetailViewController {
 
         setupNavigation()
         bindToView()
-        bindToViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,9 +46,33 @@ extension MemoDetailViewController {
 
 private extension MemoDetailViewController {
     func setupNavigation() {
+        let editMemoBarButtonItem = UIBarButtonItem(.editMemo)
+        let deleteMemoBarButtonItem = UIBarButtonItem(.deleteMemo)
+
+        editMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
+            self?.viewModel.input.didTapEditBarButton.send(())
+        }
+        .store(in: &cancellables)
+
+        deleteMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
+            let sheetAction: SheetAction = .init(
+                title: L10n.Sheet.yes,
+                actionType: .alert
+            ) { [weak self] in
+                self?.viewModel.input.didTapDeleteBarButton.send(())
+            }
+
+            self?.showActionSheet(
+                title: L10n.Sheet.caution,
+                message: L10n.Sheet.memoDelete,
+                actions: [sheetAction]
+            )
+        }
+        .store(in: &cancellables)
+
         navigationItem.rightBarButtonItems = [
-            .init(customView: contentView.editBarButton),
-            .init(customView: contentView.deleteBarButton)
+            editMemoBarButtonItem,
+            deleteMemoBarButtonItem
         ]
     }
 
@@ -66,35 +89,6 @@ private extension MemoDetailViewController {
             .filter { $0 == true }
             .sink { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
-            }
-            .store(in: &cancellables)
-    }
-
-    func bindToViewModel() {
-        contentView.editBarButton
-            .publisher(for: .touchUpInside)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapEditBarButton.send(())
-            }
-            .store(in: &cancellables)
-
-        contentView.deleteBarButton
-            .publisher(for: .touchUpInside)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                let sheetAction: SheetAction = .init(
-                    title: L10n.Sheet.yes,
-                    actionType: .alert
-                ) { [weak self] in
-                    self?.viewModel.input.didTapDeleteBarButton.send(())
-                }
-
-                self?.showActionSheet(
-                    title: L10n.Sheet.caution,
-                    message: L10n.Sheet.memoDelete,
-                    actions: [sheetAction]
-                )
             }
             .store(in: &cancellables)
     }

@@ -19,11 +19,12 @@ final class MemoListViewModelTest: XCTestCase {
             routing: routing,
             analytics: analytics
         )
-
-        viewDidLoad()
     }
 
     func test_input_viewDidLoad_メモ情報を取得できること() throws {
+        // arrange
+        viewDidLoad()
+
         // act
         let publisher = viewModel.output.$modelObjects.collect(1).first()
         let output = try awaitOutputPublisher(publisher).first

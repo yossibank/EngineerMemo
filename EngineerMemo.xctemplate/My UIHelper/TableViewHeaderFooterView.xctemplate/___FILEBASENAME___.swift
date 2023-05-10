@@ -45,7 +45,9 @@ private extension ___FILEBASENAME___ {
                 $0.edges.equalToSuperview()
             }
 
-            $0.backgroundColor = .background
+            var backgroundConfiguration = UIBackgroundConfiguration.listPlainHeaderFooter()
+            backgroundConfiguration.backgroundColor = .background
+            $0.backgroundConfiguration = backgroundConfiguration
         }
     }
 }

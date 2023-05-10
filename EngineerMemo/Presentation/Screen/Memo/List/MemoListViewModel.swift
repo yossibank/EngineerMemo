@@ -42,22 +42,24 @@ final class MemoListViewModel: ViewModel {
 
         // MARK: - viewDidLoad
 
-        input.viewDidLoad.sink { _ in
-            model.fetch { [weak self] result in
-                switch result {
-                case let .success(modelObjects):
-                    self?.originalModelObjects = modelObjects
-                    self?.configureModelObjects(
-                        sort: .descending,
-                        category: .all
-                    )
+        input.viewDidLoad
+            .filter { self.originalModelObjects.isEmpty }
+            .sink { _ in
+                model.fetch { [weak self] result in
+                    switch result {
+                    case let .success(modelObjects):
+                        self?.originalModelObjects = modelObjects
+                        self?.configureModelObjects(
+                            sort: .descending,
+                            category: .all
+                        )
 
-                case let .failure(appError):
-                    output.appError = appError
+                    case let .failure(appError):
+                        output.appError = appError
+                    }
                 }
             }
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 

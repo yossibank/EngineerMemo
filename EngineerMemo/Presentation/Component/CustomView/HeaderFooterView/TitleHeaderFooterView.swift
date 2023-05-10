@@ -37,8 +37,12 @@ private extension TitleHeaderFooterView {
                 $0.centerY.equalToSuperview()
                 $0.leading.equalToSuperview().inset(8)
             }
+        }
 
-            $0.backgroundColor = .primaryGray
+        configure {
+            var backgroundConfiguration = UIBackgroundConfiguration.listPlainHeaderFooter()
+            backgroundConfiguration.backgroundColor = .primaryGray
+            $0.backgroundConfiguration = backgroundConfiguration
         }
     }
 }

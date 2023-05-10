@@ -2,7 +2,7 @@ import CoreData
 @testable import EngineerMemo
 
 extension CoreDataManager {
-    private static var managedObjectModel = NSManagedObjectModel.mergedModel(
+    private static let managedObjectModel = NSManagedObjectModel.mergedModel(
         from: [Bundle(for: CoreDataManager.self)]
     )!
 
