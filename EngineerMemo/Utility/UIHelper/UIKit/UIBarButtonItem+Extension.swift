@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 extension UIBarButtonItem {
-    enum BarButtonItemType {
+    enum IconBarButtonItemType {
         case reload
         case addMemo
         case editMemo
@@ -59,7 +59,7 @@ extension UIBarButtonItem {
 }
 
 extension UIBarButtonItem {
-    convenience init(_ barButtonItemType: BarButtonItemType) {
-        self.init(customView: barButtonItemType.customButton)
+    convenience init(_ iconBarButtonItemType: IconBarButtonItemType) {
+        self.init(customView: iconBarButtonItemType.customButton)
     }
 }
