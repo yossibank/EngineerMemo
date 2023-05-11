@@ -110,6 +110,13 @@ final class MemoListContentView: UIView {
 
     private var headerView: MemoListHeaderView?
 
+    private let emptyView = UILabel().configure {
+        $0.text = L10n.Memo.emptyResult
+        $0.textColor = .primary
+        $0.textAlignment = .center
+        $0.font = .boldSystemFont(ofSize: 12)
+    }
+
     private let listCellRegistration = UICollectionView.CellRegistration<
         MemoListCell,
         Item
@@ -149,6 +156,7 @@ private extension MemoListContentView {
         collectionView.configure {
             $0.registerCell(with: MemoEmptyCell.self)
             $0.backgroundColor = .background
+            $0.backgroundView = emptyView
             $0.delegate = self
         }
     }
@@ -189,13 +197,13 @@ private extension MemoListContentView {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        if modelObject.isEmpty {
+        if modelObject.isMemoEmpty {
             dataSourceSnapshot.appendItems(
                 [.empty],
                 toSection: .main
             )
         } else {
-            modelObject.output.forEach {
+            modelObject.outputObjects.forEach {
                 dataSourceSnapshot.appendItems(
                     [.list($0)],
                     toSection: .main
@@ -203,7 +211,8 @@ private extension MemoListContentView {
             }
         }
 
-        headerView?.isHidden = modelObject.isEmpty
+        headerView?.isHidden = modelObject.isMemoEmpty
+        collectionView.backgroundView?.isHidden = modelObject.isMemoEmpty || !modelObject.isResultEmpty
 
         dataSource.apply(
             dataSourceSnapshot,
@@ -224,7 +233,7 @@ extension MemoListContentView: UICollectionViewDelegate {
             animated: false
         )
 
-        guard let modelObject = modelObject?.output[safe: indexPath.item] else {
+        guard let modelObject = modelObject?.outputObjects[safe: indexPath.item] else {
             return
         }
 

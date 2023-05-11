@@ -31,7 +31,7 @@ final class MemoListViewModelTest: XCTestCase {
 
         // assert
         XCTAssertEqual(
-            output.output,
+            output.outputObjects,
             [MemoModelObjectBuilder().build()]
         )
     }
@@ -74,12 +74,12 @@ final class MemoListViewModelTest: XCTestCase {
         let output = try awaitOutputPublisher(publisher).first!!
 
         // assert
-        XCTAssertEqual(output.output[0].title, "title6")
-        XCTAssertEqual(output.output[1].title, "title5")
-        XCTAssertEqual(output.output[2].title, "title4")
-        XCTAssertEqual(output.output[3].title, "title3")
-        XCTAssertEqual(output.output[4].title, "title2")
-        XCTAssertEqual(output.output[5].title, "title1")
+        XCTAssertEqual(output.outputObjects[0].title, "title6")
+        XCTAssertEqual(output.outputObjects[1].title, "title5")
+        XCTAssertEqual(output.outputObjects[2].title, "title4")
+        XCTAssertEqual(output.outputObjects[3].title, "title3")
+        XCTAssertEqual(output.outputObjects[4].title, "title2")
+        XCTAssertEqual(output.outputObjects[5].title, "title1")
     }
 
     func test_input_didChangeCategory_絞り込んだメモ情報を取得できること() throws {
@@ -101,7 +101,7 @@ final class MemoListViewModelTest: XCTestCase {
         let output = try awaitOutputPublisher(publisher).first!!
 
         // assert
-        XCTAssertEqual(output.output.count, 2)
+        XCTAssertEqual(output.outputObjects.count, 2)
     }
 
     func test_input_didSelectContent_ログイベントが送信されていること() {
