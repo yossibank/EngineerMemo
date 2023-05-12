@@ -88,6 +88,7 @@
 // MARK: - メモ
 
 "memo.emptyDescription" = "メモがまだありません。新たに作成しましょう。";
+"memo.emptyResult" = "メモが見つかりませんでした";
 "memo.sort" = "並び替え";
 "memo.sort.descendingDate" = "作成日(新しい順)";
 "memo.sort.ascendingDate" = "作成日(古い順)";

@@ -11,8 +11,14 @@ final class MemoListViewModel: ViewModel {
     }
 
     final class Output: OutputObject {
-        @Published fileprivate(set) var modelObjects: [MemoModelObject] = []
+        @Published fileprivate(set) var modelObject: ModelObject?
         @Published fileprivate(set) var appError: AppError?
+    }
+
+    struct ModelObject {
+        let isMemoEmpty: Bool
+        let isResultEmpty: Bool
+        let outputObjects: [MemoModelObject]
     }
 
     let input: Input
@@ -135,27 +141,35 @@ private extension MemoListViewModel {
             })
         }
 
+        let outputObjects: [MemoModelObject]
+
         switch category {
         case .all:
-            output.modelObjects = modelObjects
+            outputObjects = modelObjects
 
         case .todo:
-            output.modelObjects = modelObjects.filter { $0.category == .todo }
+            outputObjects = modelObjects.filter { $0.category == .todo }
 
         case .technical:
-            output.modelObjects = modelObjects.filter { $0.category == .technical }
+            outputObjects = modelObjects.filter { $0.category == .technical }
 
         case .interview:
-            output.modelObjects = modelObjects.filter { $0.category == .interview }
+            outputObjects = modelObjects.filter { $0.category == .interview }
 
         case .event:
-            output.modelObjects = modelObjects.filter { $0.category == .event }
+            outputObjects = modelObjects.filter { $0.category == .event }
 
         case .other:
-            output.modelObjects = modelObjects.filter { $0.category == .other }
+            outputObjects = modelObjects.filter { $0.category == .other }
 
         case .none:
-            output.modelObjects = modelObjects.filter { $0.category == nil }
+            outputObjects = modelObjects.filter { $0.category == nil }
         }
+
+        output.modelObject = .init(
+            isMemoEmpty: originalModelObjects.isEmpty,
+            isResultEmpty: outputObjects.isEmpty,
+            outputObjects: outputObjects
+        )
     }
 }

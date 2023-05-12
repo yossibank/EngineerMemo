@@ -65,10 +65,10 @@ private extension MemoListViewController {
     }
 
     func bindToView() {
-        viewModel.output.$modelObjects
+        viewModel.output.$modelObject
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObjects in
-                self?.contentView.modelObjects = modelObjects
+            .sink { [weak self] modelObject in
+                self?.contentView.modelObject = modelObject
             }
             .store(in: &cancellables)
 
