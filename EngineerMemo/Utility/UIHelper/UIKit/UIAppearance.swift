@@ -14,6 +14,7 @@ extension UIAppearanceProtocol {
         navigationBarAppearance.backButtonAppearance.normal.titleTextAttributes = [
             .foregroundColor: UIColor.clear
         ]
+        UINavigationBar.appearance().tintColor = .primary
         UINavigationBar.appearance().standardAppearance = navigationBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
 

@@ -57,7 +57,7 @@ enum TabItem: Int, CaseIterable {
     }
 #endif
 
-// MARK: - properties & init
+// MARK: - override methods
 
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
