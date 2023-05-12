@@ -30,6 +30,8 @@ final class MemoListViewModelTest: XCTestCase {
         let output = try awaitOutputPublisher(publisher).first!!
 
         // assert
+        XCTAssertFalse(output.isMemoEmpty)
+        XCTAssertFalse(output.isResultEmpty)
         XCTAssertEqual(
             output.outputObjects,
             [MemoModelObjectBuilder().build()]
@@ -74,6 +76,8 @@ final class MemoListViewModelTest: XCTestCase {
         let output = try awaitOutputPublisher(publisher).first!!
 
         // assert
+        XCTAssertFalse(output.isMemoEmpty)
+        XCTAssertFalse(output.isResultEmpty)
         XCTAssertEqual(output.outputObjects[0].title, "title6")
         XCTAssertEqual(output.outputObjects[1].title, "title5")
         XCTAssertEqual(output.outputObjects[2].title, "title4")
@@ -101,6 +105,8 @@ final class MemoListViewModelTest: XCTestCase {
         let output = try awaitOutputPublisher(publisher).first!!
 
         // assert
+        XCTAssertFalse(output.isMemoEmpty)
+        XCTAssertFalse(output.isResultEmpty)
         XCTAssertEqual(output.outputObjects.count, 2)
     }
 
@@ -128,6 +134,47 @@ final class MemoListViewModelTest: XCTestCase {
 
         // act
         viewModel.input.didSelectContent.send(MemoModelObjectBuilder().build())
+    }
+
+    func test_output_modelObject_メモ情報が空の際にisMemoEmptyがtrueを出力すること() throws {
+        // arrange
+        viewDidLoad(modelObjects: [])
+
+        // act
+        let publisher = viewModel.output.$modelObject.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!!
+
+        // assert
+        XCTAssertTrue(output.isMemoEmpty)
+        XCTAssertTrue(output.isResultEmpty)
+        XCTAssertEqual(
+            output.outputObjects,
+            []
+        )
+    }
+
+    func test_output_modelObject_絞り込んだメモ情報が空の際にisResultEmptyがtrueを出力すること() throws {
+        // arrange
+        viewDidLoad(modelObjects: [
+            MemoModelObjectBuilder().category(.todo).build(),
+            MemoModelObjectBuilder().category(.technical).build(),
+            MemoModelObjectBuilder().category(.interview).build(),
+            MemoModelObjectBuilder().category(.other).build(),
+            MemoModelObjectBuilder().category(.interview).build(),
+            MemoModelObjectBuilder().category(.todo).build()
+        ])
+
+        // act
+        viewModel.input.didChangeSort.send(.descending)
+        viewModel.input.didChangeCategory.send(.event)
+
+        let publisher = viewModel.output.$modelObject.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!!
+
+        // assert
+        XCTAssertFalse(output.isMemoEmpty)
+        XCTAssertTrue(output.isResultEmpty)
+        XCTAssertTrue(output.outputObjects.isEmpty)
     }
 }
 
