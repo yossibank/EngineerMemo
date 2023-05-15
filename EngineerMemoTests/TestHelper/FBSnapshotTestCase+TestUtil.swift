@@ -56,7 +56,9 @@ private extension FBSnapshotTestCase {
         viewMode: SnapshotViewMode,
         viewFrame: CGRect = UIScreen.main.bounds,
         viewAfter: CGFloat = .zero,
-        viewAction: VoidBlock? = nil
+        viewAction: VoidBlock? = nil,
+        file: StaticString = #file,
+        line: UInt = #line
     ) {
         fileNameOptions = [.device, .OS, .screenSize, .screenScale]
 
@@ -84,7 +86,9 @@ private extension FBSnapshotTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
             self.FBSnapshotVerifyView(
                 window,
-                identifier: colorMode.identifier
+                identifier: colorMode.identifier,
+                file: file,
+                line: line
             )
 
             expectation.fulfill()
