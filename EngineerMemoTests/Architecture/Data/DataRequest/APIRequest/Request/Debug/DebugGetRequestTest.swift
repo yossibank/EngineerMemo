@@ -70,16 +70,15 @@
             apiClient.request(
                 item: DebugGetRequest(parameters: .init(userId: nil))
             ) {
-                switch $0 {
-                case .success:
-                    XCTFail("failed test")
-
-                case let .failure(error):
+                if case let .failure(error) = $0 {
                     // assert
-                    XCTAssertEqual(error, .decodeError)
-                }
+                    XCTAssertEqual(
+                        error,
+                        .decodeError
+                    )
 
-                self.expectation.fulfill()
+                    self.expectation.fulfill()
+                }
             }
 
             wait(for: [expectation], timeout: 0.1)
