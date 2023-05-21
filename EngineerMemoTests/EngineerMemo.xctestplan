@@ -50,8 +50,16 @@
     {
       "target" : {
         "containerPath" : "container:EngineerMemo.xcodeproj",
-        "identifier" : "CCBBF89A09E432CD23954CA0",
+        "identifier" : "4861F96E551D8FE67B6A0637",
         "name" : "EngineerMemoTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:EngineerMemo.xcodeproj",
+        "identifier" : "03D1B6B3463CF43865D0A0BC",
+        "name" : "EngineerMemoUITests"
       }
     }
   ],
