@@ -56,7 +56,9 @@ private extension FBSnapshotTestCase {
         viewMode: SnapshotViewMode,
         viewFrame: CGRect = UIScreen.main.bounds,
         viewAfter: CGFloat = .zero,
-        viewAction: VoidBlock? = nil
+        viewAction: VoidBlock? = nil,
+        file: StaticString = #file,
+        line: UInt = #line
     ) {
         fileNameOptions = [.device, .OS, .screenSize, .screenScale]
 
@@ -64,15 +66,15 @@ private extension FBSnapshotTestCase {
         let window: UIWindow
 
         switch viewMode {
-        case let .normal(vc):
-            vc.view.frame = viewFrame
+        case let .normal(viewController):
+            viewController.view.frame = viewFrame
             window = .init(frame: viewFrame)
-            window.rootViewController = vc
+            window.rootViewController = viewController
 
-        case let .navigation(vc):
-            vc.view.frame = viewFrame
+        case let .navigation(viewController):
+            viewController.view.frame = viewFrame
             window = .init(frame: viewFrame)
-            window.rootViewController = UINavigationController(rootViewController: vc)
+            window.rootViewController = UINavigationController(rootViewController: viewController)
         }
 
         window.makeKeyAndVisible()
@@ -84,7 +86,9 @@ private extension FBSnapshotTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
             self.FBSnapshotVerifyView(
                 window,
-                identifier: colorMode.identifier
+                identifier: colorMode.identifier,
+                file: file,
+                line: line
             )
 
             expectation.fulfill()
