@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileSkillCell: UITableViewCell {
+final class ProfileSkillCell: AllyTableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
     private(set) lazy var didTapSettingButtonPublisher = settingButton.publisher(for: .touchUpInside)
@@ -142,10 +142,6 @@ final class ProfileSkillCell: UITableViewCell {
         )
 
         setupView()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
 
     override func prepareForReuse() {

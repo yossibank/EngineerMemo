@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileTopCell: UITableViewCell {
+final class ProfileTopCell: AllyTableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
     private(set) lazy var didTapIconChangeButtonPublisher = iconChangeButton.publisher(for: .touchUpInside)
@@ -61,10 +61,6 @@ final class ProfileTopCell: UITableViewCell {
         )
 
         setupView()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
 
     override func prepareForReuse() {
