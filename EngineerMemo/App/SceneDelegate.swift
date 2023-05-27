@@ -18,9 +18,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
 
         configureAppearance()
 
-        IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.enableAutoToolbar = false
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+//        IQKeyboardManager.shared.enable = true
+//        IQKeyboardManager.shared.enableAutoToolbar = false
+//        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
 
         window = .init(windowScene: windowScene)
         window?.rootViewController = TabBarController()

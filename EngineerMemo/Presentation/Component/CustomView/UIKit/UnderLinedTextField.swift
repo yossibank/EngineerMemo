@@ -21,7 +21,7 @@ final class UnderlinedTextField: UITextField {
     }
 }
 
-// MARK: - override init
+// MARK: - override methods
 
 extension UnderlinedTextField {
     override func layoutSubviews() {

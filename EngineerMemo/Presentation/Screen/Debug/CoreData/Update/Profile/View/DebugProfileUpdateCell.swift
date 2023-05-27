@@ -61,7 +61,11 @@
         required init?(coder: NSCoder) {
             super.init(coder: coder)
         }
+    }
 
+    // MARK: - override methods
+
+    extension DebugProfileUpdateCell {
         override func prepareForReuse() {
             super.prepareForReuse()
 

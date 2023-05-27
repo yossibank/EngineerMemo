@@ -71,7 +71,11 @@ final class ProfilePickerInputView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - override methods
+
+extension ProfilePickerInputView {
     override func layoutSubviews() {
         super.layoutSubviews()
 

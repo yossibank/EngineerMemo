@@ -22,7 +22,11 @@ final class ImageHeaderFooterView: UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+}
 
+// MARK: - override methods
+
+extension ImageHeaderFooterView {
     override func prepareForReuse() {
         super.prepareForReuse()
 

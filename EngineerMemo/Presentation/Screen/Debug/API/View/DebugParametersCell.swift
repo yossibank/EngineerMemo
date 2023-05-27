@@ -88,7 +88,11 @@
         required init?(coder: NSCoder) {
             super.init(coder: coder)
         }
+    }
 
+    // MARK: - override methods
+
+    extension DebugParametersCell {
         override func prepareForReuse() {
             super.prepareForReuse()
 
