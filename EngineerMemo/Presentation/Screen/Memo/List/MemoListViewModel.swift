@@ -159,6 +159,9 @@ private extension MemoListViewModel {
         case .event:
             outputObjects = modelObjects.filter { $0.category == .event }
 
+        case .tax:
+            outputObjects = modelObjects.filter { $0.category == .tax }
+
         case .other:
             outputObjects = modelObjects.filter { $0.category == .other }
 

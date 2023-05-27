@@ -69,31 +69,8 @@ final class MemoUpdateViewModel: ViewModel {
 
         // MARK: - カテゴリー
 
-        let category = binding.$category.sink { [weak self] category in
-            self?.modelObject.category = {
-                switch category {
-                case .todo:
-                    return .todo
-
-                case .technical:
-                    return .technical
-
-                case .interview:
-                    return .interview
-
-                case .event:
-                    return .event
-
-                case .other:
-                    return .other
-
-                case .noSetting:
-                    return nil
-
-                default:
-                    return nil
-                }
-            }()
+        let category = binding.$category.sink { [weak self] value in
+            self?.modelObject.category = value?.category
         }
 
         // MARK: - タイトル
