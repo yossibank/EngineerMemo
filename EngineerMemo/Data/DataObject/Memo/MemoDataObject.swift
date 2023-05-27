@@ -15,6 +15,7 @@ extension Memo {
         case technical
         case interview
         case event
+        case tax
         case other
     }
 

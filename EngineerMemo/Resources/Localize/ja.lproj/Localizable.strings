@@ -98,6 +98,7 @@
 "memo.category.technical" = "技術";
 "memo.category.interview" = "面接";
 "memo.category.event" = "イベント";
+"memo.category.tax" = "税金";
 "memo.category.other" = "その他";
 "memo.category.none" = "カテゴリーなし";
 "memo.category" = "カテゴリー";
