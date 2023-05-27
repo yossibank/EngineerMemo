@@ -24,7 +24,11 @@ final class ___FILEBASENAME___: UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+}
 
+// MARK: - override methods
+
+extension ___FILEBASENAME___ {
     override func prepareForReuse() {
         super.prepareForReuse()
 

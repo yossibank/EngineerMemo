@@ -19,11 +19,11 @@ final class ProfileUpdateContentView: UIView {
         $0.height.equalTo(32)
     }
 
-    private lazy var scrollView = UIScrollView().addSubview(stackView) {
+    private lazy var scrollView = UIScrollView().addSubview(body) {
         $0.width.edges.equalToSuperview()
     }
 
-    private lazy var stackView = VStackView(distribution: .equalSpacing) {
+    private lazy var body = VStackView(distribution: .equalSpacing) {
         nameInputView.configure {
             $0.updateValue(.name, modelObject: modelObject)
         }
@@ -99,13 +99,18 @@ final class ProfileUpdateContentView: UIView {
 
         setupView()
         setupBarButton()
+        setupEvent()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - override methods
+
+extension ProfileUpdateContentView {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
@@ -140,6 +145,13 @@ private extension ProfileUpdateContentView {
             }
             .store(in: &cancellables)
     }
+
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
+    }
 }
 
 // MARK: - protocol
@@ -148,7 +160,13 @@ extension ProfileUpdateContentView: ContentView {
     func setupView() {
         configure {
             $0.addSubview(scrollView) {
-                $0.edges.equalToSuperview()
+                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
+                $0.bottom.equalToSuperview().priority(.low)
+                $0.leading.trailing.equalToSuperview()
+            }
+
+            $0.keyboardLayoutGuide.snp.makeConstraints {
+                $0.top.equalTo(scrollView.snp.bottom).inset(-16)
             }
 
             $0.backgroundColor = .background

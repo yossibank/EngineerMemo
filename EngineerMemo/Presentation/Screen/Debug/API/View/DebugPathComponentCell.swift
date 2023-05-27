@@ -55,7 +55,11 @@
         required init?(coder: NSCoder) {
             super.init(coder: coder)
         }
+    }
 
+    // MARK: - override methods
+
+    extension DebugPathComponentCell {
         override func prepareForReuse() {
             super.prepareForReuse()
 

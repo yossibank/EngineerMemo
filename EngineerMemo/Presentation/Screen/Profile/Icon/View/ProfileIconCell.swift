@@ -7,13 +7,6 @@ import UIKitHelper
 final class ProfileIconCell: UICollectionViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    override var isSelected: Bool {
-        didSet {
-            spaceView.isHidden = isSelected
-            checkImageView.isHidden = !isSelected
-        }
-    }
-
     private var body: UIView {
         VStackView(alignment: .center, spacing: 8) {
             iconImageView
@@ -65,7 +58,22 @@ final class ProfileIconCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - override properties
+
+extension ProfileIconCell {
+    override var isSelected: Bool {
+        didSet {
+            spaceView.isHidden = isSelected
+            checkImageView.isHidden = !isSelected
+        }
+    }
+}
+
+// MARK: - override methods
+
+extension ProfileIconCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 

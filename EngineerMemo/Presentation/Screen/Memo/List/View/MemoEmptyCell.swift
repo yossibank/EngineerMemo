@@ -60,7 +60,11 @@ final class MemoEmptyCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - override methods
+
+extension MemoEmptyCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 

@@ -34,7 +34,11 @@
         required init?(coder: NSCoder) {
             super.init(coder: coder)
         }
+    }
 
+    // MARK: - override methods
+
+    extension DebugUpdateListCell {
         override func setSelected(
             _ selected: Bool,
             animated: Bool

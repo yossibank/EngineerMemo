@@ -143,7 +143,11 @@ final class ProfileSkillCell: AllyTableViewCell {
 
         setupView()
     }
+}
 
+// MARK: - override methods
+
+extension ProfileSkillCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 

@@ -25,7 +25,11 @@ final class ___FILEBASENAME___: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - override methods
+
+extension ___FILEBASENAME___ {
     override func prepareForReuse() {
         super.prepareForReuse()
 
