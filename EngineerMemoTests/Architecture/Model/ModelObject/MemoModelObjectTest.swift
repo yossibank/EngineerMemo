@@ -22,6 +22,11 @@ final class MemoModelObjectTest: XCTestCase {
         XCTAssertEqual(MemoModelObject.Category.event.value, "イベント")
     }
 
+    func test_category_tax_valueの文字列が税金であること() {
+        // assert
+        XCTAssertEqual(MemoModelObject.Category.tax.value, "税金")
+    }
+
     func test_category_other_valueの文字列がその他であること() {
         // assert
         XCTAssertEqual(MemoModelObject.Category.other.value, "その他")
