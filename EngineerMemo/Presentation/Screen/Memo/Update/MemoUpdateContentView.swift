@@ -5,6 +5,12 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class MemoUpdateContentView: UIView {
+    @Published private(set) var selectedCategoryType: MemoInputCategoryType? {
+        didSet {
+            setupCategory()
+        }
+    }
+
     private(set) lazy var didChangeTitleTextPublisher = titleTextView.textDidChangePublisher
     private(set) lazy var didChangeContentTextPublisher = contentTextView.textDidChangePublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
@@ -14,69 +20,65 @@ final class MemoUpdateContentView: UIView {
         $0.height.equalTo(32)
     }
 
-    @Published private(set) var selectedCategoryType: MemoInputCategoryType? {
-        didSet {
-            setupCategory()
-        }
+    private lazy var scrollView = UIScrollView().addSubview(body) {
+        $0.width.edges.equalToSuperview()
     }
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private lazy var body = VStackView(spacing: 16) {
+        VStackView(spacing: 8) {
+            categoryLabelView
 
-    private var body: UIView {
-        VStackView(spacing: 16) {
-            VStackView(spacing: 8) {
-                categoryLabelView
+            categoryButton.addConstraint {
+                $0.height.equalTo(48)
+            }
+        }
 
-                categoryButton.addConstraint {
+        VStackView(spacing: 8) {
+            titleLabelView
+
+            titleTextView
+                .addConstraint {
                     $0.height.equalTo(48)
                 }
-            }
+                .configure {
+                    $0.font = .boldSystemFont(ofSize: 16)
+                    $0.backgroundColor = .background
+                    $0.layer.borderColor = UIColor.primary.cgColor
+                    $0.layer.borderWidth = 1.0
+                    $0.layer.cornerRadius = 4
 
-            VStackView(spacing: 8) {
-                titleLabelView
-
-                titleTextView
-                    .addConstraint {
-                        $0.height.equalTo(48)
+                    if let modelObject {
+                        $0.text = modelObject.title
                     }
-                    .configure {
-                        $0.font = .boldSystemFont(ofSize: 16)
-                        $0.backgroundColor = .background
-                        $0.layer.borderColor = UIColor.primary.cgColor
-                        $0.layer.borderWidth = 1.0
-                        $0.layer.cornerRadius = 4
+                }
+        }
 
-                        if let modelObject {
-                            $0.text = modelObject.title
-                        }
+        VStackView(spacing: 8) {
+            contentLabelView
+
+            contentTextView
+                .addConstraint {
+                    $0.height.equalTo(120)
+                }
+                .configure {
+                    $0.font = .boldSystemFont(ofSize: 14)
+                    $0.backgroundColor = .background
+                    $0.layer.borderColor = UIColor.primary.cgColor
+                    $0.layer.borderWidth = 1.0
+                    $0.layer.cornerRadius = 4
+
+                    if let modelObject {
+                        $0.text = modelObject.content
                     }
-            }
-
-            VStackView(spacing: 8) {
-                contentLabelView
-
-                contentTextView
-                    .addConstraint {
-                        $0.height.equalTo(120)
-                    }
-                    .configure {
-                        $0.font = .boldSystemFont(ofSize: 14)
-                        $0.backgroundColor = .background
-                        $0.layer.borderColor = UIColor.primary.cgColor
-                        $0.layer.borderWidth = 1.0
-                        $0.layer.cornerRadius = 4
-
-                        if let modelObject {
-                            $0.text = modelObject.content
-                        }
-                    }
-            }
+                }
         }
     }
 
     private lazy var categoryLabelView = createLabelView(.category)
     private lazy var titleLabelView = createLabelView(.title)
     private lazy var contentLabelView = createLabelView(.content)
+
+    private var cancellables: Set<AnyCancellable> = .init()
 
     private let categoryView = UIView()
     private let categoryLabel = UILabel()
@@ -98,6 +100,7 @@ final class MemoUpdateContentView: UIView {
         setupView()
         setupMenu()
         setupBarButton()
+        setupEvent()
     }
 
     @available(*, unavailable)
@@ -228,6 +231,13 @@ private extension MemoUpdateContentView {
         }
     }
 
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
+    }
+
     func createLabelView(_ type: MemoContentType) -> UIView {
         let labelView: UIView
         let valueLabel: UILabel
@@ -270,9 +280,14 @@ private extension MemoUpdateContentView {
 extension MemoUpdateContentView: ContentView {
     func setupView() {
         configure {
-            $0.addSubview(body) {
+            $0.addSubview(scrollView) {
                 $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
+                $0.bottom.equalToSuperview().priority(.low)
                 $0.leading.trailing.equalToSuperview().inset(16)
+            }
+
+            $0.keyboardLayoutGuide.snp.makeConstraints {
+                $0.top.equalTo(scrollView.snp.bottom).inset(-16)
             }
 
             $0.backgroundColor = .background
