@@ -157,6 +157,7 @@ private extension MemoListContentView {
             $0.registerCell(with: MemoEmptyCell.self)
             $0.backgroundColor = .background
             $0.backgroundView = emptyView
+            $0.backgroundView?.isHidden = true
             $0.delegate = self
         }
     }
