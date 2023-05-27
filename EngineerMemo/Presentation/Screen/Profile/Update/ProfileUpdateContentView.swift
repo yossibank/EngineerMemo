@@ -160,7 +160,12 @@ extension ProfileUpdateContentView: ContentView {
     func setupView() {
         configure {
             $0.addSubview(scrollView) {
-                $0.edges.equalToSuperview()
+                $0.top.leading.trailing.equalToSuperview()
+                $0.bottom.equalToSuperview().priority(.low)
+            }
+
+            $0.keyboardLayoutGuide.snp.makeConstraints {
+                $0.top.equalTo(scrollView.snp.bottom).inset(-16)
             }
 
             $0.backgroundColor = .background
