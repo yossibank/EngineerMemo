@@ -99,6 +99,7 @@ final class ProfileUpdateContentView: UIView {
 
         setupView()
         setupBarButton()
+        setupEvent()
     }
 
     @available(*, unavailable)
@@ -143,6 +144,13 @@ private extension ProfileUpdateContentView {
                 }
             }
             .store(in: &cancellables)
+    }
+
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
     }
 }
 

@@ -54,14 +54,12 @@ final class ProfileTextInputView: UIView {
     ) {
         super.init(frame: .zero)
 
-        setupView()
-        setupTextField()
-
-        titleLabel.text = title
+        setupView(title: title)
 
         inputTextField.configure {
             $0.keyboardType = keyboardType
             $0.placeholder = placeholder
+            $0.delegate = self
         }
 
         if keyboardType == .numberPad {
@@ -129,7 +127,7 @@ extension ProfileTextInputView {
 // MARK: - private methods
 
 private extension ProfileTextInputView {
-    func setupView() {
+    func setupView(title: String) {
         configure {
             $0.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(8)
@@ -138,12 +136,8 @@ private extension ProfileTextInputView {
 
             $0.backgroundColor = .background
         }
-    }
 
-    func setupTextField() {
-        inputTextField.configure {
-            $0.delegate = self
-        }
+        titleLabel.text = title
     }
 
     func setupNumberPad() {
