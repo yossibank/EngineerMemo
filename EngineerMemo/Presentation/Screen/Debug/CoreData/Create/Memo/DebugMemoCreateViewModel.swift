@@ -3,7 +3,7 @@
 
     final class DebugMemoCreateViewModel: ViewModel {
         final class Input: InputObject {
-            let didChangeCategoryControl = PassthroughSubject<DebugCategorySegment, Never>()
+            let didChangeCategoryControl = PassthroughSubject<DebugCategoryMenu, Never>()
             let didChangeTitleControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangeContentControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didTapCreateButton = PassthroughSubject<Void, Never>()
@@ -16,12 +16,12 @@
         private var cancellables: Set<AnyCancellable> = .init()
 
         private var modelObject = MemoModelObjectBuilder()
-            .category(DebugCategorySegment.defaultCategory)
+            .category(DebugCategoryMenu.defaultCategory)
             .title(DebugCoreDataSegment.defaultString)
             .content(DebugCoreDataSegment.defaultString)
             .build()
 
-        private var categroySegment: DebugCategorySegment = .technical
+        private var categroySegment: DebugCategoryMenu = .technical
         private var titleSegment: DebugCoreDataSegment = .medium
         private var contentSegment: DebugCoreDataSegment = .medium
 

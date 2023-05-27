@@ -7,7 +7,7 @@
     // MARK: - properties & init
 
     final class DebugMemoCreateContentView: UIView {
-        private(set) lazy var didChangeCategoryControlPublisher = categoryControl.segmentIndexPublisher
+        private(set) lazy var didChangeCategoryControlPublisher = categoryControl.$selectedCategory
         private(set) lazy var didChangeTitleControlPublisher = titleControl.segmentIndexPublisher
         private(set) lazy var didChangeContentControlPublisher = contentControl.segmentIndexPublisher
         private(set) lazy var didTapCreateButtonPublisher = body.didTapActionButtonPublisher
@@ -24,7 +24,7 @@
             )
         }
 
-        private let categoryControl = DebugCategorySegmentView(title: L10n.Debug.Segment.category)
+        private let categoryControl = DebugCategoryMenuView(title: L10n.Debug.Menu.category)
         private let titleControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.title)
         private let contentControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.content)
 

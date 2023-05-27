@@ -58,6 +58,7 @@ enum MemoInputCategoryType: CaseIterable {
     case technical
     case interview
     case event
+    case tax
     case other
     case noSetting
 
@@ -67,6 +68,7 @@ enum MemoInputCategoryType: CaseIterable {
         case .technical: return L10n.Memo.Category.technical
         case .interview: return L10n.Memo.Category.interview
         case .event: return L10n.Memo.Category.event
+        case .tax: return L10n.Memo.Category.tax
         case .other: return L10n.Memo.Category.other
         case .noSetting: return .noSetting
         }
@@ -78,6 +80,7 @@ enum MemoInputCategoryType: CaseIterable {
         case .technical: return Asset.technicalCategory.image
         case .interview: return Asset.interviewCategory.image
         case .event: return Asset.eventCategory.image
+        case .tax: return Asset.taxCategory.image
         case .other: return Asset.otherCategory.image
         case .noSetting: return nil
         }

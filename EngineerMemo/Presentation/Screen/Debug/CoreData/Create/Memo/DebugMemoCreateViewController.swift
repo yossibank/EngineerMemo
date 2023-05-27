@@ -41,9 +41,7 @@
             contentView.didChangeCategoryControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeCategoryControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeCategoryControl.send(value)
                 }
                 .store(in: &cancellables)
 
