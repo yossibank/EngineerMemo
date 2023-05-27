@@ -87,6 +87,9 @@ extension MemoListCell {
             case .event:
                 return Asset.eventCategory.image
 
+            case .tax:
+                return Asset.taxCategory.image
+
             case .other:
                 return Asset.otherCategory.image
 

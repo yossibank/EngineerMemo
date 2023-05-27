@@ -114,6 +114,24 @@ final class MemoConverterTest: XCTestCase {
         )
     }
 
+    func test_categoryがtaxの際にtaxに変換されること() {
+        // arrange
+        let input = MemoDataObjectBuilder()
+            .category(.tax)
+            .build()
+
+        // actual
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            MemoModelObjectBuilder()
+                .category(.tax)
+                .build()
+        )
+    }
+
     func test_categoryがotherの際にotherに変換されること() {
         // arrange
         let input = MemoDataObjectBuilder()

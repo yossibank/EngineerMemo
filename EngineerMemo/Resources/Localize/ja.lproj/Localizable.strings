@@ -98,6 +98,7 @@
 "memo.category.technical" = "技術";
 "memo.category.interview" = "面接";
 "memo.category.event" = "イベント";
+"memo.category.tax" = "税金";
 "memo.category.other" = "その他";
 "memo.category.none" = "カテゴリーなし";
 "memo.category" = "カテゴリー";
@@ -150,6 +151,13 @@
 "debug.coreData.memo" = "メモ";
 "debug.userDefaults.status" = "状態";
 "debug.userDefaults.value" = "保存値";
+"debug.menu.category" = "category";
+"debug.menu.todo" = "TODO";
+"debug.menu.technical" = "技術";
+"debug.menu.interview" = "面接";
+"debug.menu.event" = "イベント";
+"debug.menu.tax" = "税金";
+"debug.menu.other" = "その他";
 "debug.segment.name" = "name";
 "debug.segment.address" = "address";
 "debug.segment.birthday" = "birthday";
@@ -159,7 +167,6 @@
 "debug.segment.phoneNumber" = "phoneNumber";
 "debug.segment.station" = "station";
 "debug.segment.skill" = "skill";
-"debug.segment.category" = "category";
 "debug.segment.title" = "title";
 "debug.segment.content" = "content";
 "debug.segment.randomImage" = "画像(ランダム)";
@@ -170,11 +177,6 @@
 "debug.segment.long" = "長め";
 "debug.segment.man" = "男性";
 "debug.segment.woman" = "女性";
-"debug.segment.other" = "その他";
-"debug.segment.todo" = "TODO";
-"debug.segment.technical" = "技術";
-"debug.segment.interview" = "面接";
-"debug.segment.event" = "イベント";
 "debug.segment.other" = "その他";
 "debug.segment.system" = "システム";
 "debug.segment.light" = "ライト";

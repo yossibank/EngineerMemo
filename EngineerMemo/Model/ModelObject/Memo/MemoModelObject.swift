@@ -12,6 +12,7 @@ struct MemoModelObject: Hashable {
         case technical
         case interview
         case event
+        case tax
         case other
 
         var value: String {
@@ -20,6 +21,7 @@ struct MemoModelObject: Hashable {
             case .technical: return L10n.Memo.Category.technical
             case .interview: return L10n.Memo.Category.interview
             case .event: return L10n.Memo.Category.event
+            case .tax: return L10n.Memo.Category.tax
             case .other: return L10n.Memo.Category.other
             }
         }

@@ -65,7 +65,7 @@
             }
         }
 
-        private let didChangeCategoryControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeCategoryControlSubject = PassthroughSubject<DebugCategoryMenu, Never>()
         private let didChangeTitleControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeContentControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSearchTextSubject = PassthroughSubject<String, Never>()

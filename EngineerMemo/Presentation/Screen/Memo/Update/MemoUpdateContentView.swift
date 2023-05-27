@@ -147,6 +147,9 @@ private extension MemoUpdateContentView {
         case .event:
             selectedCategoryType = .event
 
+        case .tax:
+            selectedCategoryType = .tax
+
         case .other:
             selectedCategoryType = .other
         }
@@ -209,6 +212,7 @@ private extension MemoUpdateContentView {
             config.background.cornerRadius = 4
             config.background.strokeColor = .primary
             config.background.strokeWidth = 1.0
+
             $0.configuration = config
             $0.contentHorizontalAlignment = .leading
             $0.showsMenuAsPrimaryAction = true
