@@ -7,6 +7,8 @@ import UIKitHelper
 final class ProfileTextInputView: UIView {
     private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
+    private var cancellables: Set<AnyCancellable> = .init()
+
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView
@@ -32,12 +34,6 @@ final class ProfileTextInputView: UIView {
         }
     }
 
-    private let titleView = UIView()
-    private let titleIconImageView = UIImageView()
-    private let titleLabel = UILabel()
-    private let inputTextField = UITextField()
-    private let borderView = BorderView()
-
     private lazy var titleStackView = HStackView(spacing: 4) {
         titleIconImageView
             .addConstraint {
@@ -52,7 +48,11 @@ final class ProfileTextInputView: UIView {
         UIView()
     }
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private let titleView = UIView()
+    private let titleIconImageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let inputTextField = UITextField()
+    private let borderView = BorderView()
 
     init(_ type: ProfileContentType) {
         super.init(frame: .zero)

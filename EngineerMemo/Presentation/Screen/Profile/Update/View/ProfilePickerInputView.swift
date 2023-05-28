@@ -7,10 +7,12 @@ import UIKitHelper
 final class ProfilePickerInputView: UIView {
     private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
 
+    private var cancellables: Set<AnyCancellable> = .init()
+
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView
-                .addSubview(titleLabel) {
+                .addSubview(titleStackView) {
                     $0.edges.equalToSuperview().inset(8)
                 }
                 .addConstraint {
@@ -36,12 +38,26 @@ final class ProfilePickerInputView: UIView {
         }
     }
 
-    private let titleView = UIView()
+    private lazy var titleStackView = HStackView(spacing: 4) {
+        titleIconImageView
+            .addConstraint {
+                $0.size.equalTo(24)
+            }
+            .configure {
+                $0.image = Asset.profileBirthday.image
+            }
 
-    private let titleLabel = UILabel().configure {
-        $0.textColor = .secondaryGray
-        $0.font = .boldSystemFont(ofSize: 16)
+        titleLabel.configure {
+            $0.textColor = .secondaryGray
+            $0.font = .boldSystemFont(ofSize: 16)
+        }
+
+        UIView()
     }
+
+    private let titleView = UIView()
+    private let titleIconImageView = UIImageView()
+    private let titleLabel = UILabel()
 
     private let inputDatePicker = UIDatePicker().configure {
         $0.contentHorizontalAlignment = .leading
@@ -55,8 +71,6 @@ final class ProfilePickerInputView: UIView {
     }
 
     private let borderView = BorderView()
-
-    private var cancellables: Set<AnyCancellable> = .init()
 
     init(title: String) {
         super.init(frame: .zero)

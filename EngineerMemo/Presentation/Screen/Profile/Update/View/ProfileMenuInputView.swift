@@ -12,7 +12,7 @@ final class ProfileMenuInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView
-                .addSubview(titleLabel) {
+                .addSubview(titleStackView) {
                     $0.edges.equalToSuperview().inset(8)
                 }
                 .addConstraint {
@@ -30,13 +30,26 @@ final class ProfileMenuInputView: UIView {
         }
     }
 
-    private let titleView = UIView()
+    private lazy var titleStackView = HStackView(spacing: 4) {
+        titleIconImageView
+            .addConstraint {
+                $0.size.equalTo(24)
+            }
+            .configure {
+                $0.image = Asset.profileGender.image
+            }
 
-    private let titleLabel = UILabel().configure {
-        $0.textColor = .secondaryGray
-        $0.font = .boldSystemFont(ofSize: 16)
+        titleLabel.configure {
+            $0.textColor = .secondaryGray
+            $0.font = .boldSystemFont(ofSize: 16)
+        }
+
+        UIView()
     }
 
+    private let titleView = UIView()
+    private let titleIconImageView = UIImageView()
+    private let titleLabel = UILabel()
     private let menuButton = MenuButton(type: .system)
     private let borderView = BorderView()
 
