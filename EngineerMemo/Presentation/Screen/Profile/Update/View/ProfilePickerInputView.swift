@@ -7,8 +7,6 @@ import UIKitHelper
 final class ProfilePickerInputView: UIView {
     private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
 
-    private var cancellables: Set<AnyCancellable> = .init()
-
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView
@@ -71,6 +69,8 @@ final class ProfilePickerInputView: UIView {
     }
 
     private let borderView = BorderView()
+
+    private var cancellables: Set<AnyCancellable> = .init()
 
     init(title: String) {
         super.init(frame: .zero)

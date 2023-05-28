@@ -7,8 +7,6 @@ import UIKitHelper
 final class ProfileMenuInputView: UIView {
     @Published private(set) var selectedGenderType: ProfileGenderType = .noSetting
 
-    private var cancellables: Set<AnyCancellable> = .init()
-
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView
@@ -52,6 +50,8 @@ final class ProfileMenuInputView: UIView {
     private let titleLabel = UILabel()
     private let menuButton = MenuButton(type: .system)
     private let borderView = BorderView()
+
+    private var cancellables: Set<AnyCancellable> = .init()
 
     init(title: String) {
         super.init(frame: .zero)

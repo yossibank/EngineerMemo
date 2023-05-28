@@ -7,8 +7,6 @@ import UIKitHelper
 final class ProfileTextInputView: UIView {
     private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
-    private var cancellables: Set<AnyCancellable> = .init()
-
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView
