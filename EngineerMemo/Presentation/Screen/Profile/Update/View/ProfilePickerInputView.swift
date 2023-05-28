@@ -8,9 +8,9 @@ final class ProfilePickerInputView: UIView {
     private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
 
     private var body: UIView {
-        VStackView {
+        VStackView(spacing: 12) {
             titleView
-                .addSubview(titleLabel) {
+                .addSubview(titleStackView) {
                     $0.edges.equalToSuperview().inset(8)
                 }
                 .addConstraint {
@@ -18,53 +18,65 @@ final class ProfilePickerInputView: UIView {
                 }
                 .apply(.inputView)
 
-            UIView()
-                .addSubview(inputDatePicker) {
-                    $0.top.bottom.equalToSuperview().inset(16)
-                    $0.leading.trailing.equalToSuperview()
-                }
-                .addSubview(pickerLabel) {
-                    $0.top.bottom.equalToSuperview().inset(16)
-                    $0.leading.equalToSuperview().inset(8)
-                    $0.trailing.equalToSuperview()
-                }
-                .addConstraint {
-                    $0.height.equalTo(80)
-                }
+            VStackView(spacing: 4) {
+                UIView()
+                    .addSubview(inputDatePicker) {
+                        $0.edges.equalToSuperview()
+                    }
+                    .addSubview(pickerLabel) {
+                        $0.top.bottom.equalToSuperview()
+                        $0.leading.trailing.equalToSuperview().inset(8)
+                    }
+                    .addConstraint {
+                        $0.height.equalTo(40)
+                    }
+
+                borderView
+            }
         }
     }
 
-    private let titleView = UIView()
+    private lazy var titleStackView = HStackView(spacing: 4) {
+        titleIconImageView
+            .addConstraint {
+                $0.size.equalTo(24)
+            }
+            .configure {
+                $0.image = Asset.profileBirthday.image
+            }
 
-    private let titleLabel = UILabel().configure {
-        $0.textColor = .secondaryGray
-        $0.font = .boldSystemFont(ofSize: 16)
+        titleLabel.configure {
+            $0.textColor = .secondaryGray
+            $0.font = .boldSystemFont(ofSize: 16)
+        }
+
+        UIView()
     }
 
+    private let titleView = UIView()
+    private let titleIconImageView = UIImageView()
+    private let titleLabel = UILabel()
+
     private let inputDatePicker = UIDatePicker().configure {
-        $0.clipsToBounds = true
         $0.contentHorizontalAlignment = .leading
         $0.datePickerMode = .date
         $0.locale = .japan
         $0.preferredDatePickerStyle = .compact
-        $0.layer.borderColor = UIColor.primary.cgColor
-        $0.layer.borderWidth = 1.0
-        $0.layer.cornerRadius = 4
     }
 
     private let pickerLabel = UILabel().configure {
         $0.text = .noSetting
     }
 
+    private let borderView = BorderView()
+
     private var cancellables: Set<AnyCancellable> = .init()
 
     init(title: String) {
         super.init(frame: .zero)
 
-        setupView()
+        setupView(title: title)
         setupPicker()
-
-        titleLabel.text = title
     }
 
     @available(*, unavailable)
@@ -86,9 +98,7 @@ extension ProfilePickerInputView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [titleView, inputDatePicker].forEach {
-                $0.layer.borderColor = UIColor.primary.cgColor
-            }
+            titleView.layer.borderColor = UIColor.primary.cgColor
         }
     }
 }
@@ -111,7 +121,7 @@ extension ProfilePickerInputView {
 // MARK: - private methods
 
 private extension ProfilePickerInputView {
-    func setupView() {
+    func setupView(title: String) {
         configure {
             $0.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(8)
@@ -120,10 +130,23 @@ private extension ProfilePickerInputView {
 
             $0.backgroundColor = .background
         }
+
+        titleLabel.text = title
     }
 
     func setupPicker() {
         inputDatePicker.expandPickerRange()
+
+        inputDatePicker.publisher(for: .editingDidBegin).sink { [weak self] _ in
+            self?.borderView.changeColor(.inputBorder)
+        }
+        .store(in: &cancellables)
+
+        inputDatePicker.publisher(for: .editingDidEnd).sink { [weak self] _ in
+            self?.borderView.changeColor(.primary)
+        }
+        .store(in: &cancellables)
+
         inputDatePicker.publisher.sink { [weak self] birthday in
             self?.pickerLabel.text = birthday.toString
         }

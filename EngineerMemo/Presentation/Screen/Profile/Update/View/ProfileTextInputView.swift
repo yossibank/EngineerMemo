@@ -8,9 +8,9 @@ final class ProfileTextInputView: UIView {
     private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
     private var body: UIView {
-        VStackView {
+        VStackView(spacing: 12) {
             titleView
-                .addSubview(titleLabel) {
+                .addSubview(titleStackView) {
                     $0.edges.equalToSuperview().inset(8)
                 }
                 .addConstraint {
@@ -18,52 +18,88 @@ final class ProfileTextInputView: UIView {
                 }
                 .apply(.inputView)
 
-            UIView()
-                .addSubview(inputTextField) {
-                    $0.top.bottom.equalToSuperview().inset(16)
-                    $0.leading.trailing.equalToSuperview()
+            VStackView(spacing: 4) {
+                inputTextField.configure {
+                    $0.leftView = .init(frame: .init(x: 0, y: 0, width: 4, height: 0))
+                    $0.leftViewMode = .always
                 }
-                .addConstraint {
-                    $0.height.equalTo(80)
-                }
+
+                borderView
+            }
+            .addConstraint {
+                $0.height.equalTo(40)
+            }
         }
     }
 
+    private lazy var titleStackView = HStackView(spacing: 4) {
+        titleIconImageView
+            .addConstraint {
+                $0.size.equalTo(24)
+            }
+
+        titleLabel.configure {
+            $0.textColor = .secondaryGray
+            $0.font = .boldSystemFont(ofSize: 16)
+        }
+
+        UIView()
+    }
+
     private let titleView = UIView()
+    private let titleIconImageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let inputTextField = UITextField()
+    private let borderView = BorderView()
 
-    private let titleLabel = UILabel().configure {
-        $0.textColor = .secondaryGray
-        $0.font = .boldSystemFont(ofSize: 16)
-    }
-
-    private let inputTextField = UITextField().configure {
-        $0.backgroundColor = .background
-        $0.borderStyle = .roundedRect
-        $0.layer.borderColor = UIColor.primary.cgColor
-        $0.layer.borderWidth = 1.0
-        $0.layer.cornerRadius = 4
-        $0.clipsToBounds = true
-    }
-
-    private var cancellables: Set<AnyCancellable> = .init()
-
-    init(
-        title: String,
-        placeholder: String,
-        keyboardType: UIKeyboardType = .default
-    ) {
+    init(_ type: ProfileContentType) {
         super.init(frame: .zero)
 
-        setupView(title: title)
+        var title: String?
+        var icon: UIImage?
+        var placeholder: String?
+        var keyboardType: UIKeyboardType = .default
 
+        switch type {
+        case .name:
+            title = L10n.Profile.name
+            icon = Asset.profileName.image
+            placeholder = L10n.Profile.Example.name
+
+        case .email:
+            title = L10n.Profile.email
+            icon = Asset.profileEmail.image
+            placeholder = L10n.Profile.Example.email
+            keyboardType = .emailAddress
+
+        case .phoneNumber:
+            title = L10n.Profile.phoneNumber
+            icon = Asset.profilePhoneNumber.image
+            placeholder = L10n.Profile.Example.phoneNumber
+            keyboardType = .numberPad
+
+        case .address:
+            title = L10n.Profile.address
+            icon = Asset.profileAddress.image
+            placeholder = L10n.Profile.Example.address
+
+        case .station:
+            title = L10n.Profile.station
+            icon = Asset.profileStation.image
+            placeholder = L10n.Profile.Example.station
+
+        default:
+            title = .empty
+        }
+
+        setupView()
+
+        titleLabel.text = title
+        titleIconImageView.image = icon
         inputTextField.configure {
             $0.keyboardType = keyboardType
             $0.placeholder = placeholder
             $0.delegate = self
-        }
-
-        if keyboardType == .numberPad {
-            setupNumberPad()
         }
     }
 
@@ -80,9 +116,7 @@ extension ProfileTextInputView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [titleView, inputTextField].forEach {
-                $0.layer.borderColor = UIColor.primary.cgColor
-            }
+            titleView.layer.borderColor = UIColor.primary.cgColor
         }
     }
 }
@@ -127,7 +161,7 @@ extension ProfileTextInputView {
 // MARK: - private methods
 
 private extension ProfileTextInputView {
-    func setupView(title: String) {
+    func setupView() {
         configure {
             $0.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(8)
@@ -136,37 +170,6 @@ private extension ProfileTextInputView {
 
             $0.backgroundColor = .background
         }
-
-        titleLabel.text = title
-    }
-
-    func setupNumberPad() {
-        let toolBar = UIToolbar()
-
-        let spaceBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .flexibleSpace,
-            target: nil,
-            action: nil
-        )
-
-        let doneBarButtonItem = UIBarButtonItem(
-            title: L10n.Common.done,
-            style: .done,
-            target: nil,
-            action: nil
-        )
-
-        doneBarButtonItem.publisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.inputTextField.resignFirstResponder()
-            }
-            .store(in: &cancellables)
-
-        toolBar.items = [spaceBarButtonItem, doneBarButtonItem]
-        toolBar.sizeToFit()
-
-        inputTextField.inputAccessoryView = toolBar
     }
 }
 
@@ -177,6 +180,14 @@ extension ProfileTextInputView: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        borderView.changeColor(.inputBorder)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        borderView.changeColor(.primary)
+    }
 }
 
 // MARK: - preview
@@ -186,13 +197,7 @@ extension ProfileTextInputView: UITextFieldDelegate {
 
     struct ProfileTextInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: ProfileTextInputView(
-                    title: "title",
-                    placeholder: "placeholder",
-                    keyboardType: .default
-                )
-            )
+            WrapperView(view: ProfileTextInputView(.name))
         }
     }
 #endif

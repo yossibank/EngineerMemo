@@ -24,71 +24,72 @@ final class MemoUpdateContentView: UIView {
         $0.width.edges.equalToSuperview()
     }
 
-    private lazy var body = VStackView(spacing: 16) {
-        VStackView(spacing: 8) {
-            categoryLabelView
+    private lazy var body = VStackView(spacing: 24) {
+        VStackView(spacing: 12) {
+            categoryView
 
-            categoryButton.addConstraint {
-                $0.height.equalTo(48)
+            VStackView(spacing: 4) {
+                categoryButton
+                categoryBorderView
+            }
+            .addConstraint {
+                $0.height.equalTo(40)
             }
         }
 
         VStackView(spacing: 8) {
-            titleLabelView
+            titleView
 
-            titleTextView
-                .addConstraint {
-                    $0.height.equalTo(48)
-                }
-                .configure {
-                    $0.font = .boldSystemFont(ofSize: 16)
-                    $0.backgroundColor = .background
-                    $0.layer.borderColor = UIColor.primary.cgColor
-                    $0.layer.borderWidth = 1.0
-                    $0.layer.cornerRadius = 4
+            VStackView {
+                titleTextView
+                    .configure {
+                        $0.font = .boldSystemFont(ofSize: 16)
+                        $0.backgroundColor = .background
+                        $0.isScrollEnabled = false
+                        $0.delegate = self
 
-                    if let modelObject {
-                        $0.text = modelObject.title
+                        if let modelObject {
+                            $0.text = modelObject.title
+                        }
                     }
-                }
+
+                titleBorderView
+            }
         }
 
         VStackView(spacing: 8) {
-            contentLabelView
+            contentView
 
-            contentTextView
-                .addConstraint {
-                    $0.height.equalTo(120)
-                }
-                .configure {
-                    $0.font = .boldSystemFont(ofSize: 14)
-                    $0.backgroundColor = .background
-                    $0.layer.borderColor = UIColor.primary.cgColor
-                    $0.layer.borderWidth = 1.0
-                    $0.layer.cornerRadius = 4
+            VStackView {
+                contentTextView
+                    .configure {
+                        $0.font = .boldSystemFont(ofSize: 16)
+                        $0.backgroundColor = .background
+                        $0.isScrollEnabled = false
+                        $0.delegate = self
 
-                    if let modelObject {
-                        $0.text = modelObject.content
+                        if let modelObject {
+                            $0.text = modelObject.content
+                        }
                     }
-                }
+
+                contentBorderView
+            }
         }
     }
 
-    private lazy var categoryLabelView = createLabelView(.category)
-    private lazy var titleLabelView = createLabelView(.title)
-    private lazy var contentLabelView = createLabelView(.content)
+    private lazy var categoryView = createTitleView(.category)
+    private lazy var titleView = createTitleView(.title)
+    private lazy var contentView = createTitleView(.content)
+
+    private let categoryButton = MenuButton(type: .system)
+    private let categoryBorderView = BorderView()
+    private let titleTextView = UITextView()
+    private let titleBorderView = BorderView()
+    private let contentTextView = UITextView()
+    private let contentBorderView = BorderView()
 
     private var cancellables: Set<AnyCancellable> = .init()
-
-    private let categoryView = UIView()
-    private let categoryLabel = UILabel()
-    private let categoryButton = UIButton(type: .system)
-    private let titleView = UIView()
-    private let titleLabel = UILabel()
-    private let titleTextView = UITextView()
-    private let contentView = UIView()
-    private let contentLabel = UILabel()
-    private let contentTextView = UITextView()
 
     private let modelObject: MemoModelObject?
 
@@ -116,7 +117,7 @@ extension MemoUpdateContentView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [barButton, categoryView, titleView, titleTextView, contentView, contentTextView].forEach {
+            [barButton, categoryView, titleView, contentView].forEach {
                 $0.layer.borderColor = UIColor.primary.cgColor
             }
         }
@@ -216,10 +217,6 @@ private extension MemoUpdateContentView {
                 return outgoing
             }
             config.background.backgroundColor = .background
-            config.background.cornerRadius = 4
-            config.background.strokeColor = .primary
-            config.background.strokeWidth = 1.0
-
             $0.configuration = config
             $0.contentHorizontalAlignment = .leading
             $0.showsMenuAsPrimaryAction = true
@@ -229,6 +226,11 @@ private extension MemoUpdateContentView {
                 children: actions
             )
         }
+
+        categoryButton.$isShowMenu.sink { [weak self] isShow in
+            self?.categoryBorderView.changeColor(isShow ? .inputBorder : .primary)
+        }
+        .store(in: &cancellables)
     }
 
     func setupEvent() {
@@ -238,39 +240,56 @@ private extension MemoUpdateContentView {
         .store(in: &cancellables)
     }
 
-    func createLabelView(_ type: MemoContentType) -> UIView {
-        let labelView: UIView
-        let valueLabel: UILabel
-
-        switch type {
-        case .category:
-            labelView = categoryView
-            valueLabel = categoryLabel
-
-        case .title:
-            labelView = titleView
-            valueLabel = titleLabel
-
-        case .content:
-            labelView = contentView
-            valueLabel = contentLabel
-        }
-
-        valueLabel.configure {
-            $0.text = type.title
-            $0.textColor = .secondaryGray
-            $0.font = .boldSystemFont(ofSize: 16)
-        }
-
-        return VStackView {
-            labelView
-                .addSubview(valueLabel) {
-                    $0.edges.equalToSuperview().inset(8)
-                }
+    func createTitleView(_ type: MemoContentType) -> UIView {
+        let titleStackView = HStackView(spacing: 4) {
+            UIImageView()
                 .addConstraint {
-                    $0.height.equalTo(40)
+                    $0.size.equalTo(24)
                 }
-                .apply(.inputView)
+                .configure {
+                    $0.image = type.image
+                }
+
+            UILabel().configure {
+                $0.text = type.title
+                $0.textColor = .secondaryGray
+                $0.font = .boldSystemFont(ofSize: 16)
+            }
+
+            UIView()
+        }
+
+        return UIView()
+            .addSubview(titleStackView) {
+                $0.edges.equalToSuperview().inset(8)
+            }
+            .addConstraint {
+                $0.height.equalTo(40)
+            }
+            .apply(.inputView)
+    }
+}
+
+// MARK: - delegate
+
+extension MemoUpdateContentView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView === titleTextView {
+            titleBorderView.changeColor(.inputBorder)
+        }
+
+        if textView === contentTextView {
+            contentBorderView.changeColor(.inputBorder)
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView === titleTextView {
+            titleBorderView.changeColor(.primary)
+        }
+
+        if textView === contentTextView {
+            contentBorderView.changeColor(.primary)
         }
     }
 }

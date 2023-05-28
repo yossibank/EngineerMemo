@@ -48,11 +48,12 @@ extension ViewStyle where T: UIButton {
 
     private static func navigationButton(title: String) -> ViewStyle<T> {
         .init {
-            var config = UIButton.Configuration.bordered()
+            var config = UIButton.Configuration.filled()
             config.title = title
             config.image = nil
             config.baseForegroundColor = .primary
             config.imagePadding = .zero
+            config.imagePlacement = .trailing
             config.titleTextAttributesTransformer = .init { incoming in
                 var outgoing = incoming
                 outgoing.font = .boldSystemFont(ofSize: 15)
@@ -69,13 +70,14 @@ extension ViewStyle where T: UIButton {
 
     private static func navigationDoneButton(title: String) -> ViewStyle<T> {
         .init {
-            var config = UIButton.Configuration.bordered()
+            var config = UIButton.Configuration.filled()
             config.title = title
             config.image = Asset.checkmark.image
                 .resized(size: .init(width: 16, height: 16))
                 .withRenderingMode(.alwaysOriginal)
             config.baseForegroundColor = .primary
             config.imagePadding = 2
+            config.imagePlacement = .trailing
             config.titleTextAttributesTransformer = .init { incoming in
                 var outgoing = incoming
                 outgoing.font = .boldSystemFont(ofSize: 15)
