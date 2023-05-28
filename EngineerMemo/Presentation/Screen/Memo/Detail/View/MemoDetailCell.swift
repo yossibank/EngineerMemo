@@ -7,40 +7,15 @@ import UIKitHelper
 final class MemoDetailCell: UICollectionViewCell {
     private var body: UIView {
         VStackView(spacing: 32) {
-            categoryView
-            createStackView(.title)
-            createStackView(.content)
+            categoryStackView
+            titleStackView
+            contentStackView
         }
     }
 
-    private lazy var categoryView = VStackView(spacing: 8) {
-        UILabel().configure {
-            $0.text = L10n.Memo.category
-            $0.textColor = .secondaryGray
-            $0.font = .boldSystemFont(ofSize: 18)
-        }
-
-        UIView()
-            .addConstraint {
-                $0.height.equalTo(1)
-            }
-            .configure {
-                $0.backgroundColor = .secondaryGray
-            }
-
-        HStackView(alignment: .center, spacing: 8) {
-            categoryImageView.addConstraint {
-                $0.size.equalTo(24)
-            }
-
-            categoryLabel.configure {
-                $0.textColor = .primary
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
-
-            UIView()
-        }
-    }
+    private lazy var categoryStackView = createStackView(.category)
+    private lazy var titleStackView = createStackView(.title)
+    private lazy var contentStackView = createStackView(.content)
 
     private let categoryLabel = UILabel()
     private let categoryImageView = UIImageView()
@@ -67,11 +42,11 @@ extension MemoDetailCell {
         contentLabel.text = modelObject.content
 
         guard let category = modelObject.category else {
-            categoryView.isHidden = true
+            categoryStackView.isHidden = true
             return
         }
 
-        categoryView.isHidden = false
+        categoryStackView.isHidden = false
         categoryLabel.text = category.value
         categoryImageView.image = {
             switch category {
@@ -124,11 +99,50 @@ private extension MemoDetailCell {
             valueLabel = contentLabel
         }
 
+        let contentView: UIView = {
+            switch type {
+            case .category:
+                return VStackView(layoutMargins: .init(.top, 4)) {
+                    HStackView(alignment: .center, spacing: 8) {
+                        categoryImageView.addConstraint {
+                            $0.size.equalTo(24)
+                        }
+
+                        valueLabel.configure {
+                            $0.textColor = .primary
+                            $0.font = .boldSystemFont(ofSize: 16)
+                        }
+
+                        UIView()
+                    }
+                }
+
+            case .title, .content:
+                return valueLabel.configure {
+                    $0.textColor = .primary
+                    $0.font = .boldSystemFont(ofSize: 16)
+                    $0.numberOfLines = 0
+                }
+            }
+        }()
+
         return VStackView(spacing: 8) {
-            UILabel().configure {
-                $0.text = type.title
-                $0.textColor = .secondaryGray
-                $0.font = .boldSystemFont(ofSize: 18)
+            HStackView(spacing: 4) {
+                UIImageView()
+                    .addConstraint {
+                        $0.size.equalTo(24)
+                    }
+                    .configure {
+                        $0.image = type.image
+                    }
+
+                UILabel().configure {
+                    $0.text = type.title
+                    $0.textColor = .secondaryGray
+                    $0.font = .boldSystemFont(ofSize: 16)
+                }
+
+                UIView()
             }
 
             UIView()
@@ -139,11 +153,7 @@ private extension MemoDetailCell {
                     $0.backgroundColor = .secondaryGray
                 }
 
-            valueLabel.configure {
-                $0.textColor = .primary
-                $0.font = .boldSystemFont(ofSize: 16)
-                $0.numberOfLines = 0
-            }
+            contentView
         }
     }
 }

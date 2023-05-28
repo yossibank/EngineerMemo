@@ -43,7 +43,7 @@ final class MemoUpdateContentView: UIView {
             VStackView {
                 titleTextView
                     .configure {
-                        $0.font = .boldSystemFont(ofSize: 20)
+                        $0.font = .boldSystemFont(ofSize: 16)
                         $0.backgroundColor = .background
                         $0.isScrollEnabled = false
                         $0.delegate = self
