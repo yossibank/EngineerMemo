@@ -10,7 +10,7 @@ final class ProfileTextInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView
-                .addSubview(titleLabel) {
+                .addSubview(titleStackView) {
                     $0.edges.equalToSuperview().inset(8)
                 }
                 .addConstraint {
@@ -33,26 +33,71 @@ final class ProfileTextInputView: UIView {
     }
 
     private let titleView = UIView()
-
-    private let titleLabel = UILabel().configure {
-        $0.textColor = .secondaryGray
-        $0.font = .boldSystemFont(ofSize: 16)
-    }
-
+    private let titleIconImageView = UIImageView()
+    private let titleLabel = UILabel()
     private let inputTextField = UITextField()
     private let borderView = BorderView()
 
+    private lazy var titleStackView = HStackView(spacing: 4) {
+        titleIconImageView
+            .addConstraint {
+                $0.size.equalTo(24)
+            }
+
+        titleLabel.configure {
+            $0.textColor = .secondaryGray
+            $0.font = .boldSystemFont(ofSize: 16)
+        }
+
+        UIView()
+    }
+
     private var cancellables: Set<AnyCancellable> = .init()
 
-    init(
-        title: String,
-        placeholder: String,
-        keyboardType: UIKeyboardType = .default
-    ) {
+    init(_ type: ProfileContentType) {
         super.init(frame: .zero)
 
-        setupView(title: title)
+        var title: String?
+        var icon: UIImage?
+        var placeholder: String?
+        var keyboardType: UIKeyboardType = .default
 
+        switch type {
+        case .name:
+            title = L10n.Profile.name
+            icon = Asset.profileName.image
+            placeholder = L10n.Profile.Example.name
+
+        case .email:
+            title = L10n.Profile.email
+            icon = Asset.profileEmail.image
+            placeholder = L10n.Profile.Example.email
+            keyboardType = .emailAddress
+
+        case .phoneNumber:
+            title = L10n.Profile.phoneNumber
+            icon = Asset.profilePhoneNumber.image
+            placeholder = L10n.Profile.Example.phoneNumber
+            keyboardType = .numberPad
+
+        case .address:
+            title = L10n.Profile.address
+            icon = Asset.profileAddress.image
+            placeholder = L10n.Profile.Example.address
+
+        case .station:
+            title = L10n.Profile.station
+            icon = Asset.profileStation.image
+            placeholder = L10n.Profile.Example.station
+
+        default:
+            title = .empty
+        }
+
+        setupView()
+
+        titleLabel.text = title
+        titleIconImageView.image = icon
         inputTextField.configure {
             $0.keyboardType = keyboardType
             $0.placeholder = placeholder
@@ -118,7 +163,7 @@ extension ProfileTextInputView {
 // MARK: - private methods
 
 private extension ProfileTextInputView {
-    func setupView(title: String) {
+    func setupView() {
         configure {
             $0.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(8)
@@ -127,8 +172,6 @@ private extension ProfileTextInputView {
 
             $0.backgroundColor = .background
         }
-
-        titleLabel.text = title
     }
 }
 
@@ -156,13 +199,7 @@ extension ProfileTextInputView: UITextFieldDelegate {
 
     struct ProfileTextInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(
-                view: ProfileTextInputView(
-                    title: "title",
-                    placeholder: "placeholder",
-                    keyboardType: .default
-                )
-            )
+            WrapperView(view: ProfileTextInputView(.name))
         }
     }
 #endif

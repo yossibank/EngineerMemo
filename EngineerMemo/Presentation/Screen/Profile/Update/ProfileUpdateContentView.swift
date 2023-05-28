@@ -55,40 +55,13 @@ final class ProfileUpdateContentView: UIView {
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    private let nameInputView = ProfileTextInputView(
-        title: L10n.Profile.name,
-        placeholder: L10n.Profile.Example.name
-    )
-
-    private let birthdayInputView = ProfilePickerInputView(
-        title: L10n.Profile.birthday
-    )
-
-    private let genderInputView = ProfileMenuInputView(
-        title: L10n.Profile.gender
-    )
-
-    private let emailInputView = ProfileTextInputView(
-        title: L10n.Profile.email,
-        placeholder: L10n.Profile.Example.email,
-        keyboardType: .emailAddress
-    )
-
-    private let phoneNumberInputView = ProfileTextInputView(
-        title: L10n.Profile.phoneNumber,
-        placeholder: L10n.Profile.Example.phoneNumber,
-        keyboardType: .numberPad
-    )
-
-    private let addressInputView = ProfileTextInputView(
-        title: L10n.Profile.address,
-        placeholder: L10n.Profile.Example.address
-    )
-
-    private let stationInputView = ProfileTextInputView(
-        title: L10n.Profile.station,
-        placeholder: L10n.Profile.Example.station
-    )
+    private let nameInputView = ProfileTextInputView(.name)
+    private let birthdayInputView = ProfilePickerInputView(title: L10n.Profile.birthday)
+    private let genderInputView = ProfileMenuInputView(title: L10n.Profile.gender)
+    private let emailInputView = ProfileTextInputView(.email)
+    private let phoneNumberInputView = ProfileTextInputView(.phoneNumber)
+    private let addressInputView = ProfileTextInputView(.address)
+    private let stationInputView = ProfileTextInputView(.station)
 
     private let modelObject: ProfileModelObject?
 
