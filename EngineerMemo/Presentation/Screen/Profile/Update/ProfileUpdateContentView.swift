@@ -23,7 +23,7 @@ final class ProfileUpdateContentView: UIView {
         $0.width.edges.equalToSuperview()
     }
 
-    private lazy var body = VStackView(distribution: .equalSpacing) {
+    private lazy var body = VStackView(distribution: .equalSpacing, spacing: 16) {
         nameInputView.configure {
             $0.updateValue(.name, modelObject: modelObject)
         }

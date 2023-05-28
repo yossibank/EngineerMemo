@@ -7,8 +7,10 @@ import UIKitHelper
 final class ProfileMenuInputView: UIView {
     @Published private(set) var selectedGenderType: ProfileGenderType = .noSetting
 
+    private var cancellables: Set<AnyCancellable> = .init()
+
     private var body: UIView {
-        VStackView {
+        VStackView(spacing: 12) {
             titleView
                 .addSubview(titleLabel) {
                     $0.edges.equalToSuperview().inset(8)
@@ -18,14 +20,13 @@ final class ProfileMenuInputView: UIView {
                 }
                 .apply(.inputView)
 
-            UIView()
-                .addSubview(menuButton) {
-                    $0.top.bottom.equalToSuperview().inset(16)
-                    $0.leading.trailing.equalToSuperview()
-                }
-                .addConstraint {
-                    $0.height.equalTo(80)
-                }
+            VStackView(spacing: 4) {
+                menuButton
+                borderView
+            }
+            .addConstraint {
+                $0.height.equalTo(40)
+            }
         }
     }
 
@@ -36,15 +37,14 @@ final class ProfileMenuInputView: UIView {
         $0.font = .boldSystemFont(ofSize: 16)
     }
 
-    private let menuButton = UIButton(type: .system)
+    private let menuButton = MenuButton(type: .system)
+    private let borderView = BorderView()
 
     init(title: String) {
         super.init(frame: .zero)
 
-        setupView()
+        setupView(title: title)
         setupMenu()
-
-        titleLabel.text = title
     }
 
     @available(*, unavailable)
@@ -84,7 +84,7 @@ extension ProfileMenuInputView {
 // MARK: - private methods
 
 private extension ProfileMenuInputView {
-    func setupView() {
+    func setupView(title: String) {
         configure {
             $0.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(8)
@@ -93,6 +93,8 @@ private extension ProfileMenuInputView {
 
             $0.backgroundColor = .background
         }
+
+        titleLabel.text = title
     }
 
     func setupMenu() {
@@ -122,9 +124,6 @@ private extension ProfileMenuInputView {
                 return outgoing
             }
             config.background.backgroundColor = .background
-            config.background.cornerRadius = 4
-            config.background.strokeColor = .primary
-            config.background.strokeWidth = 1.0
             $0.configuration = config
             $0.contentHorizontalAlignment = .leading
             $0.showsMenuAsPrimaryAction = true
@@ -134,6 +133,11 @@ private extension ProfileMenuInputView {
                 children: actions
             )
         }
+
+        menuButton.$isShowMenu.sink { [weak self] isShow in
+            self?.borderView.changeColor(isShow ? .inputBorder : .primary)
+        }
+        .store(in: &cancellables)
     }
 }
 

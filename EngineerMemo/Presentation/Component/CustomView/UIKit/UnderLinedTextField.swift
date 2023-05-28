@@ -5,7 +5,6 @@ import UIKit
 final class UnderlinedTextField: UITextField {
     private let color: UIColor
     private let underlineLayer = CALayer()
-    private let paddingInsets: UIEdgeInsets = .init(.vertical, 4)
 
     init(color: UIColor) {
         self.color = color
@@ -29,17 +28,13 @@ extension UnderlinedTextField {
 
         setupUnderlineLayer()
     }
+}
 
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        bounds.inset(by: paddingInsets)
-    }
+// MARK: - internal methods
 
-    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        bounds.inset(by: paddingInsets)
-    }
-
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        bounds.inset(by: paddingInsets)
+extension UnderlinedTextField {
+    func changeColor(_ color: UIColor) {
+        underlineLayer.borderColor = color.cgColor
     }
 }
 
