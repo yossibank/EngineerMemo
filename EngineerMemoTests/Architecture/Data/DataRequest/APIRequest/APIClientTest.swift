@@ -12,7 +12,7 @@
             super.setUp()
 
             apiClient = .init()
-            expectation = .init()
+            expectation = .init(description: #function)
         }
 
         override func tearDown() {
@@ -34,6 +34,7 @@
                 )
             }
 
+            // act
             apiClient.request(
                 item: DebugGetRequest(parameters: .init(userId: nil))
             ) {
@@ -64,6 +65,7 @@
                 )
             }
 
+            // act
             apiClient.request(
                 item: DebugGetRequest(parameters: .init(userId: nil))
             ) {
@@ -94,6 +96,7 @@
                 )
             }
 
+            // act
             apiClient.request(
                 item: DebugGetRequest(parameters: .init(userId: nil))
             ) {
