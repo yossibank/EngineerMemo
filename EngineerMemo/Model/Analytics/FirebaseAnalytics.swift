@@ -21,12 +21,14 @@ extension FirebaseAnalytics {
     func sendEvent(_ event: FAEvent) {
         var parameters = event.parameter
         parameters[FAParameter.screenId.rawValue] = screenId.rawValue
-        sendEvent(event.name, parameters: parameters)
 
-        #if DEBUG
-            if event != .screenView {
-                Logger.info(message: "FAイベントを送信しました: \(event)")
-            }
-        #endif
+        sendEvent(
+            event.name,
+            parameters: parameters
+        )
+
+        if event != .screenView {
+            Logger.info(message: "FAイベントを送信しました: \(event)")
+        }
     }
 }
