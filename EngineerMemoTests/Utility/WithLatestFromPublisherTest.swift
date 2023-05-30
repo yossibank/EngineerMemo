@@ -3,7 +3,7 @@ import Combine
 import XCTest
 
 final class WithLatestFromPublisherTest: XCTestCase {
-    func test_withLatestFromPublisher_両方のPublisherの値を購読() throws {
+    func test_withLatestFromPublisher_両方のPublisherの値を購読できること() throws {
         // arrange
         let mainSubject = CurrentValueSubject<[Int], Never>([1, 2, 3])
         let subSubject = CurrentValueSubject<[Int], Never>([4, 5, 6])
@@ -39,7 +39,7 @@ final class WithLatestFromPublisherTest: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
 
-    func test_withLatestFromPublisher_引数側のPublisherの値を購読() throws {
+    func test_withLatestFromPublisher_引数側のPublisherの値を購読できること() throws {
         // arrange
         let mainSubject = CurrentValueSubject<[Int], Never>([1, 2, 3])
         let subSubject = CurrentValueSubject<[Int], Never>([4, 5, 6])

@@ -5,7 +5,11 @@ final class CalendarExtensionTest: XCTestCase {
     func test_date_年月日のDate型を取得できること() {
         // arrange
         let calendar = Calendar.current
-        let date = Calendar.date(year: 2000, month: 1, day: 1)!
+        let date = Calendar.date(
+            year: 2000,
+            month: 1,
+            day: 1
+        )!
 
         // act
         let components = calendar.dateComponents(
@@ -14,8 +18,19 @@ final class CalendarExtensionTest: XCTestCase {
         )
 
         // assert
-        XCTAssertEqual(components.year, 2000)
-        XCTAssertEqual(components.month, 1)
-        XCTAssertEqual(components.day, 1)
+        XCTAssertEqual(
+            components.year,
+            2000
+        )
+
+        XCTAssertEqual(
+            components.month,
+            1
+        )
+
+        XCTAssertEqual(
+            components.day,
+            1
+        )
     }
 }

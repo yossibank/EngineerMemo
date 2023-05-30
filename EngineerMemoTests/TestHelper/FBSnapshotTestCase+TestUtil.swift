@@ -77,11 +77,11 @@ private extension FBSnapshotTestCase {
             window.rootViewController = UINavigationController(rootViewController: viewController)
         }
 
-        window.makeKeyAndVisible()
-        window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
-        window.rootViewController?.view.layoutIfNeeded()
-
         viewAction?()
+
+        window.makeKeyAndVisible()
+        window.rootViewController?.view.layoutIfNeeded()
+        window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
 
         DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
             self.FBSnapshotVerifyView(
