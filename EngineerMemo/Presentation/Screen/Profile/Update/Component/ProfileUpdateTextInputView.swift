@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileTextInputView: UIView {
+final class ProfileUpdateTextInputView: UIView {
     private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
     private var body: UIView {
@@ -111,7 +111,7 @@ final class ProfileTextInputView: UIView {
 
 // MARK: - override methods
 
-extension ProfileTextInputView {
+extension ProfileUpdateTextInputView {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
@@ -123,7 +123,7 @@ extension ProfileTextInputView {
 
 // MARK: - internal methods
 
-extension ProfileTextInputView {
+extension ProfileUpdateTextInputView {
     func updateValue(
         _ type: ProfileContentType,
         modelObject: ProfileModelObject?
@@ -160,7 +160,7 @@ extension ProfileTextInputView {
 
 // MARK: - private methods
 
-private extension ProfileTextInputView {
+private extension ProfileUpdateTextInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -175,7 +175,7 @@ private extension ProfileTextInputView {
 
 // MARK: - delegate
 
-extension ProfileTextInputView: UITextFieldDelegate {
+extension ProfileUpdateTextInputView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -195,9 +195,9 @@ extension ProfileTextInputView: UITextFieldDelegate {
 #if DEBUG
     import SwiftUI
 
-    struct ProfileTextInputViewPreview: PreviewProvider {
+    struct ProfileUpdateTextInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileTextInputView(.name))
+            WrapperView(view: ProfileUpdateTextInputView(.name))
         }
     }
 #endif

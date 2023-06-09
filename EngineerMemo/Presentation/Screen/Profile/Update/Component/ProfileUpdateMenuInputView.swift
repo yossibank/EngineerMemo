@@ -4,8 +4,8 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfilePickerInputView: UIView {
-    private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
+final class ProfileUpdateMenuInputView: UIView {
+    @Published private(set) var selectedGenderType: ProfileGenderType = .noSetting
 
     private var body: UIView {
         VStackView(spacing: 12) {
@@ -19,19 +19,11 @@ final class ProfilePickerInputView: UIView {
                 .apply(.inputView)
 
             VStackView(spacing: 4) {
-                UIView()
-                    .addSubview(inputDatePicker) {
-                        $0.edges.equalToSuperview()
-                    }
-                    .addSubview(pickerLabel) {
-                        $0.top.bottom.equalToSuperview()
-                        $0.leading.trailing.equalToSuperview().inset(8)
-                    }
-                    .addConstraint {
-                        $0.height.equalTo(40)
-                    }
-
+                menuButton
                 borderView
+            }
+            .addConstraint {
+                $0.height.equalTo(40)
             }
         }
     }
@@ -42,7 +34,7 @@ final class ProfilePickerInputView: UIView {
                 $0.size.equalTo(24)
             }
             .configure {
-                $0.image = Asset.profileBirthday.image
+                $0.image = Asset.profileGender.image
             }
 
         titleLabel.configure {
@@ -56,18 +48,7 @@ final class ProfilePickerInputView: UIView {
     private let titleView = UIView()
     private let titleIconImageView = UIImageView()
     private let titleLabel = UILabel()
-
-    private let inputDatePicker = UIDatePicker().configure {
-        $0.contentHorizontalAlignment = .leading
-        $0.datePickerMode = .date
-        $0.locale = .japan
-        $0.preferredDatePickerStyle = .compact
-    }
-
-    private let pickerLabel = UILabel().configure {
-        $0.text = .noSetting
-    }
-
+    private let menuButton = MenuButton(type: .system)
     private let borderView = BorderView()
 
     private var cancellables: Set<AnyCancellable> = .init()
@@ -76,7 +57,7 @@ final class ProfilePickerInputView: UIView {
         super.init(frame: .zero)
 
         setupView(title: title)
-        setupPicker()
+        setupMenu()
     }
 
     @available(*, unavailable)
@@ -87,13 +68,7 @@ final class ProfilePickerInputView: UIView {
 
 // MARK: - override methods
 
-extension ProfilePickerInputView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        UIDatePicker.makeTransparent(view: inputDatePicker)
-    }
-
+extension ProfileUpdateMenuInputView {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
@@ -105,22 +80,23 @@ extension ProfilePickerInputView {
 
 // MARK: - internal methods
 
-extension ProfilePickerInputView {
+extension ProfileUpdateMenuInputView {
     func updateValue(modelObject: ProfileModelObject?) {
         guard
             let modelObject,
-            let birthday = modelObject.birthday
+            let gender = modelObject.gender
         else {
             return
         }
 
-        pickerLabel.text = birthday.toString
+        selectedGenderType = .init(rawValue: gender.rawValue) ?? .noSetting
+        setupMenu()
     }
 }
 
 // MARK: - private methods
 
-private extension ProfilePickerInputView {
+private extension ProfileUpdateMenuInputView {
     func setupView(title: String) {
         configure {
             $0.addSubview(body) {
@@ -134,21 +110,45 @@ private extension ProfilePickerInputView {
         titleLabel.text = title
     }
 
-    func setupPicker() {
-        inputDatePicker.expandPickerRange()
+    func setupMenu() {
+        var actions = [UIMenuElement]()
 
-        inputDatePicker.publisher(for: .editingDidBegin).sink { [weak self] _ in
-            self?.borderView.changeColor(.inputBorder)
+        ProfileGenderType.allCases.forEach { genderType in
+            actions.append(
+                UIAction(
+                    title: genderType.title,
+                    state: genderType == selectedGenderType ? .on : .off,
+                    handler: { [weak self] _ in
+                        self?.selectedGenderType = genderType
+                        self?.setupMenu()
+                    }
+                )
+            )
         }
-        .store(in: &cancellables)
 
-        inputDatePicker.publisher(for: .editingDidEnd).sink { [weak self] _ in
-            self?.borderView.changeColor(.primary)
+        menuButton.configure {
+            var config = UIButton.Configuration.filled()
+            config.title = selectedGenderType.title
+            config.baseForegroundColor = .primary
+            config.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 0)
+            config.titleTextAttributesTransformer = .init { incoming in
+                var outgoing = incoming
+                outgoing.font = .systemFont(ofSize: 16)
+                return outgoing
+            }
+            config.background.backgroundColor = .background
+            $0.configuration = config
+            $0.contentHorizontalAlignment = .leading
+            $0.showsMenuAsPrimaryAction = true
+            $0.menu = .init(
+                title: .empty,
+                options: .displayInline,
+                children: actions
+            )
         }
-        .store(in: &cancellables)
 
-        inputDatePicker.publisher.sink { [weak self] birthday in
-            self?.pickerLabel.text = birthday.toString
+        menuButton.$isShowMenu.sink { [weak self] isShow in
+            self?.borderView.changeColor(isShow ? .inputBorder : .primary)
         }
         .store(in: &cancellables)
     }
@@ -159,9 +159,9 @@ private extension ProfilePickerInputView {
 #if DEBUG
     import SwiftUI
 
-    struct ProfilePickerInputViewPreview: PreviewProvider {
+    struct ProfileUpdateMenuInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfilePickerInputView(title: "title"))
+            WrapperView(view: ProfileUpdateMenuInputView(title: "title"))
         }
     }
 #endif
