@@ -109,34 +109,36 @@ enum AppControllers {
             return vc
         }
 
-        static func Update(type: ProfileUpdateType) -> ProfileBasicUpdateViewController {
-            let vc = ProfileBasicUpdateViewController()
+        enum Update {
+            static func Basic(type: ProfileUpdateType) -> ProfileBasicUpdateViewController {
+                let vc = ProfileBasicUpdateViewController()
 
-            switch type {
-            case .setting:
-                vc.title = L10n.Navigation.Title.profileSetting
-                vc.inject(
-                    contentView: ProfileBasicUpdateContentView(modelObject: nil),
-                    viewModel: ProfileBasicUpdateViewModel(
-                        model: Models.Profile(),
-                        modelObject: nil,
-                        analytics: FirebaseAnalytics(screenId: .profileSetting)
+                switch type {
+                case .setting:
+                    vc.title = L10n.Navigation.Title.profileSetting
+                    vc.inject(
+                        contentView: ProfileBasicUpdateContentView(modelObject: nil),
+                        viewModel: ProfileBasicUpdateViewModel(
+                            model: Models.Profile(),
+                            modelObject: nil,
+                            analytics: FirebaseAnalytics(screenId: .profileSetting)
+                        )
                     )
-                )
 
-            case let .update(modelObject):
-                vc.title = L10n.Navigation.Title.profileUpdate
-                vc.inject(
-                    contentView: ProfileBasicUpdateContentView(modelObject: modelObject),
-                    viewModel: ProfileBasicUpdateViewModel(
-                        model: Models.Profile(),
-                        modelObject: modelObject,
-                        analytics: FirebaseAnalytics(screenId: .profileUpdate)
+                case let .update(modelObject):
+                    vc.title = L10n.Navigation.Title.profileUpdate
+                    vc.inject(
+                        contentView: ProfileBasicUpdateContentView(modelObject: modelObject),
+                        viewModel: ProfileBasicUpdateViewModel(
+                            model: Models.Profile(),
+                            modelObject: modelObject,
+                            analytics: FirebaseAnalytics(screenId: .profileUpdate)
+                        )
                     )
-                )
+                }
+
+                return vc
             }
-
-            return vc
         }
     }
 }

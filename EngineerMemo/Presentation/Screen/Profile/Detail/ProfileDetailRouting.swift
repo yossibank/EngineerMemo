@@ -28,7 +28,7 @@ extension ProfileDetailRouting: ProfileDetailRoutingInput {
 
     func showUpdateScreen(type: ProfileUpdateType) {
         viewController?.show(
-            AppControllers.Profile.Update(type: type),
+            AppControllers.Profile.Update.Basic(type: type),
             sender: nil
         )
     }

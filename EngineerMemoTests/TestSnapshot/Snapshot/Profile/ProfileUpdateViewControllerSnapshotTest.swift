@@ -38,7 +38,7 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
 
 private extension ProfileUpdateViewControllerSnapshotTest {
     func snapshot(type: ProfileUpdateType) {
-        subject = AppControllers.Profile.Update(type: type)
+        subject = AppControllers.Profile.Update.Basic(type: type)
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
