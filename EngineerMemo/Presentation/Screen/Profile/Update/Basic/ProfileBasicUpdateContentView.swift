@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateContentView: UIView {
+final class ProfileBasicUpdateContentView: UIView {
     private(set) lazy var didChangeNameInputPublisher = nameInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeBirthdayInputPublisher = birthdayInputView.didChangeInputDatePublisher
     private(set) lazy var didChangeGenderInputPublisher = genderInputView.$selectedGenderType
@@ -83,7 +83,7 @@ final class ProfileUpdateContentView: UIView {
 
 // MARK: - override methods
 
-extension ProfileUpdateContentView {
+extension ProfileBasicUpdateContentView {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
@@ -95,7 +95,7 @@ extension ProfileUpdateContentView {
 
 // MARK: - private methods
 
-private extension ProfileUpdateContentView {
+private extension ProfileBasicUpdateContentView {
     func setupBarButton() {
         let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
             ? .settingNavigationButton
@@ -129,7 +129,7 @@ private extension ProfileUpdateContentView {
 
 // MARK: - protocol
 
-extension ProfileUpdateContentView: ContentView {
+extension ProfileBasicUpdateContentView: ContentView {
     func setupView() {
         configure {
             $0.addSubview(scrollView) {
@@ -154,7 +154,7 @@ extension ProfileUpdateContentView: ContentView {
 
     struct ProfileUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateContentView(modelObject: nil))
+            WrapperView(view: ProfileBasicUpdateContentView(modelObject: nil))
         }
     }
 #endif

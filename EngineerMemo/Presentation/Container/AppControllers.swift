@@ -109,15 +109,15 @@ enum AppControllers {
             return vc
         }
 
-        static func Update(type: ProfileUpdateType) -> ProfileUpdateViewController {
-            let vc = ProfileUpdateViewController()
+        static func Update(type: ProfileUpdateType) -> ProfileBasicUpdateViewController {
+            let vc = ProfileBasicUpdateViewController()
 
             switch type {
             case .setting:
                 vc.title = L10n.Navigation.Title.profileSetting
                 vc.inject(
-                    contentView: ProfileUpdateContentView(modelObject: nil),
-                    viewModel: ProfileUpdateViewModel(
+                    contentView: ProfileBasicUpdateContentView(modelObject: nil),
+                    viewModel: ProfileBasicUpdateViewModel(
                         model: Models.Profile(),
                         modelObject: nil,
                         analytics: FirebaseAnalytics(screenId: .profileSetting)
@@ -127,8 +127,8 @@ enum AppControllers {
             case let .update(modelObject):
                 vc.title = L10n.Navigation.Title.profileUpdate
                 vc.inject(
-                    contentView: ProfileUpdateContentView(modelObject: modelObject),
-                    viewModel: ProfileUpdateViewModel(
+                    contentView: ProfileBasicUpdateContentView(modelObject: modelObject),
+                    viewModel: ProfileBasicUpdateViewModel(
                         model: Models.Profile(),
                         modelObject: modelObject,
                         analytics: FirebaseAnalytics(screenId: .profileUpdate)
