@@ -7,6 +7,7 @@ final class ProfileDetailViewModel: ViewModel {
         let didTapIconChangeButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapBasicEditButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapBasicSettingButton = PassthroughSubject<Void, Never>()
+        let didTapSkillEditButton = PassthroughSubject<SkillModelObject, Never>()
         let didTapSkillSettingButton = PassthroughSubject<Void, Never>()
     }
 
@@ -79,6 +80,13 @@ final class ProfileDetailViewModel: ViewModel {
 
         input.didTapBasicSettingButton.sink { _ in
             routing.showUpdateBasicScreen(type: .setting)
+        }
+        .store(in: &cancellables)
+
+        // MARK: - スキル・経験編集ボタンタップ
+
+        input.didTapSkillEditButton.sink { modelObject in
+            routing.showUpdateSkillScreen(type: .update(modelObject))
         }
         .store(in: &cancellables)
 

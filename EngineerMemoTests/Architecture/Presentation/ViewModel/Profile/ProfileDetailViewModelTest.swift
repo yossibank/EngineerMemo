@@ -140,6 +140,28 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
     }
 
+    func test_input_didTapSkillEditButton_routing_showUpdateSkillScreenが呼び出されること() {
+        // arrange
+        let modelObject = SKillModelObjectBuilder().build()
+
+        routing.showUpdateSkillScreenHandler = {
+            // assert
+            XCTAssertEqual(
+                $0,
+                .update(modelObject)
+            )
+        }
+
+        // act
+        viewModel.input.didTapSkillEditButton.send(modelObject)
+
+        // assert
+        XCTAssertEqual(
+            routing.showUpdateSkillScreenCallCount,
+            1
+        )
+    }
+
     func test_input_didTapSkillSettingButton_routing_showUpdateSkillScreenが呼び出されること() {
         // arrange
         routing.showUpdateSkillScreenHandler = {

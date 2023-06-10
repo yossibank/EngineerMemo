@@ -98,6 +98,13 @@ private extension ProfileDetailViewController {
             }
             .store(in: &cancellables)
 
+        contentView.didTapSkillEditButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] modelObject in
+                self?.viewModel.input.didTapSkillEditButton.send(modelObject)
+            }
+            .store(in: &cancellables)
+
         contentView.didTapSkillSettingButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in

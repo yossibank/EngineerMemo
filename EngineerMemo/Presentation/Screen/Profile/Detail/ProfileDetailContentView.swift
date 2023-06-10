@@ -31,6 +31,7 @@ final class ProfileDetailContentView: UIView {
     private(set) lazy var didTapIconChangeButtonPublisher = didTapIconChangeButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapBasicEditButtonPublisher = didTapBasicEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapBasicSettingButtonPublisher = didTapBasicSettingButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapSkillEditButtonPublisher = didTapSkillEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSkillSettingButtonPublisher = didTapSkillSettingButtonSubject.eraseToAnyPublisher()
 
     private lazy var dataSource = UITableViewDiffableDataSource<
@@ -51,6 +52,7 @@ final class ProfileDetailContentView: UIView {
     private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapBasicEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapBasicSettingButtonSubject = PassthroughSubject<Void, Never>()
+    private let didTapSkillEditButtonSubject = PassthroughSubject<SkillModelObject, Never>()
     private let didTapSkillSettingButtonSubject = PassthroughSubject<Void, Never>()
 
     private let tableView = UITableView()
@@ -140,6 +142,13 @@ private extension ProfileDetailContentView {
             )
 
             cell.configure(modelObject)
+
+            cell.didTapEditButtonPublisher.sink { [weak self] _ in
+                if let modelObject {
+                    self?.didTapSkillEditButtonSubject.send(modelObject)
+                }
+            }
+            .store(in: &cell.cancellables)
 
             cell.didTapSettingButtonPublisher.sink { [weak self] _ in
                 self?.didTapSkillSettingButtonSubject.send(())
