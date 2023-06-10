@@ -29,7 +29,11 @@ final class ProfileUpdateUseLanguageInputView: UIView {
                         }
 
                     menuButton.addConstraint {
-                        $0.width.equalTo(60)
+                        $0.width.equalTo(80)
+                    }
+
+                    UIView().addConstraint {
+                        $0.width.equalTo(16)
                     }
                 }
 
@@ -120,7 +124,7 @@ private extension ProfileUpdateUseLanguageInputView {
             }
             config.background.backgroundColor = .background
             $0.configuration = config
-            $0.contentHorizontalAlignment = .leading
+            $0.contentHorizontalAlignment = .trailing
             $0.showsMenuAsPrimaryAction = true
             $0.menu = .init(
                 title: .empty,

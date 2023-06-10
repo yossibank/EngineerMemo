@@ -200,14 +200,14 @@ extension ProfileSkillCell {
         toeicView.isHidden = modelObject.toeic == nil
 
         if let engineerCareer = modelObject.engineerCareer {
-            engineerCareerLabel.text = L10n.Profile.year(engineerCareer)
+            engineerCareerLabel.text = SkillCareerType(rawValue: engineerCareer)?.title ?? .noSetting
         }
 
         if let language = modelObject.language {
             languageLabel.text = language
 
             if let languageCareer = modelObject.languageCareer {
-                languageCareerLabel.text = L10n.Profile.year(languageCareer)
+                languageCareerLabel.text = SkillCareerType(rawValue: languageCareer)?.title
             }
         }
 
