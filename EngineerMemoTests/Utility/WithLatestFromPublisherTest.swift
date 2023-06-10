@@ -36,7 +36,7 @@ final class WithLatestFromPublisherTest: XCTestCase {
 
         cancellable.cancel()
 
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: expectation, timeout: 1.0)
     }
 
     func test_withLatestFromPublisher_引数側のPublisherの値を購読できること() throws {
@@ -73,6 +73,6 @@ final class WithLatestFromPublisherTest: XCTestCase {
 
         cancellable.cancel()
 
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: expectation, timeout: 1.0)
     }
 }

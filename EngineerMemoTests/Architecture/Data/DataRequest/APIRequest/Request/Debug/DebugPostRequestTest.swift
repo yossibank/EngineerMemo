@@ -6,13 +6,11 @@
 
     final class DebugPostRequestTest: XCTestCase {
         private var apiClient: APIClient!
-        private var expectation: XCTestExpectation!
 
         override func setUp() {
             super.setUp()
 
             apiClient = .init()
-            expectation = .init(description: #function)
         }
 
         override func tearDown() {
@@ -33,30 +31,38 @@
                 )
             }
 
-            // act
-            apiClient.request(
-                item: DebugPostRequest(parameters: .init(
+            wait { expectation in
+                // act
+                self.apiClient.request(item: DebugPostRequest(parameters: .init(
                     userId: 1,
                     title: "sample title",
                     body: "sample body"
-                ))
-            ) {
-                switch $0 {
-                case let .success(dataObject):
-                    // assert
-                    XCTAssertNotNil(dataObject)
-                    XCTAssertEqual(dataObject.userId, 1)
-                    XCTAssertEqual(dataObject.title, "sample title")
-                    XCTAssertEqual(dataObject.body, "sample body")
+                ))) {
+                    switch $0 {
+                    case let .success(dataObject):
+                        // assert
+                        XCTAssertEqual(
+                            dataObject.userId,
+                            1
+                        )
 
-                case let .failure(error):
-                    XCTFail(error.localizedDescription)
+                        XCTAssertEqual(
+                            dataObject.title,
+                            "sample title"
+                        )
+
+                        XCTAssertEqual(
+                            dataObject.body,
+                            "sample body"
+                        )
+
+                    case let .failure(error):
+                        XCTFail(error.localizedDescription)
+                    }
+
+                    expectation.fulfill()
                 }
-
-                self.expectation.fulfill()
             }
-
-            wait(for: [expectation], timeout: 0.1)
         }
 
         func test_post_デコード失敗_エラーを取得できること() {
@@ -71,26 +77,24 @@
                 )
             }
 
-            // act
-            apiClient.request(
-                item: DebugPostRequest(parameters: .init(
+            wait { expectation in
+                // act
+                self.apiClient.request(item: DebugPostRequest(parameters: .init(
                     userId: 1,
                     title: "sample title",
                     body: "sample body"
-                ))
-            ) {
-                if case let .failure(error) = $0 {
-                    // assert
-                    XCTAssertEqual(
-                        error,
-                        .decodeError
-                    )
+                ))) {
+                    if case let .failure(error) = $0 {
+                        // assert
+                        XCTAssertEqual(
+                            error,
+                            .decodeError
+                        )
 
-                    self.expectation.fulfill()
+                        expectation.fulfill()
+                    }
                 }
             }
-
-            wait(for: [expectation], timeout: 0.1)
         }
     }
 #endif

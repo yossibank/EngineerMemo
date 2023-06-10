@@ -12,16 +12,25 @@ final class ProfileModelObjectTest: XCTestCase {
 
     func test_gender_woman_valueの文字列が女性であること() {
         // assert
-        XCTAssertEqual(ProfileModelObject.Gender.woman.value, "女性")
+        XCTAssertEqual(
+            ProfileModelObject.Gender.woman.value,
+            "女性"
+        )
     }
 
     func test_gender_other_valueの文字列がその他であること() {
         // assert
-        XCTAssertEqual(ProfileModelObject.Gender.other.value, "その他")
+        XCTAssertEqual(
+            ProfileModelObject.Gender.other.value,
+            "その他"
+        )
     }
 
     func test_gender_noSetting_valueの文字列が未設定であること() {
         // assert
-        XCTAssertEqual(ProfileModelObject.Gender.noSetting.value, "未設定")
+        XCTAssertEqual(
+            ProfileModelObject.Gender.noSetting.value,
+            "未設定"
+        )
     }
 }

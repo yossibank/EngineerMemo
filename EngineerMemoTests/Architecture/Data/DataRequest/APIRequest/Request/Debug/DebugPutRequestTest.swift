@@ -6,13 +6,11 @@
 
     final class DebugPutRequestTest: XCTestCase {
         private var apiClient: APIClient!
-        private var expectation: XCTestExpectation!
 
         override func setUp() {
             super.setUp()
 
             apiClient = .init()
-            expectation = .init(description: #function)
         }
 
         override func tearDown() {
@@ -33,9 +31,9 @@
                 )
             }
 
-            // act
-            apiClient.request(
-                item: DebugPutRequest(
+            wait { expectation in
+                // act
+                self.apiClient.request(item: DebugPutRequest(
                     parameters: .init(
                         userId: 1,
                         id: 1,
@@ -43,22 +41,22 @@
                         body: "sample body"
                     ),
                     pathComponent: 1
-                )
-            ) {
-                switch $0 {
-                case let .success(dataObject):
-                    // assert
-                    XCTAssertNotNil(dataObject)
-                    XCTAssertEqual(dataObject, DebugDataObjectBuilder().build())
+                )) {
+                    switch $0 {
+                    case let .success(dataObject):
+                        // assert
+                        XCTAssertEqual(
+                            dataObject,
+                            DebugDataObjectBuilder().build()
+                        )
 
-                case let .failure(error):
-                    XCTFail(error.localizedDescription)
+                    case let .failure(error):
+                        XCTFail(error.localizedDescription)
+                    }
+
+                    expectation.fulfill()
                 }
-
-                self.expectation.fulfill()
             }
-
-            wait(for: [expectation], timeout: 0.1)
         }
 
         func test_put_デコード失敗_エラーを取得できること() {
@@ -73,9 +71,9 @@
                 )
             }
 
-            // act
-            apiClient.request(
-                item: DebugPutRequest(
+            wait { expectation in
+                // act
+                self.apiClient.request(item: DebugPutRequest(
                     parameters: .init(
                         userId: 1,
                         id: 1,
@@ -83,20 +81,18 @@
                         body: "sample body"
                     ),
                     pathComponent: 1
-                )
-            ) {
-                if case let .failure(error) = $0 {
-                    // assert
-                    XCTAssertEqual(
-                        error,
-                        .decodeError
-                    )
+                )) {
+                    if case let .failure(error) = $0 {
+                        // assert
+                        XCTAssertEqual(
+                            error,
+                            .decodeError
+                        )
 
-                    self.expectation.fulfill()
+                        expectation.fulfill()
+                    }
                 }
             }
-
-            wait(for: [expectation], timeout: 0.1)
         }
     }
 #endif

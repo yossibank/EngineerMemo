@@ -32,6 +32,7 @@ final class MemoListViewModelTest: XCTestCase {
         // assert
         XCTAssertFalse(output.isMemoEmpty)
         XCTAssertFalse(output.isResultEmpty)
+
         XCTAssertEqual(
             output.outputObjects,
             [MemoModelObjectBuilder().build()]
@@ -42,7 +43,10 @@ final class MemoListViewModelTest: XCTestCase {
         // arrange
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual($0, .screenView)
+            XCTAssertEqual(
+                $0,
+                .screenView
+            )
         }
 
         // act
@@ -54,19 +58,20 @@ final class MemoListViewModelTest: XCTestCase {
         viewModel.input.didTapCreateButton.send(())
 
         // assert
-        XCTAssertEqual(routing.showCreateScreenCallCount, 1)
+        XCTAssertEqual(
+            routing.showCreateScreenCallCount,
+            1
+        )
     }
 
     func test_input_didChangeSort_並び替えたメモ情報を取得できること() throws {
         // arrange
-        viewDidLoad(modelObjects: [
-            MemoModelObjectBuilder().title("title1").createdAt(Calendar.date(year: 2000, month: 1, day: 1)!).build(),
-            MemoModelObjectBuilder().title("title2").createdAt(Calendar.date(year: 2000, month: 1, day: 2)!).build(),
-            MemoModelObjectBuilder().title("title3").createdAt(Calendar.date(year: 2000, month: 1, day: 3)!).build(),
-            MemoModelObjectBuilder().title("title4").createdAt(Calendar.date(year: 2000, month: 1, day: 4)!).build(),
-            MemoModelObjectBuilder().title("title5").createdAt(Calendar.date(year: 2000, month: 1, day: 5)!).build(),
-            MemoModelObjectBuilder().title("title6").createdAt(Calendar.date(year: 2000, month: 1, day: 6)!).build()
-        ])
+        viewDidLoad(modelObjects: (1 ... 6).map {
+            MemoModelObjectBuilder()
+                .title("title\($0)")
+                .createdAt(Calendar.date(year: 2000, month: 1, day: $0)!)
+                .build()
+        })
 
         // act
         viewModel.input.didChangeCategory.send(.all)
@@ -78,12 +83,36 @@ final class MemoListViewModelTest: XCTestCase {
         // assert
         XCTAssertFalse(output.isMemoEmpty)
         XCTAssertFalse(output.isResultEmpty)
-        XCTAssertEqual(output.outputObjects[0].title, "title6")
-        XCTAssertEqual(output.outputObjects[1].title, "title5")
-        XCTAssertEqual(output.outputObjects[2].title, "title4")
-        XCTAssertEqual(output.outputObjects[3].title, "title3")
-        XCTAssertEqual(output.outputObjects[4].title, "title2")
-        XCTAssertEqual(output.outputObjects[5].title, "title1")
+
+        XCTAssertEqual(
+            output.outputObjects[0].title,
+            "title6"
+        )
+
+        XCTAssertEqual(
+            output.outputObjects[1].title,
+            "title5"
+        )
+
+        XCTAssertEqual(
+            output.outputObjects[2].title,
+            "title4"
+        )
+
+        XCTAssertEqual(
+            output.outputObjects[3].title,
+            "title3"
+        )
+
+        XCTAssertEqual(
+            output.outputObjects[4].title,
+            "title2"
+        )
+
+        XCTAssertEqual(
+            output.outputObjects[5].title,
+            "title1"
+        )
     }
 
     func test_input_didChangeCategory_絞り込んだメモ情報を取得できること() throws {
@@ -107,14 +136,21 @@ final class MemoListViewModelTest: XCTestCase {
         // assert
         XCTAssertFalse(output.isMemoEmpty)
         XCTAssertFalse(output.isResultEmpty)
-        XCTAssertEqual(output.outputObjects.count, 2)
+
+        XCTAssertEqual(
+            output.outputObjects.count,
+            2
+        )
     }
 
     func test_input_didSelectContent_ログイベントが送信されていること() {
         // arrange
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual($0, .didTapMemoList(title: "title"))
+            XCTAssertEqual(
+                $0,
+                .didTapMemoList(title: "title")
+            )
         }
 
         // act
@@ -129,7 +165,10 @@ final class MemoListViewModelTest: XCTestCase {
         // arrange
         routing.showDetailScreenHandler = {
             // assert
-            XCTAssertEqual($0, "identifier")
+            XCTAssertEqual(
+                $0,
+                "identifier"
+            )
         }
 
         // act
@@ -147,10 +186,7 @@ final class MemoListViewModelTest: XCTestCase {
         // assert
         XCTAssertTrue(output.isMemoEmpty)
         XCTAssertTrue(output.isResultEmpty)
-        XCTAssertEqual(
-            output.outputObjects,
-            []
-        )
+        XCTAssertTrue(output.outputObjects.isEmpty)
     }
 
     func test_output_modelObject_絞り込んだメモ情報が空の際にisResultEmptyがtrueを出力すること() throws {

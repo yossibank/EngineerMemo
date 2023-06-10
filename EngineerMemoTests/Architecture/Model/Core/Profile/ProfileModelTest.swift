@@ -35,18 +35,47 @@ final class ProfileModelTest: XCTestCase {
         // arrange
         dataInsert()
 
-        let expectation = XCTestExpectation(description: #function)
-
         profileConverter.convertHandler = {
             // assert
-            XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
-            XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual($0.email, "test@test.com")
-            XCTAssertEqual($0.gender, .man)
-            XCTAssertEqual($0.identifier, "identifier")
-            XCTAssertEqual($0.name, "testName")
-            XCTAssertEqual($0.phoneNumber, "08011112222")
-            XCTAssertEqual($0.station, "鶴橋駅")
+            XCTAssertEqual(
+                $0.address,
+                "テスト県テスト市テスト1-1-1"
+            )
+
+            XCTAssertEqual(
+                $0.birthday,
+                Calendar.date(year: 2000, month: 1, day: 1)
+            )
+
+            XCTAssertEqual(
+                $0.email,
+                "test@test.com"
+            )
+
+            XCTAssertEqual(
+                $0.gender,
+                .man
+            )
+
+            XCTAssertEqual(
+                $0.identifier,
+                "identifier"
+            )
+
+            XCTAssertEqual(
+                $0.name,
+                "testName"
+            )
+
+            XCTAssertEqual(
+                $0.phoneNumber,
+                "08011112222"
+            )
+
+            XCTAssertEqual(
+                $0.station,
+                "鶴橋駅"
+            )
 
             return ProfileModelObjectBuilder()
                 .address($0.address!)
@@ -59,18 +88,106 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         }
 
-        // act
-        model.fetch {
-            switch $0 {
-            case let .success(modelObjects):
-                guard !modelObjects.isEmpty else {
-                    return
+        wait { expectation in
+            // act
+            self.model.fetch {
+                switch $0 {
+                case let .success(modelObjects):
+                    guard !modelObjects.isEmpty else {
+                        return
+                    }
+
+                    // assert
+                    XCTAssertEqual(
+                        modelObjects,
+                        [
+                            ProfileModelObjectBuilder()
+                                .address("テスト県テスト市テスト1-1-1")
+                                .birthday(Calendar.date(year: 2000, month: 1, day: 1))
+                                .email("test@test.com")
+                                .gender(.man)
+                                .identifier("identifier")
+                                .name("testName")
+                                .phoneNumber("08011112222")
+                                .station("鶴橋駅")
+                                .build()
+                        ]
+                    )
+
+                case let .failure(appError):
+                    XCTFail(appError.localizedDescription)
                 }
 
-                // assert
-                XCTAssertEqual(
-                    modelObjects,
-                    [
+                expectation.fulfill()
+            }
+        }
+    }
+
+    func test_find_成功_情報を取得できること() {
+        // arrange
+        dataInsert()
+
+        profileConverter.convertHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.address,
+                "テスト県テスト市テスト1-1-1"
+            )
+
+            XCTAssertEqual(
+                $0.birthday,
+                Calendar.date(year: 2000, month: 1, day: 1)
+            )
+
+            XCTAssertEqual(
+                $0.email,
+                "test@test.com"
+            )
+
+            XCTAssertEqual(
+                $0.gender,
+                .man
+            )
+
+            XCTAssertEqual(
+                $0.identifier,
+                "identifier"
+            )
+
+            XCTAssertEqual(
+                $0.name,
+                "testName"
+            )
+
+            XCTAssertEqual(
+                $0.phoneNumber,
+                "08011112222"
+            )
+
+            XCTAssertEqual(
+                $0.station,
+                "鶴橋駅"
+            )
+
+            return ProfileModelObjectBuilder()
+                .address($0.address!)
+                .birthday($0.birthday!)
+                .email($0.email!)
+                .gender(.init(rawValue: $0.gender!.rawValue)!)
+                .name($0.name!)
+                .phoneNumber($0.phoneNumber!)
+                .station($0.station!)
+                .build()
+        }
+
+        wait { expectation in
+            // act
+            self.model.find(identifier: "identifier") {
+                switch $0 {
+                case let .success(modelObject):
+                    // assert
+                    XCTAssertEqual(
+                        modelObject,
                         ProfileModelObjectBuilder()
                             .address("テスト県テスト市テスト1-1-1")
                             .birthday(Calendar.date(year: 2000, month: 1, day: 1))
@@ -81,80 +198,19 @@ final class ProfileModelTest: XCTestCase {
                             .phoneNumber("08011112222")
                             .station("鶴橋駅")
                             .build()
-                    ]
-                )
+                    )
 
-            case let .failure(appError):
-                XCTFail(appError.localizedDescription)
+                case let .failure(appError):
+                    XCTFail(appError.localizedDescription)
+                }
+
+                expectation.fulfill()
             }
-
-            expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 0.1)
-    }
-
-    func test_find_成功_情報を取得できること() {
-        // arrange
-        dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
-
-        profileConverter.convertHandler = {
-            // assert
-            XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
-            XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual($0.email, "test@test.com")
-            XCTAssertEqual($0.gender, .man)
-            XCTAssertEqual($0.identifier, "identifier")
-            XCTAssertEqual($0.name, "testName")
-            XCTAssertEqual($0.phoneNumber, "08011112222")
-            XCTAssertEqual($0.station, "鶴橋駅")
-
-            return ProfileModelObjectBuilder()
-                .address($0.address!)
-                .birthday($0.birthday!)
-                .email($0.email!)
-                .gender(.init(rawValue: $0.gender!.rawValue)!)
-                .name($0.name!)
-                .phoneNumber($0.phoneNumber!)
-                .station($0.station!)
-                .build()
-        }
-
-        // act
-        model.find(identifier: "identifier") {
-            switch $0 {
-            case let .success(modelObject):
-                // assert
-                XCTAssertEqual(
-                    modelObject,
-                    ProfileModelObjectBuilder()
-                        .address("テスト県テスト市テスト1-1-1")
-                        .birthday(Calendar.date(year: 2000, month: 1, day: 1))
-                        .email("test@test.com")
-                        .gender(.man)
-                        .identifier("identifier")
-                        .name("testName")
-                        .phoneNumber("08011112222")
-                        .station("鶴橋駅")
-                        .build()
-                )
-
-            case let .failure(appError):
-                XCTFail(appError.localizedDescription)
-            }
-
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: 0.1)
     }
 
     func test_create_情報を作成できること() {
         // act
-        let expectation = XCTestExpectation(description: #function)
-
         model.create(
             modelObject: ProfileModelObjectBuilder()
                 .name("テスト")
@@ -162,24 +218,29 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects.first!
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let profile = self.storage.allObjects.first!
 
-            // assert
-            XCTAssertEqual(profile.name, "テスト")
-            XCTAssertEqual(profile.birthday, Calendar.date(year: 2000, month: 1, day: 1))
+                // assert
+                XCTAssertEqual(
+                    profile.name,
+                    "テスト"
+                )
 
-            expectation.fulfill()
+                XCTAssertEqual(
+                    profile.birthday,
+                    Calendar.date(year: 2000, month: 1, day: 1)
+                )
+
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_basicUpdate_情報を更新できること() {
         // arrange
         dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
 
         // act
         model.basicUpdate(
@@ -190,24 +251,29 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects.first!
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let profile = self.storage.allObjects.first!
 
-            // assert
-            XCTAssertEqual(profile.name, "テスト更新後")
-            XCTAssertEqual(profile.birthday, Calendar.date(year: 2000, month: 11, day: 1))
+                // assert
+                XCTAssertEqual(
+                    profile.name,
+                    "テスト更新後"
+                )
 
-            expectation.fulfill()
+                XCTAssertEqual(
+                    profile.birthday,
+                    Calendar.date(year: 2000, month: 11, day: 1)
+                )
+
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_skillUpdate_更新情報なし_skillを作成できること() {
         // arrange
         dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
 
         // act
         model.skillUpdate(
@@ -225,18 +291,33 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects.first!
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let profile = self.storage.allObjects.first!
 
-            XCTAssertEqual(profile.skill?.engineerCareer, 3)
-            XCTAssertEqual(profile.skill?.language, "Swift")
-            XCTAssertEqual(profile.skill?.languageCareer, 2)
-            XCTAssertEqual(profile.skill?.toeic, 600)
+                XCTAssertEqual(
+                    profile.skill?.engineerCareer,
+                    3
+                )
 
-            expectation.fulfill()
+                XCTAssertEqual(
+                    profile.skill?.language,
+                    "Swift"
+                )
+
+                XCTAssertEqual(
+                    profile.skill?.languageCareer,
+                    2
+                )
+
+                XCTAssertEqual(
+                    profile.skill?.toeic,
+                    600
+                )
+
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_skillUpdate_更新情報あり_skillを更新できること() {
@@ -249,8 +330,6 @@ final class ProfileModelTest: XCTestCase {
                 .toeic(400)
                 .build()
         )
-
-        let expectation = XCTestExpectation(description: #function)
 
         // act
         model.skillUpdate(
@@ -268,18 +347,33 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects.first!
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let profile = self.storage.allObjects.first!
 
-            XCTAssertEqual(profile.skill?.engineerCareer, 10)
-            XCTAssertEqual(profile.skill?.language, "Swift")
-            XCTAssertEqual(profile.skill?.languageCareer, 2)
-            XCTAssertEqual(profile.skill?.toeic, 600)
+                XCTAssertEqual(
+                    profile.skill?.engineerCareer,
+                    10
+                )
 
-            expectation.fulfill()
+                XCTAssertEqual(
+                    profile.skill?.language,
+                    "Swift"
+                )
+
+                XCTAssertEqual(
+                    profile.skill?.languageCareer,
+                    2
+                )
+
+                XCTAssertEqual(
+                    profile.skill?.toeic,
+                    600
+                )
+
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_skillUpdate_更新情報あり_skillをnilにできること() {
@@ -292,8 +386,6 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        let expectation = XCTestExpectation(description: #function)
-
         // act
         model.skillUpdate(
             modelObject: ProfileModelObjectBuilder()
@@ -302,22 +394,20 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects.first!
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let profile = self.storage.allObjects.first!
 
-            XCTAssertNil(profile.skill)
+                XCTAssertNil(profile.skill)
 
-            expectation.fulfill()
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_iconImageUpdate_iconImageを更新できること() {
         // arrange
         dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
 
         // act
         model.iconImageUpdate(
@@ -327,18 +417,18 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let profile = self.storage.allObjects.first!
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let profile = self.storage.allObjects.first!
 
-            XCTAssertEqual(
-                profile.iconImage,
-                Asset.penguin.image.pngData()
-            )
+                XCTAssertEqual(
+                    profile.iconImage,
+                    Asset.penguin.image.pngData()
+                )
 
-            expectation.fulfill()
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_iconImageUpdate_有効値の場合にuserDefaultsを更新できること() {
@@ -346,7 +436,10 @@ final class ProfileModelTest: XCTestCase {
         model.iconImageUpdate(index: 0)
 
         // assert
-        XCTAssertEqual(DataHolder.profileIcon, .elephant)
+        XCTAssertEqual(
+            DataHolder.profileIcon,
+            .elephant
+        )
     }
 
     func test_iconImageUpdate_不正値の場合にデフォルト設定でuserDefaultsを更新できること() {
@@ -354,14 +447,15 @@ final class ProfileModelTest: XCTestCase {
         model.iconImageUpdate(index: 100)
 
         // assert
-        XCTAssertEqual(DataHolder.profileIcon, .penguin)
+        XCTAssertEqual(
+            DataHolder.profileIcon,
+            .penguin
+        )
     }
 
     func test_delete_情報を削除できること() {
         // arrange
         dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
 
         // act
         model.delete(
@@ -370,16 +464,16 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let allProfile = self.storage.allObjects
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let allProfile = self.storage.allObjects
 
-            // assert
-            XCTAssertTrue(allProfile.isEmpty)
+                // assert
+                XCTAssertTrue(allProfile.isEmpty)
 
-            expectation.fulfill()
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.2)
     }
 }
 

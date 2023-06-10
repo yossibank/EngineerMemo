@@ -13,7 +13,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual($0, .screenView)
+            XCTAssertEqual(
+                $0,
+                .screenView
+            )
         }
 
         // act
@@ -28,7 +31,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.category, .interview)
+            XCTAssertEqual(
+                $0.category,
+                .interview
+            )
         }
 
         // act
@@ -43,7 +49,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.title, "title")
+            XCTAssertEqual(
+                $0.title,
+                "title"
+            )
         }
 
         // act
@@ -58,7 +67,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.content, "content")
+            XCTAssertEqual(
+                $0.content,
+                "content"
+            )
         }
 
         // act
@@ -88,7 +100,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
 
         // assert
-        XCTAssertEqual(model.createCallCount, 1)
+        XCTAssertEqual(
+            model.createCallCount,
+            1
+        )
     }
 
     func test_input_didTapBarButton_modelObjectに値がある際に作成側の関数が呼ばれること() {
@@ -99,7 +114,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
 
         // assert
-        XCTAssertEqual(model.updateCallCount, 1)
+        XCTAssertEqual(
+            model.updateCallCount,
+            1
+        )
     }
 
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {

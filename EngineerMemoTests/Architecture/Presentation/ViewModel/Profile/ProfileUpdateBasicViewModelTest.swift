@@ -13,7 +13,10 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual($0, .screenView)
+            XCTAssertEqual(
+                $0,
+                .screenView
+            )
         }
 
         // act
@@ -28,7 +31,10 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.name, "name")
+            XCTAssertEqual(
+                $0.name,
+                "name"
+            )
         }
 
         // act
@@ -43,7 +49,10 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.birthday, Calendar.date(year: 1900, month: 1, day: 1))
+            XCTAssertEqual(
+                $0.birthday,
+                Calendar.date(year: 1900, month: 1, day: 1)
+            )
         }
 
         // act
@@ -58,7 +67,10 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.gender, .man)
+            XCTAssertEqual(
+                $0.gender,
+                .man
+            )
         }
 
         // act
@@ -73,7 +85,10 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.email, "test@test.com")
+            XCTAssertEqual(
+                $0.email,
+                "test@test.com"
+            )
         }
 
         // act
@@ -88,7 +103,10 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.phoneNumber, "012345678")
+            XCTAssertEqual(
+                $0.phoneNumber,
+                "012345678"
+            )
         }
 
         // act
@@ -103,7 +121,10 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.address, "address")
+            XCTAssertEqual(
+                $0.address,
+                "address"
+            )
         }
 
         // act
@@ -118,7 +139,10 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 
         model.createHandler = {
             // assert
-            XCTAssertEqual($0.station, "station")
+            XCTAssertEqual(
+                $0.station,
+                "station"
+            )
         }
 
         // act

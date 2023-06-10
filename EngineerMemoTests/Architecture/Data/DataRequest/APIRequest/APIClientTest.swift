@@ -6,13 +6,11 @@
 
     final class APIClientTest: XCTestCase {
         private var apiClient: APIClient!
-        private var expectation: XCTestExpectation!
 
         override func setUp() {
             super.setUp()
 
             apiClient = .init()
-            expectation = .init(description: #function)
         }
 
         override func tearDown() {
@@ -34,22 +32,20 @@
                 )
             }
 
-            // act
-            apiClient.request(
-                item: DebugGetRequest(parameters: .init(userId: nil))
-            ) {
-                if case let .failure(error) = $0 {
-                    // assert
-                    XCTAssertEqual(
-                        error,
-                        .invalidStatusCode(302)
-                    )
+            wait { expectation in
+                // act
+                self.apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil))) {
+                    if case let .failure(error) = $0 {
+                        // assert
+                        XCTAssertEqual(
+                            error,
+                            .invalidStatusCode(302)
+                        )
+                    }
 
-                    self.expectation.fulfill()
+                    expectation.fulfill()
                 }
             }
-
-            wait(for: [expectation], timeout: 0.1)
         }
 
         func test_受け取ったステータスコードが400台の時にステータスコードエラーを受け取れること() {
@@ -65,22 +61,20 @@
                 )
             }
 
-            // act
-            apiClient.request(
-                item: DebugGetRequest(parameters: .init(userId: nil))
-            ) {
-                if case let .failure(error) = $0 {
-                    // assert
-                    XCTAssertEqual(
-                        error,
-                        .invalidStatusCode(404)
-                    )
+            wait { expectation in
+                // act
+                self.apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil))) {
+                    if case let .failure(error) = $0 {
+                        // assert
+                        XCTAssertEqual(
+                            error,
+                            .invalidStatusCode(404)
+                        )
 
-                    self.expectation.fulfill()
+                        expectation.fulfill()
+                    }
                 }
             }
-
-            wait(for: [expectation], timeout: 0.1)
         }
 
         func test_受け取ったステータスコードが500台の時にステータスコードエラーを受け取れること() {
@@ -96,22 +90,20 @@
                 )
             }
 
-            // act
-            apiClient.request(
-                item: DebugGetRequest(parameters: .init(userId: nil))
-            ) {
-                if case let .failure(error) = $0 {
-                    // assert
-                    XCTAssertEqual(
-                        error,
-                        .invalidStatusCode(500)
-                    )
+            wait { expectation in
+                // act
+                self.apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil))) {
+                    if case let .failure(error) = $0 {
+                        // assert
+                        XCTAssertEqual(
+                            error,
+                            .invalidStatusCode(500)
+                        )
 
-                    self.expectation.fulfill()
+                        expectation.fulfill()
+                    }
                 }
             }
-
-            wait(for: [expectation], timeout: 0.1)
         }
     }
 #endif
