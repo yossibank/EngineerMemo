@@ -110,15 +110,15 @@ enum AppControllers {
         }
 
         enum Update {
-            static func Basic(type: ProfileUpdateType) -> ProfileBasicUpdateViewController {
-                let vc = ProfileBasicUpdateViewController()
+            static func Basic(type: ProfileUpdateBasicType) -> ProfileUpdateBasicViewController {
+                let vc = ProfileUpdateBasicViewController()
 
                 switch type {
                 case .setting:
-                    vc.title = L10n.Navigation.Title.profileSetting
+                    vc.title = L10n.Navigation.Title.profileBasicSetting
                     vc.inject(
-                        contentView: ProfileBasicUpdateContentView(modelObject: nil),
-                        viewModel: ProfileBasicUpdateViewModel(
+                        contentView: ProfileUpdateBasicContentView(modelObject: nil),
+                        viewModel: ProfileUpdateBasicViewModel(
                             model: Models.Profile(),
                             modelObject: nil,
                             analytics: FirebaseAnalytics(screenId: .profileSetting)
@@ -126,10 +126,10 @@ enum AppControllers {
                     )
 
                 case let .update(modelObject):
-                    vc.title = L10n.Navigation.Title.profileUpdate
+                    vc.title = L10n.Navigation.Title.profileBasicUpdate
                     vc.inject(
-                        contentView: ProfileBasicUpdateContentView(modelObject: modelObject),
-                        viewModel: ProfileBasicUpdateViewModel(
+                        contentView: ProfileUpdateBasicContentView(modelObject: modelObject),
+                        viewModel: ProfileUpdateBasicViewModel(
                             model: Models.Profile(),
                             modelObject: modelObject,
                             analytics: FirebaseAnalytics(screenId: .profileUpdate)
@@ -139,6 +139,11 @@ enum AppControllers {
 
                 return vc
             }
+        }
+
+        static func Skill() -> ProfileUpdateSkillViewController {
+            let vc = ProfileUpdateSkillViewController()
+            return vc
         }
     }
 }
@@ -290,7 +295,7 @@ enum MemoUpdateType: Equatable {
     case update(MemoModelObject)
 }
 
-enum ProfileUpdateType: Equatable {
+enum ProfileUpdateBasicType: Equatable {
     case setting
     case update(ProfileModelObject)
 }

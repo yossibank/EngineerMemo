@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileSkillUpdateContentView: UIView {
+final class ProfileUpdateSkillContentView: UIView {
     private var body: UIView {
         VStackView(alignment: .center) {
             UILabel().configure {
@@ -27,15 +27,15 @@ final class ProfileSkillUpdateContentView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileSkillUpdateContentView {}
+extension ProfileUpdateSkillContentView {}
 
 // MARK: - private methods
 
-private extension ProfileSkillUpdateContentView {}
+private extension ProfileUpdateSkillContentView {}
 
 // MARK: - protocol
 
-extension ProfileSkillUpdateContentView: ContentView {
+extension ProfileUpdateSkillContentView: ContentView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -54,7 +54,7 @@ extension ProfileSkillUpdateContentView: ContentView {
 
     struct ProfileSkillUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileSkillUpdateContentView())
+            WrapperView(view: ProfileUpdateSkillContentView())
         }
     }
 #endif

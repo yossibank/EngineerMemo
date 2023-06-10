@@ -1,6 +1,6 @@
 import Combine
 
-final class ProfileSkillUpdateViewModel: ViewModel {
+final class ProfileUpdateSkillViewModel: ViewModel {
     // 不要な場合はNoBinding使用
     final class Binding: BindingObject {
         @Published var sample = ""

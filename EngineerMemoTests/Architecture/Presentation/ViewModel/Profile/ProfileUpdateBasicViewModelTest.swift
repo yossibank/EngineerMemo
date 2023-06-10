@@ -5,7 +5,7 @@ import XCTest
 final class ProfileUpdateViewModelTest: XCTestCase {
     private var model: ProfileModelInputMock!
     private var analytics: FirebaseAnalyzableMock!
-    private var viewModel: ProfileBasicUpdateViewModel!
+    private var viewModel: ProfileUpdateBasicViewModel!
 
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
@@ -160,7 +160,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
 }
 
 private extension ProfileUpdateViewModelTest {
-    func setupViewModel(_ type: ProfileUpdateType = .setting) {
+    func setupViewModel(_ type: ProfileUpdateBasicType = .setting) {
         model = .init()
 
         switch type {

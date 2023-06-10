@@ -2,7 +2,7 @@
 import iOSSnapshotTestCase
 
 final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
-    private var subject: ProfileBasicUpdateViewController!
+    private var subject: ProfileUpdateBasicViewController!
 
     override func setUp() {
         super.setUp()
@@ -37,7 +37,7 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
 }
 
 private extension ProfileUpdateViewControllerSnapshotTest {
-    func snapshot(type: ProfileUpdateType) {
+    func snapshot(type: ProfileUpdateBasicType) {
         subject = AppControllers.Profile.Update.Basic(type: type)
 
         snapshotVerifyView(

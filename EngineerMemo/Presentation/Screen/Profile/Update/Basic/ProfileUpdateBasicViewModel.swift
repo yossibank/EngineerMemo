@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-final class ProfileBasicUpdateViewModel: ViewModel {
+final class ProfileUpdateBasicViewModel: ViewModel {
     final class Binding: BindingObject {
         @Published var name: String?
         @Published var birthday: Date?

@@ -4,7 +4,10 @@ import XCTest
 final class ProfileModelObjectTest: XCTestCase {
     func test_gender_man_valueの文字列が男性であること() {
         // assert
-        XCTAssertEqual(ProfileModelObject.Gender.man.value, "男性")
+        XCTAssertEqual(
+            ProfileModelObject.Gender.man.value,
+            "男性"
+        )
     }
 
     func test_gender_woman_valueの文字列が女性であること() {

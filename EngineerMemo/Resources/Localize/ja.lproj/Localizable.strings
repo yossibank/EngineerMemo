@@ -31,8 +31,8 @@
 "navigation.title.memoUpdate" = "メモ更新";
 "navigation.title.profileDetail" = "プロフィール";
 "navigation.title.profileIcon" = "プロフィールアイコン変更";
-"navigation.title.profileUpdate" = "プロフィール更新";
-"navigation.title.profileSetting" = "プロフィール設定";
+"navigation.title.profileBasicUpdate" = "基本情報更新";
+"navigation.title.profileBasicSetting" = "基本情報設定";
 "navigation.title.debugDevelopment" = "開発者用画面";
 "navigation.title.debugAPIResponse" = "APIレスポンス確認";
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";

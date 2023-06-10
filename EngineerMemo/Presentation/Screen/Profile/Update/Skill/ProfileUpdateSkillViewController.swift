@@ -3,14 +3,14 @@ import UIKit
 
 // MARK: - inject
 
-extension ProfileSkillUpdateViewController: VCInjectable {
-    typealias CV = ProfileSkillUpdateContentView
-    typealias VM = ProfileSkillUpdateViewModel
+extension ProfileUpdateSkillViewController: VCInjectable {
+    typealias CV = ProfileUpdateSkillContentView
+    typealias VM = ProfileUpdateSkillViewModel
 }
 
 // MARK: - properties & init
 
-final class ProfileSkillUpdateViewController: UIViewController {
+final class ProfileUpdateSkillViewController: UIViewController {
     var viewModel: VM!
     var contentView: CV!
 
@@ -19,7 +19,7 @@ final class ProfileSkillUpdateViewController: UIViewController {
 
 // MARK: - override methods
 
-extension ProfileSkillUpdateViewController {
+extension ProfileUpdateSkillViewController {
     override func loadView() {
         super.loadView()
 
@@ -41,8 +41,8 @@ extension ProfileSkillUpdateViewController {
 
 // MARK: - internal methods
 
-extension ProfileSkillUpdateViewController {}
+extension ProfileUpdateSkillViewController {}
 
 // MARK: - private methods
 
-private extension ProfileSkillUpdateViewController {}
+private extension ProfileUpdateSkillViewController {}

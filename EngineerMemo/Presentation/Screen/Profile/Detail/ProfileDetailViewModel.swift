@@ -70,14 +70,14 @@ final class ProfileDetailViewModel: ViewModel {
         // MARK: - 編集ボタンタップ
 
         input.didTapEditButton.sink { modelObject in
-            routing.showUpdateScreen(type: .update(modelObject))
+            routing.showUpdateBasicScreen(type: .update(modelObject))
         }
         .store(in: &cancellables)
 
         // MARK: - 設定ボタンタップ
 
         input.didTapSettingButton.sink { _ in
-            routing.showUpdateScreen(type: .setting)
+            routing.showUpdateBasicScreen(type: .setting)
         }
         .store(in: &cancellables)
     }

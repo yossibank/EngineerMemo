@@ -4,14 +4,14 @@ import UIKitHelper
 
 // MARK: - inject
 
-extension ProfileBasicUpdateViewController: VCInjectable {
-    typealias CV = ProfileBasicUpdateContentView
-    typealias VM = ProfileBasicUpdateViewModel
+extension ProfileUpdateBasicViewController: VCInjectable {
+    typealias CV = ProfileUpdateBasicContentView
+    typealias VM = ProfileUpdateBasicViewModel
 }
 
 // MARK: - properties & init
 
-final class ProfileBasicUpdateViewController: UIViewController {
+final class ProfileUpdateBasicViewController: UIViewController {
     var viewModel: VM!
     var contentView: CV!
 
@@ -20,7 +20,7 @@ final class ProfileBasicUpdateViewController: UIViewController {
 
 // MARK: - override methods
 
-extension ProfileBasicUpdateViewController {
+extension ProfileUpdateBasicViewController {
     override func loadView() {
         super.loadView()
 
@@ -46,7 +46,7 @@ extension ProfileBasicUpdateViewController {
 
 // MARK: - private methods
 
-private extension ProfileBasicUpdateViewController {
+private extension ProfileUpdateBasicViewController {
     func setupNavigation() {
         navigationItem.rightBarButtonItem = .init(
             customView: contentView.barButton
