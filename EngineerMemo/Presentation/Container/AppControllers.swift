@@ -117,8 +117,8 @@ enum AppControllers {
                 vc.inject(
                     contentView: ProfileUpdateBasicContentView(),
                     viewModel: ProfileUpdateBasicViewModel(
-                        model: Models.Profile(),
                         modelObject: modelObject,
+                        model: Models.Profile(),
                         analytics: modelObject == nil
                             ? FirebaseAnalytics(screenId: .profileBasicSetting)
                             : FirebaseAnalytics(screenId: .profileBasicUpdate)
@@ -135,8 +135,8 @@ enum AppControllers {
                 vc.inject(
                     contentView: ProfileUpdateSkillContentView(),
                     viewModel: ProfileUpdateSkillViewModel(
-                        model: Models.Profile(),
                         modelObject: modelObject,
+                        model: Models.Profile(),
                         analytics: modelObject.skill == nil
                             ? FirebaseAnalytics(screenId: .profileSkillSetting)
                             : FirebaseAnalytics(screenId: .profileSkillUpdate)

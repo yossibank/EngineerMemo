@@ -2,7 +2,7 @@ import Combine
 @testable import EngineerMemo
 import XCTest
 
-final class ProfileUpdateViewModelTest: XCTestCase {
+final class ProfileUpdateBasicViewModelTest: XCTestCase {
     private var model: ProfileModelInputMock!
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: ProfileUpdateBasicViewModel!
@@ -23,7 +23,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
-    func test_binding_name_保存ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_name_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel()
 
@@ -41,7 +41,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_birthday_保存ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_birthday_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel()
 
@@ -59,7 +59,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_gender_保存ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_gender_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel()
 
@@ -77,7 +77,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_email_保存ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_email_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel()
 
@@ -95,7 +95,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_phoneNumber_保存ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_phoneNumber_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel()
 
@@ -113,7 +113,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_address_保存ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_address_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel()
 
@@ -131,7 +131,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_station_保存ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_station_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel()
 
@@ -183,7 +183,7 @@ final class ProfileUpdateViewModelTest: XCTestCase {
     }
 }
 
-private extension ProfileUpdateViewModelTest {
+private extension ProfileUpdateBasicViewModelTest {
     func setupViewModel(modelObject: ProfileModelObject? = nil) {
         model = .init()
 
@@ -192,8 +192,8 @@ private extension ProfileUpdateViewModelTest {
             : .init(screenId: .profileBasicUpdate)
 
         viewModel = .init(
-            model: model,
             modelObject: modelObject,
+            model: model,
             analytics: analytics
         )
 

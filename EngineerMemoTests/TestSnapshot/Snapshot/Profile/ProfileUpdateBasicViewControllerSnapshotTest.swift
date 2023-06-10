@@ -1,26 +1,26 @@
 @testable import EngineerMemo
 import iOSSnapshotTestCase
 
-final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
+final class ProfileUpdateBasicViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: ProfileUpdateBasicViewController!
 
     override func setUp() {
         super.setUp()
 
-        folderName = "プロフィール設定・更新画面"
+        folderName = "プロフィール基本情報設定・更新画面"
 
         recordMode = SnapshotTest.recordMode
     }
 
-    func testProfileUpdateViewController_設定() {
+    func testProfileUpdateBasicViewController_設定() {
         snapshot()
     }
 
-    func testProfileUpdateViewController_更新() {
+    func testProfileUpdateBasicViewController_更新() {
         snapshot(modelObject: ProfileModelObjectBuilder().build())
     }
 
-    func testProfileUpdateViewController_更新_未設定項目あり() {
+    func testProfileUpdateBasicViewController_更新_未設定項目あり() {
         snapshot(
             modelObject: ProfileModelObjectBuilder()
                 .name(nil)
@@ -30,7 +30,7 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 }
 
-private extension ProfileUpdateViewControllerSnapshotTest {
+private extension ProfileUpdateBasicViewControllerSnapshotTest {
     func snapshot(modelObject: ProfileModelObject? = nil) {
         subject = AppControllers.Profile.Update.Basic(modelObject: modelObject)
 

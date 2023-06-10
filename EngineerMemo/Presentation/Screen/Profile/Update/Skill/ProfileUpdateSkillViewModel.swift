@@ -31,8 +31,8 @@ final class ProfileUpdateSkillViewModel: ViewModel {
     private let analytics: FirebaseAnalyzable
 
     init(
-        model: ProfileModelInput,
         modelObject: ProfileModelObject,
+        model: ProfileModelInput,
         analytics: FirebaseAnalyzable
     ) {
         let binding = Binding()
@@ -95,7 +95,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
                 updateObject.toeic = toeic
             }
 
-        // MARK: - 更新・保存ボタンタップ
+        // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { _ in
             var modelObject = modelObject
