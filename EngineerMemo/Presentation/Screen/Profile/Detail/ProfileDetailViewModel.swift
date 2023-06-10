@@ -5,8 +5,10 @@ final class ProfileDetailViewModel: ViewModel {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapIconChangeButton = PassthroughSubject<ProfileModelObject, Never>()
-        let didTapEditButton = PassthroughSubject<ProfileModelObject, Never>()
-        let didTapSettingButton = PassthroughSubject<Void, Never>()
+        let didTapBasicEditButton = PassthroughSubject<ProfileModelObject?, Never>()
+        let didTapBasicSettingButton = PassthroughSubject<ProfileModelObject?, Never>()
+        let didTapSkillEditButton = PassthroughSubject<ProfileModelObject, Never>()
+        let didTapSkillSettingButton = PassthroughSubject<ProfileModelObject, Never>()
     }
 
     final class Output: OutputObject {
@@ -67,17 +69,31 @@ final class ProfileDetailViewModel: ViewModel {
         }
         .store(in: &cancellables)
 
-        // MARK: - 編集ボタンタップ
+        // MARK: - 基本情報編集ボタンタップ
 
-        input.didTapEditButton.sink { modelObject in
-            routing.showUpdateScreen(type: .update(modelObject))
+        input.didTapBasicEditButton.sink { modelObject in
+            routing.showUpdateBasicScreen(modelObject: modelObject)
         }
         .store(in: &cancellables)
 
-        // MARK: - 設定ボタンタップ
+        // MARK: - 基本情報設定ボタンタップ
 
-        input.didTapSettingButton.sink { _ in
-            routing.showUpdateScreen(type: .setting)
+        input.didTapBasicSettingButton.sink { modelObject in
+            routing.showUpdateBasicScreen(modelObject: modelObject)
+        }
+        .store(in: &cancellables)
+
+        // MARK: - スキル・経験編集ボタンタップ
+
+        input.didTapSkillEditButton.sink { modelObject in
+            routing.showUpdateSkillScreen(modelObject: modelObject)
+        }
+        .store(in: &cancellables)
+
+        // MARK: - スキル・経験設定ボタンタップ
+
+        input.didTapSkillSettingButton.sink { modelObject in
+            routing.showUpdateSkillScreen(modelObject: modelObject)
         }
         .store(in: &cancellables)
     }

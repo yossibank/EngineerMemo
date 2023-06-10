@@ -109,34 +109,42 @@ enum AppControllers {
             return vc
         }
 
-        static func Update(type: ProfileUpdateType) -> ProfileUpdateViewController {
-            let vc = ProfileUpdateViewController()
+        enum Update {
+            static func Basic(modelObject: ProfileModelObject?) -> ProfileUpdateBasicViewController {
+                let vc = ProfileUpdateBasicViewController()
 
-            switch type {
-            case .setting:
-                vc.title = L10n.Navigation.Title.profileSetting
+                vc.title = L10n.Navigation.Title.profileBasicSetting
                 vc.inject(
-                    contentView: ProfileUpdateContentView(modelObject: nil),
-                    viewModel: ProfileUpdateViewModel(
-                        model: Models.Profile(),
-                        modelObject: nil,
-                        analytics: FirebaseAnalytics(screenId: .profileSetting)
-                    )
-                )
-
-            case let .update(modelObject):
-                vc.title = L10n.Navigation.Title.profileUpdate
-                vc.inject(
-                    contentView: ProfileUpdateContentView(modelObject: modelObject),
-                    viewModel: ProfileUpdateViewModel(
-                        model: Models.Profile(),
+                    contentView: ProfileUpdateBasicContentView(),
+                    viewModel: ProfileUpdateBasicViewModel(
                         modelObject: modelObject,
-                        analytics: FirebaseAnalytics(screenId: .profileUpdate)
+                        model: Models.Profile(),
+                        analytics: modelObject == nil
+                            ? FirebaseAnalytics(screenId: .profileBasicSetting)
+                            : FirebaseAnalytics(screenId: .profileBasicUpdate)
                     )
                 )
+
+                return vc
             }
 
-            return vc
+            static func Skill(modelObject: ProfileModelObject) -> ProfileUpdateSkillViewController {
+                let vc = ProfileUpdateSkillViewController()
+
+                vc.title = L10n.Navigation.Title.profileSKillSetting
+                vc.inject(
+                    contentView: ProfileUpdateSkillContentView(),
+                    viewModel: ProfileUpdateSkillViewModel(
+                        modelObject: modelObject,
+                        model: Models.Profile(),
+                        analytics: modelObject.skill == nil
+                            ? FirebaseAnalytics(screenId: .profileSkillSetting)
+                            : FirebaseAnalytics(screenId: .profileSkillUpdate)
+                    )
+                )
+
+                return vc
+            }
         }
     }
 }
@@ -286,9 +294,4 @@ enum AppControllers {
 enum MemoUpdateType: Equatable {
     case create
     case update(MemoModelObject)
-}
-
-enum ProfileUpdateType: Equatable {
-    case setting
-    case update(ProfileModelObject)
 }

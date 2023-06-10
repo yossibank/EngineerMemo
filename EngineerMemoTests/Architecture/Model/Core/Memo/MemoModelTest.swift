@@ -33,15 +33,32 @@ final class MemoModelTest: XCTestCase {
         // arrange
         dataInsert()
 
-        let expectation = XCTestExpectation(description: #function)
-
         memoConverter.convertHandler = {
             // assert
-            XCTAssertEqual($0.category, .technical)
-            XCTAssertEqual($0.content, "コンテンツ")
-            XCTAssertEqual($0.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual($0.identifier, "identifier")
-            XCTAssertEqual($0.title, "タイトル")
+            XCTAssertEqual(
+                $0.category,
+                .technical
+            )
+
+            XCTAssertEqual(
+                $0.content,
+                "コンテンツ"
+            )
+
+            XCTAssertEqual(
+                $0.createdAt,
+                Calendar.date(year: 2000, month: 1, day: 1)
+            )
+
+            XCTAssertEqual(
+                $0.identifier,
+                "identifier"
+            )
+
+            XCTAssertEqual(
+                $0.title,
+                "タイトル"
+            )
 
             return MemoModelObjectBuilder()
                 .category(.technical)
@@ -52,18 +69,86 @@ final class MemoModelTest: XCTestCase {
                 .build()
         }
 
-        // act
-        model.fetch {
-            switch $0 {
-            case let .success(modelObjects):
-                guard !modelObjects.isEmpty else {
-                    return
+        wait { expectation in
+            // act
+            self.model.fetch {
+                switch $0 {
+                case let .success(modelObjects):
+                    guard !modelObjects.isEmpty else {
+                        return
+                    }
+
+                    // assert
+                    XCTAssertEqual(
+                        modelObjects,
+                        [
+                            MemoModelObjectBuilder()
+                                .category(.technical)
+                                .content("コンテンツ")
+                                .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
+                                .identifier("identifier")
+                                .title("タイトル")
+                                .build()
+                        ]
+                    )
+
+                case let .failure(appError):
+                    XCTFail(appError.localizedDescription)
                 }
 
-                // assert
-                XCTAssertEqual(
-                    modelObjects,
-                    [
+                expectation.fulfill()
+            }
+        }
+    }
+
+    func test_find_成功_情報を取得できること() {
+        // arrange
+        dataInsert()
+
+        memoConverter.convertHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.category,
+                .technical
+            )
+
+            XCTAssertEqual(
+                $0.content,
+                "コンテンツ"
+            )
+
+            XCTAssertEqual(
+                $0.createdAt,
+                Calendar.date(year: 2000, month: 1, day: 1)
+            )
+
+            XCTAssertEqual(
+                $0.identifier,
+                "identifier"
+            )
+
+            XCTAssertEqual(
+                $0.title,
+                "タイトル"
+            )
+
+            return MemoModelObjectBuilder()
+                .category(.technical)
+                .content($0.content!)
+                .createdAt($0.createdAt!)
+                .identifier($0.identifier)
+                .title($0.title!)
+                .build()
+        }
+
+        wait { expectation in
+            // act
+            self.model.find(identifier: "identifier") {
+                switch $0 {
+                case let .success(modelObject):
+                    // assert
+                    XCTAssertEqual(
+                        modelObject,
                         MemoModelObjectBuilder()
                             .category(.technical)
                             .content("コンテンツ")
@@ -71,72 +156,19 @@ final class MemoModelTest: XCTestCase {
                             .identifier("identifier")
                             .title("タイトル")
                             .build()
-                    ]
-                )
+                    )
 
-            case let .failure(appError):
-                XCTFail(appError.localizedDescription)
+                case let .failure(appError):
+                    XCTFail(appError.localizedDescription)
+                }
+
+                expectation.fulfill()
             }
-
-            expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 0.1)
-    }
-
-    func test_find_成功_情報を取得できること() {
-        // arrange
-        dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
-
-        memoConverter.convertHandler = {
-            // assert
-            XCTAssertEqual($0.category, .technical)
-            XCTAssertEqual($0.content, "コンテンツ")
-            XCTAssertEqual($0.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual($0.identifier, "identifier")
-            XCTAssertEqual($0.title, "タイトル")
-
-            return MemoModelObjectBuilder()
-                .category(.technical)
-                .content($0.content!)
-                .createdAt($0.createdAt!)
-                .identifier($0.identifier)
-                .title($0.title!)
-                .build()
-        }
-
-        // act
-        model.find(identifier: "identifier") {
-            switch $0 {
-            case let .success(modelObject):
-                // assert
-                XCTAssertEqual(
-                    modelObject,
-                    MemoModelObjectBuilder()
-                        .category(.technical)
-                        .content("コンテンツ")
-                        .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
-                        .identifier("identifier")
-                        .title("タイトル")
-                        .build()
-                )
-
-            case let .failure(appError):
-                XCTFail(appError.localizedDescription)
-            }
-
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: 0.1)
     }
 
     func test_create_情報を作成できること() {
         // act
-        let expectation = XCTestExpectation(description: #function)
-
         model.create(
             modelObject: MemoModelObjectBuilder()
                 .category(.technical)
@@ -146,26 +178,39 @@ final class MemoModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let memo = self.storage.allObjects.first!
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let memo = self.storage.allObjects.first!
 
-            // assert
-            XCTAssertEqual(memo.category, .technical)
-            XCTAssertEqual(memo.content, "コンテンツ")
-            XCTAssertEqual(memo.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual(memo.title, "タイトル")
+                // assert
+                XCTAssertEqual(
+                    memo.category,
+                    .technical
+                )
 
-            expectation.fulfill()
+                XCTAssertEqual(
+                    memo.content,
+                    "コンテンツ"
+                )
+
+                XCTAssertEqual(
+                    memo.createdAt,
+                    Calendar.date(year: 2000, month: 1, day: 1)
+                )
+
+                XCTAssertEqual(
+                    memo.title,
+                    "タイトル"
+                )
+
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_update_情報を更新できること() {
         // arrange
         dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
 
         // act
         model.update(
@@ -178,26 +223,39 @@ final class MemoModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let memo = self.storage.allObjects.first!
+        wait(timeout: 0.3) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let memo = self.storage.allObjects.first!
 
-            // assert
-            XCTAssertEqual(memo.category, .interview)
-            XCTAssertEqual(memo.content, "コンテンツ更新後")
-            XCTAssertEqual(memo.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
-            XCTAssertEqual(memo.title, "タイトル更新後")
+                // assert
+                XCTAssertEqual(
+                    memo.category,
+                    .interview
+                )
 
-            expectation.fulfill()
+                XCTAssertEqual(
+                    memo.content,
+                    "コンテンツ更新後"
+                )
+
+                XCTAssertEqual(
+                    memo.createdAt,
+                    Calendar.date(year: 2000, month: 1, day: 1)
+                )
+
+                XCTAssertEqual(
+                    memo.title,
+                    "タイトル更新後"
+                )
+
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.3)
     }
 
     func test_delete_情報を削除できること() {
         // arrange
         dataInsert()
-
-        let expectation = XCTestExpectation(description: #function)
 
         // act
         model.delete(
@@ -206,16 +264,16 @@ final class MemoModelTest: XCTestCase {
                 .build()
         )
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let allMemo = self.storage.allObjects
+        wait(timeout: 0.2) { expectation in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let allMemo = self.storage.allObjects
 
-            // assert
-            XCTAssertTrue(allMemo.isEmpty)
+                // assert
+                XCTAssertTrue(allMemo.isEmpty)
 
-            expectation.fulfill()
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 0.2)
     }
 }
 

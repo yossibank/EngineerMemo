@@ -25,7 +25,10 @@ final class ProfileIconViewModelTest: XCTestCase {
         // arrange
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual($0, .screenView)
+            XCTAssertEqual(
+                $0,
+                .screenView
+            )
         }
 
         // act
@@ -38,7 +41,10 @@ final class ProfileIconViewModelTest: XCTestCase {
 
         model.iconImageUpdateHandler = {
             // assert
-            XCTAssertEqual($0.iconImage, iconImage)
+            XCTAssertEqual(
+                $0.iconImage,
+                iconImage
+            )
         }
 
         // act
@@ -49,7 +55,10 @@ final class ProfileIconViewModelTest: XCTestCase {
         // arrange
         model.iconImageUpdateIndexHandler = {
             // assert
-            XCTAssertEqual($0, 2)
+            XCTAssertEqual(
+                $0,
+                2
+            )
         }
 
         // act

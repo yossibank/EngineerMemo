@@ -9,23 +9,17 @@ struct SkillModelObject: Hashable {
 }
 
 extension SkillModelObject {
-    func skillInsert(_ skill: Skill) {
-        if let engineerCareer {
-            skill.engineerCareer = .init(value: engineerCareer)
+    func skillInsert(
+        _ skill: Skill,
+        isNew: Bool
+    ) {
+        skill.engineerCareer = .init(value: engineerCareer ?? .invalid)
+        skill.language = language
+        skill.languageCareer = .init(value: languageCareer ?? .invalid)
+        skill.toeic = .init(value: toeic ?? .invalid)
+
+        if isNew {
+            skill.identifier = UUID().uuidString
         }
-
-        if let language {
-            skill.language = language
-
-            if let languageCareer {
-                skill.languageCareer = .init(value: languageCareer)
-            }
-        }
-
-        if let toeic {
-            skill.toeic = .init(value: toeic)
-        }
-
-        skill.identifier = UUID().uuidString
     }
 }

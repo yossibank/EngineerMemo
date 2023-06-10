@@ -21,9 +21,12 @@ final class DataHolderTest: XCTestCase {
         DataHolder.colorTheme = .dark
 
         // act
-        let output = try awaitOutputPublisher(publisher)
+        let output = try awaitOutputPublisher(publisher).first
 
         // assert
-        XCTAssertEqual(output.first, .dark)
+        XCTAssertEqual(
+            output,
+            .dark
+        )
     }
 }

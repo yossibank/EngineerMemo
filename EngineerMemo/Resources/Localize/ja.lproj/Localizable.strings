@@ -1,6 +1,7 @@
 // MARK: - 共通項
 
 "common.done" = "完了";
+"common.year" = "年";
 
 // MARK: - コンポーネント
 
@@ -31,8 +32,10 @@
 "navigation.title.memoUpdate" = "メモ更新";
 "navigation.title.profileDetail" = "プロフィール";
 "navigation.title.profileIcon" = "プロフィールアイコン変更";
-"navigation.title.profileUpdate" = "プロフィール更新";
-"navigation.title.profileSetting" = "プロフィール設定";
+"navigation.title.profileBasicUpdate" = "基本情報更新";
+"navigation.title.profileBasicSetting" = "基本情報設定";
+"navigation.title.profileSkillUpdate" = "スキル・経験更新";
+"navigation.title.profileSKillSetting" = "スキル・経験設定";
 "navigation.title.debugDevelopment" = "開発者用画面";
 "navigation.title.debugAPIResponse" = "APIレスポンス確認";
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";
@@ -79,10 +82,13 @@
 "profile.example.name" = "例) 山田 太郎";
 "profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
+"profile.example.useLanguage" = "例) Swift";
+"profile.example.toeic" = "例) 500";
 "profile.engineerCareer" = "エンジニア歴";
 "profile.useLanguage" = "得意言語";
 "profile.toeic" = "TOEIC";
 "profile.year" = "%@年";
+"profile.moreTenYear" = "10年以上";
 "profile.score" = "%@点";
 
 // MARK: - メモ

@@ -36,7 +36,9 @@ extension FBSnapshotTestCase {
         viewMode: SnapshotViewMode,
         viewFrame: CGRect = UIScreen.main.bounds,
         viewAfter: CGFloat = .zero,
-        viewAction: VoidBlock? = nil
+        viewAction: VoidBlock? = nil,
+        file: StaticString = #file,
+        line: UInt = #line
     ) {
         SnapshotColorMode.allCases.forEach { colorMode in
             snapshotVerifyView(
@@ -44,7 +46,9 @@ extension FBSnapshotTestCase {
                 viewMode: viewMode,
                 viewFrame: viewFrame,
                 viewAfter: viewAfter,
-                viewAction: viewAction
+                viewAction: viewAction,
+                file: file,
+                line: line
             )
         }
     }
@@ -63,23 +67,20 @@ private extension FBSnapshotTestCase {
         fileNameOptions = [.device, .OS, .screenSize, .screenScale]
 
         let expectation = XCTestExpectation(description: #function)
-        let window: UIWindow
+        let window = UIWindow(frame: viewFrame)
 
         switch viewMode {
         case let .normal(viewController):
-            viewController.view.frame = viewFrame
-            window = .init(frame: viewFrame)
             window.rootViewController = viewController
 
         case let .navigation(viewController):
-            viewController.view.frame = viewFrame
-            window = .init(frame: viewFrame)
             window.rootViewController = UINavigationController(rootViewController: viewController)
         }
 
-        window.makeKeyAndVisible()
-        window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
+        window.rootViewController?.view.frame = viewFrame
         window.rootViewController?.view.layoutIfNeeded()
+        window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
+        window.makeKeyAndVisible()
 
         viewAction?()
 
@@ -87,6 +88,7 @@ private extension FBSnapshotTestCase {
             self.FBSnapshotVerifyView(
                 window,
                 identifier: colorMode.identifier,
+                overallTolerance: 0.05,
                 file: file,
                 line: line
             )

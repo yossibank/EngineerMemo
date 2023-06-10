@@ -21,8 +21,10 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
 
         model.fetchHandler = {
-            $0(.success(
-                [ProfileModelObjectBuilder().build()])
+            $0(
+                .success(
+                    [ProfileModelObjectBuilder().build()]
+                )
             )
         }
     }
@@ -65,7 +67,10 @@ final class ProfileDetailViewModelTest: XCTestCase {
         // arrange
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual($0, .screenView)
+            XCTAssertEqual(
+                $0,
+                .screenView
+            )
         }
 
         // act
@@ -78,42 +83,101 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         routing.showIconScreenHandler = {
             // assert
-            XCTAssertEqual($0, modelObject)
+            XCTAssertEqual(
+                $0,
+                modelObject
+            )
         }
 
         // act
         viewModel.input.didTapIconChangeButton.send(modelObject)
 
         // assert
-        XCTAssertEqual(routing.showIconScreenCallCount, 1)
+        XCTAssertEqual(
+            routing.showIconScreenCallCount,
+            1
+        )
     }
 
-    func test_input_didTapEditButton_routing_showUpdateScreenが呼び出されること() {
+    func test_input_didTapBasicEditButton_routing_showUpdateBasicScreenが呼び出されること() {
         // arrange
         let modelObject = ProfileModelObjectBuilder().build()
 
-        routing.showUpdateScreenHandler = {
+        routing.showUpdateBasicScreenHandler = {
             // assert
-            XCTAssertEqual($0, .update(modelObject))
+            XCTAssertEqual(
+                $0,
+                modelObject
+            )
         }
 
         // act
-        viewModel.input.didTapEditButton.send(modelObject)
+        viewModel.input.didTapBasicEditButton.send(modelObject)
 
         // assert
-        XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
+        XCTAssertEqual(
+            routing.showUpdateBasicScreenCallCount,
+            1
+        )
     }
 
-    func test_input_didTapSettingButton_routing_showUpdateScreenが呼び出されること() {
+    func test_input_didTapBasicSettingButton_routing_showUpdateBasicScreenが呼び出されること() {
         // arrange
-        routing.showUpdateScreenHandler = {
-            XCTAssertEqual($0, .setting)
+        routing.showUpdateBasicScreenHandler = {
+            // assert
+            XCTAssertNil($0)
         }
 
         // act
-        viewModel.input.didTapSettingButton.send(())
+        viewModel.input.didTapBasicSettingButton.send(nil)
 
         // assert
-        XCTAssertEqual(routing.showUpdateScreenCallCount, 1)
+        XCTAssertEqual(
+            routing.showUpdateBasicScreenCallCount,
+            1
+        )
+    }
+
+    func test_input_didTapSkillEditButton_routing_showUpdateSkillScreenが呼び出されること() {
+        // arrange
+        let modelObject = ProfileModelObjectBuilder().build()
+
+        routing.showUpdateSkillScreenHandler = {
+            // assert
+            XCTAssertEqual(
+                $0,
+                modelObject
+            )
+        }
+
+        // act
+        viewModel.input.didTapSkillEditButton.send(modelObject)
+
+        // assert
+        XCTAssertEqual(
+            routing.showUpdateSkillScreenCallCount,
+            1
+        )
+    }
+
+    func test_input_didTapSkillSettingButton_routing_showUpdateSkillScreenが呼び出されること() {
+        // arrange
+        let modelObject = ProfileModelObjectBuilder().build()
+
+        routing.showUpdateSkillScreenHandler = {
+            XCTAssertEqual(
+                $0,
+                modelObject
+            )
+        }
+
+        // act
+        viewModel.input.didTapSkillSettingButton.send(modelObject)
+
+        // assert
+        XCTAssertEqual(
+            routing.showUpdateSkillScreenCallCount,
+            1
+        )
     }
 }

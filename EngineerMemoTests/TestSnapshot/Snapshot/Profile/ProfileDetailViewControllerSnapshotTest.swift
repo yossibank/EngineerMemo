@@ -73,7 +73,11 @@ private extension ProfileDetailViewControllerSnapshotTest {
 
             if let skillModelObject = modelObject.skill {
                 CoreDataStorage<Skill>().create().sink { skill in
-                    skillModelObject.skillInsert(skill)
+                    skillModelObject.skillInsert(
+                        skill,
+                        isNew: true
+                    )
+
                     profile.skill = skill
                 }
                 .store(in: &self.cancellables)

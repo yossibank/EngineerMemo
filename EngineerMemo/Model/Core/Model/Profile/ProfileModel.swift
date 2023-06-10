@@ -109,13 +109,21 @@ final class ProfileModel: ProfileModelInput {
             if let skill = modelObject.skill {
                 if profile.skill == nil {
                     self.skillStorage.create().sink { skill in
-                        modelObject.skill?.skillInsert(skill)
+                        modelObject.skill?.skillInsert(
+                            skill,
+                            isNew: true
+                        )
+
                         profile.skill = skill
                     }
                     .store(in: &self.cancellables)
                 } else {
                     self.skillStorage.update(identifier: skill.identifier).sink { skill in
-                        modelObject.skill?.skillInsert(skill)
+                        modelObject.skill?.skillInsert(
+                            skill,
+                            isNew: false
+                        )
+
                         profile.skill = skill
                     }
                     .store(in: &self.cancellables)

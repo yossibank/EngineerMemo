@@ -7,11 +7,16 @@ import UIKitHelper
 final class ProfileSkillCell: AllyTableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
+    private(set) lazy var didTapEditButtonPublisher = editButton.publisher(for: .touchUpInside)
     private(set) lazy var didTapSettingButtonPublisher = settingButton.publisher(for: .touchUpInside)
 
     private lazy var baseView = UIView()
         .addSubview(body) {
             $0.edges.equalToSuperview().inset(16)
+        }
+        .addSubview(editButton) {
+            $0.top.equalToSuperview().inset(12)
+            $0.trailing.equalToSuperview().inset(8)
         }
         .configure {
             $0.backgroundColor = .primaryGray
@@ -118,6 +123,27 @@ final class ProfileSkillCell: AllyTableViewCell {
     private let toeicImageView = UIImageView()
     private let toeicLabel = UILabel()
 
+    private let editButton = UIButton(type: .system).configure {
+        var config = UIButton.Configuration.filled()
+        config.title = L10n.Components.Button.Do.edit
+        config.image = Asset.profileEdit.image
+            .resized(size: .init(width: 16, height: 16))
+            .withRenderingMode(.alwaysOriginal)
+        config.baseForegroundColor = .primary
+        config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
+        config.imagePadding = 4
+        config.titleTextAttributesTransformer = .init { incoming in
+            var outgoing = incoming
+            outgoing.font = .boldSystemFont(ofSize: 12)
+            return outgoing
+        }
+        config.background.backgroundColor = .primaryGray
+        config.background.cornerRadius = 8
+        config.background.strokeColor = .primary
+        config.background.strokeWidth = 1.0
+        $0.configuration = config
+    }
+
     private let settingButton = UIButton(type: .system).configure {
         var config = UIButton.Configuration.filled()
         config.title = L10n.Components.Button.Do.setting
@@ -162,24 +188,26 @@ extension ProfileSkillCell {
         guard let modelObject else {
             settingView.isHidden = false
             skillView.isHidden = true
+            editButton.isHidden = true
             return
         }
 
         settingView.isHidden = true
         skillView.isHidden = false
+        editButton.isHidden = false
         engineerCareerView.isHidden = modelObject.engineerCareer == nil
         languageView.isHidden = modelObject.language == nil
         toeicView.isHidden = modelObject.toeic == nil
 
         if let engineerCareer = modelObject.engineerCareer {
-            engineerCareerLabel.text = L10n.Profile.year(engineerCareer)
+            engineerCareerLabel.text = SkillCareerType(rawValue: engineerCareer)?.title ?? .noSetting
         }
 
         if let language = modelObject.language {
             languageLabel.text = language
 
             if let languageCareer = modelObject.languageCareer {
-                languageCareerLabel.text = L10n.Profile.year(languageCareer)
+                languageCareerLabel.text = SkillCareerType(rawValue: languageCareer)?.title
             }
         }
 

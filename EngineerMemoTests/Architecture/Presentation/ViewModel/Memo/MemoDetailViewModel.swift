@@ -22,7 +22,11 @@ final class MemoDetailViewModelTest: XCTestCase {
         )
 
         model.findHandler = { _, completion in
-            completion(.success(MemoModelObjectBuilder().build()))
+            completion(
+                .success(
+                    MemoModelObjectBuilder().build()
+                )
+            )
         }
 
         viewModel.input.viewDidLoad.send(())
@@ -47,7 +51,10 @@ final class MemoDetailViewModelTest: XCTestCase {
         // arrange
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual($0, .screenView)
+            XCTAssertEqual(
+                $0,
+                .screenView
+            )
         }
 
         // act
@@ -58,7 +65,10 @@ final class MemoDetailViewModelTest: XCTestCase {
         // arrange
         routing.showUpdateScreenHandler = {
             // assert
-            XCTAssertEqual($0, MemoModelObjectBuilder().build())
+            XCTAssertEqual(
+                $0,
+                MemoModelObjectBuilder().build()
+            )
         }
 
         // act
@@ -69,7 +79,10 @@ final class MemoDetailViewModelTest: XCTestCase {
         // arrange
         model.deleteHandler = {
             // assert
-            XCTAssertEqual($0, MemoModelObjectBuilder().build())
+            XCTAssertEqual(
+                $0,
+                MemoModelObjectBuilder().build()
+            )
         }
 
         // act

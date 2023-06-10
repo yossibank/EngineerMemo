@@ -29,8 +29,10 @@ final class ProfileDetailContentView: UIView {
     }
 
     private(set) lazy var didTapIconChangeButtonPublisher = didTapIconChangeButtonSubject.eraseToAnyPublisher()
-    private(set) lazy var didTapEditButtonPublisher = didTapEditButtonSubject.eraseToAnyPublisher()
-    private(set) lazy var didTapSettingButtonPublisher = didTapSettingButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapBasicEditButtonPublisher = didTapBasicEditButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapBasicSettingButtonPublisher = didTapBasicSettingButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapSkillEditButtonPublisher = didTapSkillEditButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapSkillSettingButtonPublisher = didTapSkillSettingButtonSubject.eraseToAnyPublisher()
 
     private lazy var dataSource = UITableViewDiffableDataSource<
         Section,
@@ -48,8 +50,10 @@ final class ProfileDetailContentView: UIView {
     }
 
     private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
-    private let didTapEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
-    private let didTapSettingButtonSubject = PassthroughSubject<Void, Never>()
+    private let didTapBasicEditButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
+    private let didTapBasicSettingButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
+    private let didTapSkillEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
+    private let didTapSkillSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
 
     private let tableView = UITableView()
 
@@ -118,14 +122,12 @@ private extension ProfileDetailContentView {
             cell.configure(modelObject)
 
             cell.didTapEditButtonPublisher.sink { [weak self] _ in
-                if let modelObject {
-                    self?.didTapEditButtonSubject.send(modelObject)
-                }
+                self?.didTapBasicEditButtonSubject.send(modelObject)
             }
             .store(in: &cell.cancellables)
 
             cell.didTapSettingButtonPublisher.sink { [weak self] _ in
-                self?.didTapSettingButtonSubject.send(())
+                self?.didTapBasicSettingButtonSubject.send(modelObject)
             }
             .store(in: &cell.cancellables)
 
@@ -138,6 +140,30 @@ private extension ProfileDetailContentView {
             )
 
             cell.configure(modelObject)
+
+            cell.didTapEditButtonPublisher.sink { [weak self] _ in
+                guard
+                    let self,
+                    let modelObject = self.modelObject
+                else {
+                    return
+                }
+
+                self.didTapSkillEditButtonSubject.send(modelObject)
+            }
+            .store(in: &cell.cancellables)
+
+            cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                guard
+                    let self,
+                    let modelObject = self.modelObject
+                else {
+                    return
+                }
+
+                self.didTapSkillSettingButtonSubject.send(modelObject)
+            }
+            .store(in: &cell.cancellables)
 
             return cell
         }
