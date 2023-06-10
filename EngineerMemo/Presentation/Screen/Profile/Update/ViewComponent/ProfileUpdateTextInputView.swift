@@ -10,13 +10,6 @@ final class ProfileUpdateTextInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView
-                .addSubview(titleStackView) {
-                    $0.edges.equalToSuperview().inset(8)
-                }
-                .addConstraint {
-                    $0.height.equalTo(40)
-                }
-                .apply(.inputView)
 
             VStackView(spacing: 4) {
                 inputTextField.configure {
@@ -32,23 +25,7 @@ final class ProfileUpdateTextInputView: UIView {
         }
     }
 
-    private lazy var titleStackView = HStackView(spacing: 4) {
-        titleIconImageView
-            .addConstraint {
-                $0.size.equalTo(24)
-            }
-
-        titleLabel.configure {
-            $0.textColor = .secondaryGray
-            $0.font = .boldSystemFont(ofSize: 16)
-        }
-
-        UIView()
-    }
-
-    private let titleView = UIView()
-    private let titleIconImageView = UIImageView()
-    private let titleLabel = UILabel()
+    private let titleView = ProfileUpdateTitleView()
     private let inputTextField = UITextField()
     private let borderView = BorderView()
 
@@ -94,8 +71,11 @@ final class ProfileUpdateTextInputView: UIView {
 
         setupView()
 
-        titleLabel.text = title
-        titleIconImageView.image = icon
+        titleView.configure(
+            title: title,
+            icon: icon
+        )
+
         inputTextField.configure {
             $0.keyboardType = keyboardType
             $0.placeholder = placeholder
@@ -106,18 +86,6 @@ final class ProfileUpdateTextInputView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - override methods
-
-extension ProfileUpdateTextInputView {
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            titleView.layer.borderColor = UIColor.primary.cgColor
-        }
     }
 }
 

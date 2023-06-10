@@ -4,19 +4,17 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateMenuInputView: UIView {
+final class ProfileUpdateGenderInputView: UIView {
     @Published private(set) var selectedGenderType: ProfileGenderType = .noSetting
 
     private var body: UIView {
         VStackView(spacing: 12) {
-            titleView
-                .addSubview(titleStackView) {
-                    $0.edges.equalToSuperview().inset(8)
-                }
-                .addConstraint {
-                    $0.height.equalTo(40)
-                }
-                .apply(.inputView)
+            titleView.configure {
+                $0.configure(
+                    title: L10n.Profile.gender,
+                    icon: Asset.profileGender.image
+                )
+            }
 
             VStackView(spacing: 4) {
                 menuButton
@@ -28,35 +26,16 @@ final class ProfileUpdateMenuInputView: UIView {
         }
     }
 
-    private lazy var titleStackView = HStackView(spacing: 4) {
-        titleIconImageView
-            .addConstraint {
-                $0.size.equalTo(24)
-            }
-            .configure {
-                $0.image = Asset.profileGender.image
-            }
-
-        titleLabel.configure {
-            $0.textColor = .secondaryGray
-            $0.font = .boldSystemFont(ofSize: 16)
-        }
-
-        UIView()
-    }
-
-    private let titleView = UIView()
-    private let titleIconImageView = UIImageView()
-    private let titleLabel = UILabel()
+    private let titleView = ProfileUpdateTitleView()
     private let menuButton = MenuButton(type: .system)
     private let borderView = BorderView()
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    init(title: String) {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
-        setupView(title: title)
+        setupView()
         setupMenu()
     }
 
@@ -66,21 +45,9 @@ final class ProfileUpdateMenuInputView: UIView {
     }
 }
 
-// MARK: - override methods
-
-extension ProfileUpdateMenuInputView {
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            titleView.layer.borderColor = UIColor.primary.cgColor
-        }
-    }
-}
-
 // MARK: - internal methods
 
-extension ProfileUpdateMenuInputView {
+extension ProfileUpdateGenderInputView {
     func updateValue(modelObject: ProfileModelObject?) {
         guard
             let modelObject,
@@ -96,8 +63,8 @@ extension ProfileUpdateMenuInputView {
 
 // MARK: - private methods
 
-private extension ProfileUpdateMenuInputView {
-    func setupView(title: String) {
+private extension ProfileUpdateGenderInputView {
+    func setupView() {
         configure {
             $0.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(8)
@@ -106,8 +73,6 @@ private extension ProfileUpdateMenuInputView {
 
             $0.backgroundColor = .background
         }
-
-        titleLabel.text = title
     }
 
     func setupMenu() {
@@ -161,7 +126,7 @@ private extension ProfileUpdateMenuInputView {
 
     struct ProfileUpdateMenuInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateMenuInputView(title: "title"))
+            WrapperView(view: ProfileUpdateGenderInputView())
         }
     }
 #endif

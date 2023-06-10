@@ -56,8 +56,8 @@ final class ProfileUpdateBasicContentView: UIView {
     private var cancellables: Set<AnyCancellable> = .init()
 
     private let nameInputView = ProfileUpdateTextInputView(.name)
-    private let birthdayInputView = ProfileUpdatePickerInputView(title: L10n.Profile.birthday)
-    private let genderInputView = ProfileUpdateMenuInputView(title: L10n.Profile.gender)
+    private let birthdayInputView = ProfileUpdateBirthdayInputView()
+    private let genderInputView = ProfileUpdateGenderInputView()
     private let emailInputView = ProfileUpdateTextInputView(.email)
     private let phoneNumberInputView = ProfileUpdateTextInputView(.phoneNumber)
     private let addressInputView = ProfileUpdateTextInputView(.address)

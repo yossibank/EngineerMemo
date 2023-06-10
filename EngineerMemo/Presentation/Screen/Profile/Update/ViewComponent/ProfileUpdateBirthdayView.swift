@@ -4,19 +4,17 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdatePickerInputView: UIView {
+final class ProfileUpdateBirthdayInputView: UIView {
     private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
 
     private var body: UIView {
         VStackView(spacing: 12) {
-            titleView
-                .addSubview(titleStackView) {
-                    $0.edges.equalToSuperview().inset(8)
-                }
-                .addConstraint {
-                    $0.height.equalTo(40)
-                }
-                .apply(.inputView)
+            titleView.configure {
+                $0.configure(
+                    title: L10n.Profile.birthday,
+                    icon: Asset.profileBirthday.image
+                )
+            }
 
             VStackView(spacing: 4) {
                 UIView()
@@ -36,26 +34,7 @@ final class ProfileUpdatePickerInputView: UIView {
         }
     }
 
-    private lazy var titleStackView = HStackView(spacing: 4) {
-        titleIconImageView
-            .addConstraint {
-                $0.size.equalTo(24)
-            }
-            .configure {
-                $0.image = Asset.profileBirthday.image
-            }
-
-        titleLabel.configure {
-            $0.textColor = .secondaryGray
-            $0.font = .boldSystemFont(ofSize: 16)
-        }
-
-        UIView()
-    }
-
-    private let titleView = UIView()
-    private let titleIconImageView = UIImageView()
-    private let titleLabel = UILabel()
+    private let titleView = ProfileUpdateTitleView()
 
     private let inputDatePicker = UIDatePicker().configure {
         $0.contentHorizontalAlignment = .leading
@@ -72,10 +51,10 @@ final class ProfileUpdatePickerInputView: UIView {
 
     private var cancellables: Set<AnyCancellable> = .init()
 
-    init(title: String) {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
-        setupView(title: title)
+        setupView()
         setupPicker()
     }
 
@@ -87,25 +66,17 @@ final class ProfileUpdatePickerInputView: UIView {
 
 // MARK: - override methods
 
-extension ProfileUpdatePickerInputView {
+extension ProfileUpdateBirthdayInputView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
         UIDatePicker.makeTransparent(view: inputDatePicker)
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            titleView.layer.borderColor = UIColor.primary.cgColor
-        }
-    }
 }
 
 // MARK: - internal methods
 
-extension ProfileUpdatePickerInputView {
+extension ProfileUpdateBirthdayInputView {
     func updateValue(modelObject: ProfileModelObject?) {
         guard
             let modelObject,
@@ -120,8 +91,8 @@ extension ProfileUpdatePickerInputView {
 
 // MARK: - private methods
 
-private extension ProfileUpdatePickerInputView {
-    func setupView(title: String) {
+private extension ProfileUpdateBirthdayInputView {
+    func setupView() {
         configure {
             $0.addSubview(body) {
                 $0.top.bottom.equalToSuperview().inset(8)
@@ -130,8 +101,6 @@ private extension ProfileUpdatePickerInputView {
 
             $0.backgroundColor = .background
         }
-
-        titleLabel.text = title
     }
 
     func setupPicker() {
@@ -161,7 +130,7 @@ private extension ProfileUpdatePickerInputView {
 
     struct ProfileUpdatePickerInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdatePickerInputView(title: "title"))
+            WrapperView(view: ProfileUpdateBirthdayInputView())
         }
     }
 #endif
