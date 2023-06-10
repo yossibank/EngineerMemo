@@ -12,12 +12,14 @@ final class ProfileUpdateSkillContentView: UIView {
     private lazy var body = VStackView(distribution: .equalSpacing, spacing: 16) {
         careerInputView
         useLanguageInputView
+        toeicInputView
     }
 
     private var cancellables = Set<AnyCancellable>()
 
     private let careerInputView = ProfileUpdateCareerInputView()
     private let useLanguageInputView = ProfileUpdateUseLanguageInputView()
+    private let toeicInputView = ProfileUpdateToeicInputView()
 
     private let modelObject: SkillModelObject?
 

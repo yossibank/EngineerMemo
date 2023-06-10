@@ -83,6 +83,7 @@
 "profile.example.phoneNumber" = "例) 08011112222(ハイフンは不要です)";
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
 "profile.example.useLanguage" = "例) Swift";
+"profile.example.toeic" = "例) 500";
 "profile.engineerCareer" = "エンジニア歴";
 "profile.useLanguage" = "得意言語";
 "profile.toeic" = "TOEIC";
