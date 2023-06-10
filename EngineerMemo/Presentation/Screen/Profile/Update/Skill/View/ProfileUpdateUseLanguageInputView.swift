@@ -63,7 +63,20 @@ final class ProfileUpdateUseLanguageInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateUseLanguageInputView {}
+extension ProfileUpdateUseLanguageInputView {
+    func updateValue(modelObject: SkillModelObject?) {
+        guard let modelObject else {
+            return
+        }
+
+        if let languageCareer = modelObject.languageCareer {
+            selectedCareerType = .init(rawValue: languageCareer) ?? .noSetting
+            setupMenu()
+        }
+
+        inputTextField.text = modelObject.language
+    }
+}
 
 // MARK: - private methods
 

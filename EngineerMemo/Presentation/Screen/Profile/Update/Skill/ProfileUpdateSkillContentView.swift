@@ -5,11 +5,25 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfileUpdateSkillContentView: UIView {
+    private(set) lazy var didChangeCareerInputPublisher = careerInputView.$selectedCareerType
+    private(set) lazy var didChangeLanguageCareerInputPublisher = useLanguageInputView.$selectedCareerType
+    private(set) lazy var didChangeLanguageInputPublisher = useLanguageInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeToeicScoreInputPublisher = toeicInputView.didChangeInputScorePublisher
+    private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
+
+    private(set) lazy var barButton = UIButton(type: .system).addConstraint {
+        $0.width.equalTo(72)
+        $0.height.equalTo(32)
+    }
+
     private lazy var scrollView = UIScrollView().addSubview(body) {
         $0.width.edges.equalToSuperview()
     }
 
-    private lazy var body = VStackView(distribution: .equalSpacing, spacing: 16) {
+    private lazy var body = VStackView(
+        distribution: .equalSpacing,
+        spacing: 16
+    ) {
         careerInputView
         useLanguageInputView
         toeicInputView
@@ -21,12 +35,8 @@ final class ProfileUpdateSkillContentView: UIView {
     private let useLanguageInputView = ProfileUpdateUseLanguageInputView()
     private let toeicInputView = ProfileUpdateToeicInputView()
 
-    private let modelObject: SkillModelObject?
-
-    init(modelObject: SkillModelObject?) {
-        self.modelObject = modelObject
-
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
         setupView()
         setupEvent()
@@ -38,9 +48,50 @@ final class ProfileUpdateSkillContentView: UIView {
     }
 }
 
+// MARK: - override methods
+
+extension ProfileUpdateSkillContentView {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            barButton.layer.borderColor = UIColor.primary.cgColor
+        }
+    }
+}
+
 // MARK: - internal methods
 
-extension ProfileUpdateSkillContentView {}
+extension ProfileUpdateSkillContentView {
+    func configureBarButton(modelObject: SkillModelObject?) {
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
+            ? .settingNavigationButton
+            : .updateNavigationButton
+
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
+            ? .settingDoneNavigationButton
+            : .updateDoneNavigationButton
+
+        barButton.apply(defaultButtonStyle)
+
+        barButton.publisher(for: .touchUpInside)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.barButton.apply(updatedButtonStyle)
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    self?.barButton.apply(defaultButtonStyle)
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    func configureValue(modelObject: SkillModelObject?) {
+        careerInputView.updateValue(modelObject: modelObject)
+        useLanguageInputView.updateValue(modelObject: modelObject)
+        toeicInputView.updateValue(modelObject: modelObject)
+    }
+}
 
 // MARK: - private methods
 
@@ -80,7 +131,7 @@ extension ProfileUpdateSkillContentView: ContentView {
 
     struct ProfileSkillUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateSkillContentView(modelObject: nil))
+            WrapperView(view: ProfileUpdateSkillContentView())
         }
     }
 #endif

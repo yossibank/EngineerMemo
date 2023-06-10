@@ -28,7 +28,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
     let output: Output
 
     private var modelObject = ProfileModelObject(identifier: UUID().uuidString)
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let model: ProfileModelInput
     private let analytics: FirebaseAnalyzable

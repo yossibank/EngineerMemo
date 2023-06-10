@@ -140,28 +140,18 @@ enum AppControllers {
                 return vc
             }
 
-            static func Skill(type: ProfileUpdateSkillType) -> ProfileUpdateSkillViewController {
+            static func Skill(modelObject: ProfileModelObject) -> ProfileUpdateSkillViewController {
                 let vc = ProfileUpdateSkillViewController()
 
-                switch type {
-                case .setting:
-                    vc.title = L10n.Navigation.Title.profileSKillSetting
-                    vc.inject(
-                        contentView: ProfileUpdateSkillContentView(modelObject: nil),
-                        viewModel: ProfileUpdateSkillViewModel(
-                            analytics: FirebaseAnalytics(screenId: .profileSkillSetting)
-                        )
+                vc.title = L10n.Navigation.Title.profileSKillSetting
+                vc.inject(
+                    contentView: ProfileUpdateSkillContentView(),
+                    viewModel: ProfileUpdateSkillViewModel(
+                        modelObject: modelObject,
+                        model: Models.Profile(),
+                        analytics: FirebaseAnalytics(screenId: .profileSkillSetting)
                     )
-
-                case let .update(modelObject):
-                    vc.title = L10n.Navigation.Title.profileSKillSetting
-                    vc.inject(
-                        contentView: ProfileUpdateSkillContentView(modelObject: modelObject),
-                        viewModel: ProfileUpdateSkillViewModel(
-                            analytics: FirebaseAnalytics(screenId: .profileSkillUpdate)
-                        )
-                    )
-                }
+                )
 
                 return vc
             }
@@ -319,9 +309,4 @@ enum MemoUpdateType: Equatable {
 enum ProfileUpdateBasicType: Equatable {
     case setting
     case update(ProfileModelObject)
-}
-
-enum ProfileUpdateSkillType: Equatable {
-    case setting
-    case update(SkillModelObject)
 }

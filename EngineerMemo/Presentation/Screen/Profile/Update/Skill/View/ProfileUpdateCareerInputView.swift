@@ -47,7 +47,19 @@ final class ProfileUpdateCareerInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateCareerInputView {}
+extension ProfileUpdateCareerInputView {
+    func updateValue(modelObject: SkillModelObject?) {
+        guard
+            let modelObject,
+            let engineerCareer = modelObject.engineerCareer
+        else {
+            return
+        }
+
+        selectedCareerType = .init(rawValue: engineerCareer) ?? .noSetting
+        setupMenu()
+    }
+}
 
 // MARK: - private methods
 

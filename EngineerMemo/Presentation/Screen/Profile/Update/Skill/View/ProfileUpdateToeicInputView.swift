@@ -5,7 +5,9 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfileUpdateToeicInputView: UIView {
-    private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
+    private(set) lazy var didChangeInputScorePublisher = inputTextField.textDidChangePublisher.compactMap {
+        Int($0)
+    }
 
     private var body: UIView {
         VStackView(spacing: 12) {
@@ -51,7 +53,15 @@ final class ProfileUpdateToeicInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateToeicInputView {}
+extension ProfileUpdateToeicInputView {
+    func updateValue(modelObject: SkillModelObject?) {
+        guard let modelObject else {
+            return
+        }
+
+        inputTextField.text = modelObject.toeic?.description
+    }
+}
 
 // MARK: - private methods
 

@@ -4,7 +4,7 @@ import UIKit
 protocol ProfileDetailRoutingInput {
     func showIconScreen(modelObject: ProfileModelObject)
     func showUpdateBasicScreen(type: ProfileUpdateBasicType)
-    func showUpdateSkillScreen(type: ProfileUpdateSkillType)
+    func showUpdateSkillScreen(modelObject: ProfileModelObject)
 }
 
 // MARK: - properties & init
@@ -34,9 +34,9 @@ extension ProfileDetailRouting: ProfileDetailRoutingInput {
         )
     }
 
-    func showUpdateSkillScreen(type: ProfileUpdateSkillType) {
+    func showUpdateSkillScreen(modelObject: ProfileModelObject) {
         viewController?.show(
-            AppControllers.Profile.Update.Skill(type: type),
+            AppControllers.Profile.Update.Skill(modelObject: modelObject),
             sender: nil
         )
     }
