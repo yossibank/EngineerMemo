@@ -4,15 +4,15 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateGenderInputView: UIView {
-    @Published private(set) var selectedGenderType: ProfileGenderType = .noSetting
+final class ProfileUpdateCareerInputView: UIView {
+    @Published private(set) var selectedCareerType: SkillCareerType = .noSetting
 
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView.configure {
                 $0.configure(
-                    title: L10n.Profile.gender,
-                    icon: Asset.profileGender.image
+                    title: L10n.Profile.engineerCareer,
+                    icon: Asset.profileEngineerCareer.image
                 )
             }
 
@@ -47,23 +47,11 @@ final class ProfileUpdateGenderInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateGenderInputView {
-    func updateValue(modelObject: ProfileModelObject?) {
-        guard
-            let modelObject,
-            let gender = modelObject.gender
-        else {
-            return
-        }
-
-        selectedGenderType = .init(rawValue: gender.rawValue) ?? .noSetting
-        setupMenu()
-    }
-}
+extension ProfileUpdateCareerInputView {}
 
 // MARK: - private methods
 
-private extension ProfileUpdateGenderInputView {
+private extension ProfileUpdateCareerInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -78,13 +66,13 @@ private extension ProfileUpdateGenderInputView {
     func setupMenu() {
         var actions = [UIMenuElement]()
 
-        ProfileGenderType.allCases.forEach { genderType in
+        SkillCareerType.allCases.forEach { careerType in
             actions.append(
                 UIAction(
-                    title: genderType.title,
-                    state: genderType == selectedGenderType ? .on : .off,
+                    title: careerType.title,
+                    state: careerType == selectedCareerType ? .on : .off,
                     handler: { [weak self] _ in
-                        self?.selectedGenderType = genderType
+                        self?.selectedCareerType = careerType
                         self?.setupMenu()
                     }
                 )
@@ -93,7 +81,7 @@ private extension ProfileUpdateGenderInputView {
 
         menuButton.configure {
             var config = UIButton.Configuration.filled()
-            config.title = selectedGenderType.title
+            config.title = selectedCareerType.title
             config.baseForegroundColor = .primary
             config.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 0)
             config.titleTextAttributesTransformer = .init { incoming in
@@ -124,9 +112,9 @@ private extension ProfileUpdateGenderInputView {
 #if DEBUG
     import SwiftUI
 
-    struct ProfileUpdateMenuInputViewPreview: PreviewProvider {
+    struct ProfileUpdateCareerInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateGenderInputView())
+            WrapperView(view: ProfileUpdateCareerInputView())
         }
     }
 #endif

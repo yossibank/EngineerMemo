@@ -1,6 +1,7 @@
 // MARK: - 共通項
 
 "common.done" = "完了";
+"common.year" = "年";
 
 // MARK: - コンポーネント
 
@@ -85,6 +86,7 @@
 "profile.useLanguage" = "得意言語";
 "profile.toeic" = "TOEIC";
 "profile.year" = "%@年";
+"profile.moreTenYear" = "10年以上";
 "profile.score" = "%@点";
 
 // MARK: - メモ

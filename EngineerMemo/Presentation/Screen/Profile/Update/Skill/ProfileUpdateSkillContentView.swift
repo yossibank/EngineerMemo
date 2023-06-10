@@ -5,13 +5,17 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfileUpdateSkillContentView: UIView {
-    private var body: UIView {
-        VStackView(alignment: .center) {
-            UILabel().configure {
-                $0.text = "Hello World!"
-            }
-        }
+    private lazy var scrollView = UIScrollView().addSubview(body) {
+        $0.width.edges.equalToSuperview()
     }
+
+    private lazy var body = VStackView(distribution: .equalSpacing, spacing: 16) {
+        careerInputView
+    }
+
+    private var cancellables = Set<AnyCancellable>()
+
+    private let careerInputView = ProfileUpdateCareerInputView()
 
     private let modelObject: SkillModelObject?
 
@@ -21,6 +25,7 @@ final class ProfileUpdateSkillContentView: UIView {
         super.init(frame: .zero)
 
         setupView()
+        setupEvent()
     }
 
     @available(*, unavailable)
@@ -35,15 +40,28 @@ extension ProfileUpdateSkillContentView {}
 
 // MARK: - private methods
 
-private extension ProfileUpdateSkillContentView {}
+private extension ProfileUpdateSkillContentView {
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
+    }
+}
 
 // MARK: - protocol
 
 extension ProfileUpdateSkillContentView: ContentView {
     func setupView() {
         configure {
-            $0.addSubview(body) {
-                $0.edges.equalToSuperview()
+            $0.addSubview(scrollView) {
+                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
+                $0.bottom.equalToSuperview().priority(.low)
+                $0.leading.trailing.equalToSuperview()
+            }
+
+            $0.keyboardLayoutGuide.snp.makeConstraints {
+                $0.top.equalTo(scrollView.snp.bottom).inset(-16)
             }
 
             $0.backgroundColor = .background
