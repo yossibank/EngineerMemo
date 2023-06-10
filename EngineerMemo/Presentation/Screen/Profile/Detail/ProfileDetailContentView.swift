@@ -50,8 +50,8 @@ final class ProfileDetailContentView: UIView {
     }
 
     private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
-    private let didTapBasicEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
-    private let didTapBasicSettingButtonSubject = PassthroughSubject<Void, Never>()
+    private let didTapBasicEditButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
+    private let didTapBasicSettingButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
     private let didTapSkillEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSkillSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
 
@@ -122,14 +122,12 @@ private extension ProfileDetailContentView {
             cell.configure(modelObject)
 
             cell.didTapEditButtonPublisher.sink { [weak self] _ in
-                if let modelObject {
-                    self?.didTapBasicEditButtonSubject.send(modelObject)
-                }
+                self?.didTapBasicEditButtonSubject.send(modelObject)
             }
             .store(in: &cell.cancellables)
 
             cell.didTapSettingButtonPublisher.sink { [weak self] _ in
-                self?.didTapBasicSettingButtonSubject.send(())
+                self?.didTapBasicSettingButtonSubject.send(modelObject)
             }
             .store(in: &cell.cancellables)
 

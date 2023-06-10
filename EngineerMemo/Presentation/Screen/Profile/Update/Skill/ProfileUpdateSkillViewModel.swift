@@ -26,14 +26,13 @@ final class ProfileUpdateSkillViewModel: ViewModel {
     let output: Output
 
     private var cancellables = Set<AnyCancellable>()
-    private var modelObject: ProfileModelObject
 
     private let model: ProfileModelInput
     private let analytics: FirebaseAnalyzable
 
     init(
-        modelObject: ProfileModelObject,
         model: ProfileModelInput,
+        modelObject: ProfileModelObject,
         analytics: FirebaseAnalyzable
     ) {
         let binding = Binding()
@@ -43,11 +42,10 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         self.binding = binding
         self.input = input
         self.output = output
-        self.modelObject = modelObject
         self.model = model
         self.analytics = analytics
 
-        var skillModelObject = modelObject.skill ?? SkillModelObject(identifier: UUID().uuidString)
+        var updateObject = modelObject.skill ?? SkillModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewDidLoad
 
@@ -70,7 +68,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let engineerCareer = binding.$engineerCareer
             .dropFirst()
             .sink { engineerCareer in
-                skillModelObject.engineerCareer = engineerCareer.value
+                updateObject.engineerCareer = engineerCareer.value
             }
 
         // MARK: - 言語
@@ -78,7 +76,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let language = binding.$language
             .dropFirst()
             .sink { language in
-                skillModelObject.language = language
+                updateObject.language = language
             }
 
         // MARK: - 言語歴
@@ -86,7 +84,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let languageCareer = binding.$languageCareer
             .dropFirst()
             .sink { languageCareer in
-                skillModelObject.languageCareer = languageCareer.value
+                updateObject.languageCareer = languageCareer.value
             }
 
         // MARK: - TOEIC
@@ -94,14 +92,14 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let toeic = binding.$toeic
             .dropFirst()
             .sink { toeic in
-                skillModelObject.toeic = toeic
+                updateObject.toeic = toeic
             }
 
         // MARK: - 更新・保存ボタンタップ
 
         input.didTapBarButton.sink { _ in
             var modelObject = modelObject
-            modelObject.skill = skillModelObject
+            modelObject.skill = updateObject
             model.skillUpdate(modelObject: modelObject)
             output.isFinished = true
         }

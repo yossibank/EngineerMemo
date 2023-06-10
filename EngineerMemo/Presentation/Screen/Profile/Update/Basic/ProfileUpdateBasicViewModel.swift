@@ -19,6 +19,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
     }
 
     final class Output: OutputObject {
+        @Published fileprivate(set) var modelObject: ProfileModelObject?
         @Published fileprivate(set) var isFinished = false
     }
 
@@ -27,7 +28,6 @@ final class ProfileUpdateBasicViewModel: ViewModel {
     let input: Input
     let output: Output
 
-    private var modelObject = ProfileModelObject(identifier: UUID().uuidString)
     private var cancellables = Set<AnyCancellable>()
 
     private let model: ProfileModelInput
@@ -48,11 +48,14 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
+        var updateObject = ProfileModelObject(identifier: UUID().uuidString)
+
         // MARK: - viewDidLoad
 
-        input.viewDidLoad.sink { [weak self] _ in
+        input.viewDidLoad.sink { _ in
             if let modelObject {
-                self?.modelObject = modelObject
+                updateObject = modelObject
+                output.modelObject = modelObject
             }
         }
         .store(in: &cancellables)
@@ -68,72 +71,68 @@ final class ProfileUpdateBasicViewModel: ViewModel {
 
         let name = binding.$name
             .dropFirst()
-            .sink { [weak self] name in
-                self?.modelObject.name = name
+            .sink { name in
+                updateObject.name = name
             }
 
         // MARK: - 生年月日
 
         let birthday = binding.$birthday
             .dropFirst()
-            .sink { [weak self] birthday in
-                self?.modelObject.birthday = birthday
+            .sink { birthday in
+                updateObject.birthday = birthday
             }
 
         // MARK: - 性別
 
         let gender = binding.$gender
             .dropFirst()
-            .sink { [weak self] type in
-                self?.modelObject.gender = type.gender
+            .sink { type in
+                updateObject.gender = type.gender
             }
 
         // MARK: - Eメール
 
         let email = binding.$email
             .dropFirst()
-            .sink { [weak self] email in
-                self?.modelObject.email = email
+            .sink { email in
+                updateObject.email = email
             }
 
         // MARK: - 電話番号
 
         let phoneNumber = binding.$phoneNumber
             .dropFirst()
-            .sink { [weak self] phoneNumber in
-                self?.modelObject.phoneNumber = phoneNumber
+            .sink { phoneNumber in
+                updateObject.phoneNumber = phoneNumber
             }
 
         // MARK: - 住所
 
         let address = binding.$address
             .dropFirst()
-            .sink { [weak self] address in
-                self?.modelObject.address = address
+            .sink { address in
+                updateObject.address = address
             }
 
         // MARK: - 最寄駅
 
         let station = binding.$station
             .dropFirst()
-            .sink { [weak self] station in
-                self?.modelObject.station = station
+            .sink { station in
+                updateObject.station = station
             }
 
         // MARK: - 更新・保存ボタンタップ
 
-        input.didTapBarButton.sink { [weak self] _ in
-            guard let self else {
-                return
-            }
-
+        input.didTapBarButton.sink { _ in
             if modelObject == nil {
-                self.model.create(modelObject: self.modelObject)
+                model.create(modelObject: updateObject)
             } else {
-                self.model.basicUpdate(modelObject: self.modelObject)
+                model.basicUpdate(modelObject: updateObject)
             }
 
-            self.output.isFinished = true
+            output.isFinished = true
         }
         .store(in: &cancellables)
 

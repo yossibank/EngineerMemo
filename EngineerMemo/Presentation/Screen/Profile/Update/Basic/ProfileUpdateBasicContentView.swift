@@ -23,34 +23,17 @@ final class ProfileUpdateBasicContentView: UIView {
         $0.width.edges.equalToSuperview()
     }
 
-    private lazy var body = VStackView(distribution: .equalSpacing, spacing: 16) {
-        nameInputView.configure {
-            $0.updateValue(.name, modelObject: modelObject)
-        }
-
-        birthdayInputView.configure {
-            $0.updateValue(modelObject: modelObject)
-        }
-
-        genderInputView.configure {
-            $0.updateValue(modelObject: modelObject)
-        }
-
-        emailInputView.configure {
-            $0.updateValue(.email, modelObject: modelObject)
-        }
-
-        phoneNumberInputView.configure {
-            $0.updateValue(.phoneNumber, modelObject: modelObject)
-        }
-
-        addressInputView.configure {
-            $0.updateValue(.address, modelObject: modelObject)
-        }
-
-        stationInputView.configure {
-            $0.updateValue(.station, modelObject: modelObject)
-        }
+    private lazy var body = VStackView(
+        distribution: .equalSpacing,
+        spacing: 16
+    ) {
+        nameInputView
+        birthdayInputView
+        genderInputView
+        emailInputView
+        phoneNumberInputView
+        addressInputView
+        stationInputView
     }
 
     private var cancellables: Set<AnyCancellable> = .init()
@@ -63,15 +46,10 @@ final class ProfileUpdateBasicContentView: UIView {
     private let addressInputView = ProfileUpdateTextInputView(.address)
     private let stationInputView = ProfileUpdateTextInputView(.station)
 
-    private let modelObject: ProfileModelObject?
-
-    init(modelObject: ProfileModelObject?) {
-        self.modelObject = modelObject
-
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
         setupView()
-        setupBarButton()
         setupEvent()
     }
 
@@ -93,10 +71,10 @@ extension ProfileUpdateBasicContentView {
     }
 }
 
-// MARK: - private methods
+// MARK: - internal methods
 
-private extension ProfileUpdateBasicContentView {
-    func setupBarButton() {
+extension ProfileUpdateBasicContentView {
+    func configureBarButton(modelObject: ProfileModelObject?) {
         let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
             ? .settingNavigationButton
             : .updateNavigationButton
@@ -119,6 +97,20 @@ private extension ProfileUpdateBasicContentView {
             .store(in: &cancellables)
     }
 
+    func configureValue(modelObject: ProfileModelObject?) {
+        nameInputView.updateValue(.name, modelObject: modelObject)
+        birthdayInputView.updateValue(modelObject: modelObject)
+        genderInputView.updateValue(modelObject: modelObject)
+        emailInputView.updateValue(.email, modelObject: modelObject)
+        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
+        addressInputView.updateValue(.address, modelObject: modelObject)
+        stationInputView.updateValue(.station, modelObject: modelObject)
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileUpdateBasicContentView {
     func setupEvent() {
         gesturePublisher().sink { [weak self] _ in
             self?.endEditing(true)
@@ -154,7 +146,7 @@ extension ProfileUpdateBasicContentView: ContentView {
 
     struct ProfileUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateBasicContentView(modelObject: nil))
+            WrapperView(view: ProfileUpdateBasicContentView())
         }
     }
 #endif

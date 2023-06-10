@@ -160,17 +160,6 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         XCTAssertTrue(viewModel.output.isFinished)
     }
 
-    func test_input_didTapBarButton_update_プロフィール更新処理が呼ばれること() {
-        // arrange
-        setupViewModel(.update(ProfileModelObjectBuilder().build()))
-
-        // act
-        viewModel.input.didTapBarButton.send(())
-
-        // assert
-        XCTAssertEqual(model.basicUpdateCallCount, 1)
-    }
-
     func test_input_didTapBarButton_setting_プロフィール作成処理が呼ばれること() {
         // arrange
         setupViewModel()
@@ -181,29 +170,32 @@ final class ProfileUpdateViewModelTest: XCTestCase {
         // assert
         XCTAssertEqual(model.createCallCount, 1)
     }
+
+    func test_input_didTapBarButton_update_プロフィール更新処理が呼ばれること() {
+        // arrange
+        setupViewModel(modelObject: ProfileModelObjectBuilder().build())
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+
+        // assert
+        XCTAssertEqual(model.basicUpdateCallCount, 1)
+    }
 }
 
 private extension ProfileUpdateViewModelTest {
-    func setupViewModel(_ type: ProfileUpdateBasicType = .setting) {
+    func setupViewModel(modelObject: ProfileModelObject? = nil) {
         model = .init()
 
-        switch type {
-        case .setting:
-            analytics = .init(screenId: .profileBasicSetting)
-            viewModel = .init(
-                model: model,
-                modelObject: nil,
-                analytics: analytics
-            )
+        analytics = modelObject == nil
+            ? .init(screenId: .profileBasicSetting)
+            : .init(screenId: .profileBasicUpdate)
 
-        case let .update(modelObject):
-            analytics = .init(screenId: .profileBasicUpdate)
-            viewModel = .init(
-                model: model,
-                modelObject: modelObject,
-                analytics: analytics
-            )
-        }
+        viewModel = .init(
+            model: model,
+            modelObject: modelObject,
+            analytics: analytics
+        )
 
         viewModel.input.viewDidLoad.send(())
     }

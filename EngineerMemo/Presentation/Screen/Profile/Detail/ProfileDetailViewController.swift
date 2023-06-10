@@ -93,8 +93,8 @@ private extension ProfileDetailViewController {
 
         contentView.didTapBasicSettingButtonPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapBasicSettingButton.send(())
+            .sink { [weak self] modelObject in
+                self?.viewModel.input.didTapBasicSettingButton.send(modelObject)
             }
             .store(in: &cancellables)
 

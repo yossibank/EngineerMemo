@@ -5,8 +5,8 @@ final class ProfileDetailViewModel: ViewModel {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapIconChangeButton = PassthroughSubject<ProfileModelObject, Never>()
-        let didTapBasicEditButton = PassthroughSubject<ProfileModelObject, Never>()
-        let didTapBasicSettingButton = PassthroughSubject<Void, Never>()
+        let didTapBasicEditButton = PassthroughSubject<ProfileModelObject?, Never>()
+        let didTapBasicSettingButton = PassthroughSubject<ProfileModelObject?, Never>()
         let didTapSkillEditButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapSkillSettingButton = PassthroughSubject<ProfileModelObject, Never>()
     }
@@ -72,14 +72,14 @@ final class ProfileDetailViewModel: ViewModel {
         // MARK: - 基本情報編集ボタンタップ
 
         input.didTapBasicEditButton.sink { modelObject in
-            routing.showUpdateBasicScreen(type: .update(modelObject))
+            routing.showUpdateBasicScreen(modelObject: modelObject)
         }
         .store(in: &cancellables)
 
         // MARK: - 基本情報設定ボタンタップ
 
-        input.didTapBasicSettingButton.sink { _ in
-            routing.showUpdateBasicScreen(type: .setting)
+        input.didTapBasicSettingButton.sink { modelObject in
+            routing.showUpdateBasicScreen(modelObject: modelObject)
         }
         .store(in: &cancellables)
 

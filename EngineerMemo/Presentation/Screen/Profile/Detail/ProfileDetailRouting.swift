@@ -3,7 +3,7 @@ import UIKit
 /// @mockable
 protocol ProfileDetailRoutingInput {
     func showIconScreen(modelObject: ProfileModelObject)
-    func showUpdateBasicScreen(type: ProfileUpdateBasicType)
+    func showUpdateBasicScreen(modelObject: ProfileModelObject?)
     func showUpdateSkillScreen(modelObject: ProfileModelObject)
 }
 
@@ -27,9 +27,9 @@ extension ProfileDetailRouting: ProfileDetailRoutingInput {
         )
     }
 
-    func showUpdateBasicScreen(type: ProfileUpdateBasicType) {
+    func showUpdateBasicScreen(modelObject: ProfileModelObject?) {
         viewController?.show(
-            AppControllers.Profile.Update.Basic(type: type),
+            AppControllers.Profile.Update.Basic(modelObject: modelObject),
             sender: nil
         )
     }

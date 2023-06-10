@@ -13,32 +13,26 @@ final class ProfileUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testProfileUpdateViewController_設定() {
-        snapshot(type: .setting)
+        snapshot()
     }
 
     func testProfileUpdateViewController_更新() {
-        snapshot(
-            type: .update(
-                ProfileModelObjectBuilder().build()
-            )
-        )
+        snapshot(modelObject: ProfileModelObjectBuilder().build())
     }
 
     func testProfileUpdateViewController_更新_未設定項目あり() {
         snapshot(
-            type: .update(
-                ProfileModelObjectBuilder()
-                    .name(nil)
-                    .station(nil)
-                    .build()
-            )
+            modelObject: ProfileModelObjectBuilder()
+                .name(nil)
+                .station(nil)
+                .build()
         )
     }
 }
 
 private extension ProfileUpdateViewControllerSnapshotTest {
-    func snapshot(type: ProfileUpdateBasicType) {
-        subject = AppControllers.Profile.Update.Basic(type: type)
+    func snapshot(modelObject: ProfileModelObject? = nil) {
+        subject = AppControllers.Profile.Update.Basic(modelObject: modelObject)
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
