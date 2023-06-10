@@ -13,8 +13,12 @@ final class ProfileUpdateSkillContentView: UIView {
         }
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private let modelObject: SkillModelObject?
+
+    init(modelObject: SkillModelObject?) {
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupView()
     }
@@ -54,7 +58,7 @@ extension ProfileUpdateSkillContentView: ContentView {
 
     struct ProfileSkillUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateSkillContentView())
+            WrapperView(view: ProfileUpdateSkillContentView(modelObject: nil))
         }
     }
 #endif

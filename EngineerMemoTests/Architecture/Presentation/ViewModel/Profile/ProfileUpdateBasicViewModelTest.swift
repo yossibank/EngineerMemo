@@ -165,7 +165,7 @@ private extension ProfileUpdateViewModelTest {
 
         switch type {
         case .setting:
-            analytics = .init(screenId: .profileUpdate)
+            analytics = .init(screenId: .profileBasicSetting)
             viewModel = .init(
                 model: model,
                 modelObject: nil,
@@ -173,7 +173,7 @@ private extension ProfileUpdateViewModelTest {
             )
 
         case let .update(modelObject):
-            analytics = .init(screenId: .profileUpdate)
+            analytics = .init(screenId: .profileBasicUpdate)
             viewModel = .init(
                 model: model,
                 modelObject: modelObject,
