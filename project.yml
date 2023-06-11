@@ -72,7 +72,7 @@ targets:
         basedOnDependencyAnalysis: false
         path: ./Scripts/XcodeGen/mockolo.sh
         outputFiles:
-          - EngineerMemoTests/TestMock/MockResults.swift
+          - EngineerMemoTestSupport/TestMock/MockResults.swift
       - name: Run SwiftFormat
         basedOnDependencyAnalysis: false
         path: ./Scripts/XcodeGen/swiftformat.sh
