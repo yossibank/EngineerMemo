@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "AE486973-78BB-4DC4-8696-2D33A098A618",
+      "id" : "CC3535F8-8DAB-443D-9782-D878A629760D",
       "name" : "Configuration 1",
       "options" : {
 
@@ -10,26 +10,16 @@
   ],
   "defaultOptions" : {
     "commandLineArgumentEntries" : [
-      {
-        "argument" : "-FIRAnalyticsDebugEnabled",
-        "enabled" : false
-      },
-      {
-        "argument" : "-FIRDebugDisabled"
-      },
-      {
-        "argument" : "-FIRDebugEnabled",
-        "enabled" : false
-      }
+
     ],
     "environmentVariableEntries" : [
       {
         "key" : "IMAGE_DIFF_DIR",
-        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)Tests\/TestSnapshot\/FailureDiffs"
+        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)SnapshotTests\/FailureDiffs"
       },
       {
         "key" : "FB_REFERENCE_IMAGE_DIR",
-        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)Tests\/TestSnapshot\/ReferenceImages"
+        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)SnapshotTests\/ReferenceImages"
       }
     ],
     "language" : "ja",
@@ -40,7 +30,7 @@
     "region" : "JP",
     "targetForVariableExpansion" : {
       "containerPath" : "container:EngineerMemo.xcodeproj",
-      "identifier" : "2B4112F94CFC69141D840B29",
+      "identifier" : "AB53E122C885C5ED2A897E73",
       "name" : "EngineerMemo"
     },
     "testExecutionOrdering" : "random",
@@ -50,16 +40,8 @@
     {
       "target" : {
         "containerPath" : "container:EngineerMemo.xcodeproj",
-        "identifier" : "4861F96E551D8FE67B6A0637",
-        "name" : "EngineerMemoTests"
-      }
-    },
-    {
-      "enabled" : false,
-      "target" : {
-        "containerPath" : "container:EngineerMemo.xcodeproj",
-        "identifier" : "03D1B6B3463CF43865D0A0BC",
-        "name" : "EngineerMemoUITests"
+        "identifier" : "2ED415595DFE0DF6AEE87909",
+        "name" : "EngineerMemoSnapshotTests"
       }
     }
   ],

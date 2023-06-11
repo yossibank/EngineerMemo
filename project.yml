@@ -91,20 +91,35 @@ targets:
           - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
           - $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
 
-  EngineerMemoTests:
+  EngineerMemoSnapshotTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - EngineerMemoTests
+      - EngineerMemoSnapshotTests
+      - EngineerMemoTestSupport
     settings:
       base:
-        INFOPLIST_FILE: EngineerMemoTests/Info.plist
+        INFOPLIST_FILE: EngineerMemoTestSupport/Info.plist
     dependencies:
       - target: EngineerMemo
       - package: OHHTTPStubs
         product: OHHTTPStubsSwift
       - package: ios-snapshot-test-case
         product: iOSSnapshotTestCase
+
+  EngineerMemoUnitTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - EngineerMemoUnitTests
+      - EngineerMemoTestSupport
+    settings:
+      base:
+        INFOPLIST_FILE: EngineerMemoTestSupport/Info.plist
+    dependencies:
+      - target: EngineerMemo
+      - package: OHHTTPStubs
+        product: OHHTTPStubsSwift
 
   EngineerMemoUITests:
     type: bundle.ui-testing
@@ -122,8 +137,6 @@ schemes:
     build:
       targets:
         EngineerMemo: all
-        EngineerMemoTests: [test]
-        EngineerMemoUITests: [test]
     run:
       config: Debug
       commandLineArguments:
@@ -133,17 +146,12 @@ schemes:
     test:
       config: Debug
       gatherCoverageData: true
-      targets:
-        - name: EngineerMemoTests
-          parallelizable: false
-          randomExecutionOrder: true
-      environmentVariables:
-        FB_REFERENCE_IMAGE_DIR: $(SOURCE_ROOT)/$(PROJECT_NAME)Tests/TestSnapshot/ReferenceImages
-        IMAGE_DIFF_DIR: $(SOURCE_ROOT)/$(PROJECT_NAME)Tests/TestSnapshot/FailureDiffs
       language: ja
       region: JP
       testPlans:
-        - path: EngineerMemoTests/EngineerMemo.xctestplan
+        - path: EngineerMemoTestSupport/EngineerMemo.xctestplan
+        - path: EngineerMemoSnapshotTests/SnapshotTest.xctestplan
+        - path: EngineerMemoUnitTests/UnitTest.xctestplan
     profile:
       config: Release
     analyze:

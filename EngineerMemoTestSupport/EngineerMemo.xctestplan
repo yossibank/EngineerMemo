@@ -1,0 +1,67 @@
+{
+  "configurations" : [
+    {
+      "id" : "AE486973-78BB-4DC4-8696-2D33A098A618",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-FIRAnalyticsDebugEnabled",
+        "enabled" : false
+      },
+      {
+        "argument" : "-FIRDebugDisabled"
+      },
+      {
+        "argument" : "-FIRDebugEnabled",
+        "enabled" : false
+      }
+    ],
+    "environmentVariableEntries" : [
+
+    ],
+    "language" : "ja",
+    "locationScenario" : {
+      "identifier" : "Tokyo, Japan",
+      "referenceType" : "built-in"
+    },
+    "region" : "JP",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:EngineerMemo.xcodeproj",
+      "identifier" : "2B4112F94CFC69141D840B29",
+      "name" : "EngineerMemo"
+    },
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:EngineerMemo.xcodeproj",
+        "identifier" : "2ED415595DFE0DF6AEE87909",
+        "name" : "EngineerMemoSnapshotTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:EngineerMemo.xcodeproj",
+        "identifier" : "03D1B6B3463CF43865D0A0BC",
+        "name" : "EngineerMemoUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:EngineerMemo.xcodeproj",
+        "identifier" : "8E6F8AE45CBC685564BA72DE",
+        "name" : "EngineerMemoUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

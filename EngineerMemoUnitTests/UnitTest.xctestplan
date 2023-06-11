@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "FD1A59BE-7F69-4A88-AF21-FA286E322F7B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "language" : "ja",
+    "locationScenario" : {
+      "identifier" : "Tokyo, Japan",
+      "referenceType" : "built-in"
+    },
+    "region" : "JP",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:EngineerMemo.xcodeproj",
+      "identifier" : "AB53E122C885C5ED2A897E73",
+      "name" : "EngineerMemo"
+    },
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:EngineerMemo.xcodeproj",
+        "identifier" : "8E6F8AE45CBC685564BA72DE",
+        "name" : "EngineerMemoUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
