@@ -17,8 +17,8 @@
     "region" : "JP",
     "targetForVariableExpansion" : {
       "containerPath" : "container:EngineerMemo.xcodeproj",
-      "identifier" : "AB53E122C885C5ED2A897E73",
-      "name" : "EngineerMemo"
+      "identifier" : "8E6F8AE45CBC685564BA72DE",
+      "name" : "EngineerMemoUnitTests"
     },
     "testExecutionOrdering" : "random",
     "testTimeoutsEnabled" : true

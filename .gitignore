@@ -102,7 +102,7 @@ iOSInjectionProject/
 *MockResults.swift
 
 # iOSSnapshotTestCase
-EngineerMemoTests/TestSnapshot/FailureDiffs
+EngineerMemoSnapshotTests/FailureDiffs
 
 # LicensePlist
 **/Settings.bundle/com.mono0926.LicensePlist

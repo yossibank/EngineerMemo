@@ -13,14 +13,7 @@
 
     ],
     "environmentVariableEntries" : [
-      {
-        "key" : "IMAGE_DIFF_DIR",
-        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)SnapshotTests\/FailureDiffs"
-      },
-      {
-        "key" : "FB_REFERENCE_IMAGE_DIR",
-        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)SnapshotTests\/ReferenceImages"
-      }
+
     ],
     "language" : "ja",
     "locationScenario" : {
@@ -30,8 +23,8 @@
     "region" : "JP",
     "targetForVariableExpansion" : {
       "containerPath" : "container:EngineerMemo.xcodeproj",
-      "identifier" : "AB53E122C885C5ED2A897E73",
-      "name" : "EngineerMemo"
+      "identifier" : "2ED415595DFE0DF6AEE87909",
+      "name" : "EngineerMemoSnapshotTests"
     },
     "testExecutionOrdering" : "random",
     "testTimeoutsEnabled" : true
