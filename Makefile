@@ -31,7 +31,7 @@ generate-consts:
 .PHONY: generate-test-mock
 generate-test-mock:
 	mint run mockolo mockolo --sourcedirs ${PRODUCT_NAME} \
-		--destination ${PRODUCT_NAME}Tests/TestMock/MockResults.swift \
+		--destination ${PRODUCT_NAME}TestSupport/TestMock/MockResults.swift \
 		--testable-imports ${PRODUCT_NAME} \
 		--mock-final
 
@@ -42,7 +42,7 @@ generate-xcodeproj:
 .PHONY: generate-files
 generate-files:
 	mkdir -p EngineerMemo/Resources/Generated
-	mkdir -p EngineerMemoTests/TestMock
+	mkdir -p EngineerMemoTestSupport/TestMock
 
 .PHONY: generate-snapshot-md
 generate-snapshot-md:

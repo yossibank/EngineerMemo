@@ -8,14 +8,14 @@ NUMBER_OF_ROWS = 5
 NUMBER_OF_COLUMNS = 2
 
 # 画像の幅
-IMAGE_WIDTH = 200
+IMAGE_WIDTH = 390
 
 def createMarkdown
     # スキーム名
-    scheme = 'EngineerMemoTests'
+    scheme = 'EngineerMemoSnapshotTests'
 
     # ReferenceImages_64のパス
-    reference_image_dir = "./#{scheme}/TestSnapshot/ReferenceImages_64/*"
+    reference_image_dir = "./#{scheme}/ReferenceImages_64/*"
 
     Dir.glob(reference_image_dir).sort.each do |test_file_path|
         # マークダウンで表示するための準備

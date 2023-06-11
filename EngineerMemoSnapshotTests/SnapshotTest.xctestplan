@@ -1,0 +1,42 @@
+{
+  "configurations" : [
+    {
+      "id" : "CC3535F8-8DAB-443D-9782-D878A629760D",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+
+    ],
+    "environmentVariableEntries" : [
+
+    ],
+    "language" : "ja",
+    "locationScenario" : {
+      "identifier" : "Tokyo, Japan",
+      "referenceType" : "built-in"
+    },
+    "region" : "JP",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:EngineerMemo.xcodeproj",
+      "identifier" : "2ED415595DFE0DF6AEE87909",
+      "name" : "EngineerMemoSnapshotTests"
+    },
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:EngineerMemo.xcodeproj",
+        "identifier" : "2ED415595DFE0DF6AEE87909",
+        "name" : "EngineerMemoSnapshotTests"
+      }
+    }
+  ],
+  "version" : 1
+}
