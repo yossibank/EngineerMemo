@@ -14,6 +14,19 @@ final class AppDelegateMock: UIResponder, UIApplicationDelegate {
     }
 }
 
+// MARK: - private methods
+
+private extension AppDelegateMock {
+    func removeSessions(application: UIApplication) {
+        application.openSessions.forEach {
+            application.perform(
+                Selector(("_removeSessionFromSessionSet:")),
+                with: $0
+            )
+        }
+    }
+}
+
 // MARK: - UISceneSession Lifecycle
 
 extension AppDelegateMock {
@@ -35,15 +48,4 @@ extension AppDelegateMock {
         _ application: UIApplication,
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>
     ) {}
-}
-
-private extension AppDelegateMock {
-    func removeSessions(application: UIApplication) {
-        application.openSessions.forEach {
-            application.perform(
-                Selector(("_removeSessionFromSessionSet:")),
-                with: $0
-            )
-        }
-    }
 }
