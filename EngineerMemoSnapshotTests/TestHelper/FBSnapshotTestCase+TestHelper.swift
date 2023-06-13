@@ -82,6 +82,8 @@ private extension FBSnapshotTestCase {
 
         viewAction?()
 
+        callViewControllerAppear(vc: window.rootViewController!)
+
         wait(timeout: viewAfter + 3.0) { expectation in
             Task { @MainActor in
                 try await Task.sleep(seconds: viewAfter)
