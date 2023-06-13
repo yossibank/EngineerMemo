@@ -4,7 +4,7 @@ import iOSSnapshotTestCase
 
 final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: ProfileDetailViewController!
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
         super.setUp()

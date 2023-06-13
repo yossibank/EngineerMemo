@@ -15,7 +15,7 @@ final class ProfileIconViewModel: ViewModel {
     let binding = NoBinding()
 
     private var modelObject: ProfileModelObject
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let model: ProfileModelInput
     private let analytics: FirebaseAnalyzable

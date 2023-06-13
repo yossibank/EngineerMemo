@@ -4,7 +4,7 @@ import UIKit
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProtocol {
     var window: UIWindow?
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     func scene(
         _ scene: UIScene,

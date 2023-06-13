@@ -13,7 +13,7 @@ protocol ProfileModelInput: Model {
 }
 
 final class ProfileModel: ProfileModelInput {
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let profileStorage = CoreDataStorage<Profile>()
     private let skillStorage = CoreDataStorage<Skill>()

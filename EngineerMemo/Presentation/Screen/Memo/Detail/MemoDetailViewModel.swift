@@ -18,7 +18,7 @@ final class MemoDetailViewModel: ViewModel {
     let output: Output
     let binding = NoBinding()
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let identifier: String
     private let model: MemoModelInput

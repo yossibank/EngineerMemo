@@ -36,7 +36,7 @@ final class ProfileUpdateBasicContentView: UIView {
         stationInputView
     }
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let nameInputView = ProfileUpdateTextInputView(.name)
     private let birthdayInputView = ProfileUpdateBirthdayInputView()

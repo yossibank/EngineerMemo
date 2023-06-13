@@ -26,7 +26,7 @@ final class MemoListViewModel: ViewModel {
     let binding = NoBinding()
 
     private var originalModelObjects: [MemoModelObject] = []
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let model: MemoModelInput
     private let routing: MemoListRoutingInput

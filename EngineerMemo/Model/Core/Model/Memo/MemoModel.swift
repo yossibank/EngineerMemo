@@ -10,7 +10,7 @@ protocol MemoModelInput: Model {
 }
 
 final class MemoModel: MemoModelInput {
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let storage = CoreDataStorage<Memo>()
     private let memoConverter: MemoConverterInput

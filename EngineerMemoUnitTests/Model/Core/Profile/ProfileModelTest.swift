@@ -6,7 +6,7 @@ final class ProfileModelTest: XCTestCase {
     private var profileConverter: ProfileConverterInputMock!
     private var errorConverter: AppErrorConverterInputMock!
     private var model: ProfileModel!
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let storage = CoreDataStorage<Profile>()
 

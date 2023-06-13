@@ -6,7 +6,7 @@ final class MemoModelTest: XCTestCase {
     private var memoConverter: MemoConverterInputMock!
     private var errorConverter: AppErrorConverterInputMock!
     private var model: MemoModel!
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let storage = CoreDataStorage<Memo>()
 

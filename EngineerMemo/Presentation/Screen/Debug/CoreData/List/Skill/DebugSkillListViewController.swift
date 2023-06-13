@@ -15,7 +15,7 @@
         var viewModel: VM!
         var contentView: CV!
 
-        private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables = Set<AnyCancellable>()
     }
 
     // MARK: - override methods

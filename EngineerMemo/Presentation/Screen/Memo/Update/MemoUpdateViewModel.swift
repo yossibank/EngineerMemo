@@ -29,7 +29,7 @@ final class MemoUpdateViewModel: ViewModel {
         identifier: UUID().uuidString
     )
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let model: MemoModelInput
     private let analytics: FirebaseAnalyzable

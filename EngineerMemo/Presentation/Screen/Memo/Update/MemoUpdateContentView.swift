@@ -89,7 +89,7 @@ final class MemoUpdateContentView: UIView {
     private let contentTextView = UITextView()
     private let contentBorderView = BorderView()
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let modelObject: MemoModelObject?
 

@@ -17,7 +17,7 @@
         let output = NoOutput()
         let binding = NoBinding()
 
-        private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables = Set<AnyCancellable>()
 
         private var modelObject = ProfileModelObjectBuilder()
             .address(DebugCoreDataSegment.defaultString)

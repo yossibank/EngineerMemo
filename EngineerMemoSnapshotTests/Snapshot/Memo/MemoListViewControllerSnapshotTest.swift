@@ -4,7 +4,7 @@ import iOSSnapshotTestCase
 
 final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: MemoListViewController!
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
         super.setUp()

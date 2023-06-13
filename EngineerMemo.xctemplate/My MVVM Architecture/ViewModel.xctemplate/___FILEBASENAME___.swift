@@ -19,7 +19,7 @@ final class ___FILEBASENAME___: ViewModel {
     let output: Output
     // let binding = NoBinding()
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let analytics: FirebaseAnalyzable
 
