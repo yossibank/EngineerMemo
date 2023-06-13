@@ -49,7 +49,7 @@ private extension ProfileUpdateSkillViewControllerSnapshotTest {
             viewFrame: .init(
                 x: .zero,
                 y: .zero,
-                width: UIScreen.main.bounds.width,
+                width: UIWindow.windowFrame.width,
                 height: 800
             )
         )

@@ -36,7 +36,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
             viewFrame: .init(
                 x: 0,
                 y: 0,
-                width: UIScreen.main.bounds.width,
+                width: UIWindow.windowFrame.width,
                 height: 1000
             ),
             viewAfter: 0.3
@@ -55,7 +55,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
             viewFrame: .init(
                 x: 0,
                 y: 0,
-                width: UIScreen.main.bounds.width,
+                width: UIWindow.windowFrame.width,
                 height: 1100
             ),
             viewAfter: 0.3

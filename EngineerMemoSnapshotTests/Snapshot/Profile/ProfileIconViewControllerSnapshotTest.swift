@@ -30,7 +30,7 @@ final class ProfileIconViewControllerSnapshotTest: FBSnapshotTestCase {
             viewFrame: .init(
                 x: .zero,
                 y: .zero,
-                width: UIScreen.main.bounds.width,
+                width: UIWindow.windowFrame.width,
                 height: 1000
             )
         )
