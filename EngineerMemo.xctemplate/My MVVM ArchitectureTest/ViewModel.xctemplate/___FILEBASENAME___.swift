@@ -31,7 +31,10 @@ final class ___FILEBASENAME___: XCTestCase {
         // arrange
         analytics.sendEventFAEventHandler = {
             // assert
-            XCTAssertEqual($0, .screenView)
+            XCTAssertEqual(
+                $0,
+                .screenView
+            )
         }
 
         // act

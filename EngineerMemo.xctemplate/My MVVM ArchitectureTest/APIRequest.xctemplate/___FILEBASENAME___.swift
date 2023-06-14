@@ -5,13 +5,11 @@ import XCTest
 
 final class ___FILEBASENAME___: XCTestCase {
     private var apiClient: APIClient!
-    private var expectation: XCTestExpectation!
 
     override func setUp() {
         super.setUp()
 
         apiClient = .init()
-        expectation = .init(description: #function)
     }
 
     override func tearDown() {
@@ -32,26 +30,26 @@ final class ___FILEBASENAME___: XCTestCase {
             )
         }
 
-        // act
-        apiClient.request(
-            item: // APIリクエスト
-        ) {
-            switch $0 {
-            case let .success(dataObject):
-                // assert
-                XCTAssertEqual(
-                    dataObject,
-                    // DataObjectBuilder
-                )
+        wait { expectation in
+            // act
+            self.apiClient.request(
+                item: // APIリクエスト
+            ) {
+                switch $0 {
+                case let .success(dataObject):
+                    // assert
+                    XCTAssertEqual(
+                        dataObject,
+                        // DataObjectBuilder
+                    )
 
-            case let .failure(error):
-                XCTFail(error.localizedDescription)
+                case let .failure(error):
+                    XCTFail(error.localizedDescription)
+                }
+
+                expectation.fulfill()
             }
-
-            self.expectation.fulfill()
         }
-
-        wait(for: [expectation], timeout: 0.1)
     }
 
     func test_HTTPMethod_デコード失敗_エラーを取得できること() {
@@ -66,21 +64,21 @@ final class ___FILEBASENAME___: XCTestCase {
             )
         }
 
-        // act
-        apiClient.request(
-            item: // APIリクエスト
-        ) {
-            if case let .failure(error) = $0 {
-                // assert
-                XCTAssertEqual(
-                    error,
-                    .decodeError
-                )
+        wait { expectation in
+            // act
+            apiClient.request(
+                item: // APIリクエスト
+            ) {
+                if case let .failure(error) = $0 {
+                    // assert
+                    XCTAssertEqual(
+                        error,
+                        .decodeError
+                    )
 
-                self.expectation.fulfill()
+                    expectation.fulfill()
+                }
             }
         }
-
-        wait(for: [expectation], timeout: 0.1)
     }
 }

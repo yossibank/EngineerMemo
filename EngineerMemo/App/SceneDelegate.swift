@@ -4,7 +4,7 @@ import UIKit
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProtocol {
     var window: UIWindow?
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     func scene(
         _ scene: UIScene,
@@ -35,10 +35,4 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
         }
         .store(in: &cancellables)
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {}
-    func sceneDidBecomeActive(_ scene: UIScene) {}
-    func sceneWillResignActive(_ scene: UIScene) {}
-    func sceneWillEnterForeground(_ scene: UIScene) {}
-    func sceneDidEnterBackground(_ scene: UIScene) {}
 }

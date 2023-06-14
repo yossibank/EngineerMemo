@@ -12,6 +12,12 @@ final class ProfileUpdateBasicViewControllerSnapshotTest: FBSnapshotTestCase {
         recordMode = SnapshotTest.recordMode
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        subject = nil
+    }
+
     func testProfileUpdateBasicViewController_設定() {
         snapshot()
     }
@@ -39,7 +45,7 @@ private extension ProfileUpdateBasicViewControllerSnapshotTest {
             viewFrame: .init(
                 x: .zero,
                 y: .zero,
-                width: UIScreen.main.bounds.width,
+                width: UIWindow.windowFrame.width,
                 height: 1100
             )
         )

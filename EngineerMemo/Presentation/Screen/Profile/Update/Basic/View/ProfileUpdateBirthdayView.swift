@@ -49,7 +49,7 @@ final class ProfileUpdateBirthdayInputView: UIView {
 
     private let borderView = BorderView()
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

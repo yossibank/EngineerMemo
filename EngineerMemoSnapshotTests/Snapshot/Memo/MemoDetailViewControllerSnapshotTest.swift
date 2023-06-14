@@ -4,7 +4,7 @@ import iOSSnapshotTestCase
 
 final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: MemoDetailViewController!
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
         super.setUp()
@@ -19,6 +19,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     override func tearDown() {
         super.tearDown()
 
+        subject = nil
         cancellables.removeAll()
 
         CoreDataManager.shared.injectInMemoryPersistentContainer()
@@ -73,10 +74,11 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 private extension MemoDetailViewControllerSnapshotTest {
     func dataInsert(modelObject: MemoModelObject) {
         CoreDataStorage<Memo>().create().sink {
-            $0.category = .init(rawValue: modelObject.category?.rawValue ?? .invalid)
-            $0.title = modelObject.title
-            $0.content = modelObject.content
-            $0.identifier = "identifier"
+            $0.object.category = .init(rawValue: modelObject.category?.rawValue ?? .invalid)
+            $0.object.title = modelObject.title
+            $0.object.content = modelObject.content
+            $0.object.identifier = "identifier"
+            $0.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }

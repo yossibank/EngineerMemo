@@ -4,7 +4,7 @@ import iOSSnapshotTestCase
 
 final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     private var subject: ProfileDetailViewController!
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
         super.setUp()
@@ -19,6 +19,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     override func tearDown() {
         super.tearDown()
 
+        subject = nil
         cancellables.removeAll()
 
         CoreDataManager.shared.injectInMemoryPersistentContainer()
@@ -36,7 +37,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
             viewFrame: .init(
                 x: 0,
                 y: 0,
-                width: UIScreen.main.bounds.width,
+                width: UIWindow.windowFrame.width,
                 height: 1000
             ),
             viewAfter: 0.3
@@ -55,7 +56,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
             viewFrame: .init(
                 x: 0,
                 y: 0,
-                width: UIScreen.main.bounds.width,
+                width: UIWindow.windowFrame.width,
                 height: 1100
             ),
             viewAfter: 0.3
@@ -65,23 +66,25 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 
 private extension ProfileDetailViewControllerSnapshotTest {
     func dataInsert(_ modelObject: ProfileModelObject) {
-        CoreDataStorage<Profile>().create().sink { profile in
+        CoreDataStorage<Profile>().create().sink { coreData in
             modelObject.basicInsert(
-                profile,
+                coreData.object,
                 isNew: true
             )
 
             if let skillModelObject = modelObject.skill {
-                CoreDataStorage<Skill>().create().sink { skill in
+                CoreDataStorage<Skill>().create().sink {
                     skillModelObject.skillInsert(
-                        skill,
+                        $0.object,
                         isNew: true
                     )
 
-                    profile.skill = skill
+                    coreData.object.skill = $0.object
                 }
                 .store(in: &self.cancellables)
             }
+
+            coreData.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }

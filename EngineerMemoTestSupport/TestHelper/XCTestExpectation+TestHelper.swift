@@ -1,12 +1,11 @@
-@testable import EngineerMemo
 import XCTest
 
 extension XCTestCase {
     func wait(
+        timeout: TimeInterval = 0.1,
         description: String = #function,
         file: StaticString = #file,
         line: UInt = #line,
-        timeout: TimeInterval = 0.1,
         closure: (XCTestExpectation) -> Void
     ) {
         let expectation = XCTestExpectation(description: description)
@@ -19,7 +18,11 @@ extension XCTestCase {
             line: line
         )
     }
+}
 
+// MARK: - private methods
+
+private extension XCTestCase {
     func wait(
         for expectation: XCTestExpectation,
         timeout seconds: TimeInterval = 0.1,

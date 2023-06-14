@@ -77,7 +77,7 @@ final class SheetContentView: UIView {
         }
     }
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()

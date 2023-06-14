@@ -5,74 +5,65 @@ import XCTest
 final class WithLatestFromPublisherTest: XCTestCase {
     func test_withLatestFromPublisher_両方のPublisherの値を購読できること() throws {
         // arrange
-        let mainSubject = CurrentValueSubject<[Int], Never>([1, 2, 3])
-        let subSubject = CurrentValueSubject<[Int], Never>([4, 5, 6])
+        let subject1 = CurrentValueSubject<[Int], Never>([])
+        let subject2 = CurrentValueSubject<[Int], Never>([4, 5, 6])
 
         // act
-        let expectation = XCTestExpectation(description: #function)
-        let cancellable = mainSubject
-            .withLatestFrom(subSubject) { ($0, $1) }
-            .sink(
-                receiveCompletion: { completion in
-                    switch completion {
-                    case .failure:
-                        XCTFail()
+        wait(timeout: 0.5) { expectation in
+            let cancellable = subject1
+                .withLatestFrom(subject2) { ($0, $1) }
+                .sink(
+                    receiveCompletion: { _ in
+                        expectation.fulfill()
+                    },
+                    receiveValue: { subject1, subject2 in
+                        // assert
+                        XCTAssertEqual(
+                            subject1,
+                            [1, 2, 3]
+                        )
 
-                    case .finished:
-                        break
+                        XCTAssertEqual(
+                            subject2,
+                            [4, 5, 6]
+                        )
                     }
+                )
 
-                    expectation.fulfill()
-                },
-                receiveValue: { mainValue, subValue in
-                    // assert
-                    XCTAssertEqual(mainValue, [1, 2, 3])
-                    XCTAssertEqual(subValue, [4, 5, 6])
-                }
-            )
-
-        mainSubject.send(completion: .finished)
-        subSubject.send(completion: .finished)
-
-        cancellable.cancel()
-
-        wait(for: expectation, timeout: 1.0)
+            subject1.send([1, 2, 3])
+            subject1.send(completion: .finished)
+            subject2.send(completion: .finished)
+            cancellable.cancel()
+        }
     }
 
     func test_withLatestFromPublisher_引数側のPublisherの値を購読できること() throws {
         // arrange
-        let mainSubject = CurrentValueSubject<[Int], Never>([1, 2, 3])
-        let subSubject = CurrentValueSubject<[Int], Never>([4, 5, 6])
+        let subject1 = CurrentValueSubject<[Int], Never>([])
+        let subject2 = CurrentValueSubject<[Int], Never>([4, 5, 6])
 
         // act
-        let expectation = XCTestExpectation(description: #function)
-        let cancellable = mainSubject
-            .withLatestFrom(subSubject)
-            .sink(
-                receiveCompletion: { completion in
-                    switch completion {
-                    case .failure:
-                        XCTFail()
-
-                    case .finished:
-                        break
+        wait(timeout: 0.5) { expectation in
+            let cancellable = subject1
+                .withLatestFrom(subject2)
+                .sink(
+                    receiveCompletion: { _ in
+                        expectation.fulfill()
+                    },
+                    receiveValue: { subject2 in
+                        // assert
+                        XCTAssertEqual(
+                            subject2,
+                            [7, 8, 9]
+                        )
                     }
+                )
 
-                    expectation.fulfill()
-                },
-                receiveValue: { subValue in
-                    // assert
-                    XCTAssertEqual(subValue, [7, 8, 9])
-                }
-            )
-
-        subSubject.send([7, 8, 9])
-
-        mainSubject.send(completion: .finished)
-        subSubject.send(completion: .finished)
-
-        cancellable.cancel()
-
-        wait(for: expectation, timeout: 1.0)
+            subject2.send([7, 8, 9])
+            subject1.send([1, 2, 3])
+            subject1.send(completion: .finished)
+            subject2.send(completion: .finished)
+            cancellable.cancel()
+        }
     }
 }

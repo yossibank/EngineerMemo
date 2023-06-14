@@ -18,7 +18,7 @@
         let output: Output
         let binding = NoBinding()
 
-        private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables = Set<AnyCancellable>()
         private var originalModelObjects: [MemoModelObject] = []
 
         private var modelObject = MemoModelObjectBuilder()

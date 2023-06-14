@@ -6,7 +6,7 @@ final class ProfileModelTest: XCTestCase {
     private var profileConverter: ProfileConverterInputMock!
     private var errorConverter: AppErrorConverterInputMock!
     private var model: ProfileModel!
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let storage = CoreDataStorage<Profile>()
 
@@ -480,19 +480,21 @@ final class ProfileModelTest: XCTestCase {
 private extension ProfileModelTest {
     func dataInsert(_ skill: Skill? = nil) {
         storage.create().sink {
-            $0.address = "テスト県テスト市テスト1-1-1"
-            $0.birthday = Calendar.date(year: 2000, month: 1, day: 1)
-            $0.email = "test@test.com"
-            $0.gender = .man
-            $0.iconImage = Asset.penguin.image.pngData()
-            $0.identifier = "identifier"
-            $0.name = "testName"
-            $0.phoneNumber = "08011112222"
-            $0.station = "鶴橋駅"
+            $0.object.address = "テスト県テスト市テスト1-1-1"
+            $0.object.birthday = Calendar.date(year: 2000, month: 1, day: 1)
+            $0.object.email = "test@test.com"
+            $0.object.gender = .man
+            $0.object.iconImage = Asset.penguin.image.pngData()
+            $0.object.identifier = "identifier"
+            $0.object.name = "testName"
+            $0.object.phoneNumber = "08011112222"
+            $0.object.station = "鶴橋駅"
 
             if let skill {
-                $0.skill = skill
+                $0.object.skill = skill
             }
+
+            $0.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }

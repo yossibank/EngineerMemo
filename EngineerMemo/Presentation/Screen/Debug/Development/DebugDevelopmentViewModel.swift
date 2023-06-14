@@ -13,7 +13,7 @@
         let output = NoOutput()
         let binding = NoBinding()
 
-        private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables = Set<AnyCancellable>()
 
         private let model: DebugModelInput
         private let routing: DebugDevelopmentRoutingInput

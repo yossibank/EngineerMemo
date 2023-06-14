@@ -34,7 +34,7 @@ extension FBSnapshotTestCase {
 
     func snapshotVerifyView(
         viewMode: SnapshotViewMode,
-        viewFrame: CGRect = UIScreen.main.bounds,
+        viewFrame: CGRect = UIWindow.windowFrame,
         viewAfter: CGFloat = .zero,
         viewAction: VoidBlock? = nil,
         file: StaticString = #file,
@@ -58,7 +58,7 @@ private extension FBSnapshotTestCase {
     func snapshotVerifyView(
         colorMode: SnapshotColorMode,
         viewMode: SnapshotViewMode,
-        viewFrame: CGRect = UIScreen.main.bounds,
+        viewFrame: CGRect = UIWindow.windowFrame,
         viewAfter: CGFloat = .zero,
         viewAction: VoidBlock? = nil,
         file: StaticString = #file,
@@ -66,8 +66,8 @@ private extension FBSnapshotTestCase {
     ) {
         fileNameOptions = [.device, .OS, .screenSize, .screenScale]
 
-        let expectation = XCTestExpectation(description: #function)
-        let window = UIWindow(frame: viewFrame)
+        let window = UIWindow(windowScene: UIWindow.connectedWindowScene!)
+        window.frame = viewFrame
 
         switch viewMode {
         case let .normal(viewController):
@@ -77,25 +77,27 @@ private extension FBSnapshotTestCase {
             window.rootViewController = UINavigationController(rootViewController: viewController)
         }
 
-        window.rootViewController?.view.frame = viewFrame
-        window.rootViewController?.view.layoutIfNeeded()
         window.overrideUserInterfaceStyle = colorMode == .light ? .light : .dark
         window.makeKeyAndVisible()
 
         viewAction?()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
-            self.FBSnapshotVerifyView(
-                window,
-                identifier: colorMode.identifier,
-                overallTolerance: 0.05,
-                file: file,
-                line: line
-            )
+        callViewControllerAppear(vc: window.rootViewController!)
 
-            expectation.fulfill()
+        wait(timeout: viewAfter + 3.0) { expectation in
+            Task { @MainActor in
+                try await Task.sleep(seconds: viewAfter)
+
+                FBSnapshotVerifyView(
+                    window,
+                    identifier: colorMode.identifier,
+                    overallTolerance: 0.05,
+                    file: file,
+                    line: line
+                )
+
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 3.0 + viewAfter)
     }
 }

@@ -53,7 +53,7 @@
 
         private var item: (any Request)?
         private var parameters: APIDebugParameters = .init()
-        private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables = Set<AnyCancellable>()
 
         init() {
             let binding = Binding()

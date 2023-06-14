@@ -14,7 +14,7 @@
 
         private(set) lazy var didTapActionButtonPublisher = actionButton.publisher(for: .touchUpInside)
 
-        private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables = Set<AnyCancellable>()
 
         private var body: UIView {
             VStackView(spacing: 16) {

@@ -1,4 +1,5 @@
 #if DEBUG
+    import CoreData
     import Foundation
 
     final class SkillDataObjectBuilder {
@@ -11,7 +12,13 @@
 
         func build() -> Skill {
             let context = CoreDataManager.shared.backgroundContext!
-            let skill = Skill(context: context)
+            let skill = Skill(
+                entity: NSEntityDescription.entity(
+                    forEntityName: Skill.className,
+                    in: context
+                )!,
+                insertInto: context
+            )
             skill.engineerCareer = engineerCareer
             skill.identifier = identifier
             skill.language = language

@@ -16,7 +16,7 @@
         private(set) lazy var didChangeStationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var didTapCreateButtonPublisher = body.didTapActionButtonPublisher
 
-        private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables = Set<AnyCancellable>()
 
         private lazy var body = DebugCoreDataSegmentContentView(.create).configure {
             $0.setupContentView(

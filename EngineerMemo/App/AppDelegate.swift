@@ -2,6 +2,8 @@ import Firebase
 import UIKit
 
 final class AppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -24,9 +26,4 @@ extension AppDelegate {
             sessionRole: connectingSceneSession.role
         )
     }
-
-    func application(
-        _ application: UIApplication,
-        didDiscardSceneSessions sceneSessions: Set<UISceneSession>
-    ) {}
 }

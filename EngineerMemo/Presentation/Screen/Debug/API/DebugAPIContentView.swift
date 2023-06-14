@@ -139,7 +139,7 @@
         }
 
         private var cacheCellHeights: [IndexPath: CGFloat] = [:]
-        private var cancellables: Set<AnyCancellable> = .init()
+        private var cancellables = Set<AnyCancellable>()
 
         private let menuButton = UIButton(type: .system)
             .addConstraint {

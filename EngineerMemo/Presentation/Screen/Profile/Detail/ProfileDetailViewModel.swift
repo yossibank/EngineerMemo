@@ -20,7 +20,7 @@ final class ProfileDetailViewModel: ViewModel {
     let output: Output
     let binding = NoBinding()
 
-    private var cancellables: Set<AnyCancellable> = .init()
+    private var cancellables = Set<AnyCancellable>()
 
     private let model: ProfileModelInput
     private let routing: ProfileDetailRoutingInput

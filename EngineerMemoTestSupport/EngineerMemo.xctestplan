@@ -43,22 +43,21 @@
       "identifier" : "2B4112F94CFC69141D840B29",
       "name" : "EngineerMemo"
     },
-    "testExecutionOrdering" : "random",
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
       "target" : {
         "containerPath" : "container:EngineerMemo.xcodeproj",
-        "identifier" : "8E6F8AE45CBC685564BA72DE",
-        "name" : "EngineerMemoUnitTests"
+        "identifier" : "2ED415595DFE0DF6AEE87909",
+        "name" : "EngineerMemoSnapshotTests"
       }
     },
     {
       "target" : {
         "containerPath" : "container:EngineerMemo.xcodeproj",
-        "identifier" : "2ED415595DFE0DF6AEE87909",
-        "name" : "EngineerMemoSnapshotTests"
+        "identifier" : "8E6F8AE45CBC685564BA72DE",
+        "name" : "EngineerMemoUnitTests"
       }
     },
     {

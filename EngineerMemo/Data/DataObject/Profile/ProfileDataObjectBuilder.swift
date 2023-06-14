@@ -1,4 +1,5 @@
 #if DEBUG
+    import CoreData
     import Foundation
 
     final class ProfileDataObjectBuilder {
@@ -15,7 +16,13 @@
 
         func build() -> Profile {
             let context = CoreDataManager.shared.backgroundContext!
-            let profile = Profile(context: context)
+            let profile = Profile(
+                entity: NSEntityDescription.entity(
+                    forEntityName: Profile.className,
+                    in: context
+                )!,
+                insertInto: context
+            )
             profile.address = address
             profile.birthday = birthday
             profile.email = email
