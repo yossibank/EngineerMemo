@@ -39,14 +39,8 @@ extension AppDelegateMock {
             name: nil,
             sessionRole: connectingSceneSession.role
         )
-        sceneConfiguration.sceneClass = UIWindowScene.self
         sceneConfiguration.delegateClass = SceneDelegateMock.self
         sceneConfiguration.storyboard = nil
         return sceneConfiguration
     }
-
-    func application(
-        _ application: UIApplication,
-        didDiscardSceneSessions sceneSessions: Set<UISceneSession>
-    ) {}
 }
