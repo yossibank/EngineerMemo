@@ -1,6 +1,6 @@
 import XCTest
 
-final class ProfileDetailPageUITests: XCTestCase {
+final class ProfileDetailPageUITest: XCTestCase {
     private var app: XCUIApplication!
     private var page: ProfileDetailPage!
 
