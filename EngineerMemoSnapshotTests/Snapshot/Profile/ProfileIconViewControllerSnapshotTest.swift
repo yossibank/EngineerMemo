@@ -21,6 +21,8 @@ final class ProfileIconViewControllerSnapshotTest: FBSnapshotTestCase {
     override func tearDown() {
         super.tearDown()
 
+        subject = nil
+
         resetUserDefaults()
     }
 

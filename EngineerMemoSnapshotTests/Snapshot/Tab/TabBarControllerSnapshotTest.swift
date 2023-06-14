@@ -14,6 +14,12 @@ final class TabBarControllerSnapshotTest: FBSnapshotTestCase {
         subject = .init()
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        subject = nil
+    }
+
     func testTabBarController_プロフィールタブ() {
         subject.selectedIndex = TabItem.profile.rawValue
         snapshotVerifyView(viewMode: .normal(subject))

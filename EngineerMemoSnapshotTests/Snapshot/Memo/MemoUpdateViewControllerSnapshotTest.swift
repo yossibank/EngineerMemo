@@ -12,6 +12,12 @@ final class MemoUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
         recordMode = SnapshotTest.recordMode
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        subject = nil
+    }
+
     func testMemoUpdateViewController_作成() {
         snapshot(type: .create)
     }

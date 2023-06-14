@@ -12,6 +12,12 @@ final class ProfileUpdateSkillViewControllerSnapshotTest: FBSnapshotTestCase {
         recordMode = SnapshotTest.recordMode
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        subject = nil
+    }
+
     func testProfileUpdateSkillViewController_設定() {
         snapshot()
     }

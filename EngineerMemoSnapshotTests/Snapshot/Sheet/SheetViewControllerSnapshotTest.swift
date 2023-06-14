@@ -12,6 +12,12 @@ final class SheetViewControllerSnapshotTest: FBSnapshotTestCase {
         recordMode = SnapshotTest.recordMode
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        subject = nil
+    }
+
     func testSheetViewController_全項目存在() {
         snapshot(
             .init(
