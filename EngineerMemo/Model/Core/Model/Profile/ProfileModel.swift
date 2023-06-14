@@ -81,65 +81,72 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func create(modelObject: ProfileModelObject) {
-        profileStorage.create().sink { profile in
+        profileStorage.create().sink {
             modelObject.basicInsert(
-                profile,
+                $0.object,
                 isNew: true
             )
+
+            $0.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }
 
     func basicUpdate(modelObject: ProfileModelObject) {
-        profileStorage.update(identifier: modelObject.identifier).sink { profile in
+        profileStorage.update(identifier: modelObject.identifier).sink {
             modelObject.basicInsert(
-                profile,
+                $0.object,
                 isNew: false
             )
+
+            $0.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }
 
     func skillUpdate(modelObject: ProfileModelObject) {
-        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
+        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] coreData in
             guard let self else {
                 return
             }
 
             if let skill = modelObject.skill {
-                if profile.skill == nil {
-                    self.skillStorage.create().sink { skill in
+                if coreData.object.skill == nil {
+                    self.skillStorage.create().sink {
                         modelObject.skill?.skillInsert(
-                            skill,
+                            $0.object,
                             isNew: true
                         )
 
-                        profile.skill = skill
+                        coreData.object.skill = $0.object
                     }
                     .store(in: &self.cancellables)
                 } else {
-                    self.skillStorage.update(identifier: skill.identifier).sink { skill in
+                    self.skillStorage.update(identifier: skill.identifier).sink {
                         modelObject.skill?.skillInsert(
-                            skill,
+                            $0.object,
                             isNew: false
                         )
 
-                        profile.skill = skill
+                        coreData.object.skill = $0.object
                     }
                     .store(in: &self.cancellables)
                 }
             } else {
-                if profile.skill != nil {
-                    profile.skill = nil
+                if coreData.object.skill != nil {
+                    coreData.object.skill = nil
                 }
             }
+
+            coreData.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }
 
     func iconImageUpdate(modelObject: ProfileModelObject) {
-        profileStorage.update(identifier: modelObject.identifier).sink { profile in
-            modelObject.iconImageInsert(profile)
+        profileStorage.update(identifier: modelObject.identifier).sink {
+            modelObject.iconImageInsert($0.object)
+            $0.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }

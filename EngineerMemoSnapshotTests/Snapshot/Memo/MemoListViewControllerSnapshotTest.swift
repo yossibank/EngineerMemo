@@ -73,10 +73,11 @@ private extension MemoListViewControllerSnapshotTest {
     func dataInsert(count: Int) {
         (1 ... count).forEach { num in
             CoreDataStorage<Memo>().create().sink {
-                $0.category = .init(rawValue: num % 6)
-                $0.title = "memo title\(num)"
-                $0.content = "memo content\(num)"
-                $0.identifier = "identifier\(num)"
+                $0.object.category = .init(rawValue: num % 6)
+                $0.object.title = "memo title\(num)"
+                $0.object.content = "memo content\(num)"
+                $0.object.identifier = "identifier\(num)"
+                $0.context.saveIfNeeded()
             }
             .store(in: &cancellables)
         }

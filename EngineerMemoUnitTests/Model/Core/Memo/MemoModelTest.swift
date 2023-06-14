@@ -280,11 +280,12 @@ final class MemoModelTest: XCTestCase {
 private extension MemoModelTest {
     func dataInsert() {
         storage.create().sink {
-            $0.category = .technical
-            $0.content = "コンテンツ"
-            $0.createdAt = Calendar.date(year: 2000, month: 1, day: 1)
-            $0.identifier = "identifier"
-            $0.title = "タイトル"
+            $0.object.category = .technical
+            $0.object.content = "コンテンツ"
+            $0.object.createdAt = Calendar.date(year: 2000, month: 1, day: 1)
+            $0.object.identifier = "identifier"
+            $0.object.title = "タイトル"
+            $0.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }

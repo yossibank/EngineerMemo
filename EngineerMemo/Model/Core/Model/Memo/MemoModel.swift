@@ -77,21 +77,25 @@ final class MemoModel: MemoModelInput {
     }
 
     func create(modelObject: MemoModelObject) {
-        storage.create().sink { profile in
+        storage.create().sink {
             modelObject.dataInsert(
-                profile,
+                $0.object,
                 isNew: true
             )
+
+            $0.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }
 
     func update(modelObject: MemoModelObject) {
-        storage.update(identifier: modelObject.identifier).sink { profile in
+        storage.update(identifier: modelObject.identifier).sink {
             modelObject.dataInsert(
-                profile,
+                $0.object,
                 isNew: false
             )
+
+            $0.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }

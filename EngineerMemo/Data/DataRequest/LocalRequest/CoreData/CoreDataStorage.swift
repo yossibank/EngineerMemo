@@ -1,11 +1,16 @@
 import Combine
 import CoreData
 
+struct CoreDataObject<T: IdentifableManagedObject> {
+    let object: T
+    let context: NSManagedObjectContext
+}
+
 struct CoreDataStorage<T: IdentifableManagedObject> {
     private let shared = CoreDataManager.shared
 
     var allObjects: [T] {
-        let request = NSFetchRequest<T>(entityName: String(describing: T.self))
+        let request = NSFetchRequest<T>(entityName: T.className)
 
         guard let result = try? shared.backgroundContext.fetch(request) else {
             return []
@@ -24,26 +29,45 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
         )
     }
 
-    func create() -> AnyPublisher<T, Never> {
+    func create() -> AnyPublisher<CoreDataObject<T>, Never> {
         Deferred {
-            Future<T, Never> { promise in
+            Future<CoreDataObject<T>, Never> { promise in
                 shared.performBackgroundTask { context in
-                    let object = T(context: context)
-                    promise(.success(object))
-                    context.saveIfNeeded()
+                    let object = T(
+                        entity: NSEntityDescription.entity(
+                            forEntityName: T.className,
+                            in: context
+                        )!,
+                        insertInto: context
+                    )
+
+                    promise(
+                        .success(
+                            .init(
+                                object: object,
+                                context: context
+                            )
+                        )
+                    )
                 }
             }
         }
         .eraseToAnyPublisher()
     }
 
-    func update(identifier: String) -> AnyPublisher<T, Never> {
+    func update(identifier: String) -> AnyPublisher<CoreDataObject<T>, Never> {
         Deferred {
-            Future<T, Never> { promise in
+            Future<CoreDataObject<T>, Never> { promise in
                 shared.performBackgroundTask { context in
                     if let object = object(identifier: identifier) {
-                        promise(.success(object))
-                        context.saveIfNeeded()
+                        promise(
+                            .success(
+                                .init(
+                                    object: object,
+                                    context: context
+                                )
+                            )
+                        )
                     }
                 }
             }
