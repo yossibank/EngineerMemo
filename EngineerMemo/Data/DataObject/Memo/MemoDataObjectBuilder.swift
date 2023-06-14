@@ -1,4 +1,5 @@
 #if DEBUG
+    import CoreData
     import Foundation
 
     final class MemoDataObjectBuilder {
@@ -10,7 +11,13 @@
 
         func build() -> Memo {
             let context = CoreDataManager.shared.backgroundContext!
-            let memo = Memo(context: context)
+            let memo = Memo(
+                entity: NSEntityDescription.entity(
+                    forEntityName: Memo.className,
+                    in: context
+                )!,
+                insertInto: context
+            )
             memo.category = category
             memo.content = content
             memo.createdAt = createdAt
