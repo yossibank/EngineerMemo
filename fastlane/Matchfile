@@ -1,6 +1,6 @@
+# 証明書管理Git
 git_url("git@github.com:yossibank/iOS-Certificates.git")
-
+# Git管理
 storage_mode("git")
-
+# AppID名
 username("yossibank@yahoo.co.jp")
-

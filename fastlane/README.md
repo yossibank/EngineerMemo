@@ -41,10 +41,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 本番用開発者用証明書更新
 
-### ios read_develop_certificates
+### ios retrieve_develop_certificates
 
 ```sh
-[bundle exec] fastlane ios read_develop_certificates
+[bundle exec] fastlane ios retrieve_develop_certificates
 ```
 
 開発者用証明書取得

@@ -48,7 +48,7 @@ platform :ios do
   end
 
   desc "開発者用証明書取得"
-  lane :read_develop_certificates do
+  lane :retrieve_develop_certificates do
     match(
       type: "development",
       app_identifier: ["com.yossibank.engineermemo.development"],
