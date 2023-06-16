@@ -1,0 +1,6 @@
+git_url("git@github.com:yossibank/iOS-Certificates.git")
+
+storage_mode("git")
+
+username("yossibank@yahoo.co.jp")
+

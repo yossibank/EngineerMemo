@@ -1,9 +1,16 @@
+fastlane_require "dotenv"
+
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "100"
 ENV["FASTLANE_XCODEBUILD_SETTINGS_RETRIES"] = "10"
 
 default_platform(:ios)
 
 platform :ios do
+  desc "環境変数"
+  before_all do
+    Dotenv.overload ".env"
+  end
+
   desc "ユニットテストを実行する"
   lane :unit_test do
     scan(
@@ -17,6 +24,35 @@ platform :ios do
       derived_data_path: "DerivedData",
       cloned_source_packages_path: "SourcePackages",
       clean: true
+    )
+  end
+
+  desc "開発者用証明書更新"
+  lane :update_develop_certificates do
+    match(
+      type: "development",
+      app_identifier: ["com.yossibank.engineermemo.development"],
+      force_for_new_devices: true,
+      keychain_password: ENV["KEYCHAIN_PASSWORD"]
+    )
+  end
+
+  desc "本番用開発者用証明書更新"
+  lane :update_appstore_certificates do
+    match(
+      type: "appstore",
+      app_identifier: ["com.yossibank.engineermemo"],
+      force_for_new_devices: true,
+      keychain_password: ENV["KEYCHAIN_PASSWORD"]
+    )
+  end
+
+  desc "開発者用証明書取得"
+  lane :read_develop_certificates do
+    match(
+      type: "development",
+      app_identifier: ["com.yossibank.engineermemo.development"],
+      readonly: true
     )
   end
 end

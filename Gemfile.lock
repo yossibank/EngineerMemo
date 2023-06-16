@@ -275,6 +275,7 @@ DEPENDENCIES
   danger-periphery
   danger-swiftlint
   danger-xcov
+  dotenv
   fastlane
   xcpretty
 
