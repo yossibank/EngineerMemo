@@ -89,6 +89,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 本番用ipa出力
 
+### ios upload_app_store_connect
+
+```sh
+[bundle exec] fastlane ios upload_app_store_connect
+```
+
+App Store Connectへアップロード
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

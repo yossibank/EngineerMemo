@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>108535944157-s5cu0e52ggqckecqdt74r5ovsna5lnnf.apps.googleusercontent.com</string>
+	<string>745069830093-6medci92id5od126d6ghj8k4vakmqr1m.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.108535944157-s5cu0e52ggqckecqdt74r5ovsna5lnnf</string>
+	<string>com.googleusercontent.apps.745069830093-6medci92id5od126d6ghj8k4vakmqr1m</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDf0DozU-VHdS9bd4k7tOkipEriZ9U5Y3Y</string>
+	<string>AIzaSyAvA09-DJ4FyIhOOk-4GOQGFBoBpmH6pdw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>108535944157</string>
+	<string>745069830093</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.yossibank.EngineerMemo</string>
+	<string>com.yossibank.engineermemo</string>
 	<key>PROJECT_ID</key>
-	<string>engineermemo-cdee4</string>
+	<string>engineermemo-release</string>
 	<key>STORAGE_BUCKET</key>
-	<string>engineermemo-cdee4.appspot.com</string>
+	<string>engineermemo-release.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:108535944157:ios:f168593906e9ea73ab9c34</string>
+	<string>1:745069830093:ios:f1aa74dc7ff329611d2e84</string>
 </dict>
 </plist>

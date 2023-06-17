@@ -117,4 +117,21 @@ platform :ios do
       clean: true
     )
   end
+
+  desc "App Store Connectへアップロード"
+  lane :upload_app_store_connect do
+    output_appstore_ipa
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV['ASC_KEY_ID'],
+      issuer_id: ENV['ASC_ISSUER_ID'],
+      key_content: ENV['ASC_KEY_CONTENT'],
+      is_key_content_base64: true
+    )
+
+    pilot(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true
+    )
+  end
 end
