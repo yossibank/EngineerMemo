@@ -10,6 +10,7 @@ setup:
 	$(MAKE) generate-test-mock
 	$(MAKE) generate-xcodeproj
 	$(MAKE) generate-snapshot-md
+	$(MAKE) retrieve_development_certificates
 	$(MAKE) open
 
 .PHONY: install-template
@@ -47,6 +48,10 @@ generate-files:
 .PHONY: generate-snapshot-md
 generate-snapshot-md:
 	ruby Scripts/Snapshot/screenshots-preview-generator-for-snapshot.rb
+
+.PHONY: retrieve_development_certificates
+retrieve_development_certificates:
+	bundle exec fastlane retrieve_development_certificates
 
 .PHONY: open
 open:

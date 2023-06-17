@@ -1,14 +1,4 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
+fastlane_require "dotenv"
 
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "100"
 ENV["FASTLANE_XCODEBUILD_SETTINGS_RETRIES"] = "10"
@@ -16,6 +6,11 @@ ENV["FASTLANE_XCODEBUILD_SETTINGS_RETRIES"] = "10"
 default_platform(:ios)
 
 platform :ios do
+  desc "環境変数"
+  before_all do
+    Dotenv.overload ".env"
+  end
+
   desc "ユニットテストを実行する"
   lane :unit_test do
     scan(
@@ -23,8 +18,120 @@ platform :ios do
       scheme: "EngineerMemo",
       testplan: "EngineerMemo",
       configuration: "Debug",
-      devices: "iPhone 14",
+      device: "iPhone 14",
+      result_bundle: true,
+      output_directory: "Test",
+      derived_data_path: "DerivedData",
+      cloned_source_packages_path: "SourcePackages",
       clean: true
+    )
+  end
+
+  desc "開発者用証明書更新"
+  lane :update_development_certificates do
+    match(
+      type: "development",
+      app_identifier: ["com.yossibank.engineermemo.development"],
+      force_for_new_devices: true,
+      keychain_password: ENV["KEYCHAIN_PASSWORD"]
+    )
+  end
+
+  desc "検証用証明書更新"
+  lane :update_adhoc_certificates do
+      match(
+        type: "adhoc",
+        app_identifier: ["com.yossibank.engineermemo"],
+        force_for_new_devices: true,
+        keychain_password: ENV["KEYCHAIN_PASSWORD"]
+      )
+  end
+
+  desc "本番用証明書更新"
+  lane :update_appstore_certificates do
+    match(
+      type: "appstore",
+      app_identifier: ["com.yossibank.engineermemo"],
+      force_for_new_devices: true,
+      keychain_password: ENV["KEYCHAIN_PASSWORD"]
+    )
+  end
+
+  desc "検証用Code Signing設定"
+  lane :setting_adhoc_code_signing do
+    update_code_signing_settings(
+      targets: "EngineerMemo",
+      build_configurations: "Release",
+      code_sign_identity: "Apple Distribution: Kamiyama Yoshihito",
+      profile_name: "match AdHoc com.yossibank.engineermemo",
+      bundle_identifier: "com.yossibank.engineermemo"
+    )
+  end
+
+  desc "本番用Code Signing設定"
+  lane :setting_appstore_code_signing do
+    update_code_signing_settings(
+      targets: "EngineerMemo",
+      build_configurations: "Release",
+      code_sign_identity: "Apple Distribution: Kamiyama Yoshihito",
+      profile_name: "match AppStore com.yossibank.engineermemo",
+      bundle_identifier: "com.yossibank.engineermemo"
+    )
+  end
+
+  desc "開発者用証明書取得"
+  lane :retrieve_development_certificates do
+    match(
+      type: "development",
+      app_identifier: ["com.yossibank.engineermemo.development"],
+      readonly: true
+    )
+  end
+
+  desc "検証用ipa出力"
+  lane :output_adhoc_ipa do
+    setting_adhoc_code_signing
+
+    gym(
+      project: "EngineerMemo.xcodeproj",
+      scheme: "EngineerMemo",
+      configuration: "Release",
+      output_directory: "./build",
+      output_name: "EngineerMemo_adhoc.ipa",
+      export_method: "ad-hoc",
+      clean: true
+    )
+  end
+
+  desc "本番用ipa出力"
+  lane :output_appstore_ipa do
+    setting_appstore_code_signing
+
+    gym(
+      project: "EngineerMemo.xcodeproj",
+      scheme: "EngineerMemo",
+      configuration: "Release",
+      output_directory: "./build",
+      output_name: "EngineerMemo_appstore.ipa",
+      export_method: "app-store",
+      clean: true
+    )
+  end
+
+  desc "App Store Connectへアップロード"
+  lane :upload_app_store_connect do
+    output_appstore_ipa
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV['ASC_KEY_ID'],
+      issuer_id: ENV['ASC_ISSUER_ID'],
+      key_content: ENV['ASC_KEY_CONTENT'],
+      is_key_content_base64: true
+    )
+
+    pilot(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true
     )
   end
 end
