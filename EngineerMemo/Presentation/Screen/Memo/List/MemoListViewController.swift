@@ -47,20 +47,13 @@ extension MemoListViewController {
 
 private extension MemoListViewController {
     func setupNavigation() {
-        let reloadBarButtonItem = UIBarButtonItem(.reload)
         let addMemoBarButtonItem = UIBarButtonItem(.addMemo)
-
-        reloadBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
-            self?.viewModel.input.viewDidLoad.send(())
-        }
-        .store(in: &cancellables)
 
         addMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
             self?.viewModel.input.didTapCreateButton.send(())
         }
         .store(in: &cancellables)
 
-        navigationItem.leftBarButtonItem = reloadBarButtonItem
         navigationItem.rightBarButtonItem = addMemoBarButtonItem
     }
 

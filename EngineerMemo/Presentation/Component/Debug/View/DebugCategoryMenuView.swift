@@ -137,6 +137,7 @@
                     outgoing.font = .boldSystemFont(ofSize: 16)
                     return outgoing
                 }
+                config.baseForegroundColor = .primary
                 config.imagePadding = 8
                 config.background.backgroundColor = .background
                 config.background.cornerRadius = 4
