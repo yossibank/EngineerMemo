@@ -12,6 +12,7 @@ final class Profile: NSManagedObject {
     @NSManaged var phoneNumber: String?
     @NSManaged var station: String?
     @NSManaged var skill: Skill?
+    @NSManaged var projects: NSSet?
 }
 
 extension Profile {

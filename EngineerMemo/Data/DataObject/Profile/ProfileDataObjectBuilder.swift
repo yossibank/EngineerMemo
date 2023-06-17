@@ -13,6 +13,7 @@
         private var phoneNumber: String? = "08011112222"
         private var station: String? = "鶴橋駅"
         private var skill: Skill?
+        private var projects: [Project] = []
 
         func build() -> Profile {
             let context = CoreDataManager.shared.backgroundContext!
@@ -33,6 +34,7 @@
             profile.phoneNumber = phoneNumber
             profile.station = station
             profile.skill = skill
+            profile.projects = NSSet(array: projects)
             return profile
         }
 
@@ -83,6 +85,11 @@
 
         func skill(_ skill: Skill?) -> Self {
             self.skill = skill
+            return self
+        }
+
+        func projects(_ projects: [Project]) -> Self {
+            self.projects = projects
             return self
         }
     }

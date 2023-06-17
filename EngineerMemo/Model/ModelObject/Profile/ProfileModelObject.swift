@@ -10,6 +10,7 @@ struct ProfileModelObject: Hashable {
     var phoneNumber: String?
     var station: String?
     var skill: SkillModelObject?
+    var projects: [ProjectModelObject] = []
     var identifier: String
 
     enum Gender: Int {

@@ -66,9 +66,9 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 
 private extension ProfileDetailViewControllerSnapshotTest {
     func dataInsert(_ modelObject: ProfileModelObject) {
-        CoreDataStorage<Profile>().create().sink { coreData in
+        CoreDataStorage<Profile>().create().sink { data in
             modelObject.basicInsert(
-                coreData.object,
+                data.object,
                 isNew: true
             )
 
@@ -79,12 +79,12 @@ private extension ProfileDetailViewControllerSnapshotTest {
                         isNew: true
                     )
 
-                    coreData.object.skill = $0.object
+                    data.object.skill = $0.object
                 }
                 .store(in: &self.cancellables)
             }
 
-            coreData.context.saveIfNeeded()
+            data.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }
