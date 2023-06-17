@@ -28,7 +28,7 @@ platform :ios do
   end
 
   desc "開発者用証明書更新"
-  lane :update_develop_certificates do
+  lane :update_development_certificates do
     match(
       type: "development",
       app_identifier: ["com.yossibank.engineermemo.development"],
@@ -37,7 +37,17 @@ platform :ios do
     )
   end
 
-  desc "本番用開発者用証明書更新"
+  desc "検証用証明書更新"
+  lane :update_adhoc_certificates do
+      match(
+        type: "adhoc",
+        app_identifier: ["com.yossibank.engineermemo"],
+        force_for_new_devices: true,
+        keychain_password: ENV["KEYCHAIN_PASSWORD"]
+      )
+  end
+
+  desc "本番用証明書更新"
   lane :update_appstore_certificates do
     match(
       type: "appstore",
@@ -47,12 +57,64 @@ platform :ios do
     )
   end
 
+  desc "検証用Code Signing設定"
+  lane :setting_adhoc_code_signing do
+    update_code_signing_settings(
+      targets: "EngineerMemo",
+      build_configurations: "Release",
+      code_sign_identity: "Apple Distribution: Kamiyama Yoshihito",
+      profile_name: "match AdHoc com.yossibank.engineermemo",
+      bundle_identifier: "com.yossibank.engineermemo"
+    )
+  end
+
+  desc "本番用Code Signing設定"
+  lane :setting_appstore_code_signing do
+    update_code_signing_settings(
+      targets: "EngineerMemo",
+      build_configurations: "Release",
+      code_sign_identity: "Apple Distribution: Kamiyama Yoshihito",
+      profile_name: "match AppStore com.yossibank.engineermemo",
+      bundle_identifier: "com.yossibank.engineermemo"
+    )
+  end
+
   desc "開発者用証明書取得"
-  lane :retrieve_develop_certificates do
+  lane :retrieve_development_certificates do
     match(
       type: "development",
       app_identifier: ["com.yossibank.engineermemo.development"],
       readonly: true
+    )
+  end
+
+  desc "検証用ipa出力"
+  lane :output_adhoc_ipa do
+    setting_adhoc_code_signing
+
+    gym(
+      project: "EngineerMemo.xcodeproj",
+      scheme: "EngineerMemo",
+      configuration: "Release",
+      output_directory: "./build",
+      output_name: "EngineerMemo_adhoc.ipa",
+      export_method: "ad-hoc",
+      clean: true
+    )
+  end
+
+  desc "本番用ipa出力"
+  lane :output_appstore_ipa do
+    setting_appstore_code_signing
+
+    gym(
+      project: "EngineerMemo.xcodeproj",
+      scheme: "EngineerMemo",
+      configuration: "Release",
+      output_directory: "./build",
+      output_name: "EngineerMemo_appstore.ipa",
+      export_method: "app-store",
+      clean: true
     )
   end
 end
