@@ -7,6 +7,7 @@ protocol ProfileModelInput: Model {
     func create(modelObject: ProfileModelObject)
     func basicUpdate(modelObject: ProfileModelObject)
     func skillUpdate(modelObject: ProfileModelObject)
+    func projectUpdate(modelObject: ProfileModelObject)
     func iconImageUpdate(modelObject: ProfileModelObject)
     func iconImageUpdate(index: Int)
     func delete(modelObject: ProfileModelObject)
@@ -17,6 +18,8 @@ final class ProfileModel: ProfileModelInput {
 
     private let profileStorage = CoreDataStorage<Profile>()
     private let skillStorage = CoreDataStorage<Skill>()
+    private let projectStorage = CoreDataStorage<Project>()
+
     private let profileConverter: ProfileConverterInput
     private let errorConverter: AppErrorConverterInput
 
@@ -133,9 +136,42 @@ final class ProfileModel: ProfileModelInput {
                     .store(in: &self.cancellables)
                 }
             } else {
-                if data.object.skill != nil {
-                    data.object.skill = nil
+                guard data.object.skill != nil else {
+                    return
                 }
+
+                data.object.skill = nil
+            }
+
+            data.context.saveIfNeeded()
+        }
+        .store(in: &cancellables)
+    }
+
+    func projectUpdate(modelObject: ProfileModelObject) {
+        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] data in
+            guard let self else {
+                return
+            }
+
+            if modelObject.projects.isEmpty {
+                guard !data.object.projects.isEmtpy else {
+                    return
+                }
+
+                data.object.projects = nil
+            } else {
+                self.projectStorage.create().sink { project in
+                    modelObject.projects.forEach {
+                        $0.projectInsert(
+                            project.object,
+                            isNew: true
+                        )
+                    }
+
+                    data.object.projects = [project.object]
+                }
+                .store(in: &self.cancellables)
             }
 
             data.context.saveIfNeeded()

@@ -47,6 +47,7 @@
         private(set) lazy var didChangePhoneNumberControlPublisher = didChangePhoneNumberControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeStationControlPublisher = didChangeStationControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSkillControlPublisher = didChangeSkillControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeProjectControlPublisher = didChangeProjectControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
 
@@ -80,6 +81,7 @@
         private let didChangePhoneNumberControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeStationControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSkillControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeProjectControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSearchTextSubject = PassthroughSubject<String, Never>()
         private let didTapUpdateButtonSubject = PassthroughSubject<String, Never>()
 
@@ -197,6 +199,11 @@
 
                 cell.skillControlPublisher.sink { [weak self] value in
                     self?.didChangeSkillControlSubject.send(value)
+                }
+                .store(in: &cell.cancellables)
+
+                cell.projectControlPublisher.sink { [weak self] value in
+                    self?.didChangeProjectControlSubject.send(value)
                 }
                 .store(in: &cell.cancellables)
 

@@ -21,7 +21,15 @@
             }
         }
 
+        var projects: [ProjectModelObject] {
+            switch self {
+            case .default: return [ProjectModelObjectBuilder().build()]
+            case .none: return []
+            }
+        }
+
         static var defaultSkill = `default`.skill
+        static var defaultProjects = `default`.projects
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none

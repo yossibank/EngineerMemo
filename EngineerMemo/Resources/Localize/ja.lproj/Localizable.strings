@@ -63,6 +63,8 @@
 "profile.settingDescription" = "自分のプロフィール情報を設定しましょう。";
 "profile.experienceSkill" = "経験・スキル";
 "profile.skillDescription" = "自分の経験・スキル情報を設定しましょう。";
+"profile.project" = "案件・経歴";
+"profile.projectDescriptoin" = "自分が担当してきた案件を設定しましょう。";
 "profile.noSettingName" = "名前未設定";
 "profile.name" = "名前";
 "profile.age" = "年齢";
@@ -90,6 +92,10 @@
 "profile.year" = "%@年";
 "profile.moreTenYear" = "10年以上";
 "profile.score" = "%@点";
+"profile.project.count" = "案件数";
+"profile.project.number" = "%@件";
+"profile.project.title" = "案件名";
+"profile.project.content" = "案件内容";
 
 // MARK: - メモ
 
@@ -154,6 +160,7 @@
 "debug.coreData.update" = "更新";
 "debug.coreData.profile" = "プロフィール";
 "debug.coreData.skill" = "スキル";
+"debug.coreData.project" = "案件・経歴";
 "debug.coreData.memo" = "メモ";
 "debug.userDefaults.status" = "状態";
 "debug.userDefaults.value" = "保存値";
@@ -173,6 +180,7 @@
 "debug.segment.phoneNumber" = "phoneNumber";
 "debug.segment.station" = "station";
 "debug.segment.skill" = "skill";
+"debug.segment.project" = "project";
 "debug.segment.title" = "title";
 "debug.segment.content" = "content";
 "debug.segment.randomImage" = "画像(ランダム)";

@@ -52,81 +52,70 @@
             contentView.didChangeAddressControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeAddressControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeAddressControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeBirthdayControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeBirthdayControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeBirthdayControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeEmailControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeEmailControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeEmailControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeGenderControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeGenderControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeGenderControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeIconImageControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeIconImageControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeIconImageControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeNameControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeNameControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeNameControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangePhoneNumberControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangePhoneNumberControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangePhoneNumberControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeStationControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeStationControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeStationControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeSkillControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeSkillControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeSkillControl.send(.segment(value))
+                }
+                .store(in: &cancellables)
+
+            contentView.didChangeProjectControlPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] value in
+                    self?.viewModel.input.didChangeProjectControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 

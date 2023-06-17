@@ -181,16 +181,16 @@ enum AppControllers {
             }
 
             enum CoreData {
-                static func List() -> DebugCoreDataMenuViewController {
-                    let vc = DebugCoreDataMenuViewController(displayType: .list)
-                    vc.title = L10n.Navigation.Title.debugCoreDataList
+                static func Create() -> DebugCoreDataMenuViewController {
+                    let vc = DebugCoreDataMenuViewController(displayType: .create)
+                    vc.title = L10n.Navigation.Title.debugCoreDataCreate
                     vc.inject(contentView: DebugCoreDataMenuContentView())
                     return vc
                 }
 
-                static func Create() -> DebugCoreDataMenuViewController {
-                    let vc = DebugCoreDataMenuViewController(displayType: .create)
-                    vc.title = L10n.Navigation.Title.debugCoreDataCreate
+                static func List() -> DebugCoreDataMenuViewController {
+                    let vc = DebugCoreDataMenuViewController(displayType: .list)
+                    vc.title = L10n.Navigation.Title.debugCoreDataList
                     vc.inject(contentView: DebugCoreDataMenuContentView())
                     return vc
                 }
@@ -222,6 +222,17 @@ enum AppControllers {
                         vc.inject(
                             contentView: DebugProfileListContentView(),
                             viewModel: DebugProfileListViewModel(model: Models.Profile())
+                        )
+
+                        return vc
+                    }
+
+                    static func Project() -> DebugProjectListViewController {
+                        let vc = DebugProjectListViewController()
+
+                        vc.inject(
+                            contentView: DebugProjectListContentView(),
+                            viewModel: DebugProjectListViewModel(model: Models.Profile())
                         )
 
                         return vc
