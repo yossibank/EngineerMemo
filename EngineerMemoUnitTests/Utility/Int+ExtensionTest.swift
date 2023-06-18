@@ -25,24 +25,29 @@ final class IntExtensionTest: XCTestCase {
     }
 
     func test_boolValue_0の際にtureを取得できること() {
+        // assert
         XCTAssertTrue(0.boolValue)
     }
 
     func test_boolValue_0以外の際にfalseを取得できること() {
+        // assert
         XCTAssertFalse(1.boolValue)
         XCTAssertFalse(11.boolValue)
         XCTAssertFalse(111.boolValue)
     }
 
     func test_optionalBoolValue_0の際にtureを取得できること() {
+        // assert
         XCTAssertTrue(0.optionalBoolValue!)
     }
 
     func test_optionalBoolValue_1の際にfalseを取得できること() {
+        // assert
         XCTAssertFalse(1.optionalBoolValue!)
     }
 
     func test_optionalBoolValue_0_1以外の際にnilを取得できること() {
+        // assert
         XCTAssertNil(2.optionalBoolValue)
         XCTAssertNil(3.optionalBoolValue)
         XCTAssertNil(4.optionalBoolValue)
@@ -52,6 +57,7 @@ final class IntExtensionTest: XCTestCase {
         // arrange
         let value = -1
 
+        // assert
         XCTAssertEqual(
             value,
             .invalid
@@ -62,6 +68,7 @@ final class IntExtensionTest: XCTestCase {
         // arrange
         let value = 2
 
+        // assert
         XCTAssertEqual(
             value,
             .nilIndex

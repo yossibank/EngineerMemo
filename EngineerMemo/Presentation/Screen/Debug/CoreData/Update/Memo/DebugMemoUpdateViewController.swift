@@ -59,18 +59,14 @@
             contentView.didChangeTitleControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeTitleControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeTitleControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeContentControlPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] value in
-                    self?.viewModel.input.didChangeContentControl.send(
-                        .segment(value)
-                    )
+                    self?.viewModel.input.didChangeContentControl.send(.segment(value))
                 }
                 .store(in: &cancellables)
 

@@ -22,8 +22,8 @@ final class ProfileUpdateBirthdayInputView: UIView {
                         $0.edges.equalToSuperview()
                     }
                     .addSubview(pickerLabel) {
-                        $0.top.bottom.equalToSuperview()
-                        $0.leading.trailing.equalToSuperview().inset(8)
+                        $0.verticalEdges.equalToSuperview()
+                        $0.horizontalEdges.equalToSuperview().inset(8)
                     }
                     .addConstraint {
                         $0.height.equalTo(40)
@@ -95,8 +95,8 @@ private extension ProfileUpdateBirthdayInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
-                $0.top.bottom.equalToSuperview().inset(8)
-                $0.leading.trailing.equalToSuperview().inset(16)
+                $0.verticalEdges.equalToSuperview().inset(8)
+                $0.horizontalEdges.equalToSuperview().inset(16)
             }
 
             $0.backgroundColor = .background

@@ -104,7 +104,7 @@ final class MemoUpdateViewModel: ViewModel {
                 return
             }
 
-            if modelObject == nil {
+            if modelObject.isNil {
                 self.model.create(modelObject: self.modelObject)
             } else {
                 self.model.update(modelObject: self.modelObject)

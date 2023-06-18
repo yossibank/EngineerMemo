@@ -4,6 +4,7 @@
     enum DebugCoreDataMenuType: CaseIterable {
         case profile
         case skill
+        case project
         case memo
 
         var title: String {
@@ -13,6 +14,9 @@
 
             case .skill:
                 return L10n.Debug.CoreData.skill
+
+            case .project:
+                return L10n.Debug.CoreData.project
 
             case .memo:
                 return L10n.Debug.CoreData.memo
@@ -26,6 +30,9 @@
 
             case .skill:
                 return AppControllers.Debug.CoreDataObject.List.Skill()
+
+            case .project:
+                return AppControllers.Debug.CoreDataObject.List.Project()
 
             case .memo:
                 return AppControllers.Debug.CoreDataObject.List.Memo()

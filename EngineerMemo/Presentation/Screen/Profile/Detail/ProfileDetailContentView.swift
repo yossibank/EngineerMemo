@@ -8,12 +8,14 @@ enum ProfileDetailContentViewSection: CaseIterable {
     case top
     case basic
     case skill
+    case project
 }
 
 enum ProfileDetailContentViewItem: Hashable {
     case top(ProfileModelObject?)
     case basic(ProfileModelObject?)
     case skill(SkillModelObject?)
+    case project(ProjectModelObject?)
 }
 
 // MARK: - properties & init
@@ -55,7 +57,10 @@ final class ProfileDetailContentView: UIView {
     private let didTapSkillEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSkillSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
 
-    private let tableView = UITableView()
+    private let tableView = UITableView(
+        frame: .zero,
+        style: .grouped
+    )
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,11 +84,13 @@ private extension ProfileDetailContentView {
                 with: [
                     ProfileTopCell.self,
                     ProfileBasicCell.self,
-                    ProfileSkillCell.self
+                    ProfileSkillCell.self,
+                    ProfileProjectCell.self,
+                    ProfileNoSettingCell.self
                 ]
             )
+            $0.registerHeaderFooterView(with: TitleButtonHeaderFooterView.self)
             $0.backgroundColor = .background
-            $0.allowsSelection = false
             $0.separatorStyle = .none
             $0.delegate = self
             $0.dataSource = dataSource
@@ -114,6 +121,22 @@ private extension ProfileDetailContentView {
             return cell
 
         case let .basic(modelObject):
+            guard let modelObject else {
+                let cell = tableView.dequeueReusableCell(
+                    withType: ProfileNoSettingCell.self,
+                    for: indexPath
+                )
+
+                cell.configure(with: L10n.Profile.settingDescription)
+
+                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                    self?.didTapBasicSettingButtonSubject.send(modelObject)
+                }
+                .store(in: &cell.cancellables)
+
+                return cell
+            }
+
             let cell = tableView.dequeueReusableCell(
                 withType: ProfileBasicCell.self,
                 for: indexPath
@@ -121,19 +144,32 @@ private extension ProfileDetailContentView {
 
             cell.configure(modelObject)
 
-            cell.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapBasicEditButtonSubject.send(modelObject)
-            }
-            .store(in: &cell.cancellables)
-
-            cell.didTapSettingButtonPublisher.sink { [weak self] _ in
-                self?.didTapBasicSettingButtonSubject.send(modelObject)
-            }
-            .store(in: &cell.cancellables)
-
             return cell
 
         case let .skill(modelObject):
+            guard let modelObject else {
+                let cell = tableView.dequeueReusableCell(
+                    withType: ProfileNoSettingCell.self,
+                    for: indexPath
+                )
+
+                cell.configure(with: L10n.Profile.skillDescription)
+
+                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                    guard
+                        let self,
+                        let modelObject = self.modelObject
+                    else {
+                        return
+                    }
+
+                    self.didTapSkillSettingButtonSubject.send(modelObject)
+                }
+                .store(in: &cell.cancellables)
+
+                return cell
+            }
+
             let cell = tableView.dequeueReusableCell(
                 withType: ProfileSkillCell.self,
                 for: indexPath
@@ -141,29 +177,26 @@ private extension ProfileDetailContentView {
 
             cell.configure(modelObject)
 
-            cell.didTapEditButtonPublisher.sink { [weak self] _ in
-                guard
-                    let self,
-                    let modelObject = self.modelObject
-                else {
-                    return
-                }
+            return cell
 
-                self.didTapSkillEditButtonSubject.send(modelObject)
+        case let .project(modelObject):
+            guard let modelObject else {
+                let cell = tableView.dequeueReusableCell(
+                    withType: ProfileNoSettingCell.self,
+                    for: indexPath
+                )
+
+                cell.configure(with: L10n.Profile.projectDescription)
+
+                return cell
             }
-            .store(in: &cell.cancellables)
 
-            cell.didTapSettingButtonPublisher.sink { [weak self] _ in
-                guard
-                    let self,
-                    let modelObject = self.modelObject
-                else {
-                    return
-                }
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileProjectCell.self,
+                for: indexPath
+            )
 
-                self.didTapSkillSettingButtonSubject.send(modelObject)
-            }
-            .store(in: &cell.cancellables)
+            cell.configure(modelObject)
 
             return cell
         }
@@ -190,6 +223,22 @@ private extension ProfileDetailContentView {
             )
         }
 
+        if let modelObject {
+            if modelObject.projects.isEmpty {
+                dataSourceSnapshot.appendItems(
+                    [.project(nil)],
+                    toSection: .project
+                )
+            } else {
+                modelObject.projects.forEach {
+                    dataSourceSnapshot.appendItems(
+                        [.project($0)],
+                        toSection: .project
+                    )
+                }
+            }
+        }
+
         dataSource.apply(
             dataSourceSnapshot,
             animatingDifferences: false
@@ -200,6 +249,99 @@ private extension ProfileDetailContentView {
 // MARK: - delegate
 
 extension ProfileDetailContentView: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
+        switch Section.allCases[section] {
+        case .top:
+            return nil
+
+        case .basic:
+            guard let modelObject else {
+                return nil
+            }
+
+            let view = tableView.dequeueReusableHeaderFooterView(
+                withType: TitleButtonHeaderFooterView.self
+            )
+
+            view.configure(with: .basic)
+
+            view.didTapEditButtonPublisher.sink { [weak self] _ in
+                self?.didTapBasicEditButtonSubject.send(modelObject)
+            }
+            .store(in: &view.cancellables)
+
+            return view
+
+        case .skill:
+            guard let modelObject else {
+                return nil
+            }
+
+            let view = tableView.dequeueReusableHeaderFooterView(
+                withType: TitleButtonHeaderFooterView.self
+            )
+
+            view.configure(with: .skill)
+
+            view.didTapEditButtonPublisher.sink { [weak self] _ in
+                self?.didTapSkillEditButtonSubject.send(modelObject)
+            }
+            .store(in: &view.cancellables)
+
+            return view
+
+        case .project:
+            let view = tableView.dequeueReusableHeaderFooterView(
+                withType: TitleButtonHeaderFooterView.self
+            )
+
+            view.configure(with: .project)
+
+            view.didTapEditButtonPublisher.sink { _ in
+                Logger.debug(message: "案件作成画面遷移")
+            }
+            .store(in: &view.cancellables)
+
+            return view
+        }
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        heightForHeaderInSection section: Int
+    ) -> CGFloat {
+        switch Section.allCases[section] {
+        case .top:
+            return .zero
+
+        case .basic:
+            return modelObject.isNil
+                ? .zero
+                : UITableView.automaticDimension
+
+        case .skill:
+            guard let modelObject else {
+                return .zero
+            }
+
+            return modelObject.skill.isNil
+                ? .zero
+                : UITableView.automaticDimension
+
+        case .project:
+            guard let modelObject else {
+                return .zero
+            }
+
+            return modelObject.projects.isEmpty
+                ? .zero
+                : UITableView.automaticDimension
+        }
+    }
+
     func tableView(
         _ tableView: UITableView,
         viewForFooterInSection section: Int

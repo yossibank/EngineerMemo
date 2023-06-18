@@ -44,32 +44,23 @@ enum AppControllers {
             return vc
         }
 
-        static func Update(type: MemoUpdateType) -> MemoUpdateViewController {
+        static func Update(modelObject: MemoModelObject?) -> MemoUpdateViewController {
             let vc = MemoUpdateViewController()
 
-            switch type {
-            case .create:
-                vc.title = L10n.Navigation.Title.memoCreate
-                vc.inject(
-                    contentView: MemoUpdateContentView(modelObject: nil),
-                    viewModel: MemoUpdateViewModel(
-                        model: Models.Memo(),
-                        modelObject: nil,
-                        analytics: FirebaseAnalytics(screenId: .memoCreate)
-                    )
-                )
+            vc.title = modelObject.isNil
+                ? L10n.Navigation.Title.memoCreate
+                : L10n.Navigation.Title.memoUpdate
 
-            case let .update(modelObject):
-                vc.title = L10n.Navigation.Title.memoUpdate
-                vc.inject(
-                    contentView: MemoUpdateContentView(modelObject: modelObject),
-                    viewModel: MemoUpdateViewModel(
-                        model: Models.Memo(),
-                        modelObject: modelObject,
-                        analytics: FirebaseAnalytics(screenId: .memoUpdate)
-                    )
+            vc.inject(
+                contentView: MemoUpdateContentView(modelObject: modelObject),
+                viewModel: MemoUpdateViewModel(
+                    model: Models.Memo(),
+                    modelObject: modelObject,
+                    analytics: modelObject.isNil
+                        ? FirebaseAnalytics(screenId: .memoCreate)
+                        : FirebaseAnalytics(screenId: .memoUpdate)
                 )
-            }
+            )
 
             return vc
         }
@@ -115,11 +106,11 @@ enum AppControllers {
 
                 vc.title = L10n.Navigation.Title.profileBasicSetting
                 vc.inject(
-                    contentView: ProfileUpdateBasicContentView(),
+                    contentView: ProfileUpdateBasicContentView(modelObject: modelObject),
                     viewModel: ProfileUpdateBasicViewModel(
                         modelObject: modelObject,
                         model: Models.Profile(),
-                        analytics: modelObject == nil
+                        analytics: modelObject.isNil
                             ? FirebaseAnalytics(screenId: .profileBasicSetting)
                             : FirebaseAnalytics(screenId: .profileBasicUpdate)
                     )
@@ -133,11 +124,11 @@ enum AppControllers {
 
                 vc.title = L10n.Navigation.Title.profileSKillSetting
                 vc.inject(
-                    contentView: ProfileUpdateSkillContentView(),
+                    contentView: ProfileUpdateSkillContentView(modelObject: modelObject),
                     viewModel: ProfileUpdateSkillViewModel(
                         modelObject: modelObject,
                         model: Models.Profile(),
-                        analytics: modelObject.skill == nil
+                        analytics: modelObject.skill.isNil
                             ? FirebaseAnalytics(screenId: .profileSkillSetting)
                             : FirebaseAnalytics(screenId: .profileSkillUpdate)
                     )
@@ -181,16 +172,16 @@ enum AppControllers {
             }
 
             enum CoreData {
-                static func List() -> DebugCoreDataMenuViewController {
-                    let vc = DebugCoreDataMenuViewController(displayType: .list)
-                    vc.title = L10n.Navigation.Title.debugCoreDataList
+                static func Create() -> DebugCoreDataMenuViewController {
+                    let vc = DebugCoreDataMenuViewController(displayType: .create)
+                    vc.title = L10n.Navigation.Title.debugCoreDataCreate
                     vc.inject(contentView: DebugCoreDataMenuContentView())
                     return vc
                 }
 
-                static func Create() -> DebugCoreDataMenuViewController {
-                    let vc = DebugCoreDataMenuViewController(displayType: .create)
-                    vc.title = L10n.Navigation.Title.debugCoreDataCreate
+                static func List() -> DebugCoreDataMenuViewController {
+                    let vc = DebugCoreDataMenuViewController(displayType: .list)
+                    vc.title = L10n.Navigation.Title.debugCoreDataList
                     vc.inject(contentView: DebugCoreDataMenuContentView())
                     return vc
                 }
@@ -222,6 +213,17 @@ enum AppControllers {
                         vc.inject(
                             contentView: DebugProfileListContentView(),
                             viewModel: DebugProfileListViewModel(model: Models.Profile())
+                        )
+
+                        return vc
+                    }
+
+                    static func Project() -> DebugProjectListViewController {
+                        let vc = DebugProjectListViewController()
+
+                        vc.inject(
+                            contentView: DebugProjectListContentView(),
+                            viewModel: DebugProjectListViewModel(model: Models.Profile())
                         )
 
                         return vc

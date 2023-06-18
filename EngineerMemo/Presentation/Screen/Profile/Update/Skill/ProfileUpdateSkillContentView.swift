@@ -29,17 +29,23 @@ final class ProfileUpdateSkillContentView: UIView {
         toeicInputView
     }
 
-    private var cancellables = Set<AnyCancellable>()
-
     private let careerInputView = ProfileUpdateCareerInputView()
     private let useLanguageInputView = ProfileUpdateUseLanguageInputView()
     private let toeicInputView = ProfileUpdateToeicInputView()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var cancellables = Set<AnyCancellable>()
+
+    private let modelObject: ProfileModelObject
+
+    init(modelObject: ProfileModelObject) {
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupView()
         setupEvent()
+        setupValue()
+        setupBarButton()
     }
 
     @available(*, unavailable)
@@ -60,15 +66,28 @@ extension ProfileUpdateSkillContentView {
     }
 }
 
-// MARK: - internal methods
+// MARK: - private methods
 
-extension ProfileUpdateSkillContentView {
-    func configureBarButton(modelObject: SkillModelObject?) {
-        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
+private extension ProfileUpdateSkillContentView {
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
+    }
+
+    func setupValue() {
+        careerInputView.updateValue(modelObject: modelObject.skill)
+        useLanguageInputView.updateValue(modelObject: modelObject.skill)
+        toeicInputView.updateValue(modelObject: modelObject.skill)
+    }
+
+    func setupBarButton() {
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.skill.isNil
             ? .settingNavigationButton
             : .updateNavigationButton
 
-        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.skill.isNil
             ? .settingDoneNavigationButton
             : .updateDoneNavigationButton
 
@@ -79,28 +98,12 @@ extension ProfileUpdateSkillContentView {
             .sink { [weak self] _ in
                 self?.barButton.apply(updatedButtonStyle)
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                Task { @MainActor in
+                    try await Task.sleep(seconds: 0.8)
                     self?.barButton.apply(defaultButtonStyle)
                 }
             }
             .store(in: &cancellables)
-    }
-
-    func configureValue(modelObject: SkillModelObject?) {
-        careerInputView.updateValue(modelObject: modelObject)
-        useLanguageInputView.updateValue(modelObject: modelObject)
-        toeicInputView.updateValue(modelObject: modelObject)
-    }
-}
-
-// MARK: - private methods
-
-private extension ProfileUpdateSkillContentView {
-    func setupEvent() {
-        gesturePublisher().sink { [weak self] _ in
-            self?.endEditing(true)
-        }
-        .store(in: &cancellables)
     }
 }
 
@@ -112,7 +115,7 @@ extension ProfileUpdateSkillContentView: ContentView {
             $0.addSubview(scrollView) {
                 $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
                 $0.bottom.equalToSuperview().priority(.low)
-                $0.leading.trailing.equalToSuperview()
+                $0.horizontalEdges.equalToSuperview()
             }
 
             $0.keyboardLayoutGuide.snp.makeConstraints {
@@ -131,7 +134,11 @@ extension ProfileUpdateSkillContentView: ContentView {
 
     struct ProfileSkillUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateSkillContentView())
+            WrapperView(
+                view: ProfileUpdateSkillContentView(
+                    modelObject: ProfileModelObjectBuilder().build()
+                )
+            )
         }
     }
 #endif

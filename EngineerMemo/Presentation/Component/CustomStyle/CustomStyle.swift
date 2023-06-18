@@ -13,6 +13,16 @@ extension ViewStyle where T: UIView {
             $0.clipsToBounds = true
         }
     }
+
+    static var borderView: ViewStyle<T> {
+        .init {
+            $0.backgroundColor = .primaryGray
+            $0.layer.cornerRadius = 8
+            $0.layer.borderColor = UIColor.primary.cgColor
+            $0.layer.borderWidth = 1.0
+            $0.clipsToBounds = true
+        }
+    }
 }
 
 // MARK: - ナビゲーションバー

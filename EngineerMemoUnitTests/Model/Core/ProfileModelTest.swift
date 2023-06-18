@@ -218,8 +218,10 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let profile = self.storage.allObjects.first!
 
                 // assert
@@ -251,8 +253,10 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let profile = self.storage.allObjects.first!
 
                 // assert
@@ -291,10 +295,13 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let profile = self.storage.allObjects.first!
 
+                // assert
                 XCTAssertEqual(
                     profile.skill?.engineerCareer,
                     3
@@ -323,7 +330,7 @@ final class ProfileModelTest: XCTestCase {
     func test_skillUpdate_更新情報あり_skillを更新できること() {
         // arrange
         dataInsert(
-            SkillDataObjectBuilder()
+            skill: SkillDataObjectBuilder()
                 .engineerCareer(5)
                 .language("Kotlin")
                 .languageCareer(8)
@@ -347,10 +354,13 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let profile = self.storage.allObjects.first!
 
+                // assert
                 XCTAssertEqual(
                     profile.skill?.engineerCareer,
                     10
@@ -376,10 +386,10 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_skillUpdate_更新情報あり_skillをnilにできること() {
+    func test_skillUpdate_更新情報nil_skillを削除できること() {
         // arrange
         dataInsert(
-            SkillDataObjectBuilder()
+            skill: SkillDataObjectBuilder()
                 .engineerCareer(5)
                 .language("Swift")
                 .languageCareer(2)
@@ -394,11 +404,88 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let profile = self.storage.allObjects.first!
 
+                // assert
                 XCTAssertNil(profile.skill)
+
+                expectation.fulfill()
+            }
+        }
+    }
+
+    func test_projectUpdate_更新情報なし_projectsを作成できること() {
+        // arrange
+        dataInsert()
+
+        // act
+        model.projectUpdate(
+            modelObject: ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .projects([
+                    ProjectModelObjectBuilder()
+                        .title("title")
+                        .content("content")
+                        .build()
+                ])
+                .build()
+        )
+
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
+                let profile = self.storage.allObjects.first!
+                let project = profile.projects?.allObjects.first as! Project
+
+                // assert
+                XCTAssertEqual(
+                    project.title,
+                    "title"
+                )
+
+                XCTAssertEqual(
+                    project.content,
+                    "content"
+                )
+
+                expectation.fulfill()
+            }
+        }
+    }
+
+    func test_projectUpdate_更新情報なし_projectsを削除できること() {
+        // arrange
+        dataInsert(
+            projects: [
+                ProjectDataObjectBuilder()
+                    .content("content")
+                    .identifier("identifier")
+                    .title("title")
+                    .build()
+            ]
+        )
+
+        // act
+        model.projectUpdate(
+            modelObject: ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .projects([])
+                .build()
+        )
+
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
+                let profile = self.storage.allObjects.first!
+
+                // assert
+                XCTAssertTrue(profile.projects.isEmtpy)
 
                 expectation.fulfill()
             }
@@ -417,10 +504,13 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let profile = self.storage.allObjects.first!
 
+                // assert
                 XCTAssertEqual(
                     profile.iconImage,
                     Asset.penguin.image.pngData()
@@ -464,8 +554,10 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let allProfile = self.storage.allObjects
 
                 // assert
@@ -478,7 +570,10 @@ final class ProfileModelTest: XCTestCase {
 }
 
 private extension ProfileModelTest {
-    func dataInsert(_ skill: Skill? = nil) {
+    func dataInsert(
+        skill: Skill? = nil,
+        projects: [Project] = []
+    ) {
         storage.create().sink {
             $0.object.address = "テスト県テスト市テスト1-1-1"
             $0.object.birthday = Calendar.date(year: 2000, month: 1, day: 1)
@@ -492,6 +587,10 @@ private extension ProfileModelTest {
 
             if let skill {
                 $0.object.skill = skill
+            }
+
+            if !projects.isEmpty {
+                $0.object.projects = .init(array: projects)
             }
 
             $0.context.saveIfNeeded()

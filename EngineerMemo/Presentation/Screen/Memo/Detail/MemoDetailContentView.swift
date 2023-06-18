@@ -41,7 +41,7 @@ final class MemoDetailContentView: UIView {
     }
 
     private var collectionViewLayout: UICollectionViewLayout {
-        let estimatedHeight: CGFloat = 200
+        let estimatedHeight: CGFloat = 600
 
         let layoutSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),

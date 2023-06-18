@@ -18,6 +18,7 @@
         private(set) lazy var phoneNumberControlPublisher = phoneNumberControl.segmentIndexPublisher
         private(set) lazy var stationControlPublisher = stationControl.segmentIndexPublisher
         private(set) lazy var skillControlPublisher = skillControl.segmentIndexPublisher
+        private(set) lazy var projectControlPublisher = projectControl.segmentIndexPublisher
         private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
         private lazy var body = DebugCoreDataSegmentContentView(.update).configure {
@@ -32,6 +33,7 @@
                     phoneNumberControl
                     stationControl
                     skillControl
+                    projectControl
                 }
             )
         }
@@ -45,6 +47,7 @@
         private let phoneNumberControl = DebugPhoneNumberSegmentView(title: L10n.Debug.Segment.phoneNumber)
         private let stationControl = DebugCoreDataSegmentView(title: L10n.Debug.Segment.station)
         private let skillControl = DebugDefaultSegmentView(title: L10n.Debug.Segment.skill)
+        private let projectControl = DebugDefaultSegmentView(title: L10n.Debug.Segment.project)
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -84,8 +87,8 @@
 
             contentView.configure {
                 $0.addSubview(body) {
-                    $0.top.bottom.equalToSuperview().inset(16)
-                    $0.leading.trailing.equalToSuperview()
+                    $0.verticalEdges.equalToSuperview().inset(16)
+                    $0.horizontalEdges.equalToSuperview()
                 }
 
                 $0.backgroundColor = .background

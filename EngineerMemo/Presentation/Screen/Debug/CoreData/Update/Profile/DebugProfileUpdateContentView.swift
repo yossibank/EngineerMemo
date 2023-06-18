@@ -47,6 +47,7 @@
         private(set) lazy var didChangePhoneNumberControlPublisher = didChangePhoneNumberControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeStationControlPublisher = didChangeStationControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSkillControlPublisher = didChangeSkillControlSubject.eraseToAnyPublisher()
+        private(set) lazy var didChangeProjectControlPublisher = didChangeProjectControlSubject.eraseToAnyPublisher()
         private(set) lazy var didChangeSearchTextPublisher = didChangeSearchTextSubject.eraseToAnyPublisher()
         private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
 
@@ -80,6 +81,7 @@
         private let didChangePhoneNumberControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeStationControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSkillControlSubject = PassthroughSubject<Int, Never>()
+        private let didChangeProjectControlSubject = PassthroughSubject<Int, Never>()
         private let didChangeSearchTextSubject = PassthroughSubject<String, Never>()
         private let didTapUpdateButtonSubject = PassthroughSubject<String, Never>()
 
@@ -200,6 +202,11 @@
                 }
                 .store(in: &cell.cancellables)
 
+                cell.projectControlPublisher.sink { [weak self] value in
+                    self?.didChangeProjectControlSubject.send(value)
+                }
+                .store(in: &cell.cancellables)
+
                 cell.didTapUpdateButtonPublisher.sink { [weak self] _ in
                     guard
                         let self,
@@ -316,13 +323,13 @@
     extension DebugProfileUpdateContentView: ContentView {
         func setupView() {
             addSubview(searchBar) {
-                $0.top.leading.trailing.equalToSuperview()
+                $0.top.horizontalEdges.equalToSuperview()
                 $0.height.equalTo(40)
             }
 
             addSubview(tableView) {
                 $0.top.equalTo(self.searchBar.snp.bottom).inset(-8)
-                $0.bottom.leading.trailing.equalToSuperview()
+                $0.bottom.horizontalEdges.equalToSuperview()
             }
         }
     }

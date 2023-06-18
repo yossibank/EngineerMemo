@@ -102,18 +102,14 @@ private extension MemoDetailCell {
         let contentView: UIView = {
             switch type {
             case .category:
-                return VStackView(layoutMargins: .init(.top, 4)) {
-                    HStackView(alignment: .center, spacing: 8) {
-                        categoryImageView.addConstraint {
-                            $0.size.equalTo(24)
-                        }
+                return HStackView(spacing: 8, layoutMargins: .init(.top, 4)) {
+                    categoryImageView.addConstraint {
+                        $0.size.equalTo(24)
+                    }
 
-                        valueLabel.configure {
-                            $0.textColor = .primary
-                            $0.font = .boldSystemFont(ofSize: 16)
-                        }
-
-                        UIView()
+                    valueLabel.configure {
+                        $0.textColor = .primary
+                        $0.font = .boldSystemFont(ofSize: 16)
                     }
                 }
 
@@ -145,13 +141,9 @@ private extension MemoDetailCell {
                 UIView()
             }
 
-            UIView()
-                .addConstraint {
-                    $0.height.equalTo(1)
-                }
-                .configure {
-                    $0.backgroundColor = .secondaryGray
-                }
+            BorderView().configure {
+                $0.changeColor(.secondaryGray)
+            }
 
             contentView
         }

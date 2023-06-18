@@ -36,8 +36,6 @@ final class ProfileUpdateBasicContentView: UIView {
         stationInputView
     }
 
-    private var cancellables = Set<AnyCancellable>()
-
     private let nameInputView = ProfileUpdateTextInputView(.name)
     private let birthdayInputView = ProfileUpdateBirthdayInputView()
     private let genderInputView = ProfileUpdateGenderInputView()
@@ -46,11 +44,19 @@ final class ProfileUpdateBasicContentView: UIView {
     private let addressInputView = ProfileUpdateTextInputView(.address)
     private let stationInputView = ProfileUpdateTextInputView(.station)
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var cancellables = Set<AnyCancellable>()
+
+    private let modelObject: ProfileModelObject?
+
+    init(modelObject: ProfileModelObject?) {
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupView()
         setupEvent()
+        setupValue()
+        setupBarButton()
     }
 
     @available(*, unavailable)
@@ -71,15 +77,32 @@ extension ProfileUpdateBasicContentView {
     }
 }
 
-// MARK: - internal methods
+// MARK: - private methods
 
-extension ProfileUpdateBasicContentView {
-    func configureBarButton(modelObject: ProfileModelObject?) {
-        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
+private extension ProfileUpdateBasicContentView {
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
+    }
+
+    func setupValue() {
+        nameInputView.updateValue(.name, modelObject: modelObject)
+        birthdayInputView.updateValue(modelObject: modelObject)
+        genderInputView.updateValue(modelObject: modelObject)
+        emailInputView.updateValue(.email, modelObject: modelObject)
+        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
+        addressInputView.updateValue(.address, modelObject: modelObject)
+        stationInputView.updateValue(.station, modelObject: modelObject)
+    }
+
+    func setupBarButton() {
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .settingNavigationButton
             : .updateNavigationButton
 
-        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .settingDoneNavigationButton
             : .updateDoneNavigationButton
 
@@ -90,32 +113,12 @@ extension ProfileUpdateBasicContentView {
             .sink { [weak self] _ in
                 self?.barButton.apply(updatedButtonStyle)
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                Task { @MainActor in
+                    try await Task.sleep(seconds: 0.8)
                     self?.barButton.apply(defaultButtonStyle)
                 }
             }
             .store(in: &cancellables)
-    }
-
-    func configureValue(modelObject: ProfileModelObject?) {
-        nameInputView.updateValue(.name, modelObject: modelObject)
-        birthdayInputView.updateValue(modelObject: modelObject)
-        genderInputView.updateValue(modelObject: modelObject)
-        emailInputView.updateValue(.email, modelObject: modelObject)
-        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
-        addressInputView.updateValue(.address, modelObject: modelObject)
-        stationInputView.updateValue(.station, modelObject: modelObject)
-    }
-}
-
-// MARK: - private methods
-
-private extension ProfileUpdateBasicContentView {
-    func setupEvent() {
-        gesturePublisher().sink { [weak self] _ in
-            self?.endEditing(true)
-        }
-        .store(in: &cancellables)
     }
 }
 
@@ -127,7 +130,7 @@ extension ProfileUpdateBasicContentView: ContentView {
             $0.addSubview(scrollView) {
                 $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
                 $0.bottom.equalToSuperview().priority(.low)
-                $0.leading.trailing.equalToSuperview()
+                $0.horizontalEdges.equalToSuperview()
             }
 
             $0.keyboardLayoutGuide.snp.makeConstraints {
@@ -146,7 +149,7 @@ extension ProfileUpdateBasicContentView: ContentView {
 
     struct ProfileUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateBasicContentView())
+            WrapperView(view: ProfileUpdateBasicContentView(modelObject: nil))
         }
     }
 #endif

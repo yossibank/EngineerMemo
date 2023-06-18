@@ -56,7 +56,7 @@ private extension MemoUpdateViewController {
         viewModel.output.$isEnabled
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isEnabled in
-                self?.contentView.configureBarButton(isEnabled: isEnabled)
+                self?.contentView.configureEnableButton(isEnabled: isEnabled)
             }
             .store(in: &cancellables)
 

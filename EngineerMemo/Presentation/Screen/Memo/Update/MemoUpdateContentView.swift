@@ -47,10 +47,6 @@ final class MemoUpdateContentView: UIView {
                         $0.backgroundColor = .background
                         $0.isScrollEnabled = false
                         $0.delegate = self
-
-                        if let modelObject {
-                            $0.text = modelObject.title
-                        }
                     }
 
                 titleBorderView
@@ -67,10 +63,6 @@ final class MemoUpdateContentView: UIView {
                         $0.backgroundColor = .background
                         $0.isScrollEnabled = false
                         $0.delegate = self
-
-                        if let modelObject {
-                            $0.text = modelObject.content
-                        }
                     }
 
                 contentBorderView
@@ -99,9 +91,10 @@ final class MemoUpdateContentView: UIView {
         super.init(frame: .zero)
 
         setupView()
+        setupEvent()
+        setupValue()
         setupMenu()
         setupBarButton()
-        setupEvent()
     }
 
     @available(*, unavailable)
@@ -127,7 +120,7 @@ extension MemoUpdateContentView {
 // MARK: - internal methods
 
 extension MemoUpdateContentView {
-    func configureBarButton(isEnabled: Bool) {
+    func configureEnableButton(isEnabled: Bool) {
         barButton.isEnabled = isEnabled
         barButton.alpha = isEnabled ? 1.0 : 0.5
     }
@@ -136,54 +129,33 @@ extension MemoUpdateContentView {
 // MARK: - private methods
 
 private extension MemoUpdateContentView {
-    func setupMenu() {
-        guard let category = modelObject?.category else {
-            selectedCategoryType = .noSetting
-            return
-        }
-
-        switch category {
-        case .todo:
-            selectedCategoryType = .todo
-
-        case .technical:
-            selectedCategoryType = .technical
-
-        case .interview:
-            selectedCategoryType = .interview
-
-        case .event:
-            selectedCategoryType = .event
-
-        case .tax:
-            selectedCategoryType = .tax
-
-        case .other:
-            selectedCategoryType = .other
-        }
-    }
-
-    func setupBarButton() {
-        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
-            ? .createNavigationButton
-            : .updateNavigationButton
-
-        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
-            ? .createDoneNavigationButton
-            : .updateDoneNavigationButton
-
-        barButton.apply(defaultButtonStyle)
-
-        barButton.publisher(for: .touchUpInside)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.barButton.apply(updatedButtonStyle)
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                    self?.barButton.apply(defaultButtonStyle)
+    func createTitleView(_ type: MemoContentType) -> UIView {
+        let titleStackView = HStackView(spacing: 4) {
+            UIImageView()
+                .addConstraint {
+                    $0.size.equalTo(24)
                 }
+                .configure {
+                    $0.image = type.image
+                }
+
+            UILabel().configure {
+                $0.text = type.title
+                $0.textColor = .secondaryGray
+                $0.font = .boldSystemFont(ofSize: 16)
             }
-            .store(in: &cancellables)
+
+            UIView()
+        }
+
+        return UIView()
+            .addSubview(titleStackView) {
+                $0.edges.equalToSuperview().inset(8)
+            }
+            .addConstraint {
+                $0.height.equalTo(40)
+            }
+            .apply(.inputView)
     }
 
     func setupCategory() {
@@ -240,33 +212,60 @@ private extension MemoUpdateContentView {
         .store(in: &cancellables)
     }
 
-    func createTitleView(_ type: MemoContentType) -> UIView {
-        let titleStackView = HStackView(spacing: 4) {
-            UIImageView()
-                .addConstraint {
-                    $0.size.equalTo(24)
-                }
-                .configure {
-                    $0.image = type.image
-                }
+    func setupValue() {
+        titleTextView.text = modelObject?.title
+        contentTextView.text = modelObject?.content
+    }
 
-            UILabel().configure {
-                $0.text = type.title
-                $0.textColor = .secondaryGray
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
-
-            UIView()
+    func setupMenu() {
+        guard let category = modelObject?.category else {
+            selectedCategoryType = .noSetting
+            return
         }
 
-        return UIView()
-            .addSubview(titleStackView) {
-                $0.edges.equalToSuperview().inset(8)
+        switch category {
+        case .todo:
+            selectedCategoryType = .todo
+
+        case .technical:
+            selectedCategoryType = .technical
+
+        case .interview:
+            selectedCategoryType = .interview
+
+        case .event:
+            selectedCategoryType = .event
+
+        case .tax:
+            selectedCategoryType = .tax
+
+        case .other:
+            selectedCategoryType = .other
+        }
+    }
+
+    func setupBarButton() {
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.isNil
+            ? .createNavigationButton
+            : .updateNavigationButton
+
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.isNil
+            ? .createDoneNavigationButton
+            : .updateDoneNavigationButton
+
+        barButton.apply(defaultButtonStyle)
+
+        barButton.publisher(for: .touchUpInside)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.barButton.apply(updatedButtonStyle)
+
+                Task { @MainActor in
+                    try await Task.sleep(seconds: 0.8)
+                    self?.barButton.apply(defaultButtonStyle)
+                }
             }
-            .addConstraint {
-                $0.height.equalTo(40)
-            }
-            .apply(.inputView)
+            .store(in: &cancellables)
     }
 }
 
@@ -302,7 +301,7 @@ extension MemoUpdateContentView: ContentView {
             $0.addSubview(scrollView) {
                 $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
                 $0.bottom.equalToSuperview().priority(.low)
-                $0.leading.trailing.equalToSuperview().inset(16)
+                $0.horizontalEdges.equalToSuperview().inset(16)
             }
 
             $0.keyboardLayoutGuide.snp.makeConstraints {

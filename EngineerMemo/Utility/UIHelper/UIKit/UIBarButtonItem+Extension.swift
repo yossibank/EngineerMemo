@@ -3,7 +3,6 @@ import UIKit
 
 extension UIBarButtonItem {
     enum IconBarButtonItemType {
-        case reload
         case addMemo
         case editMemo
         case deleteMemo
@@ -22,30 +21,24 @@ extension UIBarButtonItem {
             let image: UIImage
 
             switch self {
-            case .reload:
-                image = Asset.reload.image
-
             case .addMemo:
-                image = Asset.addMemo.image
+                image = Asset.memoAdd.image
 
             case .editMemo:
-                image = Asset.editMemo.image
+                image = Asset.memoEdit.image
 
             case .deleteMemo:
-                image = Asset.deleteMemo.image
+                image = Asset.memoDelete.image
             }
 
             return image.resized(size: size).withRenderingMode(.alwaysOriginal)
         }
 
         private var size: CGSize {
-            switch self {
-            case .reload:
-                return .init(width: 28, height: 28)
-
-            case .addMemo, .editMemo, .deleteMemo:
-                return .init(width: 32, height: 32)
-            }
+            .init(
+                width: 32,
+                height: 32
+            )
         }
     }
 }

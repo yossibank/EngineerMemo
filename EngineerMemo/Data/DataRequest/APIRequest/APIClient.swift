@@ -19,7 +19,7 @@ struct APIClient: APIClientInput {
         }
 
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard error == nil else {
+            guard error.isNil else {
                 completion(.failure(.urlSessionError))
                 return
             }

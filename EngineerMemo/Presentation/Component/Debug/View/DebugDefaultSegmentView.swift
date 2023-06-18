@@ -21,7 +21,15 @@
             }
         }
 
+        var projects: [ProjectModelObject] {
+            switch self {
+            case .default: return [ProjectModelObjectBuilder().build()]
+            case .none: return []
+            }
+        }
+
         static var defaultSkill = `default`.skill
+        static var defaultProjects = `default`.projects
 
         static func segment(_ value: Int) -> Self {
             .init(rawValue: value) ?? .none
@@ -74,8 +82,8 @@
         func setupView() {
             configure {
                 $0.addSubview(body) {
-                    $0.top.bottom.equalToSuperview()
-                    $0.leading.trailing.equalToSuperview().inset(16)
+                    $0.verticalEdges.equalToSuperview()
+                    $0.horizontalEdges.equalToSuperview().inset(16)
                 }
 
                 $0.backgroundColor = .background

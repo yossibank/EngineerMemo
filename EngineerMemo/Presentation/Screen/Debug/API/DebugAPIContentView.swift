@@ -461,7 +461,8 @@
 
                 $0.addSubview(tableView) {
                     $0.top.equalTo(menuButton.snp.bottom).inset(-8)
-                    $0.bottom.leading.trailing.equalToSuperview()
+                    $0.bottom.equalToSuperview()
+                    $0.horizontalEdges.equalToSuperview().inset(12)
                 }
 
                 $0.backgroundColor = .background

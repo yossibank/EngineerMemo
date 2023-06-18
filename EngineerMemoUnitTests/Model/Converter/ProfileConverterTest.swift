@@ -37,6 +37,13 @@ final class ProfileConverterTest: XCTestCase {
                     .toeic(600)
                     .build()
             )
+            .projects([
+                ProjectDataObjectBuilder()
+                    .content("content")
+                    .identifier("identifier")
+                    .title("title")
+                    .build()
+            ])
             .build()
 
         // act
@@ -63,6 +70,12 @@ final class ProfileConverterTest: XCTestCase {
                         .toeic(600)
                         .build()
                 )
+                .projects([
+                    ProjectModelObjectBuilder()
+                        .title("title")
+                        .content("content")
+                        .build()
+                ])
                 .build()
         )
     }

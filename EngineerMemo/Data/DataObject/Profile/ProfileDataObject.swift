@@ -12,6 +12,21 @@ final class Profile: NSManagedObject {
     @NSManaged var phoneNumber: String?
     @NSManaged var station: String?
     @NSManaged var skill: Skill?
+    @NSManaged var projects: NSSet?
+}
+
+extension Profile {
+    @objc(addProjectsObject:)
+    @NSManaged func addToProjects(_ value: Project)
+
+    @objc(removeProjectsObject:)
+    @NSManaged func removeFromProjects(_ value: Project)
+
+    @objc(addProjects:)
+    @NSManaged func addToProjects(_ values: NSSet)
+
+    @objc(removeProjects:)
+    @NSManaged func removeFromProjects(_ values: NSSet)
 }
 
 extension Profile {

@@ -102,8 +102,8 @@
         func setupView() {
             configure {
                 $0.addSubview(body) {
-                    $0.top.bottom.equalToSuperview()
-                    $0.leading.trailing.equalToSuperview().inset(16)
+                    $0.verticalEdges.equalToSuperview()
+                    $0.horizontalEdges.equalToSuperview().inset(16)
                 }
 
                 $0.backgroundColor = .background
@@ -137,6 +137,7 @@
                     outgoing.font = .boldSystemFont(ofSize: 16)
                     return outgoing
                 }
+                config.baseForegroundColor = .primary
                 config.imagePadding = 8
                 config.background.backgroundColor = .background
                 config.background.cornerRadius = 4

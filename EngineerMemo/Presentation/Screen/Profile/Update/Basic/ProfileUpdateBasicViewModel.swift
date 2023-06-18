@@ -19,7 +19,6 @@ final class ProfileUpdateBasicViewModel: ViewModel {
     }
 
     final class Output: OutputObject {
-        @Published fileprivate(set) var modelObject: ProfileModelObject?
         @Published fileprivate(set) var isFinished = false
     }
 
@@ -55,7 +54,6 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         input.viewDidLoad.sink { _ in
             if let modelObject {
                 updateObject = modelObject
-                output.modelObject = modelObject
             }
         }
         .store(in: &cancellables)
@@ -126,7 +124,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { _ in
-            if modelObject == nil {
+            if modelObject.isNil {
                 model.create(modelObject: updateObject)
             } else {
                 model.basicUpdate(modelObject: updateObject)
