@@ -266,7 +266,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
                 withType: TitleButtonHeaderFooterView.self
             )
 
-            view.configure(with: L10n.Profile.basicInformation)
+            view.configure(with: .basic)
 
             view.didTapEditButtonPublisher.sink { [weak self] _ in
                 self?.didTapBasicEditButtonSubject.send(modelObject)
@@ -284,7 +284,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
                 withType: TitleButtonHeaderFooterView.self
             )
 
-            view.configure(with: L10n.Profile.experienceSkill)
+            view.configure(with: .skill)
 
             view.didTapEditButtonPublisher.sink { [weak self] _ in
                 self?.didTapSkillEditButtonSubject.send(modelObject)
@@ -298,7 +298,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
                 withType: TitleButtonHeaderFooterView.self
             )
 
-            view.configure(with: L10n.Profile.project)
+            view.configure(with: .project)
 
             view.didTapEditButtonPublisher.sink { _ in
                 Logger.debug(message: "案件作成画面遷移")

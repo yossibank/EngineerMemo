@@ -5,6 +5,12 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class TitleButtonHeaderFooterView: UITableViewHeaderFooterView {
+    enum HeaderType {
+        case basic
+        case skill
+        case project
+    }
+
     var cancellables: Set<AnyCancellable> = .init()
 
     private(set) lazy var didTapEditButtonPublisher = editButton.publisher(for: .touchUpInside)
@@ -23,10 +29,6 @@ final class TitleButtonHeaderFooterView: UITableViewHeaderFooterView {
     private let titleLabel = UILabel()
     private let editButton = UIButton(type: .system).configure {
         var config = UIButton.Configuration.filled()
-        config.title = L10n.Components.Button.Do.edit
-        config.image = Asset.profileEdit.image
-            .resized(size: .init(width: 16, height: 16))
-            .withRenderingMode(.alwaysOriginal)
         config.baseForegroundColor = .primary
         config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
         config.imagePadding = 4
@@ -66,8 +68,35 @@ extension TitleButtonHeaderFooterView {
 // MARK: - internal methods
 
 extension TitleButtonHeaderFooterView {
-    func configure(with title: String) {
-        titleLabel.text = title
+    func configure(with headerType: HeaderType) {
+        var config = editButton.configuration
+
+        let title: String
+        let image: UIImage
+
+        switch headerType {
+        case .basic:
+            titleLabel.text = L10n.Profile.basicInformation
+            title = L10n.Components.Button.Do.edit
+            image = Asset.profileEdit.image
+
+        case .skill:
+            titleLabel.text = L10n.Profile.experienceSkill
+            title = L10n.Components.Button.Do.edit
+            image = Asset.skillEdit.image
+
+        case .project:
+            titleLabel.text = L10n.Profile.project
+            title = L10n.Components.Button.Do.create
+            image = Asset.projectAdd.image
+        }
+
+        config?.title = title
+        config?.image = image
+            .resized(size: .init(width: 16, height: 16))
+            .withRenderingMode(.alwaysOriginal)
+
+        editButton.configuration = config
     }
 }
 
