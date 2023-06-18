@@ -1,7 +1,6 @@
 /// @mockable
 protocol ProjectConverterInput {
     func convert(_ projects: [Project]?) -> [ProjectModelObject]
-    func convert(_ project: Project) -> ProjectModelObject
 }
 
 struct ProjectConverter: ProjectConverterInput {
@@ -15,10 +14,12 @@ struct ProjectConverter: ProjectConverterInput {
             convert(project)
         }
     }
+}
 
+private extension ProjectConverter {
     func convert(_ project: Project) -> ProjectModelObject {
         /// NOTE: .init(...)生成は型チェックで時間がかかるため型指定して生成
-        .init(
+        ProjectModelObject(
             title: project.title,
             content: project.content,
             identifier: project.identifier

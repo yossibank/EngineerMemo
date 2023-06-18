@@ -18,15 +18,17 @@ final class ProjectConverterTest: XCTestCase {
 
     func test_ProjectをProjectModelObjectに変換できること() {
         // arrange
-        let input = ProjectDataObjectBuilder()
-            .content("content")
-            .identifier("identifier")
-            .title("title")
-            .profile(
-                ProfileDataObjectBuilder()
-                    .build()
-            )
-            .build()
+        let input = [
+            ProjectDataObjectBuilder()
+                .content("content")
+                .identifier("identifier")
+                .title("title")
+                .profile(
+                    ProfileDataObjectBuilder()
+                        .build()
+                )
+                .build()
+        ]
 
         // act
         let actual = converter.convert(input)
@@ -34,11 +36,13 @@ final class ProjectConverterTest: XCTestCase {
         // assert
         XCTAssertEqual(
             actual,
-            ProjectModelObjectBuilder()
-                .content("content")
-                .identifier("identifier")
-                .title("title")
-                .build()
+            [
+                ProjectModelObjectBuilder()
+                    .content("content")
+                    .identifier("identifier")
+                    .title("title")
+                    .build()
+            ]
         )
     }
 }
