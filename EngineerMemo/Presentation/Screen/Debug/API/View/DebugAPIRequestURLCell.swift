@@ -25,13 +25,7 @@
                         UIView()
                     }
 
-                    UIView()
-                        .addConstraint {
-                            $0.height.equalTo(1)
-                        }
-                        .configure {
-                            $0.backgroundColor = .primary
-                        }
+                    BorderView()
                 }
 
                 requestLabel.configure {

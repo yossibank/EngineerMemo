@@ -20,13 +20,7 @@
                         $0.font = .boldSystemFont(ofSize: 16)
                     }
 
-                    UIView()
-                        .addConstraint {
-                            $0.height.equalTo(1)
-                        }
-                        .configure {
-                            $0.backgroundColor = .primary
-                        }
+                    BorderView()
                 }
 
                 pathTextField.configure {
