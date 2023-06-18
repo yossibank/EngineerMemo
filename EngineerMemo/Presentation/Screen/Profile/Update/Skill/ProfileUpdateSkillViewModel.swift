@@ -16,7 +16,6 @@ final class ProfileUpdateSkillViewModel: ViewModel {
     }
 
     final class Output: OutputObject {
-        @Published fileprivate(set) var modelObject: SkillModelObject?
         @Published fileprivate(set) var isFinished = false
     }
 
@@ -46,15 +45,6 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         self.analytics = analytics
 
         var updateObject = modelObject.skill ?? SkillModelObject(identifier: UUID().uuidString)
-
-        // MARK: - viewDidLoad
-
-        input.viewDidLoad.sink { _ in
-            if let modelObject = modelObject.skill {
-                output.modelObject = modelObject
-            }
-        }
-        .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 

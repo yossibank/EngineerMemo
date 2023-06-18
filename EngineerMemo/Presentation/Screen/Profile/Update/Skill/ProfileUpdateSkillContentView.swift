@@ -29,17 +29,23 @@ final class ProfileUpdateSkillContentView: UIView {
         toeicInputView
     }
 
-    private var cancellables = Set<AnyCancellable>()
-
     private let careerInputView = ProfileUpdateCareerInputView()
     private let useLanguageInputView = ProfileUpdateUseLanguageInputView()
     private let toeicInputView = ProfileUpdateToeicInputView()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var cancellables = Set<AnyCancellable>()
+
+    private let modelObject: ProfileModelObject
+
+    init(modelObject: ProfileModelObject) {
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupView()
         setupEvent()
+        setupValue()
+        setupBarButton()
     }
 
     @available(*, unavailable)
@@ -60,15 +66,28 @@ extension ProfileUpdateSkillContentView {
     }
 }
 
-// MARK: - internal methods
+// MARK: - private methods
 
-extension ProfileUpdateSkillContentView {
-    func configureBarButton(modelObject: SkillModelObject?) {
-        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.isNil
+private extension ProfileUpdateSkillContentView {
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
+    }
+
+    func setupValue() {
+        careerInputView.updateValue(modelObject: modelObject.skill)
+        useLanguageInputView.updateValue(modelObject: modelObject.skill)
+        toeicInputView.updateValue(modelObject: modelObject.skill)
+    }
+
+    func setupBarButton() {
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.skill.isNil
             ? .settingNavigationButton
             : .updateNavigationButton
 
-        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.isNil
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.skill.isNil
             ? .settingDoneNavigationButton
             : .updateDoneNavigationButton
 
@@ -85,23 +104,6 @@ extension ProfileUpdateSkillContentView {
                 }
             }
             .store(in: &cancellables)
-    }
-
-    func configureValue(modelObject: SkillModelObject?) {
-        careerInputView.updateValue(modelObject: modelObject)
-        useLanguageInputView.updateValue(modelObject: modelObject)
-        toeicInputView.updateValue(modelObject: modelObject)
-    }
-}
-
-// MARK: - private methods
-
-private extension ProfileUpdateSkillContentView {
-    func setupEvent() {
-        gesturePublisher().sink { [weak self] _ in
-            self?.endEditing(true)
-        }
-        .store(in: &cancellables)
     }
 }
 
@@ -132,7 +134,11 @@ extension ProfileUpdateSkillContentView: ContentView {
 
     struct ProfileSkillUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateSkillContentView())
+            WrapperView(
+                view: ProfileUpdateSkillContentView(
+                    modelObject: ProfileModelObjectBuilder().build()
+                )
+            )
         }
     }
 #endif

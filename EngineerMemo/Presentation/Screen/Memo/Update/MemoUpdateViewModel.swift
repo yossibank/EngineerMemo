@@ -15,7 +15,6 @@ final class MemoUpdateViewModel: ViewModel {
     }
 
     final class Output: OutputObject {
-        @Published fileprivate(set) var modelObject: MemoModelObject?
         @Published fileprivate(set) var isFinished = false
         @Published fileprivate(set) var isEnabled = false
     }
@@ -57,7 +56,6 @@ final class MemoUpdateViewModel: ViewModel {
                 self?.modelObject = modelObject
                 self?.binding.title = modelObject.title ?? .empty
                 self?.binding.content = modelObject.content ?? .empty
-                self?.output.modelObject = modelObject
             }
         }
         .store(in: &cancellables)

@@ -54,14 +54,6 @@ private extension ProfileUpdateBasicViewController {
     }
 
     func bindToView() {
-        viewModel.output.$modelObject
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.contentView.configureBarButton(modelObject: modelObject)
-                self?.contentView.configureValue(modelObject: modelObject)
-            }
-            .store(in: &cancellables)
-
         viewModel.output.$isFinished
             .debounce(for: 0.8, scheduler: DispatchQueue.main)
             .sink { [weak self] isFinished in

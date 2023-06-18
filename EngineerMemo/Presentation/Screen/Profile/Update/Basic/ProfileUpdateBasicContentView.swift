@@ -36,8 +36,6 @@ final class ProfileUpdateBasicContentView: UIView {
         stationInputView
     }
 
-    private var cancellables = Set<AnyCancellable>()
-
     private let nameInputView = ProfileUpdateTextInputView(.name)
     private let birthdayInputView = ProfileUpdateBirthdayInputView()
     private let genderInputView = ProfileUpdateGenderInputView()
@@ -46,11 +44,19 @@ final class ProfileUpdateBasicContentView: UIView {
     private let addressInputView = ProfileUpdateTextInputView(.address)
     private let stationInputView = ProfileUpdateTextInputView(.station)
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var cancellables = Set<AnyCancellable>()
+
+    private let modelObject: ProfileModelObject?
+
+    init(modelObject: ProfileModelObject?) {
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupView()
         setupEvent()
+        setupValue()
+        setupBarButton()
     }
 
     @available(*, unavailable)
@@ -71,10 +77,27 @@ extension ProfileUpdateBasicContentView {
     }
 }
 
-// MARK: - internal methods
+// MARK: - private methods
 
-extension ProfileUpdateBasicContentView {
-    func configureBarButton(modelObject: ProfileModelObject?) {
+private extension ProfileUpdateBasicContentView {
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
+    }
+
+    func setupValue() {
+        nameInputView.updateValue(.name, modelObject: modelObject)
+        birthdayInputView.updateValue(modelObject: modelObject)
+        genderInputView.updateValue(modelObject: modelObject)
+        emailInputView.updateValue(.email, modelObject: modelObject)
+        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
+        addressInputView.updateValue(.address, modelObject: modelObject)
+        stationInputView.updateValue(.station, modelObject: modelObject)
+    }
+
+    func setupBarButton() {
         let defaultButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .settingNavigationButton
             : .updateNavigationButton
@@ -96,27 +119,6 @@ extension ProfileUpdateBasicContentView {
                 }
             }
             .store(in: &cancellables)
-    }
-
-    func configureValue(modelObject: ProfileModelObject?) {
-        nameInputView.updateValue(.name, modelObject: modelObject)
-        birthdayInputView.updateValue(modelObject: modelObject)
-        genderInputView.updateValue(modelObject: modelObject)
-        emailInputView.updateValue(.email, modelObject: modelObject)
-        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
-        addressInputView.updateValue(.address, modelObject: modelObject)
-        stationInputView.updateValue(.station, modelObject: modelObject)
-    }
-}
-
-// MARK: - private methods
-
-private extension ProfileUpdateBasicContentView {
-    func setupEvent() {
-        gesturePublisher().sink { [weak self] _ in
-            self?.endEditing(true)
-        }
-        .store(in: &cancellables)
     }
 }
 
@@ -147,7 +149,7 @@ extension ProfileUpdateBasicContentView: ContentView {
 
     struct ProfileUpdateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateBasicContentView())
+            WrapperView(view: ProfileUpdateBasicContentView(modelObject: nil))
         }
     }
 #endif

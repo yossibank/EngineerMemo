@@ -19,7 +19,6 @@ final class ProfileUpdateBasicViewModel: ViewModel {
     }
 
     final class Output: OutputObject {
-        @Published fileprivate(set) var modelObject: ProfileModelObject?
         @Published fileprivate(set) var isFinished = false
     }
 
@@ -55,7 +54,6 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         input.viewDidLoad.sink { _ in
             if let modelObject {
                 updateObject = modelObject
-                output.modelObject = modelObject
             }
         }
         .store(in: &cancellables)

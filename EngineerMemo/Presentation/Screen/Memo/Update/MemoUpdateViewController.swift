@@ -53,15 +53,6 @@ private extension MemoUpdateViewController {
     }
 
     func bindToView() {
-        viewModel.output.$modelObject
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.contentView.configureMenu(modelObject: modelObject)
-                self?.contentView.configureBarButton(modelObject: modelObject)
-                self?.contentView.configureValue(modelObject: modelObject)
-            }
-            .store(in: &cancellables)
-
         viewModel.output.$isEnabled
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isEnabled in

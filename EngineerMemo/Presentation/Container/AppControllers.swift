@@ -52,7 +52,7 @@ enum AppControllers {
                 : L10n.Navigation.Title.memoUpdate
 
             vc.inject(
-                contentView: MemoUpdateContentView(),
+                contentView: MemoUpdateContentView(modelObject: modelObject),
                 viewModel: MemoUpdateViewModel(
                     model: Models.Memo(),
                     modelObject: modelObject,
@@ -106,7 +106,7 @@ enum AppControllers {
 
                 vc.title = L10n.Navigation.Title.profileBasicSetting
                 vc.inject(
-                    contentView: ProfileUpdateBasicContentView(),
+                    contentView: ProfileUpdateBasicContentView(modelObject: modelObject),
                     viewModel: ProfileUpdateBasicViewModel(
                         modelObject: modelObject,
                         model: Models.Profile(),
@@ -124,7 +124,7 @@ enum AppControllers {
 
                 vc.title = L10n.Navigation.Title.profileSKillSetting
                 vc.inject(
-                    contentView: ProfileUpdateSkillContentView(),
+                    contentView: ProfileUpdateSkillContentView(modelObject: modelObject),
                     viewModel: ProfileUpdateSkillViewModel(
                         modelObject: modelObject,
                         model: Models.Profile(),
