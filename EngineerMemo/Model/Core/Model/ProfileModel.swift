@@ -120,8 +120,8 @@ final class ProfileModel: ProfileModelInput {
                             $0.object,
                             isNew: true
                         )
-
                         data.object.skill = $0.object
+                        $0.context.saveIfNeeded()
                     }
                     .store(in: &self.cancellables)
                 } else {
@@ -130,8 +130,8 @@ final class ProfileModel: ProfileModelInput {
                             $0.object,
                             isNew: false
                         )
-
                         data.object.skill = $0.object
+                        $0.context.saveIfNeeded()
                     }
                     .store(in: &self.cancellables)
                 }
@@ -168,8 +168,8 @@ final class ProfileModel: ProfileModelInput {
                             isNew: true
                         )
                     }
-
                     data.object.projects = [project.object]
+                    project.context.saveIfNeeded()
                 }
                 .store(in: &self.cancellables)
             }
