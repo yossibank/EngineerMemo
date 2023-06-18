@@ -38,7 +38,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 x: 0,
                 y: 0,
                 width: UIWindow.windowFrame.width,
-                height: 1000
+                height: 1200
             ),
             viewAfter: 0.3
         )
@@ -57,7 +57,27 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 x: 0,
                 y: 0,
                 width: UIWindow.windowFrame.width,
-                height: 1100
+                height: 1300
+            ),
+            viewAfter: 0.3
+        )
+    }
+
+    func testProfileDetailViewController_基本情報_経験スキル_案件経歴設定() {
+        dataInsert(
+            ProfileModelObjectBuilder()
+                .skill(SKillModelObjectBuilder().build())
+                .projects([ProjectModelObjectBuilder().build()])
+                .build()
+        )
+
+        snapshotVerifyView(
+            viewMode: .navigation(subject),
+            viewFrame: .init(
+                x: 0,
+                y: 0,
+                width: UIWindow.windowFrame.width,
+                height: 1300
             ),
             viewAfter: 0.3
         )
@@ -78,8 +98,20 @@ private extension ProfileDetailViewControllerSnapshotTest {
                         $0.object,
                         isNew: true
                     )
-
                     data.object.skill = $0.object
+                    $0.context.saveIfNeeded()
+                }
+                .store(in: &self.cancellables)
+            }
+
+            modelObject.projects.forEach { project in
+                CoreDataStorage<Project>().create().sink {
+                    project.projectInsert(
+                        $0.object,
+                        isNew: true
+                    )
+                    data.object.projects = .init(object: $0.object)
+                    $0.context.saveIfNeeded()
                 }
                 .store(in: &self.cancellables)
             }
