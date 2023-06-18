@@ -76,7 +76,8 @@
                 .sink { [weak self] _ in
                     self?.actionButton.apply(updatedButtonStyle)
 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    Task { @MainActor in
+                        try await Task.sleep(seconds: 1)
                         self?.actionButton.apply(defaultButtonStyle)
                     }
                 }

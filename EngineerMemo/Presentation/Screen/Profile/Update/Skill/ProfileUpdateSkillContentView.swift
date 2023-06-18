@@ -79,7 +79,8 @@ extension ProfileUpdateSkillContentView {
             .sink { [weak self] _ in
                 self?.barButton.apply(updatedButtonStyle)
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                Task { @MainActor in
+                    try await Task.sleep(seconds: 0.8)
                     self?.barButton.apply(defaultButtonStyle)
                 }
             }

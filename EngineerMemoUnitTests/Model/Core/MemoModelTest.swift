@@ -178,8 +178,10 @@ final class MemoModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let memo = self.storage.allObjects.first!
 
                 // assert
@@ -223,8 +225,10 @@ final class MemoModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.3) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let memo = self.storage.allObjects.first!
 
                 // assert
@@ -264,8 +268,10 @@ final class MemoModelTest: XCTestCase {
                 .build()
         )
 
-        wait(timeout: 0.2) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
                 let allMemo = self.storage.allObjects
 
                 // assert
