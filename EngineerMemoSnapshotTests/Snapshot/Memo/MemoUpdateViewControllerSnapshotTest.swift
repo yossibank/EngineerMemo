@@ -19,31 +19,25 @@ final class MemoUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testMemoUpdateViewController_作成() {
-        snapshot(type: .create)
+        snapshot(modelObject: nil)
     }
 
     func testMemoUpdateViewController_編集() {
-        snapshot(
-            type: .update(
-                MemoModelObjectBuilder().build()
-            )
-        )
+        snapshot(modelObject: MemoModelObjectBuilder().build())
     }
 
     func testMemoUpdateViewController_編集_未入力項目あり() {
         snapshot(
-            type: .update(
-                MemoModelObjectBuilder()
-                    .content(nil)
-                    .build()
-            )
+            modelObject: MemoModelObjectBuilder()
+                .content(nil)
+                .build()
         )
     }
 }
 
 private extension MemoUpdateViewControllerSnapshotTest {
-    func snapshot(type: MemoUpdateType) {
-        subject = AppControllers.Memo.Update(type: type)
+    func snapshot(modelObject: MemoModelObject?) {
+        subject = AppControllers.Memo.Update(modelObject: modelObject)
         snapshotVerifyView(viewMode: .navigation(subject))
     }
 }

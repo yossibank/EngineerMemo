@@ -44,32 +44,23 @@ enum AppControllers {
             return vc
         }
 
-        static func Update(type: MemoUpdateType) -> MemoUpdateViewController {
+        static func Update(modelObject: MemoModelObject?) -> MemoUpdateViewController {
             let vc = MemoUpdateViewController()
 
-            switch type {
-            case .create:
-                vc.title = L10n.Navigation.Title.memoCreate
-                vc.inject(
-                    contentView: MemoUpdateContentView(modelObject: nil),
-                    viewModel: MemoUpdateViewModel(
-                        model: Models.Memo(),
-                        modelObject: nil,
-                        analytics: FirebaseAnalytics(screenId: .memoCreate)
-                    )
-                )
+            vc.title = modelObject.isNil
+                ? L10n.Navigation.Title.memoCreate
+                : L10n.Navigation.Title.memoUpdate
 
-            case let .update(modelObject):
-                vc.title = L10n.Navigation.Title.memoUpdate
-                vc.inject(
-                    contentView: MemoUpdateContentView(modelObject: modelObject),
-                    viewModel: MemoUpdateViewModel(
-                        model: Models.Memo(),
-                        modelObject: modelObject,
-                        analytics: FirebaseAnalytics(screenId: .memoUpdate)
-                    )
+            vc.inject(
+                contentView: MemoUpdateContentView(),
+                viewModel: MemoUpdateViewModel(
+                    model: Models.Memo(),
+                    modelObject: modelObject,
+                    analytics: modelObject.isNil
+                        ? FirebaseAnalytics(screenId: .memoCreate)
+                        : FirebaseAnalytics(screenId: .memoUpdate)
                 )
-            }
+            )
 
             return vc
         }

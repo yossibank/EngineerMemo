@@ -19,7 +19,7 @@ final class ProfileUpdateSkillViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testProfileUpdateSkillViewController_設定() {
-        snapshot()
+        snapshot(modelObject: ProfileModelObjectBuilder().build())
     }
 
     func testProfileUpdateSkillViewController_更新() {
@@ -47,7 +47,7 @@ final class ProfileUpdateSkillViewControllerSnapshotTest: FBSnapshotTestCase {
 }
 
 private extension ProfileUpdateSkillViewControllerSnapshotTest {
-    func snapshot(modelObject: ProfileModelObject = ProfileModelObjectBuilder().build()) {
+    func snapshot(modelObject: ProfileModelObject) {
         subject = AppControllers.Profile.Update.Skill(modelObject: modelObject)
 
         snapshotVerifyView(

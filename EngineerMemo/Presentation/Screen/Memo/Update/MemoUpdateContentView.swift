@@ -47,10 +47,6 @@ final class MemoUpdateContentView: UIView {
                         $0.backgroundColor = .background
                         $0.isScrollEnabled = false
                         $0.delegate = self
-
-                        if let modelObject {
-                            $0.text = modelObject.title
-                        }
                     }
 
                 titleBorderView
@@ -67,10 +63,6 @@ final class MemoUpdateContentView: UIView {
                         $0.backgroundColor = .background
                         $0.isScrollEnabled = false
                         $0.delegate = self
-
-                        if let modelObject {
-                            $0.text = modelObject.content
-                        }
                     }
 
                 contentBorderView
@@ -91,16 +83,10 @@ final class MemoUpdateContentView: UIView {
 
     private var cancellables = Set<AnyCancellable>()
 
-    private let modelObject: MemoModelObject?
-
-    init(modelObject: MemoModelObject?) {
-        self.modelObject = modelObject
-
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
         setupView()
-        setupMenu()
-        setupBarButton()
         setupEvent()
     }
 
@@ -127,16 +113,7 @@ extension MemoUpdateContentView {
 // MARK: - internal methods
 
 extension MemoUpdateContentView {
-    func configureBarButton(isEnabled: Bool) {
-        barButton.isEnabled = isEnabled
-        barButton.alpha = isEnabled ? 1.0 : 0.5
-    }
-}
-
-// MARK: - private methods
-
-private extension MemoUpdateContentView {
-    func setupMenu() {
+    func configureMenu(modelObject: MemoModelObject?) {
         guard let category = modelObject?.category else {
             selectedCategoryType = .noSetting
             return
@@ -163,7 +140,7 @@ private extension MemoUpdateContentView {
         }
     }
 
-    func setupBarButton() {
+    func configureBarButton(modelObject: MemoModelObject?) {
         let defaultButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .createNavigationButton
             : .updateNavigationButton
@@ -187,6 +164,20 @@ private extension MemoUpdateContentView {
             .store(in: &cancellables)
     }
 
+    func configureEnableButton(isEnabled: Bool) {
+        barButton.isEnabled = isEnabled
+        barButton.alpha = isEnabled ? 1.0 : 0.5
+    }
+
+    func configureValue(modelObject: MemoModelObject?) {
+        titleTextView.text = modelObject?.title
+        contentTextView.text = modelObject?.content
+    }
+}
+
+// MARK: - private methods
+
+private extension MemoUpdateContentView {
     func setupCategory() {
         var actions = [UIMenuElement]()
 
@@ -322,7 +313,7 @@ extension MemoUpdateContentView: ContentView {
 
     struct MemoCreateContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: MemoUpdateContentView(modelObject: nil))
+            WrapperView(view: MemoUpdateContentView())
         }
     }
 #endif
