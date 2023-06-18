@@ -3,7 +3,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateTextInputView: UIView {
+final class ProfileUpdateBasicTextInputView: UIView {
     private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
     private var body: UIView {
@@ -28,7 +28,7 @@ final class ProfileUpdateTextInputView: UIView {
     private let inputTextField = UITextField()
     private let borderView = BorderView()
 
-    init(_ type: ProfileContentType) {
+    init(_ type: ProfileBasicContentType) {
         super.init(frame: .zero)
 
         var title: String?
@@ -90,9 +90,9 @@ final class ProfileUpdateTextInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateTextInputView {
+extension ProfileUpdateBasicTextInputView {
     func updateValue(
-        _ type: ProfileContentType,
+        _ type: ProfileBasicContentType,
         modelObject: ProfileModelObject?
     ) {
         guard let modelObject else {
@@ -127,7 +127,7 @@ extension ProfileUpdateTextInputView {
 
 // MARK: - private methods
 
-private extension ProfileUpdateTextInputView {
+private extension ProfileUpdateBasicTextInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -142,7 +142,7 @@ private extension ProfileUpdateTextInputView {
 
 // MARK: - delegate
 
-extension ProfileUpdateTextInputView: UITextFieldDelegate {
+extension ProfileUpdateBasicTextInputView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -164,7 +164,7 @@ extension ProfileUpdateTextInputView: UITextFieldDelegate {
 
     struct ProfileUpdateTextInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateTextInputView(.name))
+            WrapperView(view: ProfileUpdateBasicTextInputView(.name))
         }
     }
 #endif

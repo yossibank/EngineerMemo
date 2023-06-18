@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateCareerInputView: UIView {
+final class ProfileUpdateSkillCareerInputView: UIView {
     @Published private(set) var selectedCareerType: SkillCareerType = .noSetting
 
     private var body: UIView {
@@ -47,7 +47,7 @@ final class ProfileUpdateCareerInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateCareerInputView {
+extension ProfileUpdateSkillCareerInputView {
     func updateValue(modelObject: SkillModelObject?) {
         guard
             let modelObject,
@@ -63,7 +63,7 @@ extension ProfileUpdateCareerInputView {
 
 // MARK: - private methods
 
-private extension ProfileUpdateCareerInputView {
+private extension ProfileUpdateSkillCareerInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -126,7 +126,7 @@ private extension ProfileUpdateCareerInputView {
 
     struct ProfileUpdateCareerInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateCareerInputView())
+            WrapperView(view: ProfileUpdateSkillCareerInputView())
         }
     }
 #endif

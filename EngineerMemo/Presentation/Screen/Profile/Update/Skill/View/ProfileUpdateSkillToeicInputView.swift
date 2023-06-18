@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateToeicInputView: UIView {
+final class ProfileUpdateSkillToeicInputView: UIView {
     private(set) lazy var didChangeInputScorePublisher = inputTextField.textDidChangePublisher.compactMap {
         Int($0)
     }
@@ -53,7 +53,7 @@ final class ProfileUpdateToeicInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateToeicInputView {
+extension ProfileUpdateSkillToeicInputView {
     func updateValue(modelObject: SkillModelObject?) {
         guard let modelObject else {
             return
@@ -65,7 +65,7 @@ extension ProfileUpdateToeicInputView {
 
 // MARK: - private methods
 
-private extension ProfileUpdateToeicInputView {
+private extension ProfileUpdateSkillToeicInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -80,7 +80,7 @@ private extension ProfileUpdateToeicInputView {
 
 // MARK: - delegate
 
-extension ProfileUpdateToeicInputView: UITextFieldDelegate {
+extension ProfileUpdateSkillToeicInputView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -102,7 +102,7 @@ extension ProfileUpdateToeicInputView: UITextFieldDelegate {
 
     struct ProfileUpdateToeicInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateToeicInputView())
+            WrapperView(view: ProfileUpdateSkillToeicInputView())
         }
     }
 #endif

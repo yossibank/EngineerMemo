@@ -4,20 +4,39 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateGenderInputView: UIView {
-    @Published private(set) var selectedGenderType: ProfileGenderType = .noSetting
+final class ProfileUpdateSkillLanguageInputView: UIView {
+    private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
+
+    @Published private(set) var selectedCareerType: SkillCareerType = .noSetting
 
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView.configure {
                 $0.configure(
-                    title: L10n.Profile.gender,
-                    icon: Asset.profileGender.image
+                    title: L10n.Profile.useLanguage,
+                    icon: Asset.profileLanguage.image
                 )
             }
 
             VStackView(spacing: 4) {
-                menuButton
+                HStackView {
+                    inputTextField
+                        .configure {
+                            $0.leftView = .init(frame: .init(x: 0, y: 0, width: 4, height: 0))
+                            $0.leftViewMode = .always
+                            $0.placeholder = L10n.Profile.Example.useLanguage
+                            $0.delegate = self
+                        }
+
+                    menuButton.addConstraint {
+                        $0.width.equalTo(80)
+                    }
+
+                    UIView().addConstraint {
+                        $0.width.equalTo(16)
+                    }
+                }
+
                 borderView
             }
             .addConstraint {
@@ -27,6 +46,7 @@ final class ProfileUpdateGenderInputView: UIView {
     }
 
     private let titleView = ProfileUpdateTitleView()
+    private let inputTextField = UITextField()
     private let menuButton = MenuButton(type: .system)
     private let borderView = BorderView()
 
@@ -47,23 +67,24 @@ final class ProfileUpdateGenderInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateGenderInputView {
-    func updateValue(modelObject: ProfileModelObject?) {
-        guard
-            let modelObject,
-            let gender = modelObject.gender
-        else {
+extension ProfileUpdateSkillLanguageInputView {
+    func updateValue(modelObject: SkillModelObject?) {
+        guard let modelObject else {
             return
         }
 
-        selectedGenderType = .init(rawValue: gender.rawValue) ?? .noSetting
-        setupMenu()
+        if let languageCareer = modelObject.languageCareer {
+            selectedCareerType = .init(rawValue: languageCareer) ?? .noSetting
+            setupMenu()
+        }
+
+        inputTextField.text = modelObject.language
     }
 }
 
 // MARK: - private methods
 
-private extension ProfileUpdateGenderInputView {
+private extension ProfileUpdateSkillLanguageInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -78,13 +99,13 @@ private extension ProfileUpdateGenderInputView {
     func setupMenu() {
         var actions = [UIMenuElement]()
 
-        ProfileGenderType.allCases.forEach { genderType in
+        SkillCareerType.allCases.forEach { careerType in
             actions.append(
                 UIAction(
-                    title: genderType.title,
-                    state: genderType == selectedGenderType ? .on : .off,
+                    title: careerType.title,
+                    state: careerType == selectedCareerType ? .on : .off,
                     handler: { [weak self] _ in
-                        self?.selectedGenderType = genderType
+                        self?.selectedCareerType = careerType
                         self?.setupMenu()
                     }
                 )
@@ -93,7 +114,7 @@ private extension ProfileUpdateGenderInputView {
 
         menuButton.configure {
             var config = UIButton.Configuration.filled()
-            config.title = selectedGenderType.title
+            config.title = selectedCareerType.title
             config.baseForegroundColor = .primary
             config.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 0)
             config.titleTextAttributesTransformer = .init { incoming in
@@ -103,7 +124,7 @@ private extension ProfileUpdateGenderInputView {
             }
             config.background.backgroundColor = .background
             $0.configuration = config
-            $0.contentHorizontalAlignment = .leading
+            $0.contentHorizontalAlignment = .trailing
             $0.showsMenuAsPrimaryAction = true
             $0.menu = .init(
                 title: .empty,
@@ -119,14 +140,31 @@ private extension ProfileUpdateGenderInputView {
     }
 }
 
+// MARK: - delegate
+
+extension ProfileUpdateSkillLanguageInputView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        borderView.changeColor(.inputBorder)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        borderView.changeColor(.primary)
+    }
+}
+
 // MARK: - preview
 
 #if DEBUG
     import SwiftUI
 
-    struct ProfileUpdateMenuInputViewPreview: PreviewProvider {
+    struct ProfileUpdateUseLanguageInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateGenderInputView())
+            WrapperView(view: ProfileUpdateSkillLanguageInputView())
         }
     }
 #endif

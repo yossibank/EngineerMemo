@@ -9,7 +9,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         analytics.sendEventFAEventHandler = {
             // assert
@@ -25,7 +25,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_binding_category_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.category = .interview
 
@@ -43,7 +43,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_binding_title_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.title = "title"
 
@@ -61,7 +61,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_binding_content_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.content = "content"
 
@@ -79,7 +79,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_各binding値代入時にoutput_isEnabledがtrueを取得できること() throws {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.title = "title"
         viewModel.binding.content = "content"
@@ -94,7 +94,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_input_didTapBarButton_modelObjectがnilの際に作成側の関数が呼ばれること() {
         // arrange
-        setupViewModel(.create)
+        setupViewModel(modelObject: nil)
 
         // act
         viewModel.input.didTapBarButton.send(())
@@ -108,7 +108,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_input_didTapBarButton_modelObjectに値がある際に作成側の関数が呼ばれること() {
         // arrange
-        setupViewModel(.update(MemoModelObjectBuilder().build()))
+        setupViewModel(modelObject: MemoModelObjectBuilder().build())
 
         // act
         viewModel.input.didTapBarButton.send(())
@@ -122,7 +122,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         // act
         viewModel.input.didTapBarButton.send(())
@@ -133,26 +133,14 @@ final class MemoUpdateViewModelTest: XCTestCase {
 }
 
 private extension MemoUpdateViewModelTest {
-    func setupViewModel(_ type: MemoUpdateType = .create) {
+    func setupViewModel(modelObject: MemoModelObject?) {
         model = .init()
-
-        switch type {
-        case .create:
-            analytics = .init(screenId: .memoCreate)
-            viewModel = .init(
-                model: model,
-                modelObject: nil,
-                analytics: analytics
-            )
-
-        case let .update(modelObject):
-            analytics = .init(screenId: .memoUpdate)
-            viewModel = .init(
-                model: model,
-                modelObject: modelObject,
-                analytics: analytics
-            )
-        }
+        analytics = .init(screenId: .memoCreate)
+        viewModel = .init(
+            model: model,
+            modelObject: modelObject,
+            analytics: analytics
+        )
 
         viewModel.input.viewDidLoad.send(())
     }

@@ -114,7 +114,7 @@
             }
         }
 
-        func createStackView(_ type: ProfileContentType) -> UIStackView {
+        func createStackView(_ type: ProfileBasicContentType) -> UIStackView {
             let valueLabel: UILabel
 
             switch type {

@@ -1,4 +1,4 @@
-enum ProfileContentType: CaseIterable {
+enum ProfileBasicContentType: CaseIterable {
     case name
     case age
     case gender

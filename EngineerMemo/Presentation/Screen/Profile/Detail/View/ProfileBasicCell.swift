@@ -90,7 +90,7 @@ private extension ProfileBasicCell {
         }
     }
 
-    private func createStackView(_ type: ProfileContentType) -> UIStackView {
+    private func createStackView(_ type: ProfileBasicContentType) -> UIStackView {
         let valueLabel: UILabel
 
         switch type {
