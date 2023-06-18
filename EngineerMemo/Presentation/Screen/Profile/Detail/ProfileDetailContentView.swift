@@ -186,7 +186,7 @@ private extension ProfileDetailContentView {
                     for: indexPath
                 )
 
-                cell.configure(with: "関わった案件をまとめましょう。")
+                cell.configure(with: L10n.Profile.projectDescription)
 
                 return cell
             }
