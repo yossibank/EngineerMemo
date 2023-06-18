@@ -5,8 +5,6 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfileBasicCell: AllyTableViewCell {
-    var cancellables: Set<AnyCancellable> = .init()
-
     private lazy var baseView = UIView()
         .addSubview(basicView) {
             $0.edges.equalToSuperview().inset(16)
@@ -48,16 +46,6 @@ final class ProfileBasicCell: AllyTableViewCell {
         )
 
         setupView()
-    }
-}
-
-// MARK: - override methods
-
-extension ProfileBasicCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        cancellables.removeAll()
     }
 }
 

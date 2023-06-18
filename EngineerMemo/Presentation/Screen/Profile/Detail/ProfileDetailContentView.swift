@@ -8,12 +8,14 @@ enum ProfileDetailContentViewSection: CaseIterable {
     case top
     case basic
     case skill
+    case project
 }
 
 enum ProfileDetailContentViewItem: Hashable {
     case top(ProfileModelObject?)
     case basic(ProfileModelObject?)
     case skill(SkillModelObject?)
+    case project(ProjectModelObject?)
 }
 
 // MARK: - properties & init
@@ -83,6 +85,7 @@ private extension ProfileDetailContentView {
                     ProfileTopCell.self,
                     ProfileBasicCell.self,
                     ProfileSkillCell.self,
+                    ProfileProjectCell.self,
                     ProfileNoSettingCell.self
                 ]
             )
@@ -175,6 +178,27 @@ private extension ProfileDetailContentView {
             cell.configure(modelObject)
 
             return cell
+
+        case let .project(modelObject):
+            guard let modelObject else {
+                let cell = tableView.dequeueReusableCell(
+                    withType: ProfileNoSettingCell.self,
+                    for: indexPath
+                )
+
+                cell.configure(with: "関わった案件をまとめましょう。")
+
+                return cell
+            }
+
+            let cell = tableView.dequeueReusableCell(
+                withType: ProfileProjectCell.self,
+                for: indexPath
+            )
+
+            cell.configure(modelObject)
+
+            return cell
         }
     }
 
@@ -197,6 +221,22 @@ private extension ProfileDetailContentView {
                 [.skill(modelObject.skill)],
                 toSection: .skill
             )
+        }
+
+        if let modelObject {
+            if modelObject.projects.isEmpty {
+                dataSourceSnapshot.appendItems(
+                    [.project(nil)],
+                    toSection: .project
+                )
+            } else {
+                modelObject.projects.forEach {
+                    dataSourceSnapshot.appendItems(
+                        [.project($0)],
+                        toSection: .project
+                    )
+                }
+            }
         }
 
         dataSource.apply(
@@ -252,6 +292,20 @@ extension ProfileDetailContentView: UITableViewDelegate {
             .store(in: &view.cancellables)
 
             return view
+
+        case .project:
+            let view = tableView.dequeueReusableHeaderFooterView(
+                withType: TitleButtonHeaderFooterView.self
+            )
+
+            view.configure(with: L10n.Profile.project)
+
+            view.didTapEditButtonPublisher.sink { _ in
+                Logger.debug(message: "案件作成画面遷移")
+            }
+            .store(in: &view.cancellables)
+
+            return view
         }
     }
 
@@ -264,14 +318,27 @@ extension ProfileDetailContentView: UITableViewDelegate {
             return .zero
 
         case .basic:
-            return modelObject.isNil ? .zero : UITableView.automaticDimension
+            return modelObject.isNil
+                ? .zero
+                : UITableView.automaticDimension
 
         case .skill:
             guard let modelObject else {
                 return .zero
             }
 
-            return modelObject.skill.isNil ? .zero : UITableView.automaticDimension
+            return modelObject.skill.isNil
+                ? .zero
+                : UITableView.automaticDimension
+
+        case .project:
+            guard let modelObject else {
+                return .zero
+            }
+
+            return modelObject.projects.isEmpty
+                ? .zero
+                : UITableView.automaticDimension
         }
     }
 
