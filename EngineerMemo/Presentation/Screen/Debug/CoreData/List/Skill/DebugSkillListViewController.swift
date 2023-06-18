@@ -51,12 +51,6 @@
         }
 
         func bindToViewModel() {
-            contentView.didTapReloadButtonPublisher
-                .sink { [weak self] in
-                    self?.viewModel.input.viewDidLoad.send(())
-                }
-                .store(in: &cancellables)
-
             contentView.didDeletedModelObjectPublisher
                 .sink { [weak self] modelObject in
                     self?.viewModel.input.didDeletedModelObject.send(modelObject)
