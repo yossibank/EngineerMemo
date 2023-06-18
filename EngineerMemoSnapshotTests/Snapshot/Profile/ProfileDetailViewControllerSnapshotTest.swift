@@ -67,7 +67,10 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         dataInsert(
             ProfileModelObjectBuilder()
                 .skill(SKillModelObjectBuilder().build())
-                .projects([ProjectModelObjectBuilder().build()])
+                .projects([
+                    ProjectModelObjectBuilder().build(),
+                    ProjectModelObjectBuilder().build()
+                ])
                 .build()
         )
 
@@ -77,7 +80,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 x: 0,
                 y: 0,
                 width: UIWindow.windowFrame.width,
-                height: 1300
+                height: 1500
             ),
             viewAfter: 0.3
         )
@@ -110,7 +113,7 @@ private extension ProfileDetailViewControllerSnapshotTest {
                         $0.object,
                         isNew: true
                     )
-                    data.object.projects = .init(object: $0.object)
+                    data.object.addToProjects($0.object)
                     $0.context.saveIfNeeded()
                 }
                 .store(in: &self.cancellables)

@@ -16,6 +16,20 @@ final class Profile: NSManagedObject {
 }
 
 extension Profile {
+    @objc(addProjectsObject:)
+    @NSManaged func addToProjects(_ value: Project)
+
+    @objc(removeProjectsObject:)
+    @NSManaged func removeFromProjects(_ value: Project)
+
+    @objc(addProjects:)
+    @NSManaged func addToProjects(_ values: NSSet)
+
+    @objc(removeProjects:)
+    @NSManaged func removeFromProjects(_ values: NSSet)
+}
+
+extension Profile {
     enum Gender: Int {
         case man
         case woman

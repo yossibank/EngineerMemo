@@ -168,7 +168,7 @@ final class ProfileModel: ProfileModelInput {
                             isNew: true
                         )
                     }
-                    data.object.projects = [project.object]
+                    data.object.addToProjects(project.object)
                     project.context.saveIfNeeded()
                 }
                 .store(in: &self.cancellables)
