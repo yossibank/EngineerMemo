@@ -9,13 +9,12 @@ final class ProfileBasicCell: AllyTableViewCell {
 
     private lazy var baseView = UIView()
         .addSubview(basicView) {
-            $0.top.equalToSuperview()
-            $0.bottom.leading.trailing.equalToSuperview().inset(16)
+            $0.edges.equalToSuperview().inset(16)
         }
         .configure {
             $0.backgroundColor = .primaryGray
             $0.layer.cornerRadius = 8
-            $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            $0.layer.masksToBounds = true
         }
 
     private lazy var basicView = VStackView(
@@ -87,8 +86,7 @@ private extension ProfileBasicCell {
     func setupView() {
         contentView.configure {
             $0.addSubview(baseView) {
-                $0.top.equalToSuperview()
-                $0.bottom.equalToSuperview().inset(8)
+                $0.verticalEdges.equalToSuperview().inset(16)
                 $0.horizontalEdges.equalToSuperview().inset(32)
             }
 

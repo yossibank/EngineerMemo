@@ -264,14 +264,14 @@ extension ProfileDetailContentView: UITableViewDelegate {
             return .zero
 
         case .basic:
-            return modelObject.isNil ? .zero : 40
+            return modelObject.isNil ? .zero : UITableView.automaticDimension
 
         case .skill:
             guard let modelObject else {
                 return .zero
             }
 
-            return modelObject.skill.isNil ? .zero : 40
+            return modelObject.skill.isNil ? .zero : UITableView.automaticDimension
         }
     }
 

@@ -9,26 +9,14 @@ final class TitleButtonHeaderFooterView: UITableViewHeaderFooterView {
 
     private(set) lazy var didTapEditButtonPublisher = editButton.publisher(for: .touchUpInside)
 
-    private lazy var baseView = UIView()
-        .addSubview(body) {
-            $0.verticalEdges.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview()
-        }
-        .addSubview(editButton) {
-            $0.top.trailing.equalToSuperview().inset(8)
-        }
-        .configure {
-            $0.backgroundColor = .primaryGray
-            $0.layer.cornerRadius = 8
-            $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        }
-
     private var body: UIView {
-        VStackView(alignment: .center) {
+        HStackView {
             titleLabel.configure {
                 $0.textColor = .primary
                 $0.font = .boldSystemFont(ofSize: 16)
             }
+
+            editButton
         }
     }
 
@@ -47,7 +35,7 @@ final class TitleButtonHeaderFooterView: UITableViewHeaderFooterView {
             outgoing.font = .boldSystemFont(ofSize: 12)
             return outgoing
         }
-        config.background.backgroundColor = .primaryGray
+        config.background.backgroundColor = .background
         config.background.cornerRadius = 8
         config.background.strokeColor = .primary
         config.background.strokeWidth = 1.0
@@ -88,9 +76,15 @@ extension TitleButtonHeaderFooterView {
 private extension TitleButtonHeaderFooterView {
     func setupView() {
         configure {
-            $0.addSubview(baseView) {
-                $0.top.bottom.equalToSuperview()
-                $0.leading.trailing.equalToSuperview().inset(32)
+            $0.addSubview(body) {
+                $0.verticalEdges.equalToSuperview()
+                $0.horizontalEdges.equalToSuperview().inset(32)
+            }
+
+            $0.addSubview(BorderView()) {
+                $0.height.equalTo(1)
+                $0.bottom.equalToSuperview().inset(-8)
+                $0.horizontalEdges.equalToSuperview().inset(32)
             }
 
             var backgroundConfiguration = UIBackgroundConfiguration.listPlainHeaderFooter()
