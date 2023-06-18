@@ -9,11 +9,7 @@ final class ProfileSkillCell: AllyTableViewCell {
         .addSubview(skillView) {
             $0.edges.equalToSuperview().inset(16)
         }
-        .configure {
-            $0.backgroundColor = .primaryGray
-            $0.layer.cornerRadius = 8
-            $0.layer.masksToBounds = true
-        }
+        .apply(.borderView)
 
     private lazy var skillView = VStackView(
         alignment: .leading,
@@ -93,6 +89,18 @@ final class ProfileSkillCell: AllyTableViewCell {
         )
 
         setupView()
+    }
+}
+
+// MARK: - override methods
+
+extension ProfileSkillCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            baseView.layer.borderColor = UIColor.primary.cgColor
+        }
     }
 }
 

@@ -9,11 +9,7 @@ final class ProfileProjectCell: UITableViewCell {
         .addSubview(projectView) {
             $0.edges.equalToSuperview().inset(16)
         }
-        .configure {
-            $0.backgroundColor = .primaryGray
-            $0.layer.cornerRadius = 8
-            $0.layer.masksToBounds = true
-        }
+        .apply(.borderView)
 
     private lazy var projectView = VStackView(
         alignment: .leading,
@@ -61,6 +57,18 @@ final class ProfileProjectCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+}
+
+// MARK: - override methods
+
+extension ProfileProjectCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            baseView.layer.borderColor = UIColor.primary.cgColor
+        }
     }
 }
 

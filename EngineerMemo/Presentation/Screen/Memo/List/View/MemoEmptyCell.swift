@@ -11,13 +11,10 @@ final class MemoEmptyCell: UICollectionViewCell {
 
     private lazy var baseView = UIView()
         .addSubview(body) {
-            $0.edges.equalToSuperview().inset(16)
+            $0.verticalEdges.equalToSuperview().inset(24)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
-        .configure {
-            $0.backgroundColor = .primaryGray
-            $0.clipsToBounds = true
-            $0.layer.cornerRadius = 8
-        }
+        .apply(.borderView)
 
     private var body: UIView {
         VStackView(alignment: .center, spacing: 16) {
@@ -39,14 +36,21 @@ final class MemoEmptyCell: UICollectionViewCell {
     private let createButton = UIButton(type: .system).configure {
         var config = UIButton.Configuration.filled()
         config.title = L10n.Components.Button.Do.create
+        config.image = Asset.memoAdd.image
+            .resized(size: .init(width: 28, height: 28))
+            .withRenderingMode(.alwaysOriginal)
         config.baseForegroundColor = .primary
+        config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
+        config.imagePadding = 4
         config.titleTextAttributesTransformer = .init { incoming in
             var outgoing = incoming
             outgoing.font = .boldSystemFont(ofSize: 16)
             return outgoing
         }
-        config.background.backgroundColor = .grayButton
+        config.background.backgroundColor = .primaryGray
         config.background.cornerRadius = 8
+        config.background.strokeColor = .primary
+        config.background.strokeWidth = 1.0
         $0.configuration = config
     }
 
@@ -69,6 +73,14 @@ extension MemoEmptyCell {
         super.prepareForReuse()
 
         cancellables.removeAll()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            baseView.layer.borderColor = UIColor.primary.cgColor
+        }
     }
 }
 

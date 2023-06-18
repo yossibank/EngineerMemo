@@ -22,13 +22,13 @@ extension UIBarButtonItem {
 
             switch self {
             case .addMemo:
-                image = Asset.addMemo.image
+                image = Asset.memoAdd.image
 
             case .editMemo:
-                image = Asset.editMemo.image
+                image = Asset.memoEdit.image
 
             case .deleteMemo:
-                image = Asset.deleteMemo.image
+                image = Asset.memoDelete.image
             }
 
             return image.resized(size: size).withRenderingMode(.alwaysOriginal)
