@@ -99,28 +99,6 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
     }
 
-    func test_input_didTapBasicEditButton_routing_showUpdateBasicScreenが呼び出されること() {
-        // arrange
-        let modelObject = ProfileModelObjectBuilder().build()
-
-        routing.showUpdateBasicScreenHandler = {
-            // assert
-            XCTAssertEqual(
-                $0,
-                modelObject
-            )
-        }
-
-        // act
-        viewModel.input.didTapBasicEditButton.send(modelObject)
-
-        // assert
-        XCTAssertEqual(
-            routing.showUpdateBasicScreenCallCount,
-            1
-        )
-    }
-
     func test_input_didTapBasicSettingButton_routing_showUpdateBasicScreenが呼び出されること() {
         // arrange
         routing.showUpdateBasicScreenHandler = {
@@ -134,28 +112,6 @@ final class ProfileDetailViewModelTest: XCTestCase {
         // assert
         XCTAssertEqual(
             routing.showUpdateBasicScreenCallCount,
-            1
-        )
-    }
-
-    func test_input_didTapSkillEditButton_routing_showUpdateSkillScreenが呼び出されること() {
-        // arrange
-        let modelObject = ProfileModelObjectBuilder().build()
-
-        routing.showUpdateSkillScreenHandler = {
-            // assert
-            XCTAssertEqual(
-                $0,
-                modelObject
-            )
-        }
-
-        // act
-        viewModel.input.didTapSkillEditButton.send(modelObject)
-
-        // assert
-        XCTAssertEqual(
-            routing.showUpdateSkillScreenCallCount,
             1
         )
     }
@@ -177,6 +133,17 @@ final class ProfileDetailViewModelTest: XCTestCase {
         // assert
         XCTAssertEqual(
             routing.showUpdateSkillScreenCallCount,
+            1
+        )
+    }
+
+    func test_input_didTapProjectSettingButton_routing_showUpdateProjectScreenが呼び出されること() {
+        // act
+        viewModel.input.didTapProjectSettingButton.send(())
+
+        // assert
+        XCTAssertEqual(
+            routing.showUpdateProjectScreenCallCount,
             1
         )
     }

@@ -70,13 +70,6 @@ private extension ProfileDetailViewController {
             }
             .store(in: &cancellables)
 
-        contentView.didTapBasicEditButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.viewModel.input.didTapBasicEditButton.send(modelObject)
-            }
-            .store(in: &cancellables)
-
         contentView.didTapBasicSettingButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] modelObject in
@@ -84,17 +77,17 @@ private extension ProfileDetailViewController {
             }
             .store(in: &cancellables)
 
-        contentView.didTapSkillEditButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.viewModel.input.didTapSkillEditButton.send(modelObject)
-            }
-            .store(in: &cancellables)
-
         contentView.didTapSkillSettingButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] modelObject in
                 self?.viewModel.input.didTapSkillSettingButton.send(modelObject)
+            }
+            .store(in: &cancellables)
+
+        contentView.didTapProjectSettingButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.input.didTapProjectSettingButton.send(())
             }
             .store(in: &cancellables)
     }

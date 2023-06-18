@@ -31,10 +31,9 @@ final class ProfileDetailContentView: UIView {
     }
 
     private(set) lazy var didTapIconChangeButtonPublisher = didTapIconChangeButtonSubject.eraseToAnyPublisher()
-    private(set) lazy var didTapBasicEditButtonPublisher = didTapBasicEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapBasicSettingButtonPublisher = didTapBasicSettingButtonSubject.eraseToAnyPublisher()
-    private(set) lazy var didTapSkillEditButtonPublisher = didTapSkillEditButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSkillSettingButtonPublisher = didTapSkillSettingButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapProjectSettingButtonPublisher = didTapProjectSettingButtonSubject.eraseToAnyPublisher()
 
     private lazy var dataSource = UITableViewDiffableDataSource<
         Section,
@@ -52,10 +51,9 @@ final class ProfileDetailContentView: UIView {
     }
 
     private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
-    private let didTapBasicEditButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
     private let didTapBasicSettingButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
-    private let didTapSkillEditButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapSkillSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
+    private let didTapProjectSettingButtonSubject = PassthroughSubject<Void, Never>()
 
     private let tableView = UITableView(
         frame: .zero,
@@ -188,6 +186,11 @@ private extension ProfileDetailContentView {
 
                 cell.configure(with: L10n.Profile.projectDescription)
 
+                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                    self?.didTapProjectSettingButtonSubject.send(())
+                }
+                .store(in: &cell.cancellables)
+
                 return cell
             }
 
@@ -269,7 +272,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
             view.configure(with: .basic)
 
             view.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapBasicEditButtonSubject.send(modelObject)
+                self?.didTapBasicSettingButtonSubject.send(modelObject)
             }
             .store(in: &view.cancellables)
 
@@ -287,7 +290,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
             view.configure(with: .skill)
 
             view.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapSkillEditButtonSubject.send(modelObject)
+                self?.didTapSkillSettingButtonSubject.send(modelObject)
             }
             .store(in: &view.cancellables)
 
@@ -300,8 +303,8 @@ extension ProfileDetailContentView: UITableViewDelegate {
 
             view.configure(with: .project)
 
-            view.didTapEditButtonPublisher.sink { _ in
-                Logger.debug(message: "案件作成画面遷移")
+            view.didTapEditButtonPublisher.sink { [weak self] _ in
+                self?.didTapProjectSettingButtonSubject.send(())
             }
             .store(in: &view.cancellables)
 
