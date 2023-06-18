@@ -1,5 +1,11 @@
 import Foundation
 
+extension Optional {
+    var isNil: Bool {
+        self == nil
+    }
+}
+
 extension Optional where Wrapped: Collection {
     var isEmpty: Bool {
         switch self {

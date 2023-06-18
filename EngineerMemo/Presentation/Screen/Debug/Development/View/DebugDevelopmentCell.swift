@@ -47,7 +47,7 @@
             titleLabel.text = item.title
             subTitleLabel.text = item.subTitle
 
-            if item.subTitle == nil {
+            if item.subTitle.isNil {
                 titleLabel.font = .boldSystemFont(ofSize: 14)
             }
         }

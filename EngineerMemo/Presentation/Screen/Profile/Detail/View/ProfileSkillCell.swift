@@ -113,9 +113,9 @@ extension ProfileSkillCell {
 
 extension ProfileSkillCell {
     func configure(_ modelObject: SkillModelObject) {
-        engineerCareerView.isHidden = modelObject.engineerCareer == nil
-        languageView.isHidden = modelObject.language == nil
-        toeicView.isHidden = modelObject.toeic == nil
+        engineerCareerView.isHidden = modelObject.engineerCareer.isNil
+        languageView.isHidden = modelObject.language.isNil
+        toeicView.isHidden = modelObject.toeic.isNil
 
         if let engineerCareer = modelObject.engineerCareer {
             engineerCareerLabel.text = SkillCareerType(rawValue: engineerCareer)?.title ?? .noSetting

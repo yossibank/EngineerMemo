@@ -17,7 +17,7 @@ final class CoreDataPublisher<Entity>: NSObject, NSFetchedResultsControllerDeleg
         request: NSFetchRequest<Entity>,
         context: NSManagedObjectContext
     ) {
-        if request.sortDescriptors == nil {
+        if request.sortDescriptors.isNil {
             request.sortDescriptors = []
         }
 

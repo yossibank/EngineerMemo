@@ -119,7 +119,7 @@ enum AppControllers {
                     viewModel: ProfileUpdateBasicViewModel(
                         modelObject: modelObject,
                         model: Models.Profile(),
-                        analytics: modelObject == nil
+                        analytics: modelObject.isNil
                             ? FirebaseAnalytics(screenId: .profileBasicSetting)
                             : FirebaseAnalytics(screenId: .profileBasicUpdate)
                     )
@@ -137,7 +137,7 @@ enum AppControllers {
                     viewModel: ProfileUpdateSkillViewModel(
                         modelObject: modelObject,
                         model: Models.Profile(),
-                        analytics: modelObject.skill == nil
+                        analytics: modelObject.skill.isNil
                             ? FirebaseAnalytics(screenId: .profileSkillSetting)
                             : FirebaseAnalytics(screenId: .profileSkillUpdate)
                     )

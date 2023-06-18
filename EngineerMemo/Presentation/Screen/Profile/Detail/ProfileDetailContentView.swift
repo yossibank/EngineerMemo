@@ -264,10 +264,14 @@ extension ProfileDetailContentView: UITableViewDelegate {
             return .zero
 
         case .basic:
-            return modelObject == nil ? .zero : 40
+            return modelObject.isNil ? .zero : 40
 
         case .skill:
-            return modelObject?.skill == nil ? .zero : 40
+            guard let modelObject else {
+                return .zero
+            }
+
+            return modelObject.skill.isNil ? .zero : 40
         }
     }
 

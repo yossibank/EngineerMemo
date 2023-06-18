@@ -111,7 +111,7 @@ private extension ProfileUpdateSkillViewModelTest {
     func setupViewModel(modelObject: ProfileModelObject = ProfileModelObjectBuilder().build()) {
         model = .init()
 
-        analytics = modelObject.skill == nil
+        analytics = modelObject.skill.isNil
             ? .init(screenId: .profileSkillSetting)
             : .init(screenId: .profileSkillUpdate)
 

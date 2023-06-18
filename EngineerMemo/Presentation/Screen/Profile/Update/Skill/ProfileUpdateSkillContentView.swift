@@ -64,11 +64,11 @@ extension ProfileUpdateSkillContentView {
 
 extension ProfileUpdateSkillContentView {
     func configureBarButton(modelObject: SkillModelObject?) {
-        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .settingNavigationButton
             : .updateNavigationButton
 
-        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .settingDoneNavigationButton
             : .updateDoneNavigationButton
 

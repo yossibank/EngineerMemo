@@ -75,11 +75,11 @@ extension ProfileUpdateBasicContentView {
 
 extension ProfileUpdateBasicContentView {
     func configureBarButton(modelObject: ProfileModelObject?) {
-        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .settingNavigationButton
             : .updateNavigationButton
 
-        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .settingDoneNavigationButton
             : .updateDoneNavigationButton
 

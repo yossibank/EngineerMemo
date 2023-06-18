@@ -126,7 +126,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { _ in
-            if modelObject == nil {
+            if modelObject.isNil {
                 model.create(modelObject: updateObject)
             } else {
                 model.basicUpdate(modelObject: updateObject)

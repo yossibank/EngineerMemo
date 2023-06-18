@@ -164,7 +164,7 @@ private extension MemoListViewModel {
             outputObjects = modelObjects.filter { $0.category == .other }
 
         case .none:
-            outputObjects = modelObjects.filter { $0.category == nil }
+            outputObjects = modelObjects.filter(\.category.isNil)
         }
 
         output.modelObject = .init(

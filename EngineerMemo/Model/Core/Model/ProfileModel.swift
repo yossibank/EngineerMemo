@@ -114,7 +114,7 @@ final class ProfileModel: ProfileModelInput {
             }
 
             if let skill = modelObject.skill {
-                if data.object.skill == nil {
+                if data.object.skill.isNil {
                     self.skillStorage.create().sink {
                         modelObject.skill?.skillInsert(
                             $0.object,

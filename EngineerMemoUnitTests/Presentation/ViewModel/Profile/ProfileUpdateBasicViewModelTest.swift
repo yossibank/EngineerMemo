@@ -187,7 +187,7 @@ private extension ProfileUpdateBasicViewModelTest {
     func setupViewModel(modelObject: ProfileModelObject? = nil) {
         model = .init()
 
-        analytics = modelObject == nil
+        analytics = modelObject.isNil
             ? .init(screenId: .profileBasicSetting)
             : .init(screenId: .profileBasicUpdate)
 

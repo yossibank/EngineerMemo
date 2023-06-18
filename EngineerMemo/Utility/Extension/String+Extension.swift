@@ -38,9 +38,3 @@ extension String {
         return randomString
     }
 }
-
-extension String? {
-    var isNil: Bool {
-        self == nil
-    }
-}

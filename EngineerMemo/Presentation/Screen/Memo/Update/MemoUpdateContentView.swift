@@ -164,11 +164,11 @@ private extension MemoUpdateContentView {
     }
 
     func setupBarButton() {
-        let defaultButtonStyle: ViewStyle<UIButton> = modelObject == nil
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .createNavigationButton
             : .updateNavigationButton
 
-        let updatedButtonStyle: ViewStyle<UIButton> = modelObject == nil
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.isNil
             ? .createDoneNavigationButton
             : .updateDoneNavigationButton
 
