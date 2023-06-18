@@ -165,7 +165,7 @@ extension ProfileIconContentView: ContentView {
         addSubview(collectionView) {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview().inset(16)
-            $0.leading.trailing.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
     }
 }

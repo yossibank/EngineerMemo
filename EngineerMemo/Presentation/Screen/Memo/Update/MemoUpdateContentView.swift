@@ -301,7 +301,7 @@ extension MemoUpdateContentView: ContentView {
             $0.addSubview(scrollView) {
                 $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
                 $0.bottom.equalToSuperview().priority(.low)
-                $0.leading.trailing.equalToSuperview().inset(16)
+                $0.horizontalEdges.equalToSuperview().inset(16)
             }
 
             $0.keyboardLayoutGuide.snp.makeConstraints {

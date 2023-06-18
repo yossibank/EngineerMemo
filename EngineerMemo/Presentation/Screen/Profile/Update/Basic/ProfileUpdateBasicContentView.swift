@@ -130,7 +130,7 @@ extension ProfileUpdateBasicContentView: ContentView {
             $0.addSubview(scrollView) {
                 $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
                 $0.bottom.equalToSuperview().priority(.low)
-                $0.leading.trailing.equalToSuperview()
+                $0.horizontalEdges.equalToSuperview()
             }
 
             $0.keyboardLayoutGuide.snp.makeConstraints {

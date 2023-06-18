@@ -161,7 +161,7 @@ extension SheetContentView: ContentView {
     func setupView() {
         configure {
             $0.addSubview(body) {
-                $0.bottom.leading.trailing.equalToSuperview()
+                $0.bottom.horizontalEdges.equalToSuperview()
             }
 
             $0.backgroundColor = .clear

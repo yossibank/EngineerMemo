@@ -323,13 +323,13 @@
     extension DebugProfileUpdateContentView: ContentView {
         func setupView() {
             addSubview(searchBar) {
-                $0.top.leading.trailing.equalToSuperview()
+                $0.top.horizontalEdges.equalToSuperview()
                 $0.height.equalTo(40)
             }
 
             addSubview(tableView) {
                 $0.top.equalTo(self.searchBar.snp.bottom).inset(-8)
-                $0.bottom.leading.trailing.equalToSuperview()
+                $0.bottom.horizontalEdges.equalToSuperview()
             }
         }
     }

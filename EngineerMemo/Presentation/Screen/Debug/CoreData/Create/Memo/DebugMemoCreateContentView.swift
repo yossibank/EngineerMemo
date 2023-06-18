@@ -46,7 +46,7 @@
         func setupView() {
             configure {
                 $0.addSubview(body) {
-                    $0.top.leading.trailing.equalToSuperview()
+                    $0.top.horizontalEdges.equalToSuperview()
                 }
 
                 $0.backgroundColor = .background

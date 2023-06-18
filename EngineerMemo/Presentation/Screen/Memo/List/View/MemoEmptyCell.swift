@@ -78,8 +78,8 @@ private extension MemoEmptyCell {
     func setupView() {
         contentView.configure {
             $0.addSubview(baseView) {
-                $0.top.bottom.equalToSuperview().inset(8)
-                $0.leading.trailing.equalToSuperview().inset(32)
+                $0.verticalEdges.equalToSuperview().inset(8)
+                $0.horizontalEdges.equalToSuperview().inset(32)
             }
 
             $0.backgroundColor = .background
