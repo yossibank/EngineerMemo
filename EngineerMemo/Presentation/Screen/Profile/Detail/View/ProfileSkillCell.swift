@@ -7,53 +7,16 @@ import UIKitHelper
 final class ProfileSkillCell: AllyTableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapEditButtonPublisher = editButton.publisher(for: .touchUpInside)
-    private(set) lazy var didTapSettingButtonPublisher = settingButton.publisher(for: .touchUpInside)
-
     private lazy var baseView = UIView()
-        .addSubview(body) {
-            $0.edges.equalToSuperview().inset(16)
-        }
-        .addSubview(editButton) {
-            $0.top.equalToSuperview().inset(12)
-            $0.trailing.equalToSuperview().inset(8)
+        .addSubview(skillView) {
+            $0.top.equalToSuperview()
+            $0.bottom.leading.trailing.equalToSuperview().inset(16)
         }
         .configure {
             $0.backgroundColor = .primaryGray
-            $0.clipsToBounds = true
             $0.layer.cornerRadius = 8
+            $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
-
-    private var body: UIView {
-        VStackView(spacing: 16) {
-            VStackView(alignment: .center) {
-                UILabel().configure {
-                    $0.text = L10n.Profile.experienceSkill
-                    $0.font = .boldSystemFont(ofSize: 16)
-                }
-            }
-
-            settingView
-            skillView
-        }
-    }
-
-    private lazy var settingView = VStackView(
-        alignment: .center,
-        spacing: 16
-    ) {
-        UILabel().configure {
-            $0.font = .boldSystemFont(ofSize: 14)
-            $0.text = L10n.Profile.skillDescription
-            $0.textAlignment = .center
-            $0.numberOfLines = 0
-        }
-
-        settingButton.addConstraint {
-            $0.width.equalTo(160)
-            $0.height.equalTo(48)
-        }
-    }
 
     private lazy var skillView = VStackView(
         alignment: .leading,
@@ -123,41 +86,6 @@ final class ProfileSkillCell: AllyTableViewCell {
     private let toeicImageView = UIImageView()
     private let toeicLabel = UILabel()
 
-    private let editButton = UIButton(type: .system).configure {
-        var config = UIButton.Configuration.filled()
-        config.title = L10n.Components.Button.Do.edit
-        config.image = Asset.profileEdit.image
-            .resized(size: .init(width: 16, height: 16))
-            .withRenderingMode(.alwaysOriginal)
-        config.baseForegroundColor = .primary
-        config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
-        config.imagePadding = 4
-        config.titleTextAttributesTransformer = .init { incoming in
-            var outgoing = incoming
-            outgoing.font = .boldSystemFont(ofSize: 12)
-            return outgoing
-        }
-        config.background.backgroundColor = .primaryGray
-        config.background.cornerRadius = 8
-        config.background.strokeColor = .primary
-        config.background.strokeWidth = 1.0
-        $0.configuration = config
-    }
-
-    private let settingButton = UIButton(type: .system).configure {
-        var config = UIButton.Configuration.filled()
-        config.title = L10n.Components.Button.Do.setting
-        config.baseForegroundColor = .primary
-        config.titleTextAttributesTransformer = .init { incoming in
-            var outgoing = incoming
-            outgoing.font = .boldSystemFont(ofSize: 16)
-            return outgoing
-        }
-        config.background.backgroundColor = .grayButton
-        config.background.cornerRadius = 8
-        $0.configuration = config
-    }
-
     override init(
         style: UITableViewCell.CellStyle,
         reuseIdentifier: String?
@@ -184,17 +112,7 @@ extension ProfileSkillCell {
 // MARK: - internal methods
 
 extension ProfileSkillCell {
-    func configure(_ modelObject: SkillModelObject?) {
-        guard let modelObject else {
-            settingView.isHidden = false
-            skillView.isHidden = true
-            editButton.isHidden = true
-            return
-        }
-
-        settingView.isHidden = true
-        skillView.isHidden = false
-        editButton.isHidden = false
+    func configure(_ modelObject: SkillModelObject) {
         engineerCareerView.isHidden = modelObject.engineerCareer == nil
         languageView.isHidden = modelObject.language == nil
         toeicView.isHidden = modelObject.toeic == nil
@@ -224,8 +142,9 @@ private extension ProfileSkillCell {
     func setupView() {
         contentView.configure {
             $0.addSubview(baseView) {
-                $0.top.bottom.equalToSuperview().inset(8)
-                $0.leading.trailing.equalToSuperview().inset(32)
+                $0.top.equalToSuperview()
+                $0.bottom.equalToSuperview().inset(8)
+                $0.horizontalEdges.equalToSuperview().inset(32)
             }
 
             $0.backgroundColor = .background
