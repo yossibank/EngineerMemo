@@ -15,8 +15,14 @@ extension SkillModelObject {
     ) {
         skill.engineerCareer = .init(value: engineerCareer ?? .invalid)
         skill.language = language
-        skill.languageCareer = .init(value: languageCareer ?? .invalid)
-        skill.toeic = .init(value: toeic ?? .invalid)
+
+        if let languageCareer {
+            skill.languageCareer = .init(value: languageCareer)
+        }
+
+        if let toeic {
+            skill.toeic = .init(value: toeic)
+        }
 
         if isNew {
             skill.identifier = UUID().uuidString
