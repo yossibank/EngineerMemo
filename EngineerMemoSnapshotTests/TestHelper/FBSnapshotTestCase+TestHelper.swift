@@ -91,7 +91,6 @@ private extension FBSnapshotTestCase {
                 FBSnapshotVerifyView(
                     window,
                     identifier: colorMode.identifier,
-                    overallTolerance: 0.05,
                     file: file,
                     line: line
                 )
