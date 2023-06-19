@@ -7,9 +7,17 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: ProfileUpdateBasicViewModel!
 
+    override func tearDown() {
+        super.tearDown()
+
+        model = nil
+        analytics = nil
+        viewModel = nil
+    }
+
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         analytics.sendEventFAEventHandler = {
             // assert
@@ -25,7 +33,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_binding_name_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.name = "name"
 
@@ -43,7 +51,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_binding_birthday_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.birthday = Calendar.date(year: 1900, month: 1, day: 1)
 
@@ -61,7 +69,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_binding_gender_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.gender = .man
 
@@ -79,7 +87,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_binding_email_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.email = "test@test.com"
 
@@ -97,7 +105,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_binding_phoneNumber_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.phoneNumber = "012345678"
 
@@ -115,7 +123,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_binding_address_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.address = "address"
 
@@ -133,7 +141,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_binding_station_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.station = "station"
 
@@ -151,7 +159,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         // act
         viewModel.input.didTapBarButton.send(())
@@ -162,7 +170,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
     func test_input_didTapBarButton_setting_プロフィール作成処理が呼ばれること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         // act
         viewModel.input.didTapBarButton.send(())
@@ -184,7 +192,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 }
 
 private extension ProfileUpdateBasicViewModelTest {
-    func setupViewModel(modelObject: ProfileModelObject? = nil) {
+    func setupViewModel(modelObject: ProfileModelObject?) {
         model = .init()
 
         analytics = modelObject.isNil

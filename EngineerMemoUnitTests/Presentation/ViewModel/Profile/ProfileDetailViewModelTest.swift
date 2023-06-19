@@ -29,6 +29,15 @@ final class ProfileDetailViewModelTest: XCTestCase {
         }
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        model = nil
+        routing = nil
+        analytics = nil
+        viewModel = nil
+    }
+
     func test_input_viewDidLoad_成功_プロフィール情報を取得できること() throws {
         // arrange
         viewModel.input.viewDidLoad.send(())

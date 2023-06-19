@@ -21,6 +21,15 @@ final class ProfileIconViewModelTest: XCTestCase {
         )
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        model = nil
+        modelObject = nil
+        analytics = nil
+        viewModel = nil
+    }
+
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
         analytics.sendEventFAEventHandler = {

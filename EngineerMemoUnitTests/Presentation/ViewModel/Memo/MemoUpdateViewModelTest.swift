@@ -7,6 +7,14 @@ final class MemoUpdateViewModelTest: XCTestCase {
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: MemoUpdateViewModel!
 
+    override func tearDown() {
+        super.tearDown()
+
+        model = nil
+        analytics = nil
+        viewModel = nil
+    }
+
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
         setupViewModel(modelObject: nil)

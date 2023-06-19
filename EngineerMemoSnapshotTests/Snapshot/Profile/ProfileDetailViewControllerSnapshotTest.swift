@@ -30,7 +30,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testProfileDetailViewController_基本情報設定() {
-        dataInsert(ProfileModelObjectBuilder().build())
+        dataInsert(modelObject: ProfileModelObjectBuilder().build())
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
@@ -46,7 +46,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 
     func testProfileDetailViewController_基本情報_経験スキル設定() {
         dataInsert(
-            ProfileModelObjectBuilder()
+            modelObject: ProfileModelObjectBuilder()
                 .skill(SKillModelObjectBuilder().build())
                 .build()
         )
@@ -65,7 +65,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 
     func testProfileDetailViewController_基本情報_経験スキル_案件経歴設定() {
         dataInsert(
-            ProfileModelObjectBuilder()
+            modelObject: ProfileModelObjectBuilder()
                 .skill(SKillModelObjectBuilder().build())
                 .projects([
                     ProjectModelObjectBuilder().build(),
@@ -88,7 +88,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 }
 
 private extension ProfileDetailViewControllerSnapshotTest {
-    func dataInsert(_ modelObject: ProfileModelObject) {
+    func dataInsert(modelObject: ProfileModelObject) {
         CoreDataStorage<Profile>().create().sink { data in
             modelObject.basicInsert(
                 data.object,

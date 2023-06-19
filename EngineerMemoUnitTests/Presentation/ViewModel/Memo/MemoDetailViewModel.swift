@@ -32,6 +32,15 @@ final class MemoDetailViewModelTest: XCTestCase {
         viewModel.input.viewDidLoad.send(())
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        model = nil
+        routing = nil
+        analytics = nil
+        viewModel = nil
+    }
+
     func test_input_viewDidLoad_メモ情報を取得できること() throws {
         // arrange
         viewModel.input.viewDidLoad.send(())

@@ -24,6 +24,9 @@ final class MemoModelTest: XCTestCase {
     override func tearDown() {
         super.tearDown()
 
+        memoConverter = nil
+        errorConverter = nil
+        model = nil
         cancellables.removeAll()
 
         CoreDataManager.shared.injectInMemoryPersistentContainer()

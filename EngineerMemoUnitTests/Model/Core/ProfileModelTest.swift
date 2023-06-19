@@ -24,6 +24,9 @@ final class ProfileModelTest: XCTestCase {
     override func tearDown() {
         super.tearDown()
 
+        profileConverter = nil
+        errorConverter = nil
+        model = nil
         cancellables.removeAll()
 
         resetUserDefaults()

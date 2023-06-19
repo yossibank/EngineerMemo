@@ -11,23 +11,22 @@ extension XCTestCase {
         var result: Result<T.Output, Error>?
 
         let expectation = expectation(description: "Awaiting Publisher")
-        let cancellable = publisher
-            .sink(
-                receiveCompletion: { completion in
-                    switch completion {
-                    case let .failure(error):
-                        result = .failure(error)
+        let cancellable = publisher.sink(
+            receiveCompletion: {
+                switch $0 {
+                case let .failure(error):
+                    result = .failure(error)
 
-                    case .finished:
-                        break
-                    }
-
-                    expectation.fulfill()
-                },
-                receiveValue: { value in
-                    result = .success(value)
+                case .finished:
+                    break
                 }
-            )
+
+                expectation.fulfill()
+            },
+            receiveValue: {
+                result = .success($0)
+            }
+        )
 
         waitForExpectations(timeout: timeout)
         cancellable.cancel()
@@ -51,23 +50,22 @@ extension XCTestCase {
         var result: Result<T.Output, Error>?
 
         let expectation = expectation(description: "Awaiting Publisher")
-        let cancellable = publisher
-            .sink(
-                receiveCompletion: { completion in
-                    switch completion {
-                    case let .failure(error):
-                        result = .failure(error)
+        let cancellable = publisher.sink(
+            receiveCompletion: {
+                switch $0 {
+                case let .failure(error):
+                    result = .failure(error)
 
-                    case .finished:
-                        break
-                    }
-
-                    expectation.fulfill()
-                },
-                receiveValue: { value in
-                    result = .success(value)
+                case .finished:
+                    break
                 }
-            )
+
+                expectation.fulfill()
+            },
+            receiveValue: {
+                result = .success($0)
+            }
+        )
 
         waitForExpectations(timeout: timeout)
         cancellable.cancel()
