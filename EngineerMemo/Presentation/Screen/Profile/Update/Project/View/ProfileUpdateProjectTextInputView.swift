@@ -10,7 +10,7 @@ final class ProfileUpdateProjectTextInputView: UIView {
         VStackView(spacing: 12) {
             titleView.configure {
                 $0.configure(
-                    title: "案件名",
+                    title: L10n.Profile.Project.title,
                     icon: Asset.profileProjectTitle.image
                 )
             }
@@ -20,7 +20,7 @@ final class ProfileUpdateProjectTextInputView: UIView {
                     $0.leftView = .init(frame: .init(x: 0, y: 0, width: 4, height: 0))
                     $0.leftViewMode = .always
                     $0.delegate = self
-                    $0.placeholder = "案件名入力"
+                    $0.placeholder = L10n.Profile.Placeholder.Project.title
                 }
 
                 borderView

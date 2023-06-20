@@ -17,7 +17,7 @@ final class ProfileProjectCell: UITableViewCell {
     ) {
         VStackView(spacing: 8) {
             UILabel().configure {
-                $0.text = "案件名"
+                $0.text = L10n.Profile.Project.title
                 $0.textColor = .secondaryGray
                 $0.font = .systemFont(ofSize: 14)
             }
@@ -29,7 +29,7 @@ final class ProfileProjectCell: UITableViewCell {
 
         VStackView(spacing: 8) {
             UILabel().configure {
-                $0.text = "案件内容"
+                $0.text = L10n.Profile.Project.content
                 $0.textColor = .secondaryGray
                 $0.font = .systemFont(ofSize: 14)
             }

@@ -19,9 +19,11 @@ final class ProfileUpdateProjectContentView: UIView {
         spacing: 16
     ) {
         nameInputView
+        contentInputView
     }
 
     private let nameInputView = ProfileUpdateProjectTextInputView()
+    private let contentInputView = ProfileUpdateProjectTextsInputView()
 
     private var cancellables = Set<AnyCancellable>()
 
