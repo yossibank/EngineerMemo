@@ -5,18 +5,31 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfileUpdateProjectContentView: UIView {
-    private var body: UIView {
-        VStackView(alignment: .center) {
-            UILabel().configure {
-                $0.text = "Hello World!"
-            }
-        }
+    private(set) lazy var barButton = UIButton(type: .system).addConstraint {
+        $0.width.equalTo(72)
+        $0.height.equalTo(32)
     }
+
+    private lazy var scrollView = UIScrollView().addSubview(body) {
+        $0.width.edges.equalToSuperview()
+    }
+
+    private lazy var body = VStackView(
+        distribution: .equalSpacing,
+        spacing: 16
+    ) {
+        nameInputView
+    }
+
+    private let nameInputView = ProfileUpdateProjectTextInputView()
+
+    private var cancellables = Set<AnyCancellable>()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupView()
+        setupEvent()
     }
 
     @available(*, unavailable)
@@ -25,21 +38,42 @@ final class ProfileUpdateProjectContentView: UIView {
     }
 }
 
-// MARK: - internal methods
+// MARK: - override methods
 
-extension ProfileUpdateProjectContentView {}
+extension ProfileUpdateProjectContentView {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            barButton.layer.borderColor = UIColor.primary.cgColor
+        }
+    }
+}
 
 // MARK: - private methods
 
-private extension ProfileUpdateProjectContentView {}
+private extension ProfileUpdateProjectContentView {
+    func setupEvent() {
+        gesturePublisher().sink { [weak self] _ in
+            self?.endEditing(true)
+        }
+        .store(in: &cancellables)
+    }
+}
 
 // MARK: - protocol
 
 extension ProfileUpdateProjectContentView: ContentView {
     func setupView() {
         configure {
-            $0.addSubview(body) {
-                $0.edges.equalToSuperview()
+            $0.addSubview(scrollView) {
+                $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
+                $0.bottom.equalToSuperview().priority(.low)
+                $0.horizontalEdges.equalToSuperview()
+            }
+
+            $0.keyboardLayoutGuide.snp.makeConstraints {
+                $0.top.equalTo(scrollView.snp.bottom).inset(-16)
             }
 
             $0.backgroundColor = .background
