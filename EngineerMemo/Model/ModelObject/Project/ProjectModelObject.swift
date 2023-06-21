@@ -8,14 +8,17 @@ struct ProjectModelObject: Hashable {
 
 extension ProjectModelObject {
     func projectInsert(
-        _ project: Project,
+        _ data: CoreDataObject<Project>,
         isNew: Bool
     ) {
+        let project = data.object
         project.title = title
         project.content = content
 
         if isNew {
             project.identifier = UUID().uuidString
         }
+
+        data.context.saveIfNeeded()
     }
 }

@@ -85,24 +85,14 @@ final class ProfileModel: ProfileModelInput {
 
     func create(modelObject: ProfileModelObject) {
         profileStorage.create().sink {
-            modelObject.basicInsert(
-                $0.object,
-                isNew: true
-            )
-
-            $0.context.saveIfNeeded()
+            modelObject.basicInsert($0, isNew: true)
         }
         .store(in: &cancellables)
     }
 
     func basicUpdate(modelObject: ProfileModelObject) {
         profileStorage.update(identifier: modelObject.identifier).sink {
-            modelObject.basicInsert(
-                $0.object,
-                isNew: false
-            )
-
-            $0.context.saveIfNeeded()
+            modelObject.basicInsert($0, isNew: false)
         }
         .store(in: &cancellables)
     }
@@ -116,22 +106,14 @@ final class ProfileModel: ProfileModelInput {
             if let skill = modelObject.skill {
                 if data.object.skill.isNil {
                     self.skillStorage.create().sink {
-                        modelObject.skill?.skillInsert(
-                            $0.object,
-                            isNew: true
-                        )
+                        modelObject.skill?.skillInsert($0, isNew: true)
                         data.object.skill = $0.object
-                        $0.context.saveIfNeeded()
                     }
                     .store(in: &self.cancellables)
                 } else {
                     self.skillStorage.update(identifier: data.object.skill?.identifier ?? .empty).sink {
-                        modelObject.skill?.skillInsert(
-                            $0.object,
-                            isNew: false
-                        )
+                        modelObject.skill?.skillInsert($0, isNew: false)
                         data.object.skill = $0.object
-                        $0.context.saveIfNeeded()
                     }
                     .store(in: &self.cancellables)
                 }
@@ -163,13 +145,9 @@ final class ProfileModel: ProfileModelInput {
             } else {
                 self.projectStorage.create().sink { project in
                     modelObject.projects.forEach {
-                        $0.projectInsert(
-                            project.object,
-                            isNew: true
-                        )
+                        $0.projectInsert(project, isNew: true)
                     }
                     data.object.addToProjects(project.object)
-                    project.context.saveIfNeeded()
                 }
                 .store(in: &self.cancellables)
             }
@@ -181,8 +159,7 @@ final class ProfileModel: ProfileModelInput {
 
     func iconImageUpdate(modelObject: ProfileModelObject) {
         profileStorage.update(identifier: modelObject.identifier).sink {
-            modelObject.iconImageInsert($0.object)
-            $0.context.saveIfNeeded()
+            modelObject.iconImageInsert($0)
         }
         .store(in: &cancellables)
     }

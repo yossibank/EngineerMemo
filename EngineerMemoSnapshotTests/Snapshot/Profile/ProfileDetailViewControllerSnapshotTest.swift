@@ -90,31 +90,20 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 private extension ProfileDetailViewControllerSnapshotTest {
     func dataInsert(modelObject: ProfileModelObject) {
         CoreDataStorage<Profile>().create().sink { data in
-            modelObject.basicInsert(
-                data.object,
-                isNew: true
-            )
+            modelObject.basicInsert(data, isNew: true)
 
             if let skillModelObject = modelObject.skill {
                 CoreDataStorage<Skill>().create().sink {
-                    skillModelObject.skillInsert(
-                        $0.object,
-                        isNew: true
-                    )
+                    skillModelObject.skillInsert($0, isNew: true)
                     data.object.skill = $0.object
-                    $0.context.saveIfNeeded()
                 }
                 .store(in: &self.cancellables)
             }
 
             modelObject.projects.forEach { project in
                 CoreDataStorage<Project>().create().sink {
-                    project.projectInsert(
-                        $0.object,
-                        isNew: true
-                    )
+                    project.projectInsert($0, isNew: true)
                     data.object.addToProjects($0.object)
-                    $0.context.saveIfNeeded()
                 }
                 .store(in: &self.cancellables)
             }

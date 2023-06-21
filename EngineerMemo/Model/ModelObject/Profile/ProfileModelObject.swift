@@ -32,9 +32,10 @@ struct ProfileModelObject: Hashable {
 
 extension ProfileModelObject {
     func basicInsert(
-        _ profile: Profile,
+        _ data: CoreDataObject<Profile>,
         isNew: Bool
     ) {
+        let profile = data.object
         profile.address = address
         profile.birthday = birthday
         profile.email = email
@@ -46,9 +47,13 @@ extension ProfileModelObject {
         if isNew {
             profile.identifier = UUID().uuidString
         }
+
+        data.context.saveIfNeeded()
     }
 
-    func iconImageInsert(_ profile: Profile) {
+    func iconImageInsert(_ data: CoreDataObject<Profile>) {
+        let profile = data.object
         profile.iconImage = iconImage
+        data.context.saveIfNeeded()
     }
 }

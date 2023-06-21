@@ -10,9 +10,10 @@ struct SkillModelObject: Hashable {
 
 extension SkillModelObject {
     func skillInsert(
-        _ skill: Skill,
+        _ data: CoreDataObject<Skill>,
         isNew: Bool
     ) {
+        let skill = data.object
         skill.engineerCareer = .init(value: engineerCareer ?? .invalid)
         skill.language = language
 
@@ -27,5 +28,7 @@ extension SkillModelObject {
         if isNew {
             skill.identifier = UUID().uuidString
         }
+
+        data.context.saveIfNeeded()
     }
 }

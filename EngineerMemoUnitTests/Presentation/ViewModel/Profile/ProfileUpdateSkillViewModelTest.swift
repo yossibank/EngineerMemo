@@ -128,7 +128,5 @@ private extension ProfileUpdateSkillViewModelTest {
             model: model,
             analytics: analytics
         )
-
-        viewModel.input.viewDidLoad.send(())
     }
 }
