@@ -126,6 +126,7 @@ enum AppControllers {
                 vc.inject(
                     contentView: .init(),
                     viewModel: .init(
+                        model: Models.Profile(),
                         analytics: FirebaseAnalytics(screenId: .profileProjectSetting)
                     )
                 )

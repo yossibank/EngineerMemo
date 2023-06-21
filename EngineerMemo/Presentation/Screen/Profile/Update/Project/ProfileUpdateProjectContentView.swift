@@ -5,6 +5,10 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProfileUpdateProjectContentView: UIView {
+    private(set) lazy var didChangeTitleInputPublisher = titleInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeContentInputPublisher = contentInputView.didChangeInputTextPublisher
+    private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
+
     private(set) lazy var barButton = UIButton(type: .system).addConstraint {
         $0.width.equalTo(72)
         $0.height.equalTo(32)
@@ -18,11 +22,11 @@ final class ProfileUpdateProjectContentView: UIView {
         distribution: .equalSpacing,
         spacing: 16
     ) {
-        nameInputView
+        titleInputView
         contentInputView
     }
 
-    private let nameInputView = ProfileUpdateProjectTextInputView()
+    private let titleInputView = ProfileUpdateProjectTextInputView()
     private let contentInputView = ProfileUpdateProjectTextsInputView()
 
     private var cancellables = Set<AnyCancellable>()
@@ -32,6 +36,7 @@ final class ProfileUpdateProjectContentView: UIView {
 
         setupView()
         setupEvent()
+        setupButton()
     }
 
     @available(*, unavailable)
@@ -60,6 +65,25 @@ private extension ProfileUpdateProjectContentView {
             self?.endEditing(true)
         }
         .store(in: &cancellables)
+    }
+
+    func setupButton() {
+        let defaultButtonStyle: ViewStyle<UIButton> = .settingNavigationButton
+        let updatedButtonStyle: ViewStyle<UIButton> = .settingDoneNavigationButton
+
+        barButton.apply(defaultButtonStyle)
+
+        barButton.publisher(for: .touchUpInside)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.barButton.apply(updatedButtonStyle)
+
+                Task { @MainActor in
+                    try await Task.sleep(seconds: 0.8)
+                    self?.barButton.apply(defaultButtonStyle)
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 

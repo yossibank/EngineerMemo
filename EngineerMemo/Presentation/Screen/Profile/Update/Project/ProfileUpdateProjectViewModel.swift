@@ -1,16 +1,21 @@
 import Combine
+import Foundation
 
 final class ProfileUpdateProjectViewModel: ViewModel {
     final class Binding: BindingObject {
-        @Published var sample = ""
+        @Published var title: String?
+        @Published var content: String?
     }
 
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let didTapBarButton = PassthroughSubject<Void, Never>()
     }
 
-    final class Output: OutputObject {}
+    final class Output: OutputObject {
+        @Published fileprivate(set) var isFinished = false
+    }
 
     @BindableObject private(set) var binding: Binding
 
@@ -19,9 +24,13 @@ final class ProfileUpdateProjectViewModel: ViewModel {
 
     private var cancellables = Set<AnyCancellable>()
 
+    private let model: ProfileModelInput
     private let analytics: FirebaseAnalyzable
 
-    init(analytics: FirebaseAnalyzable) {
+    init(
+        model: ProfileModelInput,
+        analytics: FirebaseAnalyzable
+    ) {
         let binding = Binding()
         let input = Input()
         let output = Output()
@@ -29,14 +38,10 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         self.binding = binding
         self.input = input
         self.output = output
+        self.model = model
         self.analytics = analytics
 
-        // MARK: - viewDidLoad
-
-        input.viewDidLoad.sink { _ in
-            // NOTE: 初期化時処理
-        }
-        .store(in: &cancellables)
+        var updateObject = ProjectModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewWillAppear
 
@@ -44,5 +49,32 @@ final class ProfileUpdateProjectViewModel: ViewModel {
             analytics.sendEvent(.screenView)
         }
         .store(in: &cancellables)
+
+        // MARK: - 案件名
+
+        let title = binding.$title
+            .dropFirst()
+            .sink { title in
+                updateObject.title = title
+            }
+
+        // MARK: - 案件内容
+
+        let content = binding.$content
+            .dropFirst()
+            .sink { content in
+                updateObject.content = content
+            }
+
+        // MARK: - 設定・更新ボタンタップ
+
+        input.didTapBarButton.sink { _ in
+        }
+        .store(in: &cancellables)
+
+        cancellables.formUnion([
+            title,
+            content
+        ])
     }
 }

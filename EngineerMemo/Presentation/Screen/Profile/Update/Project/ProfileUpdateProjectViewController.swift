@@ -29,7 +29,9 @@ extension ProfileUpdateProjectViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.input.viewDidLoad.send(())
+        setupNavigation()
+        bindToView()
+        bindToViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -39,10 +41,44 @@ extension ProfileUpdateProjectViewController {
     }
 }
 
-// MARK: - internal methods
-
-extension ProfileUpdateProjectViewController {}
-
 // MARK: - private methods
 
-private extension ProfileUpdateProjectViewController {}
+private extension ProfileUpdateProjectViewController {
+    func setupNavigation() {
+        navigationItem.rightBarButtonItem = .init(
+            customView: contentView.barButton
+        )
+    }
+
+    func bindToView() {
+        viewModel.output.$isFinished
+            .debounce(for: 0.8, scheduler: DispatchQueue.main)
+            .sink { [weak self] isFinished in
+                if isFinished {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    func bindToViewModel() {
+        contentView.didTapBarButtonPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapBarButton.send(())
+            }
+            .store(in: &cancellables)
+
+        contentView.didChangeTitleInputPublisher
+            .map { Optional($0) }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.title, on: viewModel.binding)
+            .store(in: &cancellables)
+
+        contentView.didChangeContentInputPublisher
+            .map { Optional($0) }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.content, on: viewModel.binding)
+            .store(in: &cancellables)
+    }
+}

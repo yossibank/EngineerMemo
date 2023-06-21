@@ -10,7 +10,6 @@ final class ProfileUpdateSkillViewModel: ViewModel {
     }
 
     final class Input: InputObject {
-        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapBarButton = PassthroughSubject<Void, Never>()
     }

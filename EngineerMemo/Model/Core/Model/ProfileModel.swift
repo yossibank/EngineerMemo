@@ -125,7 +125,7 @@ final class ProfileModel: ProfileModelInput {
                     }
                     .store(in: &self.cancellables)
                 } else {
-                    self.skillStorage.update(identifier: skill.identifier).sink {
+                    self.skillStorage.update(identifier: data.object.skill?.identifier ?? .empty).sink {
                         modelObject.skill?.skillInsert(
                             $0.object,
                             isNew: false
