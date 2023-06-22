@@ -37,7 +37,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
         viewModel.binding.engineerCareer = .three
 
-        model.skillUpdateHandler = {
+        model.updateSkillHandler = {
             // assert
             XCTAssertEqual(
                 $0.skill?.engineerCareer,
@@ -55,7 +55,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
         viewModel.binding.language = "Swift"
 
-        model.skillUpdateHandler = {
+        model.updateSkillHandler = {
             // assert
             XCTAssertEqual(
                 $0.skill?.language,
@@ -73,7 +73,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
         viewModel.binding.languageCareer = .four
 
-        model.skillUpdateHandler = {
+        model.updateSkillHandler = {
             // assert
             XCTAssertEqual(
                 $0.skill?.languageCareer,
@@ -91,7 +91,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
         viewModel.binding.toeic = 800
 
-        model.skillUpdateHandler = {
+        model.updateSkillHandler = {
             // assert
             XCTAssertEqual(
                 $0.skill?.toeic,

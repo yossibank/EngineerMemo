@@ -212,13 +212,14 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_create_情報を作成できること() {
+    func test_update_isNew_true_情報を作成できること() {
         // act
-        model.create(
+        model.update(
             modelObject: ProfileModelObjectBuilder()
                 .name("テスト")
                 .birthday(Calendar.date(year: 2000, month: 1, day: 1))
-                .build()
+                .build(),
+            isNew: true
         )
 
         wait(timeout: 0.5) { expectation in
@@ -243,17 +244,18 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_basicUpdate_情報を更新できること() {
+    func test_update_isNew_false_情報を更新できること() {
         // arrange
         dataInsert()
 
         // act
-        model.basicUpdate(
+        model.update(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .name("テスト更新後")
                 .birthday(Calendar.date(year: 2000, month: 11, day: 1))
-                .build()
+                .build(),
+            isNew: false
         )
 
         wait(timeout: 0.5) { expectation in
@@ -283,7 +285,7 @@ final class ProfileModelTest: XCTestCase {
         dataInsert()
 
         // act
-        model.skillUpdate(
+        model.updateSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .skill(
@@ -342,7 +344,7 @@ final class ProfileModelTest: XCTestCase {
         )
 
         // act
-        model.skillUpdate(
+        model.updateSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .skill(
@@ -400,7 +402,7 @@ final class ProfileModelTest: XCTestCase {
         )
 
         // act
-        model.skillUpdate(
+        model.updateSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .skill(nil)
@@ -426,7 +428,7 @@ final class ProfileModelTest: XCTestCase {
         dataInsert()
 
         // act
-        model.projectUpdate(
+        model.updateProject(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .projects([
@@ -474,7 +476,7 @@ final class ProfileModelTest: XCTestCase {
         )
 
         // act
-        model.projectUpdate(
+        model.updateProject(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .projects([])
@@ -500,7 +502,7 @@ final class ProfileModelTest: XCTestCase {
         dataInsert()
 
         // act
-        model.iconImageUpdate(
+        model.updateIconImage(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .iconImage(Asset.penguin.image.pngData())
@@ -526,7 +528,7 @@ final class ProfileModelTest: XCTestCase {
 
     func test_iconImageUpdate_有効値の場合にuserDefaultsを更新できること() {
         // arrange
-        model.iconImageUpdate(index: 0)
+        model.updateIconImage(index: 0)
 
         // assert
         XCTAssertEqual(
@@ -537,7 +539,7 @@ final class ProfileModelTest: XCTestCase {
 
     func test_iconImageUpdate_不正値の場合にデフォルト設定でuserDefaultsを更新できること() {
         // arrange
-        model.iconImageUpdate(index: 100)
+        model.updateIconImage(index: 100)
 
         // assert
         XCTAssertEqual(

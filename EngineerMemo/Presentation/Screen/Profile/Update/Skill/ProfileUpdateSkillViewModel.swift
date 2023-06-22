@@ -89,7 +89,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         input.didTapBarButton.sink { _ in
             var modelObject = modelObject
             modelObject.skill = updateObject
-            model.skillUpdate(modelObject: modelObject)
+            model.updateSkill(modelObject: modelObject)
             output.isFinished = true
         }
         .store(in: &cancellables)

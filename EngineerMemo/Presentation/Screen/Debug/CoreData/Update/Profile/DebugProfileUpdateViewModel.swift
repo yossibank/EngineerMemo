@@ -176,10 +176,10 @@
                 }
 
                 self.modelObject.identifier = identifier
-                self.model.basicUpdate(modelObject: self.modelObject)
-                self.model.iconImageUpdate(modelObject: self.modelObject)
-                self.model.skillUpdate(modelObject: self.modelObject)
-                self.model.projectUpdate(modelObject: self.modelObject)
+                self.model.update(modelObject: self.modelObject, isNew: false)
+                self.model.updateIconImage(modelObject: self.modelObject)
+                self.model.updateSkill(modelObject: self.modelObject)
+                self.model.updateProject(modelObject: self.modelObject)
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
                     .birthday(self.ageSegment.date)

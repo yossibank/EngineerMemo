@@ -37,10 +37,10 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.name = "name"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.name,
+                modelObject.name,
                 "name"
             )
         }
@@ -55,10 +55,10 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.birthday = Calendar.date(year: 1900, month: 1, day: 1)
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.birthday,
+                modelObject.birthday,
                 Calendar.date(year: 1900, month: 1, day: 1)
             )
         }
@@ -73,10 +73,10 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.gender = .man
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.gender,
+                modelObject.gender,
                 .man
             )
         }
@@ -91,10 +91,10 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.email = "test@test.com"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.email,
+                modelObject.email,
                 "test@test.com"
             )
         }
@@ -109,10 +109,10 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.phoneNumber = "012345678"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.phoneNumber,
+                modelObject.phoneNumber,
                 "012345678"
             )
         }
@@ -127,10 +127,10 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.address = "address"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.address,
+                modelObject.address,
                 "address"
             )
         }
@@ -145,10 +145,10 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.station = "station"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.station,
+                modelObject.station,
                 "station"
             )
         }
@@ -172,22 +172,26 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
         // arrange
         setupViewModel(modelObject: nil)
 
+        model.updateHandler = { _, isNew in
+            // assert
+            XCTAssertTrue(isNew)
+        }
+
         // act
         viewModel.input.didTapBarButton.send(())
-
-        // assert
-        XCTAssertEqual(model.createCallCount, 1)
     }
 
     func test_input_didTapBarButton_update_プロフィール更新処理が呼ばれること() {
         // arrange
         setupViewModel(modelObject: ProfileModelObjectBuilder().build())
 
+        model.updateHandler = { _, isNew in
+            // assert
+            XCTAssertFalse(isNew)
+        }
+
         // act
         viewModel.input.didTapBarButton.send(())
-
-        // assert
-        XCTAssertEqual(model.basicUpdateCallCount, 1)
     }
 }
 

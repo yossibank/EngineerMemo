@@ -4,12 +4,11 @@ import Combine
 protocol ProfileModelInput: Model {
     func fetch(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void)
     func find(identifier: String, completion: @escaping (Result<ProfileModelObject, AppError>) -> Void)
-    func create(modelObject: ProfileModelObject)
-    func basicUpdate(modelObject: ProfileModelObject)
-    func skillUpdate(modelObject: ProfileModelObject)
-    func projectUpdate(modelObject: ProfileModelObject)
-    func iconImageUpdate(modelObject: ProfileModelObject)
-    func iconImageUpdate(index: Int)
+    func update(modelObject: ProfileModelObject, isNew: Bool)
+    func updateSkill(modelObject: ProfileModelObject)
+    func updateProject(modelObject: ProfileModelObject)
+    func updateIconImage(modelObject: ProfileModelObject)
+    func updateIconImage(index: Int)
     func delete(modelObject: ProfileModelObject)
 }
 
@@ -83,54 +82,36 @@ final class ProfileModel: ProfileModelInput {
         .store(in: &cancellables)
     }
 
-    func create(modelObject: ProfileModelObject) {
-        profileStorage.create().sink {
-            modelObject.basicInsert($0, isNew: true)
+    func update(
+        modelObject: ProfileModelObject,
+        isNew: Bool
+    ) {
+        if isNew {
+            profileStorage.create().sink {
+                modelObject.basicInsert($0, isNew: true)
+            }
+            .store(in: &cancellables)
+        } else {
+            profileStorage.update(identifier: modelObject.identifier).sink {
+                modelObject.basicInsert($0, isNew: false)
+            }
+            .store(in: &cancellables)
         }
-        .store(in: &cancellables)
     }
 
-    func basicUpdate(modelObject: ProfileModelObject) {
-        profileStorage.update(identifier: modelObject.identifier).sink {
-            modelObject.basicInsert($0, isNew: false)
-        }
-        .store(in: &cancellables)
-    }
-
-    func skillUpdate(modelObject: ProfileModelObject) {
-        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] data in
-            guard let self else {
+    func updateSkill(modelObject: ProfileModelObject) {
+        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
+            guard let skill = modelObject.skill else {
+                self?.deleteSkill(profile: profile)
                 return
             }
 
-            if let skill = modelObject.skill {
-                if data.object.skill.isNil {
-                    self.skillStorage.create().sink {
-                        modelObject.skill?.skillInsert($0, isNew: true)
-                        data.object.skill = $0.object
-                    }
-                    .store(in: &self.cancellables)
-                } else {
-                    self.skillStorage.update(identifier: data.object.skill?.identifier ?? .empty).sink {
-                        modelObject.skill?.skillInsert($0, isNew: false)
-                        data.object.skill = $0.object
-                    }
-                    .store(in: &self.cancellables)
-                }
-            } else {
-                guard data.object.skill != nil else {
-                    return
-                }
-
-                data.object.skill = nil
-            }
-
-            data.context.saveIfNeeded()
+            self?.updateSkill(skill, profile: profile)
         }
         .store(in: &cancellables)
     }
 
-    func projectUpdate(modelObject: ProfileModelObject) {
+    func updateProject(modelObject: ProfileModelObject) {
         profileStorage.update(identifier: modelObject.identifier).sink { [weak self] data in
             guard let self else {
                 return
@@ -157,18 +138,52 @@ final class ProfileModel: ProfileModelInput {
         .store(in: &cancellables)
     }
 
-    func iconImageUpdate(modelObject: ProfileModelObject) {
+    func updateIconImage(modelObject: ProfileModelObject) {
         profileStorage.update(identifier: modelObject.identifier).sink {
             modelObject.iconImageInsert($0)
         }
         .store(in: &cancellables)
     }
 
-    func iconImageUpdate(index: Int) {
+    func updateIconImage(index: Int) {
         DataHolder.profileIcon = .init(rawValue: index) ?? .penguin
     }
 
     func delete(modelObject: ProfileModelObject) {
         profileStorage.delete(identifier: modelObject.identifier)
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileModel {
+    func updateSkill(
+        _ modelObject: SkillModelObject,
+        profile: CoreDataObject<Profile>
+    ) {
+        if profile.object.skill.isNil {
+            skillStorage.create().sink {
+                modelObject.insertSkill(
+                    profile: profile,
+                    skill: $0,
+                    isNew: true
+                )
+            }
+            .store(in: &cancellables)
+        } else {
+            skillStorage.update(identifier: profile.object.skill?.identifier ?? .empty).sink {
+                modelObject.insertSkill(
+                    profile: profile,
+                    skill: $0,
+                    isNew: false
+                )
+            }
+            .store(in: &cancellables)
+        }
+    }
+
+    func deleteSkill(profile: CoreDataObject<Profile>) {
+        profile.object.skill = nil
+        profile.context.saveIfNeeded()
     }
 }

@@ -102,7 +102,11 @@
                     return
                 }
 
-                self.model.create(modelObject: self.modelObject)
+                self.model.update(
+                    modelObject: self.modelObject,
+                    isNew: true
+                )
+
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
                     .birthday(self.ageSegment.date)

@@ -46,7 +46,7 @@
                 var modelObject = $0
                 modelObject.skill = nil
 
-                model.skillUpdate(modelObject: modelObject)
+                model.updateSkill(modelObject: modelObject)
             }
             .store(in: &cancellables)
         }

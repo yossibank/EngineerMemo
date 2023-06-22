@@ -48,7 +48,7 @@ final class ProfileIconViewModelTest: XCTestCase {
         // arrange
         let iconImage = Asset.penguin.image.pngData()
 
-        model.iconImageUpdateHandler = {
+        model.updateIconImageHandler = {
             // assert
             XCTAssertEqual(
                 $0.iconImage,
@@ -62,7 +62,7 @@ final class ProfileIconViewModelTest: XCTestCase {
 
     func test_input_didChangeIconIndex_ProfileModelにindex値を送信できること() {
         // arrange
-        model.iconImageUpdateIndexHandler = {
+        model.updateIconImageIndexHandler = {
             // assert
             XCTAssertEqual(
                 $0,

@@ -9,11 +9,14 @@ struct SkillModelObject: Hashable {
 }
 
 extension SkillModelObject {
-    func skillInsert(
-        _ data: CoreDataObject<Skill>,
+    func insertSkill(
+        profile: CoreDataObject<Profile>,
+        skill: CoreDataObject<Skill>,
         isNew: Bool
     ) {
-        let skill = data.object
+        let context = profile.context
+        let profile = profile.object
+        let skill = skill.object
         skill.engineerCareer = .init(value: engineerCareer ?? .invalid)
         skill.language = language
 
@@ -29,6 +32,8 @@ extension SkillModelObject {
             skill.identifier = UUID().uuidString
         }
 
-        data.context.saveIfNeeded()
+        profile.skill = skill
+
+        context.saveIfNeeded()
     }
 }

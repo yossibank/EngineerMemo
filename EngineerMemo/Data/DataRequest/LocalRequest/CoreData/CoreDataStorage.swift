@@ -80,6 +80,8 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
     }
 }
 
+// MARK: - private methods
+
 private extension CoreDataStorage {
     func object(identifier: String) -> T? {
         allObjects.filter {
