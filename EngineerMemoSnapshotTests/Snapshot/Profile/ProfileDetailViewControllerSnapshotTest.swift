@@ -91,7 +91,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 private extension ProfileDetailViewControllerSnapshotTest {
     func dataInsert(modelObject: ProfileModelObject) {
         CoreDataStorage<Profile>().create().sink { profile in
-            modelObject.basicInsert(profile, isNew: true)
+            modelObject.insertBasic(profile, isNew: true)
 
             if let skillModelObject = modelObject.skill {
                 CoreDataStorage<Skill>().create().sink {

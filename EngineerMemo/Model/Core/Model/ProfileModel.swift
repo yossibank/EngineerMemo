@@ -88,12 +88,12 @@ final class ProfileModel: ProfileModelInput {
     ) {
         if isNew {
             profileStorage.create().sink {
-                modelObject.basicInsert($0, isNew: true)
+                modelObject.insertBasic($0, isNew: true)
             }
             .store(in: &cancellables)
         } else {
             profileStorage.update(identifier: modelObject.identifier).sink {
-                modelObject.basicInsert($0, isNew: false)
+                modelObject.insertBasic($0, isNew: false)
             }
             .store(in: &cancellables)
         }
@@ -125,7 +125,7 @@ final class ProfileModel: ProfileModelInput {
 
     func updateIconImage(modelObject: ProfileModelObject) {
         profileStorage.update(identifier: modelObject.identifier).sink {
-            modelObject.iconImageInsert($0)
+            modelObject.insertIconImage($0)
         }
         .store(in: &cancellables)
     }

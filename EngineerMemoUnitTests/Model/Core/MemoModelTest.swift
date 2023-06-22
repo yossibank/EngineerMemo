@@ -170,15 +170,16 @@ final class MemoModelTest: XCTestCase {
         }
     }
 
-    func test_create_情報を作成できること() {
+    func test_update_isNew_true_情報を作成できること() {
         // act
-        model.create(
+        model.update(
             modelObject: MemoModelObjectBuilder()
                 .category(.technical)
                 .content("コンテンツ")
                 .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                 .title("タイトル")
-                .build()
+                .build(),
+            isNew: true
         )
 
         wait(timeout: 0.5) { expectation in
@@ -213,7 +214,7 @@ final class MemoModelTest: XCTestCase {
         }
     }
 
-    func test_update_情報を更新できること() {
+    func test_update_isNew_false_情報を更新できること() {
         // arrange
         dataInsert()
 
@@ -225,7 +226,8 @@ final class MemoModelTest: XCTestCase {
                 .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                 .identifier("identifier")
                 .title("タイトル更新後")
-                .build()
+                .build(),
+            isNew: false
         )
 
         wait(timeout: 0.5) { expectation in

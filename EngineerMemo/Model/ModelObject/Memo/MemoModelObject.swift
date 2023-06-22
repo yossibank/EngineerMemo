@@ -29,17 +29,21 @@ struct MemoModelObject: Hashable {
 }
 
 extension MemoModelObject {
-    func dataInsert(
-        _ memo: Memo,
+    func insertMemo(
+        memo: CoreDataObject<Memo>,
         isNew: Bool
     ) {
+        let context = memo.context
+        let memo = memo.object
         memo.category = .init(rawValue: category?.rawValue ?? .invalid)
         memo.title = title
         memo.content = content
-        memo.createdAt = createdAt
 
         if isNew {
+            memo.createdAt = createdAt
             memo.identifier = UUID().uuidString
         }
+
+        context.saveIfNeeded()
     }
 }

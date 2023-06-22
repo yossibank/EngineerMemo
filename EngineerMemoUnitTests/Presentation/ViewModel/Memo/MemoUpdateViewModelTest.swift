@@ -37,10 +37,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
         viewModel.binding.category = .interview
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.category,
+                modelObject.category,
                 .interview
             )
         }
@@ -55,10 +55,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
         viewModel.binding.title = "title"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.title,
+                modelObject.title,
                 "title"
             )
         }
@@ -73,10 +73,10 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
         viewModel.binding.content = "content"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.content,
+                modelObject.content,
                 "content"
             )
         }
@@ -100,32 +100,30 @@ final class MemoUpdateViewModelTest: XCTestCase {
         XCTAssertTrue(output)
     }
 
-    func test_input_didTapBarButton_modelObjectがnilの際に作成側の関数が呼ばれること() {
+    func test_input_didTapBarButton_setting_メモ作成処理がよばれること() {
         // arrange
         setupViewModel(modelObject: nil)
 
+        model.updateHandler = { _, isNew in
+            // assert
+            XCTAssertTrue(isNew)
+        }
+
         // act
         viewModel.input.didTapBarButton.send(())
-
-        // assert
-        XCTAssertEqual(
-            model.createCallCount,
-            1
-        )
     }
 
-    func test_input_didTapBarButton_modelObjectに値がある際に作成側の関数が呼ばれること() {
+    func test_input_didTapBarButton_update_メモ更新処理が呼ばれること() {
         // arrange
         setupViewModel(modelObject: MemoModelObjectBuilder().build())
 
+        model.updateHandler = { _, isNew in
+            // assert
+            XCTAssertFalse(isNew)
+        }
+
         // act
         viewModel.input.didTapBarButton.send(())
-
-        // assert
-        XCTAssertEqual(
-            model.updateCallCount,
-            1
-        )
     }
 
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {

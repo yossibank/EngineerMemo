@@ -31,7 +31,7 @@ struct ProfileModelObject: Hashable {
 }
 
 extension ProfileModelObject {
-    func basicInsert(
+    func insertBasic(
         _ data: CoreDataObject<Profile>,
         isNew: Bool
     ) {
@@ -51,7 +51,7 @@ extension ProfileModelObject {
         data.context.saveIfNeeded()
     }
 
-    func iconImageInsert(_ data: CoreDataObject<Profile>) {
+    func insertIconImage(_ data: CoreDataObject<Profile>) {
         let profile = data.object
         profile.iconImage = iconImage
         data.context.saveIfNeeded()
