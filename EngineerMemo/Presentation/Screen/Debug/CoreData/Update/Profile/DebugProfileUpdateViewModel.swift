@@ -179,7 +179,7 @@
                 self.model.update(modelObject: self.modelObject, isNew: false)
                 self.model.updateIconImage(modelObject: self.modelObject)
                 self.model.updateSkill(modelObject: self.modelObject)
-                self.model.updateProject(modelObject: self.modelObject)
+                self.model.updateProject(self.modelObject, project: ProjectModelObjectBuilder().build())
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
                     .birthday(self.ageSegment.date)

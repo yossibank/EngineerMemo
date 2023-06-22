@@ -28,6 +28,7 @@ final class ProfileUpdateProjectViewModel: ViewModel {
     private let analytics: FirebaseAnalyzable
 
     init(
+        modelObject: ProfileModelObject,
         model: ProfileModelInput,
         analytics: FirebaseAnalyzable
     ) {
@@ -41,7 +42,7 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        var updateObject = ProjectModelObject(identifier: UUID().uuidString)
+        var project = ProjectModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewWillAppear
 
@@ -55,7 +56,7 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         let title = binding.$title
             .dropFirst()
             .sink { title in
-                updateObject.title = title
+                project.title = title
             }
 
         // MARK: - 案件内容
@@ -63,12 +64,18 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         let content = binding.$content
             .dropFirst()
             .sink { content in
-                updateObject.content = content
+                project.content = content
             }
 
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { _ in
+            model.createProject(
+                modelObject,
+                project: project
+            )
+
+            output.isFinished = true
         }
         .store(in: &cancellables)
 

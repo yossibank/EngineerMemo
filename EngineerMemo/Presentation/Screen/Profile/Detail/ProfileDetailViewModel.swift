@@ -7,7 +7,7 @@ final class ProfileDetailViewModel: ViewModel {
         let didTapIconChangeButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapBasicSettingButton = PassthroughSubject<ProfileModelObject?, Never>()
         let didTapSkillSettingButton = PassthroughSubject<ProfileModelObject, Never>()
-        let didTapProjectSettingButton = PassthroughSubject<Void, Never>()
+        let didTapProjectSettingButton = PassthroughSubject<ProfileModelObject, Never>()
     }
 
     final class Output: OutputObject {
@@ -84,8 +84,8 @@ final class ProfileDetailViewModel: ViewModel {
 
         // MARK: - 案件・経歴設定ボタンタップ
 
-        input.didTapProjectSettingButton.sink { _ in
-            routing.showUpdateProjectScreen()
+        input.didTapProjectSettingButton.sink { modelObject in
+            routing.showUpdateProjectScreen(modelObject: modelObject)
         }
         .store(in: &cancellables)
     }

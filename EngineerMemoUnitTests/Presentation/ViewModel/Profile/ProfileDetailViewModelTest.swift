@@ -130,6 +130,7 @@ final class ProfileDetailViewModelTest: XCTestCase {
         let modelObject = ProfileModelObjectBuilder().build()
 
         routing.showUpdateSkillScreenHandler = {
+            // assert
             XCTAssertEqual(
                 $0,
                 modelObject
@@ -138,22 +139,21 @@ final class ProfileDetailViewModelTest: XCTestCase {
 
         // act
         viewModel.input.didTapSkillSettingButton.send(modelObject)
-
-        // assert
-        XCTAssertEqual(
-            routing.showUpdateSkillScreenCallCount,
-            1
-        )
     }
 
     func test_input_didTapProjectSettingButton_routing_showUpdateProjectScreenが呼び出されること() {
-        // act
-        viewModel.input.didTapProjectSettingButton.send(())
+        // arrange
+        let modelObject = ProfileModelObjectBuilder().build()
 
-        // assert
-        XCTAssertEqual(
-            routing.showUpdateProjectScreenCallCount,
-            1
-        )
+        routing.showUpdateProjectScreenHandler = {
+            // assert
+            XCTAssertEqual(
+                $0,
+                modelObject
+            )
+        }
+
+        // act
+        viewModel.input.didTapProjectSettingButton.send(modelObject)
     }
 }

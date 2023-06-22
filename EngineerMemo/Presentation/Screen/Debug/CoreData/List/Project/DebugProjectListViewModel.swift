@@ -46,7 +46,10 @@
                 var modelObject = $0
                 modelObject.projects = []
 
-                model.updateProject(modelObject: modelObject)
+                model.updateProject(
+                    modelObject,
+                    project: ProjectModelObjectBuilder().build()
+                )
             }
             .store(in: &cancellables)
         }

@@ -6,7 +6,8 @@ protocol ProfileModelInput: Model {
     func find(identifier: String, completion: @escaping (Result<ProfileModelObject, AppError>) -> Void)
     func update(modelObject: ProfileModelObject, isNew: Bool)
     func updateSkill(modelObject: ProfileModelObject)
-    func updateProject(modelObject: ProfileModelObject)
+    func createProject(_ modelObject: ProfileModelObject, project: ProjectModelObject)
+    func updateProject(_ modelObject: ProfileModelObject, project: ProjectModelObject?)
     func updateIconImage(modelObject: ProfileModelObject)
     func updateIconImage(index: Int)
     func delete(modelObject: ProfileModelObject)
@@ -111,14 +112,35 @@ final class ProfileModel: ProfileModelInput {
         .store(in: &cancellables)
     }
 
-    func updateProject(modelObject: ProfileModelObject) {
+    func createProject(
+        _ modelObject: ProfileModelObject,
+        project: ProjectModelObject
+    ) {
+        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
+            self?.createProject(
+                modelObject,
+                project: project,
+                profile: profile
+            )
+        }
+        .store(in: &cancellables)
+    }
+
+    func updateProject(
+        _ modelObject: ProfileModelObject,
+        project: ProjectModelObject? = nil
+    ) {
         profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
             guard !modelObject.projects.isEmpty else {
                 self?.deleteProject(profile: profile)
                 return
             }
 
-            self?.updateProject(modelObject, profile: profile)
+            self?.createProject(
+                modelObject,
+                project: project,
+                profile: profile
+            )
         }
         .store(in: &cancellables)
     }
@@ -172,19 +194,17 @@ private extension ProfileModel {
         profile.context.saveIfNeeded()
     }
 
-    func updateProject(
+    func createProject(
         _ modelObject: ProfileModelObject,
+        project: ProjectModelObject? = nil,
         profile: CoreDataObject<Profile>
     ) {
-        // TODO: 更新処理も入れる
-        projectStorage.create().sink { project in
-            modelObject.projects.forEach {
-                $0.insertProject(
-                    profile: profile,
-                    project: project,
-                    isNew: true
-                )
-            }
+        projectStorage.create().sink {
+            project?.insertProject(
+                profile: profile,
+                project: $0,
+                isNew: true
+            )
         }
         .store(in: &cancellables)
     }

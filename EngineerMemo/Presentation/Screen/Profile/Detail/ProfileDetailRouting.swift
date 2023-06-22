@@ -5,7 +5,7 @@ protocol ProfileDetailRoutingInput {
     func showIconScreen(modelObject: ProfileModelObject)
     func showUpdateBasicScreen(modelObject: ProfileModelObject?)
     func showUpdateSkillScreen(modelObject: ProfileModelObject)
-    func showUpdateProjectScreen()
+    func showUpdateProjectScreen(modelObject: ProfileModelObject)
 }
 
 // MARK: - properties & init
@@ -42,9 +42,9 @@ extension ProfileDetailRouting: ProfileDetailRoutingInput {
         )
     }
 
-    func showUpdateProjectScreen() {
+    func showUpdateProjectScreen(modelObject: ProfileModelObject) {
         viewController?.show(
-            AppControllers.Profile.Update.Project(),
+            AppControllers.Profile.Update.Project(modelObject: modelObject),
             sender: nil
         )
     }

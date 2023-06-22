@@ -53,7 +53,7 @@ final class ProfileDetailContentView: UIView {
     private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapBasicSettingButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
     private let didTapSkillSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
-    private let didTapProjectSettingButtonSubject = PassthroughSubject<Void, Never>()
+    private let didTapProjectSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
 
     private let tableView = UITableView(
         frame: .zero,
@@ -187,7 +187,14 @@ private extension ProfileDetailContentView {
                 cell.configure(with: L10n.Profile.projectDescription)
 
                 cell.didTapSettingButtonPublisher.sink { [weak self] _ in
-                    self?.didTapProjectSettingButtonSubject.send(())
+                    guard
+                        let self,
+                        let modelObject = self.modelObject
+                    else {
+                        return
+                    }
+
+                    self.didTapProjectSettingButtonSubject.send(modelObject)
                 }
                 .store(in: &cell.cancellables)
 
@@ -297,6 +304,10 @@ extension ProfileDetailContentView: UITableViewDelegate {
             return view
 
         case .project:
+            guard let modelObject else {
+                return nil
+            }
+
             let view = tableView.dequeueReusableHeaderFooterView(
                 withType: TitleButtonHeaderFooterView.self
             )
@@ -304,7 +315,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
             view.configure(with: .project)
 
             view.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapProjectSettingButtonSubject.send(())
+                self?.didTapProjectSettingButtonSubject.send(modelObject)
             }
             .store(in: &view.cancellables)
 

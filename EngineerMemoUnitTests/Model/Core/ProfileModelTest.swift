@@ -429,7 +429,7 @@ final class ProfileModelTest: XCTestCase {
 
         // act
         model.updateProject(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .projects([
                     ProjectModelObjectBuilder()
@@ -437,6 +437,10 @@ final class ProfileModelTest: XCTestCase {
                         .content("content")
                         .build()
                 ])
+                .build(),
+            project: ProjectModelObjectBuilder()
+                .title("title")
+                .content("content")
                 .build()
         )
 
@@ -477,7 +481,7 @@ final class ProfileModelTest: XCTestCase {
 
         // act
         model.updateProject(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .projects([])
                 .build()
