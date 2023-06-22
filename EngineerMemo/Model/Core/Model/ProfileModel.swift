@@ -112,28 +112,13 @@ final class ProfileModel: ProfileModelInput {
     }
 
     func updateProject(modelObject: ProfileModelObject) {
-        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] data in
-            guard let self else {
+        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
+            guard !modelObject.projects.isEmpty else {
+                self?.deleteProject(profile: profile)
                 return
             }
 
-            if modelObject.projects.isEmpty {
-                guard !data.object.projects.isEmtpy else {
-                    return
-                }
-
-                data.object.projects = nil
-            } else {
-                self.projectStorage.create().sink { project in
-                    modelObject.projects.forEach {
-                        $0.projectInsert(project, isNew: true)
-                    }
-                    data.object.addToProjects(project.object)
-                }
-                .store(in: &self.cancellables)
-            }
-
-            data.context.saveIfNeeded()
+            self?.updateProject(modelObject, profile: profile)
         }
         .store(in: &cancellables)
     }
@@ -184,6 +169,28 @@ private extension ProfileModel {
 
     func deleteSkill(profile: CoreDataObject<Profile>) {
         profile.object.skill = nil
+        profile.context.saveIfNeeded()
+    }
+
+    func updateProject(
+        _ modelObject: ProfileModelObject,
+        profile: CoreDataObject<Profile>
+    ) {
+        // TODO: 更新処理も入れる
+        projectStorage.create().sink { project in
+            modelObject.projects.forEach {
+                $0.insertProject(
+                    profile: profile,
+                    project: project,
+                    isNew: true
+                )
+            }
+        }
+        .store(in: &cancellables)
+    }
+
+    func deleteProject(profile: CoreDataObject<Profile>) {
+        profile.object.projects = nil
         profile.context.saveIfNeeded()
     }
 }

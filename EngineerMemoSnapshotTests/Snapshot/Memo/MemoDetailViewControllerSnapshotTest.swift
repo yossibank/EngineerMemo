@@ -20,6 +20,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         super.tearDown()
 
         subject = nil
+
         cancellables.removeAll()
 
         CoreDataManager.shared.injectInMemoryPersistentContainer()

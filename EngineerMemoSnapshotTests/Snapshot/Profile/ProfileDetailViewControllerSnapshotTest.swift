@@ -20,6 +20,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         super.tearDown()
 
         subject = nil
+
         cancellables.removeAll()
 
         CoreDataManager.shared.injectInMemoryPersistentContainer()
@@ -105,13 +106,14 @@ private extension ProfileDetailViewControllerSnapshotTest {
 
             modelObject.projects.forEach { project in
                 CoreDataStorage<Project>().create().sink {
-                    project.projectInsert($0, isNew: true)
-                    profile.object.addToProjects($0.object)
+                    project.insertProject(
+                        profile: profile,
+                        project: $0,
+                        isNew: true
+                    )
                 }
                 .store(in: &self.cancellables)
             }
-
-            profile.context.saveIfNeeded()
         }
         .store(in: &cancellables)
     }

@@ -7,11 +7,14 @@ struct ProjectModelObject: Hashable {
 }
 
 extension ProjectModelObject {
-    func projectInsert(
-        _ data: CoreDataObject<Project>,
+    func insertProject(
+        profile: CoreDataObject<Profile>,
+        project: CoreDataObject<Project>,
         isNew: Bool
     ) {
-        let project = data.object
+        let context = profile.context
+        let profile = profile.object
+        let project = project.object
         project.title = title
         project.content = content
 
@@ -19,6 +22,8 @@ extension ProjectModelObject {
             project.identifier = UUID().uuidString
         }
 
-        data.context.saveIfNeeded()
+        profile.addToProjects(project)
+
+        context.saveIfNeeded()
     }
 }
