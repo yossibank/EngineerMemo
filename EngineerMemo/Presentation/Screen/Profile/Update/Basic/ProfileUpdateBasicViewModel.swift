@@ -124,10 +124,11 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { _ in
-            model.update(
-                modelObject: updateObject,
-                isNew: modelObject.isNil
-            )
+            if modelObject.isNil {
+                model.create(modelObject: updateObject)
+            } else {
+                model.update(modelObject: updateObject)
+            }
 
             output.isFinished = true
         }

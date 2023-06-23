@@ -2,9 +2,10 @@ import Combine
 
 /// @mockable
 protocol ProfileModelInput: Model {
-    func fetch(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void)
+    func fetch() -> AnyPublisher<[ProfileModelObject], AppError>
     func find(identifier: String, completion: @escaping (Result<ProfileModelObject, AppError>) -> Void)
-    func update(modelObject: ProfileModelObject, isNew: Bool)
+    func create(modelObject: ProfileModelObject)
+    func update(modelObject: ProfileModelObject)
     func updateSkill(modelObject: ProfileModelObject)
     func createProject(_ modelObject: ProfileModelObject, project: ProjectModelObject)
     func updateProject(_ modelObject: ProfileModelObject, project: ProjectModelObject?)
@@ -31,26 +32,19 @@ final class ProfileModel: ProfileModelInput {
         self.errorConverter = errorConverter
     }
 
-    func fetch(completion: @escaping (Result<[ProfileModelObject], AppError>) -> Void) {
-        profileStorage.publisher().sink(
-            receiveCompletion: { [weak self] receiveCompletion in
-                guard let self else {
-                    return
-                }
-
-                if case let .failure(coreDataError) = receiveCompletion {
-                    let appError = self.errorConverter.convert(.coreData(coreDataError))
-                    completion(.failure(appError))
-                }
-            },
-            receiveValue: { [weak self] values in
-                let modelObjects = values.compactMap {
+    func fetch() -> AnyPublisher<[ProfileModelObject], AppError> {
+        profileStorage
+            .publisher()
+            .dropFirst()
+            .mapError {
+                AppError(dataError: .coreData($0))
+            }
+            .map { [weak self] in
+                $0.compactMap {
                     self?.profileConverter.convert($0)
                 }
-                completion(.success(modelObjects))
             }
-        )
-        .store(in: &cancellables)
+            .eraseToAnyPublisher()
     }
 
     func find(
@@ -83,21 +77,20 @@ final class ProfileModel: ProfileModelInput {
         .store(in: &cancellables)
     }
 
-    func update(
-        modelObject: ProfileModelObject,
-        isNew: Bool
-    ) {
-        if isNew {
-            profileStorage.create().sink {
-                modelObject.insertBasic($0, isNew: true)
-            }
-            .store(in: &cancellables)
-        } else {
-            profileStorage.update(identifier: modelObject.identifier).sink {
-                modelObject.insertBasic($0, isNew: false)
-            }
-            .store(in: &cancellables)
+    func create(modelObject: ProfileModelObject) {
+        create {
+            modelObject.insertBasic($0, isNew: true)
         }
+    }
+
+    func update(modelObject: ProfileModelObject) {
+        update(modelObject: modelObject) {
+            modelObject.insertBasic($0, isNew: false)
+        }
+    }
+
+    func createSkill(modelObject: ProfileModelObject) {
+        update(modelObject: modelObject) { _ in }
     }
 
     func updateSkill(modelObject: ProfileModelObject) {
@@ -118,7 +111,6 @@ final class ProfileModel: ProfileModelInput {
     ) {
         profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
             self?.createProject(
-                modelObject,
                 project: project,
                 profile: profile
             )
@@ -137,7 +129,6 @@ final class ProfileModel: ProfileModelInput {
             }
 
             self?.createProject(
-                modelObject,
                 project: project,
                 profile: profile
             )
@@ -164,6 +155,37 @@ final class ProfileModel: ProfileModelInput {
 // MARK: - private methods
 
 private extension ProfileModel {
+    func create(completion: @escaping (CoreDataObject<Profile>) -> Void) {
+        profileStorage.create().sink {
+            completion($0)
+        }
+        .store(in: &cancellables)
+    }
+
+    func update(
+        modelObject: ProfileModelObject,
+        completion: @escaping (CoreDataObject<Profile>) -> Void
+    ) {
+        profileStorage.update(identifier: modelObject.identifier).sink {
+            completion($0)
+        }
+        .store(in: &cancellables)
+    }
+
+    func createSkill(
+        modelObject: SkillModelObject,
+        profile: CoreDataObject<Profile>
+    ) {
+        skillStorage.create().sink {
+            modelObject.insertSkill(
+                profile: profile,
+                skill: $0,
+                isNew: true
+            )
+        }
+        .store(in: &cancellables)
+    }
+
     func updateSkill(
         _ modelObject: SkillModelObject,
         profile: CoreDataObject<Profile>
@@ -195,7 +217,6 @@ private extension ProfileModel {
     }
 
     func createProject(
-        _ modelObject: ProfileModelObject,
         project: ProjectModelObject? = nil,
         profile: CoreDataObject<Profile>
     ) {

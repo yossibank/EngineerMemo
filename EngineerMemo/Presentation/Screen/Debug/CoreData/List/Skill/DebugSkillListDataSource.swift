@@ -11,7 +11,7 @@
         typealias Section = DebugSkillListContentViewSection
         typealias Item = ProfileModelObject
 
-        var modelObject: [ProfileModelObject] = [] {
+        var modelObjects: [ProfileModelObject] = [] {
             didSet {
                 applySnapshot()
             }
@@ -38,7 +38,7 @@
             }
 
             if editingStyle == .delete {
-                didDeletedModelObjectSubject.send(modelObject[indexPath.row])
+                didDeletedModelObjectSubject.send(modelObjects[indexPath.row])
                 var snapshot = snapshot()
                 snapshot.deleteItems([item])
 
@@ -57,7 +57,7 @@
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             dataSourceSnapshot.appendSections(Section.allCases)
 
-            modelObject.forEach {
+            modelObjects.forEach {
                 dataSourceSnapshot.appendItems(
                     [$0],
                     toSection: .main

@@ -27,6 +27,7 @@ final class ProfileModelTest: XCTestCase {
         profileConverter = nil
         errorConverter = nil
         model = nil
+
         cancellables.removeAll()
 
         resetUserDefaults()
@@ -34,7 +35,7 @@ final class ProfileModelTest: XCTestCase {
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
-    func test_fetch_成功_情報を取得できること() {
+    func test_fetch_成功_情報を取得できること() throws {
         // arrange
         dataInsert()
 
@@ -91,39 +92,25 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         }
 
-        wait { expectation in
-            // act
-            self.model.fetch {
-                switch $0 {
-                case let .success(modelObjects):
-                    guard !modelObjects.isEmpty else {
-                        return
-                    }
+        let publisher = model.fetch().collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!
 
-                    // assert
-                    XCTAssertEqual(
-                        modelObjects,
-                        [
-                            ProfileModelObjectBuilder()
-                                .address("テスト県テスト市テスト1-1-1")
-                                .birthday(Calendar.date(year: 2000, month: 1, day: 1))
-                                .email("test@test.com")
-                                .gender(.man)
-                                .identifier("identifier")
-                                .name("testName")
-                                .phoneNumber("08011112222")
-                                .station("鶴橋駅")
-                                .build()
-                        ]
-                    )
-
-                case let .failure(appError):
-                    XCTFail(appError.localizedDescription)
-                }
-
-                expectation.fulfill()
-            }
-        }
+        // assert
+        XCTAssertEqual(
+            output,
+            [
+                ProfileModelObjectBuilder()
+                    .address("テスト県テスト市テスト1-1-1")
+                    .birthday(Calendar.date(year: 2000, month: 1, day: 1))
+                    .email("test@test.com")
+                    .gender(.man)
+                    .identifier("identifier")
+                    .name("testName")
+                    .phoneNumber("08011112222")
+                    .station("鶴橋駅")
+                    .build()
+            ]
+        )
     }
 
     func test_find_成功_情報を取得できること() {
@@ -212,14 +199,13 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_update_isNew_true_情報を作成できること() {
+    func test_create_基本情報を作成できること() {
         // act
-        model.update(
+        model.create(
             modelObject: ProfileModelObjectBuilder()
                 .name("テスト")
                 .birthday(Calendar.date(year: 2000, month: 1, day: 1))
-                .build(),
-            isNew: true
+                .build()
         )
 
         wait(timeout: 0.5) { expectation in
@@ -244,7 +230,7 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_update_isNew_false_情報を更新できること() {
+    func test_update_基本情報を更新できること() {
         // arrange
         dataInsert()
 
@@ -254,8 +240,7 @@ final class ProfileModelTest: XCTestCase {
                 .identifier("identifier")
                 .name("テスト更新後")
                 .birthday(Calendar.date(year: 2000, month: 11, day: 1))
-                .build(),
-            isNew: false
+                .build()
         )
 
         wait(timeout: 0.5) { expectation in

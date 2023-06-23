@@ -67,7 +67,12 @@ extension XCTestCase {
             }
         )
 
-        waitForExpectations(timeout: timeout)
+        wait(
+            for: expectation,
+            timeout: timeout,
+            file: file,
+            line: line
+        )
         cancellable.cancel()
 
         let unwrappedResult = try XCTUnwrap(

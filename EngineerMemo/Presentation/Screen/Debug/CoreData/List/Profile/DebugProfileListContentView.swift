@@ -98,7 +98,7 @@
     struct DebugProfileListContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugProfileListContentView()) {
-                $0.dataSource.modelObject = [
+                $0.dataSource.modelObjects = [
                     ProfileModelObjectBuilder().build()
                 ]
             }

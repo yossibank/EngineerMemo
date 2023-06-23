@@ -96,7 +96,7 @@
     struct DebugProjectListContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugProjectListContentView()) {
-                $0.dataSource.modelObject = [
+                $0.dataSource.modelObjects = [
                     ProfileModelObjectBuilder()
                         .projects([ProjectModelObjectBuilder().build()])
                         .build()

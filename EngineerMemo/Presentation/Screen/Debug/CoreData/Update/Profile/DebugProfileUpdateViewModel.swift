@@ -64,12 +64,15 @@
 
             // MARK: - プロフィール情報取得
 
-            model.fetch { [weak self] modelObjects in
-                if case let .success(modelObjects) = modelObjects {
-                    output.modelObjects = modelObjects
-                    self?.originalModelObjects = modelObjects
+            model.fetch().sink {
+                if case let .failure(appError) = $0 {
+                    Logger.error(message: appError.localizedDescription)
                 }
+            } receiveValue: { [weak self] modelObjects in
+                output.modelObjects = modelObjects
+                self?.originalModelObjects = modelObjects
             }
+            .store(in: &cancellables)
 
             // MARK: - 住所セグメント
 
@@ -176,7 +179,7 @@
                 }
 
                 self.modelObject.identifier = identifier
-                self.model.update(modelObject: self.modelObject, isNew: false)
+                self.model.update(modelObject: self.modelObject)
                 self.model.updateIconImage(modelObject: self.modelObject)
                 self.model.updateSkill(modelObject: self.modelObject)
                 self.model.updateProject(self.modelObject, project: ProjectModelObjectBuilder().build())

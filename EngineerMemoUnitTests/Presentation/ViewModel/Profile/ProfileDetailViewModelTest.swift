@@ -21,11 +21,12 @@ final class ProfileDetailViewModelTest: XCTestCase {
         )
 
         model.fetchHandler = {
-            $0(
-                .success(
-                    [ProfileModelObjectBuilder().build()]
-                )
-            )
+            Deferred {
+                Future<[ProfileModelObject], AppError> { promise in
+                    promise(.success([ProfileModelObjectBuilder().build()]))
+                }
+            }
+            .eraseToAnyPublisher()
         }
     }
 
@@ -56,7 +57,12 @@ final class ProfileDetailViewModelTest: XCTestCase {
     func test_input_viewDidLoad_失敗_エラー情報を取得できること() throws {
         // arrange
         model.fetchHandler = {
-            $0(.failure(.init(dataError: .coreData(.something("CoreDataエラー")))))
+            Deferred {
+                Future<[ProfileModelObject], AppError> { promise in
+                    promise(.failure(AppError(dataError: .coreData(.something("エラー")))))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         viewModel.input.viewDidLoad.send(())
@@ -68,7 +74,7 @@ final class ProfileDetailViewModelTest: XCTestCase {
         // assert
         XCTAssertEqual(
             output,
-            .init(dataError: .coreData(.something("CoreDataエラー")))
+            .init(dataError: .coreData(.something("エラー")))
         )
     }
 

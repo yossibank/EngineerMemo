@@ -41,8 +41,11 @@ final class ProfileDetailViewModel: ViewModel {
 
         // MARK: - viewDidLoad
 
-        input.viewDidLoad.sink { _ in
-            model.fetch {
+        input.viewDidLoad
+            .flatMap {
+                model.fetch().resultMap
+            }
+            .sink {
                 switch $0 {
                 case let .success(modelObjects):
                     output.modelObject = modelObjects.first
@@ -51,8 +54,7 @@ final class ProfileDetailViewModel: ViewModel {
                     output.appError = appError
                 }
             }
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 

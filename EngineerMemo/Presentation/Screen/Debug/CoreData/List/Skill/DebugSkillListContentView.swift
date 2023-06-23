@@ -96,7 +96,7 @@
     struct DebugSkillListContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugSkillListContentView()) {
-                $0.dataSource.modelObject = [
+                $0.dataSource.modelObjects = [
                     ProfileModelObjectBuilder()
                         .skill(SKillModelObjectBuilder().build())
                         .build()
