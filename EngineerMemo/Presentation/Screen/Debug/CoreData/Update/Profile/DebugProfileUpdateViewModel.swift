@@ -179,7 +179,7 @@
                 }
 
                 self.modelObject.identifier = identifier
-                self.model.updateBasic(modelObject: self.modelObject)
+                self.updateBasic()
                 self.model.updateIconImage(modelObject: self.modelObject)
                 self.model.updateSkill(modelObject: self.modelObject)
                 self.model.updateProject(self.modelObject, project: ProjectModelObjectBuilder().build())
@@ -198,6 +198,16 @@
                     .build()
             }
             .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugProfileUpdateViewModel {
+        func updateBasic() {
+            model.updateBasic(modelObject: modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
         }
     }
 #endif

@@ -123,11 +123,11 @@ final class ProfileUpdateBasicViewModel: ViewModel {
 
         // MARK: - 設定・更新ボタンタップ
 
-        input.didTapBarButton.sink { _ in
+        input.didTapBarButton.sink { [weak self] _ in
             if modelObject.isNil {
-                model.createBasic(modelObject: updateObject)
+                self?.createBasic(modelObject: updateObject)
             } else {
-                model.updateBasic(modelObject: updateObject)
+                self?.updateBasic(modelObject: updateObject)
             }
 
             output.isFinished = true
@@ -143,5 +143,21 @@ final class ProfileUpdateBasicViewModel: ViewModel {
             address,
             station
         ])
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileUpdateBasicViewModel {
+    func createBasic(modelObject: ProfileModelObject) {
+        model.createBasic(modelObject: modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
+    }
+
+    func updateBasic(modelObject: ProfileModelObject) {
+        model.updateBasic(modelObject: modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }

@@ -189,14 +189,18 @@ final class ProfileModelTest: XCTestCase {
         )
     }
 
-    func test_create_基本情報を作成できること() {
+    func test_create_基本情報を作成できること() throws {
         // act
-        model.createBasic(
+        let publisher = model.createBasic(
             modelObject: ProfileModelObjectBuilder()
                 .name("テスト")
                 .birthday(Calendar.date(year: 2000, month: 1, day: 1))
                 .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {
@@ -220,18 +224,22 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_update_基本情報を更新できること() {
+    func test_update_基本情報を更新できること() throws {
         // arrange
         dataInsert()
 
         // act
-        model.updateBasic(
+        let publisher = model.updateBasic(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .name("テスト更新後")
                 .birthday(Calendar.date(year: 2000, month: 11, day: 1))
                 .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {

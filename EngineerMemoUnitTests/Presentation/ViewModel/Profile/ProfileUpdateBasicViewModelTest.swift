@@ -43,6 +43,13 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
                 $0.name,
                 "name"
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -61,6 +68,13 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
                 $0.birthday,
                 Calendar.date(year: 1900, month: 1, day: 1)
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -79,6 +93,13 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
                 $0.gender,
                 .man
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -97,6 +118,13 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
                 $0.email,
                 "test@test.com"
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -115,6 +143,13 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
                 $0.phoneNumber,
                 "012345678"
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -133,6 +168,13 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
                 $0.address,
                 "address"
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -151,6 +193,13 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
                 $0.station,
                 "station"
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -160,6 +209,15 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // arrange
         setupViewModel(modelObject: nil)
+
+        model.createBasicHandler = { _ in
+            Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
 
         // act
         viewModel.input.didTapBarButton.send(())
@@ -171,6 +229,15 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
     func test_input_didTapBarButton_setting_プロフィール作成処理が呼ばれること() {
         // arrange
         setupViewModel(modelObject: nil)
+
+        model.createBasicHandler = { _ in
+            Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
 
         // act
         viewModel.input.didTapBarButton.send(())
@@ -189,6 +256,13 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
                 $0,
                 ProfileModelObjectBuilder().build()
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
