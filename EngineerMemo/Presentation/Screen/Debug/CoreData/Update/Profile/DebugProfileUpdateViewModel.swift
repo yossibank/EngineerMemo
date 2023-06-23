@@ -179,7 +179,7 @@
                 }
 
                 self.modelObject.identifier = identifier
-                self.model.update(modelObject: self.modelObject)
+                self.model.updateBasic(modelObject: self.modelObject)
                 self.model.updateIconImage(modelObject: self.modelObject)
                 self.model.updateSkill(modelObject: self.modelObject)
                 self.model.updateProject(self.modelObject, project: ProjectModelObjectBuilder().build())

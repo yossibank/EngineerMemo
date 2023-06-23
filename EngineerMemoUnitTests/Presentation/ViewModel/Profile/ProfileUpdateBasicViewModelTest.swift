@@ -37,7 +37,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.name = "name"
 
-        model.createHandler = {
+        model.createBasicHandler = {
             // assert
             XCTAssertEqual(
                 $0.name,
@@ -55,7 +55,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.birthday = Calendar.date(year: 1900, month: 1, day: 1)
 
-        model.createHandler = {
+        model.createBasicHandler = {
             // assert
             XCTAssertEqual(
                 $0.birthday,
@@ -73,7 +73,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.gender = .man
 
-        model.createHandler = {
+        model.createBasicHandler = {
             // assert
             XCTAssertEqual(
                 $0.gender,
@@ -91,7 +91,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.email = "test@test.com"
 
-        model.createHandler = {
+        model.createBasicHandler = {
             // assert
             XCTAssertEqual(
                 $0.email,
@@ -109,7 +109,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.phoneNumber = "012345678"
 
-        model.createHandler = {
+        model.createBasicHandler = {
             // assert
             XCTAssertEqual(
                 $0.phoneNumber,
@@ -127,7 +127,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.address = "address"
 
-        model.createHandler = {
+        model.createBasicHandler = {
             // assert
             XCTAssertEqual(
                 $0.address,
@@ -145,7 +145,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
 
         viewModel.binding.station = "station"
 
-        model.createHandler = {
+        model.createBasicHandler = {
             // assert
             XCTAssertEqual(
                 $0.station,
@@ -176,14 +176,14 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
 
         // assert
-        XCTAssertEqual(model.createCallCount, 1)
+        XCTAssertEqual(model.createBasicCallCount, 1)
     }
 
     func test_input_didTapBarButton_update_プロフィール更新処理が呼ばれること() {
         // arrange
         setupViewModel(modelObject: ProfileModelObjectBuilder().build())
 
-        model.updateHandler = {
+        model.updateBasicHandler = {
             // assert
             XCTAssertEqual(
                 $0,
@@ -195,7 +195,7 @@ final class ProfileUpdateBasicViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
 
         // assert
-        XCTAssertEqual(model.updateCallCount, 1)
+        XCTAssertEqual(model.updateBasicCallCount, 1)
     }
 }
 

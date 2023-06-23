@@ -113,7 +113,7 @@ final class ProfileModelTest: XCTestCase {
         )
     }
 
-    func test_find_成功_情報を取得できること() {
+    func test_find_成功_情報を取得できること() throws {
         // arrange
         dataInsert()
 
@@ -170,38 +170,28 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         }
 
-        wait { expectation in
-            // act
-            self.model.find(identifier: "identifier") {
-                switch $0 {
-                case let .success(modelObject):
-                    // assert
-                    XCTAssertEqual(
-                        modelObject,
-                        ProfileModelObjectBuilder()
-                            .address("テスト県テスト市テスト1-1-1")
-                            .birthday(Calendar.date(year: 2000, month: 1, day: 1))
-                            .email("test@test.com")
-                            .gender(.man)
-                            .identifier("identifier")
-                            .name("testName")
-                            .phoneNumber("08011112222")
-                            .station("鶴橋駅")
-                            .build()
-                    )
+        let publisher = model.find(identifier: "identifier").collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!
 
-                case let .failure(appError):
-                    XCTFail(appError.localizedDescription)
-                }
-
-                expectation.fulfill()
-            }
-        }
+        // assert
+        XCTAssertEqual(
+            output,
+            ProfileModelObjectBuilder()
+                .address("テスト県テスト市テスト1-1-1")
+                .birthday(Calendar.date(year: 2000, month: 1, day: 1))
+                .email("test@test.com")
+                .gender(.man)
+                .identifier("identifier")
+                .name("testName")
+                .phoneNumber("08011112222")
+                .station("鶴橋駅")
+                .build()
+        )
     }
 
     func test_create_基本情報を作成できること() {
         // act
-        model.create(
+        model.createBasic(
             modelObject: ProfileModelObjectBuilder()
                 .name("テスト")
                 .birthday(Calendar.date(year: 2000, month: 1, day: 1))
@@ -235,7 +225,7 @@ final class ProfileModelTest: XCTestCase {
         dataInsert()
 
         // act
-        model.update(
+        model.updateBasic(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .name("テスト更新後")

@@ -125,9 +125,9 @@ final class ProfileUpdateBasicViewModel: ViewModel {
 
         input.didTapBarButton.sink { _ in
             if modelObject.isNil {
-                model.create(modelObject: updateObject)
+                model.createBasic(modelObject: updateObject)
             } else {
-                model.update(modelObject: updateObject)
+                model.updateBasic(modelObject: updateObject)
             }
 
             output.isFinished = true
