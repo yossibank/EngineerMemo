@@ -43,7 +43,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        var updateObject = modelObject.skillModelObject ?? SkillModelObject(identifier: UUID().uuidString)
+        var updatedObject = modelObject.skillModelObject ?? SkillModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewWillAppear
 
@@ -57,7 +57,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let engineerCareer = binding.$engineerCareer
             .dropFirst()
             .sink { engineerCareer in
-                updateObject.engineerCareer = engineerCareer.value
+                updatedObject.engineerCareer = engineerCareer.value
             }
 
         // MARK: - 言語
@@ -65,7 +65,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let language = binding.$language
             .dropFirst()
             .sink { language in
-                updateObject.language = language
+                updatedObject.language = language
             }
 
         // MARK: - 言語歴
@@ -73,7 +73,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let languageCareer = binding.$languageCareer
             .dropFirst()
             .sink { languageCareer in
-                updateObject.languageCareer = languageCareer.value
+                updatedObject.languageCareer = languageCareer.value
             }
 
         // MARK: - TOEIC
@@ -81,7 +81,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let toeic = binding.$toeic
             .dropFirst()
             .sink { toeic in
-                updateObject.toeic = toeic
+                updatedObject.toeic = toeic
             }
 
         // MARK: - 設定・更新ボタンタップ
@@ -89,11 +89,11 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         input.didTapBarButton.sink { [weak self] _ in
             if modelObject.skillModelObject.isNil {
                 var modelObject = modelObject
-                modelObject.skillModelObject = updateObject
+                modelObject.skillModelObject = updatedObject
                 self?.createSkill(modelObject: modelObject)
             } else {
                 var modelObject = modelObject
-                modelObject.skillModelObject = updateObject
+                modelObject.skillModelObject = updatedObject
                 self?.updateSkill(modelObject: modelObject)
             }
 

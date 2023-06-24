@@ -13,7 +13,6 @@ final class ProfileUpdateBasicViewModel: ViewModel {
     }
 
     final class Input: InputObject {
-        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapBarButton = PassthroughSubject<Void, Never>()
     }
@@ -47,16 +46,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        var updateObject = ProfileModelObject(identifier: UUID().uuidString)
-
-        // MARK: - viewDidLoad
-
-        input.viewDidLoad.sink { _ in
-            if let modelObject {
-                updateObject = modelObject
-            }
-        }
-        .store(in: &cancellables)
+        var updatedObject = modelObject ?? ProfileModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewWillAppear
 
@@ -70,7 +60,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         let name = binding.$name
             .dropFirst()
             .sink { name in
-                updateObject.name = name
+                updatedObject.name = name
             }
 
         // MARK: - 生年月日
@@ -78,7 +68,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         let birthday = binding.$birthday
             .dropFirst()
             .sink { birthday in
-                updateObject.birthday = birthday
+                updatedObject.birthday = birthday
             }
 
         // MARK: - 性別
@@ -86,7 +76,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         let gender = binding.$gender
             .dropFirst()
             .sink { type in
-                updateObject.gender = type.gender
+                updatedObject.gender = type.gender
             }
 
         // MARK: - Eメール
@@ -94,7 +84,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         let email = binding.$email
             .dropFirst()
             .sink { email in
-                updateObject.email = email
+                updatedObject.email = email
             }
 
         // MARK: - 電話番号
@@ -102,7 +92,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         let phoneNumber = binding.$phoneNumber
             .dropFirst()
             .sink { phoneNumber in
-                updateObject.phoneNumber = phoneNumber
+                updatedObject.phoneNumber = phoneNumber
             }
 
         // MARK: - 住所
@@ -110,7 +100,7 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         let address = binding.$address
             .dropFirst()
             .sink { address in
-                updateObject.address = address
+                updatedObject.address = address
             }
 
         // MARK: - 最寄駅
@@ -118,16 +108,16 @@ final class ProfileUpdateBasicViewModel: ViewModel {
         let station = binding.$station
             .dropFirst()
             .sink { station in
-                updateObject.station = station
+                updatedObject.station = station
             }
 
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { [weak self] _ in
             if modelObject.isNil {
-                self?.createBasic(modelObject: updateObject)
+                self?.createBasic(modelObject: updatedObject)
             } else {
-                self?.updateBasic(modelObject: updateObject)
+                self?.updateBasic(modelObject: updatedObject)
             }
 
             output.isFinished = true

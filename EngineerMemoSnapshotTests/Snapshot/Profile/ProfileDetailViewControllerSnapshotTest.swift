@@ -93,9 +93,9 @@ private extension ProfileDetailViewControllerSnapshotTest {
         CoreDataStorage<Profile>().create().sink { profile in
             modelObject.insertBasic(profile, isNew: true)
 
-            if let skillModelObject = modelObject.skillModelObject {
+            if !modelObject.skillModelObject.isNil {
                 CoreDataStorage<Skill>().create().sink {
-                    skillModelObject.insertSkill(
+                    modelObject.insertSkill(
                         profile: profile,
                         skill: $0,
                         isNew: true
@@ -104,15 +104,8 @@ private extension ProfileDetailViewControllerSnapshotTest {
                 .store(in: &self.cancellables)
             }
 
-            modelObject.projectModelObjects.forEach { project in
-                CoreDataStorage<Project>().create().sink {
-                    project.insertProject(
-                        profile: profile,
-                        project: $0,
-                        isNew: true
-                    )
-                }
-                .store(in: &self.cancellables)
+            if !modelObject.projectModelObjects.isEmpty {
+                modelObject.insertProject(profile: profile)
             }
         }
         .store(in: &cancellables)

@@ -4,7 +4,7 @@
     final class DebugProfileListViewModel: ViewModel {
         final class Input: InputObject {
             let viewDidLoad = PassthroughSubject<Void, Never>()
-            let didDeletedModelObject = PassthroughSubject<ProfileModelObject, Never>()
+            let didSwipe = PassthroughSubject<ProfileModelObject, Never>()
         }
 
         final class Output: OutputObject {
@@ -42,7 +42,7 @@
 
             // MARK: - プロフィール情報削除
 
-            input.didDeletedModelObject.sink { modelObject in
+            input.didSwipe.sink { modelObject in
                 model.delete(modelObject: modelObject)
             }
             .store(in: &cancellables)

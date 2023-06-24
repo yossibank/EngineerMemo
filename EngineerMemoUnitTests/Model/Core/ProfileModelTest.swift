@@ -414,13 +414,13 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_projectUpdate_更新情報なし_projectsを作成できること() {
+    func test_createProject_案件情報を作成できること() throws {
         // arrange
         dataInsert()
 
         // act
-        model.updateProject(
-            ProfileModelObjectBuilder()
+        let publisher = model.createProject(
+            modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .projectModelObjects([
                     ProjectModelObjectBuilder()
@@ -428,12 +428,10 @@ final class ProfileModelTest: XCTestCase {
                         .content("content")
                         .build()
                 ])
-                .build(),
-            project: ProjectModelObjectBuilder()
-                .title("title")
-                .content("content")
                 .build()
         )
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {
@@ -458,7 +456,7 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_projectUpdate_更新情報なし_projectsを削除できること() {
+    func test_deleteProject_案件情報を削除できること() throws {
         // arrange
         dataInsert(
             projects: [
@@ -471,12 +469,16 @@ final class ProfileModelTest: XCTestCase {
         )
 
         // act
-        model.updateProject(
-            ProfileModelObjectBuilder()
+        let publisher = model.deleteProject(
+            modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .projectModelObjects([])
                 .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {

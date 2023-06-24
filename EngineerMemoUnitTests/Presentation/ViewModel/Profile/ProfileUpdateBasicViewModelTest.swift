@@ -286,7 +286,5 @@ private extension ProfileUpdateBasicViewModelTest {
             model: model,
             analytics: analytics
         )
-
-        viewModel.input.viewDidLoad.send(())
     }
 }

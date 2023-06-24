@@ -42,7 +42,7 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        var project = ProjectModelObject(identifier: UUID().uuidString)
+        var updatedObject = ProjectModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewWillAppear
 
@@ -56,7 +56,7 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         let title = binding.$title
             .dropFirst()
             .sink { title in
-                project.title = title
+                updatedObject.title = title
             }
 
         // MARK: - 案件内容
@@ -64,18 +64,16 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         let content = binding.$content
             .dropFirst()
             .sink { content in
-                project.content = content
+                updatedObject.content = content
             }
 
         // MARK: - 設定・更新ボタンタップ
 
-        input.didTapBarButton.sink { _ in
-            model.createProject(
-                modelObject,
-                project: project
-            )
-
-            output.isFinished = true
+        input.didTapBarButton.sink { [weak self] _ in
+            var modelObject = modelObject
+            modelObject.projectModelObjects = [updatedObject]
+            self?.createProject(modelObject: modelObject)
+            self?.output.isFinished = true
         }
         .store(in: &cancellables)
 
@@ -83,5 +81,15 @@ final class ProfileUpdateProjectViewModel: ViewModel {
             title,
             content
         ])
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileUpdateProjectViewModel {
+    func createProject(modelObject: ProfileModelObject) {
+        model.createProject(modelObject: modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }

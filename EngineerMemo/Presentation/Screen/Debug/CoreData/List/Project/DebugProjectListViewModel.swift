@@ -4,7 +4,7 @@
     final class DebugProjectListViewModel: ViewModel {
         final class Input: InputObject {
             let viewDidLoad = PassthroughSubject<Void, Never>()
-            let didDeletedModelObject = PassthroughSubject<ProfileModelObject, Never>()
+            let didSwipe = PassthroughSubject<ProfileModelObject, Never>()
         }
 
         final class Output: OutputObject {
@@ -44,16 +44,20 @@
 
             // MARK: - 案件・経歴情報削除
 
-            input.didDeletedModelObject.sink {
-                var modelObject = $0
-                modelObject.projectModelObjects = []
-
-                model.updateProject(
-                    modelObject,
-                    project: ProjectModelObjectBuilder().build()
-                )
+            input.didSwipe.sink { [weak self] in
+                self?.deleteProject(modelObject: $0)
             }
             .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugProjectListViewModel {
+        func deleteProject(modelObject: ProfileModelObject) {
+            model.deleteProject(modelObject: modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
         }
     }
 #endif

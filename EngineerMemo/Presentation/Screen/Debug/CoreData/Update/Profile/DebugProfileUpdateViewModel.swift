@@ -182,7 +182,7 @@
                 self.updateBasic()
                 self.updateSkill()
                 self.updateIconImage()
-                self.model.updateProject(self.modelObject, project: ProjectModelObjectBuilder().build())
+                // TODO: プロジェクト更新処理
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
                     .birthday(self.ageSegment.date)

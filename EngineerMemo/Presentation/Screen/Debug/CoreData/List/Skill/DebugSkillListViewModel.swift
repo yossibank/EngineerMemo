@@ -4,7 +4,7 @@
     final class DebugSkillListViewModel: ViewModel {
         final class Input: InputObject {
             let viewDidLoad = PassthroughSubject<Void, Never>()
-            let didDeletedModelObject = PassthroughSubject<ProfileModelObject, Never>()
+            let didSwipe = PassthroughSubject<ProfileModelObject, Never>()
         }
 
         final class Output: OutputObject {
@@ -44,7 +44,7 @@
 
             // MARK: - スキル情報削除
 
-            input.didDeletedModelObject.sink { [weak self] in
+            input.didSwipe.sink { [weak self] in
                 self?.deleteSkill(modelObject: $0)
             }
             .store(in: &cancellables)

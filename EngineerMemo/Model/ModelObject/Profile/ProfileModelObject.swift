@@ -30,6 +30,8 @@ struct ProfileModelObject: Hashable {
     }
 }
 
+// MARK: - 基本情報作成・更新
+
 extension ProfileModelObject {
     func insertBasic(
         _ profile: CoreDataObject<Profile>,
@@ -53,6 +55,17 @@ extension ProfileModelObject {
         context.saveIfNeeded()
     }
 
+    func insertIconImage(_ profile: CoreDataObject<Profile>) {
+        let context = profile.context
+        let profile = profile.object
+        profile.iconImage = iconImage
+        context.saveIfNeeded()
+    }
+}
+
+// MARK: - スキル情報作成・更新
+
+extension ProfileModelObject {
     func insertSkill(
         profile: CoreDataObject<Profile>,
         skill: CoreDataObject<Skill>,
@@ -81,11 +94,25 @@ extension ProfileModelObject {
 
         context.saveIfNeeded()
     }
+}
 
-    func insertIconImage(_ profile: CoreDataObject<Profile>) {
+// MARK: - 案件情報作成・更新
+
+extension ProfileModelObject {
+    func insertProject(profile: CoreDataObject<Profile>) {
         let context = profile.context
         let profile = profile.object
-        profile.iconImage = iconImage
+
+        let projects = projectModelObjects.map { object -> Project in
+            let project = Project(context: context)
+            project.title = object.title
+            project.content = object.content
+            project.identifier = UUID().uuidString
+            return project
+        }
+
+        profile.addToProjects(.init(array: projects))
+
         context.saveIfNeeded()
     }
 }
