@@ -93,6 +93,9 @@ private extension ProfileProjectCell {
 
             $0.backgroundColor = .background
         }
+
+        selectionStyle = .none
+        backgroundColor = .background
     }
 }
 

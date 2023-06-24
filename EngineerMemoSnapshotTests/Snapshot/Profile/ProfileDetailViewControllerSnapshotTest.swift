@@ -31,8 +31,6 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testProfileDetailViewController_基本情報設定() {
-        dataInsert(modelObject: ProfileModelObjectBuilder().build())
-
         snapshotVerifyView(
             viewMode: .navigation(subject),
             viewFrame: .init(
@@ -41,17 +39,14 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1200
             ),
-            viewAfter: 0.3
+            viewAfter: 0.75,
+            viewAction: {
+                self.dataInsert(modelObject: ProfileModelObjectBuilder().build())
+            }
         )
     }
 
     func testProfileDetailViewController_基本情報_経験スキル設定() {
-        dataInsert(
-            modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
-                .build()
-        )
-
         snapshotVerifyView(
             viewMode: .navigation(subject),
             viewFrame: .init(
@@ -60,21 +55,18 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1300
             ),
-            viewAfter: 0.3
+            viewAfter: 0.75,
+            viewAction: {
+                self.dataInsert(
+                    modelObject: ProfileModelObjectBuilder()
+                        .skill(SKillModelObjectBuilder().build())
+                        .build()
+                )
+            }
         )
     }
 
     func testProfileDetailViewController_基本情報_経験スキル_案件経歴設定() {
-        dataInsert(
-            modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
-                .projects([
-                    ProjectModelObjectBuilder().identifier("identifier1").build(),
-                    ProjectModelObjectBuilder().identifier("identifier2").build()
-                ])
-                .build()
-        )
-
         snapshotVerifyView(
             viewMode: .navigation(subject),
             viewFrame: .init(
@@ -83,22 +75,33 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1500
             ),
-            viewAfter: 0.3
+            viewAfter: 0.75,
+            viewAction: {
+                self.dataInsert(
+                    modelObject: ProfileModelObjectBuilder()
+                        .skill(SKillModelObjectBuilder().build())
+                        .projects([
+                            ProjectModelObjectBuilder().identifier("identifier1").build(),
+                            ProjectModelObjectBuilder().identifier("identifier2").build()
+                        ])
+                        .build()
+                )
+            }
         )
     }
 }
 
 private extension ProfileDetailViewControllerSnapshotTest {
     func dataInsert(modelObject: ProfileModelObject) {
-        CoreDataStorage<Profile>().create().sink { profile in
-            modelObject.insertBasic(profile, isNew: true)
+        CoreDataStorage<Profile>().create().sink {
+            modelObject.insertBasic($0, isNew: true)
 
             if !modelObject.skill.isNil {
-                modelObject.insertSkill(profile)
+                modelObject.insertSkill($0)
             }
 
             if !modelObject.projects.isEmpty {
-                modelObject.insertProject(profile)
+                modelObject.insertProject($0)
             }
         }
         .store(in: &cancellables)

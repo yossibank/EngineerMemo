@@ -23,12 +23,17 @@ final class TabBarControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testTabBarController_プロフィールタブ() {
-        subject.selectedIndex = TabItem.profile.rawValue
-        snapshotVerifyView(viewMode: .normal(subject))
+        snapshot(.profile)
     }
 
     func testTabBarController_メモタブ() {
-        subject.selectedIndex = TabItem.memo.rawValue
+        snapshot(.memo)
+    }
+}
+
+private extension TabBarControllerSnapshotTest {
+    func snapshot(_ tabItem: TabItem) {
+        subject.selectedIndex = tabItem.rawValue
         snapshotVerifyView(viewMode: .normal(subject))
     }
 }

@@ -88,6 +88,9 @@ private extension ProfileBasicCell {
 
             $0.backgroundColor = .background
         }
+
+        selectionStyle = .none
+        backgroundColor = .background
     }
 
     private func createStackView(_ type: ProfileBasicContentType) -> UIStackView {
