@@ -77,17 +77,17 @@ private extension ProfileUpdateSkillContentView {
     }
 
     func setupValue() {
-        careerInputView.updateValue(modelObject: modelObject.skillModelObject)
-        useLanguageInputView.updateValue(modelObject: modelObject.skillModelObject)
-        toeicInputView.updateValue(modelObject: modelObject.skillModelObject)
+        careerInputView.updateValue(modelObject: modelObject.skill)
+        useLanguageInputView.updateValue(modelObject: modelObject.skill)
+        toeicInputView.updateValue(modelObject: modelObject.skill)
     }
 
     func setupBarButton() {
-        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.skillModelObject.isNil
+        let defaultButtonStyle: ViewStyle<UIButton> = modelObject.skill.isNil
             ? .settingNavigationButton
             : .updateNavigationButton
 
-        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.skillModelObject.isNil
+        let updatedButtonStyle: ViewStyle<UIButton> = modelObject.skill.isNil
             ? .settingDoneNavigationButton
             : .updateDoneNavigationButton
 

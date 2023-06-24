@@ -94,9 +94,9 @@
     extension DebugProjectListCell {
         func configure(_ modelObject: ProfileModelObject) {
             nameLabel.text = modelObject.name
-            countLabel.text = L10n.Profile.Project.number(modelObject.projectModelObjects.count)
+            countLabel.text = L10n.Profile.Project.number(modelObject.projects.count)
 
-            if let project = modelObject.projectModelObjects.first {
+            if let project = modelObject.projects.first {
                 titleLabel.text = project.title ?? .noSetting
                 contentLabel.text = project.content ?? .noSetting
             }

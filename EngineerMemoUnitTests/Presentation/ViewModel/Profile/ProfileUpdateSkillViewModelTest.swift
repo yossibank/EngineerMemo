@@ -35,7 +35,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         // arrange
         setupViewModel(
             modelObject: ProfileModelObjectBuilder()
-                .skillModelObject(SKillModelObjectBuilder().build())
+                .skill(SKillModelObjectBuilder().build())
                 .build()
         )
 
@@ -44,7 +44,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         model.updateSkillHandler = {
             // assert
             XCTAssertEqual(
-                $0.skillModelObject?.engineerCareer,
+                $0.skill?.engineerCareer,
                 3
             )
 
@@ -64,7 +64,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         // arrange
         setupViewModel(
             modelObject: ProfileModelObjectBuilder()
-                .skillModelObject(SKillModelObjectBuilder().build())
+                .skill(SKillModelObjectBuilder().build())
                 .build()
         )
 
@@ -73,7 +73,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         model.updateSkillHandler = {
             // assert
             XCTAssertEqual(
-                $0.skillModelObject?.language,
+                $0.skill?.language,
                 "Swift"
             )
 
@@ -93,7 +93,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         // arrange
         setupViewModel(
             modelObject: ProfileModelObjectBuilder()
-                .skillModelObject(SKillModelObjectBuilder().build())
+                .skill(SKillModelObjectBuilder().build())
                 .build()
         )
 
@@ -102,7 +102,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         model.updateSkillHandler = {
             // assert
             XCTAssertEqual(
-                $0.skillModelObject?.languageCareer,
+                $0.skill?.languageCareer,
                 4
             )
 
@@ -122,7 +122,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         // arrange
         setupViewModel(
             modelObject: ProfileModelObjectBuilder()
-                .skillModelObject(SKillModelObjectBuilder().build())
+                .skill(SKillModelObjectBuilder().build())
                 .build()
         )
 
@@ -131,7 +131,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         model.updateSkillHandler = {
             // assert
             XCTAssertEqual(
-                $0.skillModelObject?.toeic,
+                $0.skill?.toeic,
                 800
             )
 
@@ -151,7 +151,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         // arrange
         setupViewModel(
             modelObject: ProfileModelObjectBuilder()
-                .skillModelObject(SKillModelObjectBuilder().build())
+                .skill(SKillModelObjectBuilder().build())
                 .build()
         )
 
@@ -176,7 +176,7 @@ private extension ProfileUpdateSkillViewModelTest {
     func setupViewModel(modelObject: ProfileModelObject) {
         model = .init()
 
-        analytics = modelObject.skillModelObject.isNil
+        analytics = modelObject.skill.isNil
             ? .init(screenId: .profileSkillSetting)
             : .init(screenId: .profileSkillUpdate)
 

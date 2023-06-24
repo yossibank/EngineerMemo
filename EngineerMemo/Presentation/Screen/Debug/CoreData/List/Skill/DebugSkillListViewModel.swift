@@ -36,7 +36,7 @@
                 .sink {
                     if case let .success(modelObjects) = $0 {
                         output.modelObjects = modelObjects.filter {
-                            $0.skillModelObject != nil
+                            $0.skill != nil
                         }
                     }
                 }

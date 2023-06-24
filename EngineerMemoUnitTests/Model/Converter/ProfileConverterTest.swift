@@ -64,7 +64,7 @@ final class ProfileConverterTest: XCTestCase {
                 .name("テスト")
                 .phoneNumber("08011112222")
                 .station("鶴橋駅")
-                .skillModelObject(
+                .skill(
                     SKillModelObjectBuilder()
                         .engineerCareer(3)
                         .language("Swift")
@@ -72,7 +72,7 @@ final class ProfileConverterTest: XCTestCase {
                         .toeic(600)
                         .build()
                 )
-                .projectModelObjects([
+                .projects([
                     ProjectModelObjectBuilder()
                         .title("title")
                         .content("content")

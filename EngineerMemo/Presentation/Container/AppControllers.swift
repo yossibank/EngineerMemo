@@ -144,7 +144,7 @@ enum AppControllers {
                     viewModel: .init(
                         modelObject: modelObject,
                         model: Models.Profile(),
-                        analytics: modelObject.skillModelObject.isNil
+                        analytics: modelObject.skill.isNil
                             ? FirebaseAnalytics(screenId: .profileSkillSetting)
                             : FirebaseAnalytics(screenId: .profileSkillUpdate)
                     )

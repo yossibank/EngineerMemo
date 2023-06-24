@@ -271,7 +271,7 @@ final class ProfileModelTest: XCTestCase {
         let publisher = model.createSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .skillModelObject(
+                .skill(
                     SKillModelObjectBuilder()
                         .engineerCareer(3)
                         .identifier("identifier")
@@ -334,7 +334,7 @@ final class ProfileModelTest: XCTestCase {
         let publisher = model.updateSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .skillModelObject(
+                .skill(
                     SKillModelObjectBuilder()
                         .engineerCareer(10)
                         .language("Swift")
@@ -394,7 +394,7 @@ final class ProfileModelTest: XCTestCase {
         let publisher = model.deleteSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .skillModelObject(nil)
+                .skill(nil)
                 .build()
         )
 
@@ -422,7 +422,7 @@ final class ProfileModelTest: XCTestCase {
         let publisher = model.createProject(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .projectModelObjects([
+                .projects([
                     ProjectModelObjectBuilder()
                         .title("title")
                         .content("content")
@@ -472,7 +472,7 @@ final class ProfileModelTest: XCTestCase {
         let publisher = model.deleteProject(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .projectModelObjects([])
+                .projects([])
                 .build()
         )
         .collect(1)

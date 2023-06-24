@@ -83,20 +83,20 @@
         func configure(_ modelObject: ProfileModelObject) {
             nameLabel.text = modelObject.name
 
-            if let engineerCareer = modelObject.skillModelObject?.engineerCareer {
+            if let engineerCareer = modelObject.skill?.engineerCareer {
                 engineerCareerLabel.text = L10n.Profile.year(engineerCareer)
             } else {
                 engineerCareerLabel.text = .noSetting
             }
 
-            if let language = modelObject.skillModelObject?.language,
-               let languageCareer = modelObject.skillModelObject?.languageCareer {
+            if let language = modelObject.skill?.language,
+               let languageCareer = modelObject.skill?.languageCareer {
                 languageLabel.text = language + " " + L10n.Profile.year(languageCareer)
-            } else if let language = modelObject.skillModelObject?.language {
+            } else if let language = modelObject.skill?.language {
                 languageLabel.text = language
             }
 
-            if let toeic = modelObject.skillModelObject?.toeic {
+            if let toeic = modelObject.skill?.toeic {
                 toeicLabel.text = L10n.Profile.score(toeic)
             }
 

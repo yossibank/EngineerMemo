@@ -9,8 +9,8 @@ struct ProfileModelObject: Hashable {
     var name: String?
     var phoneNumber: String?
     var station: String?
-    var skillModelObject: SkillModelObject?
-    var projectModelObjects: [ProjectModelObject] = []
+    var skill: SkillModelObject?
+    var projects: [ProjectModelObject] = []
     var identifier: String
 
     enum Gender: Int {
@@ -38,18 +38,18 @@ extension ProfileModelObject {
         isNew: Bool
     ) {
         let context = profile.context
-        let profile = profile.object
+        let profileObject = profile.object
 
-        profile.address = address
-        profile.birthday = birthday
-        profile.email = email
-        profile.gender = .init(rawValue: gender?.rawValue ?? .invalid)
-        profile.name = name
-        profile.phoneNumber = phoneNumber
-        profile.station = station
+        profileObject.address = address
+        profileObject.birthday = birthday
+        profileObject.email = email
+        profileObject.gender = .init(rawValue: gender?.rawValue ?? .invalid)
+        profileObject.name = name
+        profileObject.phoneNumber = phoneNumber
+        profileObject.station = station
 
         if isNew {
-            profile.identifier = UUID().uuidString
+            profileObject.identifier = UUID().uuidString
         }
 
         context.saveIfNeeded()
@@ -57,8 +57,8 @@ extension ProfileModelObject {
 
     func insertIconImage(_ profile: CoreDataObject<Profile>) {
         let context = profile.context
-        let profile = profile.object
-        profile.iconImage = iconImage
+        let profileObject = profile.object
+        profileObject.iconImage = iconImage
         context.saveIfNeeded()
     }
 }
@@ -67,30 +67,29 @@ extension ProfileModelObject {
 
 extension ProfileModelObject {
     func insertSkill(
-        profile: CoreDataObject<Profile>,
-        skill: CoreDataObject<Skill>,
+        _ profile: CoreDataObject<Profile>,
         isNew: Bool
     ) {
         let context = profile.context
-        let profile = profile.object
-        let skill = skill.object
+        let profileObject = profile.object
+        let skillObject = profileObject.skill ?? Skill(context: context)
 
-        skill.engineerCareer = .init(value: skillModelObject?.engineerCareer ?? .invalid)
-        skill.language = skillModelObject?.language
+        skillObject.engineerCareer = .init(value: skill?.engineerCareer ?? .invalid)
+        skillObject.language = skill?.language
 
-        if let languageCareer = skillModelObject?.languageCareer {
-            skill.languageCareer = .init(value: languageCareer)
+        if let languageCareer = skill?.languageCareer {
+            skillObject.languageCareer = .init(value: languageCareer)
         }
 
-        if let toeic = skillModelObject?.toeic {
-            skill.toeic = .init(value: toeic)
+        if let toeic = skill?.toeic {
+            skillObject.toeic = .init(value: toeic)
         }
 
         if isNew {
-            skill.identifier = UUID().uuidString
+            skillObject.identifier = UUID().uuidString
         }
 
-        profile.skill = skill
+        profileObject.skill = skillObject
 
         context.saveIfNeeded()
     }
@@ -99,19 +98,19 @@ extension ProfileModelObject {
 // MARK: - 案件情報作成・更新
 
 extension ProfileModelObject {
-    func insertProject(profile: CoreDataObject<Profile>) {
+    func insertProject(_ profile: CoreDataObject<Profile>) {
         let context = profile.context
-        let profile = profile.object
+        let profileObject = profile.object
 
-        let projects = projectModelObjects.map { object -> Project in
+        let projects = projects.map { object -> Project in
             let project = Project(context: context)
+            project.identifier = UUID().uuidString
             project.title = object.title
             project.content = object.content
-            project.identifier = UUID().uuidString
             return project
         }
 
-        profile.addToProjects(.init(array: projects))
+        profileObject.addToProjects(.init(array: projects))
 
         context.saveIfNeeded()
     }

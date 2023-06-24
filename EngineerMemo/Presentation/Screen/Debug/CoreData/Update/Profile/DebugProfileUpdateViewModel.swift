@@ -37,8 +37,8 @@
             .name(DebugCoreDataSegment.defaultString)
             .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)
-            .skillModelObject(DebugDefaultSegment.defaultSkill)
-            .projectModelObjects(DebugDefaultSegment.defaultProjects)
+            .skill(DebugDefaultSegment.defaultSkill)
+            .projects(DebugDefaultSegment.defaultProjects)
             .build()
 
         private var addressSegment: DebugCoreDataSegment = .medium
@@ -142,7 +142,7 @@
 
             input.didChangeSkillControl.sink { [weak self] segment in
                 self?.skillSegment = segment
-                self?.modelObject.skillModelObject = segment.skill
+                self?.modelObject.skill = segment.skill
             }
             .store(in: &cancellables)
 
@@ -150,7 +150,7 @@
 
             input.didChangeProjectControl.sink { [weak self] segment in
                 self?.projectsSegment = segment
-                self?.modelObject.projectModelObjects = segment.projects
+                self?.modelObject.projects = segment.projects
             }
             .store(in: &cancellables)
 
@@ -192,8 +192,8 @@
                     .name(self.nameSegment.string)
                     .phoneNumber(self.phoneNumberSegment.phoneNumber)
                     .station(self.stationSegment.string)
-                    .skillModelObject(self.skillSegment.skill)
-                    .projectModelObjects(self.projectsSegment.projects)
+                    .skill(self.skillSegment.skill)
+                    .projects(self.projectsSegment.projects)
                     .identifier(identifier)
                     .build()
             }

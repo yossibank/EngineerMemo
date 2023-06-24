@@ -43,7 +43,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        var updatedObject = modelObject.skillModelObject ?? SkillModelObject(identifier: UUID().uuidString)
+        var updatedObject = modelObject.skill ?? SkillModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewWillAppear
 
@@ -87,13 +87,13 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { [weak self] _ in
-            if modelObject.skillModelObject.isNil {
+            if modelObject.skill.isNil {
                 var modelObject = modelObject
-                modelObject.skillModelObject = updatedObject
+                modelObject.skill = updatedObject
                 self?.createSkill(modelObject: modelObject)
             } else {
                 var modelObject = modelObject
-                modelObject.skillModelObject = updatedObject
+                modelObject.skill = updatedObject
                 self?.updateSkill(modelObject: modelObject)
             }
 

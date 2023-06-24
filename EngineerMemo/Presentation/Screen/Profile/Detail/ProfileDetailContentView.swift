@@ -228,19 +228,19 @@ private extension ProfileDetailContentView {
 
         if let modelObject {
             dataSourceSnapshot.appendItems(
-                [.skill(modelObject.skillModelObject)],
+                [.skill(modelObject.skill)],
                 toSection: .skill
             )
         }
 
         if let modelObject {
-            if modelObject.projectModelObjects.isEmpty {
+            if modelObject.projects.isEmpty {
                 dataSourceSnapshot.appendItems(
                     [.project(nil)],
                     toSection: .project
                 )
             } else {
-                modelObject.projectModelObjects.forEach {
+                modelObject.projects.forEach {
                     dataSourceSnapshot.appendItems(
                         [.project($0)],
                         toSection: .project
@@ -341,7 +341,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
                 return .zero
             }
 
-            return modelObject.skillModelObject.isNil
+            return modelObject.skill.isNil
                 ? .zero
                 : UITableView.automaticDimension
 
@@ -350,7 +350,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
                 return .zero
             }
 
-            return modelObject.projectModelObjects.isEmpty
+            return modelObject.projects.isEmpty
                 ? .zero
                 : UITableView.automaticDimension
         }

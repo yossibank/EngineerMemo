@@ -71,7 +71,7 @@ final class ProfileUpdateProjectViewModel: ViewModel {
 
         input.didTapBarButton.sink { [weak self] _ in
             var modelObject = modelObject
-            modelObject.projectModelObjects = [updatedObject]
+            modelObject.projects = [updatedObject]
             self?.createProject(modelObject: modelObject)
             self?.output.isFinished = true
         }

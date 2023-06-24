@@ -15,8 +15,8 @@ struct ProfileConverter: ProfileConverterInput {
             name: profile.name ?? .noSetting,
             phoneNumber: profile.phoneNumber ?? .noSetting,
             station: profile.station ?? .noSetting,
-            skillModelObject: SkillConverter().convert(profile.skill),
-            projectModelObjects: ProjectConverter().convert(profile.projects?.allObjects as? [Project]),
+            skill: SkillConverter().convert(profile.skill),
+            projects: ProjectConverter().convert(profile.projects?.allObjects as? [Project]),
             identifier: profile.identifier
         )
     }

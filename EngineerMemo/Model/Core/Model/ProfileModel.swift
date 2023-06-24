@@ -87,13 +87,8 @@ final class ProfileModel: ProfileModelInput {
     func createSkill(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
         profileStorage
             .update(identifier: modelObject.identifier)
-            .combineLatest(skillStorage.create())
-            .handleEvents(receiveOutput: { profile, skill in
-                modelObject.insertSkill(
-                    profile: profile,
-                    skill: skill,
-                    isNew: true
-                )
+            .handleEvents(receiveOutput: {
+                modelObject.insertSkill($0, isNew: true)
             })
             .map { _ in }
             .eraseToAnyPublisher()
@@ -102,13 +97,8 @@ final class ProfileModel: ProfileModelInput {
     func updateSkill(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
         profileStorage
             .update(identifier: modelObject.identifier)
-            .combineLatest(skillStorage.update(identifier: modelObject.skillModelObject?.identifier ?? .empty))
-            .handleEvents(receiveOutput: { profile, skill in
-                modelObject.insertSkill(
-                    profile: profile,
-                    skill: skill,
-                    isNew: false
-                )
+            .handleEvents(receiveOutput: {
+                modelObject.insertSkill($0, isNew: false)
             })
             .map { _ in }
             .eraseToAnyPublisher()
@@ -129,7 +119,7 @@ final class ProfileModel: ProfileModelInput {
         profileStorage
             .update(identifier: modelObject.identifier)
             .handleEvents(receiveOutput: {
-                modelObject.insertProject(profile: $0)
+                modelObject.insertProject($0)
             })
             .map { _ in }
             .eraseToAnyPublisher()
