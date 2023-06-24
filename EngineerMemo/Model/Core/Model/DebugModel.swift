@@ -6,7 +6,7 @@
         func updateColorTheme(_ value: Int)
     }
 
-    final class DebugModel: DebugModelInput {
+    struct DebugModel: DebugModelInput {
         func updateColorTheme(_ value: Int) {
             DataHolder.colorTheme = .init(rawValue: value) ?? .system
         }

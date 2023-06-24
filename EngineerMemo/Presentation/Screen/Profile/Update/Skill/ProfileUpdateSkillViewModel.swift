@@ -87,16 +87,9 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { [weak self] _ in
-            if modelObject.skill.isNil {
-                var modelObject = modelObject
-                modelObject.skill = updatedObject
-                self?.createSkill(modelObject: modelObject)
-            } else {
-                var modelObject = modelObject
-                modelObject.skill = updatedObject
-                self?.updateSkill(modelObject: modelObject)
-            }
-
+            var modelObject = modelObject
+            modelObject.skill = updatedObject
+            self?.insertSkill(modelObject)
             self?.output.isFinished = true
         }
         .store(in: &cancellables)
@@ -113,14 +106,8 @@ final class ProfileUpdateSkillViewModel: ViewModel {
 // MARK: - private methods
 
 private extension ProfileUpdateSkillViewModel {
-    func createSkill(modelObject: ProfileModelObject) {
-        model.createSkill(modelObject: modelObject)
-            .sink { _ in }
-            .store(in: &cancellables)
-    }
-
-    func updateSkill(modelObject: ProfileModelObject) {
-        model.updateSkill(modelObject: modelObject)
+    func insertSkill(_ modelObject: ProfileModelObject) {
+        model.insertSkill(modelObject)
             .sink { _ in }
             .store(in: &cancellables)
     }

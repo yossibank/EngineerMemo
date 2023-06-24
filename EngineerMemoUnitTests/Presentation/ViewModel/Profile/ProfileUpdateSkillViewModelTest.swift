@@ -41,7 +41,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
         viewModel.binding.engineerCareer = .three
 
-        model.updateSkillHandler = {
+        model.insertSkillHandler = {
             // assert
             XCTAssertEqual(
                 $0.skill?.engineerCareer,
@@ -70,7 +70,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
         viewModel.binding.language = "Swift"
 
-        model.updateSkillHandler = {
+        model.insertSkillHandler = {
             // assert
             XCTAssertEqual(
                 $0.skill?.language,
@@ -99,7 +99,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
         viewModel.binding.languageCareer = .four
 
-        model.updateSkillHandler = {
+        model.insertSkillHandler = {
             // assert
             XCTAssertEqual(
                 $0.skill?.languageCareer,
@@ -128,7 +128,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
         viewModel.binding.toeic = 800
 
-        model.updateSkillHandler = {
+        model.insertSkillHandler = {
             // assert
             XCTAssertEqual(
                 $0.skill?.toeic,
@@ -155,7 +155,7 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
                 .build()
         )
 
-        model.updateSkillHandler = { _ in
+        model.insertSkillHandler = { _ in
             Deferred {
                 Future<Void, Never> { promise in
                     promise(.success(()))

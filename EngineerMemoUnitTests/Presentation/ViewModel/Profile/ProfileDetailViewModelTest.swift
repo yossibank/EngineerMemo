@@ -155,11 +155,19 @@ final class ProfileDetailViewModelTest: XCTestCase {
             // assert
             XCTAssertEqual(
                 $0,
+                "identifier"
+            )
+
+            XCTAssertEqual(
+                $1,
                 modelObject
             )
         }
 
         // act
-        viewModel.input.didTapProjectSettingButton.send(modelObject)
+        viewModel.input.didTapProjectSettingButton.send((
+            "identifier",
+            modelObject
+        ))
     }
 }

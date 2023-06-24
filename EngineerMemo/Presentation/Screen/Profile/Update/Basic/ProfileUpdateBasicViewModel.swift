@@ -115,9 +115,9 @@ final class ProfileUpdateBasicViewModel: ViewModel {
 
         input.didTapBarButton.sink { [weak self] _ in
             if modelObject.isNil {
-                self?.createBasic(modelObject: updatedObject)
+                self?.createBasic(updatedObject)
             } else {
-                self?.updateBasic(modelObject: updatedObject)
+                self?.updateBasic(updatedObject)
             }
 
             output.isFinished = true
@@ -139,14 +139,14 @@ final class ProfileUpdateBasicViewModel: ViewModel {
 // MARK: - private methods
 
 private extension ProfileUpdateBasicViewModel {
-    func createBasic(modelObject: ProfileModelObject) {
-        model.createBasic(modelObject: modelObject)
+    func createBasic(_ modelObject: ProfileModelObject) {
+        model.createBasic(modelObject)
             .sink { _ in }
             .store(in: &cancellables)
     }
 
-    func updateBasic(modelObject: ProfileModelObject) {
-        model.updateBasic(modelObject: modelObject)
+    func updateBasic(_ modelObject: ProfileModelObject) {
+        model.updateBasic(modelObject)
             .sink { _ in }
             .store(in: &cancellables)
     }

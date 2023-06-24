@@ -66,10 +66,7 @@ extension ProfileModelObject {
 // MARK: - スキル情報作成・更新
 
 extension ProfileModelObject {
-    func insertSkill(
-        _ profile: CoreDataObject<Profile>,
-        isNew: Bool
-    ) {
+    func insertSkill(_ profile: CoreDataObject<Profile>) {
         let context = profile.context
         let profileObject = profile.object
         let skillObject = profileObject.skill ?? Skill(context: context)
@@ -85,7 +82,7 @@ extension ProfileModelObject {
             skillObject.toeic = .init(value: toeic)
         }
 
-        if isNew {
+        if profileObject.skill.isNil {
             skillObject.identifier = UUID().uuidString
         }
 
@@ -111,6 +108,27 @@ extension ProfileModelObject {
         }
 
         profileObject.addToProjects(.init(array: projects))
+
+        context.saveIfNeeded()
+    }
+
+    func updateProject(
+        _ profile: CoreDataObject<Profile>,
+        identifier: String
+    ) {
+        let context = profile.context
+        let profileObject = profile.object
+
+        guard
+            let projectObjects = profileObject.projects?.allObjects as? [Project],
+            let projectObject = projectObjects.filter({ $0.identifier == identifier }).first,
+            let project = projects.filter({ $0.identifier == identifier }).first
+        else {
+            return
+        }
+
+        projectObject.title = project.title
+        projectObject.content = project.content
 
         context.saveIfNeeded()
     }

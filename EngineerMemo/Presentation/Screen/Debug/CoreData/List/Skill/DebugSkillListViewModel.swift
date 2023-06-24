@@ -45,7 +45,7 @@
             // MARK: - スキル情報削除
 
             input.didSwipe.sink { [weak self] in
-                self?.deleteSkill(modelObject: $0)
+                self?.deleteSkill($0)
             }
             .store(in: &cancellables)
         }
@@ -54,8 +54,8 @@
     // MARK: - private methods
 
     private extension DebugSkillListViewModel {
-        func deleteSkill(modelObject: ProfileModelObject) {
-            model.deleteSkill(modelObject: modelObject)
+        func deleteSkill(_ modelObject: ProfileModelObject) {
+            model.deleteSkill(modelObject)
                 .sink { _ in }
                 .store(in: &cancellables)
         }

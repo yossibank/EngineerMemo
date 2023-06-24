@@ -34,6 +34,7 @@ final class ProfileDetailContentView: UIView {
     private(set) lazy var didTapBasicSettingButtonPublisher = didTapBasicSettingButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSkillSettingButtonPublisher = didTapSkillSettingButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapProjectSettingButtonPublisher = didTapProjectSettingButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didSelectProjectPublisher = didSelectProjectSubject.eraseToAnyPublisher()
 
     private lazy var dataSource = UITableViewDiffableDataSource<
         Section,
@@ -53,7 +54,8 @@ final class ProfileDetailContentView: UIView {
     private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapBasicSettingButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
     private let didTapSkillSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
-    private let didTapProjectSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
+    private let didTapProjectSettingButtonSubject = PassthroughSubject<(String, ProfileModelObject), Never>()
+    private let didSelectProjectSubject = PassthroughSubject<(String, ProfileModelObject), Never>()
 
     private let tableView = UITableView(
         frame: .zero,
@@ -194,7 +196,10 @@ private extension ProfileDetailContentView {
                         return
                     }
 
-                    self.didTapProjectSettingButtonSubject.send(modelObject)
+                    self.didTapProjectSettingButtonSubject.send((
+                        UUID().uuidString,
+                        modelObject
+                    ))
                 }
                 .store(in: &cell.cancellables)
 
@@ -315,7 +320,10 @@ extension ProfileDetailContentView: UITableViewDelegate {
             view.configure(with: .project)
 
             view.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapProjectSettingButtonSubject.send(modelObject)
+                self?.didTapProjectSettingButtonSubject.send((
+                    UUID().uuidString,
+                    modelObject
+                ))
             }
             .store(in: &view.cancellables)
 
@@ -368,6 +376,30 @@ extension ProfileDetailContentView: UITableViewDelegate {
         heightForFooterInSection section: Int
     ) -> CGFloat {
         16
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: false
+        )
+
+        guard
+            let modelObject,
+            let identifier = modelObject.projects[safe: indexPath.row]?.identifier,
+            let section = Section.allCases[safe: indexPath.section],
+            section == .project
+        else {
+            return
+        }
+
+        didTapProjectSettingButtonSubject.send((
+            identifier,
+            modelObject
+        ))
     }
 }
 

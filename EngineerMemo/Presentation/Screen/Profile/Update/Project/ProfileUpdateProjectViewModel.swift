@@ -8,7 +8,6 @@ final class ProfileUpdateProjectViewModel: ViewModel {
     }
 
     final class Input: InputObject {
-        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapBarButton = PassthroughSubject<Void, Never>()
     }
@@ -28,6 +27,7 @@ final class ProfileUpdateProjectViewModel: ViewModel {
     private let analytics: FirebaseAnalyzable
 
     init(
+        identifier: String,
         modelObject: ProfileModelObject,
         model: ProfileModelInput,
         analytics: FirebaseAnalyzable
@@ -42,7 +42,9 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        var updatedObject = ProjectModelObject(identifier: UUID().uuidString)
+        var updatedObject = modelObject.projects.filter {
+            $0.identifier == identifier
+        }.first ?? ProjectModelObject(identifier: identifier)
 
         // MARK: - viewWillAppear
 
@@ -70,9 +72,16 @@ final class ProfileUpdateProjectViewModel: ViewModel {
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { [weak self] _ in
-            var modelObject = modelObject
-            modelObject.projects = [updatedObject]
-            self?.createProject(modelObject: modelObject)
+            if modelObject.projects.filter({ $0.identifier == identifier }).first.isNil {
+                var modelObject = modelObject
+                modelObject.projects = [updatedObject]
+                self?.createProject(modelObject)
+            } else {
+                var modelObject = modelObject
+                modelObject.projects = [updatedObject]
+                self?.updateProject(modelObject, identifier: identifier)
+            }
+
             self?.output.isFinished = true
         }
         .store(in: &cancellables)
@@ -87,8 +96,17 @@ final class ProfileUpdateProjectViewModel: ViewModel {
 // MARK: - private methods
 
 private extension ProfileUpdateProjectViewModel {
-    func createProject(modelObject: ProfileModelObject) {
-        model.createProject(modelObject: modelObject)
+    func createProject(_ modelObject: ProfileModelObject) {
+        model.createProject(modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
+    }
+
+    func updateProject(
+        _ modelObject: ProfileModelObject,
+        identifier: String
+    ) {
+        model.updateProject(modelObject, identifier: identifier)
             .sink { _ in }
             .store(in: &cancellables)
     }

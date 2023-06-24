@@ -45,7 +45,7 @@
             // MARK: - 案件・経歴情報削除
 
             input.didSwipe.sink { [weak self] in
-                self?.deleteProject(modelObject: $0)
+                self?.deleteProject($0)
             }
             .store(in: &cancellables)
         }
@@ -54,8 +54,8 @@
     // MARK: - private methods
 
     private extension DebugProjectListViewModel {
-        func deleteProject(modelObject: ProfileModelObject) {
-            model.deleteProject(modelObject: modelObject)
+        func deleteProject(_ modelObject: ProfileModelObject) {
+            model.deleteProject(modelObject)
                 .sink { _ in }
                 .store(in: &cancellables)
         }

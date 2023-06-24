@@ -192,7 +192,7 @@ final class ProfileModelTest: XCTestCase {
     func test_createBasic_基本情報を作成できること() throws {
         // act
         let publisher = model.createBasic(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .name("テスト")
                 .birthday(Calendar.date(year: 2000, month: 1, day: 1))
                 .build()
@@ -230,7 +230,7 @@ final class ProfileModelTest: XCTestCase {
 
         // act
         let publisher = model.updateBasic(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .name("テスト更新後")
                 .birthday(Calendar.date(year: 2000, month: 11, day: 1))
@@ -263,13 +263,13 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_createSkill_スキル情報を作成できること() throws {
+    func test_insertSkill_スキル情報を作成できること() throws {
         // arrange
         dataInsert()
 
         // act
-        let publisher = model.createSkill(
-            modelObject: ProfileModelObjectBuilder()
+        let publisher = model.insertSkill(
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .skill(
                     SKillModelObjectBuilder()
@@ -319,7 +319,7 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_updateSkill_スキル情報を更新できること() throws {
+    func test_insertSkill_スキル情報を更新できること() throws {
         // arrange
         dataInsert(
             skill: SkillDataObjectBuilder()
@@ -331,8 +331,8 @@ final class ProfileModelTest: XCTestCase {
         )
 
         // act
-        let publisher = model.updateSkill(
-            modelObject: ProfileModelObjectBuilder()
+        let publisher = model.insertSkill(
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .skill(
                     SKillModelObjectBuilder()
@@ -392,7 +392,7 @@ final class ProfileModelTest: XCTestCase {
 
         // act
         let publisher = model.deleteSkill(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .skill(nil)
                 .build()
@@ -420,10 +420,11 @@ final class ProfileModelTest: XCTestCase {
 
         // act
         let publisher = model.createProject(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .projects([
                     ProjectModelObjectBuilder()
+                        .identifier("identifier")
                         .title("title")
                         .content("content")
                         .build()
@@ -470,7 +471,7 @@ final class ProfileModelTest: XCTestCase {
 
         // act
         let publisher = model.deleteProject(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .projects([])
                 .build()
@@ -500,7 +501,7 @@ final class ProfileModelTest: XCTestCase {
 
         // act
         let publisher = model.updateIconImage(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .iconImage(Asset.penguin.image.pngData())
                 .build()
@@ -555,7 +556,7 @@ final class ProfileModelTest: XCTestCase {
 
         // act
         model.delete(
-            modelObject: ProfileModelObjectBuilder()
+            ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .build()
         )

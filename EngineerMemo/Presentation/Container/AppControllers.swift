@@ -119,13 +119,17 @@ enum AppControllers {
                 return vc
             }
 
-            static func Project(modelObject: ProfileModelObject) -> ProfileUpdateProjectViewController {
+            static func Project(
+                identifier: String,
+                modelObject: ProfileModelObject
+            ) -> ProfileUpdateProjectViewController {
                 let vc = ProfileUpdateProjectViewController()
 
                 vc.title = "案件設定"
                 vc.inject(
                     contentView: .init(),
                     viewModel: .init(
+                        identifier: identifier,
                         modelObject: modelObject,
                         model: Models.Profile(),
                         analytics: FirebaseAnalytics(screenId: .profileProjectSetting)

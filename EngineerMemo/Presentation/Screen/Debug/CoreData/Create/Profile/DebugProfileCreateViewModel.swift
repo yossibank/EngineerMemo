@@ -122,7 +122,7 @@
 
     private extension DebugProfileCreateViewModel {
         func createBasic() {
-            model.createBasic(modelObject: modelObject)
+            model.createBasic(modelObject)
                 .sink { _ in }
                 .store(in: &cancellables)
         }

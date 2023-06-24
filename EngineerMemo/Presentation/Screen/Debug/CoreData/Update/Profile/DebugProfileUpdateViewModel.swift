@@ -1,5 +1,6 @@
 #if DEBUG
     import Combine
+    import Foundation
 
     final class DebugProfileUpdateViewModel: ViewModel {
         final class Input: InputObject {
@@ -181,8 +182,8 @@
                 self.modelObject.identifier = identifier
                 self.updateBasic()
                 self.updateSkill()
+                self.updateProject()
                 self.updateIconImage()
-                // TODO: プロジェクト更新処理
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
                     .birthday(self.ageSegment.date)
@@ -205,19 +206,25 @@
 
     private extension DebugProfileUpdateViewModel {
         func updateBasic() {
-            model.updateBasic(modelObject: modelObject)
+            model.updateBasic(modelObject)
                 .sink { _ in }
                 .store(in: &cancellables)
         }
 
         func updateSkill() {
-            model.updateSkill(modelObject: modelObject)
+            model.insertSkill(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
+        }
+
+        func updateProject() {
+            model.createProject(modelObject)
                 .sink { _ in }
                 .store(in: &cancellables)
         }
 
         func updateIconImage() {
-            model.updateIconImage(modelObject: modelObject)
+            model.updateIconImage(modelObject)
                 .sink { _ in }
                 .store(in: &cancellables)
         }

@@ -69,8 +69,8 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
             modelObject: ProfileModelObjectBuilder()
                 .skill(SKillModelObjectBuilder().build())
                 .projects([
-                    ProjectModelObjectBuilder().build(),
-                    ProjectModelObjectBuilder().build()
+                    ProjectModelObjectBuilder().identifier("identifier1").build(),
+                    ProjectModelObjectBuilder().identifier("identifier2").build()
                 ])
                 .build()
         )
@@ -94,7 +94,7 @@ private extension ProfileDetailViewControllerSnapshotTest {
             modelObject.insertBasic(profile, isNew: true)
 
             if !modelObject.skill.isNil {
-                modelObject.insertSkill(profile, isNew: true)
+                modelObject.insertSkill(profile)
             }
 
             if !modelObject.projects.isEmpty {

@@ -65,29 +65,36 @@ private extension ProfileDetailViewController {
     func bindToViewModel() {
         contentView.didTapIconChangeButtonPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.viewModel.input.didTapIconChangeButton.send(modelObject)
+            .sink { [weak self] in
+                self?.viewModel.input.didTapIconChangeButton.send($0)
             }
             .store(in: &cancellables)
 
         contentView.didTapBasicSettingButtonPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.viewModel.input.didTapBasicSettingButton.send(modelObject)
+            .sink { [weak self] in
+                self?.viewModel.input.didTapBasicSettingButton.send($0)
             }
             .store(in: &cancellables)
 
         contentView.didTapSkillSettingButtonPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.viewModel.input.didTapSkillSettingButton.send(modelObject)
+            .sink { [weak self] in
+                self?.viewModel.input.didTapSkillSettingButton.send($0)
             }
             .store(in: &cancellables)
 
         contentView.didTapProjectSettingButtonPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.viewModel.input.didTapProjectSettingButton.send(modelObject)
+            .sink { [weak self] in
+                self?.viewModel.input.didTapProjectSettingButton.send($0)
+            }
+            .store(in: &cancellables)
+
+        contentView.didSelectProjectPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.input.didSelectProject.send($0)
             }
             .store(in: &cancellables)
     }

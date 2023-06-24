@@ -66,7 +66,7 @@ final class ProfileIconViewModel: ViewModel {
 
 private extension ProfileIconViewModel {
     func updateIconImage() {
-        model.updateIconImage(modelObject: modelObject)
+        model.updateIconImage(modelObject)
             .sink { _ in }
             .store(in: &cancellables)
     }
