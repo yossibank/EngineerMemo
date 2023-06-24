@@ -12,6 +12,13 @@ final class ModelsTest: XCTestCase {
         profileModel = Models.Profile()
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        memoModel = nil
+        profileModel = nil
+    }
+
     func test_MemoModelのModelを生成できること() {
         // assert
         XCTAssertNotNil(memoModel)

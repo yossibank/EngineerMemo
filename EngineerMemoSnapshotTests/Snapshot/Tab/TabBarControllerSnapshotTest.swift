@@ -18,15 +18,23 @@ final class TabBarControllerSnapshotTest: FBSnapshotTestCase {
         super.tearDown()
 
         subject = nil
+
+        CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
     func testTabBarController_プロフィールタブ() {
         subject.selectedIndex = TabItem.profile.rawValue
-        snapshotVerifyView(viewMode: .normal(subject))
+        snapshotVerifyView(
+            viewMode: .normal(subject),
+            viewAfter: 0.2
+        )
     }
 
     func testTabBarController_メモタブ() {
         subject.selectedIndex = TabItem.memo.rawValue
-        snapshotVerifyView(viewMode: .normal(subject))
+        snapshotVerifyView(
+            viewMode: .normal(subject),
+            viewAfter: 0.2
+        )
     }
 }

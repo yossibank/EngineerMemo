@@ -27,6 +27,7 @@ final class MemoModelTest: XCTestCase {
         memoConverter = nil
         errorConverter = nil
         model = nil
+
         cancellables.removeAll()
 
         CoreDataManager.shared.injectInMemoryPersistentContainer()
