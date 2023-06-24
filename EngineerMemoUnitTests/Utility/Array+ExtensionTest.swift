@@ -17,21 +17,41 @@ final class ArrayExtensionTest: XCTestCase {
         // arrange
         let array = ["A", "B", "C", "D", "E"]
 
+        // act
+        let nilObject = array[safe: 5]
+
         // assert
-        XCTAssertEqual(
-            array[safe: 5],
-            nil
-        )
+        XCTAssertNil(nilObject)
     }
 
     func test_unique_配列内の値を重複せずに取得できること() {
         // arrange
         let array = ["A", "B", "A", "D", "E", "C", "D", "E"]
 
+        // act
+        let uniqueArray = array.unique
+
         // assert
         XCTAssertEqual(
-            array.unique,
+            uniqueArray,
             ["A", "B", "D", "E", "C"]
+        )
+    }
+
+    func test_replace_配列内の要素を引数の値で変換できること() {
+        // arrange
+        var array = ["A", "B", "C"]
+
+        // act
+        array.replace(
+            before: "A",
+            after: "ABC"
+        )
+
+        // assert
+        XCTAssertEqual(
+            array,
+            ["ABC", "B", "C"]
         )
     }
 }

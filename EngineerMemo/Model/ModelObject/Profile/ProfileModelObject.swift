@@ -120,15 +120,24 @@ extension ProfileModelObject {
         let profileObject = profile.object
 
         guard
-            let projectObjects = profileObject.projects?.allObjects as? [Project],
-            let projectObject = projectObjects.filter({ $0.identifier == identifier }).first,
+            var projectObjects = profileObject.projects?.allObjects as? [Project],
+            let targetProject = projectObjects.filter({ $0.identifier == identifier }).first,
             let project = projects.filter({ $0.identifier == identifier }).first
         else {
             return
         }
 
-        projectObject.title = project.title
-        projectObject.content = project.content
+        let updatedProject = targetProject.configure {
+            $0.title = project.title
+            $0.content = project.content
+        }
+
+        projectObjects.replace(
+            before: targetProject,
+            after: updatedProject
+        )
+
+        profileObject.projects = .init(array: projectObjects)
 
         context.saveIfNeeded()
     }

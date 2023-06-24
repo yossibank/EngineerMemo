@@ -457,6 +457,60 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
+    func test_updateProject_案件情報を更新できること() throws {
+        // arrange
+        dataInsert(
+            projects: [
+                ProjectDataObjectBuilder()
+                    .content("content")
+                    .identifier("identifier")
+                    .title("title")
+                    .build()
+            ]
+        )
+
+        // act
+        let publisher = model.updateProject(
+            ProfileModelObjectBuilder()
+                .identifier("identifier")
+                .projects([
+                    ProjectModelObjectBuilder()
+                        .identifier("identifier")
+                        .title("update title")
+                        .content("update content")
+                        .build()
+                ])
+                .build(),
+            identifier: "identifier"
+        )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
+
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
+                let profile = self.storage.allObjects.first!
+                let project = profile.projects?.allObjects.first as! Project
+
+                // assert
+                XCTAssertEqual(
+                    project.title,
+                    "update title"
+                )
+
+                XCTAssertEqual(
+                    project.content,
+                    "update content"
+                )
+
+                expectation.fulfill()
+            }
+        }
+    }
+
     func test_deleteProject_案件情報を削除できること() throws {
         // arrange
         dataInsert(
