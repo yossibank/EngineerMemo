@@ -49,7 +49,7 @@ final class ProfileIconViewModel: ViewModel {
             }
 
             self.modelObject.iconImage = iconImage
-            self.model.updateIconImage(modelObject: self.modelObject)
+            self.updateIconImage()
         }
         .store(in: &cancellables)
 
@@ -59,5 +59,15 @@ final class ProfileIconViewModel: ViewModel {
             model.updateIconImage(index: index)
         }
         .store(in: &cancellables)
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileIconViewModel {
+    func updateIconImage() {
+        model.updateIconImage(modelObject: modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }

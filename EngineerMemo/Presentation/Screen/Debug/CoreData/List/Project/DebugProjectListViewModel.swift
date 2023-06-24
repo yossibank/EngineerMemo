@@ -36,7 +36,7 @@
                 .sink {
                     if case let .success(modelObjects) = $0 {
                         output.modelObjects = modelObjects.filter {
-                            !$0.projects.isEmpty
+                            !$0.projectModelObjects.isEmpty
                         }
                     }
                 }
@@ -46,7 +46,7 @@
 
             input.didDeletedModelObject.sink {
                 var modelObject = $0
-                modelObject.projects = []
+                modelObject.projectModelObjects = []
 
                 model.updateProject(
                     modelObject,

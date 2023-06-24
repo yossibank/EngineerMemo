@@ -98,7 +98,7 @@
             WrapperView(view: DebugSkillListContentView()) {
                 $0.dataSource.modelObjects = [
                     ProfileModelObjectBuilder()
-                        .skill(SKillModelObjectBuilder().build())
+                        .skillModelObject(SKillModelObjectBuilder().build())
                         .build()
                 ]
             }

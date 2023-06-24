@@ -36,7 +36,7 @@
                 .sink {
                     if case let .success(modelObjects) = $0 {
                         output.modelObjects = modelObjects.filter {
-                            $0.skill != nil
+                            $0.skillModelObject != nil
                         }
                     }
                 }
@@ -44,13 +44,20 @@
 
             // MARK: - スキル情報削除
 
-            input.didDeletedModelObject.sink {
-                var modelObject = $0
-                modelObject.skill = nil
-
-                model.updateSkill(modelObject: modelObject)
+            input.didDeletedModelObject.sink { [weak self] in
+                self?.deleteSkill(modelObject: $0)
             }
             .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugSkillListViewModel {
+        func deleteSkill(modelObject: ProfileModelObject) {
+            model.deleteSkill(modelObject: modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
         }
     }
 #endif

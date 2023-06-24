@@ -48,7 +48,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     func testProfileDetailViewController_基本情報_経験スキル設定() {
         dataInsert(
             modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
+                .skillModelObject(SKillModelObjectBuilder().build())
                 .build()
         )
 
@@ -67,8 +67,8 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     func testProfileDetailViewController_基本情報_経験スキル_案件経歴設定() {
         dataInsert(
             modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
-                .projects([
+                .skillModelObject(SKillModelObjectBuilder().build())
+                .projectModelObjects([
                     ProjectModelObjectBuilder().build(),
                     ProjectModelObjectBuilder().build()
                 ])
@@ -93,7 +93,7 @@ private extension ProfileDetailViewControllerSnapshotTest {
         CoreDataStorage<Profile>().create().sink { profile in
             modelObject.insertBasic(profile, isNew: true)
 
-            if let skillModelObject = modelObject.skill {
+            if let skillModelObject = modelObject.skillModelObject {
                 CoreDataStorage<Skill>().create().sink {
                     skillModelObject.insertSkill(
                         profile: profile,
@@ -104,7 +104,7 @@ private extension ProfileDetailViewControllerSnapshotTest {
                 .store(in: &self.cancellables)
             }
 
-            modelObject.projects.forEach { project in
+            modelObject.projectModelObjects.forEach { project in
                 CoreDataStorage<Project>().create().sink {
                     project.insertProject(
                         profile: profile,

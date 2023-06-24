@@ -9,8 +9,8 @@ struct ProfileModelObject: Hashable {
     var name: String?
     var phoneNumber: String?
     var station: String?
-    var skill: SkillModelObject?
-    var projects: [ProjectModelObject] = []
+    var skillModelObject: SkillModelObject?
+    var projectModelObjects: [ProjectModelObject] = []
     var identifier: String
 
     enum Gender: Int {
@@ -32,10 +32,12 @@ struct ProfileModelObject: Hashable {
 
 extension ProfileModelObject {
     func insertBasic(
-        _ data: CoreDataObject<Profile>,
+        _ profile: CoreDataObject<Profile>,
         isNew: Bool
     ) {
-        let profile = data.object
+        let context = profile.context
+        let profile = profile.object
+
         profile.address = address
         profile.birthday = birthday
         profile.email = email
@@ -48,12 +50,42 @@ extension ProfileModelObject {
             profile.identifier = UUID().uuidString
         }
 
-        data.context.saveIfNeeded()
+        context.saveIfNeeded()
     }
 
-    func insertIconImage(_ data: CoreDataObject<Profile>) {
-        let profile = data.object
+    func insertSkill(
+        profile: CoreDataObject<Profile>,
+        skill: CoreDataObject<Skill>,
+        isNew: Bool
+    ) {
+        let context = profile.context
+        let profile = profile.object
+        let skill = skill.object
+
+        skill.engineerCareer = .init(value: skillModelObject?.engineerCareer ?? .invalid)
+        skill.language = skillModelObject?.language
+
+        if let languageCareer = skillModelObject?.languageCareer {
+            skill.languageCareer = .init(value: languageCareer)
+        }
+
+        if let toeic = skillModelObject?.toeic {
+            skill.toeic = .init(value: toeic)
+        }
+
+        if isNew {
+            skill.identifier = UUID().uuidString
+        }
+
+        profile.skill = skill
+
+        context.saveIfNeeded()
+    }
+
+    func insertIconImage(_ profile: CoreDataObject<Profile>) {
+        let context = profile.context
+        let profile = profile.object
         profile.iconImage = iconImage
-        data.context.saveIfNeeded()
+        context.saveIfNeeded()
     }
 }

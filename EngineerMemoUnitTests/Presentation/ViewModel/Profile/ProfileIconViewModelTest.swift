@@ -54,6 +54,13 @@ final class ProfileIconViewModelTest: XCTestCase {
                 $0.iconImage,
                 iconImage
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act

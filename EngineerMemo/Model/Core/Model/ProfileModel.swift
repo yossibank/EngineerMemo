@@ -6,11 +6,13 @@ protocol ProfileModelInput: Model {
     func find(identifier: String) -> AnyPublisher<ProfileModelObject, AppError>
     func createBasic(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
     func updateBasic(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
-    func updateSkill(modelObject: ProfileModelObject)
+    func createSkill(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
+    func updateSkill(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
+    func deleteSkill(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
+    func updateIconImage(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
+    func updateIconImage(index: Int)
     func createProject(_ modelObject: ProfileModelObject, project: ProjectModelObject)
     func updateProject(_ modelObject: ProfileModelObject, project: ProjectModelObject?)
-    func updateIconImage(modelObject: ProfileModelObject)
-    func updateIconImage(index: Int)
     func delete(modelObject: ProfileModelObject)
 }
 
@@ -65,8 +67,23 @@ final class ProfileModel: ProfileModelInput {
     func createBasic(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
         profileStorage
             .create()
-            .handleEvents(receiveOutput: { profile in
-                modelObject.insertBasic(profile, isNew: true)
+            .handleEvents(receiveOutput: {
+                modelObject.insertBasic($0, isNew: true)
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
+
+    func createSkill(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
+        profileStorage
+            .update(identifier: modelObject.identifier)
+            .combineLatest(skillStorage.create())
+            .handleEvents(receiveOutput: { profile, skill in
+                modelObject.insertSkill(
+                    profile: profile,
+                    skill: skill,
+                    isNew: true
+                )
             })
             .map { _ in }
             .eraseToAnyPublisher()
@@ -75,27 +92,40 @@ final class ProfileModel: ProfileModelInput {
     func updateBasic(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
         profileStorage
             .update(identifier: modelObject.identifier)
-            .handleEvents(receiveOutput: { profile in
-                modelObject.insertBasic(profile, isNew: false)
+            .handleEvents(receiveOutput: {
+                modelObject.insertBasic($0, isNew: false)
             })
             .map { _ in }
             .eraseToAnyPublisher()
     }
 
-    func createSkill(modelObject: ProfileModelObject) {
-        update(modelObject: modelObject) { _ in }
+    func updateSkill(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
+        profileStorage
+            .update(identifier: modelObject.identifier)
+            .combineLatest(skillStorage.update(identifier: modelObject.skillModelObject?.identifier ?? .empty))
+            .handleEvents(receiveOutput: { profile, skill in
+                modelObject.insertSkill(
+                    profile: profile,
+                    skill: skill,
+                    isNew: false
+                )
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
     }
 
-    func updateSkill(modelObject: ProfileModelObject) {
-        profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
-            guard let skill = modelObject.skill else {
-                self?.deleteSkill(profile: profile)
-                return
-            }
+    func updateIconImage(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
+        profileStorage
+            .update(identifier: modelObject.identifier)
+            .handleEvents(receiveOutput: {
+                modelObject.insertIconImage($0)
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
 
-            self?.updateSkill(skill, profile: profile)
-        }
-        .store(in: &cancellables)
+    func updateIconImage(index: Int) {
+        DataHolder.profileIcon = .init(rawValue: index) ?? .penguin
     }
 
     func createProject(
@@ -116,7 +146,7 @@ final class ProfileModel: ProfileModelInput {
         project: ProjectModelObject? = nil
     ) {
         profileStorage.update(identifier: modelObject.identifier).sink { [weak self] profile in
-            guard !modelObject.projects.isEmpty else {
+            guard !modelObject.projectModelObjects.isEmpty else {
                 self?.deleteProject(profile: profile)
                 return
             }
@@ -129,79 +159,24 @@ final class ProfileModel: ProfileModelInput {
         .store(in: &cancellables)
     }
 
-    func updateIconImage(modelObject: ProfileModelObject) {
-        profileStorage.update(identifier: modelObject.identifier).sink {
-            modelObject.insertIconImage($0)
-        }
-        .store(in: &cancellables)
-    }
-
-    func updateIconImage(index: Int) {
-        DataHolder.profileIcon = .init(rawValue: index) ?? .penguin
-    }
-
     func delete(modelObject: ProfileModelObject) {
         profileStorage.delete(identifier: modelObject.identifier)
+    }
+
+    func deleteSkill(modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
+        profileStorage.update(identifier: modelObject.identifier)
+            .handleEvents(receiveOutput: {
+                $0.object.skill = nil
+                $0.context.saveIfNeeded()
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
     }
 }
 
 // MARK: - private methods
 
 private extension ProfileModel {
-    func update(
-        modelObject: ProfileModelObject,
-        completion: @escaping (CoreDataObject<Profile>) -> Void
-    ) {
-        profileStorage.update(identifier: modelObject.identifier).sink {
-            completion($0)
-        }
-        .store(in: &cancellables)
-    }
-
-    func createSkill(
-        modelObject: SkillModelObject,
-        profile: CoreDataObject<Profile>
-    ) {
-        skillStorage.create().sink {
-            modelObject.insertSkill(
-                profile: profile,
-                skill: $0,
-                isNew: true
-            )
-        }
-        .store(in: &cancellables)
-    }
-
-    func updateSkill(
-        _ modelObject: SkillModelObject,
-        profile: CoreDataObject<Profile>
-    ) {
-        if profile.object.skill.isNil {
-            skillStorage.create().sink {
-                modelObject.insertSkill(
-                    profile: profile,
-                    skill: $0,
-                    isNew: true
-                )
-            }
-            .store(in: &cancellables)
-        } else {
-            skillStorage.update(identifier: profile.object.skill?.identifier ?? .empty).sink {
-                modelObject.insertSkill(
-                    profile: profile,
-                    skill: $0,
-                    isNew: false
-                )
-            }
-            .store(in: &cancellables)
-        }
-    }
-
-    func deleteSkill(profile: CoreDataObject<Profile>) {
-        profile.object.skill = nil
-        profile.context.saveIfNeeded()
-    }
-
     func createProject(
         project: ProjectModelObject? = nil,
         profile: CoreDataObject<Profile>

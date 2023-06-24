@@ -35,7 +35,7 @@ final class ProfileModelTest: XCTestCase {
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
-    func test_fetch_成功_情報を取得できること() throws {
+    func test_fetch_プロフィール情報を取得できること() throws {
         // arrange
         dataInsert()
 
@@ -113,7 +113,7 @@ final class ProfileModelTest: XCTestCase {
         )
     }
 
-    func test_find_成功_情報を取得できること() throws {
+    func test_find_プロフィール情報を取得できること() throws {
         // arrange
         dataInsert()
 
@@ -189,7 +189,7 @@ final class ProfileModelTest: XCTestCase {
         )
     }
 
-    func test_create_基本情報を作成できること() throws {
+    func test_createBasic_基本情報を作成できること() throws {
         // act
         let publisher = model.createBasic(
             modelObject: ProfileModelObjectBuilder()
@@ -224,7 +224,7 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_update_基本情報を更新できること() throws {
+    func test_updateBasic_基本情報を更新できること() throws {
         // arrange
         dataInsert()
 
@@ -263,15 +263,15 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_skillUpdate_更新情報なし_skillを作成できること() {
+    func test_createSkill_スキル情報を作成できること() throws {
         // arrange
         dataInsert()
 
         // act
-        model.updateSkill(
+        let publisher = model.createSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .skill(
+                .skillModelObject(
                     SKillModelObjectBuilder()
                         .engineerCareer(3)
                         .identifier("identifier")
@@ -282,6 +282,10 @@ final class ProfileModelTest: XCTestCase {
                 )
                 .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {
@@ -315,7 +319,7 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_skillUpdate_更新情報あり_skillを更新できること() {
+    func test_updateSkill_スキル情報を更新できること() throws {
         // arrange
         dataInsert(
             skill: SkillDataObjectBuilder()
@@ -327,10 +331,10 @@ final class ProfileModelTest: XCTestCase {
         )
 
         // act
-        model.updateSkill(
+        let publisher = model.updateSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .skill(
+                .skillModelObject(
                     SKillModelObjectBuilder()
                         .engineerCareer(10)
                         .language("Swift")
@@ -341,6 +345,8 @@ final class ProfileModelTest: XCTestCase {
                 )
                 .build()
         )
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {
@@ -374,7 +380,7 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_skillUpdate_更新情報nil_skillを削除できること() {
+    func test_deleteSkill_スキル情報を削除できること() throws {
         // arrange
         dataInsert(
             skill: SkillDataObjectBuilder()
@@ -385,12 +391,14 @@ final class ProfileModelTest: XCTestCase {
         )
 
         // act
-        model.updateSkill(
+        let publisher = model.deleteSkill(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .skill(nil)
+                .skillModelObject(nil)
                 .build()
         )
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {
@@ -414,7 +422,7 @@ final class ProfileModelTest: XCTestCase {
         model.updateProject(
             ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .projects([
+                .projectModelObjects([
                     ProjectModelObjectBuilder()
                         .title("title")
                         .content("content")
@@ -466,7 +474,7 @@ final class ProfileModelTest: XCTestCase {
         model.updateProject(
             ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .projects([])
+                .projectModelObjects([])
                 .build()
         )
 
@@ -484,17 +492,21 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_iconImageUpdate_iconImageを更新できること() {
+    func test_updateIconImage_iconImageを更新できること() throws {
         // arrange
         dataInsert()
 
         // act
-        model.updateIconImage(
+        let publisher = model.updateIconImage(
             modelObject: ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .iconImage(Asset.penguin.image.pngData())
                 .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {
@@ -524,7 +536,7 @@ final class ProfileModelTest: XCTestCase {
         )
     }
 
-    func test_iconImageUpdate_不正値の場合にデフォルト設定でuserDefaultsを更新できること() {
+    func test_iconImageUpdate_不正値の場合にデフォルト値でuserDefaultsを更新できること() {
         // arrange
         model.updateIconImage(index: 100)
 
@@ -535,7 +547,7 @@ final class ProfileModelTest: XCTestCase {
         )
     }
 
-    func test_delete_情報を削除できること() {
+    func test_delete_プロフィール情報を削除できること() {
         // arrange
         dataInsert()
 

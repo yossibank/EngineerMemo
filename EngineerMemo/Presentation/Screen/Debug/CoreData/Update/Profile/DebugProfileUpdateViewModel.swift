@@ -37,8 +37,8 @@
             .name(DebugCoreDataSegment.defaultString)
             .phoneNumber(DebugPhoneNumberSegment.defaultPhoneNumber)
             .station(DebugCoreDataSegment.defaultString)
-            .skill(DebugDefaultSegment.defaultSkill)
-            .projects(DebugDefaultSegment.defaultProjects)
+            .skillModelObject(DebugDefaultSegment.defaultSkill)
+            .projectModelObjects(DebugDefaultSegment.defaultProjects)
             .build()
 
         private var addressSegment: DebugCoreDataSegment = .medium
@@ -142,7 +142,7 @@
 
             input.didChangeSkillControl.sink { [weak self] segment in
                 self?.skillSegment = segment
-                self?.modelObject.skill = segment.skill
+                self?.modelObject.skillModelObject = segment.skill
             }
             .store(in: &cancellables)
 
@@ -150,7 +150,7 @@
 
             input.didChangeProjectControl.sink { [weak self] segment in
                 self?.projectsSegment = segment
-                self?.modelObject.projects = segment.projects
+                self?.modelObject.projectModelObjects = segment.projects
             }
             .store(in: &cancellables)
 
@@ -180,8 +180,8 @@
 
                 self.modelObject.identifier = identifier
                 self.updateBasic()
-                self.model.updateIconImage(modelObject: self.modelObject)
-                self.model.updateSkill(modelObject: self.modelObject)
+                self.updateSkill()
+                self.updateIconImage()
                 self.model.updateProject(self.modelObject, project: ProjectModelObjectBuilder().build())
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
@@ -192,8 +192,8 @@
                     .name(self.nameSegment.string)
                     .phoneNumber(self.phoneNumberSegment.phoneNumber)
                     .station(self.stationSegment.string)
-                    .skill(self.skillSegment.skill)
-                    .projects(self.projectsSegment.projects)
+                    .skillModelObject(self.skillSegment.skill)
+                    .projectModelObjects(self.projectsSegment.projects)
                     .identifier(identifier)
                     .build()
             }
@@ -206,6 +206,18 @@
     private extension DebugProfileUpdateViewModel {
         func updateBasic() {
             model.updateBasic(modelObject: modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
+        }
+
+        func updateSkill() {
+            model.updateSkill(modelObject: modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
+        }
+
+        func updateIconImage() {
+            model.updateIconImage(modelObject: modelObject)
                 .sink { _ in }
                 .store(in: &cancellables)
         }

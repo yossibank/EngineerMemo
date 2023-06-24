@@ -98,7 +98,7 @@
             WrapperView(view: DebugProjectListContentView()) {
                 $0.dataSource.modelObjects = [
                     ProfileModelObjectBuilder()
-                        .projects([ProjectModelObjectBuilder().build()])
+                        .projectModelObjects([ProjectModelObjectBuilder().build()])
                         .build()
                 ]
             }

@@ -25,7 +25,7 @@ final class ProfileUpdateSkillViewControllerSnapshotTest: FBSnapshotTestCase {
     func testProfileUpdateSkillViewController_更新() {
         snapshot(
             modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
+                .skillModelObject(SKillModelObjectBuilder().build())
                 .build()
         )
     }
@@ -33,7 +33,7 @@ final class ProfileUpdateSkillViewControllerSnapshotTest: FBSnapshotTestCase {
     func testProfileUpdateSkillViewController_更新_未設定項目あり() {
         snapshot(
             modelObject: ProfileModelObjectBuilder()
-                .skill(
+                .skillModelObject(
                     SKillModelObjectBuilder()
                         .engineerCareer(3)
                         .language("Swift")

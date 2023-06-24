@@ -43,7 +43,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        var updateObject = modelObject.skill ?? SkillModelObject(identifier: UUID().uuidString)
+        var updateObject = modelObject.skillModelObject ?? SkillModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewWillAppear
 
@@ -86,11 +86,18 @@ final class ProfileUpdateSkillViewModel: ViewModel {
 
         // MARK: - 設定・更新ボタンタップ
 
-        input.didTapBarButton.sink { _ in
-            var modelObject = modelObject
-            modelObject.skill = updateObject
-            model.updateSkill(modelObject: modelObject)
-            output.isFinished = true
+        input.didTapBarButton.sink { [weak self] _ in
+            if modelObject.skillModelObject.isNil {
+                var modelObject = modelObject
+                modelObject.skillModelObject = updateObject
+                self?.createSkill(modelObject: modelObject)
+            } else {
+                var modelObject = modelObject
+                modelObject.skillModelObject = updateObject
+                self?.updateSkill(modelObject: modelObject)
+            }
+
+            self?.output.isFinished = true
         }
         .store(in: &cancellables)
 
@@ -100,5 +107,21 @@ final class ProfileUpdateSkillViewModel: ViewModel {
             languageCareer,
             toeic
         ])
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileUpdateSkillViewModel {
+    func createSkill(modelObject: ProfileModelObject) {
+        model.createSkill(modelObject: modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
+    }
+
+    func updateSkill(modelObject: ProfileModelObject) {
+        model.updateSkill(modelObject: modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }
