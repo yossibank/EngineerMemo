@@ -64,7 +64,7 @@ extension ProfileUpdateProjectTextsInputView {
         }
 
         inputTextView.text = modelObject.content
-        placeholderLabel.isHidden = true
+        placeholderLabel.isHidden = !modelObject.content.isEmpty
     }
 }
 

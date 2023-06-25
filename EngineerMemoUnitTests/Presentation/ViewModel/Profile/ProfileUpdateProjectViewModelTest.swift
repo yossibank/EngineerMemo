@@ -2,10 +2,10 @@ import Combine
 @testable import EngineerMemo
 import XCTest
 
-final class ProfileUpdateSkillViewModelTest: XCTestCase {
+final class ProfileUpdateProjectViewModelTest: XCTestCase {
     private var model: ProfileModelInputMock!
     private var analytics: FirebaseAnalyzableMock!
-    private var viewModel: ProfileUpdateSkillViewModel!
+    private var viewModel: ProfileUpdateProjectViewModel!
 
     override func tearDown() {
         super.tearDown()
@@ -17,7 +17,10 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
 
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
-        setupViewModel(modelObject: ProfileModelObjectBuilder().build())
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
 
         analytics.sendEventFAEventHandler = {
             // assert
@@ -31,21 +34,20 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
-    func test_binding_engineerCareer_設定ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_title_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(
-            modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
-                .build()
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
         )
 
-        viewModel.binding.engineerCareer = .three
+        viewModel.binding.title = "title"
 
-        model.insertSkillHandler = {
+        model.createProjectHandler = {
             // assert
             XCTAssertEqual(
-                $0.skill?.engineerCareer,
-                3
+                $0.projects.first?.title,
+                "title"
             )
 
             return Deferred {
@@ -60,79 +62,20 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_language_設定ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_content_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(
-            modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
-                .build()
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
         )
 
-        viewModel.binding.language = "Swift"
+        viewModel.binding.content = "content"
 
-        model.insertSkillHandler = {
+        model.createProjectHandler = {
             // assert
             XCTAssertEqual(
-                $0.skill?.language,
-                "Swift"
-            )
-
-            return Deferred {
-                Future<Void, Never> { promise in
-                    promise(.success(()))
-                }
-            }
-            .eraseToAnyPublisher()
-        }
-
-        // act
-        viewModel.input.didTapBarButton.send(())
-    }
-
-    func test_binding_languageCareer_設定ボタンタップ時にmodelObjectに反映されること() {
-        // arrange
-        setupViewModel(
-            modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
-                .build()
-        )
-
-        viewModel.binding.languageCareer = .four
-
-        model.insertSkillHandler = {
-            // assert
-            XCTAssertEqual(
-                $0.skill?.languageCareer,
-                4
-            )
-
-            return Deferred {
-                Future<Void, Never> { promise in
-                    promise(.success(()))
-                }
-            }
-            .eraseToAnyPublisher()
-        }
-
-        // act
-        viewModel.input.didTapBarButton.send(())
-    }
-
-    func test_binding_toeic_設定ボタンタップ時にmodelObjectに反映されること() {
-        // arrange
-        setupViewModel(
-            modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
-                .build()
-        )
-
-        viewModel.binding.toeic = 800
-
-        model.insertSkillHandler = {
-            // assert
-            XCTAssertEqual(
-                $0.skill?.toeic,
-                800
+                $0.projects.first?.content,
+                "content"
             )
 
             return Deferred {
@@ -150,12 +93,11 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // arrange
         setupViewModel(
-            modelObject: ProfileModelObjectBuilder()
-                .skill(SKillModelObjectBuilder().build())
-                .build()
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
         )
 
-        model.insertSkillHandler = { _ in
+        model.createProjectHandler = { _ in
             Deferred {
                 Future<Void, Never> { promise in
                     promise(.success(()))
@@ -170,17 +112,73 @@ final class ProfileUpdateSkillViewModelTest: XCTestCase {
         // assert
         XCTAssertTrue(viewModel.output.isFinished)
     }
+
+    func test_input_didTapBarButton_setting_案件作成処理が呼ばれること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
+
+        model.createProjectHandler = { _ in
+            Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+
+        // assert
+        XCTAssertEqual(model.createProjectCallCount, 1)
+    }
+
+    func test_input_didTapBarButton_setting_案件更新処理が呼ばれること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder()
+                .projects([
+                    ProjectModelObjectBuilder()
+                        .identifier("identifier")
+                        .build()
+                ])
+                .build()
+        )
+
+        model.updateProjectHandler = { _, _ in
+            Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+
+        // assert
+        XCTAssertEqual(model.updateProjectCallCount, 1)
+    }
 }
 
-private extension ProfileUpdateSkillViewModelTest {
-    func setupViewModel(modelObject: ProfileModelObject) {
+private extension ProfileUpdateProjectViewModelTest {
+    func setupViewModel(
+        identifier: String,
+        modelObject: ProfileModelObject
+    ) {
         model = .init()
 
-        analytics = modelObject.skill.isNil
-            ? .init(screenId: .profileSkillSetting)
-            : .init(screenId: .profileSkillUpdate)
+        analytics = modelObject.projects.contains(where: { $0.identifier == identifier })
+            ? .init(screenId: .profileProjectUpdate)
+            : .init(screenId: .profileProjectSetting)
 
         viewModel = .init(
+            identifier: identifier,
             modelObject: modelObject,
             model: model,
             analytics: analytics
