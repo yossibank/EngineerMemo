@@ -21,7 +21,7 @@
         typealias Item = ProfileModelObject
         typealias DataSource = DebugProfileListDataSource
 
-        private(set) lazy var didDeletedModelObjectPublisher = dataSource.didDeletedModelObjectPublisher
+        private(set) lazy var didSwipePublisher = dataSource.didSwipePublisher
 
         private(set) lazy var dataSource = DataSource(
             tableView: tableView
@@ -98,7 +98,7 @@
     struct DebugProfileListContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugProfileListContentView()) {
-                $0.dataSource.modelObject = [
+                $0.dataSource.modelObjects = [
                     ProfileModelObjectBuilder().build()
                 ]
             }

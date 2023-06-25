@@ -10,7 +10,6 @@ final class ProfileUpdateSkillViewModel: ViewModel {
     }
 
     final class Input: InputObject {
-        let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didTapBarButton = PassthroughSubject<Void, Never>()
     }
@@ -44,7 +43,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        var updateObject = modelObject.skill ?? SkillModelObject(identifier: UUID().uuidString)
+        var updatedObject = modelObject.skill ?? SkillModelObject(identifier: UUID().uuidString)
 
         // MARK: - viewWillAppear
 
@@ -58,7 +57,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let engineerCareer = binding.$engineerCareer
             .dropFirst()
             .sink { engineerCareer in
-                updateObject.engineerCareer = engineerCareer.value
+                updatedObject.engineerCareer = engineerCareer.value
             }
 
         // MARK: - 言語
@@ -66,7 +65,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let language = binding.$language
             .dropFirst()
             .sink { language in
-                updateObject.language = language
+                updatedObject.language = language
             }
 
         // MARK: - 言語歴
@@ -74,7 +73,7 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let languageCareer = binding.$languageCareer
             .dropFirst()
             .sink { languageCareer in
-                updateObject.languageCareer = languageCareer.value
+                updatedObject.languageCareer = languageCareer.value
             }
 
         // MARK: - TOEIC
@@ -82,16 +81,16 @@ final class ProfileUpdateSkillViewModel: ViewModel {
         let toeic = binding.$toeic
             .dropFirst()
             .sink { toeic in
-                updateObject.toeic = toeic
+                updatedObject.toeic = toeic
             }
 
         // MARK: - 設定・更新ボタンタップ
 
-        input.didTapBarButton.sink { _ in
+        input.didTapBarButton.sink { [weak self] _ in
             var modelObject = modelObject
-            modelObject.skill = updateObject
-            model.skillUpdate(modelObject: modelObject)
-            output.isFinished = true
+            modelObject.skill = updatedObject
+            self?.insertSkill(modelObject)
+            self?.output.isFinished = true
         }
         .store(in: &cancellables)
 
@@ -101,5 +100,15 @@ final class ProfileUpdateSkillViewModel: ViewModel {
             languageCareer,
             toeic
         ])
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileUpdateSkillViewModel {
+    func insertSkill(_ modelObject: ProfileModelObject) {
+        model.insertSkill(modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }

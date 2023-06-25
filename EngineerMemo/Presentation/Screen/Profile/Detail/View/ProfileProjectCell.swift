@@ -9,6 +9,9 @@ final class ProfileProjectCell: UITableViewCell {
         .addSubview(projectView) {
             $0.edges.equalToSuperview().inset(16)
         }
+        .addSubview(editIcon) {
+            $0.top.trailing.equalToSuperview().inset(8)
+        }
         .apply(.borderView)
 
     private lazy var projectView = VStackView(
@@ -17,7 +20,7 @@ final class ProfileProjectCell: UITableViewCell {
     ) {
         VStackView(spacing: 8) {
             UILabel().configure {
-                $0.text = "案件名"
+                $0.text = L10n.Profile.Project.title
                 $0.textColor = .secondaryGray
                 $0.font = .systemFont(ofSize: 14)
             }
@@ -29,7 +32,7 @@ final class ProfileProjectCell: UITableViewCell {
 
         VStackView(spacing: 8) {
             UILabel().configure {
-                $0.text = "案件内容"
+                $0.text = L10n.Profile.Project.content
                 $0.textColor = .secondaryGray
                 $0.font = .systemFont(ofSize: 14)
             }
@@ -38,6 +41,12 @@ final class ProfileProjectCell: UITableViewCell {
                 $0.font = .boldSystemFont(ofSize: 16)
             }
         }
+    }
+
+    private let editIcon = UIImageView().configure {
+        $0.image = Asset.edit.image
+            .resized(size: .init(width: 16, height: 16))
+            .withRenderingMode(.alwaysOriginal)
     }
 
     private let titleLabel = UILabel()
@@ -93,6 +102,9 @@ private extension ProfileProjectCell {
 
             $0.backgroundColor = .background
         }
+
+        selectionStyle = .none
+        backgroundColor = .background
     }
 }
 

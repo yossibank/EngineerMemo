@@ -36,13 +36,13 @@ final class ProfileUpdateBasicContentView: UIView {
         stationInputView
     }
 
-    private let nameInputView = ProfileUpdateTextInputView(.name)
-    private let birthdayInputView = ProfileUpdateBirthdayInputView()
-    private let genderInputView = ProfileUpdateGenderInputView()
-    private let emailInputView = ProfileUpdateTextInputView(.email)
-    private let phoneNumberInputView = ProfileUpdateTextInputView(.phoneNumber)
-    private let addressInputView = ProfileUpdateTextInputView(.address)
-    private let stationInputView = ProfileUpdateTextInputView(.station)
+    private let nameInputView = ProfileUpdateBasicTextInputView(.name)
+    private let birthdayInputView = ProfileUpdateBasicBirthdayInputView()
+    private let genderInputView = ProfileUpdateBasicGenderInputView()
+    private let emailInputView = ProfileUpdateBasicTextInputView(.email)
+    private let phoneNumberInputView = ProfileUpdateBasicTextInputView(.phoneNumber)
+    private let addressInputView = ProfileUpdateBasicTextInputView(.address)
+    private let stationInputView = ProfileUpdateBasicTextInputView(.station)
 
     private var cancellables = Set<AnyCancellable>()
 

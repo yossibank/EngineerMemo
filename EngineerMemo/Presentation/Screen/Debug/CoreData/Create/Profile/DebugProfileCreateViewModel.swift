@@ -102,7 +102,7 @@
                     return
                 }
 
-                self.model.create(modelObject: self.modelObject)
+                self.createBasic()
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
                     .birthday(self.ageSegment.date)
@@ -115,6 +115,16 @@
                     .build()
             }
             .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugProfileCreateViewModel {
+        func createBasic() {
+            model.createBasic(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
         }
     }
 #endif

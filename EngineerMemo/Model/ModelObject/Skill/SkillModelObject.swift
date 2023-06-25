@@ -7,25 +7,3 @@ struct SkillModelObject: Hashable {
     var toeic: Int?
     var identifier: String
 }
-
-extension SkillModelObject {
-    func skillInsert(
-        _ skill: Skill,
-        isNew: Bool
-    ) {
-        skill.engineerCareer = .init(value: engineerCareer ?? .invalid)
-        skill.language = language
-
-        if let languageCareer {
-            skill.languageCareer = .init(value: languageCareer)
-        }
-
-        if let toeic {
-            skill.toeic = .init(value: toeic)
-        }
-
-        if isNew {
-            skill.identifier = UUID().uuidString
-        }
-    }
-}

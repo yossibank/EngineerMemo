@@ -88,9 +88,12 @@ private extension ProfileBasicCell {
 
             $0.backgroundColor = .background
         }
+
+        selectionStyle = .none
+        backgroundColor = .background
     }
 
-    private func createStackView(_ type: ProfileContentType) -> UIStackView {
+    private func createStackView(_ type: ProfileBasicContentType) -> UIStackView {
         let valueLabel: UILabel
 
         switch type {

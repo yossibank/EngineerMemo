@@ -4,8 +4,7 @@ import Combine
 protocol MemoModelInput: Model {
     func fetch(completion: @escaping (Result<[MemoModelObject], AppError>) -> Void)
     func find(identifier: String, completion: @escaping (Result<MemoModelObject, AppError>) -> Void)
-    func create(modelObject: MemoModelObject)
-    func update(modelObject: MemoModelObject)
+    func update(modelObject: MemoModelObject, isNew: Bool)
     func delete(modelObject: MemoModelObject)
 }
 
@@ -76,28 +75,27 @@ final class MemoModel: MemoModelInput {
         .store(in: &cancellables)
     }
 
-    func create(modelObject: MemoModelObject) {
-        storage.create().sink {
-            modelObject.dataInsert(
-                $0.object,
-                isNew: true
-            )
-
-            $0.context.saveIfNeeded()
+    func update(
+        modelObject: MemoModelObject,
+        isNew: Bool
+    ) {
+        if isNew {
+            storage.create().sink {
+                modelObject.insertMemo(
+                    memo: $0,
+                    isNew: true
+                )
+            }
+            .store(in: &cancellables)
+        } else {
+            storage.update(identifier: modelObject.identifier).sink {
+                modelObject.insertMemo(
+                    memo: $0,
+                    isNew: false
+                )
+            }
+            .store(in: &cancellables)
         }
-        .store(in: &cancellables)
-    }
-
-    func update(modelObject: MemoModelObject) {
-        storage.update(identifier: modelObject.identifier).sink {
-            modelObject.dataInsert(
-                $0.object,
-                isNew: false
-            )
-
-            $0.context.saveIfNeeded()
-        }
-        .store(in: &cancellables)
     }
 
     func delete(modelObject: MemoModelObject) {

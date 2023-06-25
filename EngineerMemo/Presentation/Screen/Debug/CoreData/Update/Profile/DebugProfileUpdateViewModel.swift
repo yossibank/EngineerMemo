@@ -1,5 +1,6 @@
 #if DEBUG
     import Combine
+    import Foundation
 
     final class DebugProfileUpdateViewModel: ViewModel {
         final class Input: InputObject {
@@ -64,12 +65,15 @@
 
             // MARK: - プロフィール情報取得
 
-            model.fetch { [weak self] modelObjects in
-                if case let .success(modelObjects) = modelObjects {
-                    output.modelObjects = modelObjects
-                    self?.originalModelObjects = modelObjects
+            model.fetch().sink {
+                if case let .failure(appError) = $0 {
+                    Logger.error(message: appError.localizedDescription)
                 }
+            } receiveValue: { [weak self] modelObjects in
+                output.modelObjects = modelObjects
+                self?.originalModelObjects = modelObjects
             }
+            .store(in: &cancellables)
 
             // MARK: - 住所セグメント
 
@@ -176,10 +180,10 @@
                 }
 
                 self.modelObject.identifier = identifier
-                self.model.basicUpdate(modelObject: self.modelObject)
-                self.model.iconImageUpdate(modelObject: self.modelObject)
-                self.model.skillUpdate(modelObject: self.modelObject)
-                self.model.projectUpdate(modelObject: self.modelObject)
+                self.updateBasic()
+                self.updateSkill()
+                self.updateProject()
+                self.updateIconImage()
                 self.modelObject = ProfileModelObjectBuilder()
                     .address(self.addressSegment.string)
                     .birthday(self.ageSegment.date)
@@ -195,6 +199,34 @@
                     .build()
             }
             .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugProfileUpdateViewModel {
+        func updateBasic() {
+            model.updateBasic(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
+        }
+
+        func updateSkill() {
+            model.insertSkill(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
+        }
+
+        func updateProject() {
+            model.createProject(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
+        }
+
+        func updateIconImage() {
+            model.updateIconImage(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
         }
     }
 #endif

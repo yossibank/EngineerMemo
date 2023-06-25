@@ -13,6 +13,8 @@ final class ProfileConverterTest: XCTestCase {
     override func tearDown() {
         super.tearDown()
 
+        converter = nil
+
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 

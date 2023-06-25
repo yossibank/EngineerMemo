@@ -1,11 +1,6 @@
 import Combine
 import CoreData
 
-struct CoreDataObject<T: IdentifableManagedObject> {
-    let object: T
-    let context: NSManagedObjectContext
-}
-
 struct CoreDataStorage<T: IdentifableManagedObject> {
     private let shared = CoreDataManager.shared
 
@@ -84,6 +79,8 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
         }
     }
 }
+
+// MARK: - private methods
 
 private extension CoreDataStorage {
     func object(identifier: String) -> T? {

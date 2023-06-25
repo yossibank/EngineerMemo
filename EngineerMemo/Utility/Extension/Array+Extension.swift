@@ -15,3 +15,14 @@ extension Array where Element: Hashable {
         }
     }
 }
+
+extension Array where Element: Equatable {
+    mutating func replace(
+        before: Array.Element,
+        after: Array.Element
+    ) {
+        self = map {
+            ($0 == before) ? after : $0
+        }
+    }
+}

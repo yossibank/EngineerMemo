@@ -103,6 +103,9 @@ private extension ProfileTopCell {
 
             $0.backgroundColor = .background
         }
+
+        selectionStyle = .none
+        backgroundColor = .background
     }
 
     func setupButton() {

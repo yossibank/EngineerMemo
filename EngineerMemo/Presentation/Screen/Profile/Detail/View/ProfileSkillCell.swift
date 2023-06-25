@@ -143,6 +143,9 @@ private extension ProfileSkillCell {
 
             $0.backgroundColor = .background
         }
+
+        selectionStyle = .none
+        backgroundColor = .background
     }
 
     func setupToeicImage(_ toeic: Int) {

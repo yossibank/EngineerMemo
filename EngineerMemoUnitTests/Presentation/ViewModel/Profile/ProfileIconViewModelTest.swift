@@ -21,6 +21,15 @@ final class ProfileIconViewModelTest: XCTestCase {
         )
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        model = nil
+        modelObject = nil
+        analytics = nil
+        viewModel = nil
+    }
+
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
         analytics.sendEventFAEventHandler = {
@@ -39,12 +48,19 @@ final class ProfileIconViewModelTest: XCTestCase {
         // arrange
         let iconImage = Asset.penguin.image.pngData()
 
-        model.iconImageUpdateHandler = {
+        model.updateIconImageHandler = {
             // assert
             XCTAssertEqual(
                 $0.iconImage,
                 iconImage
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -53,7 +69,7 @@ final class ProfileIconViewModelTest: XCTestCase {
 
     func test_input_didChangeIconIndex_ProfileModelにindex値を送信できること() {
         // arrange
-        model.iconImageUpdateIndexHandler = {
+        model.updateIconImageIndexHandler = {
             // assert
             XCTAssertEqual(
                 $0,

@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateBirthdayInputView: UIView {
+final class ProfileUpdateBasicBirthdayInputView: UIView {
     private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
 
     private var body: UIView {
@@ -66,7 +66,7 @@ final class ProfileUpdateBirthdayInputView: UIView {
 
 // MARK: - override methods
 
-extension ProfileUpdateBirthdayInputView {
+extension ProfileUpdateBasicBirthdayInputView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -76,7 +76,7 @@ extension ProfileUpdateBirthdayInputView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateBirthdayInputView {
+extension ProfileUpdateBasicBirthdayInputView {
     func updateValue(modelObject: ProfileModelObject?) {
         guard
             let modelObject,
@@ -91,7 +91,7 @@ extension ProfileUpdateBirthdayInputView {
 
 // MARK: - private methods
 
-private extension ProfileUpdateBirthdayInputView {
+private extension ProfileUpdateBasicBirthdayInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -130,7 +130,7 @@ private extension ProfileUpdateBirthdayInputView {
 
     struct ProfileUpdatePickerInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateBirthdayInputView())
+            WrapperView(view: ProfileUpdateBasicBirthdayInputView())
         }
     }
 #endif

@@ -5,7 +5,7 @@ final class ProfileContentTypeTest: XCTestCase {
     func test_name_titleの文字列が名前であること() {
         // assert
         XCTAssertEqual(
-            ProfileContentType.name.title,
+            ProfileBasicContentType.name.title,
             "名前"
         )
     }
@@ -13,7 +13,7 @@ final class ProfileContentTypeTest: XCTestCase {
     func test_age_titleの文字列が年齢であること() {
         // assert
         XCTAssertEqual(
-            ProfileContentType.age.title,
+            ProfileBasicContentType.age.title,
             "年齢"
         )
     }
@@ -21,7 +21,7 @@ final class ProfileContentTypeTest: XCTestCase {
     func test_gender_titleの文字列が性別であること() {
         // assert
         XCTAssertEqual(
-            ProfileContentType.gender.title,
+            ProfileBasicContentType.gender.title,
             "性別"
         )
     }
@@ -29,7 +29,7 @@ final class ProfileContentTypeTest: XCTestCase {
     func test_email_titleの文字列がメールアドレスであること() {
         // assert
         XCTAssertEqual(
-            ProfileContentType.email.title,
+            ProfileBasicContentType.email.title,
             "メールアドレス"
         )
     }
@@ -37,7 +37,7 @@ final class ProfileContentTypeTest: XCTestCase {
     func test_phoneNumber_titleの文字列が携帯番号であること() {
         // assert
         XCTAssertEqual(
-            ProfileContentType.phoneNumber.title,
+            ProfileBasicContentType.phoneNumber.title,
             "電話番号"
         )
     }
@@ -45,7 +45,7 @@ final class ProfileContentTypeTest: XCTestCase {
     func test_address_titleの文字列が住所であること() {
         // assert
         XCTAssertEqual(
-            ProfileContentType.address.title,
+            ProfileBasicContentType.address.title,
             "住所"
         )
     }
@@ -53,7 +53,7 @@ final class ProfileContentTypeTest: XCTestCase {
     func test_station_titleの文字列が最寄駅であること() {
         // assert
         XCTAssertEqual(
-            ProfileContentType.station.title,
+            ProfileBasicContentType.station.title,
             "最寄駅"
         )
     }

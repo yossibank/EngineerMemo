@@ -49,15 +49,25 @@ final class ProfileIconViewModel: ViewModel {
             }
 
             self.modelObject.iconImage = iconImage
-            self.model.iconImageUpdate(modelObject: self.modelObject)
+            self.updateIconImage()
         }
         .store(in: &cancellables)
 
         // MARK: - アイコン変更(UserDefaults)
 
         input.didChangeIconIndex.sink { index in
-            model.iconImageUpdate(index: index)
+            model.updateIconImage(index: index)
         }
         .store(in: &cancellables)
+    }
+}
+
+// MARK: - private methods
+
+private extension ProfileIconViewModel {
+    func updateIconImage() {
+        model.updateIconImage(modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }

@@ -41,19 +41,19 @@
 
     private extension DebugProfileListViewController {
         func bindToView() {
-            viewModel.output.$modelObject
+            viewModel.output.$modelObjects
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink { [weak self] modelObject in
-                    self?.contentView.dataSource.modelObject = modelObject
+                .sink { [weak self] modelObjects in
+                    self?.contentView.dataSource.modelObjects = modelObjects
                 }
                 .store(in: &cancellables)
         }
 
         func bindToViewModel() {
-            contentView.didDeletedModelObjectPublisher
+            contentView.didSwipePublisher
                 .sink { [weak self] modelObject in
-                    self?.viewModel.input.didDeletedModelObject.send(modelObject)
+                    self?.viewModel.input.didSwipe.send(modelObject)
                 }
                 .store(in: &cancellables)
         }

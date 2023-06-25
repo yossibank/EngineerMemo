@@ -7,9 +7,17 @@ final class MemoUpdateViewModelTest: XCTestCase {
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: MemoUpdateViewModel!
 
+    override func tearDown() {
+        super.tearDown()
+
+        model = nil
+        analytics = nil
+        viewModel = nil
+    }
+
     func test_input_viewWillAppear_ログイベントが送信されていること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         analytics.sendEventFAEventHandler = {
             // assert
@@ -25,14 +33,14 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_binding_category_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.category = .interview
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.category,
+                modelObject.category,
                 .interview
             )
         }
@@ -43,14 +51,14 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_binding_title_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.title = "title"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.title,
+                modelObject.title,
                 "title"
             )
         }
@@ -61,14 +69,14 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_binding_content_作成ボタンタップ時にmodelObjectに反映されること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.content = "content"
 
-        model.createHandler = {
+        model.updateHandler = { modelObject, _ in
             // assert
             XCTAssertEqual(
-                $0.content,
+                modelObject.content,
                 "content"
             )
         }
@@ -79,7 +87,7 @@ final class MemoUpdateViewModelTest: XCTestCase {
 
     func test_各binding値代入時にoutput_isEnabledがtrueを取得できること() throws {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         viewModel.binding.title = "title"
         viewModel.binding.content = "content"
@@ -92,37 +100,35 @@ final class MemoUpdateViewModelTest: XCTestCase {
         XCTAssertTrue(output)
     }
 
-    func test_input_didTapBarButton_modelObjectがnilの際に作成側の関数が呼ばれること() {
+    func test_input_didTapBarButton_setting_メモ作成処理がよばれること() {
         // arrange
-        setupViewModel(.create)
+        setupViewModel(modelObject: nil)
+
+        model.updateHandler = { _, isNew in
+            // assert
+            XCTAssertTrue(isNew)
+        }
 
         // act
         viewModel.input.didTapBarButton.send(())
-
-        // assert
-        XCTAssertEqual(
-            model.createCallCount,
-            1
-        )
     }
 
-    func test_input_didTapBarButton_modelObjectに値がある際に作成側の関数が呼ばれること() {
+    func test_input_didTapBarButton_update_メモ更新処理が呼ばれること() {
         // arrange
-        setupViewModel(.update(MemoModelObjectBuilder().build()))
+        setupViewModel(modelObject: MemoModelObjectBuilder().build())
+
+        model.updateHandler = { _, isNew in
+            // assert
+            XCTAssertFalse(isNew)
+        }
 
         // act
         viewModel.input.didTapBarButton.send(())
-
-        // assert
-        XCTAssertEqual(
-            model.updateCallCount,
-            1
-        )
     }
 
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // arrange
-        setupViewModel()
+        setupViewModel(modelObject: nil)
 
         // act
         viewModel.input.didTapBarButton.send(())
@@ -133,26 +139,14 @@ final class MemoUpdateViewModelTest: XCTestCase {
 }
 
 private extension MemoUpdateViewModelTest {
-    func setupViewModel(_ type: MemoUpdateType = .create) {
+    func setupViewModel(modelObject: MemoModelObject?) {
         model = .init()
-
-        switch type {
-        case .create:
-            analytics = .init(screenId: .memoCreate)
-            viewModel = .init(
-                model: model,
-                modelObject: nil,
-                analytics: analytics
-            )
-
-        case let .update(modelObject):
-            analytics = .init(screenId: .memoUpdate)
-            viewModel = .init(
-                model: model,
-                modelObject: modelObject,
-                analytics: analytics
-            )
-        }
+        analytics = .init(screenId: .memoCreate)
+        viewModel = .init(
+            model: model,
+            modelObject: modelObject,
+            analytics: analytics
+        )
 
         viewModel.input.viewDidLoad.send(())
     }

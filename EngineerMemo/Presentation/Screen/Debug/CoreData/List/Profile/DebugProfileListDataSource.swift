@@ -11,15 +11,15 @@
         typealias Section = DebugProfileListContentViewSection
         typealias Item = ProfileModelObject
 
-        var modelObject: [ProfileModelObject] = [] {
+        var modelObjects: [ProfileModelObject] = [] {
             didSet {
                 applySnapshot()
             }
         }
 
-        private(set) lazy var didDeletedModelObjectPublisher = didDeletedModelObjectSubject.eraseToAnyPublisher()
+        private(set) lazy var didSwipePublisher = didSwipeSubject.eraseToAnyPublisher()
 
-        private let didDeletedModelObjectSubject = PassthroughSubject<ProfileModelObject, Never>()
+        private let didSwipeSubject = PassthroughSubject<ProfileModelObject, Never>()
 
         override func tableView(
             _ tableView: UITableView,
@@ -38,7 +38,7 @@
             }
 
             if editingStyle == .delete {
-                didDeletedModelObjectSubject.send(modelObject[indexPath.row])
+                didSwipeSubject.send(modelObjects[indexPath.row])
                 var snapshot = snapshot()
                 snapshot.deleteItems([item])
 
@@ -57,7 +57,7 @@
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             dataSourceSnapshot.appendSections(Section.allCases)
 
-            modelObject.forEach {
+            modelObjects.forEach {
                 dataSourceSnapshot.appendItems(
                     [$0],
                     toSection: .main

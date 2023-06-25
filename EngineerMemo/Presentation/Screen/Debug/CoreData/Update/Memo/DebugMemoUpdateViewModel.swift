@@ -25,6 +25,7 @@
             .category(DebugCategoryMenu.defaultCategory)
             .title(DebugCoreDataSegment.defaultString)
             .content(DebugCoreDataSegment.defaultString)
+            .createdAt(.init())
             .build()
 
         private var categorySegment: DebugCategoryMenu = .technical
@@ -99,11 +100,17 @@
                 }
 
                 self.modelObject.identifier = identifier
-                self.model.update(modelObject: self.modelObject)
+
+                self.model.update(
+                    modelObject: self.modelObject,
+                    isNew: false
+                )
+
                 self.modelObject = MemoModelObjectBuilder()
                     .category(self.categorySegment.category)
                     .title(self.titleSegment.string)
                     .content(self.contentSegment.string)
+                    .createdAt(.init())
                     .build()
             }
             .store(in: &cancellables)

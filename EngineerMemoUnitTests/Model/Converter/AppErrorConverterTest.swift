@@ -10,6 +10,12 @@ final class AppErrorConverterTest: XCTestCase {
         converter = .init()
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        converter = .init()
+    }
+
     func test_DataErrorをAppErrorに変換できること() {
         // arrange
         let input = DataError.api(.invalidRequest)

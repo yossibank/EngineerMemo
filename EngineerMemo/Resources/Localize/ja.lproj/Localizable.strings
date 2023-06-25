@@ -36,6 +36,8 @@
 "navigation.title.profileBasicSetting" = "基本情報設定";
 "navigation.title.profileSkillUpdate" = "スキル・経験更新";
 "navigation.title.profileSKillSetting" = "スキル・経験設定";
+"navigation.title.profileProjectUpdate" = "案件更新";
+"navigation.title.profileProjectSetting" = "案件設定";
 "navigation.title.debugDevelopment" = "開発者用画面";
 "navigation.title.debugAPIResponse" = "APIレスポンス確認";
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";
@@ -86,6 +88,8 @@
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
 "profile.example.useLanguage" = "例) Swift";
 "profile.example.toeic" = "例) 500";
+"profile.placeholder.project.title" = "関わったサービス、案件名";
+"profile.placeholder.project.content" = "業務内容(複数行記載可)";
 "profile.engineerCareer" = "エンジニア歴";
 "profile.useLanguage" = "得意言語";
 "profile.toeic" = "TOEIC";
@@ -95,7 +99,7 @@
 "profile.project.count" = "案件数";
 "profile.project.number" = "%@件";
 "profile.project.title" = "案件名";
-"profile.project.content" = "案件内容";
+"profile.project.content" = "業務内容";
 
 // MARK: - メモ
 

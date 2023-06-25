@@ -1,20 +1,17 @@
-import Combine
 import UIKit
 import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProfileUpdateToeicInputView: UIView {
-    private(set) lazy var didChangeInputScorePublisher = inputTextField.textDidChangePublisher.compactMap {
-        Int($0)
-    }
+final class ProfileUpdateProjectTextInputView: UIView {
+    private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView.configure {
                 $0.configure(
-                    title: L10n.Profile.toeic,
-                    icon: Asset.profileToeic.image
+                    title: L10n.Profile.Project.title,
+                    icon: Asset.profileProjectTitle.image
                 )
             }
 
@@ -22,9 +19,8 @@ final class ProfileUpdateToeicInputView: UIView {
                 inputTextField.configure {
                     $0.leftView = .init(frame: .init(x: 0, y: 0, width: 4, height: 0))
                     $0.leftViewMode = .always
-                    $0.keyboardType = .numberPad
-                    $0.placeholder = L10n.Profile.Example.toeic
                     $0.delegate = self
+                    $0.placeholder = L10n.Profile.Placeholder.Project.title
                 }
 
                 borderView
@@ -53,19 +49,19 @@ final class ProfileUpdateToeicInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProfileUpdateToeicInputView {
-    func updateValue(modelObject: SkillModelObject?) {
+extension ProfileUpdateProjectTextInputView {
+    func updateValue(modelObject: ProjectModelObject?) {
         guard let modelObject else {
             return
         }
 
-        inputTextField.text = modelObject.toeic?.description
+        inputTextField.text = modelObject.title
     }
 }
 
 // MARK: - private methods
 
-private extension ProfileUpdateToeicInputView {
+private extension ProfileUpdateProjectTextInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -80,7 +76,7 @@ private extension ProfileUpdateToeicInputView {
 
 // MARK: - delegate
 
-extension ProfileUpdateToeicInputView: UITextFieldDelegate {
+extension ProfileUpdateProjectTextInputView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -100,9 +96,9 @@ extension ProfileUpdateToeicInputView: UITextFieldDelegate {
 #if DEBUG
     import SwiftUI
 
-    struct ProfileUpdateToeicInputViewPreview: PreviewProvider {
+    struct ProfileUpdateProjectTextInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateToeicInputView())
+            WrapperView(view: ProfileUpdateProjectTextInputView())
         }
     }
 #endif

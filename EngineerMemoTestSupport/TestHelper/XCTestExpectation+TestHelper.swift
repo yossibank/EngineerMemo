@@ -18,11 +18,7 @@ extension XCTestCase {
             line: line
         )
     }
-}
 
-// MARK: - private methods
-
-private extension XCTestCase {
     func wait(
         for expectation: XCTestExpectation,
         timeout seconds: TimeInterval = 0.1,

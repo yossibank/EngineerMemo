@@ -5,6 +5,7 @@ protocol ProfileDetailRoutingInput {
     func showIconScreen(modelObject: ProfileModelObject)
     func showUpdateBasicScreen(modelObject: ProfileModelObject?)
     func showUpdateSkillScreen(modelObject: ProfileModelObject)
+    func showUpdateProjectScreen(identifier: String, modelObject: ProfileModelObject)
 }
 
 // MARK: - properties & init
@@ -37,6 +38,19 @@ extension ProfileDetailRouting: ProfileDetailRoutingInput {
     func showUpdateSkillScreen(modelObject: ProfileModelObject) {
         viewController?.show(
             AppControllers.Profile.Update.Skill(modelObject: modelObject),
+            sender: nil
+        )
+    }
+
+    func showUpdateProjectScreen(
+        identifier: String,
+        modelObject: ProfileModelObject
+    ) {
+        viewController?.show(
+            AppControllers.Profile.Update.Project(
+                identifier: identifier,
+                modelObject: modelObject
+            ),
             sender: nil
         )
     }

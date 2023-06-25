@@ -33,11 +33,15 @@
 
             wait { expectation in
                 // act
-                self.apiClient.request(item: DebugPostRequest(parameters: .init(
-                    userId: 1,
-                    title: "sample title",
-                    body: "sample body"
-                ))) {
+                self.apiClient.request(
+                    item: DebugPostRequest(
+                        parameters: .init(
+                            userId: 1,
+                            title: "sample title",
+                            body: "sample body"
+                        )
+                    )
+                ) {
                     switch $0 {
                     case let .success(dataObject):
                         // assert
@@ -79,11 +83,15 @@
 
             wait { expectation in
                 // act
-                self.apiClient.request(item: DebugPostRequest(parameters: .init(
-                    userId: 1,
-                    title: "sample title",
-                    body: "sample body"
-                ))) {
+                self.apiClient.request(
+                    item: DebugPostRequest(
+                        parameters: .init(
+                            userId: 1,
+                            title: "sample title",
+                            body: "sample body"
+                        )
+                    )
+                ) {
                     if case let .failure(error) = $0 {
                         // assert
                         XCTAssertEqual(

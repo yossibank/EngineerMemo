@@ -21,9 +21,18 @@ final class MemoListViewModelTest: XCTestCase {
         )
     }
 
+    override func tearDown() {
+        super.tearDown()
+
+        model = nil
+        routing = nil
+        analytics = nil
+        viewModel = nil
+    }
+
     func test_input_viewDidLoad_メモ情報を取得できること() throws {
         // arrange
-        viewDidLoad()
+        viewDidLoad(modelObjects: [MemoModelObjectBuilder().build()])
 
         // act
         let publisher = viewModel.output.$modelObject.collect(1).first()
@@ -215,7 +224,7 @@ final class MemoListViewModelTest: XCTestCase {
 }
 
 private extension MemoListViewModelTest {
-    func viewDidLoad(modelObjects: [MemoModelObject] = [MemoModelObjectBuilder().build()]) {
+    func viewDidLoad(modelObjects: [MemoModelObject]) {
         model.fetchHandler = {
             $0(.success(modelObjects))
         }

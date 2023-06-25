@@ -41,13 +41,12 @@ final class MemoUpdateContentView: UIView {
             titleView
 
             VStackView {
-                titleTextView
-                    .configure {
-                        $0.font = .boldSystemFont(ofSize: 16)
-                        $0.backgroundColor = .background
-                        $0.isScrollEnabled = false
-                        $0.delegate = self
-                    }
+                titleTextView.configure {
+                    $0.font = .boldSystemFont(ofSize: 16)
+                    $0.backgroundColor = .background
+                    $0.isScrollEnabled = false
+                    $0.delegate = self
+                }
 
                 titleBorderView
             }
@@ -57,13 +56,12 @@ final class MemoUpdateContentView: UIView {
             contentView
 
             VStackView {
-                contentTextView
-                    .configure {
-                        $0.font = .boldSystemFont(ofSize: 16)
-                        $0.backgroundColor = .background
-                        $0.isScrollEnabled = false
-                        $0.delegate = self
-                    }
+                contentTextView.configure {
+                    $0.font = .boldSystemFont(ofSize: 16)
+                    $0.backgroundColor = .background
+                    $0.isScrollEnabled = false
+                    $0.delegate = self
+                }
 
                 contentBorderView
             }

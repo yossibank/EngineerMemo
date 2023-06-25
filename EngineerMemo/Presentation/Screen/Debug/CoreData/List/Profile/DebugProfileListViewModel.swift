@@ -4,11 +4,11 @@
     final class DebugProfileListViewModel: ViewModel {
         final class Input: InputObject {
             let viewDidLoad = PassthroughSubject<Void, Never>()
-            let didDeletedModelObject = PassthroughSubject<ProfileModelObject, Never>()
+            let didSwipe = PassthroughSubject<ProfileModelObject, Never>()
         }
 
         final class Output: OutputObject {
-            @Published fileprivate(set) var modelObject: [ProfileModelObject] = []
+            @Published fileprivate(set) var modelObjects: [ProfileModelObject] = []
         }
 
         let input: Input
@@ -29,19 +29,21 @@
 
             // MARK: - viewDidLoad
 
-            input.viewDidLoad.sink { _ in
-                model.fetch {
-                    if case let .success(modelObject) = $0 {
-                        output.modelObject = modelObject
+            input.viewDidLoad
+                .flatMap {
+                    model.fetch().resultMap
+                }
+                .sink {
+                    if case let .success(modelObjects) = $0 {
+                        output.modelObjects = modelObjects
                     }
                 }
-            }
-            .store(in: &cancellables)
+                .store(in: &cancellables)
 
             // MARK: - プロフィール情報削除
 
-            input.didDeletedModelObject.sink { modelObject in
-                model.delete(modelObject: modelObject)
+            input.didSwipe.sink {
+                model.delete($0)
             }
             .store(in: &cancellables)
         }

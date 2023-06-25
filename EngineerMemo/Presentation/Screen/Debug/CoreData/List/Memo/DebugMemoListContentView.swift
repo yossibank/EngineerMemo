@@ -21,7 +21,7 @@
         typealias Item = MemoModelObject
         typealias DataSource = DebugMemoListDataSource
 
-        private(set) lazy var didDeletedModelObjectPublisher = dataSource.didDeletedModelObjectPublisher
+        private(set) lazy var didSwipePublisher = dataSource.didSwipePublisher
 
         private(set) lazy var dataSource = DataSource(
             tableView: tableView

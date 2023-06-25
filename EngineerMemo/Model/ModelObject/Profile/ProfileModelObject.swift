@@ -30,25 +30,115 @@ struct ProfileModelObject: Hashable {
     }
 }
 
+// MARK: - 基本情報作成・更新
+
 extension ProfileModelObject {
-    func basicInsert(
-        _ profile: Profile,
+    func insertBasic(
+        _ profile: CoreDataObject<Profile>,
         isNew: Bool
     ) {
-        profile.address = address
-        profile.birthday = birthday
-        profile.email = email
-        profile.gender = .init(rawValue: gender?.rawValue ?? .invalid)
-        profile.name = name
-        profile.phoneNumber = phoneNumber
-        profile.station = station
+        let context = profile.context
+        let profileObject = profile.object
+
+        profileObject.address = address
+        profileObject.birthday = birthday
+        profileObject.email = email
+        profileObject.gender = .init(rawValue: gender?.rawValue ?? .invalid)
+        profileObject.name = name
+        profileObject.phoneNumber = phoneNumber
+        profileObject.station = station
 
         if isNew {
-            profile.identifier = UUID().uuidString
+            profileObject.identifier = UUID().uuidString
         }
+
+        context.saveIfNeeded()
     }
 
-    func iconImageInsert(_ profile: Profile) {
-        profile.iconImage = iconImage
+    func insertIconImage(_ profile: CoreDataObject<Profile>) {
+        let context = profile.context
+        let profileObject = profile.object
+        profileObject.iconImage = iconImage
+        context.saveIfNeeded()
+    }
+}
+
+// MARK: - スキル情報作成・更新
+
+extension ProfileModelObject {
+    func insertSkill(_ profile: CoreDataObject<Profile>) {
+        let context = profile.context
+        let profileObject = profile.object
+        let skillObject = profileObject.skill ?? Skill(context: context)
+
+        skillObject.engineerCareer = .init(value: skill?.engineerCareer ?? .invalid)
+        skillObject.language = skill?.language
+
+        if let languageCareer = skill?.languageCareer {
+            skillObject.languageCareer = .init(value: languageCareer)
+        }
+
+        if let toeic = skill?.toeic {
+            skillObject.toeic = .init(value: toeic)
+        }
+
+        if profileObject.skill.isNil {
+            skillObject.identifier = UUID().uuidString
+        }
+
+        profileObject.skill = skillObject
+
+        context.saveIfNeeded()
+    }
+}
+
+// MARK: - 案件情報作成・更新
+
+extension ProfileModelObject {
+    func insertProject(_ profile: CoreDataObject<Profile>) {
+        let context = profile.context
+        let profileObject = profile.object
+
+        let projects = projects.map { object -> Project in
+            let project = Project(context: context)
+            project.identifier = UUID().uuidString
+            project.title = object.title
+            project.content = object.content
+            return project
+        }
+
+        profileObject.addToProjects(.init(array: projects))
+
+        context.saveIfNeeded()
+    }
+
+    func updateProject(
+        _ profile: CoreDataObject<Profile>,
+        identifier: String
+    ) {
+        let context = profile.context
+        let profileObject = profile.object
+
+        guard
+            var projectObjects = profileObject.projects?.allObjects as? [Project],
+            let targetProject = projectObjects.filter({ $0.identifier == identifier }).first,
+            let project = projects.filter({ $0.identifier == identifier }).first
+        else {
+            return
+        }
+
+        let updatedProject = targetProject.configure {
+            $0.title = project.title
+            $0.content = project.content
+        }
+
+        projectObjects.replace(
+            before: targetProject,
+            after: updatedProject
+        )
+
+        profileObject.projects = .init(array: projectObjects)
+
+        context.saveIfNeeded()
     }
 }

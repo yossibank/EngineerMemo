@@ -29,9 +29,9 @@ final class ProfileUpdateSkillContentView: UIView {
         toeicInputView
     }
 
-    private let careerInputView = ProfileUpdateCareerInputView()
-    private let useLanguageInputView = ProfileUpdateUseLanguageInputView()
-    private let toeicInputView = ProfileUpdateToeicInputView()
+    private let careerInputView = ProfileUpdateSkillCareerInputView()
+    private let useLanguageInputView = ProfileUpdateSkillLanguageInputView()
+    private let toeicInputView = ProfileUpdateSkillToeicInputView()
 
     private var cancellables = Set<AnyCancellable>()
 

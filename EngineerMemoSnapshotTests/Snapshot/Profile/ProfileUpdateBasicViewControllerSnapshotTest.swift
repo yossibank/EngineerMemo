@@ -19,7 +19,7 @@ final class ProfileUpdateBasicViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testProfileUpdateBasicViewController_設定() {
-        snapshot()
+        snapshot(modelObject: nil)
     }
 
     func testProfileUpdateBasicViewController_更新() {
@@ -37,7 +37,7 @@ final class ProfileUpdateBasicViewControllerSnapshotTest: FBSnapshotTestCase {
 }
 
 private extension ProfileUpdateBasicViewControllerSnapshotTest {
-    func snapshot(modelObject: ProfileModelObject? = nil) {
+    func snapshot(modelObject: ProfileModelObject?) {
         subject = AppControllers.Profile.Update.Basic(modelObject: modelObject)
 
         snapshotVerifyView(
