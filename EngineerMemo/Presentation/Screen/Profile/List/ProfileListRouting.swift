@@ -1,7 +1,7 @@
 import UIKit
 
 /// @mockable
-protocol ProfileDetailRoutingInput {
+protocol ProfileListRoutingInput {
     func showIconScreen(modelObject: ProfileModelObject)
     func showUpdateBasicScreen(modelObject: ProfileModelObject?)
     func showUpdateSkillScreen(modelObject: ProfileModelObject)
@@ -10,7 +10,7 @@ protocol ProfileDetailRoutingInput {
 
 // MARK: - properties & init
 
-final class ProfileDetailRouting {
+final class ProfileListRouting {
     private weak var viewController: UIViewController?
 
     init(viewController: UIViewController) {
@@ -20,7 +20,7 @@ final class ProfileDetailRouting {
 
 // MARK: - protocol
 
-extension ProfileDetailRouting: ProfileDetailRoutingInput {
+extension ProfileListRouting: ProfileListRoutingInput {
     func showIconScreen(modelObject: ProfileModelObject) {
         viewController?.show(
             AppControllers.Profile.Icon(modelObject: modelObject),

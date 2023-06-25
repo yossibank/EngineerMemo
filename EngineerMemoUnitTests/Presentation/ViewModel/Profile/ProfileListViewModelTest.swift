@@ -2,18 +2,18 @@ import Combine
 @testable import EngineerMemo
 import XCTest
 
-final class ProfileDetailViewModelTest: XCTestCase {
+final class ProfileListViewModelTest: XCTestCase {
     private var model: ProfileModelInputMock!
-    private var routing: ProfileDetailRoutingInputMock!
+    private var routing: ProfileListRoutingInputMock!
     private var analytics: FirebaseAnalyzableMock!
-    private var viewModel: ProfileDetailViewModel!
+    private var viewModel: ProfileListViewModel!
 
     override func setUp() {
         super.setUp()
 
         model = .init()
         routing = .init()
-        analytics = .init(screenId: .profileDetail)
+        analytics = .init(screenId: .profileList)
         viewModel = .init(
             model: model,
             routing: routing,

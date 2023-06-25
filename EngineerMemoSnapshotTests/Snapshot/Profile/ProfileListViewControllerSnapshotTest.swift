@@ -2,18 +2,18 @@ import Combine
 @testable import EngineerMemo
 import iOSSnapshotTestCase
 
-final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
-    private var subject: ProfileDetailViewController!
+final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
+    private var subject: ProfileListViewController!
     private var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
         super.setUp()
 
-        folderName = "プロフィール詳細画面"
+        folderName = "プロフィール画面"
 
         recordMode = SnapshotTest.recordMode
 
-        subject = AppControllers.Profile.Detail()
+        subject = AppControllers.Profile.List()
     }
 
     override func tearDown() {
@@ -26,11 +26,11 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
-    func testProfileDetailViewController_未設定() {
+    func testProfileListViewController_未設定() {
         snapshotVerifyView(viewMode: .navigation(subject))
     }
 
-    func testProfileDetailViewController_基本情報設定() {
+    func testProfileListViewController_基本情報設定() {
         dataInsert(modelObject: ProfileModelObjectBuilder().build())
 
         snapshotVerifyView(
@@ -45,7 +45,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         )
     }
 
-    func testProfileDetailViewController_基本情報_経験スキル設定() {
+    func testProfileListViewController_基本情報_経験スキル設定() {
         dataInsert(
             modelObject: ProfileModelObjectBuilder()
                 .skill(SKillModelObjectBuilder().build())
@@ -64,7 +64,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
         )
     }
 
-    func testProfileDetailViewController_基本情報_経験スキル_案件経歴設定() {
+    func testProfileListViewController_基本情報_経験スキル_案件経歴設定() {
         dataInsert(
             modelObject: ProfileModelObjectBuilder()
                 .skill(SKillModelObjectBuilder().build())
@@ -88,7 +88,7 @@ final class ProfileDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 }
 
-private extension ProfileDetailViewControllerSnapshotTest {
+private extension ProfileListViewControllerSnapshotTest {
     func dataInsert(modelObject: ProfileModelObject) {
         CoreDataStorage<Profile>().create().sink {
             modelObject.insertBasic($0, isNew: true)

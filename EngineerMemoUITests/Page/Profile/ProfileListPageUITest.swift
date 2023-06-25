@@ -1,8 +1,8 @@
 import XCTest
 
-final class ProfileDetailPageUITest: XCTestCase {
+final class ProfileListPageUITest: XCTestCase {
     private var app: XCUIApplication!
-    private var page: ProfileDetailPage!
+    private var page: ProfileListPage!
 
     override func setUp() {
         super.setUp()

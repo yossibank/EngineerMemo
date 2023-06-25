@@ -3,14 +3,14 @@ import UIKit
 
 // MARK: - inject
 
-extension ProfileDetailViewController: VCInjectable {
-    typealias CV = ProfileDetailContentView
-    typealias VM = ProfileDetailViewModel
+extension ProfileListViewController: VCInjectable {
+    typealias CV = ProfileListContentView
+    typealias VM = ProfileListViewModel
 }
 
 // MARK: - properties & init
 
-final class ProfileDetailViewController: UIViewController {
+final class ProfileListViewController: UIViewController {
     var viewModel: VM!
     var contentView: CV!
 
@@ -19,7 +19,7 @@ final class ProfileDetailViewController: UIViewController {
 
 // MARK: - override methods
 
-extension ProfileDetailViewController {
+extension ProfileListViewController {
     override func loadView() {
         super.loadView()
 
@@ -44,7 +44,7 @@ extension ProfileDetailViewController {
 
 // MARK: - private methods
 
-private extension ProfileDetailViewController {
+private extension ProfileListViewController {
     func bindToView() {
         viewModel.output.$modelObject
             .receive(on: DispatchQueue.main)

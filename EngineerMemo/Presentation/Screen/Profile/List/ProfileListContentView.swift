@@ -4,14 +4,14 @@ import UIKitHelper
 
 // MARK: - section & item
 
-enum ProfileDetailContentViewSection: CaseIterable {
+enum ProfileListContentViewSection: CaseIterable {
     case top
     case basic
     case skill
     case project
 }
 
-enum ProfileDetailContentViewItem: Hashable {
+enum ProfileListContentViewItem: Hashable {
     case top(ProfileModelObject?)
     case basic(ProfileModelObject?)
     case skill(SkillModelObject?)
@@ -20,9 +20,9 @@ enum ProfileDetailContentViewItem: Hashable {
 
 // MARK: - properties & init
 
-final class ProfileDetailContentView: UIView {
-    typealias Section = ProfileDetailContentViewSection
-    typealias Item = ProfileDetailContentViewItem
+final class ProfileListContentView: UIView {
+    typealias Section = ProfileListContentViewSection
+    typealias Item = ProfileListContentViewItem
 
     var modelObject: ProfileModelObject? {
         didSet {
@@ -77,7 +77,7 @@ final class ProfileDetailContentView: UIView {
 
 // MARK: - private methods
 
-private extension ProfileDetailContentView {
+private extension ProfileListContentView {
     func setupTableView() {
         tableView.configure {
             $0.registerCells(
@@ -263,7 +263,7 @@ private extension ProfileDetailContentView {
 
 // MARK: - delegate
 
-extension ProfileDetailContentView: UITableViewDelegate {
+extension ProfileListContentView: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,
         viewForHeaderInSection section: Int
@@ -405,7 +405,7 @@ extension ProfileDetailContentView: UITableViewDelegate {
 
 // MARK: - protocol
 
-extension ProfileDetailContentView: ContentView {
+extension ProfileListContentView: ContentView {
     func setupView() {
         addSubview(tableView) {
             $0.edges.equalToSuperview()
@@ -418,9 +418,9 @@ extension ProfileDetailContentView: ContentView {
 #if DEBUG
     import SwiftUI
 
-    struct ProfileDetailContentViewPreview: PreviewProvider {
+    struct ProfileListContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileDetailContentView()) {
+            WrapperView(view: ProfileListContentView()) {
                 $0.modelObject = ProfileModelObjectBuilder().build()
             }
         }

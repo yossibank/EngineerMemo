@@ -1,6 +1,6 @@
 import Combine
 
-final class ProfileDetailViewModel: ViewModel {
+final class ProfileListViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
@@ -23,12 +23,12 @@ final class ProfileDetailViewModel: ViewModel {
     private var cancellables = Set<AnyCancellable>()
 
     private let model: ProfileModelInput
-    private let routing: ProfileDetailRoutingInput
+    private let routing: ProfileListRoutingInput
     private let analytics: FirebaseAnalyzable
 
     init(
         model: ProfileModelInput,
-        routing: ProfileDetailRoutingInput,
+        routing: ProfileListRoutingInput,
         analytics: FirebaseAnalyzable
     ) {
         let input = Input()

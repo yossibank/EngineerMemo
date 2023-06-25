@@ -1,6 +1,6 @@
 import XCTest
 
-final class ProfileDetailPage: PageObjectable {
+final class ProfileListPage: PageObjectable {
     enum Ally {
         static let title = "プロフィール"
         static let iconImageView = "ProfileTopCell.iconImageView"

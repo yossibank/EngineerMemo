@@ -67,17 +67,17 @@ enum AppControllers {
     }
 
     enum Profile {
-        static func Detail() -> ProfileDetailViewController {
-            let vc = ProfileDetailViewController()
-            let routing = ProfileDetailRouting(viewController: vc)
+        static func List() -> ProfileListViewController {
+            let vc = ProfileListViewController()
+            let routing = ProfileListRouting(viewController: vc)
 
-            vc.title = L10n.Navigation.Title.profileDetail
+            vc.title = L10n.Navigation.Title.profileList
             vc.inject(
                 contentView: .init(),
                 viewModel: .init(
                     model: Models.Profile(),
                     routing: routing,
-                    analytics: FirebaseAnalytics(screenId: .profileDetail)
+                    analytics: FirebaseAnalytics(screenId: .profileList)
                 )
             )
 
