@@ -43,9 +43,7 @@ final class ProfileDetailViewModel: ViewModel {
         // MARK: - viewDidLoad
 
         input.viewDidLoad
-            .flatMap {
-                model.fetch().resultMap
-            }
+            .flatMap { model.fetch().resultMap }
             .sink {
                 switch $0 {
                 case let .success(modelObjects):

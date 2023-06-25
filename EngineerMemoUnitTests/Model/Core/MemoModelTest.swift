@@ -33,7 +33,7 @@ final class MemoModelTest: XCTestCase {
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
-    func test_fetch_成功_情報を取得できること() {
+    func test_fetch_メモ情報を取得できること() throws {
         // arrange
         dataInsert()
 
@@ -73,39 +73,25 @@ final class MemoModelTest: XCTestCase {
                 .build()
         }
 
-        wait { expectation in
-            // act
-            self.model.fetch {
-                switch $0 {
-                case let .success(modelObjects):
-                    guard !modelObjects.isEmpty else {
-                        return
-                    }
+        let publisher = model.fetch().dropFirst().collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!
 
-                    // assert
-                    XCTAssertEqual(
-                        modelObjects,
-                        [
-                            MemoModelObjectBuilder()
-                                .category(.technical)
-                                .content("コンテンツ")
-                                .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
-                                .identifier("identifier")
-                                .title("タイトル")
-                                .build()
-                        ]
-                    )
-
-                case let .failure(appError):
-                    XCTFail(appError.localizedDescription)
-                }
-
-                expectation.fulfill()
-            }
-        }
+        // assert
+        XCTAssertEqual(
+            output,
+            [
+                MemoModelObjectBuilder()
+                    .category(.technical)
+                    .content("コンテンツ")
+                    .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
+                    .identifier("identifier")
+                    .title("タイトル")
+                    .build()
+            ]
+        )
     }
 
-    func test_find_成功_情報を取得できること() {
+    func test_find_メモ情報を取得できること() throws {
         // arrange
         dataInsert()
 
@@ -145,43 +131,36 @@ final class MemoModelTest: XCTestCase {
                 .build()
         }
 
-        wait { expectation in
-            // act
-            self.model.find(identifier: "identifier") {
-                switch $0 {
-                case let .success(modelObject):
-                    // assert
-                    XCTAssertEqual(
-                        modelObject,
-                        MemoModelObjectBuilder()
-                            .category(.technical)
-                            .content("コンテンツ")
-                            .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
-                            .identifier("identifier")
-                            .title("タイトル")
-                            .build()
-                    )
+        let publisher = model.find(identifier: "identifier").collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first!
 
-                case let .failure(appError):
-                    XCTFail(appError.localizedDescription)
-                }
-
-                expectation.fulfill()
-            }
-        }
+        // assert
+        XCTAssertEqual(
+            output,
+            MemoModelObjectBuilder()
+                .category(.technical)
+                .content("コンテンツ")
+                .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
+                .identifier("identifier")
+                .title("タイトル")
+                .build()
+        )
     }
 
-    func test_update_isNew_true_情報を作成できること() {
+    func test_create_メモ情報を作成できること() throws {
         // act
-        model.update(
-            modelObject: MemoModelObjectBuilder()
+        let publisher = model.create(
+            MemoModelObjectBuilder()
                 .category(.technical)
                 .content("コンテンツ")
                 .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                 .title("タイトル")
-                .build(),
-            isNew: true
+                .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {
@@ -215,21 +194,24 @@ final class MemoModelTest: XCTestCase {
         }
     }
 
-    func test_update_isNew_false_情報を更新できること() {
+    func test_update_メモ情報を更新できること() throws {
         // arrange
         dataInsert()
 
         // act
-        model.update(
-            modelObject: MemoModelObjectBuilder()
+        let publisher = model.update(
+            MemoModelObjectBuilder()
                 .category(.interview)
                 .content("コンテンツ更新後")
                 .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                 .identifier("identifier")
                 .title("タイトル更新後")
-                .build(),
-            isNew: false
+                .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {
@@ -269,7 +251,7 @@ final class MemoModelTest: XCTestCase {
 
         // act
         model.delete(
-            modelObject: MemoModelObjectBuilder()
+            MemoModelObjectBuilder()
                 .identifier("identifier")
                 .build()
         )

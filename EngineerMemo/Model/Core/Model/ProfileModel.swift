@@ -32,7 +32,6 @@ struct ProfileModel: ProfileModelInput {
     func fetch() -> AnyPublisher<[ProfileModelObject], AppError> {
         storage
             .publisher()
-            .dropFirst()
             .mapError { errorConverter.convert(.coreData($0)) }
             .map { $0.map { profileConverter.convert($0) } }
             .eraseToAnyPublisher()
@@ -41,8 +40,7 @@ struct ProfileModel: ProfileModelInput {
     func find(identifier: String) -> AnyPublisher<ProfileModelObject, AppError> {
         storage
             .publisher()
-            .dropFirst()
-            .mapError { AppError(dataError: .coreData($0)) }
+            .mapError { errorConverter.convert(.coreData($0)) }
             .compactMap {
                 $0.compactMap { profileConverter.convert($0) }
                     .filter { $0.identifier == identifier }

@@ -35,7 +35,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
-            viewAfter: 0.3
+            viewAfter: 0.5
         )
     }
 
@@ -50,7 +50,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1300
             ),
-            viewAfter: 0.3
+            viewAfter: 0.5
         )
     }
 
@@ -65,7 +65,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 2900
             ),
-            viewAfter: 0.3
+            viewAfter: 0.5
         )
     }
 }
@@ -78,6 +78,7 @@ private extension MemoListViewControllerSnapshotTest {
                 $0.object.title = "memo title\(num)"
                 $0.object.content = "memo content\(num)"
                 $0.object.identifier = "identifier\(num)"
+                $0.object.createdAt = .init()
                 $0.context.saveIfNeeded()
             }
             .store(in: &cancellables)

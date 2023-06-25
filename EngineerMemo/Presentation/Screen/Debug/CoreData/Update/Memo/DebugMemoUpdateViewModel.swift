@@ -44,12 +44,15 @@
 
             // MARK: - メモ情報取得
 
-            model.fetch { [weak self] modelObjects in
-                if case let .success(modelObjects) = modelObjects {
-                    output.modelObjects = modelObjects
-                    self?.originalModelObjects = modelObjects
+            model.fetch().sink {
+                if case let .failure(appError) = $0 {
+                    Logger.error(message: appError.localizedDescription)
                 }
+            } receiveValue: { [weak self] modelObjects in
+                output.modelObjects = modelObjects
+                self?.originalModelObjects = modelObjects
             }
+            .store(in: &cancellables)
 
             // MARK: - カテゴリーセグメント
 
@@ -100,12 +103,7 @@
                 }
 
                 self.modelObject.identifier = identifier
-
-                self.model.update(
-                    modelObject: self.modelObject,
-                    isNew: false
-                )
-
+                self.updateMemo()
                 self.modelObject = MemoModelObjectBuilder()
                     .category(self.categorySegment.category)
                     .title(self.titleSegment.string)
@@ -114,6 +112,16 @@
                     .build()
             }
             .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugMemoUpdateViewModel {
+        func updateMemo() {
+            model.update(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
         }
     }
 #endif

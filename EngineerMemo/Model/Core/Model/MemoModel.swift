@@ -2,15 +2,14 @@ import Combine
 
 /// @mockable
 protocol MemoModelInput: Model {
-    func fetch(completion: @escaping (Result<[MemoModelObject], AppError>) -> Void)
-    func find(identifier: String, completion: @escaping (Result<MemoModelObject, AppError>) -> Void)
-    func update(modelObject: MemoModelObject, isNew: Bool)
-    func delete(modelObject: MemoModelObject)
+    func fetch() -> AnyPublisher<[MemoModelObject], AppError>
+    func find(identifier: String) -> AnyPublisher<MemoModelObject, AppError>
+    func create(_ modelObject: MemoModelObject) -> AnyPublisher<Void, Never>
+    func update(_ modelObject: MemoModelObject) -> AnyPublisher<Void, Never>
+    func delete(_ modelObject: MemoModelObject)
 }
 
-final class MemoModel: MemoModelInput {
-    private var cancellables = Set<AnyCancellable>()
-
+struct MemoModel: MemoModelInput {
     private let storage = CoreDataStorage<Memo>()
     private let memoConverter: MemoConverterInput
     private let errorConverter: AppErrorConverterInput
@@ -23,82 +22,47 @@ final class MemoModel: MemoModelInput {
         self.errorConverter = errorConverter
     }
 
-    func fetch(completion: @escaping (Result<[MemoModelObject], AppError>) -> Void) {
-        storage.publisher().sink(
-            receiveCompletion: { [weak self] receiveCompletion in
-                guard let self else {
-                    return
-                }
-
-                if case let .failure(coreDataError) = receiveCompletion {
-                    let appError = self.errorConverter.convert(.coreData(coreDataError))
-                    completion(.failure(appError))
-                }
-            },
-            receiveValue: { [weak self] values in
-                let modelObjects = values.compactMap {
-                    self?.memoConverter.convert($0)
-                }
-                completion(.success(modelObjects))
-            }
-        )
-        .store(in: &cancellables)
+    func fetch() -> AnyPublisher<[MemoModelObject], AppError> {
+        storage
+            .publisher()
+            .mapError { errorConverter.convert(.coreData($0)) }
+            .map { $0.map { memoConverter.convert($0) } }
+            .eraseToAnyPublisher()
     }
 
-    func find(
-        identifier: String,
-        completion: @escaping (Result<MemoModelObject, AppError>) -> Void
-    ) {
-        storage.publisher().sink(
-            receiveCompletion: { [weak self] receiveCompletion in
-                guard let self else {
-                    return
-                }
-
-                if case let .failure(coreDataError) = receiveCompletion {
-                    let appError = self.errorConverter.convert(.coreData(coreDataError))
-                    completion(.failure(appError))
-                }
-            },
-            receiveValue: { [weak self] values in
-                guard
-                    let self,
-                    let value = values.filter({ $0.identifier == identifier }).first
-                else {
-                    return
-                }
-
-                let modelObject = self.memoConverter.convert(value)
-                completion(.success(modelObject))
+    func find(identifier: String) -> AnyPublisher<MemoModelObject, AppError> {
+        storage
+            .publisher()
+            .mapError { errorConverter.convert(.coreData($0)) }
+            .compactMap {
+                $0.compactMap { memoConverter.convert($0) }
+                    .filter { $0.identifier == identifier }
+                    .first
             }
-        )
-        .store(in: &cancellables)
+            .eraseToAnyPublisher()
     }
 
-    func update(
-        modelObject: MemoModelObject,
-        isNew: Bool
-    ) {
-        if isNew {
-            storage.create().sink {
-                modelObject.insertMemo(
-                    memo: $0,
-                    isNew: true
-                )
-            }
-            .store(in: &cancellables)
-        } else {
-            storage.update(identifier: modelObject.identifier).sink {
-                modelObject.insertMemo(
-                    memo: $0,
-                    isNew: false
-                )
-            }
-            .store(in: &cancellables)
-        }
+    func create(_ modelObject: MemoModelObject) -> AnyPublisher<Void, Never> {
+        storage
+            .create()
+            .handleEvents(receiveOutput: {
+                modelObject.insertMemo($0, isNew: true)
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
     }
 
-    func delete(modelObject: MemoModelObject) {
+    func update(_ modelObject: MemoModelObject) -> AnyPublisher<Void, Never> {
+        storage
+            .update(identifier: modelObject.identifier)
+            .handleEvents(receiveOutput: {
+                modelObject.insertMemo($0, isNew: false)
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
+
+    func delete(_ modelObject: MemoModelObject) {
         storage.delete(identifier: modelObject.identifier)
     }
 }

@@ -31,61 +31,82 @@ final class MemoUpdateViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
-    func test_binding_category_作成ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_category_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(modelObject: nil)
 
         viewModel.binding.category = .interview
 
-        model.updateHandler = { modelObject, _ in
+        model.createHandler = {
             // assert
             XCTAssertEqual(
-                modelObject.category,
+                $0.category,
                 .interview
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_title_作成ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_title_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(modelObject: nil)
 
         viewModel.binding.title = "title"
 
-        model.updateHandler = { modelObject, _ in
+        model.createHandler = {
             // assert
             XCTAssertEqual(
-                modelObject.title,
+                $0.title,
                 "title"
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_binding_content_作成ボタンタップ時にmodelObjectに反映されること() {
+    func test_binding_content_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(modelObject: nil)
 
         viewModel.binding.content = "content"
 
-        model.updateHandler = { modelObject, _ in
+        model.createHandler = {
             // assert
             XCTAssertEqual(
-                modelObject.content,
+                $0.content,
                 "content"
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
         viewModel.input.didTapBarButton.send(())
     }
 
-    func test_各binding値代入時にoutput_isEnabledがtrueを取得できること() throws {
+    func test_bindingの値が有効時_output_isEnabledがtrueを取得できること() throws {
         // arrange
         setupViewModel(modelObject: nil)
 
@@ -100,13 +121,37 @@ final class MemoUpdateViewModelTest: XCTestCase {
         XCTAssertTrue(output)
     }
 
+    func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
+        // arrange
+        setupViewModel(modelObject: nil)
+
+        model.createHandler = { _ in
+            Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+
+        // assert
+        XCTAssertTrue(viewModel.output.isFinished)
+    }
+
     func test_input_didTapBarButton_setting_メモ作成処理がよばれること() {
         // arrange
         setupViewModel(modelObject: nil)
 
-        model.updateHandler = { _, isNew in
-            // assert
-            XCTAssertTrue(isNew)
+        model.createHandler = { _ in
+            Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
@@ -117,31 +162,28 @@ final class MemoUpdateViewModelTest: XCTestCase {
         // arrange
         setupViewModel(modelObject: MemoModelObjectBuilder().build())
 
-        model.updateHandler = { _, isNew in
-            // assert
-            XCTAssertFalse(isNew)
+        model.updateHandler = { _ in
+            Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
         viewModel.input.didTapBarButton.send(())
-    }
-
-    func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
-        // arrange
-        setupViewModel(modelObject: nil)
-
-        // act
-        viewModel.input.didTapBarButton.send(())
-
-        // assert
-        XCTAssertTrue(viewModel.output.isFinished)
     }
 }
 
 private extension MemoUpdateViewModelTest {
     func setupViewModel(modelObject: MemoModelObject?) {
         model = .init()
-        analytics = .init(screenId: .memoCreate)
+
+        analytics = modelObject.isNil
+            ? .init(screenId: .memoCreate)
+            : .init(screenId: .memoUpdate)
+
         viewModel = .init(
             model: model,
             modelObject: modelObject,

@@ -30,11 +30,12 @@ struct MemoModelObject: Hashable {
 
 extension MemoModelObject {
     func insertMemo(
-        memo: CoreDataObject<Memo>,
+        _ memo: CoreDataObject<Memo>,
         isNew: Bool
     ) {
         let context = memo.context
         let memo = memo.object
+
         memo.category = .init(rawValue: category?.rawValue ?? .invalid)
         memo.title = title
         memo.content = content

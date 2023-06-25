@@ -92,7 +92,7 @@ final class ProfileModelTest: XCTestCase {
                 .build()
         }
 
-        let publisher = model.fetch().collect(1).first()
+        let publisher = model.fetch().dropFirst().collect(1).first()
         let output = try awaitOutputPublisher(publisher).first!
 
         // assert

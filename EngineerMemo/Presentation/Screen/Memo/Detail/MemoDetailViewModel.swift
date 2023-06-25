@@ -43,8 +43,9 @@ final class MemoDetailViewModel: ViewModel {
 
         // MARK: - viewDidLoad
 
-        input.viewDidLoad.sink { _ in
-            model.find(identifier: identifier) {
+        input.viewDidLoad
+            .flatMap { model.find(identifier: identifier).resultMap }
+            .sink {
                 switch $0 {
                 case let .success(modelObject):
                     output.modelObject = modelObject
@@ -53,8 +54,7 @@ final class MemoDetailViewModel: ViewModel {
                     output.appError = appError
                 }
             }
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 
@@ -76,7 +76,7 @@ final class MemoDetailViewModel: ViewModel {
 
         input.didTapDeleteBarButton.sink {
             if let modelObject = output.modelObject {
-                model.delete(modelObject: modelObject)
+                model.delete(modelObject)
                 output.isDeleted = true
             }
         }
