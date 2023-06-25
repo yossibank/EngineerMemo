@@ -25,7 +25,6 @@ struct MemoModel: MemoModelInput {
     func fetch() -> AnyPublisher<[MemoModelObject], AppError> {
         storage
             .publisher()
-            .dropFirst()
             .mapError { errorConverter.convert(.coreData($0)) }
             .map { $0.map { memoConverter.convert($0) } }
             .eraseToAnyPublisher()
@@ -34,7 +33,6 @@ struct MemoModel: MemoModelInput {
     func find(identifier: String) -> AnyPublisher<MemoModelObject, AppError> {
         storage
             .publisher()
-            .dropFirst()
             .mapError { errorConverter.convert(.coreData($0)) }
             .compactMap {
                 $0.compactMap { memoConverter.convert($0) }

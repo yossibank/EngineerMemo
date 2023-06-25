@@ -107,6 +107,9 @@ EngineerMemoSnapshotTests/FailureDiffs
 # SourcePackages
 SourcePackages
 
+# Local Test
+Test/
+
 # LicensePlist
 **/Settings.bundle/com.mono0926.LicensePlist
 **/Settings.bundle/com.mono0926.LicensePlist.latest_result.txt
