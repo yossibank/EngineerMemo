@@ -48,9 +48,10 @@ final class MemoListViewModel: ViewModel {
 
         // MARK: - viewDidLoad
 
-        input.viewDidLoad.sink { _ in
-            model.fetch { [weak self] result in
-                switch result {
+        input.viewDidLoad
+            .flatMap { model.fetch().resultMap }
+            .sink { [weak self] in
+                switch $0 {
                 case let .success(modelObjects):
                     self?.originalModelObjects = modelObjects
                     self?.configureModelObjects(
@@ -62,8 +63,7 @@ final class MemoListViewModel: ViewModel {
                     output.appError = appError
                 }
             }
-        }
-        .store(in: &cancellables)
+            .store(in: &cancellables)
 
         // MARK: - viewWillAppear
 

@@ -42,7 +42,7 @@ struct ProfileModel: ProfileModelInput {
         storage
             .publisher()
             .dropFirst()
-            .mapError { AppError(dataError: .coreData($0)) }
+            .mapError { errorConverter.convert(.coreData($0)) }
             .compactMap {
                 $0.compactMap { profileConverter.convert($0) }
                     .filter { $0.identifier == identifier }

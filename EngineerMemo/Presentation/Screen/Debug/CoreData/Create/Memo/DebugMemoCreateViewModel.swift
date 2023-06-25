@@ -62,11 +62,7 @@
                     return
                 }
 
-                self.model.update(
-                    modelObject: self.modelObject,
-                    isNew: true
-                )
-
+                self.createMemo()
                 self.modelObject = MemoModelObjectBuilder()
                     .category(self.categroySegment.category)
                     .title(self.titleSegment.string)
@@ -75,6 +71,16 @@
                     .build()
             }
             .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugMemoCreateViewModel {
+        func createMemo() {
+            model.create(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
         }
     }
 #endif

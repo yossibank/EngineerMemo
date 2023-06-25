@@ -29,19 +29,19 @@
 
             // MARK: - viewDidLoad
 
-            input.viewDidLoad.sink { _ in
-                model.fetch {
+            input.viewDidLoad
+                .flatMap { model.fetch().resultMap }
+                .sink {
                     if case let .success(modelObject) = $0 {
                         output.modelObject = modelObject
                     }
                 }
-            }
-            .store(in: &cancellables)
+                .store(in: &cancellables)
 
             // MARK: - メモ情報削除
 
             input.didSwipe.sink { modelObject in
-                model.delete(modelObject: modelObject)
+                model.delete(modelObject)
             }
             .store(in: &cancellables)
         }

@@ -104,10 +104,11 @@ final class MemoUpdateViewModel: ViewModel {
                 return
             }
 
-            self.model.update(
-                modelObject: self.modelObject,
-                isNew: modelObject.isNil
-            )
+            if modelObject.isNil {
+                self.createMemo()
+            } else {
+                self.updateMemo()
+            }
 
             self.output.isFinished = true
         }
@@ -118,5 +119,21 @@ final class MemoUpdateViewModel: ViewModel {
             title,
             content
         ])
+    }
+}
+
+// MARK: - private methods
+
+private extension MemoUpdateViewModel {
+    func createMemo() {
+        model.create(modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
+    }
+
+    func updateMemo() {
+        model.update(modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }

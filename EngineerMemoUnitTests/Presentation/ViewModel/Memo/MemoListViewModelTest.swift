@@ -226,7 +226,12 @@ final class MemoListViewModelTest: XCTestCase {
 private extension MemoListViewModelTest {
     func viewDidLoad(modelObjects: [MemoModelObject]) {
         model.fetchHandler = {
-            $0(.success(modelObjects))
+            Deferred {
+                Future<[MemoModelObject], AppError> { promise in
+                    promise(.success(modelObjects))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         viewModel.input.viewDidLoad.send(())

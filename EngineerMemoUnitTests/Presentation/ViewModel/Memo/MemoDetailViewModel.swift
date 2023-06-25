@@ -21,12 +21,13 @@ final class MemoDetailViewModelTest: XCTestCase {
             analytics: analytics
         )
 
-        model.findHandler = { _, completion in
-            completion(
-                .success(
-                    MemoModelObjectBuilder().build()
-                )
-            )
+        model.findHandler = { _ in
+            Deferred {
+                Future<MemoModelObject, AppError> { promise in
+                    promise(.success(MemoModelObjectBuilder().build()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         viewModel.input.viewDidLoad.send(())

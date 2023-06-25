@@ -30,9 +30,7 @@
             // MARK: - viewDidLoad
 
             input.viewDidLoad
-                .flatMap {
-                    model.fetch().resultMap
-                }
+                .flatMap { model.fetch().resultMap }
                 .sink {
                     if case let .success(modelObjects) = $0 {
                         output.modelObjects = modelObjects
