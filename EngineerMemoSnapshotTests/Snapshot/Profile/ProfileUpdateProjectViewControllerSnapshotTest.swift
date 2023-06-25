@@ -7,7 +7,7 @@ final class ProfileUpdateProjectViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "プロフィール案件設定・更新設定"
+        folderName = "プロフィール案件設定・更新画面"
 
         recordMode = SnapshotTest.recordMode
     }
