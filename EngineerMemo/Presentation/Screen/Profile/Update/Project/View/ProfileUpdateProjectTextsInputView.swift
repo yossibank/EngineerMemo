@@ -55,6 +55,19 @@ final class ProfileUpdateProjectTextsInputView: UIView {
     }
 }
 
+// MARK: - internal methods
+
+extension ProfileUpdateProjectTextsInputView {
+    func updateValue(modelObject: ProjectModelObject?) {
+        guard let modelObject else {
+            return
+        }
+
+        inputTextView.text = modelObject.content
+        placeholderLabel.isHidden = true
+    }
+}
+
 // MARK: - private methods
 
 private extension ProfileUpdateProjectTextsInputView {

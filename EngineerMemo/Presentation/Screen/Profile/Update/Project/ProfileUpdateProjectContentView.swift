@@ -29,13 +29,29 @@ final class ProfileUpdateProjectContentView: UIView {
     private let titleInputView = ProfileUpdateProjectTextInputView()
     private let contentInputView = ProfileUpdateProjectTextsInputView()
 
+    private var project: ProjectModelObject? {
+        modelObject.projects
+            .filter { $0.identifier == identifier }
+            .first
+    }
+
     private var cancellables = Set<AnyCancellable>()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private let identifier: String
+    private let modelObject: ProfileModelObject
+
+    init(
+        identifier: String,
+        modelObject: ProfileModelObject
+    ) {
+        self.identifier = identifier
+        self.modelObject = modelObject
+
+        super.init(frame: .zero)
 
         setupView()
         setupEvent()
+        setupValue()
         setupButton()
     }
 
@@ -67,9 +83,19 @@ private extension ProfileUpdateProjectContentView {
         .store(in: &cancellables)
     }
 
+    func setupValue() {
+        titleInputView.updateValue(modelObject: project)
+        contentInputView.updateValue(modelObject: project)
+    }
+
     func setupButton() {
-        let defaultButtonStyle: ViewStyle<UIButton> = .settingNavigationButton
-        let updatedButtonStyle: ViewStyle<UIButton> = .settingDoneNavigationButton
+        let defaultButtonStyle: ViewStyle<UIButton> = project.isNil
+            ? .settingNavigationButton
+            : .updateNavigationButton
+
+        let updatedButtonStyle: ViewStyle<UIButton> = project.isNil
+            ? .settingDoneNavigationButton
+            : .updateDoneNavigationButton
 
         barButton.apply(defaultButtonStyle)
 
@@ -114,7 +140,12 @@ extension ProfileUpdateProjectContentView: ContentView {
 
     struct ProfileProjectContentViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileUpdateProjectContentView())
+            WrapperView(
+                view: ProfileUpdateProjectContentView(
+                    identifier: "identifier",
+                    modelObject: ProfileModelObjectBuilder().build()
+                )
+            )
         }
     }
 #endif

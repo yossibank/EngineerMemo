@@ -104,7 +104,10 @@ enum AppControllers {
             static func Basic(modelObject: ProfileModelObject?) -> ProfileUpdateBasicViewController {
                 let vc = ProfileUpdateBasicViewController()
 
-                vc.title = L10n.Navigation.Title.profileBasicSetting
+                vc.title = modelObject.isNil
+                    ? L10n.Navigation.Title.profileBasicSetting
+                    : L10n.Navigation.Title.profileBasicUpdate
+
                 vc.inject(
                     contentView: .init(modelObject: modelObject),
                     viewModel: .init(
@@ -125,14 +128,22 @@ enum AppControllers {
             ) -> ProfileUpdateProjectViewController {
                 let vc = ProfileUpdateProjectViewController()
 
-                vc.title = "案件設定"
+                vc.title = modelObject.projects.contains(where: { $0.identifier == identifier })
+                    ? L10n.Navigation.Title.profileProjectUpdate
+                    : L10n.Navigation.Title.profileProjectSetting
+
                 vc.inject(
-                    contentView: .init(),
+                    contentView: .init(
+                        identifier: identifier,
+                        modelObject: modelObject
+                    ),
                     viewModel: .init(
                         identifier: identifier,
                         modelObject: modelObject,
                         model: Models.Profile(),
-                        analytics: FirebaseAnalytics(screenId: .profileProjectSetting)
+                        analytics: modelObject.projects.contains(where: { $0.identifier == identifier })
+                            ? FirebaseAnalytics(screenId: .profileProjectUpdate)
+                            : FirebaseAnalytics(screenId: .profileProjectSetting)
                     )
                 )
 
@@ -142,7 +153,10 @@ enum AppControllers {
             static func Skill(modelObject: ProfileModelObject) -> ProfileUpdateSkillViewController {
                 let vc = ProfileUpdateSkillViewController()
 
-                vc.title = L10n.Navigation.Title.profileSKillSetting
+                vc.title = modelObject.skill.isNil
+                    ? L10n.Navigation.Title.profileSKillSetting
+                    : L10n.Navigation.Title.profileSkillUpdate
+
                 vc.inject(
                     contentView: .init(modelObject: modelObject),
                     viewModel: .init(

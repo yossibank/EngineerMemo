@@ -47,6 +47,18 @@ final class ProfileUpdateProjectTextInputView: UIView {
     }
 }
 
+// MARK: - internal methods
+
+extension ProfileUpdateProjectTextInputView {
+    func updateValue(modelObject: ProjectModelObject?) {
+        guard let modelObject else {
+            return
+        }
+
+        inputTextField.text = modelObject.title
+    }
+}
+
 // MARK: - private methods
 
 private extension ProfileUpdateProjectTextInputView {

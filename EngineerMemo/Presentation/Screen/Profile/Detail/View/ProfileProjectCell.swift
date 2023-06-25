@@ -9,6 +9,9 @@ final class ProfileProjectCell: UITableViewCell {
         .addSubview(projectView) {
             $0.edges.equalToSuperview().inset(16)
         }
+        .addSubview(editIcon) {
+            $0.top.trailing.equalToSuperview().inset(8)
+        }
         .apply(.borderView)
 
     private lazy var projectView = VStackView(
@@ -38,6 +41,12 @@ final class ProfileProjectCell: UITableViewCell {
                 $0.font = .boldSystemFont(ofSize: 16)
             }
         }
+    }
+
+    private let editIcon = UIImageView().configure {
+        $0.image = Asset.edit.image
+            .resized(size: .init(width: 16, height: 16))
+            .withRenderingMode(.alwaysOriginal)
     }
 
     private let titleLabel = UILabel()
