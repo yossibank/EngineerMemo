@@ -81,23 +81,23 @@ jobs:
           make generate-xcodeproj
 
       # テスト(xcodebuild)
-      - name: Xcode Test
-        run: set -o pipefail &&
-          xcodebuild
-          -sdk iphonesimulator
-          -configuration Debug
-          -scheme EngineerMemo
-          -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4'
-          -testPlan 'EngineerMemo'
-          -clonedSourcePackagesDirPath SourcePackages
-          -resultBundlePath Test/EngineerMemo.xcresult
-          -derivedDataPath DerivedData
-          clean test
-          | bundle exec xcpretty --report html
+      # - name: Xcode Test
+      #   run: set -o pipefail &&
+      #     xcodebuild
+      #     -sdk iphonesimulator
+      #     -configuration Debug
+      #     -scheme EngineerMemo
+      #     -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4'
+      #     -testPlan 'EngineerMemo'
+      #     -clonedSourcePackagesDirPath SourcePackages
+      #     -resultBundlePath Test/EngineerMemo.xcresult
+      #     -derivedDataPath DerivedData
+      #     clean test
+      #     | bundle exec xcpretty --report html
 
       # テスト(fastlane)
-      # - name: Xcode Test
-        # run: bundle exec fastlane unit_test
+      - name: Xcode Test
+        run: bundle exec fastlane unit_test
 
       # Danger実行
       - uses: MeilCli/danger-action@v5
