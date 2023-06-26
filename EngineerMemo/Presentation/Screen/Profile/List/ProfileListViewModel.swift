@@ -72,21 +72,21 @@ final class ProfileListViewModel: ViewModel {
         // MARK: - 基本情報設定ボタンタップ
 
         input.didTapBasicSettingButton.sink { modelObject in
-            routing.showUpdateBasicScreen(modelObject: modelObject)
+            routing.showBasicUpdateScreen(modelObject: modelObject)
         }
         .store(in: &cancellables)
 
         // MARK: - スキル・経験設定ボタンタップ
 
         input.didTapSkillSettingButton.sink { modelObject in
-            routing.showUpdateSkillScreen(modelObject: modelObject)
+            routing.showSkillUpdateScreen(modelObject: modelObject)
         }
         .store(in: &cancellables)
 
         // MARK: - 案件・経歴設定ボタンタップ
 
         input.didTapProjectSettingButton.sink {
-            routing.showUpdateProjectScreen(
+            routing.showProjectUpdateScreen(
                 identifier: $0.0,
                 modelObject: $0.1
             )

@@ -59,10 +59,10 @@
                 }
                 .store(in: &cancellables)
 
-            contentView.didTapCreateButtonPublisher
+            contentView.didTapUpdateButtonPublisher
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.viewModel.input.didTapCreateButton.send(())
+                    self?.viewModel.input.didTapUpdateButton.send(())
                 }
                 .store(in: &cancellables)
         }

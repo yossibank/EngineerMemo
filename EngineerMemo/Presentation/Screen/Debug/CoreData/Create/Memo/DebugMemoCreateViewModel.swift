@@ -6,7 +6,7 @@
             let didChangeCategoryControl = PassthroughSubject<DebugCategoryMenu, Never>()
             let didChangeTitleControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangeContentControl = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let didTapCreateButton = PassthroughSubject<Void, Never>()
+            let didTapUpdateButton = PassthroughSubject<Void, Never>()
         }
 
         let input: Input
@@ -57,7 +57,7 @@
 
             // MARK: - 作成ボタンタップ
 
-            input.didTapCreateButton.sink { [weak self] in
+            input.didTapUpdateButton.sink { [weak self] in
                 guard let self else {
                     return
                 }

@@ -27,7 +27,7 @@ final class MemoListContentView: UIView {
 
     private(set) lazy var didChangeSortPublisher = didChangeSortSubject.eraseToAnyPublisher()
     private(set) lazy var didChangeCategoryPublisher = didChangeCategorySubject.eraseToAnyPublisher()
-    private(set) lazy var didTapCreateButtonPublisher = didTapCreateButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
     private lazy var collectionView = UICollectionView(
@@ -58,7 +58,7 @@ final class MemoListContentView: UIView {
             )
 
             cell.didTapCreateButtonPublisher.sink { [weak self] _ in
-                self?.didTapCreateButtonSubject.send(())
+                self?.didTapUpdateButtonSubject.send(())
             }
             .store(in: &cell.cancellables)
 
@@ -132,7 +132,7 @@ final class MemoListContentView: UIView {
 
     private let didChangeSortSubject = PassthroughSubject<MemoListSortType, Never>()
     private let didChangeCategorySubject = PassthroughSubject<MemoListCategoryType, Never>()
-    private let didTapCreateButtonSubject = PassthroughSubject<Void, Never>()
+    private let didTapUpdateButtonSubject = PassthroughSubject<Void, Never>()
     private let didSelectContentSubject = PassthroughSubject<MemoModelObject, Never>()
 
     override init(frame: CGRect) {

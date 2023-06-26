@@ -50,7 +50,7 @@ private extension MemoListViewController {
         let addMemoBarButtonItem = UIBarButtonItem(.addMemo)
 
         addMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
-            self?.viewModel.input.didTapCreateButton.send(())
+            self?.viewModel.input.didTapUpdateButton.send(())
         }
         .store(in: &cancellables)
 
@@ -75,10 +75,10 @@ private extension MemoListViewController {
     }
 
     func bindToViewModel() {
-        contentView.didTapCreateButtonPublisher
+        contentView.didTapUpdateButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.input.didTapCreateButton.send(())
+                self?.viewModel.input.didTapUpdateButton.send(())
             }
             .store(in: &cancellables)
 

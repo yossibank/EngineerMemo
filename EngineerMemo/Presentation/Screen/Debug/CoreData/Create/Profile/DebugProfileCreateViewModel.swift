@@ -10,7 +10,7 @@
             let didChangeNameControl = PassthroughSubject<DebugCoreDataSegment, Never>()
             let didChangePhoneNumberControl = PassthroughSubject<DebugPhoneNumberSegment, Never>()
             let didChangeStationControl = PassthroughSubject<DebugCoreDataSegment, Never>()
-            let didTapCreateButton = PassthroughSubject<Void, Never>()
+            let didTapUpdateButton = PassthroughSubject<Void, Never>()
         }
 
         let input: Input
@@ -97,7 +97,7 @@
 
             // MARK: - 作成ボタンタップ
 
-            input.didTapCreateButton.sink { [weak self] in
+            input.didTapUpdateButton.sink { [weak self] in
                 guard let self else {
                     return
                 }
