@@ -40,22 +40,22 @@
         func bindToViewModel() {
             contentView.didChangeCategoryControlPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] value in
-                    self?.viewModel.input.didChangeCategoryControl.send(value)
+                .sink { [weak self] in
+                    self?.viewModel.input.didChangeCategoryControl.send($0)
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeTitleControlPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] value in
-                    self?.viewModel.input.didChangeTitleControl.send(.segment(value))
+                .sink { [weak self] in
+                    self?.viewModel.input.didChangeTitleControl.send(.segment($0))
                 }
                 .store(in: &cancellables)
 
             contentView.didChangeContentControlPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] value in
-                    self?.viewModel.input.didChangeContentControl.send(.segment(value))
+                .sink { [weak self] in
+                    self?.viewModel.input.didChangeContentControl.send(.segment($0))
                 }
                 .store(in: &cancellables)
 

@@ -69,12 +69,12 @@
 
             // MARK: - API変更メニューボタン
 
-            binding.$menuType.sink { [weak self] menuType in
+            binding.$menuType.sink { [weak self] in
                 guard let self else {
                     return
                 }
 
-                switch menuType {
+                switch $0 {
                 case .debugDelete:
                     self.item = DebugDeleteRequest(
                         pathComponent: binding.path
@@ -155,23 +155,23 @@
 
             // MARK: - Parameters変更
 
-            binding.$userId.sink { [weak self] userId in
-                self?.parameters.userId = userId
+            binding.$userId.sink { [weak self] in
+                self?.parameters.userId = $0
             }
             .store(in: &cancellables)
 
-            binding.$id.sink { [weak self] id in
-                self?.parameters.id = id
+            binding.$id.sink { [weak self] in
+                self?.parameters.id = $0
             }
             .store(in: &cancellables)
 
-            binding.$title.sink { [weak self] title in
-                self?.parameters.title = title
+            binding.$title.sink { [weak self] in
+                self?.parameters.title = $0
             }
             .store(in: &cancellables)
 
-            binding.$body.sink { [weak self] body in
-                self?.parameters.body = body
+            binding.$body.sink { [weak self] in
+                self?.parameters.body = $0
             }
             .store(in: &cancellables)
 
@@ -234,8 +234,8 @@
         func request(item: some Request<some Encodable>) {
             output.isLoading = true
 
-            APIClient().request(item: item) { [weak self] result in
-                switch result {
+            APIClient().request(item: item) { [weak self] in
+                switch $0 {
                 case let .success(response):
                     let encoder: JSONEncoder = {
                         $0.outputFormatting = .prettyPrinted

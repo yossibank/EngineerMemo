@@ -56,25 +56,25 @@
 
             // MARK: - カテゴリーセグメント
 
-            input.didChangeCategoryControl.sink { [weak self] segment in
-                self?.categorySegment = segment
-                self?.modelObject.category = segment.category
+            input.didChangeCategoryControl.sink { [weak self] in
+                self?.categorySegment = $0
+                self?.modelObject.category = $0.category
             }
             .store(in: &cancellables)
 
             // MARK: - タイトルセグメント
 
-            input.didChangeTitleControl.sink { [weak self] segment in
-                self?.titleSegment = segment
-                self?.modelObject.title = segment.string
+            input.didChangeTitleControl.sink { [weak self] in
+                self?.titleSegment = $0
+                self?.modelObject.title = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - コンテンツセグメント
 
-            input.didChangeContentControl.sink { [weak self] segment in
-                self?.contentSegment = segment
-                self?.modelObject.content = segment.string
+            input.didChangeContentControl.sink { [weak self] in
+                self?.contentSegment = $0
+                self?.modelObject.content = $0.string
             }
             .store(in: &cancellables)
 
@@ -97,12 +97,12 @@
 
             // MARK: - 更新ボタンタップ
 
-            input.didTapUpdateButton.sink { [weak self] identifier in
+            input.didTapUpdateButton.sink { [weak self] in
                 guard let self else {
                     return
                 }
 
-                self.modelObject.identifier = identifier
+                self.modelObject.identifier = $0
                 self.updateMemo()
                 self.modelObject = MemoModelObjectBuilder()
                     .category(self.categorySegment.category)

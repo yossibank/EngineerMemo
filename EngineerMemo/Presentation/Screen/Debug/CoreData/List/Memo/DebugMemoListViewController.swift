@@ -44,16 +44,16 @@
             viewModel.output.$modelObject
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink { [weak self] modelObject in
-                    self?.contentView.dataSource.modelObject = modelObject
+                .sink { [weak self] in
+                    self?.contentView.dataSource.modelObject = $0
                 }
                 .store(in: &cancellables)
         }
 
         func bindToViewModel() {
             contentView.didSwipePublisher
-                .sink { [weak self] modelObject in
-                    self?.viewModel.input.didSwipe.send(modelObject)
+                .sink { [weak self] in
+                    self?.viewModel.input.didSwipe.send($0)
                 }
                 .store(in: &cancellables)
         }

@@ -57,17 +57,13 @@ final class ProjectUpdateViewModel: ViewModel {
 
         let title = binding.$title
             .dropFirst()
-            .sink { title in
-                updatedObject.title = title
-            }
+            .sink { updatedObject.title = $0 }
 
         // MARK: - 案件内容
 
         let content = binding.$content
             .dropFirst()
-            .sink { content in
-                updatedObject.content = content
-            }
+            .sink { updatedObject.content = $0 }
 
         // MARK: - 設定・更新ボタンタップ
 

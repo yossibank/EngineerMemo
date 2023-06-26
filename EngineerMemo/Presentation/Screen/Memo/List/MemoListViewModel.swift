@@ -105,14 +105,14 @@ final class MemoListViewModel: ViewModel {
 
         // MARK: - メモコンテンツ選択
 
-        input.didSelectContent.sink { modelObject in
+        input.didSelectContent.sink {
             analytics.sendEvent(
                 .didTapMemoList(
-                    title: modelObject.title ?? .noSetting
+                    title: $0.title ?? .noSetting
                 )
             )
 
-            routing.showDetailScreen(identifier: modelObject.identifier)
+            routing.showDetailScreen(identifier: $0.identifier)
         }
         .store(in: &cancellables)
     }

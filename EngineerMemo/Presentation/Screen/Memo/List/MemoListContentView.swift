@@ -173,13 +173,13 @@ private extension MemoListContentView {
                 for: indexPath
             )
 
-            headerView.$selectedSortType.sink { [weak self] sort in
-                self?.didChangeSortSubject.send(sort)
+            headerView.$selectedSortType.sink { [weak self] in
+                self?.didChangeSortSubject.send($0)
             }
             .store(in: &headerView.cancellables)
 
-            headerView.$selectedCategoryType.sink { [weak self] category in
-                self?.didChangeCategorySubject.send(category)
+            headerView.$selectedCategoryType.sink { [weak self] in
+                self?.didChangeCategorySubject.send($0)
             }
             .store(in: &headerView.cancellables)
 

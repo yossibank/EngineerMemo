@@ -143,18 +143,18 @@
                     return .init()
                 }
 
-                cell.categoryControlPublisher.sink { [weak self] value in
-                    self?.didChangeCategoryControlSubject.send(value)
+                cell.categoryControlPublisher.sink { [weak self] in
+                    self?.didChangeCategoryControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.titleControlPublisher.sink { [weak self] value in
-                    self?.didChangeTitleControlSubject.send(value)
+                cell.titleControlPublisher.sink { [weak self] in
+                    self?.didChangeTitleControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.contentControlPublisher.sink { [weak self] value in
-                    self?.didChangeContentControlSubject.send(value)
+                cell.contentControlPublisher.sink { [weak self] in
+                    self?.didChangeContentControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 

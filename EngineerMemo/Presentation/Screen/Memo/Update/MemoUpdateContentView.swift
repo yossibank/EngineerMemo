@@ -197,8 +197,8 @@ private extension MemoUpdateContentView {
             )
         }
 
-        categoryButton.$isShowMenu.sink { [weak self] isShow in
-            self?.categoryBorderView.changeColor(isShow ? .inputBorder : .primary)
+        categoryButton.$isShowMenu.sink { [weak self] in
+            self?.categoryBorderView.changeColor($0 ? .inputBorder : .primary)
         }
         .store(in: &cancellables)
     }

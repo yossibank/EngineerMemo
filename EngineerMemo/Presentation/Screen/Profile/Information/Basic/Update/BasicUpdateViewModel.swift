@@ -59,57 +59,43 @@ final class BasicUpdateViewModel: ViewModel {
 
         let name = binding.$name
             .dropFirst()
-            .sink { name in
-                updatedObject.name = name
-            }
+            .sink { updatedObject.name = $0 }
 
         // MARK: - 生年月日
 
         let birthday = binding.$birthday
             .dropFirst()
-            .sink { birthday in
-                updatedObject.birthday = birthday
-            }
+            .sink { updatedObject.birthday = $0 }
 
         // MARK: - 性別
 
         let gender = binding.$gender
             .dropFirst()
-            .sink { type in
-                updatedObject.gender = type.gender
-            }
+            .sink { updatedObject.gender = $0.gender }
 
         // MARK: - Eメール
 
         let email = binding.$email
             .dropFirst()
-            .sink { email in
-                updatedObject.email = email
-            }
+            .sink { updatedObject.email = $0 }
 
         // MARK: - 電話番号
 
         let phoneNumber = binding.$phoneNumber
             .dropFirst()
-            .sink { phoneNumber in
-                updatedObject.phoneNumber = phoneNumber
-            }
+            .sink { updatedObject.phoneNumber = $0 }
 
         // MARK: - 住所
 
         let address = binding.$address
             .dropFirst()
-            .sink { address in
-                updatedObject.address = address
-            }
+            .sink { updatedObject.address = $0 }
 
         // MARK: - 最寄駅
 
         let station = binding.$station
             .dropFirst()
-            .sink { station in
-                updatedObject.station = station
-            }
+            .sink { updatedObject.station = $0 }
 
         // MARK: - 設定・更新ボタンタップ
 

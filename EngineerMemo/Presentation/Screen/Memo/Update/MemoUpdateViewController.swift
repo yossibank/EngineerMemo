@@ -55,17 +55,16 @@ private extension MemoUpdateViewController {
     func bindToView() {
         viewModel.output.$isEnabled
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] isEnabled in
-                self?.contentView.configureEnableButton(isEnabled: isEnabled)
+            .sink { [weak self] in
+                self?.contentView.configureEnableButton(isEnabled: $0)
             }
             .store(in: &cancellables)
 
         viewModel.output.$isFinished
             .debounce(for: 0.8, scheduler: DispatchQueue.main)
-            .sink { [weak self] isFinished in
-                if isFinished {
-                    self?.navigationController?.popViewController(animated: true)
-                }
+            .filter { $0 == true }
+            .sink { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             }
             .store(in: &cancellables)
     }

@@ -157,53 +157,53 @@
                     return .init()
                 }
 
-                cell.addressControlPublisher.sink { [weak self] value in
-                    self?.didChangeAddressControlSubject.send(value)
+                cell.addressControlPublisher.sink { [weak self] in
+                    self?.didChangeAddressControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.birthdayControlPublisher.sink { [weak self] value in
-                    self?.didChangeBirthdayControlSubject.send(value)
+                cell.birthdayControlPublisher.sink { [weak self] in
+                    self?.didChangeBirthdayControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.emailControlPublisher.sink { [weak self] value in
-                    self?.didChangeEmailControlSubject.send(value)
+                cell.emailControlPublisher.sink { [weak self] in
+                    self?.didChangeEmailControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.genderControlPublisher.sink { [weak self] value in
-                    self?.didChangeGenderControlSubject.send(value)
+                cell.genderControlPublisher.sink { [weak self] in
+                    self?.didChangeGenderControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.iconImageControlPublisher.sink { [weak self] value in
-                    self?.didChangeIconImageControlSubject.send(value)
+                cell.iconImageControlPublisher.sink { [weak self] in
+                    self?.didChangeIconImageControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.nameControlPublisher.sink { [weak self] value in
-                    self?.didChangeNameControlSubject.send(value)
+                cell.nameControlPublisher.sink { [weak self] in
+                    self?.didChangeNameControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.phoneNumberControlPublisher.sink { [weak self] value in
-                    self?.didChangePhoneNumberControlSubject.send(value)
+                cell.phoneNumberControlPublisher.sink { [weak self] in
+                    self?.didChangePhoneNumberControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.stationControlPublisher.sink { [weak self] value in
-                    self?.didChangeStationControlSubject.send(value)
+                cell.stationControlPublisher.sink { [weak self] in
+                    self?.didChangeStationControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.skillControlPublisher.sink { [weak self] value in
-                    self?.didChangeSkillControlSubject.send(value)
+                cell.skillControlPublisher.sink { [weak self] in
+                    self?.didChangeSkillControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.projectControlPublisher.sink { [weak self] value in
-                    self?.didChangeProjectControlSubject.send(value)
+                cell.projectControlPublisher.sink { [weak self] in
+                    self?.didChangeProjectControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 

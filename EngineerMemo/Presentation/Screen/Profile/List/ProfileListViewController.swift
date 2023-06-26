@@ -48,16 +48,16 @@ private extension ProfileListViewController {
     func bindToView() {
         viewModel.output.$modelObject
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.contentView.modelObject = modelObject
+            .sink { [weak self] in
+                self?.contentView.modelObject = $0
             }
             .store(in: &cancellables)
 
         viewModel.output.$appError
             .receive(on: DispatchQueue.main)
             .compactMap { $0 }
-            .sink { error in
-                Logger.error(message: error.localizedDescription)
+            .sink {
+                Logger.error(message: $0.localizedDescription)
             }
             .store(in: &cancellables)
     }

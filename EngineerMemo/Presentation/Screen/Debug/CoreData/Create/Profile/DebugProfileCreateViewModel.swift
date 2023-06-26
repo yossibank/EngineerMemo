@@ -48,50 +48,50 @@
 
             // MARK: - 住所セグメント
 
-            input.didChangeAddressControl.sink { [weak self] segment in
-                self?.modelObject.address = segment.string
+            input.didChangeAddressControl.sink { [weak self] in
+                self?.modelObject.address = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - 生年月日セグメント
 
-            input.didChangeBirthdayControl.sink { [weak self] segment in
-                self?.modelObject.birthday = segment.date
+            input.didChangeBirthdayControl.sink { [weak self] in
+                self?.modelObject.birthday = $0.date
             }
             .store(in: &cancellables)
 
             // MARK: - Eメールセグメント
 
-            input.didChangeEmailControl.sink { [weak self] segment in
-                self?.modelObject.email = segment.string
+            input.didChangeEmailControl.sink { [weak self] in
+                self?.modelObject.email = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - 性別セグメント
 
-            input.didChangeGenderControl.sink { [weak self] segment in
-                self?.modelObject.gender = segment.gender
+            input.didChangeGenderControl.sink { [weak self] in
+                self?.modelObject.gender = $0.gender
             }
             .store(in: &cancellables)
 
             // MARK: - 名前セグメント
 
-            input.didChangeNameControl.sink { [weak self] segment in
-                self?.modelObject.name = segment.string
+            input.didChangeNameControl.sink { [weak self] in
+                self?.modelObject.name = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - 電話番号セグメント
 
-            input.didChangePhoneNumberControl.sink { [weak self] segment in
-                self?.modelObject.phoneNumber = segment.phoneNumber
+            input.didChangePhoneNumberControl.sink { [weak self] in
+                self?.modelObject.phoneNumber = $0.phoneNumber
             }
             .store(in: &cancellables)
 
             // MARK: - 最寄駅セグメント
 
-            input.didChangeStationControl.sink { [weak self] segment in
-                self?.modelObject.station = segment.string
+            input.didChangeStationControl.sink { [weak self] in
+                self?.modelObject.station = $0.string
             }
             .store(in: &cancellables)
 

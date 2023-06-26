@@ -84,22 +84,22 @@ private extension MemoListViewController {
 
         contentView.didChangeSortPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] sort in
-                self?.viewModel.input.didChangeSort.send(sort)
+            .sink { [weak self] in
+                self?.viewModel.input.didChangeSort.send($0)
             }
             .store(in: &cancellables)
 
         contentView.didChangeCategoryPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] category in
-                self?.viewModel.input.didChangeCategory.send(category)
+            .sink { [weak self] in
+                self?.viewModel.input.didChangeCategory.send($0)
             }
             .store(in: &cancellables)
 
         contentView.didSelectContentPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.viewModel.input.didSelectContent.send(modelObject)
+            .sink { [weak self] in
+                self?.viewModel.input.didSelectContent.send($0)
             }
             .store(in: &cancellables)
     }

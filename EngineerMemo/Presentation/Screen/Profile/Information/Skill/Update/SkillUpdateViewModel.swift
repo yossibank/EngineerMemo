@@ -56,33 +56,25 @@ final class SkillUpdateViewModel: ViewModel {
 
         let engineerCareer = binding.$engineerCareer
             .dropFirst()
-            .sink { engineerCareer in
-                updatedObject.engineerCareer = engineerCareer.value
-            }
+            .sink { updatedObject.engineerCareer = $0.value }
 
         // MARK: - 言語
 
         let language = binding.$language
             .dropFirst()
-            .sink { language in
-                updatedObject.language = language
-            }
+            .sink { updatedObject.language = $0 }
 
         // MARK: - 言語歴
 
         let languageCareer = binding.$languageCareer
             .dropFirst()
-            .sink { languageCareer in
-                updatedObject.languageCareer = languageCareer.value
-            }
+            .sink { updatedObject.languageCareer = $0.value }
 
         // MARK: - TOEIC
 
         let toeic = binding.$toeic
             .dropFirst()
-            .sink { toeic in
-                updatedObject.toeic = toeic
-            }
+            .sink { updatedObject.toeic = $0 }
 
         // MARK: - 設定・更新ボタンタップ
 

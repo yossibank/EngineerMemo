@@ -53,10 +53,9 @@ private extension ProjectUpdateViewController {
     func bindToView() {
         viewModel.output.$isFinished
             .debounce(for: 0.8, scheduler: DispatchQueue.main)
-            .sink { [weak self] isFinished in
-                if isFinished {
-                    self?.navigationController?.popViewController(animated: true)
-                }
+            .filter { $0 == true }
+            .sink { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             }
             .store(in: &cancellables)
     }

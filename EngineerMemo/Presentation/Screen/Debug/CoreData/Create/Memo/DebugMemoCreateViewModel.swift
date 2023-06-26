@@ -36,22 +36,22 @@
 
             // MARK: - カテゴリーセグメント
 
-            input.didChangeCategoryControl.sink { [weak self] segment in
-                self?.modelObject.category = segment.category
+            input.didChangeCategoryControl.sink { [weak self] in
+                self?.modelObject.category = $0.category
             }
             .store(in: &cancellables)
 
             // MARK: - タイトルセグメント
 
-            input.didChangeTitleControl.sink { [weak self] segment in
-                self?.modelObject.title = segment.string
+            input.didChangeTitleControl.sink { [weak self] in
+                self?.modelObject.title = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - コンテンツセグメント
 
-            input.didChangeContentControl.sink { [weak self] segment in
-                self?.modelObject.content = segment.string
+            input.didChangeContentControl.sink { [weak self] in
+                self?.modelObject.content = $0.string
             }
             .store(in: &cancellables)
 

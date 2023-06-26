@@ -170,8 +170,8 @@
             }
 
             if let cell = cell as? DebugColorThemeCell {
-                cell.segmentIndexPublisher.sink { [weak self] index in
-                    self?.didChangeColorThemeIndexSubject.send(index)
+                cell.segmentIndexPublisher.sink { [weak self] in
+                    self?.didChangeColorThemeIndexSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
             }

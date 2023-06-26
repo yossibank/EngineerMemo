@@ -28,8 +28,8 @@
 
             // MARK: - カラーテーマセグメント変更
 
-            input.didChangeColorThemeIndex.sink { index in
-                model.updateColorTheme(index)
+            input.didChangeColorThemeIndex.sink {
+                model.updateColorTheme($0)
             }
             .store(in: &cancellables)
 
@@ -42,8 +42,8 @@
 
             // MARK: - CoreDataセルタップ
 
-            input.didTapCoreDataCell.sink { action in
-                routing.showDebugCoreDataScreen(action: action)
+            input.didTapCoreDataCell.sink {
+                routing.showDebugCoreDataScreen(action: $0)
             }
             .store(in: &cancellables)
         }
