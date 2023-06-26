@@ -30,6 +30,8 @@ extension ProjectDetailViewController {
         super.viewDidLoad()
 
         viewModel.input.viewDidLoad.send(())
+
+        bindToView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -39,10 +41,15 @@ extension ProjectDetailViewController {
     }
 }
 
-// MARK: - internal methods
-
-extension ProjectDetailViewController {}
-
 // MARK: - private methods
 
-private extension ProjectDetailViewController {}
+private extension ProjectDetailViewController {
+    func bindToView() {
+        viewModel.output.$modelObject
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] modelObject in
+                print(modelObject)
+            }
+            .store(in: &cancellables)
+    }
+}

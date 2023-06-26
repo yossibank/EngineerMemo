@@ -278,8 +278,8 @@ private extension BasicUpdateViewModelTest {
         model = .init()
 
         analytics = modelObject.isNil
-            ? .init(screenId: .profileBasicSetting)
-            : .init(screenId: .profileBasicUpdate)
+            ? .init(screenId: .basicSetting)
+            : .init(screenId: .basicUpdate)
 
         viewModel = .init(
             modelObject: modelObject,

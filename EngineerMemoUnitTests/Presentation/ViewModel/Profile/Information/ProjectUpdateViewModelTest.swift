@@ -174,8 +174,8 @@ private extension ProjectUpdateViewModelTest {
         model = .init()
 
         analytics = modelObject.projects.contains(where: { $0.identifier == identifier })
-            ? .init(screenId: .profileProjectUpdate)
-            : .init(screenId: .profileProjectSetting)
+            ? .init(screenId: .projectUpdate)
+            : .init(screenId: .projectSetting)
 
         viewModel = .init(
             identifier: identifier,

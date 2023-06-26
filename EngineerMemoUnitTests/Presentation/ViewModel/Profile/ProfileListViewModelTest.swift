@@ -147,11 +147,27 @@ final class ProfileListViewModelTest: XCTestCase {
         viewModel.input.didTapSkillSettingButton.send(modelObject)
     }
 
-    func test_input_didTapProjectSettingButton_routing_showProjectUpdateScreenが呼び出されること() {
+    func test_input_didTapProjectCreateButton_routing_showProjectCreateScreenが呼び出されること() {
         // arrange
         let modelObject = ProfileModelObjectBuilder().build()
 
-        routing.showProjectUpdateScreenHandler = {
+        routing.showProjectCreateScreenHandler = {
+            // assert
+            XCTAssertEqual(
+                $0,
+                modelObject
+            )
+        }
+
+        // act
+        viewModel.input.didTapProjectCreateButton.send(modelObject)
+    }
+
+    func test_input_didSelectProjectCell_routing_showProjectDetailScreenが呼び出されること() {
+        // arrange
+        let modelObject = ProfileModelObjectBuilder().build()
+
+        routing.showProjectDetailScreenHandler = {
             // assert
             XCTAssertEqual(
                 $0,
@@ -165,7 +181,7 @@ final class ProfileListViewModelTest: XCTestCase {
         }
 
         // act
-        viewModel.input.didTapProjectSettingButton.send((
+        viewModel.input.didSelectProjectCell.send((
             "identifier",
             modelObject
         ))

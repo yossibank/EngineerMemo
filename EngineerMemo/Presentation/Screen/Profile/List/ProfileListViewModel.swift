@@ -7,8 +7,8 @@ final class ProfileListViewModel: ViewModel {
         let didTapIconChangeButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapBasicSettingButton = PassthroughSubject<ProfileModelObject?, Never>()
         let didTapSkillSettingButton = PassthroughSubject<ProfileModelObject, Never>()
-        let didTapProjectSettingButton = PassthroughSubject<(String, ProfileModelObject), Never>()
-        let didSelectProject = PassthroughSubject<(String, ProfileModelObject), Never>()
+        let didTapProjectCreateButton = PassthroughSubject<ProfileModelObject, Never>()
+        let didSelectProjectCell = PassthroughSubject<(String, ProfileModelObject), Never>()
     }
 
     final class Output: OutputObject {
@@ -64,29 +64,36 @@ final class ProfileListViewModel: ViewModel {
 
         // MARK: - プロフィール画像変更ボタンタップ
 
-        input.didTapIconChangeButton.sink { modelObject in
-            routing.showIconScreen(modelObject: modelObject)
+        input.didTapIconChangeButton.sink {
+            routing.showIconScreen(modelObject: $0)
         }
         .store(in: &cancellables)
 
         // MARK: - 基本情報設定ボタンタップ
 
-        input.didTapBasicSettingButton.sink { modelObject in
-            routing.showBasicUpdateScreen(modelObject: modelObject)
+        input.didTapBasicSettingButton.sink {
+            routing.showBasicUpdateScreen(modelObject: $0)
         }
         .store(in: &cancellables)
 
         // MARK: - スキル・経験設定ボタンタップ
 
-        input.didTapSkillSettingButton.sink { modelObject in
-            routing.showSkillUpdateScreen(modelObject: modelObject)
+        input.didTapSkillSettingButton.sink {
+            routing.showSkillUpdateScreen(modelObject: $0)
         }
         .store(in: &cancellables)
 
-        // MARK: - 案件・経歴設定ボタンタップ
+        // MARK: - 案件・経歴作成ボタンタップ
 
-        input.didTapProjectSettingButton.sink {
-            routing.showProjectUpdateScreen(
+        input.didTapProjectCreateButton.sink {
+            routing.showProjectCreateScreen(modelObject: $0)
+        }
+        .store(in: &cancellables)
+
+        // MARK: - 案件詳細セルタップ
+
+        input.didSelectProjectCell.sink {
+            routing.showProjectDetailScreen(
                 identifier: $0.0,
                 modelObject: $0.1
             )

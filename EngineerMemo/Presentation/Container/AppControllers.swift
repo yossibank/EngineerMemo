@@ -73,8 +73,8 @@ enum AppControllers {
                     let vc = BasicUpdateViewController()
 
                     vc.title = modelObject.isNil
-                        ? L10n.Navigation.Title.profileBasicSetting
-                        : L10n.Navigation.Title.profileBasicUpdate
+                        ? L10n.Navigation.Title.basicSetting
+                        : L10n.Navigation.Title.basicUpdate
 
                     vc.inject(
                         contentView: .init(modelObject: modelObject),
@@ -82,8 +82,8 @@ enum AppControllers {
                             modelObject: modelObject,
                             model: Models.Profile(),
                             analytics: modelObject.isNil
-                                ? FirebaseAnalytics(screenId: .profileBasicSetting)
-                                : FirebaseAnalytics(screenId: .profileBasicUpdate)
+                                ? FirebaseAnalytics(screenId: .basicSetting)
+                                : FirebaseAnalytics(screenId: .basicUpdate)
                         )
                     )
 
@@ -92,6 +92,26 @@ enum AppControllers {
             }
 
             enum Project {
+                static func Detail(
+                    identifier: String,
+                    modelObject: ProfileModelObject
+                ) -> ProjectDetailViewController {
+                    let vc = ProjectDetailViewController()
+
+                    vc.title = L10n.Navigation.Title.projectDetail
+                    vc.inject(
+                        contentView: .init(),
+                        viewModel: .init(
+                            identifier: identifier,
+                            modelObject: modelObject,
+                            model: Models.Profile(),
+                            analytics: FirebaseAnalytics(screenId: .projectDetail)
+                        )
+                    )
+
+                    return vc
+                }
+
                 static func Update(
                     identifier: String,
                     modelObject: ProfileModelObject
@@ -99,8 +119,8 @@ enum AppControllers {
                     let vc = ProjectUpdateViewController()
 
                     vc.title = modelObject.projects.contains(where: { $0.identifier == identifier })
-                        ? L10n.Navigation.Title.profileProjectUpdate
-                        : L10n.Navigation.Title.profileProjectSetting
+                        ? L10n.Navigation.Title.projectUpdate
+                        : L10n.Navigation.Title.projectSetting
 
                     vc.inject(
                         contentView: .init(
@@ -112,8 +132,8 @@ enum AppControllers {
                             modelObject: modelObject,
                             model: Models.Profile(),
                             analytics: modelObject.projects.contains(where: { $0.identifier == identifier })
-                                ? FirebaseAnalytics(screenId: .profileProjectUpdate)
-                                : FirebaseAnalytics(screenId: .profileProjectSetting)
+                                ? FirebaseAnalytics(screenId: .projectUpdate)
+                                : FirebaseAnalytics(screenId: .projectSetting)
                         )
                     )
 
@@ -126,8 +146,8 @@ enum AppControllers {
                     let vc = SkillUpdateViewController()
 
                     vc.title = modelObject.skill.isNil
-                        ? L10n.Navigation.Title.profileSKillSetting
-                        : L10n.Navigation.Title.profileSkillUpdate
+                        ? L10n.Navigation.Title.sKillSetting
+                        : L10n.Navigation.Title.skillUpdate
 
                     vc.inject(
                         contentView: .init(modelObject: modelObject),
@@ -135,8 +155,8 @@ enum AppControllers {
                             modelObject: modelObject,
                             model: Models.Profile(),
                             analytics: modelObject.skill.isNil
-                                ? FirebaseAnalytics(screenId: .profileSkillSetting)
-                                : FirebaseAnalytics(screenId: .profileSkillUpdate)
+                                ? FirebaseAnalytics(screenId: .skillSetting)
+                                : FirebaseAnalytics(screenId: .skillUpdate)
                         )
                     )
 

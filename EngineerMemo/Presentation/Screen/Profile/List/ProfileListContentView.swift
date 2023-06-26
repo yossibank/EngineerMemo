@@ -33,8 +33,8 @@ final class ProfileListContentView: UIView {
     private(set) lazy var didTapIconChangeButtonPublisher = didTapIconChangeButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapBasicSettingButtonPublisher = didTapBasicSettingButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSkillSettingButtonPublisher = didTapSkillSettingButtonSubject.eraseToAnyPublisher()
-    private(set) lazy var didTapProjectSettingButtonPublisher = didTapProjectSettingButtonSubject.eraseToAnyPublisher()
-    private(set) lazy var didSelectProjectPublisher = didSelectProjectSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapProjectCreateButtonPublisher = didTapProjectCreateButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didSelectProjectCellPublisher = didSelectProjectCellSubject.eraseToAnyPublisher()
 
     private lazy var dataSource = UITableViewDiffableDataSource<
         Section,
@@ -54,8 +54,8 @@ final class ProfileListContentView: UIView {
     private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapBasicSettingButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
     private let didTapSkillSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
-    private let didTapProjectSettingButtonSubject = PassthroughSubject<(String, ProfileModelObject), Never>()
-    private let didSelectProjectSubject = PassthroughSubject<(String, ProfileModelObject), Never>()
+    private let didTapProjectCreateButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
+    private let didSelectProjectCellSubject = PassthroughSubject<(String, ProfileModelObject), Never>()
 
     private let tableView = UITableView(
         frame: .zero,
@@ -196,10 +196,7 @@ private extension ProfileListContentView {
                         return
                     }
 
-                    self.didTapProjectSettingButtonSubject.send((
-                        UUID().uuidString,
-                        modelObject
-                    ))
+                    self.didTapProjectCreateButtonSubject.send(modelObject)
                 }
                 .store(in: &cell.cancellables)
 
@@ -320,10 +317,7 @@ extension ProfileListContentView: UITableViewDelegate {
             view.configure(with: .project)
 
             view.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapProjectSettingButtonSubject.send((
-                    UUID().uuidString,
-                    modelObject
-                ))
+                self?.didTapProjectCreateButtonSubject.send(modelObject)
             }
             .store(in: &view.cancellables)
 
@@ -396,7 +390,7 @@ extension ProfileListContentView: UITableViewDelegate {
             return
         }
 
-        didTapProjectSettingButtonSubject.send((
+        didSelectProjectCellSubject.send((
             identifier,
             modelObject
         ))

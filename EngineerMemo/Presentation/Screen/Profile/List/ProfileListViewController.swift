@@ -84,17 +84,17 @@ private extension ProfileListViewController {
             }
             .store(in: &cancellables)
 
-        contentView.didTapProjectSettingButtonPublisher
+        contentView.didTapProjectCreateButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.input.didTapProjectSettingButton.send($0)
+                self?.viewModel.input.didTapProjectCreateButton.send($0)
             }
             .store(in: &cancellables)
 
-        contentView.didSelectProjectPublisher
+        contentView.didSelectProjectCellPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.viewModel.input.didSelectProject.send($0)
+                self?.viewModel.input.didSelectProjectCell.send($0)
             }
             .store(in: &cancellables)
     }

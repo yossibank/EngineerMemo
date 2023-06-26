@@ -177,8 +177,8 @@ private extension SkillUpdateViewModelTest {
         model = .init()
 
         analytics = modelObject.skill.isNil
-            ? .init(screenId: .profileSkillSetting)
-            : .init(screenId: .profileSkillUpdate)
+            ? .init(screenId: .skillSetting)
+            : .init(screenId: .skillUpdate)
 
         viewModel = .init(
             modelObject: modelObject,
