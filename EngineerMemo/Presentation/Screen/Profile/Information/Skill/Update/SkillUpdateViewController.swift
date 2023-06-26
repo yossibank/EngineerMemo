@@ -70,24 +70,24 @@ private extension SkillUpdateViewController {
 
         contentView.didChangeCareerInputPublisher
             .receive(on: DispatchQueue.main)
-            .assign(to: \.engineerCareer, on: viewModel.binding)
+            .weakAssign(to: \.engineerCareer, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeLanguageCareerInputPublisher
             .receive(on: DispatchQueue.main)
-            .assign(to: \.languageCareer, on: viewModel.binding)
+            .weakAssign(to: \.languageCareer, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeLanguageInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.language, on: viewModel.binding)
+            .weakAssign(to: \.language, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeToeicScoreInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.toeic, on: viewModel.binding)
+            .weakAssign(to: \.toeic, on: viewModel.binding)
             .store(in: &cancellables)
     }
 }

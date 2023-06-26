@@ -79,17 +79,17 @@ private extension MemoUpdateViewController {
 
         contentView.$selectedCategoryType
             .receive(on: DispatchQueue.main)
-            .assign(to: \.binding.category, on: viewModel)
+            .weakAssign(to: \.binding.category, on: viewModel)
             .store(in: &cancellables)
 
         contentView.didChangeTitleTextPublisher
             .receive(on: DispatchQueue.main)
-            .assign(to: \.binding.title, on: viewModel)
+            .weakAssign(to: \.binding.title, on: viewModel)
             .store(in: &cancellables)
 
         contentView.didChangeContentTextPublisher
             .receive(on: DispatchQueue.main)
-            .assign(to: \.binding.content, on: viewModel)
+            .weakAssign(to: \.binding.content, on: viewModel)
             .store(in: &cancellables)
     }
 }

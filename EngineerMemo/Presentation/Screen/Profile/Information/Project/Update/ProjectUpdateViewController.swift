@@ -71,13 +71,13 @@ private extension ProjectUpdateViewController {
         contentView.didChangeTitleInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.title, on: viewModel.binding)
+            .weakAssign(to: \.title, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeContentInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.content, on: viewModel.binding)
+            .weakAssign(to: \.content, on: viewModel.binding)
             .store(in: &cancellables)
     }
 }

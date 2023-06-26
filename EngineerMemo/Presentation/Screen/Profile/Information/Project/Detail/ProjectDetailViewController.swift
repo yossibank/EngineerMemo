@@ -47,9 +47,8 @@ private extension ProjectDetailViewController {
     func bindToView() {
         viewModel.output.$modelObject
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                print(modelObject)
-            }
+            .compactMap { $0 }
+            .sink { print($0) }
             .store(in: &cancellables)
     }
 }

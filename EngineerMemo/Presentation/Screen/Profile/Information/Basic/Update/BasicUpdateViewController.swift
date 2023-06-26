@@ -72,42 +72,42 @@ private extension BasicUpdateViewController {
         contentView.didChangeNameInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.name, on: viewModel.binding)
+            .weakAssign(to: \.name, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeBirthdayInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.birthday, on: viewModel.binding)
+            .weakAssign(to: \.birthday, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeGenderInputPublisher
             .receive(on: DispatchQueue.main)
-            .assign(to: \.gender, on: viewModel.binding)
+            .weakAssign(to: \.gender, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeEmailInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.email, on: viewModel.binding)
+            .weakAssign(to: \.email, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangePhoneNumberInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.phoneNumber, on: viewModel.binding)
+            .weakAssign(to: \.phoneNumber, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeAddressInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.address, on: viewModel.binding)
+            .weakAssign(to: \.address, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeStationInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.station, on: viewModel.binding)
+            .weakAssign(to: \.station, on: viewModel.binding)
             .store(in: &cancellables)
     }
 }
