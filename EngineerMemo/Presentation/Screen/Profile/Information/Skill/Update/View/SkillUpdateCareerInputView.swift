@@ -12,7 +12,7 @@ final class SkillUpdateCareerInputView: UIView {
             titleView.configure {
                 $0.configure(
                     title: L10n.Profile.engineerCareer,
-                    icon: Asset.profileEngineerCareer.image
+                    icon: Asset.engineerCareer.image
                 )
             }
 

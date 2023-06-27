@@ -14,7 +14,7 @@ final class SkillUpdateToeicInputView: UIView {
             titleView.configure {
                 $0.configure(
                     title: L10n.Profile.toeic,
-                    icon: Asset.profileToeic.image
+                    icon: Asset.toeic.image
                 )
             }
 

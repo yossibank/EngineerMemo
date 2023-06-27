@@ -12,7 +12,7 @@ final class BasicUpdateBirthdayInputView: UIView {
             titleView.configure {
                 $0.configure(
                     title: L10n.Profile.birthday,
-                    icon: Asset.profileBirthday.image
+                    icon: Asset.birthday.image
                 )
             }
 

@@ -14,7 +14,7 @@ final class SkillUpdateLanguageInputView: UIView {
             titleView.configure {
                 $0.configure(
                     title: L10n.Profile.useLanguage,
-                    icon: Asset.profileLanguage.image
+                    icon: Asset.language.image
                 )
             }
 

@@ -12,7 +12,7 @@ final class BasicUpdateGenderInputView: UIView {
             titleView.configure {
                 $0.configure(
                     title: L10n.Profile.gender,
-                    icon: Asset.profileGender.image
+                    icon: Asset.gender.image
                 )
             }
 

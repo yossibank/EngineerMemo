@@ -11,7 +11,7 @@ final class ProjectUpdateTextInputView: UIView {
             titleView.configure {
                 $0.configure(
                     title: L10n.Profile.Project.title,
-                    icon: Asset.profileProjectTitle.image
+                    icon: Asset.projectTitle.image
                 )
             }
 

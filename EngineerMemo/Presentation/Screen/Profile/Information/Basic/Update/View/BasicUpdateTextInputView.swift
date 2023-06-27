@@ -39,29 +39,29 @@ final class BasicUpdateTextInputView: UIView {
         switch type {
         case .name:
             title = L10n.Profile.name
-            icon = Asset.profileName.image
+            icon = Asset.myName.image
             placeholder = L10n.Profile.Example.name
 
         case .email:
             title = L10n.Profile.email
-            icon = Asset.profileEmail.image
+            icon = Asset.email.image
             placeholder = L10n.Profile.Example.email
             keyboardType = .emailAddress
 
         case .phoneNumber:
             title = L10n.Profile.phoneNumber
-            icon = Asset.profilePhoneNumber.image
+            icon = Asset.phoneNumber.image
             placeholder = L10n.Profile.Example.phoneNumber
             keyboardType = .numberPad
 
         case .address:
             title = L10n.Profile.address
-            icon = Asset.profileAddress.image
+            icon = Asset.address.image
             placeholder = L10n.Profile.Example.address
 
         case .station:
             title = L10n.Profile.station
-            icon = Asset.profileStation.image
+            icon = Asset.station.image
             placeholder = L10n.Profile.Example.station
 
         default:
