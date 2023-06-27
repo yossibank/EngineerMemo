@@ -88,7 +88,7 @@ extension TitleButtonHeaderFooterView {
         case .project:
             titleLabel.text = L10n.Profile.project
             title = L10n.Components.Button.Do.create
-            image = Asset.projectSetting.image
+            image = Asset.projectAdd.image
         }
 
         config?.title = title
