@@ -141,4 +141,22 @@ extension ProfileModelObject {
 
         context.saveIfNeeded()
     }
+
+    func deleteProject(
+        _ profile: CoreDataObject<Profile>,
+        identifier: String
+    ) {
+        let context = profile.context
+        let profileObject = profile.object
+
+        guard let projectObjects = profileObject.projects?.allObjects as? [Project] else {
+            return
+        }
+
+        profileObject.projects = .init(array: projectObjects.filter {
+            $0.identifier != identifier
+        })
+
+        context.saveIfNeeded()
+    }
 }

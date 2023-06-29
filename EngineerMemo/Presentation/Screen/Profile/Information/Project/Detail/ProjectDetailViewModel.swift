@@ -76,9 +76,23 @@ final class ProjectDetailViewModel: ViewModel {
 
         // MARK: - 削除ボタンタップ
 
-        input.didTapDeleteBarButton.sink {
+        input.didTapDeleteBarButton.sink { [weak self] _ in
+            self?.deleteProject(modelObject, identifier: identifier)
             output.isDeleted = true
         }
         .store(in: &cancellables)
+    }
+}
+
+// MARK: - private methods
+
+private extension ProjectDetailViewModel {
+    func deleteProject(
+        _ modelObject: ProfileModelObject,
+        identifier: String
+    ) {
+        model.deleteProject(modelObject, identifier: identifier)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }

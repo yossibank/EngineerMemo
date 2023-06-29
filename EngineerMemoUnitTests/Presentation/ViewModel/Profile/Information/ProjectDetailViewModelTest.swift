@@ -102,6 +102,16 @@ final class ProjectDetailViewModelTest: XCTestCase {
     }
 
     func test_input_didTapDeleteBarButton_output_isDeletedがtrueを取得できること() throws {
+        // arrange
+        model.deleteProjectHandler = { _, _ in
+            Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
         // act
         viewModel.input.didTapDeleteBarButton.send(())
 

@@ -79,8 +79,17 @@ private extension ProjectDetailViewController {
     func bindToView() {
         viewModel.output.$modelObject
             .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
             .sink { [weak self] in
                 self?.contentView.modelObject = $0
+            }
+            .store(in: &cancellables)
+
+        viewModel.output.$isDeleted
+            .receive(on: DispatchQueue.main)
+            .filter { $0 == true }
+            .sink { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             }
             .store(in: &cancellables)
     }

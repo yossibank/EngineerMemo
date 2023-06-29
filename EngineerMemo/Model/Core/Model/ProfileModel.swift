@@ -10,7 +10,8 @@ protocol ProfileModelInput: Model {
     func deleteSkill(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
     func createProject(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
     func updateProject(_ modelObject: ProfileModelObject, identifier: String) -> AnyPublisher<Void, Never>
-    func deleteProject(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
+    func deleteProject(_ modelObject: ProfileModelObject, identifier: String) -> AnyPublisher<Void, Never>
+    func deleteAllProject(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
     func updateIconImage(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
     func updateIconImage(index: Int)
     func delete(_ modelObject: ProfileModelObject)
@@ -113,7 +114,20 @@ struct ProfileModel: ProfileModelInput {
             .eraseToAnyPublisher()
     }
 
-    func deleteProject(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
+    func deleteProject(
+        _ modelObject: ProfileModelObject,
+        identifier: String
+    ) -> AnyPublisher<Void, Never> {
+        storage
+            .update(identifier: modelObject.identifier)
+            .handleEvents(receiveOutput: {
+                modelObject.deleteProject($0, identifier: identifier)
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
+
+    func deleteAllProject(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
         storage
             .update(identifier: modelObject.identifier)
             .handleEvents(receiveOutput: {
