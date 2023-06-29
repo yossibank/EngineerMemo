@@ -6,20 +6,19 @@ import UIKitHelper
 
 enum ProjectDetailContentViewSection: CaseIterable {
     case main
-
-    var cellType: UITableViewCell.Type {
-        switch self {
-        case .main:
-            return UITableViewCell.self
-        }
-    }
 }
 
 // MARK: - properties & init
 
 final class ProjectDetailContentView: UIView {
     typealias Section = ProjectDetailContentViewSection
-    typealias Item = String
+    typealias Item = ProjectModelObject
+
+    var modelObject: ProjectModelObject? {
+        didSet {
+            applySnapshot()
+        }
+    }
 
     private lazy var dataSource = UITableViewDiffableDataSource<
         Section,
@@ -52,18 +51,14 @@ final class ProjectDetailContentView: UIView {
     }
 }
 
-// MARK: - internal methods
-
-extension ProjectDetailContentView {}
-
 // MARK: - private methods
 
 private extension ProjectDetailContentView {
     func setupTableView() {
         tableView.configure {
-            $0.registerCells(with: Section.allCases.map(\.cellType))
+            $0.registerCell(with: ProjectDetailCell.self)
             $0.backgroundColor = .background
-            $0.delegate = self
+            $0.separatorStyle = .none
             $0.dataSource = dataSource
         }
     }
@@ -73,18 +68,12 @@ private extension ProjectDetailContentView {
         indexPath: IndexPath,
         item: Item
     ) -> UITableViewCell? {
-        let cellType = Section.allCases[indexPath.section].cellType
-
         let cell = tableView.dequeueReusableCell(
-            withType: cellType,
+            withType: ProjectDetailCell.self,
             for: indexPath
         )
 
-        var content = cell.defaultContentConfiguration()
-        content.text = item
-        content.secondaryText = "IndexPath Row: \(indexPath.row)"
-        content.image = .init(systemName: "appletv")
-        cell.contentConfiguration = content
+        cell.configure(item)
 
         return cell
     }
@@ -93,9 +82,9 @@ private extension ProjectDetailContentView {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        ["text1", "text2", "text3", "text4", "text5"].forEach {
+        if let modelObject {
             dataSourceSnapshot.appendItems(
-                [$0],
+                [modelObject],
                 toSection: .main
             )
         }
@@ -107,27 +96,17 @@ private extension ProjectDetailContentView {
     }
 }
 
-// MARK: - delegate
-
-extension ProjectDetailContentView: UITableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath
-    ) {
-        tableView.deselectRow(
-            at: indexPath,
-            animated: false
-        )
-    }
-}
-
 // MARK: - protocol
 
 extension ProjectDetailContentView: ContentView {
     func setupView() {
         addSubview(tableView) {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(32)
+            $0.bottom.equalToSuperview().priority(.low)
+            $0.horizontalEdges.equalToSuperview().inset(32)
         }
+
+        backgroundColor = .background
     }
 }
 
