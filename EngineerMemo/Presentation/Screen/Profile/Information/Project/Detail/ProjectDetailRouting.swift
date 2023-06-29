@@ -1,7 +1,9 @@
 import UIKit
 
 /// @mockable
-protocol ProjectDetailRoutingInput {}
+protocol ProjectDetailRoutingInput {
+    func showUpdateScreen(identifier: String, modelObject: ProfileModelObject)
+}
 
 // MARK: - properties & init
 
@@ -15,4 +17,17 @@ final class ProjectDetailRouting {
 
 // MARK: - protocol
 
-extension ProjectDetailRouting: ProjectDetailRoutingInput {}
+extension ProjectDetailRouting: ProjectDetailRoutingInput {
+    func showUpdateScreen(
+        identifier: String,
+        modelObject: ProfileModelObject
+    ) {
+        viewController?.show(
+            AppControllers.Profile.Information.Project.Update(
+                identifier: identifier,
+                modelObject: modelObject
+            ),
+            sender: nil
+        )
+    }
+}

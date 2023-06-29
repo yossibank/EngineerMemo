@@ -31,6 +31,7 @@ extension ProjectDetailViewController {
 
         viewModel.input.viewDidLoad.send(())
 
+        setupNavigation()
         bindToView()
     }
 
@@ -44,6 +45,37 @@ extension ProjectDetailViewController {
 // MARK: - private methods
 
 private extension ProjectDetailViewController {
+    func setupNavigation() {
+        let editProjectBarButtonItem = UIBarButtonItem(.editProject)
+        let deleteProjectBarButtonItem = UIBarButtonItem(.deleteProject)
+
+        editProjectBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
+            self?.viewModel.input.didTapEditBarButton.send(())
+        }
+        .store(in: &cancellables)
+
+        deleteProjectBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
+            let sheetAction: SheetAction = .init(
+                title: L10n.Sheet.yes,
+                actionType: .alert
+            ) { [weak self] in
+                self?.viewModel.input.didTapDeleteBarButton.send(())
+            }
+
+            self?.showActionSheet(
+                title: L10n.Sheet.caution,
+                message: L10n.Sheet.projectDelete,
+                actions: [sheetAction]
+            )
+        }
+        .store(in: &cancellables)
+
+        navigationItem.rightBarButtonItems = [
+            editProjectBarButtonItem,
+            deleteProjectBarButtonItem
+        ]
+    }
+
     func bindToView() {
         viewModel.output.$modelObject
             .receive(on: DispatchQueue.main)

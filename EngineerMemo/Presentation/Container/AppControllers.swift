@@ -97,6 +97,7 @@ enum AppControllers {
                     modelObject: ProfileModelObject
                 ) -> ProjectDetailViewController {
                     let vc = ProjectDetailViewController()
+                    let routing = ProjectDetailRouting(viewController: vc)
 
                     vc.title = L10n.Navigation.Title.projectDetail
                     vc.inject(
@@ -105,6 +106,7 @@ enum AppControllers {
                             identifier: identifier,
                             modelObject: modelObject,
                             model: Models.Profile(),
+                            routing: routing,
                             analytics: FirebaseAnalytics(screenId: .projectDetail)
                         )
                     )

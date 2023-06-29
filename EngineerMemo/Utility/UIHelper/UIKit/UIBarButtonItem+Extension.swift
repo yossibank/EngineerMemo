@@ -6,6 +6,8 @@ extension UIBarButtonItem {
         case addMemo
         case editMemo
         case deleteMemo
+        case editProject
+        case deleteProject
 
         var customButton: UIButton {
             .init(type: .system)
@@ -21,24 +23,32 @@ extension UIBarButtonItem {
             let image: UIImage
 
             switch self {
-            case .addMemo:
-                image = Asset.memoAdd.image
-
-            case .editMemo:
-                image = Asset.memoEdit.image
-
-            case .deleteMemo:
-                image = Asset.memoDelete.image
+            case .addMemo: image = Asset.memoAdd.image
+            case .editMemo: image = Asset.memoEdit.image
+            case .deleteMemo: image = Asset.memoDelete.image
+            case .editProject: image = Asset.projectEdit.image
+            case .deleteProject: image = Asset.projectDelete.image
             }
 
-            return image.resized(size: size).withRenderingMode(.alwaysOriginal)
+            return image
+                .resized(size: size)
+                .withRenderingMode(.alwaysOriginal)
         }
 
         private var size: CGSize {
-            .init(
-                width: 32,
-                height: 32
-            )
+            switch self {
+            case .addMemo, .editMemo, .deleteMemo:
+                return .init(
+                    width: 32,
+                    height: 32
+                )
+
+            case .editProject, .deleteProject:
+                return .init(
+                    width: 28,
+                    height: 28
+                )
+            }
         }
     }
 }
