@@ -69,20 +69,20 @@ final class MemoUpdateViewModel: ViewModel {
 
         // MARK: - カテゴリー
 
-        let category = binding.$category.sink { [weak self] value in
-            self?.modelObject.category = value?.category
+        let category = binding.$category.sink { [weak self] in
+            self?.modelObject.category = $0?.category
         }
 
         // MARK: - タイトル
 
-        let title = binding.$title.sink { [weak self] title in
-            self?.modelObject.title = title
+        let title = binding.$title.sink { [weak self] in
+            self?.modelObject.title = $0
         }
 
         // MARK: - コンテンツ
 
-        let content = binding.$content.sink { content in
-            self.modelObject.content = content
+        let content = binding.$content.sink { [weak self] in
+            self?.modelObject.content = $0
         }
 
         // MARK: - 作成ボタン有効化
@@ -105,12 +105,12 @@ final class MemoUpdateViewModel: ViewModel {
             }
 
             if modelObject.isNil {
-                self.createMemo()
+                createMemo()
             } else {
-                self.updateMemo()
+                updateMemo()
             }
 
-            self.output.isFinished = true
+            output.isFinished = true
         }
         .store(in: &cancellables)
 

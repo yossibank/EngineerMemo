@@ -50,7 +50,7 @@ private extension MemoListViewController {
         let addMemoBarButtonItem = UIBarButtonItem(.addMemo)
 
         addMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
-            self?.viewModel.input.didTapCreateButton.send(())
+            self?.viewModel.input.didTapUpdateButton.send(())
         }
         .store(in: &cancellables)
 
@@ -75,31 +75,31 @@ private extension MemoListViewController {
     }
 
     func bindToViewModel() {
-        contentView.didTapCreateButtonPublisher
+        contentView.didTapUpdateButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.viewModel.input.didTapCreateButton.send(())
+                self?.viewModel.input.didTapUpdateButton.send(())
             }
             .store(in: &cancellables)
 
         contentView.didChangeSortPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] sort in
-                self?.viewModel.input.didChangeSort.send(sort)
+            .sink { [weak self] in
+                self?.viewModel.input.didChangeSort.send($0)
             }
             .store(in: &cancellables)
 
         contentView.didChangeCategoryPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] category in
-                self?.viewModel.input.didChangeCategory.send(category)
+            .sink { [weak self] in
+                self?.viewModel.input.didChangeCategory.send($0)
             }
             .store(in: &cancellables)
 
         contentView.didSelectContentPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.viewModel.input.didSelectContent.send(modelObject)
+            .sink { [weak self] in
+                self?.viewModel.input.didSelectContent.send($0)
             }
             .store(in: &cancellables)
     }

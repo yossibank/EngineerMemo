@@ -79,8 +79,8 @@ private extension MemoDetailViewController {
     func bindToView() {
         viewModel.output.$modelObject
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.contentView.modelObject = modelObject
+            .sink { [weak self] in
+                self?.contentView.modelObject = $0
             }
             .store(in: &cancellables)
 

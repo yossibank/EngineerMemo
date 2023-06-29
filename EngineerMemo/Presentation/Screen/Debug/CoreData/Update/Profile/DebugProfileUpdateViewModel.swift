@@ -69,89 +69,89 @@
                 if case let .failure(appError) = $0 {
                     Logger.error(message: appError.localizedDescription)
                 }
-            } receiveValue: { [weak self] modelObjects in
-                output.modelObjects = modelObjects
-                self?.originalModelObjects = modelObjects
+            } receiveValue: { [weak self] in
+                output.modelObjects = $0
+                self?.originalModelObjects = $0
             }
             .store(in: &cancellables)
 
             // MARK: - 住所セグメント
 
-            input.didChangeAddressControl.sink { [weak self] segment in
-                self?.addressSegment = segment
-                self?.modelObject.address = segment.string
+            input.didChangeAddressControl.sink { [weak self] in
+                self?.addressSegment = $0
+                self?.modelObject.address = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - 生年月日セグメント
 
-            input.didChangeBirthdayControl.sink { [weak self] segment in
-                self?.ageSegment = segment
-                self?.modelObject.birthday = segment.date
+            input.didChangeBirthdayControl.sink { [weak self] in
+                self?.ageSegment = $0
+                self?.modelObject.birthday = $0.date
             }
             .store(in: &cancellables)
 
             // MARK: - Eメールセグメント
 
-            input.didChangeEmailControl.sink { [weak self] segment in
-                self?.emailSegment = segment
-                self?.modelObject.email = segment.string
+            input.didChangeEmailControl.sink { [weak self] in
+                self?.emailSegment = $0
+                self?.modelObject.email = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - 性別セグメント
 
-            input.didChangeGenderControl.sink { [weak self] segment in
-                self?.genderSegment = segment
-                self?.modelObject.gender = segment.gender
+            input.didChangeGenderControl.sink { [weak self] in
+                self?.genderSegment = $0
+                self?.modelObject.gender = $0.gender
             }
             .store(in: &cancellables)
 
             // MARK: - アイコン画像セグメント
 
-            input.didChangeIconImageControl.sink { [weak self] segment in
-                self?.iconImageSegment = segment
-                self?.modelObject.iconImage = segment.image?.pngData()
+            input.didChangeIconImageControl.sink { [weak self] in
+                self?.iconImageSegment = $0
+                self?.modelObject.iconImage = $0.image?.pngData()
             }
             .store(in: &cancellables)
 
             // MARK: - 名前セグメント
 
-            input.didChangeNameControl.sink { [weak self] segment in
-                self?.nameSegment = segment
-                self?.modelObject.name = segment.string
+            input.didChangeNameControl.sink { [weak self] in
+                self?.nameSegment = $0
+                self?.modelObject.name = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - 電話番号セグメント
 
-            input.didChangePhoneNumberControl.sink { [weak self] segment in
-                self?.phoneNumberSegment = segment
-                self?.modelObject.phoneNumber = segment.phoneNumber
+            input.didChangePhoneNumberControl.sink { [weak self] in
+                self?.phoneNumberSegment = $0
+                self?.modelObject.phoneNumber = $0.phoneNumber
             }
             .store(in: &cancellables)
 
             // MARK: - 最寄駅セグメント
 
-            input.didChangeStationControl.sink { [weak self] segment in
-                self?.stationSegment = segment
-                self?.modelObject.station = segment.string
+            input.didChangeStationControl.sink { [weak self] in
+                self?.stationSegment = $0
+                self?.modelObject.station = $0.string
             }
             .store(in: &cancellables)
 
             // MARK: - スキルセグメント
 
-            input.didChangeSkillControl.sink { [weak self] segment in
-                self?.skillSegment = segment
-                self?.modelObject.skill = segment.skill
+            input.didChangeSkillControl.sink { [weak self] in
+                self?.skillSegment = $0
+                self?.modelObject.skill = $0.skill
             }
             .store(in: &cancellables)
 
             // MARK: - プロジェクトセグメント
 
-            input.didChangeProjectControl.sink { [weak self] segment in
-                self?.projectsSegment = segment
-                self?.modelObject.projects = segment.projects
+            input.didChangeProjectControl.sink { [weak self] in
+                self?.projectsSegment = $0
+                self?.modelObject.projects = $0.projects
             }
             .store(in: &cancellables)
 
@@ -163,9 +163,9 @@
                 }
 
                 if searchText.isEmpty {
-                    output.modelObjects = self.originalModelObjects
+                    output.modelObjects = originalModelObjects
                 } else {
-                    output.modelObjects = self.originalModelObjects
+                    output.modelObjects = originalModelObjects
                         .filter { $0.name != nil }
                         .filter { $0.name!.localizedStandardContains(searchText) }
                 }
@@ -174,28 +174,28 @@
 
             // MARK: - 更新ボタンタップ
 
-            input.didTapUpdateButton.sink { [weak self] identifier in
+            input.didTapUpdateButton.sink { [weak self] in
                 guard let self else {
                     return
                 }
 
-                self.modelObject.identifier = identifier
-                self.updateBasic()
-                self.updateSkill()
-                self.updateProject()
-                self.updateIconImage()
+                modelObject.identifier = $0
+                updateBasic()
+                updateSkill()
+                updateProject()
+                updateIconImage()
                 self.modelObject = ProfileModelObjectBuilder()
-                    .address(self.addressSegment.string)
-                    .birthday(self.ageSegment.date)
-                    .email(self.emailSegment.string)
-                    .gender(self.genderSegment.gender)
-                    .iconImage(self.iconImageSegment.image?.pngData())
-                    .name(self.nameSegment.string)
-                    .phoneNumber(self.phoneNumberSegment.phoneNumber)
-                    .station(self.stationSegment.string)
-                    .skill(self.skillSegment.skill)
-                    .projects(self.projectsSegment.projects)
-                    .identifier(identifier)
+                    .address(addressSegment.string)
+                    .birthday(ageSegment.date)
+                    .email(emailSegment.string)
+                    .gender(genderSegment.gender)
+                    .iconImage(iconImageSegment.image?.pngData())
+                    .name(nameSegment.string)
+                    .phoneNumber(phoneNumberSegment.phoneNumber)
+                    .station(stationSegment.string)
+                    .skill(skillSegment.skill)
+                    .projects(projectsSegment.projects)
+                    .identifier($0)
                     .build()
             }
             .store(in: &cancellables)

@@ -55,7 +55,7 @@ final class ProfileIconContentView: UIView {
         )
 
         return collectionView.dequeueConfiguredReusableCell(
-            using: self.cellRegistration,
+            using: cellRegistration,
             for: indexPath,
             item: item
         )

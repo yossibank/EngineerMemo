@@ -52,7 +52,7 @@
                 return .init()
             }
 
-            return self.makeCell(
+            return makeCell(
                 tableView: tableView,
                 indexPath: indexPath,
                 item: item
@@ -143,32 +143,32 @@
                     return .init()
                 }
 
-                cell.categoryControlPublisher.sink { [weak self] value in
-                    self?.didChangeCategoryControlSubject.send(value)
+                cell.categoryControlPublisher.sink { [weak self] in
+                    self?.didChangeCategoryControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.titleControlPublisher.sink { [weak self] value in
-                    self?.didChangeTitleControlSubject.send(value)
+                cell.titleControlPublisher.sink { [weak self] in
+                    self?.didChangeTitleControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
-                cell.contentControlPublisher.sink { [weak self] value in
-                    self?.didChangeContentControlSubject.send(value)
+                cell.contentControlPublisher.sink { [weak self] in
+                    self?.didChangeContentControlSubject.send($0)
                 }
                 .store(in: &cell.cancellables)
 
                 cell.didTapUpdateButtonPublisher.sink { [weak self] _ in
                     guard
                         let self,
-                        let selectedIndex = self.selectedIndex,
-                        let identifier = self.modelObjects[safe: selectedIndex]?.identifier
+                        let selectedIndex,
+                        let identifier = modelObjects[safe: selectedIndex]?.identifier
                     else {
                         return
                     }
 
-                    self.didTapUpdateButtonSubject.send(identifier)
-                    self.searchBar.text = nil
+                    didTapUpdateButtonSubject.send(identifier)
+                    searchBar.text = nil
                 }
                 .store(in: &cell.cancellables)
 
@@ -279,7 +279,7 @@
             }
 
             addSubview(tableView) {
-                $0.top.equalTo(self.searchBar.snp.bottom).inset(-8)
+                $0.top.equalTo(searchBar.snp.bottom).inset(-8)
                 $0.bottom.horizontalEdges.equalToSuperview()
             }
         }

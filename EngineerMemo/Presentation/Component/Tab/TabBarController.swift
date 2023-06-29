@@ -11,7 +11,7 @@ enum TabItem: Int, CaseIterable {
 
         switch self {
         case .profile:
-            rootViewController = .init(rootViewController: AppControllers.Profile.Detail())
+            rootViewController = .init(rootViewController: AppControllers.Profile.List())
             title = L10n.Tab.profile
             image = Asset.profileTab.image
                 .resized(size: .init(width: 24, height: 24))

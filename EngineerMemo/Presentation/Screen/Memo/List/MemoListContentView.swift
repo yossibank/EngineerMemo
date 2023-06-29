@@ -27,7 +27,7 @@ final class MemoListContentView: UIView {
 
     private(set) lazy var didChangeSortPublisher = didChangeSortSubject.eraseToAnyPublisher()
     private(set) lazy var didChangeCategoryPublisher = didChangeCategorySubject.eraseToAnyPublisher()
-    private(set) lazy var didTapCreateButtonPublisher = didTapCreateButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapUpdateButtonPublisher = didTapUpdateButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didSelectContentPublisher = didSelectContentSubject.eraseToAnyPublisher()
 
     private lazy var collectionView = UICollectionView(
@@ -46,7 +46,7 @@ final class MemoListContentView: UIView {
         switch item {
         case .list:
             return collectionView.dequeueConfiguredReusableCell(
-                using: self.listCellRegistration,
+                using: listCellRegistration,
                 for: indexPath,
                 item: item
             )
@@ -58,7 +58,7 @@ final class MemoListContentView: UIView {
             )
 
             cell.didTapCreateButtonPublisher.sink { [weak self] _ in
-                self?.didTapCreateButtonSubject.send(())
+                self?.didTapUpdateButtonSubject.send(())
             }
             .store(in: &cell.cancellables)
 
@@ -132,7 +132,7 @@ final class MemoListContentView: UIView {
 
     private let didChangeSortSubject = PassthroughSubject<MemoListSortType, Never>()
     private let didChangeCategorySubject = PassthroughSubject<MemoListCategoryType, Never>()
-    private let didTapCreateButtonSubject = PassthroughSubject<Void, Never>()
+    private let didTapUpdateButtonSubject = PassthroughSubject<Void, Never>()
     private let didSelectContentSubject = PassthroughSubject<MemoModelObject, Never>()
 
     override init(frame: CGRect) {
@@ -169,17 +169,17 @@ private extension MemoListContentView {
             }
 
             let headerView = collectionView.dequeueConfiguredReusableSupplementary(
-                using: self.headerRegistration,
+                using: headerRegistration,
                 for: indexPath
             )
 
-            headerView.$selectedSortType.sink { [weak self] sort in
-                self?.didChangeSortSubject.send(sort)
+            headerView.$selectedSortType.sink { [weak self] in
+                self?.didChangeSortSubject.send($0)
             }
             .store(in: &headerView.cancellables)
 
-            headerView.$selectedCategoryType.sink { [weak self] category in
-                self?.didChangeCategorySubject.send(category)
+            headerView.$selectedCategoryType.sink { [weak self] in
+                self?.didChangeCategorySubject.send($0)
             }
             .store(in: &headerView.cancellables)
 

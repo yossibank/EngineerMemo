@@ -14,7 +14,7 @@
         private(set) lazy var didChangeNameControlPublisher = nameControl.segmentIndexPublisher
         private(set) lazy var didChangePhoneNumberControlPublisher = phoneNumberControl.segmentIndexPublisher
         private(set) lazy var didChangeStationControlPublisher = stationControl.segmentIndexPublisher
-        private(set) lazy var didTapCreateButtonPublisher = body.didTapActionButtonPublisher
+        private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
         private var cancellables = Set<AnyCancellable>()
 

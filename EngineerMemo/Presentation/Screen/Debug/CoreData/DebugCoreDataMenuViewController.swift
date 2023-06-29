@@ -67,9 +67,9 @@
                         return
                     }
 
-                    self.contentView.viewUpdate(
+                    contentView.viewUpdate(
                         vc: self,
-                        displayType: self.displayType
+                        displayType: displayType
                     )
                 }
                 .store(in: &cancellables)

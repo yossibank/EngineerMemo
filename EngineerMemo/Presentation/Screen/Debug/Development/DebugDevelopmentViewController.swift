@@ -40,8 +40,8 @@
         func bindToViewModel() {
             contentView.didChangeColorThemeIndexPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] index in
-                    self?.viewModel.input.didChangeColorThemeIndex.send(index)
+                .sink { [weak self] in
+                    self?.viewModel.input.didChangeColorThemeIndex.send($0)
                 }
                 .store(in: &cancellables)
 
@@ -54,8 +54,8 @@
 
             contentView.didTapCoreDataCellPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] action in
-                    self?.viewModel.input.didTapCoreDataCell.send(action)
+                .sink { [weak self] in
+                    self?.viewModel.input.didTapCoreDataCell.send($0)
                 }
                 .store(in: &cancellables)
         }

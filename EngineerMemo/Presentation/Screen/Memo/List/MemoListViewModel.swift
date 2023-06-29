@@ -4,7 +4,7 @@ final class MemoListViewModel: ViewModel {
     final class Input: InputObject {
         let viewDidLoad = PassthroughSubject<Void, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
-        let didTapCreateButton = PassthroughSubject<Void, Never>()
+        let didTapUpdateButton = PassthroughSubject<Void, Never>()
         let didChangeSort = PassthroughSubject<MemoListSortType, Never>()
         let didChangeCategory = PassthroughSubject<MemoListCategoryType, Never>()
         let didSelectContent = PassthroughSubject<MemoModelObject, Never>()
@@ -74,8 +74,8 @@ final class MemoListViewModel: ViewModel {
 
         // MARK: - メモ作成ボタンタップ
 
-        input.didTapCreateButton.sink { _ in
-            routing.showCreateScreen()
+        input.didTapUpdateButton.sink { _ in
+            routing.showUpdateScreen()
         }
         .store(in: &cancellables)
 
@@ -105,14 +105,14 @@ final class MemoListViewModel: ViewModel {
 
         // MARK: - メモコンテンツ選択
 
-        input.didSelectContent.sink { modelObject in
+        input.didSelectContent.sink {
             analytics.sendEvent(
                 .didTapMemoList(
-                    title: modelObject.title ?? .noSetting
+                    title: $0.title ?? .noSetting
                 )
             )
 
-            routing.showDetailScreen(identifier: modelObject.identifier)
+            routing.showDetailScreen(identifier: $0.identifier)
         }
         .store(in: &cancellables)
     }

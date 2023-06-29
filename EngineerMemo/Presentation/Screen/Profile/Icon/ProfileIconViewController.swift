@@ -44,14 +44,14 @@ extension ProfileIconViewController {
 private extension ProfileIconViewController {
     func bindToViewModel() {
         contentView.didChangeIconDataPublisher
-            .sink { [weak self] data in
-                self?.viewModel.input.didChangeIconData.send(data)
+            .sink { [weak self] in
+                self?.viewModel.input.didChangeIconData.send($0)
             }
             .store(in: &cancellables)
 
         contentView.didChangeIconIndexPublisher
-            .sink { [weak self] index in
-                self?.viewModel.input.didChangeIconIndex.send(index)
+            .sink { [weak self] in
+                self?.viewModel.input.didChangeIconIndex.send($0)
             }
             .store(in: &cancellables)
     }

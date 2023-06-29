@@ -48,49 +48,49 @@
         func bindToView() {
             viewModel.output.$isLoading
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.isLoading, on: contentView)
+                .weakAssign(to: \.isLoading, on: contentView)
                 .store(in: &cancellables)
 
             viewModel.output.$apiInfo
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.apiInfo, on: contentView)
+                .weakAssign(to: \.apiInfo, on: contentView)
                 .store(in: &cancellables)
 
             viewModel.output.$apiResult
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.apiResult, on: contentView)
+                .weakAssign(to: \.apiResult, on: contentView)
                 .store(in: &cancellables)
         }
 
         func bindToViewModel() {
             contentView.$menuType
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.menuType, on: viewModel.binding)
+                .weakAssign(to: \.menuType, on: viewModel.binding)
                 .store(in: &cancellables)
 
             contentView.didChangePathTextFieldPublisher
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.path, on: viewModel.binding)
+                .weakAssign(to: \.path, on: viewModel.binding)
                 .store(in: &cancellables)
 
             contentView.didChangeUserIdTextFieldPublisher
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.userId, on: viewModel.binding)
+                .weakAssign(to: \.userId, on: viewModel.binding)
                 .store(in: &cancellables)
 
             contentView.didChangeIdTextFieldPublisher
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.id, on: viewModel.binding)
+                .weakAssign(to: \.id, on: viewModel.binding)
                 .store(in: &cancellables)
 
             contentView.didChangeTitleTextFieldPublisher
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.title, on: viewModel.binding)
+                .weakAssign(to: \.title, on: viewModel.binding)
                 .store(in: &cancellables)
 
             contentView.didChangeBodyTextFieldPublisher
                 .receive(on: DispatchQueue.main)
-                .assign(to: \.body, on: viewModel.binding)
+                .weakAssign(to: \.body, on: viewModel.binding)
                 .store(in: &cancellables)
 
             contentView.didTapSendButtonPublisher

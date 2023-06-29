@@ -10,7 +10,7 @@
         private(set) lazy var didChangeCategoryControlPublisher = categoryControl.$selectedCategory
         private(set) lazy var didChangeTitleControlPublisher = titleControl.segmentIndexPublisher
         private(set) lazy var didChangeContentControlPublisher = contentControl.segmentIndexPublisher
-        private(set) lazy var didTapCreateButtonPublisher = body.didTapActionButtonPublisher
+        private(set) lazy var didTapUpdateButtonPublisher = body.didTapActionButtonPublisher
 
         private var cancellables = Set<AnyCancellable>()
 

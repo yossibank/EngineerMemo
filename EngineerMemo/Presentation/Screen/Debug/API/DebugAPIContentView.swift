@@ -131,7 +131,7 @@
                 return .init()
             }
 
-            return self.makeCell(
+            return makeCell(
                 tableView: tableView,
                 indexPath: indexPath,
                 item: item
@@ -225,7 +225,7 @@
                         return
                     }
 
-                    self.didTapSendButtonSubject.send(self.menuType)
+                    didTapSendButtonSubject.send(menuType)
                 }
                 .store(in: &cancellables)
         }
@@ -274,8 +274,8 @@
                 )
 
                 cell.didChangeUserIdTextFieldPublisher
-                    .sink { [weak self] userId in
-                        if let numberId = Int(userId) {
+                    .sink { [weak self] in
+                        if let numberId = Int($0) {
                             self?.didChangeUserIdTextFieldSubject.send(numberId)
                         } else {
                             self?.didChangeUserIdTextFieldSubject.send(nil)
@@ -285,22 +285,22 @@
 
                 cell.didChangeIdTextFieldPublisher
                     .compactMap { Int($0) }
-                    .sink { [weak self] id in
-                        self?.didChangeIdTextFieldSubject.send(id)
+                    .sink { [weak self] in
+                        self?.didChangeIdTextFieldSubject.send($0)
                     }
                     .store(in: &cell.cancellables)
 
                 cell.didChangeTitleTextFieldPublisher
                     .compactMap { $0 }
-                    .sink { [weak self] title in
-                        self?.didChangeTitleTextFieldSubject.send(title)
+                    .sink { [weak self] in
+                        self?.didChangeTitleTextFieldSubject.send($0)
                     }
                     .store(in: &cell.cancellables)
 
                 cell.didChangeBodyTextFieldPublisher
                     .compactMap { $0 }
-                    .sink { [weak self] body in
-                        self?.didChangeBodyTextFieldSubject.send(body)
+                    .sink { [weak self] in
+                        self?.didChangeBodyTextFieldSubject.send($0)
                     }
                     .store(in: &cell.cancellables)
 

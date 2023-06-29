@@ -78,17 +78,17 @@ extension TitleButtonHeaderFooterView {
         case .basic:
             titleLabel.text = L10n.Profile.basicInformation
             title = L10n.Components.Button.Do.edit
-            image = Asset.profileBasicSetting.image
+            image = Asset.basicSetting.image
 
         case .skill:
             titleLabel.text = L10n.Profile.experienceSkill
             title = L10n.Components.Button.Do.edit
-            image = Asset.profileSkillSetting.image
+            image = Asset.skillSetting.image
 
         case .project:
             titleLabel.text = L10n.Profile.project
             title = L10n.Components.Button.Do.create
-            image = Asset.profileProjectSetting.image
+            image = Asset.projectAdd.image
         }
 
         config?.title = title

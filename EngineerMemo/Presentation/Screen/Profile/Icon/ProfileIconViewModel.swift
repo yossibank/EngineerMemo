@@ -43,20 +43,20 @@ final class ProfileIconViewModel: ViewModel {
 
         // MARK: - アイコン変更(CoreData)
 
-        input.didChangeIconData.sink { [weak self] iconImage in
+        input.didChangeIconData.sink { [weak self] in
             guard let self else {
                 return
             }
 
-            self.modelObject.iconImage = iconImage
-            self.updateIconImage()
+            self.modelObject.iconImage = $0
+            updateIconImage()
         }
         .store(in: &cancellables)
 
         // MARK: - アイコン変更(UserDefaults)
 
-        input.didChangeIconIndex.sink { index in
-            model.updateIconImage(index: index)
+        input.didChangeIconIndex.sink {
+            model.updateIconImage(index: $0)
         }
         .store(in: &cancellables)
     }

@@ -69,44 +69,42 @@
 
             // MARK: - API変更メニューボタン
 
-            binding.$menuType.sink { [weak self] menuType in
+            binding.$menuType.sink { [weak self] in
                 guard let self else {
                     return
                 }
 
-                switch menuType {
+                switch $0 {
                 case .debugDelete:
-                    self.item = DebugDeleteRequest(
-                        pathComponent: binding.path
-                    )
+                    item = DebugDeleteRequest(pathComponent: binding.path)
 
                 case .debugGet:
-                    self.item = DebugGetRequest(
-                        parameters: .init(userId: self.parameters.userId)
+                    item = DebugGetRequest(
+                        parameters: .init(userId: parameters.userId)
                     )
 
                 case .debugPost:
-                    self.item = DebugPostRequest(
+                    item = DebugPostRequest(
                         parameters: .init(
-                            userId: self.parameters.userId ?? 1,
-                            title: self.parameters.title ?? .empty,
-                            body: self.parameters.body ?? .empty
+                            userId: parameters.userId ?? 1,
+                            title: parameters.title ?? .empty,
+                            body: parameters.body ?? .empty
                         )
                     )
 
                 case .debugPut:
-                    self.item = DebugPutRequest(
+                    item = DebugPutRequest(
                         parameters: .init(
-                            userId: self.parameters.userId ?? 1,
-                            id: self.parameters.id ?? 1,
-                            title: self.parameters.title ?? .empty,
-                            body: self.parameters.body ?? .empty
+                            userId: parameters.userId ?? 1,
+                            id: parameters.id ?? 1,
+                            title: parameters.title ?? .empty,
+                            body: parameters.body ?? .empty
                         ),
                         pathComponent: binding.path
                     )
                 }
 
-                guard let item = self.item else {
+                guard let item else {
                     return
                 }
 
@@ -128,11 +126,11 @@
 
                     switch menuType {
                     case .debugDelete:
-                        self.item = DebugDeleteRequest(pathComponent: path)
+                        item = DebugDeleteRequest(pathComponent: path)
 
                     case .debugPut:
-                        if let parameters = self.item?.parameters as? DebugPutRequest.Parameters {
-                            self.item = DebugPutRequest(
+                        if let parameters = item?.parameters as? DebugPutRequest.Parameters {
+                            item = DebugPutRequest(
                                 parameters: parameters,
                                 pathComponent: path
                             )
@@ -142,7 +140,7 @@
                         return
                     }
 
-                    guard let item = self.item else {
+                    guard let item else {
                         return
                     }
 
@@ -155,23 +153,23 @@
 
             // MARK: - Parameters変更
 
-            binding.$userId.sink { [weak self] userId in
-                self?.parameters.userId = userId
+            binding.$userId.sink { [weak self] in
+                self?.parameters.userId = $0
             }
             .store(in: &cancellables)
 
-            binding.$id.sink { [weak self] id in
-                self?.parameters.id = id
+            binding.$id.sink { [weak self] in
+                self?.parameters.id = $0
             }
             .store(in: &cancellables)
 
-            binding.$title.sink { [weak self] title in
-                self?.parameters.title = title
+            binding.$title.sink { [weak self] in
+                self?.parameters.title = $0
             }
             .store(in: &cancellables)
 
-            binding.$body.sink { [weak self] body in
-                self?.parameters.body = body
+            binding.$body.sink { [weak self] in
+                self?.parameters.body = $0
             }
             .store(in: &cancellables)
 
@@ -189,36 +187,36 @@
                         break
 
                     case .debugGet:
-                        self.item = DebugGetRequest(
-                            parameters: .init(userId: self.parameters.userId)
+                        item = DebugGetRequest(
+                            parameters: .init(userId: parameters.userId)
                         )
 
                     case .debugPost:
-                        self.item = DebugPostRequest(
+                        item = DebugPostRequest(
                             parameters: .init(
-                                userId: self.parameters.userId ?? 1,
-                                title: self.parameters.title ?? .empty,
-                                body: self.parameters.body ?? .empty
+                                userId: parameters.userId ?? 1,
+                                title: parameters.title ?? .empty,
+                                body: parameters.body ?? .empty
                             )
                         )
 
                     case .debugPut:
-                        self.item = DebugPutRequest(
+                        item = DebugPutRequest(
                             parameters: .init(
-                                userId: self.parameters.userId ?? 1,
-                                id: self.parameters.id ?? 1,
-                                title: self.parameters.title ?? .empty,
-                                body: self.parameters.body ?? .empty
+                                userId: parameters.userId ?? 1,
+                                id: parameters.id ?? 1,
+                                title: parameters.title ?? .empty,
+                                body: parameters.body ?? .empty
                             ),
                             pathComponent: binding.path
                         )
                     }
 
-                    guard let item = self.item else {
+                    guard let item else {
                         return
                     }
 
-                    self.request(item: item)
+                    request(item: item)
                 }
                 .store(in: &cancellables)
 
@@ -234,8 +232,8 @@
         func request(item: some Request<some Encodable>) {
             output.isLoading = true
 
-            APIClient().request(item: item) { [weak self] result in
-                switch result {
+            APIClient().request(item: item) { [weak self] in
+                switch $0 {
                 case let .success(response):
                     let encoder: JSONEncoder = {
                         $0.outputFormatting = .prettyPrinted

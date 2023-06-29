@@ -2,7 +2,7 @@ import UIKit
 
 /// @mockable
 protocol MemoListRoutingInput {
-    func showCreateScreen()
+    func showUpdateScreen()
     func showDetailScreen(identifier: String)
 }
 
@@ -19,7 +19,7 @@ final class MemoListRouting {
 // MARK: - protocol
 
 extension MemoListRouting: MemoListRoutingInput {
-    func showCreateScreen() {
+    func showUpdateScreen() {
         viewController?.show(
             AppControllers.Memo.Update(modelObject: nil),
             sender: nil

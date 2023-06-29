@@ -40,8 +40,8 @@
 
             // MARK: - メモ情報削除
 
-            input.didSwipe.sink { modelObject in
-                model.delete(modelObject)
+            input.didSwipe.sink {
+                model.delete($0)
             }
             .store(in: &cancellables)
         }

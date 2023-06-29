@@ -44,7 +44,7 @@ final class ProfileIconViewModelTest: XCTestCase {
         viewModel.input.viewWillAppear.send(())
     }
 
-    func test_input_didChangeIconData_ProfileModelObjectのiconImageが更新されること() {
+    func test_input_didChangeIconData_iconImageが更新されること() {
         // arrange
         let iconImage = Asset.penguin.image.pngData()
 
@@ -67,7 +67,7 @@ final class ProfileIconViewModelTest: XCTestCase {
         viewModel.input.didChangeIconData.send(iconImage)
     }
 
-    func test_input_didChangeIconIndex_ProfileModelにindex値を送信できること() {
+    func test_input_didChangeIconIndex_index値を送信できること() {
         // arrange
         model.updateIconImageIndexHandler = {
             // assert

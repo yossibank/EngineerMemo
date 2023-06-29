@@ -516,6 +516,55 @@ final class ProfileModelTest: XCTestCase {
         dataInsert(
             projects: [
                 ProjectDataObjectBuilder()
+                    .content("content1")
+                    .identifier("identifier1")
+                    .title("title1")
+                    .build(),
+                ProjectDataObjectBuilder()
+                    .content("content2")
+                    .identifier("identifier2")
+                    .title("title2")
+                    .build(),
+                ProjectDataObjectBuilder()
+                    .content("content3")
+                    .identifier("identifier3")
+                    .title("title3")
+                    .build()
+            ]
+        )
+
+        // act
+        let publisher = model.deleteProject(
+            ProfileModelObjectBuilder()
+                .build(),
+            identifier: "identifier2"
+        )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
+
+        wait(timeout: 0.5) { expectation in
+            Task {
+                try await Task.sleep(seconds: 0.3)
+
+                let profile = self.storage.allObjects.first!
+                let projects = profile.projects?.allObjects as! [Project]
+
+                // assert
+                XCTAssertFalse(projects.contains(where: { $0.title == "title2" }))
+                XCTAssertFalse(projects.contains(where: { $0.content == "content2" }))
+
+                expectation.fulfill()
+            }
+        }
+    }
+
+    func test_deleteAllProject_案件情報を全件削除できること() throws {
+        // arrange
+        dataInsert(
+            projects: [
+                ProjectDataObjectBuilder()
                     .content("content")
                     .identifier("identifier")
                     .title("title")
@@ -524,10 +573,9 @@ final class ProfileModelTest: XCTestCase {
         )
 
         // act
-        let publisher = model.deleteProject(
+        let publisher = model.deleteAllProject(
             ProfileModelObjectBuilder()
                 .identifier("identifier")
-                .projects([])
                 .build()
         )
         .collect(1)
