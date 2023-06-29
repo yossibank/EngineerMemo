@@ -86,9 +86,9 @@
                 }
 
                 if searchText.isEmpty {
-                    output.modelObjects = self.originalModelObjects
+                    output.modelObjects = originalModelObjects
                 } else {
-                    output.modelObjects = self.originalModelObjects
+                    output.modelObjects = originalModelObjects
                         .filter { $0.title != nil }
                         .filter { $0.title!.localizedStandardContains(searchText) }
                 }
@@ -102,12 +102,12 @@
                     return
                 }
 
-                self.modelObject.identifier = $0
-                self.updateMemo()
+                modelObject.identifier = $0
+                updateMemo()
                 self.modelObject = MemoModelObjectBuilder()
-                    .category(self.categorySegment.category)
-                    .title(self.titleSegment.string)
-                    .content(self.contentSegment.string)
+                    .category(categorySegment.category)
+                    .title(titleSegment.string)
+                    .content(contentSegment.string)
                     .createdAt(.init())
                     .build()
             }

@@ -49,7 +49,7 @@ final class ProfileIconViewModel: ViewModel {
             }
 
             self.modelObject.iconImage = $0
-            self.updateIconImage()
+            updateIconImage()
         }
         .store(in: &cancellables)
 

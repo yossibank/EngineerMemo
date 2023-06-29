@@ -131,7 +131,7 @@
                 return .init()
             }
 
-            return self.makeCell(
+            return makeCell(
                 tableView: tableView,
                 indexPath: indexPath,
                 item: item
@@ -225,7 +225,7 @@
                         return
                     }
 
-                    self.didTapSendButtonSubject.send(self.menuType)
+                    didTapSendButtonSubject.send(menuType)
                 }
                 .store(in: &cancellables)
         }

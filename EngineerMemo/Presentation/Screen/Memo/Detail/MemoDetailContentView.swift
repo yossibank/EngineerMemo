@@ -34,7 +34,7 @@ final class MemoDetailContentView: UIView {
         }
 
         return collectionView.dequeueConfiguredReusableCell(
-            using: self.cellRegistration,
+            using: cellRegistration,
             for: indexPath,
             item: item
         )

@@ -52,7 +52,7 @@
                 return .init()
             }
 
-            return self.makeCell(
+            return makeCell(
                 tableView: tableView,
                 indexPath: indexPath,
                 item: item
@@ -161,14 +161,14 @@
                 cell.didTapUpdateButtonPublisher.sink { [weak self] _ in
                     guard
                         let self,
-                        let selectedIndex = self.selectedIndex,
-                        let identifier = self.modelObjects[safe: selectedIndex]?.identifier
+                        let selectedIndex,
+                        let identifier = modelObjects[safe: selectedIndex]?.identifier
                     else {
                         return
                     }
 
-                    self.didTapUpdateButtonSubject.send(identifier)
-                    self.searchBar.text = nil
+                    didTapUpdateButtonSubject.send(identifier)
+                    searchBar.text = nil
                 }
                 .store(in: &cell.cancellables)
 
@@ -279,7 +279,7 @@
             }
 
             addSubview(tableView) {
-                $0.top.equalTo(self.searchBar.snp.bottom).inset(-8)
+                $0.top.equalTo(searchBar.snp.bottom).inset(-8)
                 $0.bottom.horizontalEdges.equalToSuperview()
             }
         }

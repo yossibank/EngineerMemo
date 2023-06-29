@@ -76,37 +76,35 @@
 
                 switch $0 {
                 case .debugDelete:
-                    self.item = DebugDeleteRequest(
-                        pathComponent: binding.path
-                    )
+                    item = DebugDeleteRequest(pathComponent: binding.path)
 
                 case .debugGet:
-                    self.item = DebugGetRequest(
-                        parameters: .init(userId: self.parameters.userId)
+                    item = DebugGetRequest(
+                        parameters: .init(userId: parameters.userId)
                     )
 
                 case .debugPost:
-                    self.item = DebugPostRequest(
+                    item = DebugPostRequest(
                         parameters: .init(
-                            userId: self.parameters.userId ?? 1,
-                            title: self.parameters.title ?? .empty,
-                            body: self.parameters.body ?? .empty
+                            userId: parameters.userId ?? 1,
+                            title: parameters.title ?? .empty,
+                            body: parameters.body ?? .empty
                         )
                     )
 
                 case .debugPut:
-                    self.item = DebugPutRequest(
+                    item = DebugPutRequest(
                         parameters: .init(
-                            userId: self.parameters.userId ?? 1,
-                            id: self.parameters.id ?? 1,
-                            title: self.parameters.title ?? .empty,
-                            body: self.parameters.body ?? .empty
+                            userId: parameters.userId ?? 1,
+                            id: parameters.id ?? 1,
+                            title: parameters.title ?? .empty,
+                            body: parameters.body ?? .empty
                         ),
                         pathComponent: binding.path
                     )
                 }
 
-                guard let item = self.item else {
+                guard let item else {
                     return
                 }
 
@@ -128,11 +126,11 @@
 
                     switch menuType {
                     case .debugDelete:
-                        self.item = DebugDeleteRequest(pathComponent: path)
+                        item = DebugDeleteRequest(pathComponent: path)
 
                     case .debugPut:
-                        if let parameters = self.item?.parameters as? DebugPutRequest.Parameters {
-                            self.item = DebugPutRequest(
+                        if let parameters = item?.parameters as? DebugPutRequest.Parameters {
+                            item = DebugPutRequest(
                                 parameters: parameters,
                                 pathComponent: path
                             )
@@ -142,7 +140,7 @@
                         return
                     }
 
-                    guard let item = self.item else {
+                    guard let item else {
                         return
                     }
 
@@ -189,36 +187,36 @@
                         break
 
                     case .debugGet:
-                        self.item = DebugGetRequest(
-                            parameters: .init(userId: self.parameters.userId)
+                        item = DebugGetRequest(
+                            parameters: .init(userId: parameters.userId)
                         )
 
                     case .debugPost:
-                        self.item = DebugPostRequest(
+                        item = DebugPostRequest(
                             parameters: .init(
-                                userId: self.parameters.userId ?? 1,
-                                title: self.parameters.title ?? .empty,
-                                body: self.parameters.body ?? .empty
+                                userId: parameters.userId ?? 1,
+                                title: parameters.title ?? .empty,
+                                body: parameters.body ?? .empty
                             )
                         )
 
                     case .debugPut:
-                        self.item = DebugPutRequest(
+                        item = DebugPutRequest(
                             parameters: .init(
-                                userId: self.parameters.userId ?? 1,
-                                id: self.parameters.id ?? 1,
-                                title: self.parameters.title ?? .empty,
-                                body: self.parameters.body ?? .empty
+                                userId: parameters.userId ?? 1,
+                                id: parameters.id ?? 1,
+                                title: parameters.title ?? .empty,
+                                body: parameters.body ?? .empty
                             ),
                             pathComponent: binding.path
                         )
                     }
 
-                    guard let item = self.item else {
+                    guard let item else {
                         return
                     }
 
-                    self.request(item: item)
+                    request(item: item)
                 }
                 .store(in: &cancellables)
 

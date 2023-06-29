@@ -163,9 +163,9 @@
                 }
 
                 if searchText.isEmpty {
-                    output.modelObjects = self.originalModelObjects
+                    output.modelObjects = originalModelObjects
                 } else {
-                    output.modelObjects = self.originalModelObjects
+                    output.modelObjects = originalModelObjects
                         .filter { $0.name != nil }
                         .filter { $0.name!.localizedStandardContains(searchText) }
                 }
@@ -179,22 +179,22 @@
                     return
                 }
 
-                self.modelObject.identifier = $0
-                self.updateBasic()
-                self.updateSkill()
-                self.updateProject()
-                self.updateIconImage()
+                modelObject.identifier = $0
+                updateBasic()
+                updateSkill()
+                updateProject()
+                updateIconImage()
                 self.modelObject = ProfileModelObjectBuilder()
-                    .address(self.addressSegment.string)
-                    .birthday(self.ageSegment.date)
-                    .email(self.emailSegment.string)
-                    .gender(self.genderSegment.gender)
-                    .iconImage(self.iconImageSegment.image?.pngData())
-                    .name(self.nameSegment.string)
-                    .phoneNumber(self.phoneNumberSegment.phoneNumber)
-                    .station(self.stationSegment.string)
-                    .skill(self.skillSegment.skill)
-                    .projects(self.projectsSegment.projects)
+                    .address(addressSegment.string)
+                    .birthday(ageSegment.date)
+                    .email(emailSegment.string)
+                    .gender(genderSegment.gender)
+                    .iconImage(iconImageSegment.image?.pngData())
+                    .name(nameSegment.string)
+                    .phoneNumber(phoneNumberSegment.phoneNumber)
+                    .station(stationSegment.string)
+                    .skill(skillSegment.skill)
+                    .projects(projectsSegment.projects)
                     .identifier($0)
                     .build()
             }

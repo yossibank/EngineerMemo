@@ -62,11 +62,11 @@
                     return
                 }
 
-                self.createMemo()
+                createMemo()
                 self.modelObject = MemoModelObjectBuilder()
-                    .category(self.categroySegment.category)
-                    .title(self.titleSegment.string)
-                    .content(self.contentSegment.string)
+                    .category(categroySegment.category)
+                    .title(titleSegment.string)
+                    .content(contentSegment.string)
                     .createdAt(.init())
                     .build()
             }

@@ -29,7 +29,7 @@ final class ProjectDetailContentView: UIView {
             return .init()
         }
 
-        return self.makeCell(
+        return makeCell(
             tableView: tableView,
             indexPath: indexPath,
             item: item

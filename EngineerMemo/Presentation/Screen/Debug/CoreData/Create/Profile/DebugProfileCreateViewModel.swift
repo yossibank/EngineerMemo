@@ -102,16 +102,16 @@
                     return
                 }
 
-                self.createBasic()
+                createBasic()
                 self.modelObject = ProfileModelObjectBuilder()
-                    .address(self.addressSegment.string)
-                    .birthday(self.ageSegment.date)
-                    .email(self.emailSegment.string)
-                    .gender(self.genderSegment.gender)
-                    .iconImage(self.iconImageSegment.image?.pngData())
-                    .name(self.nameSegment.string)
-                    .phoneNumber(self.phoneNumberSegment.phoneNumber)
-                    .station(self.stationSegment.string)
+                    .address(addressSegment.string)
+                    .birthday(ageSegment.date)
+                    .email(emailSegment.string)
+                    .gender(genderSegment.gender)
+                    .iconImage(iconImageSegment.image?.pngData())
+                    .name(nameSegment.string)
+                    .phoneNumber(phoneNumberSegment.phoneNumber)
+                    .station(stationSegment.string)
                     .build()
             }
             .store(in: &cancellables)

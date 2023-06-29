@@ -44,7 +44,7 @@ final class ProfileListContentView: UIView {
             return .init()
         }
 
-        return self.makeCell(
+        return makeCell(
             tableView: tableView,
             indexPath: indexPath,
             item: item
@@ -163,7 +163,7 @@ private extension ProfileListContentView {
                         return
                     }
 
-                    self.didTapSkillSettingButtonSubject.send(modelObject)
+                    didTapSkillSettingButtonSubject.send(modelObject)
                 }
                 .store(in: &cell.cancellables)
 
@@ -196,7 +196,7 @@ private extension ProfileListContentView {
                         return
                     }
 
-                    self.didTapProjectCreateButtonSubject.send(modelObject)
+                    didTapProjectCreateButtonSubject.send(modelObject)
                 }
                 .store(in: &cell.cancellables)
 

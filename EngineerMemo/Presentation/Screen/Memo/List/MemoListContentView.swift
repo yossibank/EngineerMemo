@@ -46,7 +46,7 @@ final class MemoListContentView: UIView {
         switch item {
         case .list:
             return collectionView.dequeueConfiguredReusableCell(
-                using: self.listCellRegistration,
+                using: listCellRegistration,
                 for: indexPath,
                 item: item
             )
@@ -169,7 +169,7 @@ private extension MemoListContentView {
             }
 
             let headerView = collectionView.dequeueConfiguredReusableSupplementary(
-                using: self.headerRegistration,
+                using: headerRegistration,
                 for: indexPath
             )
 

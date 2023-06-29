@@ -105,12 +105,12 @@ final class MemoUpdateViewModel: ViewModel {
             }
 
             if modelObject.isNil {
-                self.createMemo()
+                createMemo()
             } else {
-                self.updateMemo()
+                updateMemo()
             }
 
-            self.output.isFinished = true
+            output.isFinished = true
         }
         .store(in: &cancellables)
 
