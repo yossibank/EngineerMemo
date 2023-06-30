@@ -20,8 +20,8 @@ extension UIColor {
     static let warning: UIColor = .hexFFD700
     /// ライトモード: 白(#EDEDED) ダークモード: グレー(#1C1C1C)
     static let sheet: UIColor = .dynamicColor(light: .hexEDEDED, dark: .hex1C1C1C)
-    /// ライトモード & ダークモード: ターコイズブルー(#00B7CE)
-    static let inputBorder: UIColor = .hex00B7CE
+    /// ライトモード & ダークモード: システムグリーン
+    static let inputBorder: UIColor = .systemGreen
 }
 
 extension UIColor {
