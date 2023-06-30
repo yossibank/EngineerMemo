@@ -33,12 +33,18 @@ final class ProjectUpdateContentView: UIView {
         }
 
         contentInputView.configure {
-            $0.updateValue(modelObject: project)
+            $0.inputValue(.init(
+                title: L10n.Profile.Project.content,
+                icon: Asset.projectContent.image,
+                placeholder: L10n.Profile.Placeholder.Project.content
+            ))
+
+            $0.updateValue(project?.content)
         }
     }
 
     private let titleInputView = UpdateTextInputView()
-    private let contentInputView = ProjectUpdateTextsInputView()
+    private let contentInputView = UpdateTextMultiInputView()
 
     private var project: ProjectModelObject? {
         modelObject.projects

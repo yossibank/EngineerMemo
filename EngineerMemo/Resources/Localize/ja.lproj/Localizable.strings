@@ -122,6 +122,8 @@
 "memo.category" = "カテゴリー";
 "memo.title" = "タイトル";
 "memo.content" = "内容";
+"memo.example.title" = "メモタイトル(複数行記載可)";
+"memo.example.content" = "メモ内容(複数行記載可)";
 
 // MARK: - FirebaseAnalytics
 

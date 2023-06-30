@@ -28,7 +28,7 @@ final class UpdateTextInputView: UIView {
     private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
     private var body: UIView {
-        VStackView(spacing: 12) {
+        VStackView(spacing: 8) {
             titleView
 
             VStackView(spacing: 4) {
