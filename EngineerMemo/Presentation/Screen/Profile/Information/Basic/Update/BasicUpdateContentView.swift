@@ -89,7 +89,7 @@ final class BasicUpdateContentView: UIView {
     }
 
     private let nameInputView = UpdateTextInputView()
-    private let birthdayInputView = BasicUpdateBirthdayInputView()
+    private let birthdayInputView = UpdatePickerInputView()
     private let genderInputView = UpdateMenuInputView(.gender)
     private let emailInputView = UpdateTextInputView()
     private let phoneNumberInputView = UpdateTextInputView()
