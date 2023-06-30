@@ -1,29 +1,40 @@
-import Combine
 import UIKit
 import UIKitHelper
 
+// MARK: - input structure
+
+struct UpdateTextInput {
+    let title: String
+    let icon: UIImage
+    let placeholder: String
+    let keyboardType: UIKeyboardType
+
+    init(
+        title: String,
+        icon: UIImage,
+        placeholder: String,
+        keyboardType: UIKeyboardType = .default
+    ) {
+        self.title = title
+        self.icon = icon
+        self.placeholder = placeholder
+        self.keyboardType = keyboardType
+    }
+}
+
 // MARK: - properties & init
 
-final class SkillUpdateToeicInputView: UIView {
-    private(set) lazy var didChangeInputScorePublisher = inputTextField.textDidChangePublisher.compactMap {
-        Int($0)
-    }
+final class UpdateTextInputView: UIView {
+    private(set) lazy var didChangeInputTextPublisher = inputTextField.textDidChangePublisher
 
     private var body: UIView {
         VStackView(spacing: 12) {
-            titleView.configure {
-                $0.configure(
-                    title: L10n.Profile.toeic,
-                    icon: Asset.toeic.image
-                )
-            }
+            titleView
 
             VStackView(spacing: 4) {
                 inputTextField.configure {
                     $0.leftView = .init(frame: .init(x: 0, y: 0, width: 4, height: 0))
                     $0.leftViewMode = .always
-                    $0.keyboardType = .numberPad
-                    $0.placeholder = L10n.Profile.Example.toeic
                     $0.delegate = self
                 }
 
@@ -53,19 +64,27 @@ final class SkillUpdateToeicInputView: UIView {
 
 // MARK: - internal methods
 
-extension SkillUpdateToeicInputView {
-    func updateValue(modelObject: SkillModelObject?) {
-        guard let modelObject else {
-            return
-        }
+extension UpdateTextInputView {
+    func inputValue(_ input: UpdateTextInput) {
+        titleView.configure(
+            title: input.title,
+            icon: input.icon
+        )
 
-        inputTextField.text = modelObject.toeic?.description
+        inputTextField.configure {
+            $0.keyboardType = input.keyboardType
+            $0.placeholder = input.placeholder
+        }
+    }
+
+    func updateValue(_ text: String?) {
+        inputTextField.text = text
     }
 }
 
 // MARK: - private methods
 
-private extension SkillUpdateToeicInputView {
+private extension UpdateTextInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -80,7 +99,7 @@ private extension SkillUpdateToeicInputView {
 
 // MARK: - delegate
 
-extension SkillUpdateToeicInputView: UITextFieldDelegate {
+extension UpdateTextInputView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -100,9 +119,16 @@ extension SkillUpdateToeicInputView: UITextFieldDelegate {
 #if DEBUG
     import SwiftUI
 
-    struct SkillUpdateToeicInputViewPreview: PreviewProvider {
+    struct UpdateTextInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: SkillUpdateToeicInputView())
+            WrapperView(view: UpdateTextInputView()) {
+                $0.inputValue(.init(
+                    title: "title",
+                    icon: Asset.penguin.image,
+                    placeholder: "placeholder"
+                ))
+            }
+            .frame(height: 100)
         }
     }
 #endif

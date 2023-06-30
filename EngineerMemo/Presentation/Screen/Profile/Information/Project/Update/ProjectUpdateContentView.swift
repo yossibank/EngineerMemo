@@ -22,11 +22,22 @@ final class ProjectUpdateContentView: UIView {
         distribution: .equalSpacing,
         spacing: 16
     ) {
-        titleInputView
-        contentInputView
+        titleInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Profile.Project.title,
+                icon: Asset.projectTitle.image,
+                placeholder: L10n.Profile.Placeholder.Project.title
+            ))
+
+            $0.updateValue(project?.title)
+        }
+
+        contentInputView.configure {
+            $0.updateValue(modelObject: project)
+        }
     }
 
-    private let titleInputView = ProjectUpdateTextInputView()
+    private let titleInputView = UpdateTextInputView()
     private let contentInputView = ProjectUpdateTextsInputView()
 
     private var project: ProjectModelObject? {
@@ -51,7 +62,6 @@ final class ProjectUpdateContentView: UIView {
 
         setupView()
         setupEvent()
-        setupValue()
         setupButton()
     }
 
@@ -81,11 +91,6 @@ private extension ProjectUpdateContentView {
             self?.endEditing(true)
         }
         .store(in: &cancellables)
-    }
-
-    func setupValue() {
-        titleInputView.updateValue(modelObject: project)
-        contentInputView.updateValue(modelObject: project)
     }
 
     func setupButton() {

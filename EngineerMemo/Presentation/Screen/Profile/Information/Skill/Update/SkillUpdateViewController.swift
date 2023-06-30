@@ -85,7 +85,7 @@ private extension SkillUpdateViewController {
             .store(in: &cancellables)
 
         contentView.didChangeToeicScoreInputPublisher
-            .map { Optional($0) }
+            .map { Int($0) }
             .receive(on: DispatchQueue.main)
             .weakAssign(to: \.toeic, on: viewModel.binding)
             .store(in: &cancellables)
