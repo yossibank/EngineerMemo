@@ -3,7 +3,7 @@ import Foundation
 
 final class MemoUpdateViewModel: ViewModel {
     final class Binding: BindingObject {
-        @Published var category: MemoInputCategoryType?
+        @Published var category: MemoInputCategoryType = .noSetting
         @Published var title = ""
         @Published var content = ""
     }
@@ -70,7 +70,7 @@ final class MemoUpdateViewModel: ViewModel {
         // MARK: - カテゴリー
 
         let category = binding.$category.sink { [weak self] in
-            self?.modelObject.category = $0?.category
+            self?.modelObject.category = $0.category
         }
 
         // MARK: - タイトル

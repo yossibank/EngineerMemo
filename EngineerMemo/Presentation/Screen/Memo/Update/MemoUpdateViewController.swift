@@ -77,7 +77,7 @@ private extension MemoUpdateViewController {
             }
             .store(in: &cancellables)
 
-        contentView.$selectedCategoryType
+        contentView.didChangeCategoryPublisher
             .receive(on: DispatchQueue.main)
             .weakAssign(to: \.binding.category, on: viewModel)
             .store(in: &cancellables)

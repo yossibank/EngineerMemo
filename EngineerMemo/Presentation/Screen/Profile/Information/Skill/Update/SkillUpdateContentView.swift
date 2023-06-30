@@ -24,8 +24,13 @@ final class SkillUpdateContentView: UIView {
         distribution: .equalSpacing,
         spacing: 16
     ) {
-        careerInputView
-        useLanguageInputView
+        careerInputView.configure {
+            $0.updateValue(modelObject.skill)
+        }
+
+        useLanguageInputView.configure {
+            $0.updateValue(modelObject: modelObject.skill)
+        }
 
         toeicInputView.configure {
             $0.inputValue(.init(
@@ -39,7 +44,7 @@ final class SkillUpdateContentView: UIView {
         }
     }
 
-    private let careerInputView = SkillUpdateCareerInputView()
+    private let careerInputView = UpdateMenuInputView(.career)
     private let useLanguageInputView = SkillUpdateLanguageInputView()
     private let toeicInputView = UpdateTextInputView()
 
@@ -54,7 +59,6 @@ final class SkillUpdateContentView: UIView {
 
         setupView()
         setupEvent()
-        setupValue()
         setupBarButton()
     }
 
@@ -84,11 +88,6 @@ private extension SkillUpdateContentView {
             self?.endEditing(true)
         }
         .store(in: &cancellables)
-    }
-
-    func setupValue() {
-        careerInputView.updateValue(modelObject: modelObject.skill)
-        useLanguageInputView.updateValue(modelObject: modelObject.skill)
     }
 
     func setupBarButton() {

@@ -42,7 +42,7 @@ final class BasicUpdateContentView: UIView {
         }
 
         genderInputView.configure {
-            $0.updateValue(modelObject: modelObject)
+            $0.updateValue(modelObject)
         }
 
         emailInputView.configure {
@@ -90,7 +90,7 @@ final class BasicUpdateContentView: UIView {
 
     private let nameInputView = UpdateTextInputView()
     private let birthdayInputView = BasicUpdateBirthdayInputView()
-    private let genderInputView = BasicUpdateGenderInputView()
+    private let genderInputView = UpdateMenuInputView(.gender)
     private let emailInputView = UpdateTextInputView()
     private let phoneNumberInputView = UpdateTextInputView()
     private let addressInputView = UpdateTextInputView()
