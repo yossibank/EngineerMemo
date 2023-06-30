@@ -278,6 +278,7 @@ final class ProfileModelTest: XCTestCase {
                         .language("Swift")
                         .languageCareer(2)
                         .toeic(600)
+                        .pr("PR事項")
                         .build()
                 )
                 .build()
@@ -314,6 +315,11 @@ final class ProfileModelTest: XCTestCase {
                     600
                 )
 
+                XCTAssertEqual(
+                    profile.skill?.pr,
+                    "PR事項"
+                )
+
                 expectation.fulfill()
             }
         }
@@ -327,6 +333,7 @@ final class ProfileModelTest: XCTestCase {
                 .language("Kotlin")
                 .languageCareer(8)
                 .toeic(400)
+                .pr("PR事項1")
                 .build()
         )
 
@@ -341,6 +348,7 @@ final class ProfileModelTest: XCTestCase {
                         .languageCareer(2)
                         .identifier("identifier")
                         .toeic(600)
+                        .pr("PR事項2")
                         .build()
                 )
                 .build()
@@ -375,6 +383,11 @@ final class ProfileModelTest: XCTestCase {
                     600
                 )
 
+                XCTAssertEqual(
+                    profile.skill?.pr,
+                    "PR事項2"
+                )
+
                 expectation.fulfill()
             }
         }
@@ -387,6 +400,7 @@ final class ProfileModelTest: XCTestCase {
                 .engineerCareer(5)
                 .language("Swift")
                 .languageCareer(2)
+                .pr("PR事項")
                 .build()
         )
 

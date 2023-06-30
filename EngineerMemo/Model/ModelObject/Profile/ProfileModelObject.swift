@@ -73,6 +73,7 @@ extension ProfileModelObject {
 
         skillObject.engineerCareer = .init(value: skill?.engineerCareer ?? .invalid)
         skillObject.language = skill?.language
+        skillObject.pr = skill?.pr
 
         if let languageCareer = skill?.languageCareer {
             skillObject.languageCareer = .init(value: languageCareer)

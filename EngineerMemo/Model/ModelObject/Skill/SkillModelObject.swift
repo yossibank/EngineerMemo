@@ -5,5 +5,6 @@ struct SkillModelObject: Hashable {
     var language: String?
     var languageCareer: Int?
     var toeic: Int?
+    var pr: String?
     var identifier: String
 }

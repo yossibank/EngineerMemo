@@ -26,6 +26,7 @@ final class SkillConverterTest: XCTestCase {
             .language("Swift")
             .languageCareer(2)
             .toeic(600)
+            .pr("PR事項")
             .build()
 
         // act
@@ -40,6 +41,7 @@ final class SkillConverterTest: XCTestCase {
                 .language("Swift")
                 .languageCareer(2)
                 .toeic(600)
+                .pr("PR事項")
                 .build()
         )
     }

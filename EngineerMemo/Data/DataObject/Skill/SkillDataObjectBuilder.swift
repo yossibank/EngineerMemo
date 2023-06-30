@@ -8,6 +8,7 @@
         private var language: String? = "Swift"
         private var languageCareer: NSNumber? = 2
         private var toeic: NSNumber? = 600
+        private var pr: String? = "PR事項"
         private var profile: Profile?
 
         func build() -> Skill {
@@ -24,6 +25,7 @@
             skill.language = language
             skill.languageCareer = languageCareer
             skill.toeic = toeic
+            skill.pr = pr
             skill.profile = profile
             return skill
         }
@@ -50,6 +52,11 @@
 
         func toeic(_ toeic: NSNumber?) -> Self {
             self.toeic = toeic
+            return self
+        }
+
+        func pr(_ pr: String?) -> Self {
+            self.pr = pr
             return self
         }
 
