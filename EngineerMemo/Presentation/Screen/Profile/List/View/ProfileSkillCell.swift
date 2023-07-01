@@ -11,35 +11,30 @@ final class ProfileSkillCell: AllyTableViewCell {
         }
         .apply(.borderView)
 
-    private lazy var skillView = VStackView(
-        alignment: .leading,
-        spacing: 16
-    ) {
-        VStackView(alignment: .leading, spacing: 16) {
-            engineerCareerView
-            languageView
-            toeicView
-        }
+    private lazy var skillView = VStackView(alignment: .leading, spacing: 16) {
+        engineerCareerView
+        languageView
+        toeicView
     }
 
-    private lazy var engineerCareerView = VStackView(
-        alignment: .leading,
-        spacing: 8
-    ) {
-        createLabel(.engineerCareer)
+    private lazy var engineerCareerView = VStackView(alignment: .leading, spacing: 8) {
+        UILabel().configure {
+            $0.text = L10n.Profile.engineerCareer
+            $0.textColor = .secondaryGray
+            $0.font = .systemFont(ofSize: 14)
+        }
 
         engineerCareerLabel.configure {
             $0.font = .boldSystemFont(ofSize: 16)
         }
     }
 
-    private let engineerCareerLabel = UILabel()
-
-    private lazy var languageView = VStackView(
-        alignment: .leading,
-        spacing: 8
-    ) {
-        createLabel(.language)
+    private lazy var languageView = VStackView(alignment: .leading, spacing: 8) {
+        UILabel().configure {
+            $0.text = L10n.Profile.useLanguage
+            $0.textColor = .secondaryGray
+            $0.font = .systemFont(ofSize: 14)
+        }
 
         HStackView(spacing: 8) {
             languageLabel.configure {
@@ -52,14 +47,12 @@ final class ProfileSkillCell: AllyTableViewCell {
         }
     }
 
-    private let languageLabel = UILabel()
-    private let languageCareerLabel = UILabel()
-
-    private lazy var toeicView = VStackView(
-        alignment: .leading,
-        spacing: 8
-    ) {
-        createLabel(.toeic)
+    private lazy var toeicView = VStackView(alignment: .leading, spacing: 8) {
+        UILabel().configure {
+            $0.text = L10n.Profile.toeic
+            $0.textColor = .secondaryGray
+            $0.font = .systemFont(ofSize: 14)
+        }
 
         HStackView(spacing: 8) {
             toeicLabel.configure {
@@ -76,6 +69,9 @@ final class ProfileSkillCell: AllyTableViewCell {
         }
     }
 
+    private let engineerCareerLabel = UILabel()
+    private let languageLabel = UILabel()
+    private let languageCareerLabel = UILabel()
     private let toeicImageView = UIImageView()
     private let toeicLabel = UILabel()
 
@@ -164,14 +160,6 @@ private extension ProfileSkillCell {
 
         default:
             toeicImageView.isHidden = true
-        }
-    }
-
-    func createLabel(_ type: SkillContentType) -> UILabel {
-        .init().configure {
-            $0.text = type.title
-            $0.textColor = .secondaryGray
-            $0.font = .systemFont(ofSize: 14)
         }
     }
 }

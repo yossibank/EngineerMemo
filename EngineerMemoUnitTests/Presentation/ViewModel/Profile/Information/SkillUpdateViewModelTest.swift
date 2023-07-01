@@ -147,6 +147,35 @@ final class SkillUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
+    func test_binding_pr_設定ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel(
+            modelObject: ProfileModelObjectBuilder()
+                .skill(SKillModelObjectBuilder().build())
+                .build()
+        )
+
+        viewModel.binding.pr = "自己PR"
+
+        model.insertSkillHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.skill?.pr,
+                "自己PR"
+            )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+    }
+
     func test_input_didTapBarButton_output_isFinishedがtrueを取得できること() {
         // arrange
         setupViewModel(

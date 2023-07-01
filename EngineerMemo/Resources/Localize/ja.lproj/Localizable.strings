@@ -90,11 +90,13 @@
 "profile.example.station" = "例) 東京地下鉄日比谷線 神谷町駅";
 "profile.example.useLanguage" = "例) Swift";
 "profile.example.toeic" = "例) 500";
+"profile.example.pr" = "自分の強み、特徴(複数行記載可)";
 "profile.placeholder.project.title" = "関わったサービス、案件名";
 "profile.placeholder.project.content" = "業務内容(複数行記載可)";
 "profile.engineerCareer" = "エンジニア歴";
 "profile.useLanguage" = "得意言語";
 "profile.toeic" = "TOEIC";
+"profile.pr" = "自己PR";
 "profile.year" = "%@年";
 "profile.moreTenYear" = "10年以上";
 "profile.score" = "%@点";

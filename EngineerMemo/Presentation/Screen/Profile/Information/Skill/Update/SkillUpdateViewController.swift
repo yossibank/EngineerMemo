@@ -73,21 +73,27 @@ private extension SkillUpdateViewController {
             .weakAssign(to: \.engineerCareer, on: viewModel.binding)
             .store(in: &cancellables)
 
-        contentView.didChangeLanguageCareerInputPublisher
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.languageCareer, on: viewModel.binding)
-            .store(in: &cancellables)
-
         contentView.didChangeLanguageInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
             .weakAssign(to: \.language, on: viewModel.binding)
             .store(in: &cancellables)
 
+        contentView.didChangeLanguageCareerInputPublisher
+            .receive(on: DispatchQueue.main)
+            .weakAssign(to: \.languageCareer, on: viewModel.binding)
+            .store(in: &cancellables)
+
         contentView.didChangeToeicScoreInputPublisher
             .map { Int($0) }
             .receive(on: DispatchQueue.main)
             .weakAssign(to: \.toeic, on: viewModel.binding)
+            .store(in: &cancellables)
+
+        contentView.didChangePrInputPublisher
+            .map { Optional($0) }
+            .receive(on: DispatchQueue.main)
+            .weakAssign(to: \.pr, on: viewModel.binding)
             .store(in: &cancellables)
     }
 }

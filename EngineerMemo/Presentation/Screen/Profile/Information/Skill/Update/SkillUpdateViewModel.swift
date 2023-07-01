@@ -7,6 +7,7 @@ final class SkillUpdateViewModel: ViewModel {
         @Published var language: String?
         @Published var languageCareer: SkillCareerType = .noSetting
         @Published var toeic: Int?
+        @Published var pr: String?
     }
 
     final class Input: InputObject {
@@ -76,6 +77,12 @@ final class SkillUpdateViewModel: ViewModel {
             .dropFirst()
             .sink { updatedObject.toeic = $0 }
 
+        // MARK: - 自己PR
+
+        let pr = binding.$pr
+            .dropFirst()
+            .sink { updatedObject.pr = $0 }
+
         // MARK: - 設定・更新ボタンタップ
 
         input.didTapBarButton.sink { [weak self] _ in
@@ -90,7 +97,8 @@ final class SkillUpdateViewModel: ViewModel {
             engineerCareer,
             language,
             languageCareer,
-            toeic
+            toeic,
+            pr
         ])
     }
 }
