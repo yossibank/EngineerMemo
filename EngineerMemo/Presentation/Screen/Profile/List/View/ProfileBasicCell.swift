@@ -13,31 +13,31 @@ final class ProfileBasicCell: AllyTableViewCell {
 
     private lazy var basicView = VStackView(alignment: .leading, spacing: 16) {
         nameView.configure {
-            $0.inputValue(title: L10n.Profile.name)
+            $0.setTitle(title: L10n.Profile.name)
         }
 
         ageView.configure {
-            $0.inputValue(title: L10n.Profile.age)
+            $0.setTitle(title: L10n.Profile.age)
         }
 
         genderView.configure {
-            $0.inputValue(title: L10n.Profile.gender)
+            $0.setTitle(title: L10n.Profile.gender)
         }
 
         emailView.configure {
-            $0.inputValue(title: L10n.Profile.email)
+            $0.setTitle(title: L10n.Profile.email)
         }
 
         phoneNumberView.configure {
-            $0.inputValue(title: L10n.Profile.phoneNumber)
+            $0.setTitle(title: L10n.Profile.phoneNumber)
         }
 
         addressView.configure {
-            $0.inputValue(title: L10n.Profile.address)
+            $0.setTitle(title: L10n.Profile.address)
         }
 
         stationView.configure {
-            $0.inputValue(title: L10n.Profile.station)
+            $0.setTitle(title: L10n.Profile.station)
         }
     }
 

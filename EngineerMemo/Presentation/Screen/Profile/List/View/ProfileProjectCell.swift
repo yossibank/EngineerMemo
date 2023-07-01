@@ -14,32 +14,13 @@ final class ProfileProjectCell: UITableViewCell {
         }
         .apply(.borderView)
 
-    private lazy var projectView = VStackView(
-        alignment: .leading,
-        spacing: 16
-    ) {
-        VStackView(spacing: 8) {
-            UILabel().configure {
-                $0.text = L10n.Profile.Project.title
-                $0.textColor = .secondaryGray
-                $0.font = .systemFont(ofSize: 14)
-            }
-
-            titleLabel.configure {
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
+    private lazy var projectView = VStackView(alignment: .leading, spacing: 16) {
+        titleView.configure {
+            $0.setTitle(title: L10n.Profile.Project.title)
         }
 
-        VStackView(spacing: 8) {
-            UILabel().configure {
-                $0.text = L10n.Profile.Project.content
-                $0.textColor = .secondaryGray
-                $0.font = .systemFont(ofSize: 14)
-            }
-
-            contentLabel.configure {
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
+        contentsView.configure {
+            $0.setTitle(title: L10n.Profile.Project.content)
         }
     }
 
@@ -49,8 +30,8 @@ final class ProfileProjectCell: UITableViewCell {
             .withRenderingMode(.alwaysOriginal)
     }
 
-    private let titleLabel = UILabel()
-    private let contentLabel = UILabel()
+    private let titleView = TitleContentView()
+    private let contentsView = TitleContentView()
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -85,8 +66,8 @@ extension ProfileProjectCell {
 
 extension ProfileProjectCell {
     func configure(_ modelObject: ProjectModelObject) {
-        titleLabel.text = modelObject.title ?? .noSetting
-        contentLabel.text = modelObject.content ?? .noSetting
+        titleView.updateValue(modelObject.title ?? .noSetting)
+        contentsView.updateValue(modelObject.content ?? .noSetting)
     }
 }
 

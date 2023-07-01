@@ -37,7 +37,7 @@ final class TitleContentView: UIView {
 // MARK: - internal methods
 
 extension TitleContentView {
-    func inputValue(title: String) {
+    func setTitle(title: String) {
         titleLabel.text = title
     }
 
@@ -66,7 +66,7 @@ private extension TitleContentView {
     struct TitleContentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: TitleContentView()) {
-                $0.inputValue(title: "title")
+                $0.setTitle(title: "title")
                 $0.updateValue("value")
             }
             .frame(height: 40)
