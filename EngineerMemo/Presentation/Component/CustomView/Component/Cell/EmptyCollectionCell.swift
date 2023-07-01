@@ -4,10 +4,10 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class MemoEmptyCell: UICollectionViewCell {
+final class EmptyCollectionCell: UICollectionViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapCreateButtonPublisher = createButton.publisher(for: .touchUpInside)
+    private(set) lazy var didTapEmptyButtonPublisher = emptyButton.publisher(for: .touchUpInside)
 
     private lazy var baseView = UIView()
         .addSubview(body) {
@@ -18,41 +18,22 @@ final class MemoEmptyCell: UICollectionViewCell {
 
     private var body: UIView {
         VStackView(alignment: .center, spacing: 16) {
-            UILabel().configure {
-                $0.text = L10n.Memo.emptyDescription
+            descriptionLabel.configure {
                 $0.textColor = .primary
                 $0.font = .boldSystemFont(ofSize: 14)
                 $0.textAlignment = .center
                 $0.numberOfLines = 0
             }
 
-            createButton.addConstraint {
+            emptyButton.addConstraint {
                 $0.width.equalTo(160)
                 $0.height.equalTo(48)
             }
         }
     }
 
-    private let createButton = UIButton(type: .system).configure {
-        var config = UIButton.Configuration.filled()
-        config.title = L10n.Components.Button.Do.create
-        config.image = Asset.memoAdd.image
-            .resized(size: .init(width: 28, height: 28))
-            .withRenderingMode(.alwaysOriginal)
-        config.baseForegroundColor = .primary
-        config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
-        config.imagePadding = 4
-        config.titleTextAttributesTransformer = .init { incoming in
-            var outgoing = incoming
-            outgoing.font = .boldSystemFont(ofSize: 16)
-            return outgoing
-        }
-        config.background.backgroundColor = .primaryGray
-        config.background.cornerRadius = 8
-        config.background.strokeColor = .primary
-        config.background.strokeWidth = 1.0
-        $0.configuration = config
-    }
+    private let descriptionLabel = UILabel()
+    private let emptyButton = UIButton(type: .system)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -68,7 +49,7 @@ final class MemoEmptyCell: UICollectionViewCell {
 
 // MARK: - override methods
 
-extension MemoEmptyCell {
+extension EmptyCollectionCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -84,9 +65,23 @@ extension MemoEmptyCell {
     }
 }
 
+// MARK: - internal methods
+
+extension EmptyCollectionCell {
+    func configure(with content: EmptyContent) {
+        descriptionLabel.text = content.description
+        emptyButton.apply(
+            .emptyButton(
+                title: content.buttonTitle,
+                icon: content.buttonIcon
+            )
+        )
+    }
+}
+
 // MARK: - private methods
 
-private extension MemoEmptyCell {
+private extension EmptyCollectionCell {
     func setupView() {
         contentView.configure {
             $0.addSubview(baseView) {
@@ -106,7 +101,7 @@ private extension MemoEmptyCell {
 
     struct MemoEmptyCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: MemoEmptyCell())
+            WrapperView(view: EmptyCollectionCell())
         }
     }
 #endif

@@ -53,11 +53,19 @@ final class MemoListContentView: UIView {
 
         case .empty:
             let cell = collectionView.dequeueReusableCell(
-                withType: MemoEmptyCell.self,
+                withType: EmptyCollectionCell.self,
                 for: indexPath
             )
 
-            cell.didTapCreateButtonPublisher.sink { [weak self] _ in
+            cell.configure(
+                with: .init(
+                    description: L10n.Memo.emptyDescription,
+                    buttonTitle: L10n.Components.Button.Do.create,
+                    buttonIcon: Asset.memoAdd.image
+                )
+            )
+
+            cell.didTapEmptyButtonPublisher.sink { [weak self] _ in
                 self?.didTapUpdateButtonSubject.send(())
             }
             .store(in: &cell.cancellables)
@@ -154,7 +162,7 @@ final class MemoListContentView: UIView {
 private extension MemoListContentView {
     func setupCollectionView() {
         collectionView.configure {
-            $0.registerCell(with: MemoEmptyCell.self)
+            $0.registerCell(with: EmptyCollectionCell.self)
             $0.backgroundColor = .background
             $0.backgroundView = emptyView
             $0.backgroundView?.isHidden = true

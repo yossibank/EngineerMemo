@@ -48,7 +48,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
                 x: 0,
                 y: 0,
                 width: UIWindow.windowFrame.width,
-                height: 1300
+                height: 1500
             ),
             viewAfter: 0.5
         )
@@ -63,7 +63,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
                 x: 0,
                 y: 0,
                 width: UIWindow.windowFrame.width,
-                height: 2900
+                height: 3200
             ),
             viewAfter: 0.5
         )

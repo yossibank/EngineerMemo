@@ -44,6 +44,10 @@ extension TitleContentView {
     func updateValue(_ text: String?) {
         contentLabel.text = text
     }
+
+    func updateLine(_ line: Int) {
+        contentLabel.numberOfLines = line
+    }
 }
 
 // MARK: - private methods

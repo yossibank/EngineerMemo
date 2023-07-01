@@ -86,7 +86,7 @@ private extension ProfileListContentView {
                     ProfileBasicCell.self,
                     ProfileSkillCell.self,
                     ProfileProjectCell.self,
-                    ProfileNoSettingCell.self
+                    EmptyTableCell.self
                 ]
             )
             $0.registerHeaderFooterView(with: TitleButtonHeaderFooterView.self)
@@ -123,13 +123,19 @@ private extension ProfileListContentView {
         case let .basic(modelObject):
             guard let modelObject else {
                 let cell = tableView.dequeueReusableCell(
-                    withType: ProfileNoSettingCell.self,
+                    withType: EmptyTableCell.self,
                     for: indexPath
                 )
 
-                cell.configure(with: L10n.Profile.settingDescription)
+                cell.configure(
+                    with: .init(
+                        description: L10n.Profile.settingDescription,
+                        buttonTitle: L10n.Components.Button.Do.setting,
+                        buttonIcon: Asset.profileSetting.image
+                    )
+                )
 
-                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                cell.didTapEmptyButtonPublisher.sink { [weak self] _ in
                     self?.didTapBasicSettingButtonSubject.send(modelObject)
                 }
                 .store(in: &cell.cancellables)
@@ -149,13 +155,19 @@ private extension ProfileListContentView {
         case let .skill(modelObject):
             guard let modelObject else {
                 let cell = tableView.dequeueReusableCell(
-                    withType: ProfileNoSettingCell.self,
+                    withType: EmptyTableCell.self,
                     for: indexPath
                 )
 
-                cell.configure(with: L10n.Profile.skillDescription)
+                cell.configure(
+                    with: .init(
+                        description: L10n.Profile.skillDescription,
+                        buttonTitle: L10n.Components.Button.Do.setting,
+                        buttonIcon: Asset.profileSetting.image
+                    )
+                )
 
-                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                cell.didTapEmptyButtonPublisher.sink { [weak self] _ in
                     guard
                         let self,
                         let modelObject = self.modelObject
@@ -182,13 +194,19 @@ private extension ProfileListContentView {
         case let .project(modelObject):
             guard let modelObject else {
                 let cell = tableView.dequeueReusableCell(
-                    withType: ProfileNoSettingCell.self,
+                    withType: EmptyTableCell.self,
                     for: indexPath
                 )
 
-                cell.configure(with: L10n.Profile.projectDescription)
+                cell.configure(
+                    with: .init(
+                        description: L10n.Profile.projectDescription,
+                        buttonTitle: L10n.Components.Button.Do.setting,
+                        buttonIcon: Asset.profileSetting.image
+                    )
+                )
 
-                cell.didTapSettingButtonPublisher.sink { [weak self] _ in
+                cell.didTapEmptyButtonPublisher.sink { [weak self] _ in
                     guard
                         let self,
                         let modelObject = self.modelObject

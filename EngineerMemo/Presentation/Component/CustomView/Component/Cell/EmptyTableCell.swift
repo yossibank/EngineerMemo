@@ -2,24 +2,29 @@ import Combine
 import UIKit
 import UIKitHelper
 
+// MARK: - empty structure
+
+struct EmptyContent {
+    let description: String
+    let buttonTitle: String?
+    let buttonIcon: UIImage?
+}
+
 // MARK: - properties & init
 
-final class ProfileNoSettingCell: UITableViewCell {
+final class EmptyTableCell: UITableViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapSettingButtonPublisher = settingButton.publisher(for: .touchUpInside)
+    private(set) lazy var didTapEmptyButtonPublisher = emptyButton.publisher(for: .touchUpInside)
 
     private lazy var baseView = UIView()
-        .addSubview(settingView) {
+        .addSubview(emptyView) {
             $0.verticalEdges.equalToSuperview().inset(24)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         .apply(.borderView)
 
-    private lazy var settingView = VStackView(
-        alignment: .center,
-        spacing: 24
-    ) {
+    private lazy var emptyView = VStackView(alignment: .center, spacing: 24) {
         descriptionLabel.configure {
             $0.textColor = .primary
             $0.font = .boldSystemFont(ofSize: 14)
@@ -27,34 +32,14 @@ final class ProfileNoSettingCell: UITableViewCell {
             $0.numberOfLines = 0
         }
 
-        settingButton.addConstraint {
+        emptyButton.addConstraint {
             $0.width.equalTo(160)
             $0.height.equalTo(48)
         }
     }
 
     private let descriptionLabel = UILabel()
-
-    private let settingButton = UIButton(type: .system).configure {
-        var config = UIButton.Configuration.filled()
-        config.title = L10n.Components.Button.Do.setting
-        config.image = Asset.profileSetting.image
-            .resized(size: .init(width: 28, height: 28))
-            .withRenderingMode(.alwaysOriginal)
-        config.baseForegroundColor = .primary
-        config.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
-        config.imagePadding = 4
-        config.titleTextAttributesTransformer = .init { incoming in
-            var outgoing = incoming
-            outgoing.font = .boldSystemFont(ofSize: 16)
-            return outgoing
-        }
-        config.background.backgroundColor = .primaryGray
-        config.background.cornerRadius = 8
-        config.background.strokeColor = .primary
-        config.background.strokeWidth = 1.0
-        $0.configuration = config
-    }
+    private let emptyButton = UIButton(type: .system)
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -75,7 +60,7 @@ final class ProfileNoSettingCell: UITableViewCell {
 
 // MARK: - override methods
 
-extension ProfileNoSettingCell {
+extension EmptyTableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -93,15 +78,21 @@ extension ProfileNoSettingCell {
 
 // MARK: - internal methods
 
-extension ProfileNoSettingCell {
-    func configure(with description: String) {
-        descriptionLabel.text = description
+extension EmptyTableCell {
+    func configure(with content: EmptyContent) {
+        descriptionLabel.text = content.description
+        emptyButton.apply(
+            .emptyButton(
+                title: content.buttonTitle,
+                icon: content.buttonIcon
+            )
+        )
     }
 }
 
 // MARK: - private methods
 
-private extension ProfileNoSettingCell {
+private extension EmptyTableCell {
     func setupView() {
         contentView.configure {
             $0.addSubview(baseView) {
@@ -124,7 +115,7 @@ private extension ProfileNoSettingCell {
 
     struct ProfileNoSettingCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProfileNoSettingCell())
+            WrapperView(view: EmptyTableCell())
         }
     }
 #endif
