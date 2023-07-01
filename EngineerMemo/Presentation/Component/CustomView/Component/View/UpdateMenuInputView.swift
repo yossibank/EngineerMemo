@@ -2,14 +2,6 @@ import Combine
 import UIKit
 import UIKitHelper
 
-// MARK: - input enum
-
-enum UpdateMenuInput {
-    case gender
-    case career
-    case category
-}
-
 // MARK: - properties & init
 
 final class UpdateMenuInputView: UIView {
@@ -126,19 +118,19 @@ private extension UpdateMenuInputView {
 
         switch menuInput {
         case .gender:
-            titleView.configure(
+            titleView.inputValue(
                 title: L10n.Profile.gender,
                 icon: Asset.gender.image
             )
 
         case .career:
-            titleView.configure(
+            titleView.inputValue(
                 title: L10n.Profile.engineerCareer,
                 icon: Asset.engineerCareer.image
             )
 
         case .category:
-            titleView.configure(
+            titleView.inputValue(
                 title: L10n.Memo.category,
                 icon: Asset.memoCategory.image
             )

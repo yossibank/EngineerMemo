@@ -10,7 +10,7 @@ final class UpdatePickerInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 8) {
             titleView.configure {
-                $0.configure(
+                $0.inputValue(
                     title: L10n.Profile.birthday,
                     icon: Asset.birthday.image
                 )

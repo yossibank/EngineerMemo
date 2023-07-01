@@ -12,7 +12,7 @@ final class SkillUpdateLanguageInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView.configure {
-                $0.configure(
+                $0.inputValue(
                     title: L10n.Profile.useLanguage,
                     icon: Asset.language.image
                 )

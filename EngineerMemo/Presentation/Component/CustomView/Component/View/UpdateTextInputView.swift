@@ -1,27 +1,6 @@
 import UIKit
 import UIKitHelper
 
-// MARK: - input structure
-
-struct UpdateTextInput {
-    let title: String
-    let icon: UIImage
-    let placeholder: String
-    let keyboardType: UIKeyboardType
-
-    init(
-        title: String,
-        icon: UIImage,
-        placeholder: String,
-        keyboardType: UIKeyboardType = .default
-    ) {
-        self.title = title
-        self.icon = icon
-        self.placeholder = placeholder
-        self.keyboardType = keyboardType
-    }
-}
-
 // MARK: - properties & init
 
 final class UpdateTextInputView: UIView {
@@ -66,7 +45,7 @@ final class UpdateTextInputView: UIView {
 
 extension UpdateTextInputView {
     func inputValue(_ input: UpdateTextInput) {
-        titleView.configure(
+        titleView.inputValue(
             title: input.title,
             icon: input.icon
         )

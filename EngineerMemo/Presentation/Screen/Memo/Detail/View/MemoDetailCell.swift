@@ -7,20 +7,32 @@ import UIKitHelper
 final class MemoDetailCell: UICollectionViewCell {
     private var body: UIView {
         VStackView(spacing: 32) {
-            categoryStackView
-            titleStackView
-            contentStackView
+            categoryView.configure {
+                $0.inputValue(
+                    title: L10n.Memo.category,
+                    icon: Asset.memoCategory.image
+                )
+            }
+
+            titleView.configure {
+                $0.inputValue(
+                    title: L10n.Memo.title,
+                    icon: Asset.memoTitle.image
+                )
+            }
+
+            contentsView.configure {
+                $0.inputValue(
+                    title: L10n.Memo.content,
+                    icon: Asset.memoContent.image
+                )
+            }
         }
     }
 
-    private lazy var categoryStackView = createStackView(.category)
-    private lazy var titleStackView = createStackView(.title)
-    private lazy var contentStackView = createStackView(.content)
-
-    private let categoryLabel = UILabel()
-    private let categoryImageView = UIImageView()
-    private let titleLabel = UILabel()
-    private let contentLabel = UILabel()
+    private let categoryView = DetailTitleIconView()
+    private let titleView = DetailTitleView()
+    private let contentsView = DetailTitleView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,17 +50,15 @@ final class MemoDetailCell: UICollectionViewCell {
 
 extension MemoDetailCell {
     func configure(_ modelObject: MemoModelObject) {
-        titleLabel.text = modelObject.title
-        contentLabel.text = modelObject.content
+        titleView.updateValue(modelObject.title)
+        contentsView.updateValue(modelObject.content)
 
         guard let category = modelObject.category else {
-            categoryStackView.isHidden = true
+            categoryView.isHidden = true
             return
         }
 
-        categoryStackView.isHidden = false
-        categoryLabel.text = category.value
-        categoryImageView.image = {
+        let iconImage: UIImage? = {
             switch category {
             case .todo:
                 return Asset.toDoCategory.image
@@ -69,6 +79,10 @@ extension MemoDetailCell {
                 return Asset.otherCategory.image
             }
         }()
+
+        categoryView.isHidden = false
+        categoryView.updateValue(category.value)
+        categoryView.updateIcon(iconImage)
     }
 }
 
@@ -82,70 +96,6 @@ private extension MemoDetailCell {
             }
 
             $0.backgroundColor = .background
-        }
-    }
-
-    func createStackView(_ type: MemoContentType) -> UIStackView {
-        let valueLabel: UILabel
-
-        switch type {
-        case .category:
-            valueLabel = categoryLabel
-
-        case .title:
-            valueLabel = titleLabel
-
-        case .content:
-            valueLabel = contentLabel
-        }
-
-        let contentView: UIView = {
-            switch type {
-            case .category:
-                return HStackView(spacing: 8, layoutMargins: .init(.top, 4)) {
-                    categoryImageView.addConstraint {
-                        $0.size.equalTo(24)
-                    }
-
-                    valueLabel.configure {
-                        $0.textColor = .primary
-                        $0.font = .boldSystemFont(ofSize: 16)
-                    }
-                }
-
-            case .title, .content:
-                return valueLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 16)
-                    $0.numberOfLines = 0
-                }
-            }
-        }()
-
-        return VStackView(spacing: 8) {
-            HStackView(spacing: 4) {
-                UIImageView()
-                    .addConstraint {
-                        $0.size.equalTo(24)
-                    }
-                    .configure {
-                        $0.image = type.image
-                    }
-
-                UILabel().configure {
-                    $0.text = type.title
-                    $0.textColor = .secondaryGray
-                    $0.font = .boldSystemFont(ofSize: 16)
-                }
-
-                UIView()
-            }
-
-            BorderView().configure {
-                $0.changeColor(.secondaryGray)
-            }
-
-            contentView
         }
     }
 }

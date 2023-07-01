@@ -53,7 +53,7 @@ final class UpdateTextMultiInputView: UIView {
 
 extension UpdateTextMultiInputView {
     func inputValue(_ input: UpdateTextInput) {
-        titleView.configure(
+        titleView.inputValue(
             title: input.title,
             icon: input.icon
         )
