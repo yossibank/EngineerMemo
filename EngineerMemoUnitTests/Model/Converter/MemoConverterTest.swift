@@ -36,10 +36,10 @@ final class MemoConverterTest: XCTestCase {
             actual,
             MemoModelObjectBuilder()
                 .category(.technical)
+                .title("タイトル")
                 .content("コンテンツ")
                 .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
                 .identifier("identifier")
-                .title("タイトル")
                 .build()
         )
     }

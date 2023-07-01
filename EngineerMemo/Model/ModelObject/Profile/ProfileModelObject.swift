@@ -105,6 +105,8 @@ extension ProfileModelObject {
             project.identifier = UUID().uuidString
             project.title = object.title
             project.content = object.content
+            project.startDate = object.startDate
+            project.endDate = object.endDate
             return project
         }
 
@@ -131,6 +133,8 @@ extension ProfileModelObject {
         let updatedProject = targetProject.configure {
             $0.title = project.title
             $0.content = project.content
+            $0.startDate = project.startDate
+            $0.endDate = project.endDate
         }
 
         projectObjects.replace(

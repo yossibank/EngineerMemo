@@ -22,6 +22,8 @@ private extension ProjectConverter {
         ProjectModelObject(
             title: project.title,
             content: project.content,
+            startDate: project.startDate,
+            endDate: project.endDate,
             identifier: project.identifier
         )
     }

@@ -441,6 +441,8 @@ final class ProfileModelTest: XCTestCase {
                         .identifier("identifier")
                         .title("title")
                         .content("content")
+                        .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                        .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                         .build()
                 ])
                 .build()
@@ -466,6 +468,16 @@ final class ProfileModelTest: XCTestCase {
                     "content"
                 )
 
+                XCTAssertEqual(
+                    project.startDate,
+                    Calendar.date(year: 2020, month: 1, day: 1)
+                )
+
+                XCTAssertEqual(
+                    project.endDate,
+                    Calendar.date(year: 2021, month: 12, day: 1)
+                )
+
                 expectation.fulfill()
             }
         }
@@ -479,6 +491,8 @@ final class ProfileModelTest: XCTestCase {
                     .content("content")
                     .identifier("identifier")
                     .title("title")
+                    .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                    .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                     .build()
             ]
         )
@@ -492,6 +506,8 @@ final class ProfileModelTest: XCTestCase {
                         .identifier("identifier")
                         .title("update title")
                         .content("update content")
+                        .startDate(Calendar.date(year: 2019, month: 1, day: 1))
+                        .endDate(Calendar.date(year: 2022, month: 1, day: 1))
                         .build()
                 ])
                 .build(),
@@ -518,6 +534,16 @@ final class ProfileModelTest: XCTestCase {
                 XCTAssertEqual(
                     project.content,
                     "update content"
+                )
+
+                XCTAssertEqual(
+                    project.startDate,
+                    Calendar.date(year: 2019, month: 1, day: 1)
+                )
+
+                XCTAssertEqual(
+                    project.endDate,
+                    Calendar.date(year: 2022, month: 1, day: 1)
                 )
 
                 expectation.fulfill()

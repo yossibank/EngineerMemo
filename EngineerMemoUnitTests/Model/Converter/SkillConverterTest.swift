@@ -37,11 +37,11 @@ final class SkillConverterTest: XCTestCase {
             actual,
             SKillModelObjectBuilder()
                 .engineerCareer(3)
-                .identifier("identifier")
                 .language("Swift")
                 .languageCareer(2)
                 .toeic(600)
                 .pr("PR事項")
+                .identifier("identifier")
                 .build()
         )
     }

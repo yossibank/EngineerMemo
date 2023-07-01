@@ -23,12 +23,10 @@ final class ProjectConverterTest: XCTestCase {
         let input = [
             ProjectDataObjectBuilder()
                 .content("content")
+                .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                 .identifier("identifier")
+                .startDate(Calendar.date(year: 2020, month: 1, day: 1))
                 .title("title")
-                .profile(
-                    ProfileDataObjectBuilder()
-                        .build()
-                )
                 .build()
         ]
 
@@ -40,9 +38,11 @@ final class ProjectConverterTest: XCTestCase {
             actual,
             [
                 ProjectModelObjectBuilder()
-                    .content("content")
-                    .identifier("identifier")
                     .title("title")
+                    .content("content")
+                    .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                    .endDate(Calendar.date(year: 2021, month: 12, day: 1))
+                    .identifier("identifier")
                     .build()
             ]
         )
