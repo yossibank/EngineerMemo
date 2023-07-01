@@ -30,35 +30,34 @@
                 }
 
                 VStackView(alignment: .leading, spacing: 16) {
-                    VStackView(alignment: .leading, spacing: 8) {
-                        UILabel().configure {
-                            $0.text = L10n.Profile.name
-                            $0.textColor = .secondaryGray
-                            $0.font = .systemFont(ofSize: 14)
-                        }
-
-                        nameLabel.configure {
-                            $0.textColor = .primary
-                            $0.font = .boldSystemFont(ofSize: 16)
-                        }
+                    nameView.configure {
+                        $0.setTitle(title: L10n.Profile.name)
                     }
 
-                    createStackView(.engineerCareer)
-                    createStackView(.language)
-                    createStackView(.toeic)
+                    careerView.configure {
+                        $0.setTitle(title: L10n.Profile.engineerCareer)
+                    }
+
+                    languageView.configure {
+                        $0.setTitle(title: L10n.Profile.useLanguage)
+                    }
+
+                    toeicView.configure {
+                        $0.setTitle(title: L10n.Profile.toeic)
+                    }
                 }
             }
         }
-
-        private let nameLabel = UILabel()
-        private let engineerCareerLabel = UILabel()
-        private let languageLabel = UILabel()
-        private let toeicLabel = UILabel()
 
         private let iconImageView = UIImageView().configure {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 30
         }
+
+        private let nameView = TitleContentView()
+        private let careerView = TitleContentView()
+        private let languageView = TitleSubContentView()
+        private let toeicView = TitleContentView()
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -81,23 +80,26 @@
 
     extension DebugSkillListCell {
         func configure(_ modelObject: ProfileModelObject) {
-            nameLabel.text = modelObject.name
+            nameView.updateValue(modelObject.name)
 
             if let engineerCareer = modelObject.skill?.engineerCareer {
-                engineerCareerLabel.text = L10n.Profile.year(engineerCareer)
-            } else {
-                engineerCareerLabel.text = .noSetting
+                careerView.updateValue(SkillCareerType(rawValue: engineerCareer)?.title ?? .noSetting)
             }
 
-            if let language = modelObject.skill?.language,
-               let languageCareer = modelObject.skill?.languageCareer {
-                languageLabel.text = language + " " + L10n.Profile.year(languageCareer)
-            } else if let language = modelObject.skill?.language {
-                languageLabel.text = language
+            if let language = modelObject.skill?.language {
+                languageView.updateValue(language)
+
+                if let languageCareer = modelObject.skill?.languageCareer {
+                    languageView.setSubTitle(SkillCareerType(rawValue: languageCareer)?.title)
+                }
+            } else {
+                languageView.updateValue(.noSetting)
             }
 
             if let toeic = modelObject.skill?.toeic {
-                toeicLabel.text = L10n.Profile.score(toeic)
+                toeicView.updateValue(L10n.Profile.score(toeic))
+            } else {
+                toeicView.updateValue(.noSetting)
             }
 
             if let data = modelObject.iconImage,
@@ -120,34 +122,6 @@
                 }
 
                 $0.backgroundColor = .background
-            }
-        }
-
-        func createStackView(_ type: SkillContentType) -> UIStackView {
-            let valueLabel: UILabel
-
-            switch type {
-            case .engineerCareer:
-                valueLabel = engineerCareerLabel
-
-            case .language:
-                valueLabel = languageLabel
-
-            case .toeic:
-                valueLabel = toeicLabel
-            }
-
-            return VStackView(alignment: .leading, spacing: 8) {
-                UILabel().configure {
-                    $0.text = type.title
-                    $0.textColor = .secondaryGray
-                    $0.font = .systemFont(ofSize: 14)
-                }
-
-                valueLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 16)
-                }
             }
         }
     }
