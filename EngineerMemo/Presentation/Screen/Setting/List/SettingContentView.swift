@@ -5,13 +5,13 @@ import UIKitHelper
 // MARK: - section & item
 
 enum SettingContentViewSection: CaseIterable {
-    case application
     case colorTheme
+    case application
 }
 
 enum SettingContentViewItem: Hashable {
-    case application(Application)
     case colorTheme
+    case application(Application)
 
     enum Application: CaseIterable {
         case version
@@ -190,17 +190,17 @@ private extension SettingContentView {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
+        dataSourceSnapshot.appendItems(
+            [.colorTheme],
+            toSection: .colorTheme
+        )
+
         Item.Application.allCases.forEach {
             dataSourceSnapshot.appendItems(
                 [.application($0)],
                 toSection: .application
             )
         }
-
-        dataSourceSnapshot.appendItems(
-            [.colorTheme],
-            toSection: .colorTheme
-        )
 
         dataSource.apply(
             dataSourceSnapshot,
