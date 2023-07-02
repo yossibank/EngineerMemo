@@ -42,6 +42,15 @@ name: swift-protobuf, nameSpecified: SwiftProtobuf, owner: apple, version: 1.22.
 
 name: UIKitHelper, nameSpecified: UIKitHelper, owner: yossibank, version: 0.4.5, source: https://github.com/yossibank/UIKitHelper
 
+name: 【Flat Icon Design】, nameSpecified: , version: 
+body: http://flat-icon-des…
+
+name: 【ICON FINDER】, nameSpecified: , version: 
+body: https://www.iconfind…
+
+name: 【Iconduck】, nameSpecified: , version: 
+body: https://iconduck.com…
+
 add-version-numbers: false
 
 LicensePlist Version: 3.23.4
