@@ -4,6 +4,8 @@ import Foundation
 final class ProjectUpdateViewModel: ViewModel {
     final class Binding: BindingObject {
         @Published var title: String?
+        @Published var startDate: Date?
+        @Published var endDate: Date?
         @Published var content: String?
     }
 
@@ -59,6 +61,18 @@ final class ProjectUpdateViewModel: ViewModel {
             .dropFirst()
             .sink { updatedObject.title = $0 }
 
+        // MARK: - 案件開始日
+
+        let startDate = binding.$startDate
+            .dropFirst()
+            .sink { updatedObject.startDate = $0 }
+
+        // MARK: - 案件終了日
+
+        let endDate = binding.$endDate
+            .dropFirst()
+            .sink { updatedObject.endDate = $0 }
+
         // MARK: - 案件内容
 
         let content = binding.$content
@@ -84,6 +98,8 @@ final class ProjectUpdateViewModel: ViewModel {
 
         cancellables.formUnion([
             title,
+            startDate,
+            endDate,
             content
         ])
     }

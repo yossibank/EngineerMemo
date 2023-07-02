@@ -6,6 +6,8 @@ import UIKitHelper
 
 final class ProjectUpdateContentView: UIView {
     private(set) lazy var didChangeTitleInputPublisher = titleInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeStartDateInputPublisher = periodInputView.didChangeStartDatePublisher
+    private(set) lazy var didChangeEndDateInputPublisher = periodInputView.didChangeEndDatePublisher
     private(set) lazy var didChangeContentInputPublisher = contentInputView.didChangeInputTextPublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
@@ -32,6 +34,10 @@ final class ProjectUpdateContentView: UIView {
             $0.updateValue(project?.title)
         }
 
+        periodInputView.configure {
+            $0.updateValue(project)
+        }
+
         contentInputView.configure {
             $0.inputValue(.init(
                 title: L10n.Profile.Project.content,
@@ -44,6 +50,7 @@ final class ProjectUpdateContentView: UIView {
     }
 
     private let titleInputView = UpdateTextInputView()
+    private let periodInputView = ProjectUpdatePeriodInputView()
     private let contentInputView = UpdateTextMultiInputView()
 
     private var project: ProjectModelObject? {

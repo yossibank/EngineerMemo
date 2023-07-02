@@ -62,6 +62,62 @@ final class ProjectUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
+    func test_binding_startDate_設定ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
+
+        viewModel.binding.startDate = Calendar.date(year: 2020, month: 1, day: 1)
+
+        model.createProjectHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.projects.first?.startDate,
+                Calendar.date(year: 2020, month: 1, day: 1)
+            )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+    }
+
+    func test_binding_endDate_設定ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
+
+        viewModel.binding.endDate = Calendar.date(year: 2021, month: 1, day: 1)
+
+        model.createProjectHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.projects.first?.endDate,
+                Calendar.date(year: 2021, month: 1, day: 1)
+            )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+    }
+
     func test_binding_content_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(
