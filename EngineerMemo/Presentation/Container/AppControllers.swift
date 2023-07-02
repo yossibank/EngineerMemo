@@ -199,19 +199,35 @@ enum AppControllers {
         }
     }
 
-    static func Setting() -> SettingViewController {
-        let vc = SettingViewController()
+    enum Setting {
+        static func List() -> SettingViewController {
+            let vc = SettingViewController()
 
-        vc.title = L10n.Navigation.Title.setting
-        vc.inject(
-            contentView: .init(),
-            viewModel: .init(
-                model: Models.Setting(),
-                analytics: FirebaseAnalytics(screenId: .setting)
+            vc.title = L10n.Navigation.Title.setting
+            vc.inject(
+                contentView: .init(),
+                viewModel: .init(
+                    model: Models.Setting(),
+                    analytics: FirebaseAnalytics(screenId: .setting)
+                )
             )
-        )
 
-        return vc
+            return vc
+        }
+
+        static func Licence() -> LicenceViewController {
+            let vc = LicenceViewController()
+
+            vc.title = "ライセンス"
+            vc.inject(
+                contentView: .init(),
+                viewModel: .init(
+                    analytics: FirebaseAnalytics(screenId: .licence)
+                )
+            )
+
+            return vc
+        }
     }
 }
 

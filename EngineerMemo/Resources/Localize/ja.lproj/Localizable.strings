@@ -41,6 +41,7 @@
 "navigation.title.projectSetting" = "案件設定";
 "navigation.title.projectUpdate" = "案件更新";
 "navigation.title.setting" = "設定";
+"navigation.title.licence" = "ライセンス";
 "navigation.title.debugDevelopment" = "開発者用画面";
 "navigation.title.debugAPIResponse" = "APIレスポンス確認";
 "navigation.title.debugCoreDataList" = "CoreData一覧・削除";

@@ -41,7 +41,7 @@ enum TabItem: Int, CaseIterable {
         switch self {
         case .profile: return AppControllers.Profile.List()
         case .memo: return AppControllers.Memo.List()
-        case .setting: return AppControllers.Setting()
+        case .setting: return AppControllers.Setting.List()
         }
     }
 }
