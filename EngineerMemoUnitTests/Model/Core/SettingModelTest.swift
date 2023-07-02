@@ -59,4 +59,18 @@ final class SettingModelTest: XCTestCase {
             .dark
         )
     }
+
+    func test_updateColorTheme_例外_DataHolderのcolorThemeがsystemに変更されること() {
+        // arrange
+        let input = 99
+
+        // act
+        model.updateColorTheme(input)
+
+        // assert
+        XCTAssertEqual(
+            DataHolder.colorTheme,
+            .system
+        )
+    }
 }
