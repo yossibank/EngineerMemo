@@ -31,6 +31,7 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 .projects([
                     ProjectModelObjectBuilder()
                         .title("テストプロジェクトタイトル1")
+                        .role("プログラマー1")
                         .content("テストプロジェクト内容1")
                         .startDate(Calendar.date(year: 2020, month: 4, day: 1))
                         .endDate(Calendar.date(year: 2021, month: 6, day: 1))
@@ -47,6 +48,7 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 .projects([
                     ProjectModelObjectBuilder()
                         .title("テストプロジェクトタイトル2")
+                        .role("プログラマー2")
                         .content("テストプロジェクト内容2")
                         .startDate(nil)
                         .endDate(Calendar.date(year: 2021, month: 6, day: 1))
@@ -63,6 +65,7 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                 .projects([
                     ProjectModelObjectBuilder()
                         .title("テストプロジェクトタイトル3")
+                        .role("プログラマー3")
                         .content("テストプロジェクト内容3")
                         .startDate(Calendar.date(year: 2020, month: 4, day: 1))
                         .endDate(nil)
@@ -87,6 +90,7 @@ private extension ProjectDetailViewControllerSnapshotTest {
             let projects = modelObject.projects.map { object -> Project in
                 let project = Project(context: context)
                 project.title = object.title
+                project.role = object.role
                 project.content = object.content
                 project.startDate = object.startDate
                 project.endDate = object.endDate
