@@ -29,7 +29,7 @@ extension SettingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.input.viewDidLoad.send(())
+        bindToViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -39,10 +39,15 @@ extension SettingViewController {
     }
 }
 
-// MARK: - internal methods
-
-extension SettingViewController {}
-
 // MARK: - private methods
 
-private extension SettingViewController {}
+private extension SettingViewController {
+    func bindToViewModel() {
+        contentView.didChangeColorThemeIndexPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.input.didChangeColorThemeIndex.send($0)
+            }
+            .store(in: &cancellables)
+    }
+}

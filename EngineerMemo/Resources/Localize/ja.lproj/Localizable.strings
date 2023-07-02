@@ -139,6 +139,9 @@
 
 "setting.application" = "アプリケーション";
 "setting.colorTheme" = "カラーテーマ";
+"setting.colorTheme.system" = "システム設定に従う";
+"setting.colorTheme.light" = "ライトモード";
+"setting.colorTheme.dark" = "ダークモード";
 "setting.applicationVersion" = "アプリバージョン";
 "setting.licence" = "ライセンスについて";
 

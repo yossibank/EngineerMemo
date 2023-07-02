@@ -23,7 +23,7 @@
     final class DebugColorThemeCell: UITableViewCell {
         typealias Segment = DebugColorThemeSegment
 
-        var cancellables: Set<AnyCancellable> = .init()
+        var cancellables = Set<AnyCancellable>()
 
         private(set) lazy var segmentIndexPublisher = segmentControl.selectedIndexPublisher
 

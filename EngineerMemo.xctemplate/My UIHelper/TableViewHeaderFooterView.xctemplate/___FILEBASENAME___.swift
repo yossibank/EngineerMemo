@@ -5,7 +5,7 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ___FILEBASENAME___: UITableViewHeaderFooterView {
-    var cancellables: Set<AnyCancellable> = .init()
+    var cancellables = Set<AnyCancellable>()
 
     private var body: UIView {
         VStackView(alignment: .center) {

@@ -32,6 +32,8 @@ final class SettingContentView: UIView {
     typealias Section = SettingContentViewSection
     typealias Item = SettingContentViewItem
 
+    private(set) lazy var didChangeColorThemeIndexPublisher = didChangeColorThemeIndexSubject.eraseToAnyPublisher()
+
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout
@@ -45,11 +47,27 @@ final class SettingContentView: UIView {
             return .init()
         }
 
-        return collectionView.dequeueConfiguredReusableCell(
-            using: applicationCellRegistration,
-            for: indexPath,
-            item: item
-        )
+        switch item {
+        case .application:
+            return collectionView.dequeueConfiguredReusableCell(
+                using: applicationCellRegistration,
+                for: indexPath,
+                item: item
+            )
+
+        case .colorTheme:
+            let cell = collectionView.dequeueReusableCell(
+                withType: SettingColorThemeCell.self,
+                for: indexPath
+            )
+
+            cell.segmentIndexPublisher.sink { [weak self] in
+                self?.didChangeColorThemeIndexSubject.send($0)
+            }
+            .store(in: &cell.cancellables)
+
+            return cell
+        }
     }
 
     private var collectionViewLayout: UICollectionViewLayout {
@@ -89,7 +107,7 @@ final class SettingContentView: UIView {
     }
 
     private let applicationCellRegistration = UICollectionView.CellRegistration<
-        TitleContentCell,
+        SettingTitleContentCell,
         Item
     > { cell, _, item in
         if case let .application(item) = item {
@@ -109,6 +127,8 @@ final class SettingContentView: UIView {
     private let headerRegistration = UICollectionView.SupplementaryRegistration<
         TitleHeaderView
     > { _, _, _ in }
+
+    private let didChangeColorThemeIndexSubject = PassthroughSubject<Int, Never>()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -130,7 +150,12 @@ final class SettingContentView: UIView {
 private extension SettingContentView {
     func setupCollectionView() {
         collectionView.configure {
-            $0.registerCell(with: TitleContentCell.self)
+            $0.registerCells(
+                with: [
+                    SettingTitleContentCell.self,
+                    SettingColorThemeCell.self
+                ]
+            )
             $0.backgroundColor = .background
         }
     }

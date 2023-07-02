@@ -4,7 +4,7 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class TitleContentCell: UICollectionViewCell {
+final class SettingTitleContentCell: UICollectionViewCell {
     private lazy var baseView = UIView()
         .addSubview(body) {
             $0.edges.equalToSuperview().inset(8)
@@ -47,7 +47,7 @@ final class TitleContentCell: UICollectionViewCell {
 
 // MARK: - override methods
 
-extension TitleContentCell {
+extension SettingTitleContentCell {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
@@ -59,7 +59,7 @@ extension TitleContentCell {
 
 // MARK: - internal methods
 
-extension TitleContentCell {
+extension SettingTitleContentCell {
     func setTitle(_ title: String) {
         titleLabel.text = title
     }
@@ -75,7 +75,7 @@ extension TitleContentCell {
 
 // MARK: - private methods
 
-private extension TitleContentCell {
+private extension SettingTitleContentCell {
     func setupView() {
         contentView.configure {
             $0.addSubview(baseView) {
@@ -94,7 +94,7 @@ private extension TitleContentCell {
 
     struct TitleContentCellPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: TitleContentCell())
+            WrapperView(view: SettingTitleContentCell())
         }
     }
 #endif

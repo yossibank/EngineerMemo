@@ -12,4 +12,8 @@ enum Models {
             errorConverter: AppErrorConverter()
         )
     }
+
+    static func Setting() -> SettingModel {
+        .init()
+    }
 }
