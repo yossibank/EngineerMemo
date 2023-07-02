@@ -7,6 +7,7 @@ final class Skill: NSManagedObject {
     @NSManaged var language: String?
     @NSManaged var languageCareer: NSNumber?
     @NSManaged var toeic: NSNumber?
+    @NSManaged var pr: String?
     @NSManaged var profile: Profile?
 }
 

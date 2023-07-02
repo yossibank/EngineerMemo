@@ -43,4 +43,28 @@ final class DateExtensionTest: XCTestCase {
             "22"
         )
     }
+
+    func test_periodString_起点日時からの経過月を取得できること() {
+        // arrange
+        let start = Calendar.date(
+            year: 2019,
+            month: 12,
+            day: 4
+        )!
+
+        let end = Calendar.date(
+            year: 2021,
+            month: 5,
+            day: 2
+        )!
+
+        // act
+        let period = start.periodString(end: end)
+
+        // assert
+        XCTAssertEqual(
+            period,
+            "16ヶ月"
+        )
+    }
 }

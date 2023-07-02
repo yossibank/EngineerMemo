@@ -3,22 +3,16 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ProjectUpdateTextsInputView: UIView {
+final class UpdateTextMultiInputView: UIView {
     private(set) lazy var didChangeInputTextPublisher = inputTextView.textDidChangePublisher
 
     private var body: UIView {
-        VStackView(spacing: 12) {
-            titleView.configure {
-                $0.configure(
-                    title: L10n.Profile.Project.content,
-                    icon: Asset.projectContent.image
-                )
-            }
+        VStackView(spacing: 8) {
+            titleView
 
             VStackView(spacing: 4) {
                 inputTextView
                     .addSubview(placeholderLabel.configure {
-                        $0.text = L10n.Profile.Placeholder.Project.content
                         $0.textColor = .placeholderText
                         $0.font = .systemFont(ofSize: 17)
                         $0.backgroundColor = .background
@@ -57,20 +51,31 @@ final class ProjectUpdateTextsInputView: UIView {
 
 // MARK: - internal methods
 
-extension ProjectUpdateTextsInputView {
-    func updateValue(modelObject: ProjectModelObject?) {
-        guard let modelObject else {
-            return
+extension UpdateTextMultiInputView {
+    func inputValue(_ input: UpdateTextInput) {
+        titleView.inputValue(
+            title: input.title,
+            icon: input.icon
+        )
+
+        placeholderLabel.configure {
+            $0.text = input.placeholder
         }
 
-        inputTextView.text = modelObject.content
-        placeholderLabel.isHidden = !modelObject.content.isEmpty
+        inputTextView.configure {
+            $0.keyboardType = input.keyboardType
+        }
+    }
+
+    func updateValue(_ text: String?) {
+        inputTextView.text = text
+        placeholderLabel.isHidden = !text.isEmpty
     }
 }
 
 // MARK: - private methods
 
-private extension ProjectUpdateTextsInputView {
+private extension UpdateTextMultiInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -85,7 +90,7 @@ private extension ProjectUpdateTextsInputView {
 
 // MARK: - delegate
 
-extension ProjectUpdateTextsInputView: UITextViewDelegate {
+extension UpdateTextMultiInputView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         borderView.changeColor(.inputBorder)
     }
@@ -104,9 +109,9 @@ extension ProjectUpdateTextsInputView: UITextViewDelegate {
 #if DEBUG
     import SwiftUI
 
-    struct ProjectUpdateTextsInputViewPreview: PreviewProvider {
+    struct UpdateTextMultiInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ProjectUpdateTextsInputView())
+            WrapperView(view: UpdateTextMultiInputView())
         }
     }
 #endif

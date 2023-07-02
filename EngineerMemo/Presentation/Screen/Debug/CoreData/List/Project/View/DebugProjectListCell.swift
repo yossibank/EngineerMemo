@@ -30,47 +30,34 @@
                 }
 
                 VStackView(alignment: .leading, spacing: 16) {
-                    VStackView(alignment: .leading, spacing: 8) {
-                        UILabel().configure {
-                            $0.text = L10n.Profile.name
-                            $0.textColor = .secondaryGray
-                            $0.font = .systemFont(ofSize: 14)
-                        }
-
-                        nameLabel.configure {
-                            $0.textColor = .primary
-                            $0.font = .boldSystemFont(ofSize: 16)
-                        }
+                    nameView.configure {
+                        $0.setTitle(title: L10n.Profile.name)
                     }
 
-                    VStackView(alignment: .leading, spacing: 8) {
-                        UILabel().configure {
-                            $0.text = L10n.Profile.Project.count
-                            $0.textColor = .secondaryGray
-                            $0.font = .systemFont(ofSize: 14)
-                        }
-
-                        countLabel.configure {
-                            $0.textColor = .primary
-                            $0.font = .boldSystemFont(ofSize: 16)
-                        }
+                    projectCountView.configure {
+                        $0.setTitle(title: L10n.Project.count)
                     }
 
-                    createStackView(.title)
-                    createStackView(.content)
+                    titleView.configure {
+                        $0.setTitle(title: L10n.Project.title)
+                    }
+
+                    contentsView.configure {
+                        $0.setTitle(title: L10n.Project.content)
+                    }
                 }
             }
         }
-
-        private let nameLabel = UILabel()
-        private let countLabel = UILabel()
-        private let titleLabel = UILabel()
-        private let contentLabel = UILabel()
 
         private let iconImageView = UIImageView().configure {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 30
         }
+
+        private let nameView = TitleContentView()
+        private let projectCountView = TitleContentView()
+        private let titleView = TitleContentView()
+        private let contentsView = TitleContentView()
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -93,12 +80,12 @@
 
     extension DebugProjectListCell {
         func configure(_ modelObject: ProfileModelObject) {
-            nameLabel.text = modelObject.name
-            countLabel.text = L10n.Profile.Project.number(modelObject.projects.count)
+            nameView.updateValue(modelObject.name)
+            projectCountView.updateValue(L10n.Project.number(modelObject.projects.count))
 
             if let project = modelObject.projects.first {
-                titleLabel.text = project.title ?? .noSetting
-                contentLabel.text = project.content ?? .noSetting
+                titleView.updateValue(project.title ?? .noSetting)
+                contentsView.updateValue(project.content ?? .noSetting)
             }
 
             if let data = modelObject.iconImage,
@@ -121,31 +108,6 @@
                 }
 
                 $0.backgroundColor = .background
-            }
-        }
-
-        func createStackView(_ type: ProjectContentType) -> UIStackView {
-            let valueLabel: UILabel
-
-            switch type {
-            case .title:
-                valueLabel = titleLabel
-
-            case .content:
-                valueLabel = contentLabel
-            }
-
-            return VStackView(alignment: .leading, spacing: 8) {
-                UILabel().configure {
-                    $0.text = type.title
-                    $0.textColor = .secondaryGray
-                    $0.font = .systemFont(ofSize: 14)
-                }
-
-                valueLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 16)
-                }
             }
         }
     }

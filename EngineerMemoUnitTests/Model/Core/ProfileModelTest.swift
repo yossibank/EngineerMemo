@@ -278,6 +278,7 @@ final class ProfileModelTest: XCTestCase {
                         .language("Swift")
                         .languageCareer(2)
                         .toeic(600)
+                        .pr("PR事項")
                         .build()
                 )
                 .build()
@@ -314,6 +315,11 @@ final class ProfileModelTest: XCTestCase {
                     600
                 )
 
+                XCTAssertEqual(
+                    profile.skill?.pr,
+                    "PR事項"
+                )
+
                 expectation.fulfill()
             }
         }
@@ -327,6 +333,7 @@ final class ProfileModelTest: XCTestCase {
                 .language("Kotlin")
                 .languageCareer(8)
                 .toeic(400)
+                .pr("PR事項1")
                 .build()
         )
 
@@ -341,6 +348,7 @@ final class ProfileModelTest: XCTestCase {
                         .languageCareer(2)
                         .identifier("identifier")
                         .toeic(600)
+                        .pr("PR事項2")
                         .build()
                 )
                 .build()
@@ -375,6 +383,11 @@ final class ProfileModelTest: XCTestCase {
                     600
                 )
 
+                XCTAssertEqual(
+                    profile.skill?.pr,
+                    "PR事項2"
+                )
+
                 expectation.fulfill()
             }
         }
@@ -387,6 +400,7 @@ final class ProfileModelTest: XCTestCase {
                 .engineerCareer(5)
                 .language("Swift")
                 .languageCareer(2)
+                .pr("PR事項")
                 .build()
         )
 
@@ -426,7 +440,10 @@ final class ProfileModelTest: XCTestCase {
                     ProjectModelObjectBuilder()
                         .identifier("identifier")
                         .title("title")
+                        .role("プログラマー")
                         .content("content")
+                        .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                        .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                         .build()
                 ])
                 .build()
@@ -448,8 +465,23 @@ final class ProfileModelTest: XCTestCase {
                 )
 
                 XCTAssertEqual(
+                    project.role,
+                    "プログラマー"
+                )
+
+                XCTAssertEqual(
                     project.content,
                     "content"
+                )
+
+                XCTAssertEqual(
+                    project.startDate,
+                    Calendar.date(year: 2020, month: 1, day: 1)
+                )
+
+                XCTAssertEqual(
+                    project.endDate,
+                    Calendar.date(year: 2021, month: 12, day: 1)
                 )
 
                 expectation.fulfill()
@@ -464,7 +496,10 @@ final class ProfileModelTest: XCTestCase {
                 ProjectDataObjectBuilder()
                     .content("content")
                     .identifier("identifier")
+                    .role("プログラマー")
                     .title("title")
+                    .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                    .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                     .build()
             ]
         )
@@ -477,7 +512,10 @@ final class ProfileModelTest: XCTestCase {
                     ProjectModelObjectBuilder()
                         .identifier("identifier")
                         .title("update title")
+                        .role("PG")
                         .content("update content")
+                        .startDate(Calendar.date(year: 2019, month: 1, day: 1))
+                        .endDate(Calendar.date(year: 2022, month: 1, day: 1))
                         .build()
                 ])
                 .build(),
@@ -502,8 +540,23 @@ final class ProfileModelTest: XCTestCase {
                 )
 
                 XCTAssertEqual(
+                    project.role,
+                    "PG"
+                )
+
+                XCTAssertEqual(
                     project.content,
                     "update content"
+                )
+
+                XCTAssertEqual(
+                    project.startDate,
+                    Calendar.date(year: 2019, month: 1, day: 1)
+                )
+
+                XCTAssertEqual(
+                    project.endDate,
+                    Calendar.date(year: 2022, month: 1, day: 1)
                 )
 
                 expectation.fulfill()

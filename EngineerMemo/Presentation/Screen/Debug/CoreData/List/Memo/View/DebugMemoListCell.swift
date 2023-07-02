@@ -12,7 +12,7 @@
                 $0.top.equalToSuperview().inset(16)
                 $0.trailing.equalToSuperview().inset(8)
             }
-            .addSubview(stackView) {
+            .addSubview(body) {
                 $0.edges.equalToSuperview().inset(16)
             }
             .configure {
@@ -21,11 +21,19 @@
                 $0.layer.cornerRadius = 8
             }
 
-        private var stackView: UIView {
+        private var body: UIView {
             VStackView(spacing: 16) {
-                createStackView(.category)
-                createStackView(.title)
-                createStackView(.content)
+                categoryView.configure {
+                    $0.setTitle(title: L10n.Memo.category)
+                }
+
+                titleView.configure {
+                    $0.setTitle(title: L10n.Memo.title)
+                }
+
+                contentsView.configure {
+                    $0.setTitle(title: L10n.Memo.content)
+                }
             }
         }
 
@@ -34,9 +42,9 @@
             $0.font = .boldSystemFont(ofSize: 12)
         }
 
-        private let categoryLabel = UILabel()
-        private let titleLabel = UILabel()
-        private let contentLabel = UILabel()
+        private let categoryView = TitleContentView()
+        private let titleView = TitleContentView()
+        private let contentsView = TitleContentView()
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -60,9 +68,9 @@
     extension DebugMemoListCell {
         func configure(_ modelObject: MemoModelObject) {
             createdLabel.text = modelObject.createdAt.toString
-            categoryLabel.text = modelObject.category?.value ?? .noSetting
-            titleLabel.text = modelObject.title
-            contentLabel.text = modelObject.content
+            categoryView.updateValue(modelObject.category?.value ?? .noSetting)
+            titleView.updateValue(modelObject.title)
+            contentsView.updateValue(modelObject.content)
         }
     }
 
@@ -77,40 +85,6 @@
                 }
 
                 $0.backgroundColor = .background
-            }
-        }
-
-        func createStackView(_ type: MemoContentType) -> UIStackView {
-            let valueLabel: UILabel
-
-            switch type {
-            case .category:
-                valueLabel = categoryLabel
-
-            case .title:
-                valueLabel = titleLabel
-                valueLabel.configure {
-                    $0.numberOfLines = 0
-                }
-
-            case .content:
-                valueLabel = contentLabel
-                valueLabel.configure {
-                    $0.numberOfLines = 0
-                }
-            }
-
-            return VStackView(alignment: .leading, spacing: 8) {
-                UILabel().configure {
-                    $0.text = type.title
-                    $0.textColor = .secondaryGray
-                    $0.font = .systemFont(ofSize: 14)
-                }
-
-                valueLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 16)
-                }
             }
         }
     }

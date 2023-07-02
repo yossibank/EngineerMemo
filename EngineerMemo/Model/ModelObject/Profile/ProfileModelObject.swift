@@ -73,6 +73,7 @@ extension ProfileModelObject {
 
         skillObject.engineerCareer = .init(value: skill?.engineerCareer ?? .invalid)
         skillObject.language = skill?.language
+        skillObject.pr = skill?.pr
 
         if let languageCareer = skill?.languageCareer {
             skillObject.languageCareer = .init(value: languageCareer)
@@ -103,7 +104,10 @@ extension ProfileModelObject {
             let project = Project(context: context)
             project.identifier = UUID().uuidString
             project.title = object.title
+            project.role = object.role
             project.content = object.content
+            project.startDate = object.startDate
+            project.endDate = object.endDate
             return project
         }
 
@@ -129,7 +133,10 @@ extension ProfileModelObject {
 
         let updatedProject = targetProject.configure {
             $0.title = project.title
+            $0.role = project.role
             $0.content = project.content
+            $0.startDate = project.startDate
+            $0.endDate = project.endDate
         }
 
         projectObjects.replace(

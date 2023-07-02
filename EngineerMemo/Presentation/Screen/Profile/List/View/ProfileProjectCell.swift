@@ -14,32 +14,17 @@ final class ProfileProjectCell: UITableViewCell {
         }
         .apply(.borderView)
 
-    private lazy var projectView = VStackView(
-        alignment: .leading,
-        spacing: 16
-    ) {
-        VStackView(spacing: 8) {
-            UILabel().configure {
-                $0.text = L10n.Profile.Project.title
-                $0.textColor = .secondaryGray
-                $0.font = .systemFont(ofSize: 14)
-            }
-
-            titleLabel.configure {
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
+    private lazy var projectView = VStackView(alignment: .leading, spacing: 16) {
+        titleView.configure {
+            $0.setTitle(title: L10n.Project.title)
         }
 
-        VStackView(spacing: 8) {
-            UILabel().configure {
-                $0.text = L10n.Profile.Project.content
-                $0.textColor = .secondaryGray
-                $0.font = .systemFont(ofSize: 14)
-            }
+        periodView.configure {
+            $0.setTitle(title: L10n.Project.period)
+        }
 
-            contentLabel.configure {
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
+        contentsView.configure {
+            $0.setTitle(title: L10n.Project.content)
         }
     }
 
@@ -49,8 +34,9 @@ final class ProfileProjectCell: UITableViewCell {
             .withRenderingMode(.alwaysOriginal)
     }
 
-    private let titleLabel = UILabel()
-    private let contentLabel = UILabel()
+    private let titleView = TitleContentView()
+    private let periodView = TitleSubContentView()
+    private let contentsView = TitleContentView()
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -85,8 +71,13 @@ extension ProfileProjectCell {
 
 extension ProfileProjectCell {
     func configure(_ modelObject: ProjectModelObject) {
-        titleLabel.text = modelObject.title ?? .noSetting
-        contentLabel.text = modelObject.content ?? .noSetting
+        titleView.updateValue(modelObject.title ?? .noSetting)
+        contentsView.updateValue(modelObject.content ?? .noSetting)
+
+        setPeriod(
+            startDate: modelObject.startDate,
+            endDate: modelObject.endDate
+        )
     }
 }
 
@@ -105,6 +96,26 @@ private extension ProfileProjectCell {
 
         selectionStyle = .none
         backgroundColor = .background
+    }
+
+    func setPeriod(
+        startDate: Date?,
+        endDate: Date?
+    ) {
+        if let startDate,
+           let endDate {
+            periodView.updateValue(L10n.Project.during(startDate.toString, endDate.toString))
+            periodView.setSubTitle(startDate.periodString(end: endDate))
+        } else if let startDate {
+            periodView.updateValue(L10n.Project.startDate(startDate.toString))
+            periodView.setSubTitle(nil)
+        } else if let endDate {
+            periodView.updateValue(L10n.Project.endDate(endDate.toString))
+            periodView.setSubTitle(nil)
+        } else {
+            periodView.updateValue(.noSetting)
+            periodView.setSubTitle(nil)
+        }
     }
 }
 

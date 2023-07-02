@@ -5,14 +5,9 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class MemoUpdateContentView: UIView {
-    @Published private(set) var selectedCategoryType: MemoInputCategoryType? {
-        didSet {
-            setupCategory()
-        }
-    }
-
-    private(set) lazy var didChangeTitleTextPublisher = titleTextView.textDidChangePublisher
-    private(set) lazy var didChangeContentTextPublisher = contentTextView.textDidChangePublisher
+    private(set) lazy var didChangeCategoryPublisher = categoryInputView.$selectedCategoryType
+    private(set) lazy var didChangeTitleTextPublisher = titleInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeContentTextPublisher = contentInputView.didChangeInputTextPublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
     private(set) lazy var barButton = UIButton(type: .system).addConstraint {
@@ -24,60 +19,35 @@ final class MemoUpdateContentView: UIView {
         $0.width.edges.equalToSuperview()
     }
 
-    private lazy var body = VStackView(spacing: 24) {
-        VStackView(spacing: 12) {
-            categoryView
-
-            VStackView(spacing: 4) {
-                categoryButton
-                categoryBorderView
-            }
-            .addConstraint {
-                $0.height.equalTo(40)
-            }
+    private lazy var body = VStackView(spacing: 16) {
+        categoryInputView.configure {
+            $0.updateValue(modelObject)
         }
 
-        VStackView(spacing: 8) {
-            titleView
+        titleInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Memo.title,
+                icon: Asset.memoTitle.image,
+                placeholder: L10n.Memo.Example.title
+            ))
 
-            VStackView {
-                titleTextView.configure {
-                    $0.font = .boldSystemFont(ofSize: 16)
-                    $0.backgroundColor = .background
-                    $0.isScrollEnabled = false
-                    $0.delegate = self
-                }
-
-                titleBorderView
-            }
+            $0.updateValue(modelObject?.title)
         }
 
-        VStackView(spacing: 8) {
-            contentView
+        contentInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Memo.content,
+                icon: Asset.memoContent.image,
+                placeholder: L10n.Memo.Example.content
+            ))
 
-            VStackView {
-                contentTextView.configure {
-                    $0.font = .boldSystemFont(ofSize: 16)
-                    $0.backgroundColor = .background
-                    $0.isScrollEnabled = false
-                    $0.delegate = self
-                }
-
-                contentBorderView
-            }
+            $0.updateValue(modelObject?.content)
         }
     }
 
-    private lazy var categoryView = createTitleView(.category)
-    private lazy var titleView = createTitleView(.title)
-    private lazy var contentView = createTitleView(.content)
-
-    private let categoryButton = MenuButton(type: .system)
-    private let categoryBorderView = BorderView()
-    private let titleTextView = UITextView()
-    private let titleBorderView = BorderView()
-    private let contentTextView = UITextView()
-    private let contentBorderView = BorderView()
+    private let categoryInputView = UpdateMenuInputView(.category)
+    private let titleInputView = UpdateTextMultiInputView()
+    private let contentInputView = UpdateTextMultiInputView()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -90,8 +60,6 @@ final class MemoUpdateContentView: UIView {
 
         setupView()
         setupEvent()
-        setupValue()
-        setupMenu()
         setupBarButton()
     }
 
@@ -108,9 +76,7 @@ extension MemoUpdateContentView {
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             super.traitCollectionDidChange(previousTraitCollection)
 
-            [barButton, categoryView, titleView, contentView].forEach {
-                $0.layer.borderColor = UIColor.primary.cgColor
-            }
+            barButton.layer.borderColor = UIColor.primary.cgColor
         }
     }
 }
@@ -127,119 +93,11 @@ extension MemoUpdateContentView {
 // MARK: - private methods
 
 private extension MemoUpdateContentView {
-    func createTitleView(_ type: MemoContentType) -> UIView {
-        let titleStackView = HStackView(spacing: 4) {
-            UIImageView()
-                .addConstraint {
-                    $0.size.equalTo(24)
-                }
-                .configure {
-                    $0.image = type.image
-                }
-
-            UILabel().configure {
-                $0.text = type.title
-                $0.textColor = .secondaryGray
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
-
-            UIView()
-        }
-
-        return UIView()
-            .addSubview(titleStackView) {
-                $0.edges.equalToSuperview().inset(8)
-            }
-            .addConstraint {
-                $0.height.equalTo(40)
-            }
-            .apply(.inputView)
-    }
-
-    func setupCategory() {
-        var actions = [UIMenuElement]()
-
-        MemoInputCategoryType.allCases.forEach { categoryType in
-            actions.append(
-                UIAction(
-                    title: categoryType.title,
-                    image: categoryType.image,
-                    state: categoryType == selectedCategoryType ? .on : .off,
-                    handler: { [weak self] _ in
-                        self?.selectedCategoryType = categoryType
-                    }
-                )
-            )
-        }
-
-        categoryButton.configure {
-            var config = UIButton.Configuration.filled()
-            config.title = selectedCategoryType?.title
-            config.image = selectedCategoryType?.image?
-                .resized(size: .init(width: 24, height: 24))
-                .withRenderingMode(.alwaysOriginal)
-            config.baseForegroundColor = .primary
-            config.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 0)
-            config.imagePadding = 8
-            config.titleTextAttributesTransformer = .init { incoming in
-                var outgoing = incoming
-                outgoing.font = .boldSystemFont(ofSize: 16)
-                return outgoing
-            }
-            config.background.backgroundColor = .background
-            $0.configuration = config
-            $0.contentHorizontalAlignment = .leading
-            $0.showsMenuAsPrimaryAction = true
-            $0.menu = .init(
-                title: .empty,
-                options: .displayInline,
-                children: actions
-            )
-        }
-
-        categoryButton.$isShowMenu.sink { [weak self] in
-            self?.categoryBorderView.changeColor($0 ? .inputBorder : .primary)
-        }
-        .store(in: &cancellables)
-    }
-
     func setupEvent() {
         gesturePublisher().sink { [weak self] _ in
             self?.endEditing(true)
         }
         .store(in: &cancellables)
-    }
-
-    func setupValue() {
-        titleTextView.text = modelObject?.title
-        contentTextView.text = modelObject?.content
-    }
-
-    func setupMenu() {
-        guard let category = modelObject?.category else {
-            selectedCategoryType = .noSetting
-            return
-        }
-
-        switch category {
-        case .todo:
-            selectedCategoryType = .todo
-
-        case .technical:
-            selectedCategoryType = .technical
-
-        case .interview:
-            selectedCategoryType = .interview
-
-        case .event:
-            selectedCategoryType = .event
-
-        case .tax:
-            selectedCategoryType = .tax
-
-        case .other:
-            selectedCategoryType = .other
-        }
     }
 
     func setupBarButton() {
@@ -267,30 +125,6 @@ private extension MemoUpdateContentView {
     }
 }
 
-// MARK: - delegate
-
-extension MemoUpdateContentView: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView === titleTextView {
-            titleBorderView.changeColor(.inputBorder)
-        }
-
-        if textView === contentTextView {
-            contentBorderView.changeColor(.inputBorder)
-        }
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView === titleTextView {
-            titleBorderView.changeColor(.primary)
-        }
-
-        if textView === contentTextView {
-            contentBorderView.changeColor(.primary)
-        }
-    }
-}
-
 // MARK: - protocol
 
 extension MemoUpdateContentView: ContentView {
@@ -299,7 +133,7 @@ extension MemoUpdateContentView: ContentView {
             $0.addSubview(scrollView) {
                 $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(16)
                 $0.bottom.equalToSuperview().priority(.low)
-                $0.horizontalEdges.equalToSuperview().inset(16)
+                $0.horizontalEdges.equalToSuperview()
             }
 
             $0.keyboardLayoutGuide.snp.makeConstraints {

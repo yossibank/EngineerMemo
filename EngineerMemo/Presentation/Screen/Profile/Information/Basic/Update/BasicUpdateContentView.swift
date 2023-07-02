@@ -27,22 +27,74 @@ final class BasicUpdateContentView: UIView {
         distribution: .equalSpacing,
         spacing: 16
     ) {
-        nameInputView
-        birthdayInputView
-        genderInputView
-        emailInputView
-        phoneNumberInputView
-        addressInputView
-        stationInputView
+        nameInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Profile.name,
+                icon: Asset.myName.image,
+                placeholder: L10n.Profile.Example.name
+            ))
+
+            $0.updateValue(modelObject?.name?.notNoSettingText)
+        }
+
+        birthdayInputView.configure {
+            $0.updateValue(modelObject: modelObject)
+        }
+
+        genderInputView.configure {
+            $0.updateValue(modelObject)
+        }
+
+        emailInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Profile.email,
+                icon: Asset.email.image,
+                placeholder: L10n.Profile.Example.email,
+                keyboardType: .emailAddress
+            ))
+
+            $0.updateValue(modelObject?.email?.notNoSettingText)
+        }
+
+        phoneNumberInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Profile.phoneNumber,
+                icon: Asset.phoneNumber.image,
+                placeholder: L10n.Profile.Example.phoneNumber,
+                keyboardType: .numberPad
+            ))
+
+            $0.updateValue(modelObject?.phoneNumber?.notNoSettingText)
+        }
+
+        addressInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Profile.address,
+                icon: Asset.address.image,
+                placeholder: L10n.Profile.Example.address
+            ))
+
+            $0.updateValue(modelObject?.address?.notNoSettingText)
+        }
+
+        stationInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Profile.station,
+                icon: Asset.station.image,
+                placeholder: L10n.Profile.Example.station
+            ))
+
+            $0.updateValue(modelObject?.station?.notNoSettingText)
+        }
     }
 
-    private let nameInputView = BasicUpdateTextInputView(.name)
-    private let birthdayInputView = BasicUpdateBirthdayInputView()
-    private let genderInputView = BasicUpdateGenderInputView()
-    private let emailInputView = BasicUpdateTextInputView(.email)
-    private let phoneNumberInputView = BasicUpdateTextInputView(.phoneNumber)
-    private let addressInputView = BasicUpdateTextInputView(.address)
-    private let stationInputView = BasicUpdateTextInputView(.station)
+    private let nameInputView = UpdateTextInputView()
+    private let birthdayInputView = UpdatePickerInputView()
+    private let genderInputView = UpdateMenuInputView(.gender)
+    private let emailInputView = UpdateTextInputView()
+    private let phoneNumberInputView = UpdateTextInputView()
+    private let addressInputView = UpdateTextInputView()
+    private let stationInputView = UpdateTextInputView()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -55,7 +107,6 @@ final class BasicUpdateContentView: UIView {
 
         setupView()
         setupEvent()
-        setupValue()
         setupBarButton()
     }
 
@@ -85,16 +136,6 @@ private extension BasicUpdateContentView {
             self?.endEditing(true)
         }
         .store(in: &cancellables)
-    }
-
-    func setupValue() {
-        nameInputView.updateValue(.name, modelObject: modelObject)
-        birthdayInputView.updateValue(modelObject: modelObject)
-        genderInputView.updateValue(modelObject: modelObject)
-        emailInputView.updateValue(.email, modelObject: modelObject)
-        phoneNumberInputView.updateValue(.phoneNumber, modelObject: modelObject)
-        addressInputView.updateValue(.address, modelObject: modelObject)
-        stationInputView.updateValue(.station, modelObject: modelObject)
     }
 
     func setupBarButton() {

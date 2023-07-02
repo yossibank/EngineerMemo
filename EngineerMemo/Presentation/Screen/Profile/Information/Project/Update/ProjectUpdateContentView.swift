@@ -6,6 +6,9 @@ import UIKitHelper
 
 final class ProjectUpdateContentView: UIView {
     private(set) lazy var didChangeTitleInputPublisher = titleInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeStartDateInputPublisher = periodInputView.didChangeStartDatePublisher
+    private(set) lazy var didChangeEndDateInputPublisher = periodInputView.didChangeEndDatePublisher
+    private(set) lazy var didChangeRoleInputPublisher = roleInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeContentInputPublisher = contentInputView.didChangeInputTextPublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
@@ -22,12 +25,45 @@ final class ProjectUpdateContentView: UIView {
         distribution: .equalSpacing,
         spacing: 16
     ) {
-        titleInputView
-        contentInputView
+        titleInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Project.title,
+                icon: Asset.projectTitle.image,
+                placeholder: L10n.Project.Placeholder.title
+            ))
+
+            $0.updateValue(project?.title)
+        }
+
+        periodInputView.configure {
+            $0.updateValue(project)
+        }
+
+        roleInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Project.role,
+                icon: Asset.projectRole.image,
+                placeholder: L10n.Project.Placeholder.role
+            ))
+
+            $0.updateValue(project?.role)
+        }
+
+        contentInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Project.content,
+                icon: Asset.projectContent.image,
+                placeholder: L10n.Project.Placeholder.content
+            ))
+
+            $0.updateValue(project?.content)
+        }
     }
 
-    private let titleInputView = ProjectUpdateTextInputView()
-    private let contentInputView = ProjectUpdateTextsInputView()
+    private let titleInputView = UpdateTextInputView()
+    private let periodInputView = ProjectUpdatePeriodInputView()
+    private let roleInputView = UpdateTextInputView()
+    private let contentInputView = UpdateTextMultiInputView()
 
     private var project: ProjectModelObject? {
         modelObject.projects
@@ -51,7 +87,6 @@ final class ProjectUpdateContentView: UIView {
 
         setupView()
         setupEvent()
-        setupValue()
         setupButton()
     }
 
@@ -81,11 +116,6 @@ private extension ProjectUpdateContentView {
             self?.endEditing(true)
         }
         .store(in: &cancellables)
-    }
-
-    func setupValue() {
-        titleInputView.updateValue(modelObject: project)
-        contentInputView.updateValue(modelObject: project)
     }
 
     func setupButton() {

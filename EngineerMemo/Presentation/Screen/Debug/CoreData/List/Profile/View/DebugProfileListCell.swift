@@ -24,7 +24,7 @@
         private var body: UIView {
             VStackView(spacing: 16) {
                 VStackView(alignment: .center) {
-                    basicLabel.configure {
+                    UILabel().configure {
                         $0.text = L10n.Profile.basicInformation
                         $0.textColor = .primary
                         $0.font = .boldSystemFont(ofSize: 16)
@@ -32,30 +32,49 @@
                 }
 
                 VStackView(alignment: .leading, spacing: 16) {
-                    createStackView(.name)
-                    createStackView(.age)
-                    createStackView(.gender)
-                    createStackView(.email)
-                    createStackView(.phoneNumber)
-                    createStackView(.address)
-                    createStackView(.station)
+                    nameView.configure {
+                        $0.setTitle(title: L10n.Profile.name)
+                    }
+
+                    ageView.configure {
+                        $0.setTitle(title: L10n.Profile.age)
+                    }
+
+                    genderView.configure {
+                        $0.setTitle(title: L10n.Profile.gender)
+                    }
+
+                    emailView.configure {
+                        $0.setTitle(title: L10n.Profile.email)
+                    }
+
+                    phoneNumberView.configure {
+                        $0.setTitle(title: L10n.Profile.phoneNumber)
+                    }
+
+                    addressView.configure {
+                        $0.setTitle(title: L10n.Profile.address)
+                    }
+
+                    stationView.configure {
+                        $0.setTitle(title: L10n.Profile.station)
+                    }
                 }
             }
         }
-
-        private let basicLabel = UILabel()
-        private let nameLabel = UILabel()
-        private let ageLabel = UILabel()
-        private let genderLabel = UILabel()
-        private let emailLabel = UILabel()
-        private let phoneNumberLabel = UILabel()
-        private let addressLabel = UILabel()
-        private let stationLabel = UILabel()
 
         private let iconImageView = UIImageView().configure {
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 30
         }
+
+        private let nameView = TitleContentView()
+        private let ageView = TitleContentView()
+        private let genderView = TitleContentView()
+        private let emailView = TitleContentView()
+        private let phoneNumberView = TitleContentView()
+        private let addressView = TitleContentView()
+        private let stationView = TitleContentView()
 
         override init(
             style: UITableViewCell.CellStyle,
@@ -78,17 +97,17 @@
 
     extension DebugProfileListCell {
         func configure(_ modelObject: ProfileModelObject) {
-            nameLabel.text = modelObject.name
-            genderLabel.text = modelObject.gender?.value
-            emailLabel.text = modelObject.email
-            phoneNumberLabel.text = modelObject.phoneNumber?.phoneText
-            addressLabel.text = modelObject.address
-            stationLabel.text = modelObject.station
+            nameView.updateValue(modelObject.name)
+            genderView.updateValue(modelObject.gender?.value)
+            emailView.updateValue(modelObject.email)
+            phoneNumberView.updateValue(modelObject.phoneNumber?.phoneText)
+            addressView.updateValue(modelObject.address)
+            stationView.updateValue(modelObject.station)
 
             if let age = modelObject.birthday?.ageString() {
-                ageLabel.text = "\(age)\(L10n.Profile.old)"
+                ageView.updateValue("\(age)\(L10n.Profile.old)")
             } else {
-                ageLabel.text = .noSetting
+                ageView.updateValue(.noSetting)
             }
 
             if let data = modelObject.iconImage,
@@ -111,52 +130,6 @@
                 }
 
                 $0.backgroundColor = .background
-            }
-        }
-
-        func createStackView(_ type: ProfileBasicContentType) -> UIStackView {
-            let valueLabel: UILabel
-
-            switch type {
-            case .name:
-                valueLabel = nameLabel
-
-            case .age:
-                valueLabel = ageLabel
-
-            case .gender:
-                valueLabel = genderLabel
-
-            case .email:
-                valueLabel = emailLabel
-                valueLabel.configure {
-                    $0.numberOfLines = 0
-                }
-
-            case .phoneNumber:
-                valueLabel = phoneNumberLabel
-
-            case .address:
-                valueLabel = addressLabel
-                valueLabel.configure {
-                    $0.numberOfLines = 0
-                }
-
-            case .station:
-                valueLabel = stationLabel
-            }
-
-            return VStackView(alignment: .leading, spacing: 8) {
-                UILabel().configure {
-                    $0.text = type.title
-                    $0.textColor = .secondaryGray
-                    $0.font = .systemFont(ofSize: 14)
-                }
-
-                valueLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 16)
-                }
             }
         }
     }

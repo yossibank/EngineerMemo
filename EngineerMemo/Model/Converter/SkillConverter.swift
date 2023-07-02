@@ -15,6 +15,7 @@ struct SkillConverter: SkillConverterInput {
             language: skill.language,
             languageCareer: skill.languageCareer?.intValue,
             toeic: skill.toeic?.intValue,
+            pr: skill.pr,
             identifier: skill.identifier
         )
     }

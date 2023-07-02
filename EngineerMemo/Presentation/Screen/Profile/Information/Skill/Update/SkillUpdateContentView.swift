@@ -8,7 +8,8 @@ final class SkillUpdateContentView: UIView {
     private(set) lazy var didChangeCareerInputPublisher = careerInputView.$selectedCareerType
     private(set) lazy var didChangeLanguageCareerInputPublisher = useLanguageInputView.$selectedCareerType
     private(set) lazy var didChangeLanguageInputPublisher = useLanguageInputView.didChangeInputTextPublisher
-    private(set) lazy var didChangeToeicScoreInputPublisher = toeicInputView.didChangeInputScorePublisher
+    private(set) lazy var didChangeToeicScoreInputPublisher = toeicInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangePrInputPublisher = prInputView.didChangeInputTextPublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
     private(set) lazy var barButton = UIButton(type: .system).addConstraint {
@@ -24,14 +25,38 @@ final class SkillUpdateContentView: UIView {
         distribution: .equalSpacing,
         spacing: 16
     ) {
-        careerInputView
-        useLanguageInputView
-        toeicInputView
+        careerInputView.configure {
+            $0.updateValue(modelObject.skill)
+        }
+
+        useLanguageInputView.configure {
+            $0.updateValue(modelObject: modelObject.skill)
+        }
+
+        toeicInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Profile.toeic,
+                icon: Asset.toeic.image,
+                placeholder: L10n.Profile.Example.toeic,
+                keyboardType: .numberPad
+            ))
+
+            $0.updateValue(modelObject.skill?.toeic?.description)
+        }
+
+        prInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Profile.pr,
+                icon: Asset.pr.image,
+                placeholder: L10n.Profile.Example.pr
+            ))
+        }
     }
 
-    private let careerInputView = SkillUpdateCareerInputView()
+    private let careerInputView = UpdateMenuInputView(.career)
     private let useLanguageInputView = SkillUpdateLanguageInputView()
-    private let toeicInputView = SkillUpdateToeicInputView()
+    private let toeicInputView = UpdateTextInputView()
+    private let prInputView = UpdateTextMultiInputView()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -44,7 +69,6 @@ final class SkillUpdateContentView: UIView {
 
         setupView()
         setupEvent()
-        setupValue()
         setupBarButton()
     }
 
@@ -74,12 +98,6 @@ private extension SkillUpdateContentView {
             self?.endEditing(true)
         }
         .store(in: &cancellables)
-    }
-
-    func setupValue() {
-        careerInputView.updateValue(modelObject: modelObject.skill)
-        useLanguageInputView.updateValue(modelObject: modelObject.skill)
-        toeicInputView.updateValue(modelObject: modelObject.skill)
     }
 
     func setupBarButton() {

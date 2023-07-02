@@ -21,39 +21,19 @@ final class MemoListCell: UICollectionViewCell {
 
     private var body: UIView {
         VStackView(spacing: 16) {
-            VStackView(spacing: 4) {
-                UILabel().configure {
-                    $0.text = L10n.Memo.title
-                    $0.textColor = .secondaryGray
-                    $0.font = .systemFont(ofSize: 14)
-                }
-
-                titleLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 14)
-                    $0.numberOfLines = 1
-                }
+            titleView.configure {
+                $0.setTitle(title: L10n.Memo.title)
             }
 
-            VStackView(spacing: 4) {
-                UILabel().configure {
-                    $0.text = L10n.Memo.content
-                    $0.textColor = .secondaryGray
-                    $0.font = .systemFont(ofSize: 14)
-                }
-
-                contentLabel.configure {
-                    $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 14)
-                    $0.numberOfLines = 1
-                }
+            contentsView.configure {
+                $0.setTitle(title: L10n.Memo.content)
             }
         }
     }
 
     private let categoryImageView = UIImageView()
-    private let titleLabel = UILabel()
-    private let contentLabel = UILabel()
+    private let titleView = TitleContentView()
+    private let contentsView = TitleContentView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,8 +51,16 @@ final class MemoListCell: UICollectionViewCell {
 
 extension MemoListCell {
     func configure(_ modelObject: MemoModelObject) {
-        titleLabel.text = modelObject.title
-        contentLabel.text = modelObject.content
+        titleView.configure {
+            $0.updateValue(modelObject.title)
+            $0.updateLine(1)
+        }
+
+        contentsView.configure {
+            $0.updateValue(modelObject.content)
+            $0.updateLine(1)
+        }
+
         categoryImageView.image = {
             switch modelObject.category {
             case .todo:

@@ -4,13 +4,13 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class BasicUpdateBirthdayInputView: UIView {
+final class UpdatePickerInputView: UIView {
     private(set) lazy var didChangeInputDatePublisher = inputDatePicker.publisher
 
     private var body: UIView {
-        VStackView(spacing: 12) {
+        VStackView(spacing: 8) {
             titleView.configure {
-                $0.configure(
+                $0.inputValue(
                     title: L10n.Profile.birthday,
                     icon: Asset.birthday.image
                 )
@@ -66,7 +66,7 @@ final class BasicUpdateBirthdayInputView: UIView {
 
 // MARK: - override methods
 
-extension BasicUpdateBirthdayInputView {
+extension UpdatePickerInputView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -76,7 +76,7 @@ extension BasicUpdateBirthdayInputView {
 
 // MARK: - internal methods
 
-extension BasicUpdateBirthdayInputView {
+extension UpdatePickerInputView {
     func updateValue(modelObject: ProfileModelObject?) {
         guard
             let modelObject,
@@ -91,7 +91,7 @@ extension BasicUpdateBirthdayInputView {
 
 // MARK: - private methods
 
-private extension BasicUpdateBirthdayInputView {
+private extension UpdatePickerInputView {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -130,7 +130,7 @@ private extension BasicUpdateBirthdayInputView {
 
     struct BasicUpdateBirthdayInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: BasicUpdateBirthdayInputView())
+            WrapperView(view: UpdatePickerInputView())
         }
     }
 #endif

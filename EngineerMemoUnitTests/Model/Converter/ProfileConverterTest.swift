@@ -42,7 +42,10 @@ final class ProfileConverterTest: XCTestCase {
             .projects([
                 ProjectDataObjectBuilder()
                     .content("content")
+                    .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                     .identifier("identifier")
+                    .role("プログラマー")
+                    .startDate(Calendar.date(year: 2020, month: 1, day: 1))
                     .title("title")
                     .build()
             ])
@@ -60,7 +63,6 @@ final class ProfileConverterTest: XCTestCase {
                 .email("test@test.com")
                 .gender(.man)
                 .iconImage(Asset.penguin.image.pngData())
-                .identifier("identifier")
                 .name("テスト")
                 .phoneNumber("08011112222")
                 .station("鶴橋駅")
@@ -75,9 +77,13 @@ final class ProfileConverterTest: XCTestCase {
                 .projects([
                     ProjectModelObjectBuilder()
                         .title("title")
+                        .role("プログラマー")
                         .content("content")
+                        .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                        .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                         .build()
                 ])
+                .identifier("identifier")
                 .build()
         )
     }

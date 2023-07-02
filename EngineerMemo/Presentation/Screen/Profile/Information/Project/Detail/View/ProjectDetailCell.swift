@@ -7,16 +7,40 @@ import UIKitHelper
 final class ProjectDetailCell: UITableViewCell {
     private var body: UIView {
         VStackView(spacing: 32) {
-            titleStackView
-            contentStackView
+            titleView.configure {
+                $0.inputValue(
+                    title: L10n.Project.title,
+                    icon: Asset.projectTitle.image
+                )
+            }
+
+            periodView.configure {
+                $0.inputValue(
+                    title: L10n.Project.period,
+                    icon: Asset.projectPeriod.image
+                )
+            }
+
+            roleView.configure {
+                $0.inputValue(
+                    title: L10n.Project.role,
+                    icon: Asset.projectRole.image
+                )
+            }
+
+            contentsView.configure {
+                $0.inputValue(
+                    title: L10n.Project.content,
+                    icon: Asset.projectContent.image
+                )
+            }
         }
     }
 
-    private lazy var titleStackView = createStackView(.title)
-    private lazy var contentStackView = createStackView(.content)
-
-    private let titleLabel = UILabel()
-    private let contentLabel = UILabel()
+    private let titleView = DetailTitleView()
+    private let periodView = DetailTitleView()
+    private let roleView = DetailTitleView()
+    private let contentsView = DetailTitleView()
 
     override init(
         style: UITableViewCell.CellStyle,
@@ -39,8 +63,14 @@ final class ProjectDetailCell: UITableViewCell {
 
 extension ProjectDetailCell {
     func configure(_ modelObject: ProjectModelObject) {
-        titleLabel.text = modelObject.title
-        contentLabel.text = modelObject.content
+        titleView.updateValue(modelObject.title ?? .noSetting)
+        roleView.updateValue(modelObject.role ?? .noSetting)
+        contentsView.updateValue(modelObject.content ?? .noSetting)
+
+        setPeriod(
+            startDate: modelObject.startDate,
+            endDate: modelObject.endDate
+        )
     }
 }
 
@@ -57,47 +87,19 @@ private extension ProjectDetailCell {
         }
     }
 
-    func createStackView(_ type: ProjectContentType) -> UIStackView {
-        let valueLabel: UILabel
-
-        switch type {
-        case .title:
-            valueLabel = titleLabel
-
-        case .content:
-            valueLabel = contentLabel
-        }
-
-        let contentView: UIView = valueLabel.configure {
-            $0.textColor = .primary
-            $0.font = .boldSystemFont(ofSize: 16)
-            $0.numberOfLines = 0
-        }
-
-        return VStackView(spacing: 8) {
-            HStackView(spacing: 4) {
-                UIImageView()
-                    .addConstraint {
-                        $0.size.equalTo(24)
-                    }
-                    .configure {
-                        $0.image = type.image
-                    }
-
-                UILabel().configure {
-                    $0.text = type.title
-                    $0.textColor = .secondaryGray
-                    $0.font = .boldSystemFont(ofSize: 16)
-                }
-
-                UIView()
-            }
-
-            BorderView().configure {
-                $0.changeColor(.secondaryGray)
-            }
-
-            contentView
+    func setPeriod(
+        startDate: Date?,
+        endDate: Date?
+    ) {
+        if let startDate,
+           let endDate {
+            periodView.updateValue(L10n.Project.during(startDate.toString, endDate.toString))
+        } else if let startDate {
+            periodView.updateValue(L10n.Project.startDate(startDate.toString))
+        } else if let endDate {
+            periodView.updateValue(L10n.Project.endDate(endDate.toString))
+        } else {
+            periodView.updateValue(.noSetting)
         }
     }
 }

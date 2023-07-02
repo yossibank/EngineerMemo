@@ -6,6 +6,7 @@
         private var language: String? = "Swift"
         private var languageCareer: Int? = 2
         private var toeic: Int? = 600
+        private var pr: String? = "PR事項"
         private var identifier = "identifier"
 
         func build() -> SkillModelObject {
@@ -14,6 +15,7 @@
                 language: language,
                 languageCareer: languageCareer,
                 toeic: toeic,
+                pr: pr,
                 identifier: identifier
             )
         }
@@ -35,6 +37,11 @@
 
         func toeic(_ toeic: Int?) -> Self {
             self.toeic = toeic
+            return self
+        }
+
+        func pr(_ pr: String?) -> Self {
+            self.pr = pr
             return self
         }
 
