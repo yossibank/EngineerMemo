@@ -40,6 +40,7 @@ targets:
         INFOPLIST_PREPROCESS: Yes
         INFOPLIST_FILE: EngineerMemo/App/Plist/Info.plist
         OTHER_LDFLAGS: $(inherited) $(OTHER_LDFLAGS) -ObjC
+        TARGETED_DEVICE_FAMILY: 1
       configs:
         debug:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon.dev
