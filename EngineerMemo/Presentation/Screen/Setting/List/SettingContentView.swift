@@ -33,6 +33,7 @@ final class SettingContentView: UIView {
     typealias Item = SettingContentViewItem
 
     private(set) lazy var didChangeColorThemeIndexPublisher = didChangeColorThemeIndexSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapLicenceCellPublisher = didTapLicenceCellSubject.eraseToAnyPublisher()
 
     private lazy var collectionView = UICollectionView(
         frame: .zero,
@@ -129,6 +130,7 @@ final class SettingContentView: UIView {
     > { _, _, _ in }
 
     private let didChangeColorThemeIndexSubject = PassthroughSubject<Int, Never>()
+    private let didTapLicenceCellSubject = PassthroughSubject<Void, Never>()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -157,6 +159,7 @@ private extension SettingContentView {
                 ]
             )
             $0.backgroundColor = .background
+            $0.delegate = self
         }
     }
 
@@ -203,6 +206,26 @@ private extension SettingContentView {
             dataSourceSnapshot,
             animatingDifferences: false
         )
+    }
+}
+
+// MARK: - delegate
+
+extension SettingContentView: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        guard
+            let section = Section.allCases[safe: indexPath.section],
+            section == .application
+        else {
+            return
+        }
+
+        if Item.Application.allCases[safe: indexPath.row] == .licence {
+            didTapLicenceCellSubject.send(())
+        }
     }
 }
 

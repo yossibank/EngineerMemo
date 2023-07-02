@@ -202,12 +202,14 @@ enum AppControllers {
     enum Setting {
         static func List() -> SettingViewController {
             let vc = SettingViewController()
+            let routing = SettingRouting(viewController: vc)
 
             vc.title = L10n.Navigation.Title.setting
             vc.inject(
                 contentView: .init(),
                 viewModel: .init(
                     model: Models.Setting(),
+                    routing: routing,
                     analytics: FirebaseAnalytics(screenId: .setting)
                 )
             )
@@ -218,7 +220,7 @@ enum AppControllers {
         static func Licence() -> LicenceViewController {
             let vc = LicenceViewController()
 
-            vc.title = "ライセンス"
+            vc.title = L10n.Navigation.Title.licence
             vc.inject(
                 contentView: .init(),
                 viewModel: .init(

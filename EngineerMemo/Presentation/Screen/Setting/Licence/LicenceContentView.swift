@@ -6,9 +6,12 @@ import UIKitHelper
 
 final class LicenceContentView: UIView {
     private var body: UIView {
-        VStackView(alignment: .center) {
-            UILabel().configure {
-                $0.text = "Hello World!"
+        VStackView {
+            UITextView().configure {
+                $0.text = AppConfig.acknowledgements
+                $0.textColor = .primary
+                $0.font = .italicSystemFont(ofSize: 12)
+                $0.backgroundColor = .background
             }
         }
     }
@@ -25,21 +28,13 @@ final class LicenceContentView: UIView {
     }
 }
 
-// MARK: - internal methods
-
-extension LicenceContentView {}
-
-// MARK: - private methods
-
-private extension LicenceContentView {}
-
 // MARK: - protocol
 
 extension LicenceContentView: ContentView {
     func setupView() {
         configure {
             $0.addSubview(body) {
-                $0.edges.equalToSuperview()
+                $0.edges.equalToSuperview().inset(24)
             }
 
             $0.backgroundColor = .background

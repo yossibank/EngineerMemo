@@ -4,6 +4,7 @@ import XCTest
 
 final class SettingViewModelTest: XCTestCase {
     private var model: SettingModelInputMock!
+    private var routing: SettingRoutingInputMock!
     private var analytics: FirebaseAnalyzableMock!
     private var viewModel: SettingViewModel!
 
@@ -11,9 +12,11 @@ final class SettingViewModelTest: XCTestCase {
         super.setUp()
 
         model = .init()
+        routing = .init()
         analytics = .init(screenId: .setting)
         viewModel = .init(
             model: model,
+            routing: routing,
             analytics: analytics
         )
     }
@@ -44,5 +47,19 @@ final class SettingViewModelTest: XCTestCase {
 
         // act
         viewModel.input.didChangeColorThemeIndex.send(2)
+    }
+
+    func test_input_didTapLicenceCell_routing_showLicenceScreenが呼ばれること() {
+        // arrange
+        routing.showLicenceScreenHandler = {}
+
+        // act
+        viewModel.input.didTapLicenceCell.send(())
+
+        // assert
+        XCTAssertEqual(
+            routing.showLicenceScreenCallCount,
+            1
+        )
     }
 }
