@@ -32,6 +32,40 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                     ProjectModelObjectBuilder()
                         .title("テストプロジェクトタイトル1")
                         .content("テストプロジェクト内容1")
+                        .startDate(Calendar.date(year: 2020, month: 4, day: 1))
+                        .endDate(Calendar.date(year: 2021, month: 6, day: 1))
+                        .build()
+                ])
+                .build()
+        )
+    }
+
+    func testProjectDetailViewController_詳細_開始期間未設定() {
+        snapshot(
+            identifier: "identifier:テストプロジェクトタイトル2",
+            modelObject: ProfileModelObjectBuilder()
+                .projects([
+                    ProjectModelObjectBuilder()
+                        .title("テストプロジェクトタイトル2")
+                        .content("テストプロジェクト内容2")
+                        .startDate(nil)
+                        .endDate(Calendar.date(year: 2021, month: 6, day: 1))
+                        .build()
+                ])
+                .build()
+        )
+    }
+
+    func testProjectDetailViewController_詳細_終了期間未設定() {
+        snapshot(
+            identifier: "identifier:テストプロジェクトタイトル3",
+            modelObject: ProfileModelObjectBuilder()
+                .projects([
+                    ProjectModelObjectBuilder()
+                        .title("テストプロジェクトタイトル3")
+                        .content("テストプロジェクト内容3")
+                        .startDate(Calendar.date(year: 2020, month: 4, day: 1))
+                        .endDate(nil)
                         .build()
                 ])
                 .build()
@@ -54,6 +88,8 @@ private extension ProjectDetailViewControllerSnapshotTest {
                 let project = Project(context: context)
                 project.title = object.title
                 project.content = object.content
+                project.startDate = object.startDate
+                project.endDate = object.endDate
                 project.identifier = "identifier:\(project.title!)"
                 return project
             }

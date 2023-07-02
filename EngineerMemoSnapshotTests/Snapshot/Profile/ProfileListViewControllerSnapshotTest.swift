@@ -81,7 +81,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 x: 0,
                 y: 0,
                 width: UIWindow.windowFrame.width,
-                height: 1500
+                height: 1700
             ),
             viewAfter: 0.5
         )

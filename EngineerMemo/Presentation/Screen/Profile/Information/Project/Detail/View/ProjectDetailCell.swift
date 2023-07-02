@@ -14,6 +14,13 @@ final class ProjectDetailCell: UITableViewCell {
                 )
             }
 
+            periodView.configure {
+                $0.inputValue(
+                    title: L10n.Project.period,
+                    icon: Asset.projectPeriod.image
+                )
+            }
+
             contentsView.configure {
                 $0.inputValue(
                     title: L10n.Project.content,
@@ -24,6 +31,7 @@ final class ProjectDetailCell: UITableViewCell {
     }
 
     private let titleView = DetailTitleView()
+    private let periodView = DetailTitleView()
     private let contentsView = DetailTitleView()
 
     override init(
@@ -49,6 +57,11 @@ extension ProjectDetailCell {
     func configure(_ modelObject: ProjectModelObject) {
         titleView.updateValue(modelObject.title ?? .noSetting)
         contentsView.updateValue(modelObject.content ?? .noSetting)
+
+        setPeriod(
+            startDate: modelObject.startDate,
+            endDate: modelObject.endDate
+        )
     }
 }
 
@@ -62,6 +75,22 @@ private extension ProjectDetailCell {
             }
 
             $0.backgroundColor = .background
+        }
+    }
+
+    func setPeriod(
+        startDate: Date?,
+        endDate: Date?
+    ) {
+        if let startDate,
+           let endDate {
+            periodView.updateValue(L10n.Project.during(startDate.toString, endDate.toString))
+        } else if let startDate {
+            periodView.updateValue(L10n.Project.startDate(startDate.toString))
+        } else if let endDate {
+            periodView.updateValue(L10n.Project.endDate(endDate.toString))
+        } else {
+            periodView.updateValue(.noSetting)
         }
     }
 }

@@ -33,6 +33,8 @@ final class ProjectUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
                     ProjectModelObjectBuilder()
                         .title("title")
                         .content("content")
+                        .startDate(Calendar.date(year: 2020, month: 3, day: 1))
+                        .endDate(Calendar.date(year: 2022, month: 5, day: 1))
                         .identifier("identifier")
                         .build()
                 ])
