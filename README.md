@@ -28,7 +28,7 @@
 |:---:|:---:|
 |16.4|16.4|
 |iPhone14|iPhone14|
-|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/プロフィール基本情報設定・更新画面/testProfileUpdateBasicViewController_更新_ダークモード_iPhone_16_4_390x844@3x.png' width='390' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/プロフィール基本情報設定・更新画面/testProfileUpdateBasicViewController_更新_ライトモード_iPhone_16_4_390x844@3x.png' width='390' style='border: 1px solid #999' />|
+|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/プロフィール基本情報設定・更新画面/testBasicUpdateViewController_更新_ダークモード_iPhone_16_4_390x844@3x.png' width='390' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/プロフィール基本情報設定・更新画面/testBasicUpdateViewController_更新_ライトモード_iPhone_16_4_390x844@3x.png' width='390' style='border: 1px solid #999' />|
 
 * メモ一覧画面
 
