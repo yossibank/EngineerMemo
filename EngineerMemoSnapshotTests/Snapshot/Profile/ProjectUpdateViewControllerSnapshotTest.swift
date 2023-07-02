@@ -49,7 +49,7 @@ private extension ProjectUpdateViewControllerSnapshotTest {
         identifier: String,
         modelObject: ProfileModelObject
     ) {
-        subject = AppControllers.Profile.Information.Project.Update(
+        subject = AppControllers.Profile.Project.Update(
             identifier: identifier,
             modelObject: modelObject
         )

@@ -29,7 +29,7 @@ final class ___FILEBASENAME___: UIView {
             return .init()
         }
 
-        return self.makeCell(
+        return makeCell(
             tableView: tableView,
             indexPath: indexPath,
             item: item

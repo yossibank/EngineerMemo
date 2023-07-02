@@ -31,21 +31,21 @@ extension ProfileListRouting: ProfileListRoutingInput {
 
     func showBasicUpdateScreen(modelObject: ProfileModelObject?) {
         viewController?.show(
-            AppControllers.Profile.Information.Basic.Update(modelObject: modelObject),
+            AppControllers.Profile.Basic.Update(modelObject: modelObject),
             sender: nil
         )
     }
 
     func showSkillUpdateScreen(modelObject: ProfileModelObject) {
         viewController?.show(
-            AppControllers.Profile.Information.Skill.Update(modelObject: modelObject),
+            AppControllers.Profile.Skill.Update(modelObject: modelObject),
             sender: nil
         )
     }
 
     func showProjectCreateScreen(modelObject: ProfileModelObject) {
         viewController?.show(
-            AppControllers.Profile.Information.Project.Update(
+            AppControllers.Profile.Project.Update(
                 identifier: UUID().uuidString,
                 modelObject: modelObject
             ),
@@ -58,7 +58,7 @@ extension ProfileListRouting: ProfileListRoutingInput {
         modelObject: ProfileModelObject
     ) {
         viewController?.show(
-            AppControllers.Profile.Information.Project.Detail(
+            AppControllers.Profile.Project.Detail(
                 identifier: identifier,
                 modelObject: modelObject
             ),

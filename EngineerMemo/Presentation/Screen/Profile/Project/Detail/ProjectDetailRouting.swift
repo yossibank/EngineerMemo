@@ -23,7 +23,7 @@ extension ProjectDetailRouting: ProjectDetailRoutingInput {
         modelObject: ProfileModelObject
     ) {
         viewController?.show(
-            AppControllers.Profile.Information.Project.Update(
+            AppControllers.Profile.Project.Update(
                 identifier: identifier,
                 modelObject: modelObject
             ),

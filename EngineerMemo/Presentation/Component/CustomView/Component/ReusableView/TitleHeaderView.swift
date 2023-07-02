@@ -4,16 +4,17 @@ import UIKitHelper
 
 // MARK: - properties & init
 
-final class ___FILEBASENAME___: UICollectionViewCell {
-    var cancellables = Set<AnyCancellable>()
-
+final class TitleHeaderView: UICollectionReusableView {
     private var body: UIView {
-        VStackView(alignment: .center) {
-            UILabel().configure {
-                $0.text = "Hello World!"
+        VStackView {
+            titleLabel.configure {
+                $0.textColor = .primary
+                $0.font = .boldSystemFont(ofSize: 12)
             }
         }
     }
+
+    private let titleLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,25 +28,19 @@ final class ___FILEBASENAME___: UICollectionViewCell {
     }
 }
 
-// MARK: - override methods
+// MARK: - internal methods
 
-extension ___FILEBASENAME___ {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        cancellables.removeAll()
+extension TitleHeaderView {
+    func configure(with title: String) {
+        titleLabel.text = title
     }
 }
 
-// MARK: - internal methods
-
-extension ___FILEBASENAME___ {}
-
 // MARK: - private methods
 
-private extension ___FILEBASENAME___ {
+private extension TitleHeaderView {
     func setupView() {
-        contentView.configure {
+        configure {
             $0.addSubview(body) {
                 $0.edges.equalToSuperview()
             }
@@ -60,9 +55,9 @@ private extension ___FILEBASENAME___ {
 #if DEBUG
     import SwiftUI
 
-    struct ___FILEBASENAME___Preview: PreviewProvider {
+    struct TitleHeaderViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ___FILEBASENAME___())
+            WrapperView(view: TitleHeaderView())
         }
     }
 #endif

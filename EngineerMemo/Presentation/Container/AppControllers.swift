@@ -67,103 +67,101 @@ enum AppControllers {
     }
 
     enum Profile {
-        enum Information {
-            enum Basic {
-                static func Update(modelObject: ProfileModelObject?) -> BasicUpdateViewController {
-                    let vc = BasicUpdateViewController()
+        enum Basic {
+            static func Update(modelObject: ProfileModelObject?) -> BasicUpdateViewController {
+                let vc = BasicUpdateViewController()
 
-                    vc.title = modelObject.isNil
-                        ? L10n.Navigation.Title.basicSetting
-                        : L10n.Navigation.Title.basicUpdate
+                vc.title = modelObject.isNil
+                    ? L10n.Navigation.Title.basicSetting
+                    : L10n.Navigation.Title.basicUpdate
 
-                    vc.inject(
-                        contentView: .init(modelObject: modelObject),
-                        viewModel: .init(
-                            modelObject: modelObject,
-                            model: Models.Profile(),
-                            analytics: modelObject.isNil
-                                ? FirebaseAnalytics(screenId: .basicSetting)
-                                : FirebaseAnalytics(screenId: .basicUpdate)
-                        )
+                vc.inject(
+                    contentView: .init(modelObject: modelObject),
+                    viewModel: .init(
+                        modelObject: modelObject,
+                        model: Models.Profile(),
+                        analytics: modelObject.isNil
+                            ? FirebaseAnalytics(screenId: .basicSetting)
+                            : FirebaseAnalytics(screenId: .basicUpdate)
                     )
+                )
 
-                    return vc
-                }
+                return vc
+            }
+        }
+
+        enum Project {
+            static func Detail(
+                identifier: String,
+                modelObject: ProfileModelObject
+            ) -> ProjectDetailViewController {
+                let vc = ProjectDetailViewController()
+                let routing = ProjectDetailRouting(viewController: vc)
+
+                vc.title = L10n.Navigation.Title.projectDetail
+                vc.inject(
+                    contentView: .init(),
+                    viewModel: .init(
+                        identifier: identifier,
+                        modelObject: modelObject,
+                        model: Models.Profile(),
+                        routing: routing,
+                        analytics: FirebaseAnalytics(screenId: .projectDetail)
+                    )
+                )
+
+                return vc
             }
 
-            enum Project {
-                static func Detail(
-                    identifier: String,
-                    modelObject: ProfileModelObject
-                ) -> ProjectDetailViewController {
-                    let vc = ProjectDetailViewController()
-                    let routing = ProjectDetailRouting(viewController: vc)
+            static func Update(
+                identifier: String,
+                modelObject: ProfileModelObject
+            ) -> ProjectUpdateViewController {
+                let vc = ProjectUpdateViewController()
 
-                    vc.title = L10n.Navigation.Title.projectDetail
-                    vc.inject(
-                        contentView: .init(),
-                        viewModel: .init(
-                            identifier: identifier,
-                            modelObject: modelObject,
-                            model: Models.Profile(),
-                            routing: routing,
-                            analytics: FirebaseAnalytics(screenId: .projectDetail)
-                        )
+                vc.title = modelObject.projects.contains(where: { $0.identifier == identifier })
+                    ? L10n.Navigation.Title.projectUpdate
+                    : L10n.Navigation.Title.projectSetting
+
+                vc.inject(
+                    contentView: .init(
+                        identifier: identifier,
+                        modelObject: modelObject
+                    ),
+                    viewModel: .init(
+                        identifier: identifier,
+                        modelObject: modelObject,
+                        model: Models.Profile(),
+                        analytics: modelObject.projects.contains(where: { $0.identifier == identifier })
+                            ? FirebaseAnalytics(screenId: .projectUpdate)
+                            : FirebaseAnalytics(screenId: .projectSetting)
                     )
+                )
 
-                    return vc
-                }
-
-                static func Update(
-                    identifier: String,
-                    modelObject: ProfileModelObject
-                ) -> ProjectUpdateViewController {
-                    let vc = ProjectUpdateViewController()
-
-                    vc.title = modelObject.projects.contains(where: { $0.identifier == identifier })
-                        ? L10n.Navigation.Title.projectUpdate
-                        : L10n.Navigation.Title.projectSetting
-
-                    vc.inject(
-                        contentView: .init(
-                            identifier: identifier,
-                            modelObject: modelObject
-                        ),
-                        viewModel: .init(
-                            identifier: identifier,
-                            modelObject: modelObject,
-                            model: Models.Profile(),
-                            analytics: modelObject.projects.contains(where: { $0.identifier == identifier })
-                                ? FirebaseAnalytics(screenId: .projectUpdate)
-                                : FirebaseAnalytics(screenId: .projectSetting)
-                        )
-                    )
-
-                    return vc
-                }
+                return vc
             }
+        }
 
-            enum Skill {
-                static func Update(modelObject: ProfileModelObject) -> SkillUpdateViewController {
-                    let vc = SkillUpdateViewController()
+        enum Skill {
+            static func Update(modelObject: ProfileModelObject) -> SkillUpdateViewController {
+                let vc = SkillUpdateViewController()
 
-                    vc.title = modelObject.skill.isNil
-                        ? L10n.Navigation.Title.sKillSetting
-                        : L10n.Navigation.Title.skillUpdate
+                vc.title = modelObject.skill.isNil
+                    ? L10n.Navigation.Title.sKillSetting
+                    : L10n.Navigation.Title.skillUpdate
 
-                    vc.inject(
-                        contentView: .init(modelObject: modelObject),
-                        viewModel: .init(
-                            modelObject: modelObject,
-                            model: Models.Profile(),
-                            analytics: modelObject.skill.isNil
-                                ? FirebaseAnalytics(screenId: .skillSetting)
-                                : FirebaseAnalytics(screenId: .skillUpdate)
-                        )
+                vc.inject(
+                    contentView: .init(modelObject: modelObject),
+                    viewModel: .init(
+                        modelObject: modelObject,
+                        model: Models.Profile(),
+                        analytics: modelObject.skill.isNil
+                            ? FirebaseAnalytics(screenId: .skillSetting)
+                            : FirebaseAnalytics(screenId: .skillUpdate)
                     )
+                )
 
-                    return vc
-                }
+                return vc
             }
         }
 
@@ -199,6 +197,21 @@ enum AppControllers {
 
             return vc
         }
+    }
+
+    static func Setting() -> SettingViewController {
+        let vc = SettingViewController()
+
+        vc.title = L10n.Navigation.Title.setting
+        vc.inject(
+            contentView: .init(),
+            viewModel: .init(
+                model: Models.Setting(),
+                analytics: FirebaseAnalytics(screenId: .setting)
+            )
+        )
+
+        return vc
     }
 }
 

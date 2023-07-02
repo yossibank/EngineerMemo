@@ -29,10 +29,18 @@ final class TabBarControllerSnapshotTest: FBSnapshotTestCase {
     func testTabBarController_メモタブ() {
         snapshot(.memo)
     }
+
+    func testTabBarController_設定タブ() {
+        snapshot(.setting)
+    }
 }
 
 private extension TabBarControllerSnapshotTest {
     func snapshot(_ tabItem: TabItem) {
+        subject.setViewControllers(
+            TabItem.allCases.map(\.rootViewController),
+            animated: false
+        )
         subject.selectedIndex = tabItem.rawValue
         snapshotVerifyView(viewMode: .normal(subject))
     }
