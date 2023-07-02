@@ -440,6 +440,7 @@ final class ProfileModelTest: XCTestCase {
                     ProjectModelObjectBuilder()
                         .identifier("identifier")
                         .title("title")
+                        .role("プログラマー")
                         .content("content")
                         .startDate(Calendar.date(year: 2020, month: 1, day: 1))
                         .endDate(Calendar.date(year: 2021, month: 12, day: 1))
@@ -461,6 +462,11 @@ final class ProfileModelTest: XCTestCase {
                 XCTAssertEqual(
                     project.title,
                     "title"
+                )
+
+                XCTAssertEqual(
+                    project.role,
+                    "プログラマー"
                 )
 
                 XCTAssertEqual(
@@ -490,6 +496,7 @@ final class ProfileModelTest: XCTestCase {
                 ProjectDataObjectBuilder()
                     .content("content")
                     .identifier("identifier")
+                    .role("プログラマー")
                     .title("title")
                     .startDate(Calendar.date(year: 2020, month: 1, day: 1))
                     .endDate(Calendar.date(year: 2021, month: 12, day: 1))
@@ -505,6 +512,7 @@ final class ProfileModelTest: XCTestCase {
                     ProjectModelObjectBuilder()
                         .identifier("identifier")
                         .title("update title")
+                        .role("PG")
                         .content("update content")
                         .startDate(Calendar.date(year: 2019, month: 1, day: 1))
                         .endDate(Calendar.date(year: 2022, month: 1, day: 1))
@@ -529,6 +537,11 @@ final class ProfileModelTest: XCTestCase {
                 XCTAssertEqual(
                     project.title,
                     "update title"
+                )
+
+                XCTAssertEqual(
+                    project.role,
+                    "PG"
                 )
 
                 XCTAssertEqual(

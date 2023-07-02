@@ -21,6 +21,7 @@ private extension ProjectConverter {
         /// NOTE: .init(...)生成は型チェックで時間がかかるため型指定して生成
         ProjectModelObject(
             title: project.title,
+            role: project.role,
             content: project.content,
             startDate: project.startDate,
             endDate: project.endDate,

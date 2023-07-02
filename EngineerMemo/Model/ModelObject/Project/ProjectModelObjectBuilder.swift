@@ -3,6 +3,7 @@
 
     final class ProjectModelObjectBuilder {
         private var content: String? = "テストプロジェクト内容"
+        private var role: String? = "プログラマー"
         private var title: String? = "テストプロジェクトタイトル"
         private var startDate = Calendar.date(year: 2020, month: 1, day: 1)
         private var endDate = Calendar.date(year: 2021, month: 12, day: 1)
@@ -11,6 +12,7 @@
         func build() -> ProjectModelObject {
             .init(
                 title: title,
+                role: role,
                 content: content,
                 startDate: startDate,
                 endDate: endDate,
@@ -20,6 +22,11 @@
 
         func title(_ title: String?) -> Self {
             self.title = title
+            return self
+        }
+
+        func role(_ role: String?) -> Self {
+            self.role = role
             return self
         }
 

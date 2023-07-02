@@ -25,6 +25,7 @@ final class ProjectConverterTest: XCTestCase {
                 .content("content")
                 .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                 .identifier("identifier")
+                .role("プログラマー")
                 .startDate(Calendar.date(year: 2020, month: 1, day: 1))
                 .title("title")
                 .build()
@@ -39,6 +40,7 @@ final class ProjectConverterTest: XCTestCase {
             [
                 ProjectModelObjectBuilder()
                     .title("title")
+                    .role("プログラマー")
                     .content("content")
                     .startDate(Calendar.date(year: 2020, month: 1, day: 1))
                     .endDate(Calendar.date(year: 2021, month: 12, day: 1))
