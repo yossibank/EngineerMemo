@@ -53,7 +53,7 @@ extension TitleSubContentView {
     }
 
     func setSubTitle(_ subTitle: String?) {
-        subTitleLabel.text = "(\(subTitle ?? .noSetting))"
+        subTitleLabel.text = subTitle.isNil ? nil : "(\(subTitle ?? .noSetting))"
     }
 
     func updateValue(_ text: String?) {

@@ -108,10 +108,13 @@ private extension ProfileProjectCell {
             periodView.setSubTitle(startDate.periodString(end: endDate))
         } else if let startDate {
             periodView.updateValue(L10n.Project.startDate(startDate.toString))
+            periodView.setSubTitle(nil)
         } else if let endDate {
             periodView.updateValue(L10n.Project.endDate(endDate.toString))
+            periodView.setSubTitle(nil)
         } else {
             periodView.updateValue(.noSetting)
+            periodView.setSubTitle(nil)
         }
     }
 }
