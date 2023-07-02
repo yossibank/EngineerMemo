@@ -200,6 +200,20 @@ enum AppControllers {
             return vc
         }
     }
+
+    static func Setting() -> SettingViewController {
+        let vc = SettingViewController()
+
+        vc.title = L10n.Navigation.Title.setting
+        vc.inject(
+            contentView: .init(),
+            viewModel: .init(
+                analytics: FirebaseAnalytics(screenId: .setting)
+            )
+        )
+
+        return vc
+    }
 }
 
 #if DEBUG

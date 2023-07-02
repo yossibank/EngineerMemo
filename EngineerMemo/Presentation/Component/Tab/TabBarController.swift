@@ -3,41 +3,52 @@ import UIKit
 enum TabItem: Int, CaseIterable {
     case profile
     case memo
+    case setting
 
     var rootViewController: UIViewController {
-        let rootViewController: UINavigationController
-        let title: String
-        let image: UIImage?
-
-        switch self {
-        case .profile:
-            rootViewController = .init(rootViewController: AppControllers.Profile.List())
-            title = L10n.Tab.profile
-            image = Asset.profileTab.image
-                .resized(size: .init(width: 24, height: 24))
-                .withRenderingMode(.alwaysOriginal)
-
-        case .memo:
-            rootViewController = .init(rootViewController: AppControllers.Memo.List())
-            title = L10n.Tab.memo
-            image = Asset.memoTab.image
-                .resized(size: .init(width: 24, height: 24))
-                .withRenderingMode(.alwaysOriginal)
-        }
+        let rootViewController = UINavigationController(
+            rootViewController: baseViewController
+        )
 
         rootViewController.tabBarItem = .init(
             title: title,
-            image: image,
+            image: image
+                .resized(size: .init(width: 24, height: 24))
+                .withRenderingMode(.alwaysOriginal),
             tag: rawValue
         )
 
         return rootViewController
     }
+
+    var title: String {
+        switch self {
+        case .profile: return L10n.Tab.profile
+        case .memo: return L10n.Tab.memo
+        case .setting: return L10n.Tab.setting
+        }
+    }
+
+    var image: UIImage {
+        switch self {
+        case .profile: return Asset.profileTab.image
+        case .memo: return Asset.memoTab.image
+        case .setting: return Asset.settingTab.image
+        }
+    }
+
+    var baseViewController: UIViewController {
+        switch self {
+        case .profile: return AppControllers.Profile.List()
+        case .memo: return AppControllers.Memo.List()
+        case .setting: return AppControllers.Setting()
+        }
+    }
 }
 
 #if DEBUG
     private enum DebugTabItem: Int, CaseIterable {
-        case debug = 2
+        case debug = 3
 
         var rootViewController: UIViewController {
             let rootViewController = UINavigationController(

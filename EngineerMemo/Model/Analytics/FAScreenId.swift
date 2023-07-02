@@ -12,4 +12,5 @@ enum FAScreenId: String {
     case projectDetail = "project_detail"
     case projectSetting = "project_setting"
     case projectUpdate = "project_update"
+    case setting
 }
