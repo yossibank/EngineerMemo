@@ -115,5 +115,10 @@ Test/
 **/Settings.bundle/com.mono0926.LicensePlist.latest_result.txt
 **/Settings.bundle/com.mono0926.LicensePlist.plist
 
+# Firebase
+.firebase
+.firebaserc
+firebase.json
+
 # ENV
 .env
