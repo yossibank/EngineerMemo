@@ -118,6 +118,33 @@ final class ProjectUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
+    func test_binding_role_設定ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
+
+        viewModel.binding.role = "プログラマー"
+
+        model.createProjectHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.projects.first?.role,
+                "プログラマー"
+            )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        viewModel.input.didTapBarButton.send(())
+    }
+
     func test_binding_content_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(

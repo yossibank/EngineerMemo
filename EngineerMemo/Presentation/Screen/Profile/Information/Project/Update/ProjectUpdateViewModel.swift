@@ -6,6 +6,7 @@ final class ProjectUpdateViewModel: ViewModel {
         @Published var title: String?
         @Published var startDate: Date?
         @Published var endDate: Date?
+        @Published var role: String?
         @Published var content: String?
     }
 
@@ -61,19 +62,25 @@ final class ProjectUpdateViewModel: ViewModel {
             .dropFirst()
             .sink { updatedObject.title = $0 }
 
-        // MARK: - 案件開始日
+        // MARK: - 開始日
 
         let startDate = binding.$startDate
             .dropFirst()
             .sink { updatedObject.startDate = $0 }
 
-        // MARK: - 案件終了日
+        // MARK: - 終了日
 
         let endDate = binding.$endDate
             .dropFirst()
             .sink { updatedObject.endDate = $0 }
 
-        // MARK: - 案件内容
+        // MARK: - 役割
+
+        let role = binding.$role
+            .dropFirst()
+            .sink { updatedObject.role = $0 }
+
+        // MARK: - 内容
 
         let content = binding.$content
             .dropFirst()
@@ -100,6 +107,7 @@ final class ProjectUpdateViewModel: ViewModel {
             title,
             startDate,
             endDate,
+            role,
             content
         ])
     }

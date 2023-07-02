@@ -21,6 +21,13 @@ final class ProjectDetailCell: UITableViewCell {
                 )
             }
 
+            roleView.configure {
+                $0.inputValue(
+                    title: L10n.Project.role,
+                    icon: Asset.projectRole.image
+                )
+            }
+
             contentsView.configure {
                 $0.inputValue(
                     title: L10n.Project.content,
@@ -32,6 +39,7 @@ final class ProjectDetailCell: UITableViewCell {
 
     private let titleView = DetailTitleView()
     private let periodView = DetailTitleView()
+    private let roleView = DetailTitleView()
     private let contentsView = DetailTitleView()
 
     override init(
@@ -56,6 +64,7 @@ final class ProjectDetailCell: UITableViewCell {
 extension ProjectDetailCell {
     func configure(_ modelObject: ProjectModelObject) {
         titleView.updateValue(modelObject.title ?? .noSetting)
+        roleView.updateValue(modelObject.role ?? .noSetting)
         contentsView.updateValue(modelObject.content ?? .noSetting)
 
         setPeriod(

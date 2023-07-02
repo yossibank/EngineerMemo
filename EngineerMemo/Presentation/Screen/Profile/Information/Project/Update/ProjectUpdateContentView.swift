@@ -8,6 +8,7 @@ final class ProjectUpdateContentView: UIView {
     private(set) lazy var didChangeTitleInputPublisher = titleInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeStartDateInputPublisher = periodInputView.didChangeStartDatePublisher
     private(set) lazy var didChangeEndDateInputPublisher = periodInputView.didChangeEndDatePublisher
+    private(set) lazy var didChangeRoleInputPublisher = roleInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeContentInputPublisher = contentInputView.didChangeInputTextPublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
@@ -28,7 +29,7 @@ final class ProjectUpdateContentView: UIView {
             $0.inputValue(.init(
                 title: L10n.Project.title,
                 icon: Asset.projectTitle.image,
-                placeholder: L10n.Profile.Placeholder.Project.title
+                placeholder: L10n.Project.Placeholder.title
             ))
 
             $0.updateValue(project?.title)
@@ -38,11 +39,21 @@ final class ProjectUpdateContentView: UIView {
             $0.updateValue(project)
         }
 
+        roleInputView.configure {
+            $0.inputValue(.init(
+                title: L10n.Project.role,
+                icon: Asset.projectRole.image,
+                placeholder: L10n.Project.Placeholder.role
+            ))
+
+            $0.updateValue(project?.role)
+        }
+
         contentInputView.configure {
             $0.inputValue(.init(
                 title: L10n.Project.content,
                 icon: Asset.projectContent.image,
-                placeholder: L10n.Profile.Placeholder.Project.content
+                placeholder: L10n.Project.Placeholder.content
             ))
 
             $0.updateValue(project?.content)
@@ -51,6 +62,7 @@ final class ProjectUpdateContentView: UIView {
 
     private let titleInputView = UpdateTextInputView()
     private let periodInputView = ProjectUpdatePeriodInputView()
+    private let roleInputView = UpdateTextInputView()
     private let contentInputView = UpdateTextMultiInputView()
 
     private var project: ProjectModelObject? {

@@ -86,6 +86,12 @@ private extension ProjectUpdateViewController {
             .weakAssign(to: \.endDate, on: viewModel.binding)
             .store(in: &cancellables)
 
+        contentView.didChangeRoleInputPublisher
+            .map { Optional($0) }
+            .receive(on: DispatchQueue.main)
+            .weakAssign(to: \.role, on: viewModel.binding)
+            .store(in: &cancellables)
+
         contentView.didChangeContentInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)
