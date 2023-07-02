@@ -11,7 +11,7 @@ final class SettingViewControllerSnapshotTest: FBSnapshotTestCase {
 
         recordMode = SnapshotTest.recordMode
 
-        subject = AppControllers.Setting()
+        subject = AppControllers.Setting.List()
     }
 
     override func tearDown() {
