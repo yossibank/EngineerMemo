@@ -2,8 +2,9 @@ import Combine
 
 final class SettingViewModel: ViewModel {
     final class Input: InputObject {
-        let didChangeColorThemeIndex = PassthroughSubject<Int, Never>()
         let viewWillAppear = PassthroughSubject<Void, Never>()
+        let didChangeColorThemeIndex = PassthroughSubject<Int, Never>()
+        let didTapLicenceCell = PassthroughSubject<Void, Never>()
     }
 
     let input: Input
@@ -13,14 +14,17 @@ final class SettingViewModel: ViewModel {
     private var cancellables = Set<AnyCancellable>()
 
     private let model: SettingModelInput
+    private let routing: SettingRoutingInput
     private let analytics: FirebaseAnalyzable
 
     init(
         model: SettingModelInput,
+        routing: SettingRoutingInput,
         analytics: FirebaseAnalyzable
     ) {
         self.input = Input()
         self.model = model
+        self.routing = routing
         self.analytics = analytics
 
         // MARK: - viewWillAppear
@@ -34,6 +38,13 @@ final class SettingViewModel: ViewModel {
 
         input.didChangeColorThemeIndex.sink {
             model.updateColorTheme($0)
+        }
+        .store(in: &cancellables)
+
+        // MARK: - ライセンスセルタップ
+
+        input.didTapLicenceCell.sink {
+            routing.showLicenceScreen()
         }
         .store(in: &cancellables)
     }

@@ -47,6 +47,18 @@ final class MemoListCell: UICollectionViewCell {
     }
 }
 
+// MARK: - override methods
+
+extension MemoListCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            contentView.layer.borderColor = UIColor.primary.cgColor
+        }
+    }
+}
+
 // MARK: - internal methods
 
 extension MemoListCell {
@@ -98,6 +110,7 @@ private extension MemoListCell {
             }
 
             $0.backgroundColor = .background
+            $0.apply(.borderView)
         }
     }
 }

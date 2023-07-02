@@ -4,5 +4,5 @@ if [ -d /opt/homebrew/bin ] && ! type brew > /dev/null 2>&1 ; then
 fi
 
 if which mint >/dev/null; then
-    xcrun --sdk macosx mint run mono0926/LicensePlist --output-path EngineerMemo/App/Plist/Settings.bundle
+    xcrun --sdk macosx mint run LicensePlist license-plist --output-path EngineerMemo/App/Plist/Settings.bundle --single-page --prefix Acknowledgements
 fi

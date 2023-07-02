@@ -49,5 +49,12 @@ private extension SettingViewController {
                 self?.viewModel.input.didChangeColorThemeIndex.send($0)
             }
             .store(in: &cancellables)
+
+        contentView.didTapLicenceCellPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapLicenceCell.send(())
+            }
+            .store(in: &cancellables)
     }
 }
