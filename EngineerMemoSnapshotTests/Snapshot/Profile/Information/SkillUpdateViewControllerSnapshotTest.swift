@@ -48,7 +48,7 @@ final class SkillUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
 
 private extension SkillUpdateViewControllerSnapshotTest {
     func snapshot(modelObject: ProfileModelObject) {
-        subject = AppControllers.Profile.Information.Skill.Update(modelObject: modelObject)
+        subject = AppControllers.Profile.Skill.Update(modelObject: modelObject)
 
         snapshotVerifyView(
             viewMode: .navigation(subject),

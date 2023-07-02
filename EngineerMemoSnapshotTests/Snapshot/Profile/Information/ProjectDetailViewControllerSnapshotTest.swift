@@ -104,7 +104,7 @@ private extension ProjectDetailViewControllerSnapshotTest {
         }
         .store(in: &cancellables)
 
-        subject = AppControllers.Profile.Information.Project.Detail(
+        subject = AppControllers.Profile.Project.Detail(
             identifier: identifier,
             modelObject: modelObject
         )
