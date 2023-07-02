@@ -5,14 +5,32 @@ import UIKitHelper
 // MARK: - section & item
 
 enum SettingContentViewSection: CaseIterable {
-    case main
+    case application
+    case colorTheme
+}
+
+enum SettingContentViewItem: Hashable {
+    case application(Application)
+    case colorTheme
+
+    enum Application: CaseIterable {
+        case version
+        case licence
+
+        var title: String {
+            switch self {
+            case .version: return L10n.Setting.applicationVersion
+            case .licence: return L10n.Setting.licence
+            }
+        }
+    }
 }
 
 // MARK: - properties & init
 
 final class SettingContentView: UIView {
     typealias Section = SettingContentViewSection
-    typealias Item = String
+    typealias Item = SettingContentViewItem
 
     private lazy var collectionView = UICollectionView(
         frame: .zero,
@@ -28,69 +46,76 @@ final class SettingContentView: UIView {
         }
 
         return collectionView.dequeueConfiguredReusableCell(
-            using: self.cellRegistration,
+            using: applicationCellRegistration,
             for: indexPath,
             item: item
         )
     }
 
     private var collectionViewLayout: UICollectionViewLayout {
-        let estimatedHeight: CGFloat = 56
-
-        let itemSize = NSCollectionLayoutSize(
+        let layoutSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
+            heightDimension: .absolute(40)
         )
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitem: item,
-            count: 2
+            layoutSize: layoutSize,
+            subitem: .init(layoutSize: layoutSize),
+            count: 1
         )
-        group.interItemSpacing = .fixed(8.0)
 
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8.0
-
-        let sideInset: CGFloat = 8.0
         section.contentInsets = .init(
-            top: .zero,
-            leading: sideInset,
-            bottom: .zero,
-            trailing: sideInset
+            top: 8,
+            leading: 16,
+            bottom: 36,
+            trailing: 16
         )
+
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(24)
+        )
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: TitleHeaderView.className,
+            alignment: .top
+        )
+        header.pinToVisibleBounds = true
+
+        section.boundarySupplementaryItems = [header]
 
         return UICollectionViewCompositionalLayout(section: section)
     }
 
-    private let cellRegistration = UICollectionView.CellRegistration<
-        UICollectionViewListCell,
+    private let applicationCellRegistration = UICollectionView.CellRegistration<
+        TitleContentCell,
         Item
-    > { cell, indexPath, item in
-        var configuration = cell.defaultContentConfiguration()
-        configuration.text = item
-        configuration.secondaryText = "IndexPath Row: \(indexPath.row)"
-        configuration.image = .init(systemName: "appletv")
+    > { cell, _, item in
+        if case let .application(item) = item {
+            cell.setTitle(item.title)
 
-        var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-        backgroundConfig.backgroundColor = indexPath.row % 2 == 0
-            ? .green
-            : .orange
+            switch item {
+            case .version:
+                cell.updateValue(AppConfig.applicationVersion)
+                cell.showDisclosure(false)
 
-        cell.contentConfiguration = configuration
-        cell.backgroundConfiguration = backgroundConfig
+            case .licence:
+                cell.showDisclosure(true)
+            }
+        }
     }
+
+    private let headerRegistration = UICollectionView.SupplementaryRegistration<
+        TitleHeaderView
+    > { _, _, _ in }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupView()
         setupCollectionView()
+        setupHeaderView()
         applySnapshot()
     }
 
@@ -100,16 +125,36 @@ final class SettingContentView: UIView {
     }
 }
 
-// MARK: - internal methods
-
-extension SettingContentView {}
-
 // MARK: - private methods
 
 private extension SettingContentView {
     func setupCollectionView() {
         collectionView.configure {
+            $0.registerCell(with: TitleContentCell.self)
             $0.backgroundColor = .background
+        }
+    }
+
+    func setupHeaderView() {
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, _, indexPath in
+            guard let self else {
+                return .init()
+            }
+
+            let headerView = collectionView.dequeueConfiguredReusableSupplementary(
+                using: headerRegistration,
+                for: indexPath
+            )
+
+            switch Section.allCases[indexPath.section] {
+            case .application:
+                headerView.configure(with: L10n.Setting.application)
+
+            case .colorTheme:
+                headerView.configure(with: L10n.Setting.colorTheme)
+            }
+
+            return headerView
         }
     }
 
@@ -117,12 +162,17 @@ private extension SettingContentView {
         var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         dataSourceSnapshot.appendSections(Section.allCases)
 
-        ["text1", "text2", "text3", "text4", "text5"].forEach {
+        Item.Application.allCases.forEach {
             dataSourceSnapshot.appendItems(
-                [$0],
-                toSection: .main
+                [.application($0)],
+                toSection: .application
             )
         }
+
+        dataSourceSnapshot.appendItems(
+            [.colorTheme],
+            toSection: .colorTheme
+        )
 
         dataSource.apply(
             dataSourceSnapshot,

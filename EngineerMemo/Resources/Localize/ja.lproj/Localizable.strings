@@ -135,6 +135,13 @@
 "memo.example.title" = "メモタイトル(複数行記載可)";
 "memo.example.content" = "メモ内容(複数行記載可)";
 
+// MARK: - 設定
+
+"setting.application" = "アプリケーション";
+"setting.colorTheme" = "カラーテーマ";
+"setting.applicationVersion" = "アプリバージョン";
+"setting.licence" = "ライセンスについて";
+
 // MARK: - FirebaseAnalytics
 
 "fa.eventName.screenView" = "画面表示";
