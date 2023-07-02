@@ -73,6 +73,7 @@ extension ProfileProjectCell {
     func configure(_ modelObject: ProjectModelObject) {
         titleView.updateValue(modelObject.title ?? .noSetting)
         contentsView.updateValue(modelObject.content ?? .noSetting)
+        contentsView.updateLine(2)
 
         setPeriod(
             startDate: modelObject.startDate,
