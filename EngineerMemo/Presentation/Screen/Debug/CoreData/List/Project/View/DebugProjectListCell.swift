@@ -35,15 +35,15 @@
                     }
 
                     projectCountView.configure {
-                        $0.setTitle(title: L10n.Profile.Project.count)
+                        $0.setTitle(title: L10n.Project.count)
                     }
 
                     titleView.configure {
-                        $0.setTitle(title: L10n.Profile.Project.title)
+                        $0.setTitle(title: L10n.Project.title)
                     }
 
                     contentsView.configure {
-                        $0.setTitle(title: L10n.Profile.Project.content)
+                        $0.setTitle(title: L10n.Project.content)
                     }
                 }
             }
@@ -81,7 +81,7 @@
     extension DebugProjectListCell {
         func configure(_ modelObject: ProfileModelObject) {
             nameView.updateValue(modelObject.name)
-            projectCountView.updateValue(L10n.Profile.Project.number(modelObject.projects.count))
+            projectCountView.updateValue(L10n.Project.number(modelObject.projects.count))
 
             if let project = modelObject.projects.first {
                 titleView.updateValue(project.title ?? .noSetting)

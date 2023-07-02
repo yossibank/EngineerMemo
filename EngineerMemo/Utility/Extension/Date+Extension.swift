@@ -32,7 +32,23 @@ extension Date {
 
         return calendar.dateComponents(
             [.year],
-            from: birthday, to: now
+            from: birthday,
+            to: now
         ).year?.description
+    }
+
+    func periodString(end: Date?) -> String? {
+        guard
+            let end,
+            let period = Calendar.current.dateComponents(
+                [.month],
+                from: self,
+                to: end
+            ).month?.description
+        else {
+            return nil
+        }
+
+        return period + "ヶ月"
     }
 }

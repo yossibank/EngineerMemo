@@ -100,11 +100,14 @@
 "profile.year" = "%@年";
 "profile.moreTenYear" = "10年以上";
 "profile.score" = "%@点";
-"profile.project.count" = "案件数";
-"profile.project.number" = "%@件";
-"profile.project.title" = "案件名";
-"profile.project.period" = "案件期間";
-"profile.project.content" = "業務内容";
+"project.count" = "案件数";
+"project.number" = "%@件";
+"project.title" = "案件名";
+"project.period" = "案件期間";
+"project.startDate" = "%@ ~";
+"project.endDate" = "~ %@";
+"project.during" = "%@ ~ %@";
+"project.content" = "業務内容";
 
 // MARK: - メモ
 

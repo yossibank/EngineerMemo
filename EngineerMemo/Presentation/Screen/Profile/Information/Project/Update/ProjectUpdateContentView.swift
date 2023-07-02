@@ -26,7 +26,7 @@ final class ProjectUpdateContentView: UIView {
     ) {
         titleInputView.configure {
             $0.inputValue(.init(
-                title: L10n.Profile.Project.title,
+                title: L10n.Project.title,
                 icon: Asset.projectTitle.image,
                 placeholder: L10n.Profile.Placeholder.Project.title
             ))
@@ -40,7 +40,7 @@ final class ProjectUpdateContentView: UIView {
 
         contentInputView.configure {
             $0.inputValue(.init(
-                title: L10n.Profile.Project.content,
+                title: L10n.Project.content,
                 icon: Asset.projectContent.image,
                 placeholder: L10n.Profile.Placeholder.Project.content
             ))

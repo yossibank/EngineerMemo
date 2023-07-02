@@ -16,11 +16,15 @@ final class ProfileProjectCell: UITableViewCell {
 
     private lazy var projectView = VStackView(alignment: .leading, spacing: 16) {
         titleView.configure {
-            $0.setTitle(title: L10n.Profile.Project.title)
+            $0.setTitle(title: L10n.Project.title)
+        }
+
+        periodView.configure {
+            $0.setTitle(title: L10n.Project.period)
         }
 
         contentsView.configure {
-            $0.setTitle(title: L10n.Profile.Project.content)
+            $0.setTitle(title: L10n.Project.content)
         }
     }
 
@@ -31,6 +35,7 @@ final class ProfileProjectCell: UITableViewCell {
     }
 
     private let titleView = TitleContentView()
+    private let periodView = TitleSubContentView()
     private let contentsView = TitleContentView()
 
     override init(
@@ -68,6 +73,11 @@ extension ProfileProjectCell {
     func configure(_ modelObject: ProjectModelObject) {
         titleView.updateValue(modelObject.title ?? .noSetting)
         contentsView.updateValue(modelObject.content ?? .noSetting)
+
+        setPeriod(
+            startDate: modelObject.startDate,
+            endDate: modelObject.endDate
+        )
     }
 }
 
@@ -86,6 +96,23 @@ private extension ProfileProjectCell {
 
         selectionStyle = .none
         backgroundColor = .background
+    }
+
+    func setPeriod(
+        startDate: Date?,
+        endDate: Date?
+    ) {
+        if let startDate,
+           let endDate {
+            periodView.updateValue(L10n.Project.during(startDate.toString, endDate.toString))
+            periodView.setSubTitle(startDate.periodString(end: endDate))
+        } else if let startDate {
+            periodView.updateValue(L10n.Project.startDate(startDate.toString))
+        } else if let endDate {
+            periodView.updateValue(L10n.Project.endDate(endDate.toString))
+        } else {
+            periodView.updateValue(.noSetting)
+        }
     }
 }
 

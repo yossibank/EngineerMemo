@@ -9,14 +9,14 @@ final class ProjectDetailCell: UITableViewCell {
         VStackView(spacing: 32) {
             titleView.configure {
                 $0.inputValue(
-                    title: L10n.Profile.Project.title,
+                    title: L10n.Project.title,
                     icon: Asset.projectTitle.image
                 )
             }
 
             contentsView.configure {
                 $0.inputValue(
-                    title: L10n.Profile.Project.content,
+                    title: L10n.Project.content,
                     icon: Asset.projectContent.image
                 )
             }

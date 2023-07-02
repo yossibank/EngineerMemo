@@ -12,7 +12,7 @@ final class ProjectUpdatePeriodInputView: UIView {
         VStackView(spacing: 8) {
             titleView.configure {
                 $0.inputValue(
-                    title: L10n.Profile.Project.period,
+                    title: L10n.Project.period,
                     icon: Asset.projectPeriod.image
                 )
             }
