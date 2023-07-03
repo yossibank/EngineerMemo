@@ -118,7 +118,7 @@
 
         private(set) lazy var barButton = UIButton(type: .system)
             .addConstraint {
-                $0.width.equalTo(72)
+                $0.width.equalTo(80)
                 $0.height.equalTo(32)
             }
             .apply(.sendNavigationButton)
