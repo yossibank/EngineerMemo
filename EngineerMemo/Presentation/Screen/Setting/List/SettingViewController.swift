@@ -48,11 +48,11 @@ private extension SettingViewController {
             .receive(on: DispatchQueue.main)
             .filter { $0 }
             .sink { _ in
-                guard let appStoreReviewURL = AppConfig.appStoreReviewURL else {
+                guard let appReviewURL = AppConfig.appReviewURL else {
                     return
                 }
 
-                UIApplication.shared.open(appStoreReviewURL)
+                UIApplication.shared.open(appReviewURL)
             }
             .store(in: &cancellables)
     }

@@ -2,6 +2,12 @@ import Foundation
 
 enum DataHolder {
     @UserDefaultsStorage(
+        .isShowAppReview,
+        defaultValue: false
+    )
+    static var isShowAppReview: Bool
+
+    @UserDefaultsStorage(
         .colorTheme,
         defaultValue: .system
     )

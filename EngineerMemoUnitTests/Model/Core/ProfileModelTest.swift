@@ -224,6 +224,25 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
+    func test_createBasic_DataHolder_isShowAppReviewがtrueを出力すること() throws {
+        // assert
+        XCTAssertFalse(DataHolder.isShowAppReview)
+
+        // act
+        let publisher = model.createBasic(
+            ProfileModelObjectBuilder()
+                .name("テスト")
+                .birthday(Calendar.date(year: 2000, month: 1, day: 1))
+                .build()
+        )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
+
+        XCTAssertTrue(DataHolder.isShowAppReview)
+    }
+
     func test_updateBasic_基本情報を更新できること() throws {
         // arrange
         dataInsert()
