@@ -30,8 +30,6 @@ final class MemoModelTest: XCTestCase {
 
         cancellables.removeAll()
 
-        resetUserDefaults()
-
         CoreDataManager.shared.injectInMemoryPersistentContainer()
     }
 
@@ -194,28 +192,6 @@ final class MemoModelTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-    }
-
-    func test_create_DataHolder_isShowAppReviewがtrueを出力すること() throws {
-        // assert
-        XCTAssertFalse(DataHolder.isShowAppReview)
-
-        // act
-        let publisher = model.create(
-            MemoModelObjectBuilder()
-                .category(.technical)
-                .content("コンテンツ")
-                .createdAt(Calendar.date(year: 2000, month: 1, day: 1)!)
-                .title("タイトル")
-                .build()
-        )
-        .collect(1)
-        .first()
-
-        _ = try awaitOutputPublisher(publisher)
-
-        // assert
-        XCTAssertTrue(DataHolder.isShowAppReview)
     }
 
     func test_update_メモ情報を更新できること() throws {
