@@ -8,7 +8,7 @@ NUMBER_OF_ROWS = 5
 NUMBER_OF_COLUMNS = 2
 
 # 画像の幅
-IMAGE_WIDTH = 390
+IMAGE_WIDTH = 250
 
 def createMarkdown
     # スキーム名
