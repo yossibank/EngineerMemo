@@ -87,7 +87,7 @@ private extension ProjectDetailViewController {
 
         viewModel.output.$isDeleted
             .receive(on: DispatchQueue.main)
-            .filter { $0 == true }
+            .filter { $0 }
             .sink { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
             }

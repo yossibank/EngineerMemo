@@ -1,6 +1,10 @@
 import Foundation
 
 enum AppConfig {
+    static var appReviewURL: URL? {
+        URL(string: "https://apps.apple.com/us/app/%E3%82%A8%E3%83%B3%E3%83%A1%E3%83%A2/id6450376037?action=write-review")
+    }
+
     static var applicationVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
     }

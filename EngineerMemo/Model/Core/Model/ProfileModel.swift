@@ -54,6 +54,10 @@ struct ProfileModel: ProfileModelInput {
         storage
             .create()
             .handleEvents(receiveOutput: {
+                if !DataHolder.isShowAppReview {
+                    DataHolder.isShowAppReview = true
+                }
+
                 modelObject.insertBasic($0, isNew: true)
             })
             .map { _ in }

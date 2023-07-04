@@ -1,4 +1,5 @@
 import Combine
+import StoreKit
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProtocol {
@@ -20,6 +21,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
         window = .init(windowScene: windowScene)
         window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
+
+        DataHolder.$isShowAppReview
+            .debounce(for: 1.2, scheduler: DispatchQueue.main)
+            .filter { $0 }
+            .sink { _ in
+                if let windowScene = UIApplication.shared.connectedScenes.first(where: {
+                    $0.activationState == .foregroundActive
+                }) as? UIWindowScene {
+                    SKStoreReviewController.requestReview(in: windowScene)
+                }
+            }
+            .store(in: &cancellables)
 
         DataHolder.$colorTheme.sink { [weak self] colorScheme in
             switch colorScheme {
