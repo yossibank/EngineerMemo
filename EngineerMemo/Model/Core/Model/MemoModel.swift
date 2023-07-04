@@ -46,10 +46,6 @@ struct MemoModel: MemoModelInput {
         storage
             .create()
             .handleEvents(receiveOutput: {
-                if !DataHolder.isShowAppReview {
-                    DataHolder.isShowAppReview = true
-                }
-
                 modelObject.insertMemo($0, isNew: true)
             })
             .map { _ in }

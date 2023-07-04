@@ -31,6 +31,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
                 }) as? UIWindowScene {
                     SKStoreReviewController.requestReview(in: windowScene)
                 }
+
+                DataHolder.isShowAppReview = false
             }
             .store(in: &cancellables)
 
