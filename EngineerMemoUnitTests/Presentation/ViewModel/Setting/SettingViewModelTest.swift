@@ -49,6 +49,14 @@ final class SettingViewModelTest: XCTestCase {
         viewModel.input.didChangeColorThemeIndex.send(2)
     }
 
+    func test_input_didTapReviewCell_output_didTapReviewがtrueを出力すること() {
+        // act
+        viewModel.input.didTapReviewCell.send(())
+
+        // assert
+        XCTAssertTrue(viewModel.output.didTapReview)
+    }
+
     func test_input_didTapLicenceCell_routing_showLicenceScreenが呼ばれること() {
         // arrange
         routing.showLicenceScreenHandler = {}

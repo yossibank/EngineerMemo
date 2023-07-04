@@ -29,6 +29,7 @@ extension SettingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        bindToView()
         bindToViewModel()
     }
 
@@ -42,11 +43,32 @@ extension SettingViewController {
 // MARK: - private methods
 
 private extension SettingViewController {
+    func bindToView() {
+        viewModel.output.$didTapReview
+            .receive(on: DispatchQueue.main)
+            .filter { $0 }
+            .sink { _ in
+                guard let appStoreReviewURL = AppConfig.appStoreReviewURL else {
+                    return
+                }
+
+                UIApplication.shared.open(appStoreReviewURL)
+            }
+            .store(in: &cancellables)
+    }
+
     func bindToViewModel() {
         contentView.didChangeColorThemeIndexPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.viewModel.input.didChangeColorThemeIndex.send($0)
+            }
+            .store(in: &cancellables)
+
+        contentView.didTapReviewCellPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.viewModel.input.didTapReviewCell.send(())
             }
             .store(in: &cancellables)
 

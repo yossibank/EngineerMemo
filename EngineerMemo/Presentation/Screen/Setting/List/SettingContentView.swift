@@ -15,11 +15,13 @@ enum SettingContentViewItem: Hashable {
 
     enum Application: CaseIterable {
         case version
+        case review
         case licence
 
         var title: String {
             switch self {
             case .version: return L10n.Setting.applicationVersion
+            case .review: return L10n.Setting.review
             case .licence: return L10n.Setting.licence
             }
         }
@@ -33,6 +35,7 @@ final class SettingContentView: UIView {
     typealias Item = SettingContentViewItem
 
     private(set) lazy var didChangeColorThemeIndexPublisher = didChangeColorThemeIndexSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapReviewCellPublisher = didTapReviewCellSubject.eraseToAnyPublisher()
     private(set) lazy var didTapLicenceCellPublisher = didTapLicenceCellSubject.eraseToAnyPublisher()
 
     private lazy var collectionView = UICollectionView(
@@ -119,6 +122,9 @@ final class SettingContentView: UIView {
                 cell.updateValue(AppConfig.applicationVersion)
                 cell.showDisclosure(false)
 
+            case .review:
+                cell.showDisclosure(true)
+
             case .licence:
                 cell.showDisclosure(true)
             }
@@ -130,6 +136,7 @@ final class SettingContentView: UIView {
     > { _, _, _ in }
 
     private let didChangeColorThemeIndexSubject = PassthroughSubject<Int, Never>()
+    private let didTapReviewCellSubject = PassthroughSubject<Void, Never>()
     private let didTapLicenceCellSubject = PassthroughSubject<Void, Never>()
 
     override init(frame: CGRect) {
@@ -218,13 +225,21 @@ extension SettingContentView: UICollectionViewDelegate {
     ) {
         guard
             let section = Section.allCases[safe: indexPath.section],
+            let item = Item.Application.allCases[safe: indexPath.row],
             section == .application
         else {
             return
         }
 
-        if Item.Application.allCases[safe: indexPath.row] == .licence {
+        switch item {
+        case .review:
+            didTapReviewCellSubject.send(())
+
+        case .licence:
             didTapLicenceCellSubject.send(())
+
+        default:
+            break
         }
     }
 }

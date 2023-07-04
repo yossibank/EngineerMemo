@@ -53,7 +53,7 @@ private extension ProjectUpdateViewController {
     func bindToView() {
         viewModel.output.$isFinished
             .debounce(for: 0.8, scheduler: DispatchQueue.main)
-            .filter { $0 == true }
+            .filter { $0 }
             .sink { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
             }
