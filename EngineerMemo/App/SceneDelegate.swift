@@ -26,7 +26,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
             .debounce(for: 1.2, scheduler: DispatchQueue.main)
             .filter { $0 }
             .sink { _ in
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                if let windowScene = UIApplication.shared.connectedScenes.first(where: {
+                    $0.activationState == .foregroundActive
+                }) as? UIWindowScene {
                     SKStoreReviewController.requestReview(in: windowScene)
                 }
 
