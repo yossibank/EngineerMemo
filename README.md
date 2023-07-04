@@ -4,7 +4,7 @@
 
 | | | | |
 |:---:|:---:|:---:|:---:|
-| <img src='Screenshot/%E2%80%8EScreenshot1.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot2.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot3.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot4.jpeg' /> |
+| <img src='Screenshot/%E2%80%8EScreenshot1.jpeg' width='500' /> | <img src='Screenshot/%E2%80%8EScreenshot2.jpeg' width='500' /> | <img src='Screenshot/%E2%80%8EScreenshot3.jpeg' width='500' /> | <img src='Screenshot/%E2%80%8EScreenshot4.jpeg' width='500' /> |
 
 ## App Screen(Snapshot)
 
