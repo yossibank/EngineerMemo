@@ -30,7 +30,5 @@ end
 periphery.scan(
     project: "EngineerMemo.xcodeproj",
     schemes: "EngineerMemo",
-    targets: "EngineerMemo",
-    skip_build: true,
-    index_store_path: "DerivedData/Index.noindex/DataStore"
+    targets: "EngineerMemo"
 )
