@@ -1,10 +1,16 @@
 # EngineerMemo
 
-## アプリ画面(Snapshot)
+## What's App
 
-* [画面一覧](https://github.com/yossibank/EngineerMemo/tree/main/EngineerMemoSnapshotTests/Reports)
+| | | | |
+|:---:|:---:|:---:|:---:|
+| <img src='Screenshot/%E2%80%8EScreenshot1.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot2.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot3.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot4.jpeg' /> |
 
-※ 画面例
+## App Screen(Snapshot)
+
+* [ScreenList](https://github.com/yossibank/EngineerMemo/tree/main/EngineerMemoSnapshotTests/Reports)
+
+※ Example
 
 * カスタムシート画面
 
@@ -46,11 +52,11 @@
 |iPhone14|iPhone14|
 |<img src='EngineerMemoSnapshotTests/ReferenceImages_64/メモ詳細画面/testMemoDetailViewController_標準_ダークモード_iPhone_16_4_390x844@3x.png' width='390' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/メモ詳細画面/testMemoDetailViewController_標準_ライトモード_iPhone_16_4_390x844@3x.png' width='390' style='border: 1px solid #999' />|
 
-## 対象OS
+## Target OS
 
-* iOS15以降
+* above iOS15
 
-## 導入ライブラリ
+## Library
 
 * **Firebase**
 * **SnapKit**
@@ -58,30 +64,23 @@
 * **iOSSnapshotTestCase**
 * **Mockolo**
 * **LicensePlist**
-* **UIKitHelper(自作ライブラリ)**
+* **UIKitHelper(self-made Library)**
 
-## 導入ツール
+## Tool
 
 * **SwiftFormat**
 * **SwiftLint**
 * **SwiftGen**
 * **XcodeGen**
 
-## プロジェクト設定
-
-* `project.yml`内で管理、以下コマンド実行
-
-```
-make setup
-```
-
-## アーキテクチャ
+## Architecture
 
 **MVVM**
 
-* **Model**(単体テスト対象)
+* **Model**(Target UnitTest)
+  - **Converter**
 
-* **ViewModel**(単体テスト対象)
-  - **Router**(画面遷移管理)保持
+* **ViewModel**(Target UnitTest)
+  - **Router**
 
-* **View**(スナップショットテスト対象)
+* **View**(Target SnapshotTest)
