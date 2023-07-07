@@ -145,6 +145,7 @@
 "setting.colorTheme.dark" = "ダークモード";
 "setting.applicationVersion" = "アプリバージョン";
 "setting.review" = "レビューする";
+"setting.inquiry" = "ご要望・お問い合わせ";
 "setting.licence" = "ライセンスについて";
 
 // MARK: - FirebaseAnalytics

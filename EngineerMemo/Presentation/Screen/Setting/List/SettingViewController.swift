@@ -48,11 +48,7 @@ private extension SettingViewController {
             .receive(on: DispatchQueue.main)
             .filter { $0 }
             .sink { _ in
-                guard let appReviewURL = AppConfig.appReviewURL else {
-                    return
-                }
-
-                UIApplication.shared.open(appReviewURL)
+                AppConfig.openAppReview()
             }
             .store(in: &cancellables)
     }
@@ -65,17 +61,10 @@ private extension SettingViewController {
             }
             .store(in: &cancellables)
 
-        contentView.didTapReviewCellPublisher
+        contentView.didTapApplicationCellPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapReviewCell.send(())
-            }
-            .store(in: &cancellables)
-
-        contentView.didTapLicenceCellPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapLicenceCell.send(())
+            .sink { [weak self] in
+                self?.viewModel.input.didTapApplicationCell.send($0)
             }
             .store(in: &cancellables)
     }

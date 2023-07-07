@@ -16,13 +16,17 @@ enum SettingContentViewItem: Hashable {
     enum Application: CaseIterable {
         case version
         case review
+        case inquiry
         case licence
 
         var title: String {
+            let l10n = L10n.Setting.self
+
             switch self {
-            case .version: return L10n.Setting.applicationVersion
-            case .review: return L10n.Setting.review
-            case .licence: return L10n.Setting.licence
+            case .version: return l10n.applicationVersion
+            case .review: return l10n.review
+            case .inquiry: return l10n.inquiry
+            case .licence: return l10n.licence
             }
         }
     }
@@ -35,8 +39,7 @@ final class SettingContentView: UIView {
     typealias Item = SettingContentViewItem
 
     private(set) lazy var didChangeColorThemeIndexPublisher = didChangeColorThemeIndexSubject.eraseToAnyPublisher()
-    private(set) lazy var didTapReviewCellPublisher = didTapReviewCellSubject.eraseToAnyPublisher()
-    private(set) lazy var didTapLicenceCellPublisher = didTapLicenceCellSubject.eraseToAnyPublisher()
+    private(set) lazy var didTapApplicationCellPublisher = didTapApplicationCellSubject.eraseToAnyPublisher()
 
     private lazy var collectionView = UICollectionView(
         frame: .zero,
@@ -122,10 +125,7 @@ final class SettingContentView: UIView {
                 cell.updateValue(AppConfig.applicationVersion)
                 cell.showDisclosure(false)
 
-            case .review:
-                cell.showDisclosure(true)
-
-            case .licence:
+            case .review, .inquiry, .licence:
                 cell.showDisclosure(true)
             }
         }
@@ -136,8 +136,7 @@ final class SettingContentView: UIView {
     > { _, _, _ in }
 
     private let didChangeColorThemeIndexSubject = PassthroughSubject<Int, Never>()
-    private let didTapReviewCellSubject = PassthroughSubject<Void, Never>()
-    private let didTapLicenceCellSubject = PassthroughSubject<Void, Never>()
+    private let didTapApplicationCellSubject = PassthroughSubject<Item.Application, Never>()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -226,21 +225,13 @@ extension SettingContentView: UICollectionViewDelegate {
         guard
             let section = Section.allCases[safe: indexPath.section],
             let item = Item.Application.allCases[safe: indexPath.row],
-            section == .application
+            section == .application,
+            item != .version
         else {
             return
         }
 
-        switch item {
-        case .review:
-            didTapReviewCellSubject.send(())
-
-        case .licence:
-            didTapLicenceCellSubject.send(())
-
-        default:
-            break
-        }
+        didTapApplicationCellSubject.send(item)
     }
 }
 
