@@ -7,6 +7,7 @@
 - EngineerMemo/Utility/Debug
 - EngineerMemo/Utility/UIHelper
 
+- UI*.swift
 - .*Cell.swift
 - .*View.swift
 - .*ViewController.swift
@@ -14,5 +15,6 @@
 - .*Style.swift
 - .*+Modifier.swift
 - .*Builder.swift
+- .*Config.swift
 - .*AppDelegate.swift
 - .*SceneDelegate.swift
