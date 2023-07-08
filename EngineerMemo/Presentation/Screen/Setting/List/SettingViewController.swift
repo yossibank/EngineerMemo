@@ -1,5 +1,5 @@
 import Combine
-import UIKit
+import MessageUI
 
 // MARK: - inject
 
@@ -48,11 +48,25 @@ private extension SettingViewController {
             .receive(on: DispatchQueue.main)
             .filter { $0 }
             .sink { _ in
-                guard let appReviewURL = AppConfig.appReviewURL else {
+                AppConfig.openAppReview()
+            }
+            .store(in: &cancellables)
+
+        viewModel.output.$didTapInquiry
+            .receive(on: DispatchQueue.main)
+            .filter { $0 }
+            .sink { [weak self] _ in
+                guard let self else {
                     return
                 }
 
-                UIApplication.shared.open(appReviewURL)
+                openMessage(
+                    .init(
+                        subject: L10n.Mail.subject,
+                        body: L10n.Mail.body,
+                        delegate: self
+                    )
+                )
             }
             .store(in: &cancellables)
     }
@@ -65,18 +79,44 @@ private extension SettingViewController {
             }
             .store(in: &cancellables)
 
-        contentView.didTapReviewCellPublisher
+        contentView.didTapApplicationCellPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapReviewCell.send(())
+            .sink { [weak self] in
+                self?.viewModel.input.didTapApplicationCell.send($0)
             }
             .store(in: &cancellables)
+    }
+}
 
-        contentView.didTapLicenceCellPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapLicenceCell.send(())
+// MARK: - protocol
+
+extension SettingViewController: UIMessageable, MFMailComposeViewControllerDelegate {
+    func mailComposeController(
+        _ controller: MFMailComposeViewController,
+        didFinishWith result: MFMailComposeResult,
+        error: Error?
+    ) {
+        controller.dismiss(animated: true) { [weak self] in
+            guard let self else {
+                return
             }
-            .store(in: &cancellables)
+
+            switch result {
+            case .cancelled:
+                showActionSheet(messageResult: .cancelled)
+
+            case .saved:
+                showActionSheet(messageResult: .saved)
+
+            case .sent:
+                showActionSheet(messageResult: .send)
+
+            case .failed:
+                showActionSheet(messageResult: .failed)
+
+            @unknown default:
+                break
+            }
+        }
     }
 }

@@ -56,15 +56,15 @@ private extension MemoDetailViewController {
 
         deleteMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
             let sheetAction: SheetAction = .init(
-                title: L10n.Sheet.yes,
+                title: L10n.Sheet.Action.yes,
                 actionType: .alert
             ) { [weak self] in
                 self?.viewModel.input.didTapDeleteBarButton.send(())
             }
 
             self?.showActionSheet(
-                title: L10n.Sheet.caution,
-                message: L10n.Sheet.memoDelete,
+                title: L10n.Sheet.Title.caution,
+                message: L10n.Sheet.Message.memoDelete,
                 actions: [sheetAction]
             )
         }

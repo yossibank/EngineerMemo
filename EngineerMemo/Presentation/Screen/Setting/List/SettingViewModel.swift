@@ -4,12 +4,12 @@ final class SettingViewModel: ViewModel {
     final class Input: InputObject {
         let viewWillAppear = PassthroughSubject<Void, Never>()
         let didChangeColorThemeIndex = PassthroughSubject<Int, Never>()
-        let didTapReviewCell = PassthroughSubject<Void, Never>()
-        let didTapLicenceCell = PassthroughSubject<Void, Never>()
+        let didTapApplicationCell = PassthroughSubject<SettingContentViewItem.Application, Never>()
     }
 
     final class Output: OutputObject {
         @Published fileprivate(set) var didTapReview = false
+        @Published fileprivate(set) var didTapInquiry = false
     }
 
     let input: Input
@@ -50,17 +50,22 @@ final class SettingViewModel: ViewModel {
         }
         .store(in: &cancellables)
 
-        // MARK: - レビューセルタップ
+        // MARK: - アプリケーションセルタップ
 
-        input.didTapReviewCell.sink {
-            output.didTapReview = true
-        }
-        .store(in: &cancellables)
+        input.didTapApplicationCell.sink {
+            switch $0 {
+            case .review:
+                output.didTapReview = true
 
-        // MARK: - ライセンスセルタップ
+            case .inquiry:
+                output.didTapInquiry = true
 
-        input.didTapLicenceCell.sink {
-            routing.showLicenceScreen()
+            case .licence:
+                routing.showLicenceScreen()
+
+            default:
+                break
+            }
         }
         .store(in: &cancellables)
     }

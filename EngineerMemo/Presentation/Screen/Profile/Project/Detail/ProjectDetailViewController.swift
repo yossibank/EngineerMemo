@@ -56,15 +56,15 @@ private extension ProjectDetailViewController {
 
         deleteProjectBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
             let sheetAction: SheetAction = .init(
-                title: L10n.Sheet.yes,
+                title: L10n.Sheet.Action.yes,
                 actionType: .alert
             ) { [weak self] in
                 self?.viewModel.input.didTapDeleteBarButton.send(())
             }
 
             self?.showActionSheet(
-                title: L10n.Sheet.caution,
-                message: L10n.Sheet.projectDelete,
+                title: L10n.Sheet.Title.caution,
+                message: L10n.Sheet.Message.projectDelete,
                 actions: [sheetAction]
             )
         }

@@ -10,7 +10,7 @@ enum Logger {
     }
 
     private static let logger = os.Logger(
-        subsystem: "sample.com",
+        subsystem: "engineermemo.com",
         category: "App"
     )
 
