@@ -17,9 +17,27 @@ struct SheetAction {
     let actionType: SheetActionType
     let action: VoidBlock
 
+    var textColor: UIColor {
+        switch actionType {
+        case .default: return .theme
+        case .warning: return .black
+        case .alert: return .white
+        case .close: return .primary
+        }
+    }
+
+    var backgroundColor: UIColor {
+        switch actionType {
+        case .default: return .primary
+        case .warning: return .warning
+        case .alert: return .alert
+        case .close: return .primaryGray
+        }
+    }
+
     static var closeAction: SheetAction {
         .init(
-            title: L10n.Sheet.close,
+            title: L10n.Sheet.Action.close,
             actionType: .close,
             action: {}
         )
@@ -115,27 +133,9 @@ private extension SheetContentView {
                     outgoing.font = .boldSystemFont(ofSize: 16)
                     return outgoing
                 }
-                config.background.backgroundColor = .background
                 config.background.cornerRadius = 8
-
-                switch sheetAction.actionType {
-                case .default:
-                    config.baseForegroundColor = .primary
-                    config.background.backgroundColor = .background
-
-                case .warning:
-                    config.baseForegroundColor = .black
-                    config.background.backgroundColor = .warning
-
-                case .alert:
-                    config.baseForegroundColor = .white
-                    config.background.backgroundColor = .alert
-
-                case .close:
-                    config.baseForegroundColor = .primary
-                    config.background.backgroundColor = .primaryGray
-                }
-
+                config.background.backgroundColor = sheetAction.backgroundColor
+                config.baseForegroundColor = sheetAction.textColor
                 $0.configuration = config
             }
 

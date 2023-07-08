@@ -1,5 +1,5 @@
 import Combine
-import UIKit
+import MessageUI
 
 // MARK: - inject
 
@@ -51,6 +51,24 @@ private extension SettingViewController {
                 AppConfig.openAppReview()
             }
             .store(in: &cancellables)
+
+        viewModel.output.$didTapInquiry
+            .receive(on: DispatchQueue.main)
+            .filter { $0 }
+            .sink { [weak self] _ in
+                guard let self else {
+                    return
+                }
+
+                openMessage(
+                    .init(
+                        subject: L10n.Mail.subject,
+                        body: L10n.Mail.body,
+                        delegate: self
+                    )
+                )
+            }
+            .store(in: &cancellables)
     }
 
     func bindToViewModel() {
@@ -67,5 +85,38 @@ private extension SettingViewController {
                 self?.viewModel.input.didTapApplicationCell.send($0)
             }
             .store(in: &cancellables)
+    }
+}
+
+// MARK: - protocol
+
+extension SettingViewController: UIMessageable, MFMailComposeViewControllerDelegate {
+    func mailComposeController(
+        _ controller: MFMailComposeViewController,
+        didFinishWith result: MFMailComposeResult,
+        error: Error?
+    ) {
+        controller.dismiss(animated: true) { [weak self] in
+            guard let self else {
+                return
+            }
+
+            switch result {
+            case .cancelled:
+                showActionSheet(messageResult: .cancelled)
+
+            case .saved:
+                showActionSheet(messageResult: .saved)
+
+            case .sent:
+                showActionSheet(messageResult: .send)
+
+            case .failed:
+                showActionSheet(messageResult: .failed)
+
+            @unknown default:
+                break
+            }
+        }
     }
 }

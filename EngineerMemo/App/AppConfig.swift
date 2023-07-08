@@ -6,6 +6,10 @@ enum AppConfig {
         string: "https://apps.apple.com/us/app/%E3%82%A8%E3%83%B3%E3%83%A1%E3%83%A2/id6450376037?action=write-review"
     )
 
+    static let appMailURL = URL(
+        string: "mailTo:"
+    )
+
     static let appInquiryAddress = "engineermemo29@gmail.com"
 
     static let applicationVersion = Bundle.main.object(
@@ -45,5 +49,13 @@ extension AppConfig {
         }
 
         UIApplication.shared.open(appReviewURL)
+    }
+
+    static func openMailApp() {
+        guard let appMailURL else {
+            return
+        }
+
+        UIApplication.shared.open(appMailURL)
     }
 }

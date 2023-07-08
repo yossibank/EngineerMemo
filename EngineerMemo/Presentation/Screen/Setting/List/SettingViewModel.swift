@@ -9,6 +9,7 @@ final class SettingViewModel: ViewModel {
 
     final class Output: OutputObject {
         @Published fileprivate(set) var didTapReview = false
+        @Published fileprivate(set) var didTapInquiry = false
     }
 
     let input: Input
@@ -57,7 +58,7 @@ final class SettingViewModel: ViewModel {
                 output.didTapReview = true
 
             case .inquiry:
-                print("OK")
+                output.didTapInquiry = true
 
             case .licence:
                 routing.showLicenceScreen()

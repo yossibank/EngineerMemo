@@ -57,6 +57,14 @@ final class SettingViewModelTest: XCTestCase {
         XCTAssertTrue(viewModel.output.didTapReview)
     }
 
+    func test_input_didTapApplicationCell_inquiry_output_didTapInquiryがtrueを出力すること() {
+        // act
+        viewModel.input.didTapApplicationCell.send(.inquiry)
+
+        // assert
+        XCTAssertTrue(viewModel.output.didTapInquiry)
+    }
+
     func test_input_didTapApplicationCell_licence_routing_showLicenceScreenが呼ばれること() {
         // arrange
         routing.showLicenceScreenHandler = {}

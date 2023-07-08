@@ -50,12 +50,22 @@
 
 // MARK: - シート
 
-"sheet.close" = "閉じる";
-"sheet.caution" = "注意";
-"sheet.yes" = "はい";
-"sheet.no" = "いいえ";
-"sheet.memoDelete" = "メモ情報を削除します。よろしいでしょうか？";
-"sheet.projectDelete" = "案件情報を削除します。よろしいでしょうか？";
+"sheet.title.success" = "成功";
+"sheet.title.caution" = "注意";
+"sheet.title.cancel" = "キャンセル";
+"sheet.title.error" = "エラー";
+"sheet.title.draftSave" = "下書き保存完了";
+"sheet.message.successSendMail" = "メールの送信が完了しました。";
+"sheet.message.failedSendMail" = "メールの送信に失敗しました。\n内容をご確認の上もう一度お試しください。";
+"sheet.message.savedMail" = "メールの下書き保存が完了しました。\nまだ送信は完了していません。";
+"sheet.message.cancelledMail" = "メールの送信をキャンセルしました。";
+"sheet.message.noSettingMailAccount" = "メールを送信するアカウントが設定されいません。\nアカウント設定を行ってください。";
+"sheet.message.memoDelete" = "メモ情報を削除します。よろしいでしょうか？";
+"sheet.message.projectDelete" = "案件情報を削除します。よろしいでしょうか？";
+"sheet.action.close" = "閉じる";
+"sheet.action.yes" = "はい";
+"sheet.action.no" = "いいえ";
+"sheet.action.setting" = "設定する";
 
 // MARK: - プロフィール
 
@@ -147,6 +157,11 @@
 "setting.review" = "レビューする";
 "setting.inquiry" = "ご要望・お問い合わせ";
 "setting.licence" = "ライセンスについて";
+
+// MARK: - メール
+
+"mail.subject" = "【エンメモ】ご要望・お問い合わせ";
+"mail.body" = "【ご要望・お問い合わせ内容】\n\n\n\n\n\n\n\n\n\n------------------------------------------\nエンメモ";
 
 // MARK: - FirebaseAnalytics
 
