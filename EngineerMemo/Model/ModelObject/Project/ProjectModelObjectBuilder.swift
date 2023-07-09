@@ -4,7 +4,7 @@
     final class ProjectModelObjectBuilder {
         private var content: String? = "テストプロジェクト内容"
         private var role: String? = "プログラマー"
-        private var processes = [1, 3, 5]
+        private var processes: [ProjectModelObject.Process] = [.technicalDesign, .implementation]
         private var title: String? = "テストプロジェクトタイトル"
         private var startDate = Calendar.date(year: 2020, month: 1, day: 1)
         private var endDate = Calendar.date(year: 2021, month: 12, day: 1)
@@ -32,7 +32,7 @@
             return self
         }
 
-        func processes(_ processes: [Int]) -> Self {
+        func processes(_ processes: [ProjectModelObject.Process]) -> Self {
             self.processes = processes
             return self
         }

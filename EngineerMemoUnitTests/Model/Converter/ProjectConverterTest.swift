@@ -42,7 +42,7 @@ final class ProjectConverterTest: XCTestCase {
                 ProjectModelObjectBuilder()
                     .title("title")
                     .role("プログラマー")
-                    .processes([1, 3, 5])
+                    .processes([.functionalDesign, .implementation, .systemTesting])
                     .content("content")
                     .startDate(Calendar.date(year: 2020, month: 1, day: 1))
                     .endDate(Calendar.date(year: 2021, month: 12, day: 1))
