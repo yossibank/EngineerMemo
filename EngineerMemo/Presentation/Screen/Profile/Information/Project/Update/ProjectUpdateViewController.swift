@@ -94,9 +94,7 @@ private extension ProjectUpdateViewController {
 
         contentView.didChangeProcessInputPublisher
             .receive(on: DispatchQueue.main)
-            .sink { processes in
-                print(processes)
-            }
+            .weakAssign(to: \.processes, on: viewModel.binding)
             .store(in: &cancellables)
 
         contentView.didChangeContentInputPublisher

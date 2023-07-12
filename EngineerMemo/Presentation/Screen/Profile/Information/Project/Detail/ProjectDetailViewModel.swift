@@ -18,6 +18,7 @@ final class ProjectDetailViewModel: ViewModel {
     let output: Output
     let binding = NoBinding()
 
+    private var modelObject: ProfileModelObject?
     private var cancellables = Set<AnyCancellable>()
 
     private let model: ProfileModelInput
@@ -44,12 +45,14 @@ final class ProjectDetailViewModel: ViewModel {
 
         input.viewDidLoad
             .flatMap { model.find(identifier: modelObject.identifier).resultMap }
-            .sink {
+            .sink { [weak self] in
                 switch $0 {
                 case let .success(modelObject):
                     output.modelObject = modelObject.projects
                         .filter { $0.identifier == identifier }
                         .first
+
+                    self?.modelObject = modelObject
 
                 case let .failure(appError):
                     output.appError = appError
@@ -66,19 +69,23 @@ final class ProjectDetailViewModel: ViewModel {
 
         // MARK: - 編集ボタンタップ
 
-        input.didTapEditBarButton.sink { _ in
-            routing.showUpdateScreen(
-                identifier: identifier,
-                modelObject: modelObject
-            )
+        input.didTapEditBarButton.sink { [weak self] _ in
+            if let modelObject = self?.modelObject {
+                routing.showUpdateScreen(
+                    identifier: identifier,
+                    modelObject: modelObject
+                )
+            }
         }
         .store(in: &cancellables)
 
         // MARK: - 削除ボタンタップ
 
         input.didTapDeleteBarButton.sink { [weak self] _ in
-            self?.deleteProject(modelObject, identifier: identifier)
-            output.isDeleted = true
+            if let modelObject = self?.modelObject {
+                self?.deleteProject(modelObject, identifier: identifier)
+                output.isDeleted = true
+            }
         }
         .store(in: &cancellables)
     }

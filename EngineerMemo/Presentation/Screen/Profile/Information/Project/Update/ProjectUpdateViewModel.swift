@@ -7,6 +7,7 @@ final class ProjectUpdateViewModel: ViewModel {
         @Published var startDate: Date?
         @Published var endDate: Date?
         @Published var role: String?
+        @Published var processes: [ProjectModelObject.Process] = []
         @Published var content: String?
     }
 
@@ -80,6 +81,12 @@ final class ProjectUpdateViewModel: ViewModel {
             .dropFirst()
             .sink { updatedObject.role = $0 }
 
+        // MARK: - 担当案件
+
+        let processes = binding.$processes
+            .dropFirst()
+            .sink { updatedObject.processes = $0 }
+
         // MARK: - 内容
 
         let content = binding.$content
@@ -108,6 +115,7 @@ final class ProjectUpdateViewModel: ViewModel {
             startDate,
             endDate,
             role,
+            processes,
             content
         ])
     }
