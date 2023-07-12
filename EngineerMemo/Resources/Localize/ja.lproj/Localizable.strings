@@ -124,6 +124,7 @@
 "project.process.integrationTesting" = "結合テスト";
 "project.process.systemTesting" = "総合テスト";
 "project.process.maintenance" = "保守・運用";
+"project.processHint" = "※タップして担当した工程を切り替えられます";
 "project.content" = "業務内容";
 "project.placeholder.title" = "関わったサービス、案件名";
 "project.placeholder.role" = "担当した役割、立場";

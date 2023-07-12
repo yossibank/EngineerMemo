@@ -92,6 +92,13 @@ private extension ProjectUpdateViewController {
             .weakAssign(to: \.role, on: viewModel.binding)
             .store(in: &cancellables)
 
+        contentView.didChangeProcessInputPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { processes in
+                print(processes)
+            }
+            .store(in: &cancellables)
+
         contentView.didChangeContentInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)

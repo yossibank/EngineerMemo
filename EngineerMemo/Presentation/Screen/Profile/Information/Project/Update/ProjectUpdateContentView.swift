@@ -9,6 +9,7 @@ final class ProjectUpdateContentView: UIView {
     private(set) lazy var didChangeStartDateInputPublisher = periodInputView.didChangeStartDatePublisher
     private(set) lazy var didChangeEndDateInputPublisher = periodInputView.didChangeEndDatePublisher
     private(set) lazy var didChangeRoleInputPublisher = roleInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeProcessInputPublisher = processInputView.didChangeProcessPublisher
     private(set) lazy var didChangeContentInputPublisher = contentInputView.didChangeInputTextPublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
@@ -49,6 +50,10 @@ final class ProjectUpdateContentView: UIView {
             $0.updateValue(project?.role)
         }
 
+        processInputView.configure {
+            $0.updateValue(project?.processes ?? [])
+        }
+
         contentInputView.configure {
             $0.inputValue(.init(
                 title: L10n.Project.content,
@@ -63,6 +68,7 @@ final class ProjectUpdateContentView: UIView {
     private let titleInputView = UpdateTextInputView()
     private let periodInputView = ProjectUpdatePeriodInputView()
     private let roleInputView = UpdateTextInputView()
+    private let processInputView = ProjectUpdateProcessInputView()
     private let contentInputView = UpdateTextMultiInputView()
 
     private var project: ProjectModelObject? {

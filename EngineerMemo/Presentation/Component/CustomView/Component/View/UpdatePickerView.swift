@@ -9,7 +9,7 @@ final class UpdatePickerInputView: UIView {
 
     private var body: UIView {
         VStackView(spacing: 8) {
-            titleView.configure {
+            UpdateTitleView().configure {
                 $0.inputValue(
                     title: L10n.Profile.birthday,
                     icon: Asset.birthday.image
@@ -33,8 +33,6 @@ final class UpdatePickerInputView: UIView {
             }
         }
     }
-
-    private let titleView = UpdateTitleView()
 
     private let inputDatePicker = UIDatePicker().configure {
         $0.contentHorizontalAlignment = .leading

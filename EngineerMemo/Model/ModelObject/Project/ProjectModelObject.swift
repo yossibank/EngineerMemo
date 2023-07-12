@@ -9,7 +9,7 @@ struct ProjectModelObject: Hashable {
     var endDate: Date?
     var identifier: String
 
-    enum Process: Int {
+    enum Process: Int, CaseIterable {
         case requirementDefinition
         case functionalDesign
         case technicalDesign

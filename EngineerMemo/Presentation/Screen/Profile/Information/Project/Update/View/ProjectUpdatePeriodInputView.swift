@@ -10,7 +10,7 @@ final class ProjectUpdatePeriodInputView: UIView {
 
     private var body: UIView {
         VStackView(spacing: 8) {
-            titleView.configure {
+            UpdateTitleView().configure {
                 $0.inputValue(
                     title: L10n.Project.period,
                     icon: Asset.projectPeriod.image
@@ -61,8 +61,6 @@ final class ProjectUpdatePeriodInputView: UIView {
             }
         }
     }
-
-    private let titleView = UpdateTitleView()
 
     private let startDatePicker = UIDatePicker().configure {
         $0.contentHorizontalAlignment = .leading
