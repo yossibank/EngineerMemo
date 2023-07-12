@@ -14,7 +14,7 @@ final class TitleSubContentView: UIView {
 
                 subTitleLabel.configure {
                     $0.textColor = .primary
-                    $0.font = .boldSystemFont(ofSize: 14)
+                    $0.font = .boldSystemFont(ofSize: 12)
                     $0.numberOfLines = 0
                 }
             }

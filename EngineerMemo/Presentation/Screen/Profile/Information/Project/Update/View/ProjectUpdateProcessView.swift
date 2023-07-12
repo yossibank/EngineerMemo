@@ -9,21 +9,22 @@ final class ProjectUpdateProcessView: UIView {
 
     private(set) lazy var didTapViewPublisher = gesturePublisher().eraseToAnyPublisher()
 
-    private var body: UIView {
-        HStackView(alignment: .center, layoutMargins: .init(.horizontal, 8)) {
-            processLabel.configure {
-                $0.text = process.value
-                $0.textColor = .primary
-                $0.font = .boldSystemFont(ofSize: 13)
-                $0.numberOfLines = 1
-            }
-
-            UIView()
-
-            imageView
+    private lazy var body = HStackView(
+        alignment: .center,
+        layoutMargins: .init(.horizontal, 8)
+    ) {
+        processLabel.configure {
+            $0.text = process.value
+            $0.textColor = .primary
+            $0.font = .boldSystemFont(ofSize: 13)
+            $0.numberOfLines = 1
         }
-        .apply(.inputView)
+
+        UIView()
+
+        imageView
     }
+    .apply(.inputView)
 
     private let processLabel = UILabel()
     private let imageView = UIImageView()
@@ -41,6 +42,18 @@ final class ProjectUpdateProcessView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - override methods
+
+extension ProjectUpdateProcessView {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            super.traitCollectionDidChange(previousTraitCollection)
+
+            body.layer.borderColor = UIColor.primary.cgColor
+        }
     }
 }
 

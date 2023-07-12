@@ -10,7 +10,7 @@ final class ProjectUpdateProcessInputView: UIView {
     private(set) lazy var didChangeProcessPublisher = didChangeProcessSubject.eraseToAnyPublisher()
 
     private var body: UIView {
-        VStackView(spacing: 4) {
+        VStackView(spacing: 8) {
             UpdateTitleView().configure {
                 $0.inputValue(
                     title: L10n.Project.process,
@@ -57,7 +57,7 @@ final class ProjectUpdateProcessInputView: UIView {
 
         return UIStackView(arrangedSubviews: views).configure {
             $0.axis = .vertical
-            $0.spacing = 4
+            $0.spacing = 8
         }
     }()
 
