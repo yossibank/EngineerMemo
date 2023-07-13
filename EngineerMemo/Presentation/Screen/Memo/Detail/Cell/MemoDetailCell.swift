@@ -8,21 +8,21 @@ final class MemoDetailCell: UICollectionViewCell {
     private var body: UIView {
         VStackView(spacing: 32) {
             categoryView.configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Memo.category,
                     icon: Asset.memoCategory.image
                 )
             }
 
             titleView.configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Memo.title,
                     icon: Asset.memoTitle.image
                 )
             }
 
             contentsView.configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Memo.content,
                     icon: Asset.memoContent.image
                 )
@@ -50,8 +50,8 @@ final class MemoDetailCell: UICollectionViewCell {
 
 extension MemoDetailCell {
     func configure(_ modelObject: MemoModelObject) {
-        titleView.updateValue(modelObject.title)
-        contentsView.updateValue(modelObject.content)
+        titleView.setContent(modelObject.title)
+        contentsView.setContent(modelObject.content)
 
         guard let category = modelObject.category else {
             categoryView.isHidden = true
@@ -81,8 +81,8 @@ extension MemoDetailCell {
         }()
 
         categoryView.isHidden = false
-        categoryView.updateValue(category.value)
-        categoryView.updateIcon(iconImage)
+        categoryView.setContent(category.value)
+        categoryView.setIcon(iconImage)
     }
 }
 

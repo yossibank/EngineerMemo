@@ -80,12 +80,12 @@
 
     extension DebugProjectListCell {
         func configure(_ modelObject: ProfileModelObject) {
-            nameView.updateValue(modelObject.name)
-            projectCountView.updateValue(L10n.Project.number(modelObject.projects.count))
+            nameView.setContent(modelObject.name)
+            projectCountView.setContent(L10n.Project.number(modelObject.projects.count))
 
             if let project = modelObject.projects.first {
-                titleView.updateValue(project.title ?? .noSetting)
-                contentsView.updateValue(project.content ?? .noSetting)
+                titleView.setContent(project.title ?? .noSetting)
+                contentsView.setContent(project.content ?? .noSetting)
             }
 
             if let data = modelObject.iconImage,

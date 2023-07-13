@@ -11,7 +11,7 @@ final class ProjectUpdatePeriodInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 8) {
             UpdateTitleView().configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Project.period,
                     icon: Asset.projectPeriod.image
                 )
@@ -118,7 +118,7 @@ extension ProjectUpdatePeriodInputView {
 // MARK: - internal methods
 
 extension ProjectUpdatePeriodInputView {
-    func updateValue(_ modelObject: ProjectModelObject?) {
+    func setProjectValue(_ modelObject: ProjectModelObject?) {
         guard let modelObject else {
             return
         }

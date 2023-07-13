@@ -97,17 +97,17 @@
 
     extension DebugProfileListCell {
         func configure(_ modelObject: ProfileModelObject) {
-            nameView.updateValue(modelObject.name)
-            genderView.updateValue(modelObject.gender?.value)
-            emailView.updateValue(modelObject.email)
-            phoneNumberView.updateValue(modelObject.phoneNumber?.phoneText)
-            addressView.updateValue(modelObject.address)
-            stationView.updateValue(modelObject.station)
+            nameView.setContent(modelObject.name)
+            genderView.setContent(modelObject.gender?.value)
+            emailView.setContent(modelObject.email)
+            phoneNumberView.setContent(modelObject.phoneNumber?.phoneText)
+            addressView.setContent(modelObject.address)
+            stationView.setContent(modelObject.station)
 
             if let age = modelObject.birthday?.ageString() {
-                ageView.updateValue("\(age)\(L10n.Profile.old)")
+                ageView.setContent("\(age)\(L10n.Profile.old)")
             } else {
-                ageView.updateValue(.noSetting)
+                ageView.setContent(.noSetting)
             }
 
             if let data = modelObject.iconImage,

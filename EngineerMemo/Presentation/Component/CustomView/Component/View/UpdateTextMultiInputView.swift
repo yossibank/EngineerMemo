@@ -52,8 +52,8 @@ final class UpdateTextMultiInputView: UIView {
 // MARK: - internal methods
 
 extension UpdateTextMultiInputView {
-    func inputValue(_ input: UpdateTextInput) {
-        titleView.inputValue(
+    func setInputType(_ input: UpdateTextInput) {
+        titleView.setTitle(
             title: input.title,
             icon: input.icon
         )
@@ -67,7 +67,7 @@ extension UpdateTextMultiInputView {
         }
     }
 
-    func updateValue(_ text: String?) {
+    func setInputValue(_ text: String?) {
         inputTextView.text = text
         placeholderLabel.isHidden = !text.isEmpty
     }

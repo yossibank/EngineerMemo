@@ -64,13 +64,13 @@ extension MemoListCell {
 extension MemoListCell {
     func configure(_ modelObject: MemoModelObject) {
         titleView.configure {
-            $0.updateValue(modelObject.title)
-            $0.updateLine(1)
+            $0.setContent(modelObject.title)
+            $0.setContentLine(1)
         }
 
         contentsView.configure {
-            $0.updateValue(modelObject.content)
-            $0.updateLine(1)
+            $0.setContent(modelObject.content)
+            $0.setContentLine(1)
         }
 
         categoryImageView.image = {

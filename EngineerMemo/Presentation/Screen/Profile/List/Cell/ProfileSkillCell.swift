@@ -63,11 +63,11 @@ extension ProfileSkillCell {
         toeicView.isHidden = modelObject.toeic.isNil
 
         if let engineerCareer = modelObject.engineerCareer {
-            careerView.updateValue(SkillCareerType(rawValue: engineerCareer)?.title ?? .noSetting)
+            careerView.setContent(SkillCareerType(rawValue: engineerCareer)?.title ?? .noSetting)
         }
 
         if let language = modelObject.language {
-            languageView.updateValue(language)
+            languageView.setContent(language)
 
             if let languageCareer = modelObject.languageCareer {
                 languageView.setSubTitle(SkillCareerType(rawValue: languageCareer)?.title)
@@ -75,8 +75,8 @@ extension ProfileSkillCell {
         }
 
         if let toeic = modelObject.toeic {
-            toeicView.updateValue(L10n.Profile.score(toeic))
-            toeicView.updateIcon(toeic)
+            toeicView.setContent(L10n.Profile.score(toeic))
+            toeicView.setIcon(toeic)
         }
     }
 }

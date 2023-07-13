@@ -68,9 +68,9 @@
     extension DebugMemoListCell {
         func configure(_ modelObject: MemoModelObject) {
             createdLabel.text = modelObject.createdAt.toString
-            categoryView.updateValue(modelObject.category?.value ?? .noSetting)
-            titleView.updateValue(modelObject.title)
-            contentsView.updateValue(modelObject.content)
+            categoryView.setContent(modelObject.category?.value ?? .noSetting)
+            titleView.setContent(modelObject.title)
+            contentsView.setContent(modelObject.content)
         }
     }
 

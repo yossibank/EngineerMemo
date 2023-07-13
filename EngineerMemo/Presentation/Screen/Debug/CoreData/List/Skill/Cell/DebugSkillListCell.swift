@@ -80,26 +80,26 @@
 
     extension DebugSkillListCell {
         func configure(_ modelObject: ProfileModelObject) {
-            nameView.updateValue(modelObject.name)
+            nameView.setContent(modelObject.name)
 
             if let engineerCareer = modelObject.skill?.engineerCareer {
-                careerView.updateValue(SkillCareerType(rawValue: engineerCareer)?.title ?? .noSetting)
+                careerView.setContent(SkillCareerType(rawValue: engineerCareer)?.title ?? .noSetting)
             }
 
             if let language = modelObject.skill?.language {
-                languageView.updateValue(language)
+                languageView.setContent(language)
 
                 if let languageCareer = modelObject.skill?.languageCareer {
                     languageView.setSubTitle(SkillCareerType(rawValue: languageCareer)?.title)
                 }
             } else {
-                languageView.updateValue(.noSetting)
+                languageView.setContent(.noSetting)
             }
 
             if let toeic = modelObject.skill?.toeic {
-                toeicView.updateValue(L10n.Profile.score(toeic))
+                toeicView.setContent(L10n.Profile.score(toeic))
             } else {
-                toeicView.updateValue(.noSetting)
+                toeicView.setContent(.noSetting)
             }
 
             if let data = modelObject.iconImage,

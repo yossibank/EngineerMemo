@@ -41,11 +41,11 @@ extension TitleContentView {
         titleLabel.text = title
     }
 
-    func updateValue(_ text: String?) {
+    func setContent(_ text: String?) {
         contentLabel.text = text
     }
 
-    func updateLine(_ line: Int) {
+    func setContentLine(_ line: Int) {
         contentLabel.numberOfLines = line
     }
 }
@@ -71,7 +71,7 @@ private extension TitleContentView {
         static var previews: some View {
             WrapperView(view: TitleContentView()) {
                 $0.setTitle(title: "title")
-                $0.updateValue("value")
+                $0.setContent("value")
             }
             .frame(height: 40)
         }

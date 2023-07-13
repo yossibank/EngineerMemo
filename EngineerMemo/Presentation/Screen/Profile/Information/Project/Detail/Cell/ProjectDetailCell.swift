@@ -8,28 +8,28 @@ final class ProjectDetailCell: UITableViewCell {
     private var body: UIView {
         VStackView(spacing: 32) {
             titleView.configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Project.title,
                     icon: Asset.projectTitle.image
                 )
             }
 
             periodView.configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Project.period,
                     icon: Asset.projectPeriod.image
                 )
             }
 
             roleView.configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Project.role,
                     icon: Asset.projectRole.image
                 )
             }
 
             contentsView.configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Project.content,
                     icon: Asset.projectContent.image
                 )
@@ -63,9 +63,9 @@ final class ProjectDetailCell: UITableViewCell {
 
 extension ProjectDetailCell {
     func configure(_ modelObject: ProjectModelObject) {
-        titleView.updateValue(modelObject.title ?? .noSetting)
-        roleView.updateValue(modelObject.role ?? .noSetting)
-        contentsView.updateValue(modelObject.content ?? .noSetting)
+        titleView.setContent(modelObject.title ?? .noSetting)
+        roleView.setContent(modelObject.role ?? .noSetting)
+        contentsView.setContent(modelObject.content ?? .noSetting)
 
         setPeriod(
             startDate: modelObject.startDate,
@@ -93,13 +93,13 @@ private extension ProjectDetailCell {
     ) {
         if let startDate,
            let endDate {
-            periodView.updateValue(L10n.Project.during(startDate.toString, endDate.toString))
+            periodView.setContent(L10n.Project.during(startDate.toString, endDate.toString))
         } else if let startDate {
-            periodView.updateValue(L10n.Project.startDate(startDate.toString))
+            periodView.setContent(L10n.Project.startDate(startDate.toString))
         } else if let endDate {
-            periodView.updateValue(L10n.Project.endDate(endDate.toString))
+            periodView.setContent(L10n.Project.endDate(endDate.toString))
         } else {
-            periodView.updateValue(.noSetting)
+            periodView.setContent(.noSetting)
         }
     }
 }

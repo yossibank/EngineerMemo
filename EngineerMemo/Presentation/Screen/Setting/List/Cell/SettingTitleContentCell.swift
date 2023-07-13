@@ -64,7 +64,7 @@ extension SettingTitleContentCell {
         titleLabel.text = title
     }
 
-    func updateValue(_ text: String?) {
+    func setValue(_ text: String?) {
         valueLabel.text = text
     }
 

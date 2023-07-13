@@ -10,7 +10,7 @@ final class UpdatePickerInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 8) {
             UpdateTitleView().configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Profile.birthday,
                     icon: Asset.birthday.image
                 )
@@ -75,7 +75,7 @@ extension UpdatePickerInputView {
 // MARK: - internal methods
 
 extension UpdatePickerInputView {
-    func updateValue(modelObject: ProfileModelObject?) {
+    func setPickerValue(modelObject: ProfileModelObject?) {
         guard
             let modelObject,
             let birthday = modelObject.birthday

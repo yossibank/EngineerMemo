@@ -28,63 +28,63 @@ final class BasicUpdateContentView: UIView {
         spacing: 16
     ) {
         nameInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Profile.name,
                 icon: Asset.myName.image,
                 placeholder: L10n.Profile.Example.name
             ))
 
-            $0.updateValue(modelObject?.name?.notNoSettingText)
+            $0.setInputValue(modelObject?.name?.notNoSettingText)
         }
 
         birthdayInputView.configure {
-            $0.updateValue(modelObject: modelObject)
+            $0.setPickerValue(modelObject: modelObject)
         }
 
         genderInputView.configure {
-            $0.updateValue(modelObject)
+            $0.setGenderMenu(modelObject)
         }
 
         emailInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Profile.email,
                 icon: Asset.email.image,
                 placeholder: L10n.Profile.Example.email,
                 keyboardType: .emailAddress
             ))
 
-            $0.updateValue(modelObject?.email?.notNoSettingText)
+            $0.setInputValue(modelObject?.email?.notNoSettingText)
         }
 
         phoneNumberInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Profile.phoneNumber,
                 icon: Asset.phoneNumber.image,
                 placeholder: L10n.Profile.Example.phoneNumber,
                 keyboardType: .numberPad
             ))
 
-            $0.updateValue(modelObject?.phoneNumber?.notNoSettingText)
+            $0.setInputValue(modelObject?.phoneNumber?.notNoSettingText)
         }
 
         addressInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Profile.address,
                 icon: Asset.address.image,
                 placeholder: L10n.Profile.Example.address
             ))
 
-            $0.updateValue(modelObject?.address?.notNoSettingText)
+            $0.setInputValue(modelObject?.address?.notNoSettingText)
         }
 
         stationInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Profile.station,
                 icon: Asset.station.image,
                 placeholder: L10n.Profile.Example.station
             ))
 
-            $0.updateValue(modelObject?.station?.notNoSettingText)
+            $0.setInputValue(modelObject?.station?.notNoSettingText)
         }
     }
 

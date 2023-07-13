@@ -12,7 +12,7 @@ final class ProjectUpdateProcessInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 8) {
             UpdateTitleView().configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Project.process,
                     icon: Asset.projectProcess.image
                 )
@@ -80,7 +80,7 @@ final class ProjectUpdateProcessInputView: UIView {
 // MARK: - internal methods
 
 extension ProjectUpdateProcessInputView {
-    func updateValue(_ processes: [Process]) {
+    func setProcessValue(_ processes: [Process]) {
         didChangeProcessSubject.value.append(contentsOf: processes)
 
         processView.subviews

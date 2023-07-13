@@ -44,8 +44,8 @@ final class UpdateTextInputView: UIView {
 // MARK: - internal methods
 
 extension UpdateTextInputView {
-    func inputValue(_ input: UpdateTextInput) {
-        titleView.inputValue(
+    func setInputType(_ input: UpdateTextInput) {
+        titleView.setTitle(
             title: input.title,
             icon: input.icon
         )
@@ -56,7 +56,7 @@ extension UpdateTextInputView {
         }
     }
 
-    func updateValue(_ text: String?) {
+    func setInputValue(_ text: String?) {
         inputTextField.text = text
     }
 }
@@ -101,7 +101,7 @@ extension UpdateTextInputView: UITextFieldDelegate {
     struct UpdateTextInputViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: UpdateTextInputView()) {
-                $0.inputValue(.init(
+                $0.setInputType(.init(
                     title: "title",
                     icon: Asset.penguin.image,
                     placeholder: "placeholder"

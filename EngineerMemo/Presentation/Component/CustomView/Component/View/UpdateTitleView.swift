@@ -62,7 +62,7 @@ extension UpdateTitleView {
 // MARK: - internal methods
 
 extension UpdateTitleView {
-    func inputValue(
+    func setTitle(
         title: String?,
         icon: UIImage?
     ) {

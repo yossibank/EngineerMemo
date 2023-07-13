@@ -49,7 +49,7 @@ final class UpdateMenuInputView: UIView {
 // MARK: - internal methods
 
 extension UpdateMenuInputView {
-    func updateValue(_ modelObject: ProfileModelObject?) {
+    func setGenderMenu(_ modelObject: ProfileModelObject?) {
         guard
             let modelObject,
             let gender = modelObject.gender
@@ -61,7 +61,7 @@ extension UpdateMenuInputView {
         setupMenu()
     }
 
-    func updateValue(_ modelObject: SkillModelObject?) {
+    func setCareerMenu(_ modelObject: SkillModelObject?) {
         guard
             let modelObject,
             let engineerCareer = modelObject.engineerCareer
@@ -73,7 +73,7 @@ extension UpdateMenuInputView {
         setupMenu()
     }
 
-    func updateValue(_ modelObject: MemoModelObject?) {
+    func setCategoryMenu(_ modelObject: MemoModelObject?) {
         guard let category = modelObject?.category else {
             selectedCareerType = .noSetting
             return
@@ -118,19 +118,19 @@ private extension UpdateMenuInputView {
 
         switch menuInput {
         case .gender:
-            titleView.inputValue(
+            titleView.setTitle(
                 title: L10n.Profile.gender,
                 icon: Asset.gender.image
             )
 
         case .career:
-            titleView.inputValue(
+            titleView.setTitle(
                 title: L10n.Profile.engineerCareer,
                 icon: Asset.engineerCareer.image
             )
 
         case .category:
-            titleView.inputValue(
+            titleView.setTitle(
                 title: L10n.Memo.category,
                 icon: Asset.memoCategory.image
             )

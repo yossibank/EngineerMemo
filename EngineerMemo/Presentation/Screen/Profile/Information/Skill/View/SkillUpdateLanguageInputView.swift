@@ -12,7 +12,7 @@ final class SkillUpdateLanguageInputView: UIView {
     private var body: UIView {
         VStackView(spacing: 12) {
             titleView.configure {
-                $0.inputValue(
+                $0.setTitle(
                     title: L10n.Profile.useLanguage,
                     icon: Asset.language.image
                 )
@@ -68,7 +68,7 @@ final class SkillUpdateLanguageInputView: UIView {
 // MARK: - internal methods
 
 extension SkillUpdateLanguageInputView {
-    func updateValue(modelObject: SkillModelObject?) {
+    func setLanguageValue(modelObject: SkillModelObject?) {
         guard let modelObject else {
             return
         }

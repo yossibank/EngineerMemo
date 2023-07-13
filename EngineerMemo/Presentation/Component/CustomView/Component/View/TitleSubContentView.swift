@@ -56,7 +56,7 @@ extension TitleSubContentView {
         subTitleLabel.text = subTitle.isNil ? nil : "(\(subTitle ?? .noSetting))"
     }
 
-    func updateValue(_ text: String?) {
+    func setContent(_ text: String?) {
         contentLabel.text = text
     }
 }
@@ -83,7 +83,7 @@ private extension TitleSubContentView {
             WrapperView(view: TitleSubContentView()) {
                 $0.setTitle(title: "title")
                 $0.setSubTitle("subTitle")
-                $0.updateValue("value")
+                $0.setContent("value")
             }
             .frame(height: 60)
         }

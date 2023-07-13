@@ -71,9 +71,9 @@ extension ProfileProjectCell {
 
 extension ProfileProjectCell {
     func configure(_ modelObject: ProjectModelObject) {
-        titleView.updateValue(modelObject.title ?? .noSetting)
-        contentsView.updateValue(modelObject.content ?? .noSetting)
-        contentsView.updateLine(2)
+        titleView.setContent(modelObject.title ?? .noSetting)
+        contentsView.setContent(modelObject.content ?? .noSetting)
+        contentsView.setContentLine(2)
 
         setPeriod(
             startDate: modelObject.startDate,
@@ -105,16 +105,16 @@ private extension ProfileProjectCell {
     ) {
         if let startDate,
            let endDate {
-            periodView.updateValue(L10n.Project.during(startDate.toString, endDate.toString))
+            periodView.setContent(L10n.Project.during(startDate.toString, endDate.toString))
             periodView.setSubTitle(startDate.periodString(end: endDate))
         } else if let startDate {
-            periodView.updateValue(L10n.Project.startDate(startDate.toString))
+            periodView.setContent(L10n.Project.startDate(startDate.toString))
             periodView.setSubTitle(nil)
         } else if let endDate {
-            periodView.updateValue(L10n.Project.endDate(endDate.toString))
+            periodView.setContent(L10n.Project.endDate(endDate.toString))
             periodView.setSubTitle(nil)
         } else {
-            periodView.updateValue(.noSetting)
+            periodView.setContent(.noSetting)
             periodView.setSubTitle(nil)
         }
     }

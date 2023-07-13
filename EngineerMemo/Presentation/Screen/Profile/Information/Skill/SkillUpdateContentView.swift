@@ -26,26 +26,26 @@ final class SkillUpdateContentView: UIView {
         spacing: 16
     ) {
         careerInputView.configure {
-            $0.updateValue(modelObject.skill)
+            $0.setCareerMenu(modelObject.skill)
         }
 
         useLanguageInputView.configure {
-            $0.updateValue(modelObject: modelObject.skill)
+            $0.setLanguageValue(modelObject: modelObject.skill)
         }
 
         toeicInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Profile.toeic,
                 icon: Asset.toeic.image,
                 placeholder: L10n.Profile.Example.toeic,
                 keyboardType: .numberPad
             ))
 
-            $0.updateValue(modelObject.skill?.toeic?.description)
+            $0.setInputValue(modelObject.skill?.toeic?.description)
         }
 
         prInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Profile.pr,
                 icon: Asset.pr.image,
                 placeholder: L10n.Profile.Example.pr

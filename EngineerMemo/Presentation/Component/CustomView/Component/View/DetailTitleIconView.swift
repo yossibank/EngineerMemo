@@ -57,7 +57,7 @@ final class DetailTitleIconView: UIView {
 // MARK: - internal methods
 
 extension DetailTitleIconView {
-    func inputValue(
+    func setTitle(
         title: String?,
         icon: UIImage?
     ) {
@@ -65,11 +65,11 @@ extension DetailTitleIconView {
         titleIconImageView.image = icon
     }
 
-    func updateValue(_ text: String?) {
+    func setContent(_ text: String?) {
         contentLabel.text = text
     }
 
-    func updateIcon(_ icon: UIImage?) {
+    func setIcon(_ icon: UIImage?) {
         iconImageView.image = icon
     }
 }

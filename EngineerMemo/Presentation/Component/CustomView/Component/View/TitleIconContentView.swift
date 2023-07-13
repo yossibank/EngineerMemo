@@ -52,11 +52,11 @@ extension TitleIconContentView {
         titleLabel.text = title
     }
 
-    func updateValue(_ text: String?) {
+    func setContent(_ text: String?) {
         contentLabel.text = text
     }
 
-    func updateIcon(_ score: Int) {
+    func setIcon(_ score: Int) {
         switch score {
         case 600 ... 730:
             iconImageView.isHidden = false
@@ -97,8 +97,8 @@ private extension TitleIconContentView {
         static var previews: some View {
             WrapperView(view: TitleIconContentView()) {
                 $0.setTitle(title: "title")
-                $0.updateValue("value")
-                $0.updateIcon(800)
+                $0.setContent("value")
+                $0.setIcon(800)
             }
             .frame(height: 60)
         }

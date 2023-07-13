@@ -27,41 +27,41 @@ final class ProjectUpdateContentView: UIView {
         spacing: 16
     ) {
         titleInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Project.title,
                 icon: Asset.projectTitle.image,
                 placeholder: L10n.Project.Placeholder.title
             ))
 
-            $0.updateValue(project?.title)
+            $0.setInputValue(project?.title)
         }
 
         periodInputView.configure {
-            $0.updateValue(project)
+            $0.setProjectValue(project)
         }
 
         roleInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Project.role,
                 icon: Asset.projectRole.image,
                 placeholder: L10n.Project.Placeholder.role
             ))
 
-            $0.updateValue(project?.role)
+            $0.setInputValue(project?.role)
         }
 
         processInputView.configure {
-            $0.updateValue(project?.processes ?? [])
+            $0.setProcessValue(project?.processes ?? [])
         }
 
         contentInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Project.content,
                 icon: Asset.projectContent.image,
                 placeholder: L10n.Project.Placeholder.content
             ))
 
-            $0.updateValue(project?.content)
+            $0.setInputValue(project?.content)
         }
     }
 
