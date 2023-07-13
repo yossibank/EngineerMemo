@@ -6,10 +6,9 @@
 |:---:|:---:|:---:|:---:|
 | <img src='Screenshot/%E2%80%8EScreenshot1.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot2.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot3.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot4.jpeg' /> |
 
-## App Store
+## App Store(2023/07/04~)
 
-- [App Store Link](https://apps.apple.com/us/app/%E3%82%A8%E3%83%B3%E3%83%A1%E3%83%A2/id6450376037)
-- Release【2023/07/04】
+- [Link](https://apps.apple.com/us/app/%E3%82%A8%E3%83%B3%E3%83%A1%E3%83%A2/id6450376037)
 
 ## App Screen(Snapshot)
 
@@ -80,7 +79,7 @@
 
 ## Architecture
 
-**MVVM with Combine**
+**MVVM + Router with Combine**
 
 * **Model**(Target UnitTest)
   - **Converter**
