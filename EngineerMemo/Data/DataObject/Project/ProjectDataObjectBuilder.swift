@@ -6,6 +6,7 @@
         private var content: String? = "テストプロジェクト内容"
         private var endDate = Calendar.date(year: 2021, month: 12, day: 1)
         private var identifier = "identifier"
+        private var processes = [1, 3, 5]
         private var role: String? = "プログラマー"
         private var startDate = Calendar.date(year: 2020, month: 1, day: 1)
         private var title: String? = "テストプロジェクトタイトル"
@@ -23,6 +24,7 @@
             project.content = content
             project.endDate = endDate
             project.identifier = identifier
+            project.processes = processes
             project.role = role
             project.startDate = startDate
             project.title = title
@@ -42,6 +44,11 @@
 
         func identifier(_ identifier: String) -> Self {
             self.identifier = identifier
+            return self
+        }
+
+        func processes(_ processes: [Int]) -> Self {
+            self.processes = processes
             return self
         }
 

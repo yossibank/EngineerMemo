@@ -21,27 +21,27 @@ final class MemoUpdateContentView: UIView {
 
     private lazy var body = VStackView(spacing: 16) {
         categoryInputView.configure {
-            $0.updateValue(modelObject)
+            $0.setCategoryMenu(modelObject)
         }
 
         titleInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Memo.title,
                 icon: Asset.memoTitle.image,
                 placeholder: L10n.Memo.Example.title
             ))
 
-            $0.updateValue(modelObject?.title)
+            $0.setInputValue(modelObject?.title)
         }
 
         contentInputView.configure {
-            $0.inputValue(.init(
+            $0.setInputType(.init(
                 title: L10n.Memo.content,
                 icon: Asset.memoContent.image,
                 placeholder: L10n.Memo.Example.content
             ))
 
-            $0.updateValue(modelObject?.content)
+            $0.setInputValue(modelObject?.content)
         }
     }
 

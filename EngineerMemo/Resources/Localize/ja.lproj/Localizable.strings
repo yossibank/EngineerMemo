@@ -116,6 +116,15 @@
 "project.title" = "案件名";
 "project.period" = "案件期間";
 "project.role" = "役割";
+"project.process" = "担当工程";
+"project.process.requirementDefinition" = "要件定義";
+"project.process.FuntionalDesign" = "基本設計";
+"project.process.technicalDesign" = "詳細設計";
+"project.process.implementation" = "実装・単体";
+"project.process.integrationTesting" = "結合テスト";
+"project.process.systemTesting" = "総合テスト";
+"project.process.maintenance" = "保守・運用";
+"project.processHint" = "※タップして担当した工程を切り替えられます";
 "project.content" = "業務内容";
 "project.placeholder.title" = "関わったサービス、案件名";
 "project.placeholder.role" = "担当した役割、立場";

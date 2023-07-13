@@ -22,6 +22,7 @@ private extension ProjectConverter {
         ProjectModelObject(
             title: project.title,
             role: project.role,
+            processes: project.processes.compactMap { .init(rawValue: $0) },
             content: project.content,
             startDate: project.startDate,
             endDate: project.endDate,

@@ -54,6 +54,14 @@ private extension ProjectUpdateViewControllerSnapshotTest {
             modelObject: modelObject
         )
 
-        snapshotVerifyView(viewMode: .navigation(subject))
+        snapshotVerifyView(
+            viewMode: .navigation(subject),
+            viewFrame: .init(
+                x: .zero,
+                y: .zero,
+                width: UIWindow.windowFrame.width,
+                height: 1000
+            )
+        )
     }
 }

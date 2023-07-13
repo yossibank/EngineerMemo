@@ -5,6 +5,7 @@ final class Project: NSManagedObject {
     @NSManaged var content: String?
     @NSManaged var endDate: Date?
     @NSManaged var identifier: String
+    @NSManaged var processes: [Int]
     @NSManaged var role: String?
     @NSManaged var startDate: Date?
     @NSManaged var title: String?

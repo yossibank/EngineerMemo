@@ -122,7 +122,7 @@ final class SettingContentView: UIView {
 
             switch item {
             case .version:
-                cell.updateValue(AppConfig.applicationVersion)
+                cell.setValue(AppConfig.applicationVersion)
                 cell.showDisclosure(false)
 
             case .review, .inquiry, .licence:

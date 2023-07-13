@@ -20,10 +20,12 @@ struct ProfileModelObject: Hashable {
         case noSetting
 
         var value: String {
+            let l10n = L10n.Profile.Gender.self
+
             switch self {
-            case .man: return L10n.Profile.Gender.man
-            case .woman: return L10n.Profile.Gender.woman
-            case .other: return L10n.Profile.Gender.other
+            case .man: return l10n.man
+            case .woman: return l10n.woman
+            case .other: return l10n.other
             case .noSetting: return .noSetting
             }
         }
@@ -105,6 +107,7 @@ extension ProfileModelObject {
             project.identifier = UUID().uuidString
             project.title = object.title
             project.role = object.role
+            project.processes = object.processes.map(\.rawValue)
             project.content = object.content
             project.startDate = object.startDate
             project.endDate = object.endDate
@@ -134,6 +137,7 @@ extension ProfileModelObject {
         let updatedProject = targetProject.configure {
             $0.title = project.title
             $0.role = project.role
+            $0.processes = project.processes.map(\.rawValue)
             $0.content = project.content
             $0.startDate = project.startDate
             $0.endDate = project.endDate
