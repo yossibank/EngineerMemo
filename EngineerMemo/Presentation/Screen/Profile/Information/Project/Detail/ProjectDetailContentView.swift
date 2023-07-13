@@ -59,6 +59,8 @@ private extension ProjectDetailContentView {
             $0.registerCell(with: ProjectDetailCell.self)
             $0.backgroundColor = .background
             $0.separatorStyle = .none
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
             $0.dataSource = dataSource
         }
     }
@@ -101,8 +103,7 @@ private extension ProjectDetailContentView {
 extension ProjectDetailContentView: ContentView {
     func setupView() {
         addSubview(tableView) {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top).inset(32)
-            $0.bottom.equalToSuperview().priority(.low)
+            $0.verticalEdges.equalTo(safeAreaLayoutGuide).inset(32)
             $0.horizontalEdges.equalToSuperview().inset(32)
         }
 
