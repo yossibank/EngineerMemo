@@ -39,30 +39,11 @@ final class MemoModelTest: XCTestCase {
 
         memoConverter.convertHandler = {
             // assert
-            XCTAssertEqual(
-                $0.category,
-                .technical
-            )
-
-            XCTAssertEqual(
-                $0.content,
-                "コンテンツ"
-            )
-
-            XCTAssertEqual(
-                $0.createdAt,
-                Calendar.date(year: 2000, month: 1, day: 1)
-            )
-
-            XCTAssertEqual(
-                $0.identifier,
-                "identifier"
-            )
-
-            XCTAssertEqual(
-                $0.title,
-                "タイトル"
-            )
+            XCTAssertEqual($0.category, .technical)
+            XCTAssertEqual($0.content, "コンテンツ")
+            XCTAssertEqual($0.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
+            XCTAssertEqual($0.identifier, "identifier")
+            XCTAssertEqual($0.title, "タイトル")
 
             return MemoModelObjectBuilder()
                 .category(.technical)
@@ -97,30 +78,11 @@ final class MemoModelTest: XCTestCase {
 
         memoConverter.convertHandler = {
             // assert
-            XCTAssertEqual(
-                $0.category,
-                .technical
-            )
-
-            XCTAssertEqual(
-                $0.content,
-                "コンテンツ"
-            )
-
-            XCTAssertEqual(
-                $0.createdAt,
-                Calendar.date(year: 2000, month: 1, day: 1)
-            )
-
-            XCTAssertEqual(
-                $0.identifier,
-                "identifier"
-            )
-
-            XCTAssertEqual(
-                $0.title,
-                "タイトル"
-            )
+            XCTAssertEqual($0.category, .technical)
+            XCTAssertEqual($0.content, "コンテンツ")
+            XCTAssertEqual($0.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
+            XCTAssertEqual($0.identifier, "identifier")
+            XCTAssertEqual($0.title, "タイトル")
 
             return MemoModelObjectBuilder()
                 .category(.technical)
@@ -169,25 +131,10 @@ final class MemoModelTest: XCTestCase {
                 let memo = self.storage.allObjects.first!
 
                 // assert
-                XCTAssertEqual(
-                    memo.category,
-                    .technical
-                )
-
-                XCTAssertEqual(
-                    memo.content,
-                    "コンテンツ"
-                )
-
-                XCTAssertEqual(
-                    memo.createdAt,
-                    Calendar.date(year: 2000, month: 1, day: 1)
-                )
-
-                XCTAssertEqual(
-                    memo.title,
-                    "タイトル"
-                )
+                XCTAssertEqual(memo.category, .technical)
+                XCTAssertEqual(memo.content, "コンテンツ")
+                XCTAssertEqual(memo.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
+                XCTAssertEqual(memo.title, "タイトル")
 
                 expectation.fulfill()
             }
@@ -220,25 +167,10 @@ final class MemoModelTest: XCTestCase {
                 let memo = self.storage.allObjects.first!
 
                 // assert
-                XCTAssertEqual(
-                    memo.category,
-                    .interview
-                )
-
-                XCTAssertEqual(
-                    memo.content,
-                    "コンテンツ更新後"
-                )
-
-                XCTAssertEqual(
-                    memo.createdAt,
-                    Calendar.date(year: 2000, month: 1, day: 1)
-                )
-
-                XCTAssertEqual(
-                    memo.title,
-                    "タイトル更新後"
-                )
+                XCTAssertEqual(memo.category, .interview)
+                XCTAssertEqual(memo.content, "コンテンツ更新後")
+                XCTAssertEqual(memo.createdAt, Calendar.date(year: 2000, month: 1, day: 1))
+                XCTAssertEqual(memo.title, "タイトル更新後")
 
                 expectation.fulfill()
             }

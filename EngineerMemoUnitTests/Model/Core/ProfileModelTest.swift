@@ -41,45 +41,14 @@ final class ProfileModelTest: XCTestCase {
 
         profileConverter.convertHandler = {
             // assert
-            XCTAssertEqual(
-                $0.address,
-                "テスト県テスト市テスト1-1-1"
-            )
-
-            XCTAssertEqual(
-                $0.birthday,
-                Calendar.date(year: 2000, month: 1, day: 1)
-            )
-
-            XCTAssertEqual(
-                $0.email,
-                "test@test.com"
-            )
-
-            XCTAssertEqual(
-                $0.gender,
-                .man
-            )
-
-            XCTAssertEqual(
-                $0.identifier,
-                "identifier"
-            )
-
-            XCTAssertEqual(
-                $0.name,
-                "testName"
-            )
-
-            XCTAssertEqual(
-                $0.phoneNumber,
-                "08011112222"
-            )
-
-            XCTAssertEqual(
-                $0.station,
-                "鶴橋駅"
-            )
+            XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
+            XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
+            XCTAssertEqual($0.email, "test@test.com")
+            XCTAssertEqual($0.gender, .man)
+            XCTAssertEqual($0.identifier, "identifier")
+            XCTAssertEqual($0.name, "testName")
+            XCTAssertEqual($0.phoneNumber, "08011112222")
+            XCTAssertEqual($0.station, "鶴橋駅")
 
             return ProfileModelObjectBuilder()
                 .address($0.address!)
@@ -119,45 +88,14 @@ final class ProfileModelTest: XCTestCase {
 
         profileConverter.convertHandler = {
             // assert
-            XCTAssertEqual(
-                $0.address,
-                "テスト県テスト市テスト1-1-1"
-            )
-
-            XCTAssertEqual(
-                $0.birthday,
-                Calendar.date(year: 2000, month: 1, day: 1)
-            )
-
-            XCTAssertEqual(
-                $0.email,
-                "test@test.com"
-            )
-
-            XCTAssertEqual(
-                $0.gender,
-                .man
-            )
-
-            XCTAssertEqual(
-                $0.identifier,
-                "identifier"
-            )
-
-            XCTAssertEqual(
-                $0.name,
-                "testName"
-            )
-
-            XCTAssertEqual(
-                $0.phoneNumber,
-                "08011112222"
-            )
-
-            XCTAssertEqual(
-                $0.station,
-                "鶴橋駅"
-            )
+            XCTAssertEqual($0.address, "テスト県テスト市テスト1-1-1")
+            XCTAssertEqual($0.birthday, Calendar.date(year: 2000, month: 1, day: 1))
+            XCTAssertEqual($0.email, "test@test.com")
+            XCTAssertEqual($0.gender, .man)
+            XCTAssertEqual($0.identifier, "identifier")
+            XCTAssertEqual($0.name, "testName")
+            XCTAssertEqual($0.phoneNumber, "08011112222")
+            XCTAssertEqual($0.station, "鶴橋駅")
 
             return ProfileModelObjectBuilder()
                 .address($0.address!)
@@ -209,15 +147,8 @@ final class ProfileModelTest: XCTestCase {
                 let profile = self.storage.allObjects.first!
 
                 // assert
-                XCTAssertEqual(
-                    profile.name,
-                    "テスト"
-                )
-
-                XCTAssertEqual(
-                    profile.birthday,
-                    Calendar.date(year: 2000, month: 1, day: 1)
-                )
+                XCTAssertEqual(profile.name, "テスト")
+                XCTAssertEqual(profile.birthday, Calendar.date(year: 2000, month: 1, day: 1))
 
                 expectation.fulfill()
             }
@@ -267,15 +198,8 @@ final class ProfileModelTest: XCTestCase {
                 let profile = self.storage.allObjects.first!
 
                 // assert
-                XCTAssertEqual(
-                    profile.name,
-                    "テスト更新後"
-                )
-
-                XCTAssertEqual(
-                    profile.birthday,
-                    Calendar.date(year: 2000, month: 11, day: 1)
-                )
+                XCTAssertEqual(profile.name, "テスト更新後")
+                XCTAssertEqual(profile.birthday, Calendar.date(year: 2000, month: 11, day: 1))
 
                 expectation.fulfill()
             }
@@ -312,32 +236,14 @@ final class ProfileModelTest: XCTestCase {
                 try await Task.sleep(seconds: 0.3)
 
                 let profile = self.storage.allObjects.first!
+                let skill = profile.skill!
 
                 // assert
-                XCTAssertEqual(
-                    profile.skill?.engineerCareer,
-                    3
-                )
-
-                XCTAssertEqual(
-                    profile.skill?.language,
-                    "Swift"
-                )
-
-                XCTAssertEqual(
-                    profile.skill?.languageCareer,
-                    2
-                )
-
-                XCTAssertEqual(
-                    profile.skill?.toeic,
-                    600
-                )
-
-                XCTAssertEqual(
-                    profile.skill?.pr,
-                    "PR事項"
-                )
+                XCTAssertEqual(skill.engineerCareer, 3)
+                XCTAssertEqual(skill.language, "Swift")
+                XCTAssertEqual(skill.languageCareer, 2)
+                XCTAssertEqual(skill.toeic, 600)
+                XCTAssertEqual(skill.pr, "PR事項")
 
                 expectation.fulfill()
             }
@@ -380,32 +286,14 @@ final class ProfileModelTest: XCTestCase {
                 try await Task.sleep(seconds: 0.3)
 
                 let profile = self.storage.allObjects.first!
+                let skill = profile.skill!
 
                 // assert
-                XCTAssertEqual(
-                    profile.skill?.engineerCareer,
-                    10
-                )
-
-                XCTAssertEqual(
-                    profile.skill?.language,
-                    "Swift"
-                )
-
-                XCTAssertEqual(
-                    profile.skill?.languageCareer,
-                    2
-                )
-
-                XCTAssertEqual(
-                    profile.skill?.toeic,
-                    600
-                )
-
-                XCTAssertEqual(
-                    profile.skill?.pr,
-                    "PR事項2"
-                )
+                XCTAssertEqual(skill.engineerCareer, 10)
+                XCTAssertEqual(skill.language, "Swift")
+                XCTAssertEqual(skill.languageCareer, 2)
+                XCTAssertEqual(skill.toeic, 600)
+                XCTAssertEqual(skill.pr, "PR事項2")
 
                 expectation.fulfill()
             }
@@ -461,6 +349,10 @@ final class ProfileModelTest: XCTestCase {
                         .title("title")
                         .role("プログラマー")
                         .processes([.functionalDesign, .implementation, .intergrationTesting])
+                        .language("Swift")
+                        .database("CoreData")
+                        .serverOS("Ubuntu")
+                        .tools(["Firebase", "MagicPod"])
                         .content("content")
                         .startDate(Calendar.date(year: 2020, month: 1, day: 1))
                         .endDate(Calendar.date(year: 2021, month: 12, day: 1))
@@ -479,35 +371,16 @@ final class ProfileModelTest: XCTestCase {
                 let project = profile.projects?.allObjects.first as! Project
 
                 // assert
-                XCTAssertEqual(
-                    project.title,
-                    "title"
-                )
-
-                XCTAssertEqual(
-                    project.role,
-                    "プログラマー"
-                )
-
-                XCTAssertEqual(
-                    project.processes,
-                    [1, 3, 4]
-                )
-
-                XCTAssertEqual(
-                    project.content,
-                    "content"
-                )
-
-                XCTAssertEqual(
-                    project.startDate,
-                    Calendar.date(year: 2020, month: 1, day: 1)
-                )
-
-                XCTAssertEqual(
-                    project.endDate,
-                    Calendar.date(year: 2021, month: 12, day: 1)
-                )
+                XCTAssertEqual(project.title, "title")
+                XCTAssertEqual(project.role, "プログラマー")
+                XCTAssertEqual(project.processes, [1, 3, 4])
+                XCTAssertEqual(project.language, "Swift")
+                XCTAssertEqual(project.database, "CoreData")
+                XCTAssertEqual(project.serverOS, "Ubuntu")
+                XCTAssertEqual(project.tools, ["Firebase", "MagicPod"])
+                XCTAssertEqual(project.content, "content")
+                XCTAssertEqual(project.startDate, Calendar.date(year: 2020, month: 1, day: 1))
+                XCTAssertEqual(project.endDate, Calendar.date(year: 2021, month: 12, day: 1))
 
                 expectation.fulfill()
             }
@@ -520,12 +393,16 @@ final class ProfileModelTest: XCTestCase {
             projects: [
                 ProjectDataObjectBuilder()
                     .content("content")
+                    .database("sqlite3")
+                    .endDate(Calendar.date(year: 2021, month: 12, day: 1))
                     .identifier("identifier")
+                    .language("Kotlin")
                     .processes([1, 3, 5])
                     .role("プログラマー")
-                    .title("title")
+                    .serverOS("linux")
                     .startDate(Calendar.date(year: 2020, month: 1, day: 1))
-                    .endDate(Calendar.date(year: 2021, month: 12, day: 1))
+                    .title("title")
+                    .tools(["Firebase"])
                     .build()
             ]
         )
@@ -540,6 +417,10 @@ final class ProfileModelTest: XCTestCase {
                         .title("update title")
                         .processes([.functionalDesign, .implementation, .systemTesting, .maintenance])
                         .role("PG")
+                        .language("Swift")
+                        .database("CoreData")
+                        .serverOS("Ubuntu")
+                        .tools(["Firebase", "MagicPod"])
                         .content("update content")
                         .startDate(Calendar.date(year: 2019, month: 1, day: 1))
                         .endDate(Calendar.date(year: 2022, month: 1, day: 1))
@@ -561,35 +442,16 @@ final class ProfileModelTest: XCTestCase {
                 let project = profile.projects?.allObjects.first as! Project
 
                 // assert
-                XCTAssertEqual(
-                    project.title,
-                    "update title"
-                )
-
-                XCTAssertEqual(
-                    project.role,
-                    "PG"
-                )
-
-                XCTAssertEqual(
-                    project.processes,
-                    [1, 3, 5, 6]
-                )
-
-                XCTAssertEqual(
-                    project.content,
-                    "update content"
-                )
-
-                XCTAssertEqual(
-                    project.startDate,
-                    Calendar.date(year: 2019, month: 1, day: 1)
-                )
-
-                XCTAssertEqual(
-                    project.endDate,
-                    Calendar.date(year: 2022, month: 1, day: 1)
-                )
+                XCTAssertEqual(project.title, "update title")
+                XCTAssertEqual(project.role, "PG")
+                XCTAssertEqual(project.processes, [1, 3, 5, 6])
+                XCTAssertEqual(project.language, "Swift")
+                XCTAssertEqual(project.database, "CoreData")
+                XCTAssertEqual(project.serverOS, "Ubuntu")
+                XCTAssertEqual(project.tools, ["Firebase", "MagicPod"])
+                XCTAssertEqual(project.content, "update content")
+                XCTAssertEqual(project.startDate, Calendar.date(year: 2019, month: 1, day: 1))
+                XCTAssertEqual(project.endDate, Calendar.date(year: 2022, month: 1, day: 1))
 
                 expectation.fulfill()
             }
@@ -705,10 +567,7 @@ final class ProfileModelTest: XCTestCase {
                 let profile = self.storage.allObjects.first!
 
                 // assert
-                XCTAssertEqual(
-                    profile.iconImage,
-                    Asset.penguin.image.pngData()
-                )
+                XCTAssertEqual(profile.iconImage, Asset.penguin.image.pngData())
 
                 expectation.fulfill()
             }
@@ -720,10 +579,7 @@ final class ProfileModelTest: XCTestCase {
         model.updateIconImage(index: 0)
 
         // assert
-        XCTAssertEqual(
-            DataHolder.profileIcon,
-            .elephant
-        )
+        XCTAssertEqual(DataHolder.profileIcon, .elephant)
     }
 
     func test_iconImageUpdate_不正値の場合にデフォルト値でuserDefaultsを更新できること() {
@@ -731,10 +587,7 @@ final class ProfileModelTest: XCTestCase {
         model.updateIconImage(index: 100)
 
         // assert
-        XCTAssertEqual(
-            DataHolder.profileIcon,
-            .penguin
-        )
+        XCTAssertEqual(DataHolder.profileIcon, .penguin)
     }
 
     func test_delete_プロフィール情報を削除できること() {
