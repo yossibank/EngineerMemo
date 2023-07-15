@@ -32,6 +32,27 @@ final class ProjectDetailCell: UITableViewCell {
 
             processView
 
+            languageView.configure {
+                $0.setTitle(
+                    title: L10n.Project.language,
+                    icon: Asset.projectLanguage.image
+                )
+            }
+
+            databaseView.configure {
+                $0.setTitle(
+                    title: L10n.Project.database,
+                    icon: Asset.projectDatabase.image
+                )
+            }
+
+            serverOSView.configure {
+                $0.setTitle(
+                    title: L10n.Project.serverOS,
+                    icon: Asset.projectServerOS.image
+                )
+            }
+
             contentsView.configure {
                 $0.setTitle(
                     title: L10n.Project.content,
@@ -75,6 +96,9 @@ final class ProjectDetailCell: UITableViewCell {
     private let titleView = DetailTitleView()
     private let periodView = DetailTitleView()
     private let roleView = DetailTitleView()
+    private let languageView = DetailTitleView()
+    private let databaseView = DetailTitleView()
+    private let serverOSView = DetailTitleView()
     private let contentsView = DetailTitleView()
 
     override init(
@@ -99,8 +123,28 @@ final class ProjectDetailCell: UITableViewCell {
 extension ProjectDetailCell {
     func configure(_ modelObject: ProjectModelObject) {
         titleView.setContent(modelObject.title ?? .noSetting)
-        roleView.setContent(modelObject.role ?? .noSetting)
         contentsView.setContent(modelObject.content ?? .noSetting)
+
+        if let role = modelObject.role {
+            roleView.setContent(role)
+        }
+
+        if let language = modelObject.language {
+            languageView.setContent(language)
+        }
+
+        if let database = modelObject.database {
+            databaseView.setContent(database)
+        }
+
+        if let serverOS = modelObject.serverOS {
+            serverOSView.setContent(serverOS)
+        }
+
+        roleView.isHidden = modelObject.role == nil
+        languageView.isHidden = modelObject.language == nil
+        databaseView.isHidden = modelObject.database == nil
+        serverOSView.isHidden = modelObject.serverOS == nil
 
         processBaseView.subviews
             .compactMap { $0 as? ProjectUpdateProcessView }
