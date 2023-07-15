@@ -22,12 +22,16 @@
     </entity>
     <entity name="Project" representedClassName="Project" syncable="YES">
         <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="database" optional="YES" attributeType="String"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="identifier" attributeType="String"/>
+        <attribute name="language" optional="YES" attributeType="String"/>
         <attribute name="processes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
         <attribute name="role" optional="YES" attributeType="String"/>
+        <attribute name="serverOS" optional="YES" attributeType="String"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="tools" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="projects" inverseEntity="Profile"/>
     </entity>
     <entity name="Skill" representedClassName="Skill" syncable="YES">
