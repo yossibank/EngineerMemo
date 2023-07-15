@@ -26,7 +26,10 @@ final class SettingModelTest: XCTestCase {
         model.updateColorTheme(input)
 
         // assert
-        XCTAssertEqual(DataHolder.colorTheme, .system)
+        XCTAssertEqual(
+            DataHolder.colorTheme,
+            .system
+        )
     }
 
     func test_updateColorTheme_1_DataHolderのcolorThemeがlightに変更されること() {
@@ -37,7 +40,10 @@ final class SettingModelTest: XCTestCase {
         model.updateColorTheme(input)
 
         // assert
-        XCTAssertEqual(DataHolder.colorTheme, .light)
+        XCTAssertEqual(
+            DataHolder.colorTheme,
+            .light
+        )
     }
 
     func test_updateColorTheme_2_DataHolderのcolorThemeがdarkに変更されること() {
@@ -48,7 +54,10 @@ final class SettingModelTest: XCTestCase {
         model.updateColorTheme(input)
 
         // assert
-        XCTAssertEqual(DataHolder.colorTheme, .dark)
+        XCTAssertEqual(
+            DataHolder.colorTheme,
+            .dark
+        )
     }
 
     func test_updateColorTheme_例外_DataHolderのcolorThemeがsystemに変更されること() {
@@ -59,6 +68,9 @@ final class SettingModelTest: XCTestCase {
         model.updateColorTheme(input)
 
         // assert
-        XCTAssertEqual(DataHolder.colorTheme, .system)
+        XCTAssertEqual(
+            DataHolder.colorTheme,
+            .system
+        )
     }
 }

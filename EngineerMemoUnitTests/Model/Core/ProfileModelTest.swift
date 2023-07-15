@@ -567,7 +567,10 @@ final class ProfileModelTest: XCTestCase {
                 let profile = self.storage.allObjects.first!
 
                 // assert
-                XCTAssertEqual(profile.iconImage, Asset.penguin.image.pngData())
+                XCTAssertEqual(
+                    profile.iconImage,
+                    Asset.penguin.image.pngData()
+                )
 
                 expectation.fulfill()
             }
@@ -579,7 +582,10 @@ final class ProfileModelTest: XCTestCase {
         model.updateIconImage(index: 0)
 
         // assert
-        XCTAssertEqual(DataHolder.profileIcon, .elephant)
+        XCTAssertEqual(
+            DataHolder.profileIcon,
+            .elephant
+        )
     }
 
     func test_iconImageUpdate_不正値の場合にデフォルト値でuserDefaultsを更新できること() {
@@ -587,7 +593,10 @@ final class ProfileModelTest: XCTestCase {
         model.updateIconImage(index: 100)
 
         // assert
-        XCTAssertEqual(DataHolder.profileIcon, .penguin)
+        XCTAssertEqual(
+            DataHolder.profileIcon,
+            .penguin
+        )
     }
 
     func test_delete_プロフィール情報を削除できること() {

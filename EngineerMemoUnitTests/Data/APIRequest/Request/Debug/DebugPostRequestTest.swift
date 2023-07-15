@@ -45,20 +45,9 @@
                     switch $0 {
                     case let .success(dataObject):
                         // assert
-                        XCTAssertEqual(
-                            dataObject.userId,
-                            1
-                        )
-
-                        XCTAssertEqual(
-                            dataObject.title,
-                            "sample title"
-                        )
-
-                        XCTAssertEqual(
-                            dataObject.body,
-                            "sample body"
-                        )
+                        XCTAssertEqual(dataObject.userId, 1)
+                        XCTAssertEqual(dataObject.title, "sample title")
+                        XCTAssertEqual(dataObject.body, "sample body")
 
                     case let .failure(error):
                         XCTFail(error.localizedDescription)

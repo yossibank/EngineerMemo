@@ -41,9 +41,9 @@
                             error,
                             .invalidStatusCode(302)
                         )
-                    }
 
-                    expectation.fulfill()
+                        expectation.fulfill()
+                    }
                 }
             }
         }
