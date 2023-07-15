@@ -97,6 +97,24 @@ private extension ProjectUpdateViewController {
             .weakAssign(to: \.processes, on: viewModel.binding)
             .store(in: &cancellables)
 
+        contentView.didChangeLanguageInputPublisher
+            .map { Optional($0) }
+            .receive(on: DispatchQueue.main)
+            .weakAssign(to: \.language, on: viewModel.binding)
+            .store(in: &cancellables)
+
+        contentView.didChangeDatabaseInputPublisher
+            .map { Optional($0) }
+            .receive(on: DispatchQueue.main)
+            .weakAssign(to: \.database, on: viewModel.binding)
+            .store(in: &cancellables)
+
+        contentView.didChangeServerOSInputPublisher
+            .map { Optional($0) }
+            .receive(on: DispatchQueue.main)
+            .weakAssign(to: \.serverOS, on: viewModel.binding)
+            .store(in: &cancellables)
+
         contentView.didChangeContentInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)

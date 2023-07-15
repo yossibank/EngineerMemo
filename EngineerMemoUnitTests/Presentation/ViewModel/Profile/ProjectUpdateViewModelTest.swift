@@ -173,6 +173,90 @@ final class ProjectUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
+    func test_binding_language_設定ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
+
+        viewModel.binding.language = "Swift"
+
+        model.createProjectHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.projects.first?.language,
+                "Swift"
+            )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+    }
+
+    func test_binding_database_設定ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
+
+        viewModel.binding.database = "CoreData"
+
+        model.createProjectHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.projects.first?.database,
+                "CoreData"
+            )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+    }
+
+    func test_binding_serverOS_設定ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
+
+        viewModel.binding.serverOS = "Ubuntu"
+
+        model.createProjectHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.projects.first?.serverOS,
+                "Ubuntu"
+            )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+    }
+
     func test_binding_content_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(

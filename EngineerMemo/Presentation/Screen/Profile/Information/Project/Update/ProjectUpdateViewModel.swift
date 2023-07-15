@@ -8,6 +8,9 @@ final class ProjectUpdateViewModel: ViewModel {
         @Published var endDate: Date?
         @Published var role: String?
         @Published var processes: [ProjectModelObject.Process] = []
+        @Published var language: String?
+        @Published var database: String?
+        @Published var serverOS: String?
         @Published var content: String?
     }
 
@@ -87,6 +90,24 @@ final class ProjectUpdateViewModel: ViewModel {
             .dropFirst()
             .sink { updatedObject.processes = $0 }
 
+        // MARK: - 使用言語
+
+        let language = binding.$language
+            .dropFirst()
+            .sink { updatedObject.language = $0 }
+
+        // MARK: - データベース
+
+        let database = binding.$database
+            .dropFirst()
+            .sink { updatedObject.database = $0 }
+
+        // MARK: - サーバOS
+
+        let serverOS = binding.$serverOS
+            .dropFirst()
+            .sink { updatedObject.serverOS = $0 }
+
         // MARK: - 内容
 
         let content = binding.$content
@@ -116,6 +137,9 @@ final class ProjectUpdateViewModel: ViewModel {
             endDate,
             role,
             processes,
+            language,
+            database,
+            serverOS,
             content
         ])
     }

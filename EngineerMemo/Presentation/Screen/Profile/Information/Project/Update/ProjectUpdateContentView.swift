@@ -10,6 +10,9 @@ final class ProjectUpdateContentView: UIView {
     private(set) lazy var didChangeEndDateInputPublisher = periodInputView.didChangeEndDatePublisher
     private(set) lazy var didChangeRoleInputPublisher = roleInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeProcessInputPublisher = processInputView.didChangeProcessPublisher
+    private(set) lazy var didChangeLanguageInputPublisher = languageInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeDatabaseInputPublisher = databaseInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeServerOSInputPublisher = serverOSInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeContentInputPublisher = contentInputView.didChangeInputTextPublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
@@ -54,6 +57,30 @@ final class ProjectUpdateContentView: UIView {
             $0.setProcessValue(project?.processes ?? [])
         }
 
+        languageInputView.configure {
+            $0.setInputType(.init(
+                title: L10n.Project.language,
+                icon: Asset.projectLanguage.image,
+                placeholder: L10n.Project.Placeholder.language
+            ))
+        }
+
+        databaseInputView.configure {
+            $0.setInputType(.init(
+                title: L10n.Project.database,
+                icon: Asset.projectDatabase.image,
+                placeholder: L10n.Project.Placeholder.database
+            ))
+        }
+
+        serverOSInputView.configure {
+            $0.setInputType(.init(
+                title: L10n.Project.serverOS,
+                icon: Asset.projectServerOS.image,
+                placeholder: L10n.Project.Placeholder.serverOS
+            ))
+        }
+
         contentInputView.configure {
             $0.setInputType(.init(
                 title: L10n.Project.content,
@@ -69,6 +96,9 @@ final class ProjectUpdateContentView: UIView {
     private let periodInputView = ProjectUpdatePeriodInputView()
     private let roleInputView = UpdateTextInputView()
     private let processInputView = ProjectUpdateProcessInputView()
+    private let languageInputView = UpdateTextInputView()
+    private let databaseInputView = UpdateTextInputView()
+    private let serverOSInputView = UpdateTextInputView()
     private let contentInputView = UpdateTextMultiInputView()
 
     private var project: ProjectModelObject? {
