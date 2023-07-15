@@ -36,6 +36,7 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                         .language("Swift")
                         .database("CoreData")
                         .serverOS("Ubuntu")
+                        .tools(["Firebase", "MagicPod"])
                         .content("テストプロジェクト内容1")
                         .startDate(Calendar.date(year: 2020, month: 4, day: 1))
                         .endDate(Calendar.date(year: 2021, month: 6, day: 1))
@@ -57,6 +58,7 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                         .language(nil)
                         .database(nil)
                         .serverOS(nil)
+                        .tools([])
                         .content("テストプロジェクト内容2")
                         .startDate(nil)
                         .endDate(Calendar.date(year: 2021, month: 6, day: 1))
@@ -78,6 +80,7 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                         .language(nil)
                         .database(nil)
                         .serverOS(nil)
+                        .tools([])
                         .content("テストプロジェクト内容3")
                         .startDate(Calendar.date(year: 2020, month: 4, day: 1))
                         .endDate(nil)
@@ -132,7 +135,7 @@ private extension ProjectDetailViewControllerSnapshotTest {
                 x: .zero,
                 y: .zero,
                 width: UIWindow.windowFrame.width,
-                height: 1200
+                height: 1300
             ),
             viewAfter: 0.5
         )

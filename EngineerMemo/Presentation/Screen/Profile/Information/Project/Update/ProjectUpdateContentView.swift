@@ -94,6 +94,8 @@ final class ProjectUpdateContentView: UIView {
                 icon: Asset.projectTools.image,
                 placeholder: L10n.Project.Placeholder.tools
             ))
+
+            $0.setInputValue(project?.tools.joined(separator: "、"))
         }
 
         contentInputView.configure {
