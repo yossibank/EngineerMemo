@@ -4,6 +4,10 @@ struct ProjectModelObject: Hashable {
     var title: String?
     var role: String?
     var processes: [Process] = []
+    var language: String?
+    var database: String?
+    var serverOS: String?
+    var tools: [String] = []
     var content: String?
     var startDate: Date?
     var endDate: Date?

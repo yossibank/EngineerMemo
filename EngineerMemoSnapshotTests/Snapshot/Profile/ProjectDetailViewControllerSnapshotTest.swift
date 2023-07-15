@@ -33,6 +33,10 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                         .title("テストプロジェクトタイトル1")
                         .role("プログラマー1")
                         .processes([.implementation, .systemTesting, .intergrationTesting])
+                        .language("Swift")
+                        .database("CoreData")
+                        .serverOS("Ubuntu")
+                        .tools(["Firebase", "MagicPod"])
                         .content("テストプロジェクト内容1")
                         .startDate(Calendar.date(year: 2020, month: 4, day: 1))
                         .endDate(Calendar.date(year: 2021, month: 6, day: 1))
@@ -51,6 +55,10 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                         .title("テストプロジェクトタイトル2")
                         .role("プログラマー2")
                         .processes([.requirementDefinition, .functionalDesign])
+                        .language(nil)
+                        .database(nil)
+                        .serverOS(nil)
+                        .tools([])
                         .content("テストプロジェクト内容2")
                         .startDate(nil)
                         .endDate(Calendar.date(year: 2021, month: 6, day: 1))
@@ -69,6 +77,10 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
                         .title("テストプロジェクトタイトル3")
                         .role("プログラマー3")
                         .processes([.requirementDefinition, .maintenance])
+                        .language(nil)
+                        .database(nil)
+                        .serverOS(nil)
+                        .tools([])
                         .content("テストプロジェクト内容3")
                         .startDate(Calendar.date(year: 2020, month: 4, day: 1))
                         .endDate(nil)
@@ -95,6 +107,10 @@ private extension ProjectDetailViewControllerSnapshotTest {
                 project.title = object.title
                 project.role = object.role
                 project.processes = object.processes.map(\.rawValue)
+                project.language = object.language
+                project.database = object.database
+                project.serverOS = object.serverOS
+                project.tools = object.tools
                 project.content = object.content
                 project.startDate = object.startDate
                 project.endDate = object.endDate
@@ -115,6 +131,12 @@ private extension ProjectDetailViewControllerSnapshotTest {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
+            viewFrame: .init(
+                x: .zero,
+                y: .zero,
+                width: UIWindow.windowFrame.width,
+                height: 1300
+            ),
             viewAfter: 0.5
         )
     }

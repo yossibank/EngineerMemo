@@ -41,11 +41,7 @@ final class MemoListViewModelTest: XCTestCase {
         // assert
         XCTAssertFalse(output.isMemoEmpty)
         XCTAssertFalse(output.isResultEmpty)
-
-        XCTAssertEqual(
-            output.outputObjects,
-            [MemoModelObjectBuilder().build()]
-        )
+        XCTAssertEqual(output.outputObjects, [MemoModelObjectBuilder().build()])
     }
 
     func test_input_viewWillAppear_ログイベントが送信されていること() {
@@ -92,36 +88,12 @@ final class MemoListViewModelTest: XCTestCase {
         // assert
         XCTAssertFalse(output.isMemoEmpty)
         XCTAssertFalse(output.isResultEmpty)
-
-        XCTAssertEqual(
-            output.outputObjects[0].title,
-            "title6"
-        )
-
-        XCTAssertEqual(
-            output.outputObjects[1].title,
-            "title5"
-        )
-
-        XCTAssertEqual(
-            output.outputObjects[2].title,
-            "title4"
-        )
-
-        XCTAssertEqual(
-            output.outputObjects[3].title,
-            "title3"
-        )
-
-        XCTAssertEqual(
-            output.outputObjects[4].title,
-            "title2"
-        )
-
-        XCTAssertEqual(
-            output.outputObjects[5].title,
-            "title1"
-        )
+        XCTAssertEqual(output.outputObjects[0].title, "title6")
+        XCTAssertEqual(output.outputObjects[1].title, "title5")
+        XCTAssertEqual(output.outputObjects[2].title, "title4")
+        XCTAssertEqual(output.outputObjects[3].title, "title3")
+        XCTAssertEqual(output.outputObjects[4].title, "title2")
+        XCTAssertEqual(output.outputObjects[5].title, "title1")
     }
 
     func test_input_didChangeCategory_絞り込んだメモ情報を取得できること() throws {
@@ -145,11 +117,7 @@ final class MemoListViewModelTest: XCTestCase {
         // assert
         XCTAssertFalse(output.isMemoEmpty)
         XCTAssertFalse(output.isResultEmpty)
-
-        XCTAssertEqual(
-            output.outputObjects.count,
-            2
-        )
+        XCTAssertEqual(output.outputObjects.count, 2)
     }
 
     func test_input_didSelectContent_ログイベントが送信されていること() {

@@ -108,6 +108,10 @@ extension ProfileModelObject {
             project.title = object.title
             project.role = object.role
             project.processes = object.processes.map(\.rawValue)
+            project.language = object.language
+            project.database = object.database
+            project.serverOS = object.serverOS
+            project.tools = object.tools
             project.content = object.content
             project.startDate = object.startDate
             project.endDate = object.endDate
@@ -138,6 +142,10 @@ extension ProfileModelObject {
             $0.title = project.title
             $0.role = project.role
             $0.processes = project.processes.map(\.rawValue)
+            $0.language = project.language
+            $0.database = project.database
+            $0.serverOS = project.serverOS
+            $0.tools = project.tools
             $0.content = project.content
             $0.startDate = project.startDate
             $0.endDate = project.endDate

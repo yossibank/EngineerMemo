@@ -5,8 +5,6 @@ import UIKitHelper
 // MARK: - properties & init
 
 final class ProjectDetailCell: UITableViewCell {
-    typealias Process = ProjectModelObject.Process
-
     private var body: UIView {
         VStackView(spacing: 32) {
             titleView.configure {
@@ -32,6 +30,29 @@ final class ProjectDetailCell: UITableViewCell {
 
             processView
 
+            languageView.configure {
+                $0.setTitle(
+                    title: L10n.Project.language,
+                    icon: Asset.projectLanguage.image
+                )
+            }
+
+            databaseView.configure {
+                $0.setTitle(
+                    title: L10n.Project.database,
+                    icon: Asset.projectDatabase.image
+                )
+            }
+
+            serverOSView.configure {
+                $0.setTitle(
+                    title: L10n.Project.serverOS,
+                    icon: Asset.projectServerOS.image
+                )
+            }
+
+            toolsView
+
             contentsView.configure {
                 $0.setTitle(
                     title: L10n.Project.content,
@@ -41,40 +62,14 @@ final class ProjectDetailCell: UITableViewCell {
         }
     }
 
-    private lazy var processView: UIView = VStackView(spacing: 8) {
-        HStackView(spacing: 8) {
-            UIImageView()
-                .addConstraint {
-                    $0.size.equalTo(24)
-                }
-                .configure {
-                    $0.image = Asset.projectProcess.image
-                }
-
-            UILabel().configure {
-                $0.text = L10n.Project.process
-                $0.textColor = .secondaryGray
-                $0.font = .boldSystemFont(ofSize: 16)
-            }
-        }
-
-        BorderView().configure {
-            $0.changeColor(.secondaryGray)
-        }
-
-        processBaseView.configure {
-            $0.axis = .vertical
-            $0.spacing = 8
-        }
-    }
-
-    private lazy var processBaseView = UIStackView(
-        arrangedSubviews: Process.allCases.map { ProjectUpdateProcessView($0) }
-    )
-
     private let titleView = DetailTitleView()
     private let periodView = DetailTitleView()
     private let roleView = DetailTitleView()
+    private let processView = ProfileDetailProcessView()
+    private let languageView = DetailTitleView()
+    private let databaseView = DetailTitleView()
+    private let serverOSView = DetailTitleView()
+    private let toolsView = ProfileDetailToolsView()
     private let contentsView = DetailTitleView()
 
     override init(
@@ -99,12 +94,31 @@ final class ProjectDetailCell: UITableViewCell {
 extension ProjectDetailCell {
     func configure(_ modelObject: ProjectModelObject) {
         titleView.setContent(modelObject.title ?? .noSetting)
-        roleView.setContent(modelObject.role ?? .noSetting)
         contentsView.setContent(modelObject.content ?? .noSetting)
 
-        processBaseView.subviews
-            .compactMap { $0 as? ProjectUpdateProcessView }
-            .forEach { $0.updateImage(modelObject.processes) }
+        if let role = modelObject.role {
+            roleView.setContent(role)
+        }
+
+        if let language = modelObject.language {
+            languageView.setContent(language)
+        }
+
+        if let database = modelObject.database {
+            databaseView.setContent(database)
+        }
+
+        if let serverOS = modelObject.serverOS {
+            serverOSView.setContent(serverOS)
+        }
+
+        processView.configure(modelObject.processes)
+        toolsView.configure(modelObject.tools)
+        roleView.isHidden = modelObject.role.isNil
+        languageView.isHidden = modelObject.language.isNil
+        databaseView.isHidden = modelObject.database.isNil
+        serverOSView.isHidden = modelObject.serverOS.isNil
+        toolsView.isHidden = modelObject.tools.isEmpty
 
         setPeriod(
             startDate: modelObject.startDate,

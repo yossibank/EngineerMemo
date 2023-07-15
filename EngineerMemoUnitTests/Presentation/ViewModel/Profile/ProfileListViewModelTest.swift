@@ -169,15 +169,8 @@ final class ProfileListViewModelTest: XCTestCase {
 
         routing.showProjectDetailScreenHandler = {
             // assert
-            XCTAssertEqual(
-                $0,
-                "identifier"
-            )
-
-            XCTAssertEqual(
-                $1,
-                modelObject
-            )
+            XCTAssertEqual($0, "identifier")
+            XCTAssertEqual($1, modelObject)
         }
 
         // act
