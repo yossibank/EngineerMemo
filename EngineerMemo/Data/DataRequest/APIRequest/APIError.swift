@@ -10,6 +10,24 @@ enum APIError: Error, Equatable {
     case unknown
 }
 
+extension APIError {
+    static func parse(_ error: Error) -> APIError {
+        guard error as? DecodingError == nil else {
+            return .decodeError
+        }
+
+        guard error._code != -1009 else {
+            return .urlSessionError
+        }
+
+        guard let apiError = error as? APIError else {
+            return .unknown
+        }
+
+        return apiError
+    }
+}
+
 extension APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
