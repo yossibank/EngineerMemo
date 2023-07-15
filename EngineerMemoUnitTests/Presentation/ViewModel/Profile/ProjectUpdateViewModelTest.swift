@@ -257,6 +257,34 @@ final class ProjectUpdateViewModelTest: XCTestCase {
         viewModel.input.didTapBarButton.send(())
     }
 
+    func test_binding_tools_設定ボタンタップ時にmodelObjectに反映されること() {
+        // arrange
+        setupViewModel(
+            identifier: "identifier",
+            modelObject: ProfileModelObjectBuilder().build()
+        )
+
+        viewModel.binding.tools = ["Firebase", "MagicPod"]
+
+        model.createProjectHandler = {
+            // assert
+            XCTAssertEqual(
+                $0.projects.first?.tools,
+                ["Firebase", "MagicPod"]
+            )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        // act
+        viewModel.input.didTapBarButton.send(())
+    }
+
     func test_binding_content_設定ボタンタップ時にmodelObjectに反映されること() {
         // arrange
         setupViewModel(

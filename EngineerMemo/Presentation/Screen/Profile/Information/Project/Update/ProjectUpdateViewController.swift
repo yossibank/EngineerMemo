@@ -115,6 +115,12 @@ private extension ProjectUpdateViewController {
             .weakAssign(to: \.serverOS, on: viewModel.binding)
             .store(in: &cancellables)
 
+        contentView.didChangeToolsInputPublisher
+            .receive(on: DispatchQueue.main)
+            .map { $0.components(separatedBy: "、") }
+            .weakAssign(to: \.tools, on: viewModel.binding)
+            .store(in: &cancellables)
+
         contentView.didChangeContentInputPublisher
             .map { Optional($0) }
             .receive(on: DispatchQueue.main)

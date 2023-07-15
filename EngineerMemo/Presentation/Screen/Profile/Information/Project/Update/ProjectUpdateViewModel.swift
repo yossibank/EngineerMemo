@@ -11,6 +11,7 @@ final class ProjectUpdateViewModel: ViewModel {
         @Published var language: String?
         @Published var database: String?
         @Published var serverOS: String?
+        @Published var tools: [String] = []
         @Published var content: String?
     }
 
@@ -108,6 +109,12 @@ final class ProjectUpdateViewModel: ViewModel {
             .dropFirst()
             .sink { updatedObject.serverOS = $0 }
 
+        // MARK: - FW・MV・ツール等
+
+        let tools = binding.$tools
+            .dropFirst()
+            .sink { updatedObject.tools = $0 }
+
         // MARK: - 内容
 
         let content = binding.$content
@@ -140,6 +147,7 @@ final class ProjectUpdateViewModel: ViewModel {
             language,
             database,
             serverOS,
+            tools,
             content
         ])
     }

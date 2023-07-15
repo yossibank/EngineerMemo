@@ -60,7 +60,7 @@ private extension ProjectUpdateViewControllerSnapshotTest {
                 x: .zero,
                 y: .zero,
                 width: UIWindow.windowFrame.width,
-                height: 1400
+                height: 1500
             )
         )
     }

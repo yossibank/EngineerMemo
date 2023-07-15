@@ -13,6 +13,7 @@ final class ProjectUpdateContentView: UIView {
     private(set) lazy var didChangeLanguageInputPublisher = languageInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeDatabaseInputPublisher = databaseInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeServerOSInputPublisher = serverOSInputView.didChangeInputTextPublisher
+    private(set) lazy var didChangeToolsInputPublisher = toolsInputView.didChangeInputTextPublisher
     private(set) lazy var didChangeContentInputPublisher = contentInputView.didChangeInputTextPublisher
     private(set) lazy var didTapBarButtonPublisher = barButton.publisher(for: .touchUpInside)
 
@@ -63,6 +64,8 @@ final class ProjectUpdateContentView: UIView {
                 icon: Asset.projectLanguage.image,
                 placeholder: L10n.Project.Placeholder.language
             ))
+
+            $0.setInputValue(project?.language)
         }
 
         databaseInputView.configure {
@@ -71,6 +74,8 @@ final class ProjectUpdateContentView: UIView {
                 icon: Asset.projectDatabase.image,
                 placeholder: L10n.Project.Placeholder.database
             ))
+
+            $0.setInputValue(project?.database)
         }
 
         serverOSInputView.configure {
@@ -78,6 +83,16 @@ final class ProjectUpdateContentView: UIView {
                 title: L10n.Project.serverOS,
                 icon: Asset.projectServerOS.image,
                 placeholder: L10n.Project.Placeholder.serverOS
+            ))
+
+            $0.setInputValue(project?.serverOS)
+        }
+
+        toolsInputView.configure {
+            $0.setInputType(.init(
+                title: L10n.Project.tools,
+                icon: Asset.projectTools.image,
+                placeholder: L10n.Project.Placeholder.tools
             ))
         }
 
@@ -99,6 +114,7 @@ final class ProjectUpdateContentView: UIView {
     private let languageInputView = UpdateTextInputView()
     private let databaseInputView = UpdateTextInputView()
     private let serverOSInputView = UpdateTextInputView()
+    private let toolsInputView = UpdateTextInputView()
     private let contentInputView = UpdateTextMultiInputView()
 
     private var project: ProjectModelObject? {

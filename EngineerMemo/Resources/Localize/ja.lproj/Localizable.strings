@@ -136,7 +136,7 @@
 "project.placeholder.language" = "開発で使用した言語";
 "project.placeholder.database" = "開発で使用したデータベース";
 "project.placeholder.serverOS" = "開発で使用したサーバOS";
-"project.placeholder.tools" = "開発で使用したFW・MV・ツール";
+"project.placeholder.tools" = "※「、」で区切ると1用語として認識されます";
 "project.startDate" = "%@ ~";
 "project.endDate" = "~ %@";
 "project.during" = "%@ ~ %@";
