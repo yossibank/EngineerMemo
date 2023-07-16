@@ -147,6 +147,20 @@ final class ProfileListViewModelTest: XCTestCase {
         viewModel.input.didTapSkillSettingButton.send(modelObject)
     }
 
+    func test_input_didChangeProjectSortType_model_updateProfileProjectSortTypeが呼び出されること() {
+        // arrange
+        model.updateProfileProjectSortTypeHandler = {
+            // assert
+            XCTAssertEqual(
+                $0,
+                .ascending
+            )
+        }
+
+        // act
+        viewModel.input.didChangeProjectSortType.send(.ascending)
+    }
+
     func test_input_didTapProjectCreateButton_routing_showProjectCreateScreenが呼び出されること() {
         // arrange
         let modelObject = ProfileModelObjectBuilder().build()

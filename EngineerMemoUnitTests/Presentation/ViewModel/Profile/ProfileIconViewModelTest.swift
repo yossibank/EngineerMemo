@@ -69,7 +69,7 @@ final class ProfileIconViewModelTest: XCTestCase {
 
     func test_input_didChangeIconIndex_index値を送信できること() {
         // arrange
-        model.updateIconImageIndexHandler = {
+        model.updateProfileIconHandler = {
             // assert
             XCTAssertEqual(
                 $0,

@@ -111,6 +111,8 @@
 "profile.year" = "%@年";
 "profile.moreTenYear" = "10年以上";
 "profile.score" = "%@点";
+"project.sort.descendingDate" = "案件開始日(新しい順)";
+"project.sort.ascendingDate" = "案件開始日(古い順)";
 "project.count" = "案件数";
 "project.number" = "%@件";
 "project.title" = "案件名";

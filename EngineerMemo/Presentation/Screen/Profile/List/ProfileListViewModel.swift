@@ -7,6 +7,7 @@ final class ProfileListViewModel: ViewModel {
         let didTapIconChangeButton = PassthroughSubject<ProfileModelObject, Never>()
         let didTapBasicSettingButton = PassthroughSubject<ProfileModelObject?, Never>()
         let didTapSkillSettingButton = PassthroughSubject<ProfileModelObject, Never>()
+        let didChangeProjectSortType = PassthroughSubject<DataHolder.ProfileProjectSortType, Never>()
         let didTapProjectCreateButton = PassthroughSubject<ProfileModelObject, Never>()
         let didSelectProjectCell = PassthroughSubject<(String, ProfileModelObject), Never>()
     }
@@ -86,6 +87,13 @@ final class ProfileListViewModel: ViewModel {
 
         input.didTapSkillSettingButton.sink {
             routing.showSkillUpdateScreen(modelObject: $0)
+        }
+        .store(in: &cancellables)
+
+        // MARK: - 案件・経歴ソート変更
+
+        input.didChangeProjectSortType.sink {
+            model.updateProfileProjectSortType($0)
         }
         .store(in: &cancellables)
 

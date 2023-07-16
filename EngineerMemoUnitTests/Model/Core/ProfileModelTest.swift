@@ -577,9 +577,9 @@ final class ProfileModelTest: XCTestCase {
         }
     }
 
-    func test_iconImageUpdate_有効値の場合にuserDefaultsを更新できること() {
+    func test_updateProfileIcon_有効値の場合にuserDefaultsを更新できること() {
         // arrange
-        model.updateIconImage(index: 0)
+        model.updateProfileIcon(index: 0)
 
         // assert
         XCTAssertEqual(
@@ -588,14 +588,25 @@ final class ProfileModelTest: XCTestCase {
         )
     }
 
-    func test_iconImageUpdate_不正値の場合にデフォルト値でuserDefaultsを更新できること() {
+    func test_updateProfileIcon_不正値の場合にデフォルト値でuserDefaultsを更新できること() {
         // arrange
-        model.updateIconImage(index: 100)
+        model.updateProfileIcon(index: 100)
 
         // assert
         XCTAssertEqual(
             DataHolder.profileIcon,
             .penguin
+        )
+    }
+
+    func test_updateProfileProjectSortType_userDefaultsを更新できること() {
+        // arrange
+        model.updateProfileProjectSortType(.ascending)
+
+        // assert
+        XCTAssertEqual(
+            DataHolder.profileProjectSortType,
+            .ascending
         )
     }
 

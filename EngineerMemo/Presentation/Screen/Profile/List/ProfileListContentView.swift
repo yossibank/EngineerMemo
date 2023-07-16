@@ -23,6 +23,7 @@ enum ProfileListContentViewItem: Hashable {
 final class ProfileListContentView: UIView {
     typealias Section = ProfileListContentViewSection
     typealias Item = ProfileListContentViewItem
+    typealias SortType = DataHolder.ProfileProjectSortType
 
     var modelObject: ProfileModelObject? {
         didSet {
@@ -33,6 +34,7 @@ final class ProfileListContentView: UIView {
     private(set) lazy var didTapIconChangeButtonPublisher = didTapIconChangeButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapBasicSettingButtonPublisher = didTapBasicSettingButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didTapSkillSettingButtonPublisher = didTapSkillSettingButtonSubject.eraseToAnyPublisher()
+    private(set) lazy var didChangeProjectSortTypePublisher = didChangeProjectSortTypeSubject.eraseToAnyPublisher()
     private(set) lazy var didTapProjectCreateButtonPublisher = didTapProjectCreateButtonSubject.eraseToAnyPublisher()
     private(set) lazy var didSelectProjectCellPublisher = didSelectProjectCellSubject.eraseToAnyPublisher()
 
@@ -54,6 +56,7 @@ final class ProfileListContentView: UIView {
     private let didTapIconChangeButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didTapBasicSettingButtonSubject = PassthroughSubject<ProfileModelObject?, Never>()
     private let didTapSkillSettingButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
+    private let didChangeProjectSortTypeSubject = PassthroughSubject<SortType, Never>()
     private let didTapProjectCreateButtonSubject = PassthroughSubject<ProfileModelObject, Never>()
     private let didSelectProjectCellSubject = PassthroughSubject<(String, ProfileModelObject), Never>()
 
@@ -89,7 +92,12 @@ private extension ProfileListContentView {
                     EmptyTableCell.self
                 ]
             )
-            $0.registerHeaderFooterView(with: TitleButtonHeaderFooterView.self)
+            $0.registerHeaderFooterViews(
+                with: [
+                    TitleButtonHeaderFooterView.self,
+                    ProfileProjectHeaderView.self
+                ]
+            )
             $0.backgroundColor = .background
             $0.separatorStyle = .none
             $0.delegate = self
@@ -329,10 +337,13 @@ extension ProfileListContentView: UITableViewDelegate {
             }
 
             let view = tableView.dequeueReusableHeaderFooterView(
-                withType: TitleButtonHeaderFooterView.self
+                withType: ProfileProjectHeaderView.self
             )
 
-            view.configure(with: .project)
+            view.$selectedSortType.dropFirst().sink { [weak self] in
+                self?.didChangeProjectSortTypeSubject.send($0)
+            }
+            .store(in: &view.cancellables)
 
             view.didTapEditButtonPublisher.sink { [weak self] _ in
                 self?.didTapProjectCreateButtonSubject.send(modelObject)
