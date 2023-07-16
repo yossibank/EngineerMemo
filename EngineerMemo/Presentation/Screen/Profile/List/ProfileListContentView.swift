@@ -260,12 +260,14 @@ private extension ProfileListContentView {
                     toSection: .project
                 )
             } else {
-                modelObject.projects.forEach {
-                    dataSourceSnapshot.appendItems(
-                        [.project($0)],
-                        toSection: .project
-                    )
-                }
+                modelObject.projects
+                    .sorted(by: { $0.startDate ?? .init() > $1.startDate ?? .init() })
+                    .forEach {
+                        dataSourceSnapshot.appendItems(
+                            [.project($0)],
+                            toSection: .project
+                        )
+                    }
             }
         }
 
