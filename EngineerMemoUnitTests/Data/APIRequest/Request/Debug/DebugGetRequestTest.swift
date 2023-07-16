@@ -70,6 +70,26 @@
             XCTAssertEqual(output.first!.userId, 1)
         }
 
+        func test_async_get_成功_正常系のレスポンスを取得できること() async throws {
+            // arrange
+            stub(condition: isPath("/posts")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_get.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            let output = try await apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
+
+            // assert
+            XCTAssertEqual(output.count, 100)
+            XCTAssertEqual(output.first!.userId, 1)
+        }
+
         func test_get_デコード失敗_エラーを取得できること() {
             // arrange
             stub(condition: isPath("/posts")) { _ in
@@ -98,7 +118,7 @@
             }
         }
 
-        func test_publisher_get_デコード失敗_エラーを取得できること() throws {
+        func test_publisher_get_デコード失敗_エラーを取得できること() {
             // arrange
             stub(condition: isPath("/posts")) { _ in
                 fixture(
@@ -110,17 +130,41 @@
                 )
             }
 
-            // act
-            let publisher = apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
+            do {
+                let publisher = apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
 
-            if case let .failure(error) = try awaitResultPublisher(publisher) {
+                // act
+                _ = try awaitOutputPublisher(publisher)
+            } catch {
                 // assert
                 XCTAssertEqual(
                     error as! APIError,
                     .decodeError
                 )
-            } else {
-                XCTFail("not received error")
+            }
+        }
+
+        func test_async_get_デコード失敗_エラーを取得できること() async {
+            // arrange
+            stub(condition: isPath("/posts")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "failure_debug_get.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            do {
+                // act
+                _ = try await apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
+            } catch {
+                // assert
+                XCTAssertEqual(
+                    error as! APIError,
+                    .decodeError
+                )
             }
         }
     }

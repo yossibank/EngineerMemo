@@ -9,6 +9,8 @@ protocol APIClientInput {
     )
 
     func request<T>(item: some Request<T>) -> AnyPublisher<T, APIError>
+
+    func request<T>(item: some Request<T>) async throws -> T
 }
 
 struct APIClient: APIClientInput {
@@ -81,6 +83,38 @@ struct APIClient: APIClientInput {
             .decode(type: T.self, decoder: decoder)
             .mapError { APIError.parse($0) }
             .eraseToAnyPublisher()
+    }
+
+    func request<T>(item: some Request<T>) async throws -> T {
+        guard let urlRequest = createURLRequest(item) else {
+            throw APIError.invalidRequest
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+
+            guard let response = response as? HTTPURLResponse else {
+                throw APIError.emptyResponse
+            }
+
+            guard (200 ... 299).contains(response.statusCode) else {
+                throw APIError.invalidStatusCode(response.statusCode)
+            }
+
+            let decoder: JSONDecoder = {
+                $0.keyDecodingStrategy = .convertFromSnakeCase
+                return $0
+            }(JSONDecoder())
+
+            let value = try decoder.decode(
+                T.self,
+                from: data
+            )
+
+            return value
+        } catch {
+            throw APIError.parse(error)
+        }
     }
 }
 
