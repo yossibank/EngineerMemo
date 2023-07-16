@@ -67,5 +67,24 @@
             // assert
             XCTAssertNotNil(output)
         }
+
+        func test_async_delete_成功_正常系のレスポンスを取得できること() async throws {
+            // arrange
+            stub(condition: isPath("/posts/1")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_delete.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            let output = try await apiClient.request(item: DebugDeleteRequest(pathComponent: 1))
+
+            // assert
+            XCTAssertNotNil(output)
+        }
     }
 #endif

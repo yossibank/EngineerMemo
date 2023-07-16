@@ -94,6 +94,37 @@
             )
         }
 
+        func test_async_put_成功_正常系のレスポンスを取得できること() async throws {
+            // arrange
+            stub(condition: isPath("/posts/1")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_put.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            let output = try await apiClient.request(
+                item: DebugPutRequest(
+                    parameters: .init(
+                        userId: 1,
+                        id: 1,
+                        title: "sample title",
+                        body: "sample body"
+                    ),
+                    pathComponent: 1
+                )
+            )
+
+            // assert
+            XCTAssertEqual(
+                output,
+                DebugDataObjectBuilder().build()
+            )
+        }
+
         func test_put_デコード失敗_エラーを取得できること() {
             // arrange
             stub(condition: isPath("/posts/1")) { _ in
@@ -132,7 +163,7 @@
             }
         }
 
-        func test_publisher_put_デコード失敗_エラーを取得できること() throws {
+        func test_publisher_put_デコード失敗_エラーを取得できること() {
             // arrange
             stub(condition: isPath("/posts/1")) { _ in
                 fixture(
@@ -144,27 +175,61 @@
                 )
             }
 
-            // act
-            let publisher = apiClient.request(
-                item: DebugPutRequest(
-                    parameters: .init(
-                        userId: 1,
-                        id: 1,
-                        title: "sample title",
-                        body: "sample body"
-                    ),
-                    pathComponent: 1
+            do {
+                let publisher = apiClient.request(
+                    item: DebugPutRequest(
+                        parameters: .init(
+                            userId: 1,
+                            id: 1,
+                            title: "sample title",
+                            body: "sample body"
+                        ),
+                        pathComponent: 1
+                    )
                 )
-            )
 
-            if case let .failure(error) = try awaitResultPublisher(publisher) {
+                // act
+                _ = try awaitOutputPublisher(publisher)
+            } catch {
                 // assert
                 XCTAssertEqual(
                     error as! APIError,
                     .decodeError
                 )
-            } else {
-                XCTFail("not received error")
+            }
+        }
+
+        func test_async_put_デコード失敗_エラーを取得できること() async {
+            // arrange
+            stub(condition: isPath("/posts/1")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "failure_debug_put.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            do {
+                // act
+                _ = try await apiClient.request(
+                    item: DebugPutRequest(
+                        parameters: .init(
+                            userId: 1,
+                            id: 1,
+                            title: "sample title",
+                            body: "sample body"
+                        ),
+                        pathComponent: 1
+                    )
+                )
+            } catch {
+                // assert
+                XCTAssertEqual(
+                    error as! APIError,
+                    .decodeError
+                )
             }
         }
     }
