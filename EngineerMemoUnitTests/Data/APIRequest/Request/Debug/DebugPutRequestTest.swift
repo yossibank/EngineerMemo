@@ -61,6 +61,39 @@
             }
         }
 
+        func test_publisher_put_成功_正常系のレスポンスを取得できること() throws {
+            // arrange
+            stub(condition: isPath("/posts/1")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_put.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            let publisher = apiClient.request(
+                item: DebugPutRequest(
+                    parameters: .init(
+                        userId: 1,
+                        id: 1,
+                        title: "sample title",
+                        body: "sample body"
+                    ),
+                    pathComponent: 1
+                )
+            )
+
+            let output = try awaitOutputPublisher(publisher)
+
+            // assert
+            XCTAssertEqual(
+                output,
+                DebugDataObjectBuilder().build()
+            )
+        }
+
         func test_put_デコード失敗_エラーを取得できること() {
             // arrange
             stub(condition: isPath("/posts/1")) { _ in
@@ -96,6 +129,42 @@
                         expectation.fulfill()
                     }
                 }
+            }
+        }
+
+        func test_publisher_put_デコード失敗_エラーを取得できること() throws {
+            // arrange
+            stub(condition: isPath("/posts/1")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "failure_debug_put.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            let publisher = apiClient.request(
+                item: DebugPutRequest(
+                    parameters: .init(
+                        userId: 1,
+                        id: 1,
+                        title: "sample title",
+                        body: "sample body"
+                    ),
+                    pathComponent: 1
+                )
+            )
+
+            if case let .failure(error) = try awaitResultPublisher(publisher) {
+                // assert
+                XCTAssertEqual(
+                    error as! APIError,
+                    .decodeError
+                )
+            } else {
+                XCTFail("not received error")
             }
         }
     }

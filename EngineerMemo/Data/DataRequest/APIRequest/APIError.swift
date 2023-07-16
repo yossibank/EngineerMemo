@@ -2,6 +2,7 @@ import Foundation
 
 enum APIError: Error, Equatable {
     case decodeError
+    case timeoutError
     case urlSessionError
     case emptyData
     case emptyResponse
@@ -10,11 +11,36 @@ enum APIError: Error, Equatable {
     case unknown
 }
 
+extension APIError {
+    static func parse(_ error: Error) -> APIError {
+        guard error as? DecodingError == nil else {
+            return .decodeError
+        }
+
+        guard error._code != -1001 else {
+            return .timeoutError
+        }
+
+        guard error._code != -1009 else {
+            return .urlSessionError
+        }
+
+        guard let apiError = error as? APIError else {
+            return .unknown
+        }
+
+        return apiError
+    }
+}
+
 extension APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .decodeError:
             return "デコードエラーです"
+
+        case .timeoutError:
+            return "タイムアウトエラーです"
 
         case .urlSessionError:
             return "URLSessionエラーです"

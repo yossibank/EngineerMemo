@@ -47,5 +47,25 @@
                 }
             }
         }
+
+        func test_publisher_delete_成功_正常系のレスポンスを取得できること() throws {
+            // arrange
+            stub(condition: isPath("/posts/1")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_delete.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            let publisher = apiClient.request(item: DebugDeleteRequest(pathComponent: 1))
+            let output = try awaitOutputPublisher(publisher)
+
+            // assert
+            XCTAssertNotNil(output)
+        }
     }
 #endif

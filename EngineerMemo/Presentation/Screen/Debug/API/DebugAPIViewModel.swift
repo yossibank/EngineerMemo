@@ -232,37 +232,50 @@
         func request(item: some Request<some Encodable>) {
             output.isLoading = true
 
-            APIClient().request(item: item) { [weak self] in
-                switch $0 {
-                case let .success(response):
+            APIClient().request(item: item).sink(
+                receiveCompletion: { [weak self] in
+                    guard let self else {
+                        return
+                    }
+
+                    if case let .failure(appError) = $0 {
+                        output.apiResult = .init(
+                            responseJSON: nil,
+                            responseError: appError.localizedDescription
+                        )
+                        output.isLoading = false
+                    }
+                },
+                receiveValue: { [weak self] in
+                    guard let self else {
+                        return
+                    }
+
                     let encoder: JSONEncoder = {
                         $0.outputFormatting = .prettyPrinted
                         return $0
                     }(JSONEncoder())
 
-                    if let data = try? encoder.encode(response),
-                       let response = String(data: data, encoding: .utf8) {
-                        self?.output.apiResult = .init(
-                            responseJSON: response,
-                            responseError: nil
-                        )
-                        self?.output.isLoading = false
-                    } else {
-                        self?.output.apiResult = .init(
+                    guard
+                        let data = try? encoder.encode($0),
+                        let response = String(data: data, encoding: .utf8)
+                    else {
+                        output.apiResult = .init(
                             responseJSON: nil,
                             responseError: L10n.Debug.Api.encodeError
                         )
-                        self?.output.isLoading = false
+                        output.isLoading = false
+                        return
                     }
 
-                case let .failure(error):
-                    self?.output.apiResult = .init(
-                        responseJSON: nil,
-                        responseError: error.errorDescription
+                    output.apiResult = .init(
+                        responseJSON: response,
+                        responseError: nil
                     )
-                    self?.output.isLoading = false
+                    output.isLoading = false
                 }
-            }
+            )
+            .store(in: &cancellables)
         }
     }
 #endif

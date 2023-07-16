@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 /// @mockable
@@ -6,6 +7,8 @@ protocol APIClientInput {
         item: some Request<T>,
         completion: @escaping (Result<T, APIError>) -> Void
     )
+
+    func request<T>(item: some Request<T>) -> AnyPublisher<T, APIError>
 }
 
 struct APIClient: APIClientInput {
@@ -46,6 +49,38 @@ struct APIClient: APIClientInput {
         }
 
         task.resume()
+    }
+
+    func request<T>(item: some Request<T>) -> AnyPublisher<T, APIError> {
+        let decoder: JSONDecoder = {
+            $0.keyDecodingStrategy = .convertFromSnakeCase
+            return $0
+        }(JSONDecoder())
+
+        guard let urlRequest = createURLRequest(item) else {
+            return Deferred {
+                Future<T, APIError> {
+                    $0(.failure(.invalidRequest))
+                }
+            }
+            .eraseToAnyPublisher()
+        }
+
+        return URLSession.shared.dataTaskPublisher(for: urlRequest)
+            .tryMap { data, response in
+                guard let response = response as? HTTPURLResponse else {
+                    throw APIError.emptyResponse
+                }
+
+                guard (200 ... 299).contains(response.statusCode) else {
+                    throw APIError.invalidStatusCode(response.statusCode)
+                }
+
+                return data
+            }
+            .decode(type: T.self, decoder: decoder)
+            .mapError { APIError.parse($0) }
+            .eraseToAnyPublisher()
     }
 }
 
