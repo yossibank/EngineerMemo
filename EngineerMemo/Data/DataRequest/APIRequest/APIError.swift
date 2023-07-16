@@ -2,6 +2,7 @@ import Foundation
 
 enum APIError: Error, Equatable {
     case decodeError
+    case timeoutError
     case urlSessionError
     case emptyData
     case emptyResponse
@@ -14,6 +15,10 @@ extension APIError {
     static func parse(_ error: Error) -> APIError {
         guard error as? DecodingError == nil else {
             return .decodeError
+        }
+
+        guard error._code != -1001 else {
+            return .timeoutError
         }
 
         guard error._code != -1009 else {
@@ -33,6 +38,9 @@ extension APIError: LocalizedError {
         switch self {
         case .decodeError:
             return "デコードエラーです"
+
+        case .timeoutError:
+            return "タイムアウトエラーです"
 
         case .urlSessionError:
             return "URLSessionエラーです"

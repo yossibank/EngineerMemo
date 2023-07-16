@@ -2,6 +2,7 @@ import Foundation
 
 enum ErrorType: Equatable {
     case something(String?)
+    case timeout
     case urlSession
     case invalidStatusCode(Int)
     case unknown
@@ -27,6 +28,9 @@ extension AppError {
             switch apiError {
             case .decodeError, .emptyData, .emptyResponse, .invalidRequest:
                 return .something(errorDescription)
+
+            case .timeoutError:
+                return .timeout
 
             case .urlSessionError:
                 return .urlSession

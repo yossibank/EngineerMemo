@@ -78,6 +78,18 @@ final class AppErrorConverterTest: XCTestCase {
         XCTAssertEqual(actual.errorDescription, "無効なリクエストです")
     }
 
+    func test_timeoutErrorのAPIErrorをAppErrorのエラー種別timeoutで受け取れること() {
+        // arrange
+        let input = DataError.api(.timeoutError)
+
+        // assert
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(actual.errorType, .timeout)
+        XCTAssertEqual(actual.errorDescription, "タイムアウトエラーです")
+    }
+
     func test_urlSessionErrorのAPIErrorをAppErrorのエラー種別urlSessionで受け取れること() {
         // arrange
         let input = DataError.api(.urlSessionError)
