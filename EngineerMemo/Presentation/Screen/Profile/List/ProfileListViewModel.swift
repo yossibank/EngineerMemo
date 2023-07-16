@@ -47,7 +47,13 @@ final class ProfileListViewModel: ViewModel {
             .sink {
                 switch $0 {
                 case let .success(modelObjects):
-                    output.modelObject = modelObjects.first
+                    output.modelObject = modelObjects.first.map {
+                        var modelObject = $0
+                        modelObject.projects = modelObject.projects.sorted(by: {
+                            $0.startDate ?? .init() > $1.startDate ?? .init()
+                        })
+                        return modelObject
+                    }
 
                 case let .failure(appError):
                     output.appError = appError
