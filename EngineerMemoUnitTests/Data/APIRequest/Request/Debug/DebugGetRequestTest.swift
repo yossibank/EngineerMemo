@@ -49,6 +49,27 @@
             }
         }
 
+        func test_publisher_get_成功_正常系のレスポンスを取得できること() throws {
+            // arrange
+            stub(condition: isPath("/posts")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_get.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            let publisher = apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
+            let output = try awaitOutputPublisher(publisher)
+
+            // assert
+            XCTAssertEqual(output.count, 100)
+            XCTAssertEqual(output.first!.userId, 1)
+        }
+
         func test_get_デコード失敗_エラーを取得できること() {
             // arrange
             stub(condition: isPath("/posts")) { _ in
@@ -74,6 +95,32 @@
                         expectation.fulfill()
                     }
                 }
+            }
+        }
+
+        func test_publisher_get_デコード失敗_エラーを取得できること() throws {
+            // arrange
+            stub(condition: isPath("/posts")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "failure_debug_get.json",
+                        type(of: self)
+                    )!,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            let publisher = apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
+
+            if case let .failure(error) = try awaitResultPublisher(publisher) {
+                // assert
+                XCTAssertEqual(
+                    error as! APIError,
+                    .decodeError
+                )
+            } else {
+                XCTFail("not received error")
             }
         }
     }
