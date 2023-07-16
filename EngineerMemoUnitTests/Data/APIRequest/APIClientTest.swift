@@ -75,6 +75,30 @@
             }
         }
 
+        func test_async_受け取ったステータスコードが300台の時にステータスコードエラーを受け取れること() async {
+            // arrange
+            stub(condition: isPath("/posts")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_get.json",
+                        type(of: self)
+                    )!,
+                    status: 302,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            do {
+                _ = try await apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
+            } catch {
+                XCTAssertEqual(
+                    error as! APIError,
+                    .invalidStatusCode(302)
+                )
+            }
+        }
+
         func test_受け取ったステータスコードが400台の時にステータスコードエラーを受け取れること() {
             // arrange
             stub(condition: isPath("/posts")) { _ in
@@ -131,6 +155,30 @@
             }
         }
 
+        func test_async_受け取ったステータスコードが400台の時にステータスコードエラーを受け取れること() async {
+            // arrange
+            stub(condition: isPath("/posts")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_get.json",
+                        type(of: self)
+                    )!,
+                    status: 404,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            do {
+                _ = try await apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
+            } catch {
+                XCTAssertEqual(
+                    error as! APIError,
+                    .invalidStatusCode(404)
+                )
+            }
+        }
+
         func test_受け取ったステータスコードが500台の時にステータスコードエラーを受け取れること() {
             // arrange
             stub(condition: isPath("/posts")) { _ in
@@ -184,6 +232,30 @@
                 )
             } else {
                 XCTFail("not received error")
+            }
+        }
+
+        func test_async_受け取ったステータスコードが500台の時にステータスコードエラーを受け取れること() async {
+            // arrange
+            stub(condition: isPath("/posts")) { _ in
+                fixture(
+                    filePath: OHPathForFile(
+                        "success_debug_get.json",
+                        type(of: self)
+                    )!,
+                    status: 500,
+                    headers: ["Content-Type": "application/json"]
+                )
+            }
+
+            // act
+            do {
+                _ = try await apiClient.request(item: DebugGetRequest(parameters: .init(userId: nil)))
+            } catch {
+                XCTAssertEqual(
+                    error as! APIError,
+                    .invalidStatusCode(500)
+                )
             }
         }
     }
