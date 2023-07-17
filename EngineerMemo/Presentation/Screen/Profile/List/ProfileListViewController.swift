@@ -84,6 +84,13 @@ private extension ProfileListViewController {
             }
             .store(in: &cancellables)
 
+        contentView.didChangeProjectSortTypePublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.viewModel.input.didChangeProjectSortType.send($0)
+            }
+            .store(in: &cancellables)
+
         contentView.didTapProjectCreateButtonPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in

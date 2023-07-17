@@ -18,6 +18,12 @@ enum DataHolder {
         defaultValue: .penguin
     )
     static var profileIcon: DataHolder.ProfileIcon
+
+    @UserDefaultsStorage(
+        .profileProjectSortType,
+        defaultValue: .descending
+    )
+    static var profileProjectSortType: DataHolder.ProfileProjectSortType
 }
 
 extension DataHolder {

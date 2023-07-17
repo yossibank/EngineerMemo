@@ -16,4 +16,11 @@ extension DataHolder {
         case seal
         case sheep
     }
+
+    enum ProfileProjectSortType: Int, CaseIterable, UserDefaultsCompatible {
+        case descending
+        case ascending
+
+        static var sort = DataHolder.profileProjectSortType
+    }
 }

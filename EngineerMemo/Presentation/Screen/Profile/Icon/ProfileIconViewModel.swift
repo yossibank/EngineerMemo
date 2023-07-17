@@ -56,7 +56,7 @@ final class ProfileIconViewModel: ViewModel {
         // MARK: - アイコン変更(UserDefaults)
 
         input.didChangeIconIndex.sink {
-            model.updateIconImage(index: $0)
+            model.updateProfileIcon(index: $0)
         }
         .store(in: &cancellables)
     }

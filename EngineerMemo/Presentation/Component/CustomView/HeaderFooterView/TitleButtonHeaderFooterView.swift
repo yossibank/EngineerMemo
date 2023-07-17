@@ -8,7 +8,6 @@ final class TitleButtonHeaderFooterView: UITableViewHeaderFooterView {
     enum HeaderType {
         case basic
         case skill
-        case project
     }
 
     var cancellables: Set<AnyCancellable> = .init()
@@ -84,11 +83,6 @@ extension TitleButtonHeaderFooterView {
             titleLabel.text = L10n.Profile.experienceSkill
             title = L10n.Components.Button.Do.edit
             image = Asset.skillSetting.image
-
-        case .project:
-            titleLabel.text = L10n.Profile.project
-            title = L10n.Components.Button.Do.create
-            image = Asset.projectAdd.image
         }
 
         config?.title = title
