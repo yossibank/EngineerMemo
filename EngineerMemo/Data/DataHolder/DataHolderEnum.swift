@@ -20,5 +20,7 @@ extension DataHolder {
     enum ProfileProjectSortType: Int, CaseIterable, UserDefaultsCompatible {
         case descending
         case ascending
+
+        static var sort = DataHolder.profileProjectSortType
     }
 }

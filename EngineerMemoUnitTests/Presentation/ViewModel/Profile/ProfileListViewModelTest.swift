@@ -23,7 +23,22 @@ final class ProfileListViewModelTest: XCTestCase {
         model.fetchHandler = {
             Deferred {
                 Future<[ProfileModelObject], AppError> { promise in
-                    promise(.success([ProfileModelObjectBuilder().build()]))
+                    promise(
+                        .success([
+                            ProfileModelObjectBuilder()
+                                .projects([
+                                    ProjectModelObjectBuilder()
+                                        .title("project1")
+                                        .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                                        .build(),
+                                    ProjectModelObjectBuilder()
+                                        .title("project2")
+                                        .startDate(Calendar.date(year: 2022, month: 1, day: 1))
+                                        .build()
+                                ])
+                                .build()
+                        ])
+                    )
                 }
             }
             .eraseToAnyPublisher()
@@ -37,10 +52,14 @@ final class ProfileListViewModelTest: XCTestCase {
         routing = nil
         analytics = nil
         viewModel = nil
+
+        resetUserDefaults()
     }
 
-    func test_input_viewDidLoad_成功_プロフィール情報を取得できること() throws {
+    func test_input_viewDidLoad_成功_案件新しい順_プロフィール情報を取得できること() throws {
         // arrange
+        DataHolder.profileProjectSortType = .descending
+
         viewModel.input.viewDidLoad.send(())
 
         // act
@@ -50,7 +69,46 @@ final class ProfileListViewModelTest: XCTestCase {
         // assert
         XCTAssertEqual(
             output,
-            ProfileModelObjectBuilder().build()
+            ProfileModelObjectBuilder()
+                .projects([
+                    ProjectModelObjectBuilder()
+                        .title("project2")
+                        .startDate(Calendar.date(year: 2022, month: 1, day: 1))
+                        .build(),
+                    ProjectModelObjectBuilder()
+                        .title("project1")
+                        .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                        .build()
+                ])
+                .build()
+        )
+    }
+
+    func test_input_viewDidLoad_成功_案件古い順_プロフィール情報を取得できること() throws {
+        // arrange
+        DataHolder.profileProjectSortType = .ascending
+
+        viewModel.input.viewDidLoad.send(())
+
+        // act
+        let publisher = viewModel.output.$modelObject.collect(1).first()
+        let output = try awaitOutputPublisher(publisher).first
+
+        // assert
+        XCTAssertEqual(
+            output,
+            ProfileModelObjectBuilder()
+                .projects([
+                    ProjectModelObjectBuilder()
+                        .title("project1")
+                        .startDate(Calendar.date(year: 2020, month: 1, day: 1))
+                        .build(),
+                    ProjectModelObjectBuilder()
+                        .title("project2")
+                        .startDate(Calendar.date(year: 2022, month: 1, day: 1))
+                        .build()
+                ])
+                .build()
         )
     }
 

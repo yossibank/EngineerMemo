@@ -9,7 +9,7 @@ final class ProfileProjectHeaderView: UITableViewHeaderFooterView {
 
     var cancellables = Set<AnyCancellable>()
 
-    @Published private(set) var selectedSortType: SortType = .descending {
+    @Published private(set) var selectedSortType: SortType = .sort {
         didSet {
             setupSort()
         }
