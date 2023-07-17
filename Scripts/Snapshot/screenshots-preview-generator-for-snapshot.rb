@@ -35,7 +35,7 @@ def createMarkdown
 
             slice.each do |screenShot|
                 tokens = screenShot[/test(.+)/, 1].split("_")
-                header = tokens[1..tokens.count - 5].join("")
+                header = tokens[1..tokens.count - 5].join(" ")
                 postfix = tokens[2..].join("_")
                 os = postfix.match(PATTERN_OF_OS_VERSION)[0].gsub('_', '.')
                 screenSize = convertScreenSizeIntoDeviceName(postfix.match(PATTERN_OF_SCREEN_SIZE)[0])
