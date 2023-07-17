@@ -6,7 +6,7 @@
 
 | | | | |
 |:---:|:---:|:---:|:---:|
-| <img src='Screenshot/%E2%80%8EScreenshot1.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot2.jpeg' /> | <img src='Screenshot/‎ScreenShot3.jpeg' /> | <img src='Screenshot/%E2%80%8EScreenshot4.jpeg' /> |
+| <img src='Screenshot/Screenshot1.jpeg' /> | <img src='Screenshot/Screenshot2.jpeg' /> | <img src='Screenshot/Screenshot3.jpeg' /> | <img src='Screenshot/Screenshot4.jpeg' /> |
 
 ## App Store(2023/07/04~)
 
