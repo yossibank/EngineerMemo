@@ -10,9 +10,13 @@ settings:
   base:
     MARKETING_VERSION: &marketing_version 2.0.0
     CURRENT_PROJECT_VERSION: 1
+    DEVELOPMENT_TEAM: 6WHPY5MQSB
   configs:
     debug:
+      CODE_SIGN_IDENTITY: "Apple Development: Kamiyama Yoshihito (7J62BQBB54)"
       DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
+    release:
+      CODE_SIGN_IDENTITY: "Apple Distribution: Kamiyama Yoshihito (6WHPY5MQSB)"
 
 packages:
   UIKitHelper:
@@ -44,13 +48,13 @@ targets:
       configs:
         debug:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon.dev
-          DEVELOPMENT_TEAM: 6WHPY5MQSB
+          CODE_SIGN_IDENTITY: "Apple Development: Kamiyama Yoshihito (7J62BQBB54)"
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo.development
           PROVISIONING_PROFILE_SPECIFIER: match Development com.yossibank.engineermemo.development
           OTHER_SWIFT_FLAGS: $(inherited) -Xfrontend -warn-long-expression-type-checking=500 -Xfrontend -warn-long-function-bodies=500
         release:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-          DEVELOPMENT_TEAM: 6WHPY5MQSB
+          CODE_SIGN_IDENTITY: "Apple Distribution: Kamiyama Yoshihito (6WHPY5MQSB)"
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo
           PROVISIONING_PROFILE_SPECIFIER: match AppStore com.yossibank.engineermemo
     dependencies:
@@ -110,6 +114,17 @@ targets:
       - package: ios-snapshot-test-case
         product: iOSSnapshotTestCase
 
+  EngineerMemoUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - EngineerMemoUITests
+    settings:
+      base:
+        INFOPLIST_FILE: EngineerMemoUITests/Info.plist
+    dependencies:
+      - target: EngineerMemo
+
   EngineerMemoUnitTests:
     type: bundle.unit-test
     platform: iOS
@@ -124,16 +139,32 @@ targets:
       - package: OHHTTPStubs
         product: OHHTTPStubsSwift
 
-  EngineerMemoUITests:
-    type: bundle.ui-testing
+  EngineerMemoWidgets:
+    type: app-extension
     platform: iOS
     sources:
-      - EngineerMemoUITests
+      - EngineerMemoWidgets
     settings:
       base:
-        INFOPLIST_FILE: EngineerMemoUITests/Info.plist
+        PRODUCT_NAME: $(TARGET_NAME)
+        CURRENT_PROJECT_VERSION: 1.0
+        MARKETING_VERSION: *marketing_version
+        DEVELOPMENT_LANGUAGE: jp
+        ENABLE_PREVIEWS: Yes
+        SKIP_INSTALL: Yes
+        INFOPLIST_FILE: EngineerMemoWidgets/Info.plist
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME: WidgetBackground
+      configs:
+        debug:
+          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo.development.widgets
+          PROVISIONING_PROFILE_SPECIFIER: match Development com.yossibank.engineermemo.development.widgets
+        release:
+          PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo.widgets
+          PROVISIONING_PROFILE_SPECIFIER: match AppStore com.yossibank.engineermemo.widgets
     dependencies:
-      - target: EngineerMemo
+      - sdk: SwiftUI.framework
+      - sdk: WidgetKit.framework
 
 schemes:
   EngineerMemo:
@@ -157,6 +188,34 @@ schemes:
         - path: EngineerMemoUnitTests/UnitTest.xctestplan
     profile:
       config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
+  EngineerMemoWidgets:
+    build:
+      targets:
+        EngineerMemoWidgets: all
+    run:
+      config: Debug
+      askForAppToLaunch: true
+      debugEnabled: false
+      environmentVariables:
+        - variable: _XCWidgetKind
+          value:
+          isEnabled: false
+        - variable: _XCWidgetDefaultView
+          value: timeline
+          isEnabled: false
+        - variable: _XCWidgetFamily
+          value: medium
+          isEnabled: false
+    test:
+      config: Debug
+    profile:
+      config: Release
+      askForAppToLaunch: true
     analyze:
       config: Debug
     archive:
