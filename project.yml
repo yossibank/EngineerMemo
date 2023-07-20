@@ -37,7 +37,8 @@ targets:
     type: application
     platform: iOS
     sources:
-      - EngineerMemo
+      - path: EngineerMemo
+      - path: EngineerMemoWidgets/EngineerMemoWidgets.intentdefinition
     settings:
       base:
         DEVELOPMENT_LANGUAGE: jp
@@ -58,6 +59,7 @@ targets:
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo
           PROVISIONING_PROFILE_SPECIFIER: match AppStore com.yossibank.engineermemo
     dependencies:
+      - target: EngineerMemoWidgets
       - package: UIKitHelper
       - package: firebase-ios-sdk
         product: FirebaseAnalyticsWithoutAdIdSupport

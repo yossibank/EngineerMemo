@@ -1,12 +1,5 @@
-//
-//  EngineerMemoWidgetsBundle.swift
-//  EngineerMemoWidgets
-//
-//  Created by Kamiyama Yoshihito on 2023/07/19.
-//
-
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 @main
 struct EngineerMemoWidgetsBundle: WidgetBundle {

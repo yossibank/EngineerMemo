@@ -1,25 +1,33 @@
-//
-//  EngineerMemoWidgets.swift
-//  EngineerMemoWidgets
-//
-//  Created by Kamiyama Yoshihito on 2023/07/19.
-//
-
-import WidgetKit
-import SwiftUI
 import Intents
+import SwiftUI
+import WidgetKit
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+        .init(
+            date: .init(),
+            configuration: .init()
+        )
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+    func getSnapshot(
+        for configuration: ConfigurationIntent,
+        in context: Context,
+        completion: @escaping (SimpleEntry) -> Void
+    ) {
+        let entry = SimpleEntry(
+            date: .init(),
+            configuration: configuration
+        )
+
         completion(entry)
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(
+        for configuration: ConfigurationIntent,
+        in context: Context,
+        completion: @escaping (Timeline<Entry>) -> Void
+    ) {
         var entries: [SimpleEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
@@ -40,7 +48,7 @@ struct SimpleEntry: TimelineEntry {
     let configuration: ConfigurationIntent
 }
 
-struct EngineerMemoWidgetsEntryView : View {
+struct EngineerMemoWidgetsEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
@@ -49,10 +57,14 @@ struct EngineerMemoWidgetsEntryView : View {
 }
 
 struct EngineerMemoWidgets: Widget {
-    let kind: String = "EngineerMemoWidgets"
+    let kind = "EngineerMemoWidgets"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
+        IntentConfiguration(
+            kind: kind,
+            intent: ConfigurationIntent.self,
+            provider: Provider()
+        ) { entry in
             EngineerMemoWidgetsEntryView(entry: entry)
         }
         .configurationDisplayName("My Widget")
@@ -62,7 +74,12 @@ struct EngineerMemoWidgets: Widget {
 
 struct EngineerMemoWidgets_Previews: PreviewProvider {
     static var previews: some View {
-        EngineerMemoWidgetsEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        EngineerMemoWidgetsEntryView(
+            entry: .init(
+                date: .init(),
+                configuration: .init()
+            )
+        )
+        .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
