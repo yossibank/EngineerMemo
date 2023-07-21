@@ -108,7 +108,7 @@ targets:
       - EngineerMemoTestSupport
     settings:
       base:
-        INFOPLIST_FILE: EngineerMemoTestSupport/Info.plist
+        INFOPLIST_FILE: EngineerMemoTestSupport/App/Plist/Info.plist
     dependencies:
       - target: EngineerMemo
       - package: OHHTTPStubs
@@ -123,7 +123,7 @@ targets:
       - EngineerMemoUITests
     settings:
       base:
-        INFOPLIST_FILE: EngineerMemoUITests/Info.plist
+        INFOPLIST_FILE: EngineerMemoUITests/App/Plist/Info.plist
     dependencies:
       - target: EngineerMemo
 
@@ -135,7 +135,7 @@ targets:
       - EngineerMemoTestSupport
     settings:
       base:
-        INFOPLIST_FILE: EngineerMemoTestSupport/Info.plist
+        INFOPLIST_FILE: EngineerMemoTestSupport/App/Plist/Info.plist
     dependencies:
       - target: EngineerMemo
       - package: OHHTTPStubs
@@ -154,7 +154,7 @@ targets:
         DEVELOPMENT_LANGUAGE: jp
         ENABLE_PREVIEWS: Yes
         SKIP_INSTALL: Yes
-        INFOPLIST_FILE: EngineerMemoWidgets/Info.plist
+        INFOPLIST_FILE: EngineerMemoWidgets/App/Plist/Info.plist
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME: WidgetBackground
       configs:
