@@ -1,17 +1,17 @@
 import SwiftUI
 import WidgetKit
 
-struct EntryView: View {
-    var entry: Provider.Entry
+struct MemoView: View {
+    var entry: MemoProvider.Entry
 
     var body: some View {
         Text(entry.date, style: .time)
     }
 }
 
-struct EntryViewPreviews: PreviewProvider {
+struct MemoViewPreviews: PreviewProvider {
     static var previews: some View {
-        EntryView(
+        MemoView(
             entry: .init(
                 date: .init(),
                 configuration: .init()

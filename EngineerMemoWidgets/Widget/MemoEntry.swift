@@ -1,6 +1,6 @@
 import WidgetKit
 
-struct Entry: TimelineEntry {
+struct MemoEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationIntent
 }

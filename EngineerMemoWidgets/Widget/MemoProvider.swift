@@ -1,7 +1,7 @@
 import WidgetKit
 
-struct Provider: IntentTimelineProvider {
-    func placeholder(in context: Context) -> Entry {
+struct MemoProvider: IntentTimelineProvider {
+    func placeholder(in context: Context) -> MemoEntry {
         .init(
             date: .init(),
             configuration: .init()
@@ -11,9 +11,9 @@ struct Provider: IntentTimelineProvider {
     func getSnapshot(
         for configuration: ConfigurationIntent,
         in context: Context,
-        completion: @escaping (Entry) -> Void
+        completion: @escaping (MemoEntry) -> Void
     ) {
-        let entry = Entry(
+        let entry = MemoEntry(
             date: .init(),
             configuration: configuration
         )
@@ -24,7 +24,7 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(
         for configuration: ConfigurationIntent,
         in context: Context,
-        completion: @escaping (Timeline<Entry>) -> Void
+        completion: @escaping (Timeline<MemoEntry>) -> Void
     ) {
         var entries: [Entry] = []
 
@@ -32,7 +32,7 @@ struct Provider: IntentTimelineProvider {
 
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = Entry(date: entryDate, configuration: configuration)
+            let entry = MemoEntry(date: entryDate, configuration: configuration)
             entries.append(entry)
         }
 
