@@ -18,7 +18,7 @@ struct MemoWidget: Widget {
     }
 }
 
-struct EngineerMemoWidgets_Previews: PreviewProvider {
+struct MemoWidgetPreviews: PreviewProvider {
     static var previews: some View {
         EntryView(
             entry: .init(
