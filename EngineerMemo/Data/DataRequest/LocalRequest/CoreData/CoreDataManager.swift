@@ -12,9 +12,16 @@ final class CoreDataManager {
     private var persistentContainer: NSPersistentContainer
 
     private let containerName = "EngineerMemo"
+    private let sqliteName = "EngineerMemo.sqlite"
 
     private init() {
         let container = NSPersistentCloudKitContainer(name: containerName)
+
+        if DataHolder.isMigrated {
+            let newStoreURL = AppGroups.containerURL.appendingPathComponent(sqliteName)
+            let description = NSPersistentStoreDescription(url: newStoreURL)
+            container.persistentStoreDescriptions = [description]
+        }
 
         container.viewContext.setupMergeConfig()
         container.loadPersistentStores { _, error in
@@ -34,6 +41,36 @@ extension CoreDataManager {
     func inject(persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
         backgroundContext = persistentContainer.newBackgroundContext()
+    }
+
+    func migrate() {
+        guard !DataHolder.isMigrated else {
+            Logger.info(message: "CoreDataのマイグレーション完了済み")
+            return
+        }
+
+        let oldStoreURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(sqliteName)
+        let newStoreURL = AppGroups.containerURL.appendingPathComponent(sqliteName)
+        let coordinator = persistentContainer.persistentStoreCoordinator
+
+        guard let oldStore = coordinator.persistentStore(for: oldStoreURL) else {
+            Logger.warning(message: "CoreDataの保存先URLが見つかりませんでした")
+            return
+        }
+
+        do {
+            try coordinator.migratePersistentStore(
+                oldStore,
+                to: newStoreURL,
+                withType: NSSQLiteStoreType
+            )
+
+            DataHolder.isMigrated = true
+
+            Logger.debug(message: "CoreDataのマイグレーション完了")
+        } catch {
+            Logger.error(message: "CoreDataのマイグレーション失敗。\(oldStoreURL) => \(newStoreURL)")
+        }
     }
 
     func performBackgroundTask(_ block: @escaping VoidBlock) {

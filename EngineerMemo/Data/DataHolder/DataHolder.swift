@@ -8,6 +8,12 @@ enum DataHolder {
     static var isShowAppReview: Bool
 
     @UserDefaultsStorage(
+        .isMigrated,
+        defaultValue: false
+    )
+    static var isMigrated: Bool
+
+    @UserDefaultsStorage(
         .colorTheme,
         defaultValue: .system
     )

@@ -18,6 +18,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
 
         configureAppearance()
 
+        CoreDataManager.shared.migrate()
+
         window = .init(windowScene: windowScene)
         window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
