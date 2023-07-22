@@ -158,6 +158,7 @@
 "memo.category.event" = "イベント";
 "memo.category.tax" = "税金";
 "memo.category.other" = "その他";
+"memo.category.widget" ="ウィジェット";
 "memo.category.none" = "カテゴリーなし";
 "memo.category" = "カテゴリー";
 "memo.title" = "タイトル";

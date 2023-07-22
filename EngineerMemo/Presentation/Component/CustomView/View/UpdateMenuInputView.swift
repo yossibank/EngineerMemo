@@ -75,7 +75,7 @@ extension UpdateMenuInputView {
 
     func setCategoryMenu(_ modelObject: MemoModelObject?) {
         guard let category = modelObject?.category else {
-            selectedCareerType = .noSetting
+            selectedCategoryType = .noSetting
             return
         }
 
@@ -97,6 +97,9 @@ extension UpdateMenuInputView {
 
         case .other:
             selectedCategoryType = .other
+
+        case .widget:
+            selectedCategoryType = .widget
         }
 
         setupMenu()

@@ -93,6 +93,9 @@ extension MemoListCell {
             case .other:
                 return Asset.otherCategory.image
 
+            case .widget:
+                return Asset.widgetCategory.image
+
             default:
                 return nil
             }

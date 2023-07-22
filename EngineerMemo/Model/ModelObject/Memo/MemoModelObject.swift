@@ -14,6 +14,7 @@ struct MemoModelObject: Hashable {
         case event
         case tax
         case other
+        case widget
 
         var value: String {
             switch self {
@@ -23,6 +24,7 @@ struct MemoModelObject: Hashable {
             case .event: return L10n.Memo.Category.event
             case .tax: return L10n.Memo.Category.tax
             case .other: return L10n.Memo.Category.other
+            case .widget: return L10n.Memo.Category.widget
             }
         }
     }

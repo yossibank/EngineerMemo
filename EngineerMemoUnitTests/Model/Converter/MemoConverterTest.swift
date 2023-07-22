@@ -152,6 +152,24 @@ final class MemoConverterTest: XCTestCase {
         )
     }
 
+    func test_categoryがwidgetの際にwidgetに変換されること() {
+        // arrange
+        let input = MemoDataObjectBuilder()
+            .category(.widget)
+            .build()
+
+        // act
+        let actual = converter.convert(input)
+
+        // assert
+        XCTAssertEqual(
+            actual,
+            MemoModelObjectBuilder()
+                .category(.widget)
+                .build()
+        )
+    }
+
     func test_titleがnilの際に未設定の文字列に変換されること() {
         // arrange
         let input = MemoDataObjectBuilder()

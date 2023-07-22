@@ -49,4 +49,12 @@ final class MemoModelObjectTest: XCTestCase {
             "その他"
         )
     }
+
+    func test_category_widget_valueの文字列がその他であること() {
+        // assert
+        XCTAssertEqual(
+            MemoModelObject.Category.widget.value,
+            "ウィジェット"
+        )
+    }
 }

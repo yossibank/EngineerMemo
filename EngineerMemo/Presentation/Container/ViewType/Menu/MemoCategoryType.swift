@@ -63,6 +63,7 @@ enum MemoInputCategoryType: CaseIterable {
     case event
     case tax
     case other
+    case widget
     case noSetting
 
     var title: String {
@@ -73,6 +74,7 @@ enum MemoInputCategoryType: CaseIterable {
         case .event: return L10n.Memo.Category.event
         case .tax: return L10n.Memo.Category.tax
         case .other: return L10n.Memo.Category.other
+        case .widget: return L10n.Memo.Category.widget
         case .noSetting: return .noSetting
         }
     }
@@ -85,6 +87,7 @@ enum MemoInputCategoryType: CaseIterable {
         case .event: return Asset.eventCategory.image
         case .tax: return Asset.taxCategory.image
         case .other: return Asset.otherCategory.image
+        case .widget: return Asset.widgetCategory.image
         case .noSetting: return nil
         }
     }
@@ -97,6 +100,7 @@ enum MemoInputCategoryType: CaseIterable {
         case .event: return .event
         case .tax: return .tax
         case .other: return .other
+        case .widget: return .widget
         case .noSetting: return .none
         }
     }
