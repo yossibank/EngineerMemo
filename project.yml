@@ -148,9 +148,15 @@ targets:
     platform: iOS
     sources:
       - EngineerMemoWidgets
-      - EngineerMemo/Resources
       - EngineerMemo/App/AppGroups.swift
-      - EngineerMemo/Utility/ResultBuilder/ArrayBuilder.swift
+      - EngineerMemo/Data/Configuration
+      - EngineerMemo/Data/DataHolder
+      - EngineerMemo/Data/DataRequest/LocalRequest
+      - EngineerMemo/Resources
+      - EngineerMemo/Utility/Extension
+      - EngineerMemo/Utility/Logger
+      - EngineerMemo/Utility/ResultBuilder
+      - EngineerMemo/Utility/Typealias
     settings:
       base:
         PRODUCT_NAME: $(TARGET_NAME)
@@ -172,6 +178,7 @@ targets:
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo.widgets
           PROVISIONING_PROFILE_SPECIFIER: match AppStore com.yossibank.engineermemo.widgets
     dependencies:
+      - package: UIKitHelper
       - sdk: SwiftUI.framework
       - sdk: WidgetKit.framework
 

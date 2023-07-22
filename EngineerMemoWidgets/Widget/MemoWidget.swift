@@ -23,6 +23,7 @@ struct MemoWidget: Widget {
             provider: MemoProvider()
         ) { entry in
             MemoView(entry: entry)
+                .environment(\.managedObjectContext, CoreDataManager.shared.backgroundContext)
         }
         .configurationDisplayName(L10n.Widget.configurationDisplayName)
         .description(L10n.Widget.description)
