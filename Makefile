@@ -42,7 +42,7 @@ generate-xcodeproj:
 
 .PHONY: generate-files
 generate-files:
-	mkdir -p EngineerMemo/Shared/Resources/Generated
+	mkdir -p EngineerMemo/Resources/Generated
 	mkdir -p EngineerMemoTestSupport/TestMock
 
 .PHONY: generate-snapshot-md

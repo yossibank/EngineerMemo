@@ -148,7 +148,9 @@ targets:
     platform: iOS
     sources:
       - EngineerMemoWidgets
-      - EngineerMemo/Shared
+      - EngineerMemo/Resources
+      - EngineerMemo/App/AppGroups.swift
+      - EngineerMemo/Utility/ResultBuilder/ArrayBuilder.swift
     settings:
       base:
         PRODUCT_NAME: $(TARGET_NAME)

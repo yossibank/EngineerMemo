@@ -1,5 +1,5 @@
-input_dir: EngineerMemo/Shared/Resources
-output_dir: EngineerMemo/Shared/Resources/Generated
+input_dir: EngineerMemo/Resources
+output_dir: EngineerMemo/Resources/Generated
 
 xcassets:
   - inputs:
