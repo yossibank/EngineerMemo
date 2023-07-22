@@ -2,7 +2,7 @@ import SwiftUI
 import WidgetKit
 
 @main
-struct MemoWidgetBundle: WidgetBundle {
+struct EngineerMemoWidgetBundle: WidgetBundle {
     var body: some Widget {
         MemoWidget()
     }

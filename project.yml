@@ -49,12 +49,14 @@ targets:
       configs:
         debug:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon.dev
+          CODE_SIGN_ENTITLEMENTS: EngineerMemo/App/Entitlement/EngineerMemo-development.entitlements
           CODE_SIGN_IDENTITY: "Apple Development: Kamiyama Yoshihito (7J62BQBB54)"
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo.development
           PROVISIONING_PROFILE_SPECIFIER: match Development com.yossibank.engineermemo.development
           OTHER_SWIFT_FLAGS: $(inherited) -Xfrontend -warn-long-expression-type-checking=500 -Xfrontend -warn-long-function-bodies=500
         release:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+          CODE_SIGN_ENTITLEMENTS: EngineerMemo/App/Entitlement/EngineerMemo.entitlements
           CODE_SIGN_IDENTITY: "Apple Distribution: Kamiyama Yoshihito (6WHPY5MQSB)"
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo
           PROVISIONING_PROFILE_SPECIFIER: match AppStore com.yossibank.engineermemo
@@ -160,9 +162,11 @@ targets:
         ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME: WidgetBackground
       configs:
         debug:
+          CODE_SIGN_ENTITLEMENTS: EngineerMemoWidgets/App/Entitlement/EngineerMemoWidgets-development.entitlements
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo.development.widgets
           PROVISIONING_PROFILE_SPECIFIER: match Development com.yossibank.engineermemo.development.widgets
         release:
+          CODE_SIGN_ENTITLEMENTS: EngineerMemoWidgets/App/Entitlement/EngineerMemoWidgets.entitlements
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo.widgets
           PROVISIONING_PROFILE_SPECIFIER: match AppStore com.yossibank.engineermemo.widgets
     dependencies:
