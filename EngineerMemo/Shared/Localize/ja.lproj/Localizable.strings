@@ -182,6 +182,11 @@
 "mail.subject" = "【エンメモ】ご要望・お問い合わせ";
 "mail.body" = "【ご要望・お問い合わせ内容】\n\n\n\n\n\n\n\n\n\n------------------------------------------\nエンメモ";
 
+// MARK: - ウィジェット
+
+"widget.configurationDisplayName" = "ウィジェット専用メモ";
+"widget.description" = "作成したメモの中で、カテゴリーが「ウィジェット」のメモが表示できます。";
+
 // MARK: - FirebaseAnalytics
 
 "fa.eventName.screenView" = "画面表示";

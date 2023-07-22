@@ -3,7 +3,7 @@ import SwiftUI
 import WidgetKit
 
 struct MemoWidget: Widget {
-    let kind = "EngineerMemoWidget"
+    private let kind = "EngineerMemoWidget"
 
     var body: some WidgetConfiguration {
         IntentConfiguration(
@@ -13,7 +13,7 @@ struct MemoWidget: Widget {
         ) { entry in
             MemoView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName(L10n.Widget.configurationDisplayName)
+        .description(L10n.Widget.description)
     }
 }

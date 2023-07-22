@@ -1,9 +1,9 @@
-input_dir: EngineerMemo/Resources
-output_dir: EngineerMemo/Resources/Generated
+input_dir: EngineerMemo/Shared
+output_dir: EngineerMemo/Shared/Generated
 
 xcassets:
   - inputs:
-    - Assets.xcassets
+    - App.xcassets
     outputs:
       - templateName: swift5
         output: XCAssets+Generated.swift

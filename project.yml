@@ -146,6 +146,7 @@ targets:
     platform: iOS
     sources:
       - EngineerMemoWidgets
+      - EngineerMemo/Shared
     settings:
       base:
         PRODUCT_NAME: $(TARGET_NAME)
