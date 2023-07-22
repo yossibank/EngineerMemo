@@ -23,5 +23,4 @@ extension Int {
     }
 
     static let invalid = -1
-    static let nilIndex = 2
 }
