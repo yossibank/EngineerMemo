@@ -187,6 +187,8 @@
 
 "widget.configurationDisplayName" = "ウィジェット専用メモ";
 "widget.description" = "作成したメモの中で、カテゴリーが「ウィジェット」のメモが表示できます。";
+"widget.emptyTitle" = "メモがまだありません";
+"widget.createMemo" = "メモを作成";
 
 // MARK: - FirebaseAnalytics
 

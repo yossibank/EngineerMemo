@@ -38,7 +38,6 @@ targets:
     platform: iOS
     sources:
       - EngineerMemo
-      - EngineerMemoWidgets/EngineerMemoWidgets.intentdefinition
     settings:
       base:
         DEVELOPMENT_LANGUAGE: jp
@@ -151,12 +150,16 @@ targets:
       - EngineerMemo/App/AppGroups.swift
       - EngineerMemo/Data/Configuration
       - EngineerMemo/Data/DataHolder
+      - EngineerMemo/Data/DataObject/Memo
       - EngineerMemo/Data/DataRequest/LocalRequest
+      - EngineerMemo/Model/ModelObject/Memo
       - EngineerMemo/Resources
       - EngineerMemo/Utility/Extension
       - EngineerMemo/Utility/Logger
       - EngineerMemo/Utility/ResultBuilder
       - EngineerMemo/Utility/Typealias
+      - EngineerMemo/Utility/UIHelper/UIKit/UIColor+Extension.swift
+      - EngineerMemo/Widget
     settings:
       base:
         PRODUCT_NAME: $(TARGET_NAME)
