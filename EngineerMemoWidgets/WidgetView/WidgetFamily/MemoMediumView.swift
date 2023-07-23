@@ -1,7 +1,7 @@
 import SwiftUI
 import WidgetKit
 
-struct MemoSmallView: View {
+struct MemoMediumView: View {
     var entry: MemoProvider.Entry
 
     var body: some View {
@@ -11,10 +11,10 @@ struct MemoSmallView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(L10n.Memo.title)
                             .foregroundColor(Color(.secondaryGray))
-                            .font(.system(size: 7))
+                            .font(.system(size: 10))
 
                         Text(memo.title ?? .noSetting)
-                            .font(.caption)
+                            .font(.subheadline)
                             .bold()
                             .lineLimit(2)
                     }
@@ -23,20 +23,19 @@ struct MemoSmallView: View {
 
                     Image(uiImage: Asset.penguin.image)
                         .resizable()
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(20)
-                        .padding(.top, -8)
+                        .frame(width: 48, height: 48)
+                        .cornerRadius(24)
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(L10n.Memo.content)
                         .foregroundColor(Color(.secondaryGray))
-                        .font(.system(size: 7))
+                        .font(.system(size: 10))
 
                     Text(memo.content ?? .noSetting)
-                        .font(.caption)
+                        .font(.subheadline)
                         .bold()
-                        .lineLimit(3)
+                        .lineLimit(2)
                 }
             }
             .padding(.horizontal, 16)
@@ -48,19 +47,19 @@ struct MemoSmallView: View {
     }
 }
 
-struct MemoSmallViewPreviews: PreviewProvider {
+struct MemoMediumViewPreviews: PreviewProvider {
     static var previews: some View {
-        MemoSmallView(
+        MemoMediumView(
             entry: .init(
                 date: .init(),
                 memoList: [
                     MemoModelObjectBuilder()
-                        .title("title".repeat(1))
-                        .content("content".repeat(1))
+                        .title("title".repeat(5))
+                        .content("content".repeat(5))
                         .build()
                 ]
             )
         )
-        .previewContext(WidgetPreviewContext(family: .systemSmall))
+        .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

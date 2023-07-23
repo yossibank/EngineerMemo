@@ -11,6 +11,9 @@ struct MemoEntryView: View {
         case .systemSmall:
             MemoSmallView(entry: entry)
 
+        case .systemMedium:
+            MemoMediumView(entry: entry)
+
         default:
             MemoSmallView(entry: entry)
         }
