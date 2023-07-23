@@ -33,8 +33,6 @@ final class CoreDataManager {
         self.backgroundContext = container.newBackgroundContext()
         backgroundContext.setupMergeConfig()
 
-        try? backgroundContext.setQueryGenerationFrom(.current)
-
         self.persistentContainer = container
     }
 }

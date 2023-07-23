@@ -47,6 +47,7 @@ struct MemoModel: MemoModelInput {
             .create()
             .handleEvents(receiveOutput: {
                 modelObject.insertMemo($0, isNew: true)
+                WidgetConfig.reload()
             })
             .map { _ in }
             .eraseToAnyPublisher()
@@ -57,6 +58,7 @@ struct MemoModel: MemoModelInput {
             .update(identifier: modelObject.identifier)
             .handleEvents(receiveOutput: {
                 modelObject.insertMemo($0, isNew: false)
+                WidgetConfig.reload()
             })
             .map { _ in }
             .eraseToAnyPublisher()
