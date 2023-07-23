@@ -385,3 +385,19 @@ enum AppControllers {
         }
     }
 #endif
+
+extension AppURLScheme {
+    func transitionViewController(url: URL) -> UIViewController? {
+        switch self {
+        case .memoDetail:
+            guard let identifier = url.queryValue(byName: .identifier) else {
+                return nil
+            }
+
+            return AppControllers.Memo.Detail(identifier: identifier)
+
+        case .memoCreate:
+            return AppControllers.Memo.Update(modelObject: nil)
+        }
+    }
+}

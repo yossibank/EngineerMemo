@@ -41,8 +41,10 @@ struct MemoSmallView: View {
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.background))
+            .widgetURL(AppURLScheme.memoDetail.schemeURL(queryItems: [.identifier(memo.identifier)]))
         } else {
             MemoEmptyView()
+                .widgetURL(AppURLScheme.memoCreate.schemeURL())
         }
     }
 }

@@ -148,6 +148,7 @@ targets:
     sources:
       - EngineerMemoWidgets
       - EngineerMemo/App/AppGroups.swift
+      - EngineerMemo/App/AppURLScheme.swift
       - EngineerMemo/Data/Configuration
       - EngineerMemo/Data/DataHolder
       - EngineerMemo/Data/DataObject/Memo

@@ -14,8 +14,10 @@ struct MemoRectangularView: View {
             }
             .padding(.all, 4)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .widgetURL(AppURLScheme.memoDetail.schemeURL(queryItems: [.identifier(memo.identifier)]))
         } else {
             MemoEmptyRectangularView()
+                .widgetURL(AppURLScheme.memoCreate.schemeURL())
         }
     }
 }

@@ -25,6 +25,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
         window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
 
+        transitionURLScheme(url: connectionOptions.urlContexts.first?.url)
+
         DataHolder.$isShowAppReview
             .debounce(for: 1.2, scheduler: DispatchQueue.main)
             .filter { $0 }
@@ -52,5 +54,31 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
             }
         }
         .store(in: &cancellables)
+    }
+
+    func scene(
+        _ scene: UIScene,
+        openURLContexts URLContexts: Set<UIOpenURLContext>
+    ) {
+        transitionURLScheme(url: URLContexts.first?.url)
+    }
+}
+
+// MARK: - private methods
+
+private extension SceneDelegate {
+    func transitionURLScheme(url: URL?) {
+        guard
+            let url,
+            let host = url.host,
+            let appURLScheme = AppURLScheme(rawValue: host)
+        else {
+            return
+        }
+
+        (window?.rootViewController as? TabBarController)?.transitionURLScheme(
+            appURLScheme,
+            url: url
+        )
     }
 }

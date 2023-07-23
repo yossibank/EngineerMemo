@@ -85,4 +85,23 @@ final class TabBarController: UITabBarController {
             animated: false
         )
     }
+
+    func transitionURLScheme(
+        _ appURLScheme: AppURLScheme,
+        url: URL
+    ) {
+        guard let viewController = appURLScheme.transitionViewController(url: url) else {
+            return
+        }
+
+        switch appURLScheme {
+        case .memoDetail, .memoCreate:
+            selectedIndex = TabItem.memo.rawValue
+        }
+
+        (selectedViewController as? UINavigationController)?.pushViewController(
+            viewController,
+            animated: true
+        )
+    }
 }
