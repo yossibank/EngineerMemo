@@ -6,7 +6,7 @@ protocol MemoModelInput: Model {
     func find(identifier: String) -> AnyPublisher<MemoModelObject, AppError>
     func create(_ modelObject: MemoModelObject) -> AnyPublisher<Void, Never>
     func update(_ modelObject: MemoModelObject) -> AnyPublisher<Void, Never>
-    func delete(_ modelObject: MemoModelObject)
+    func delete(_ modelObject: MemoModelObject) -> AnyPublisher<Void, Never>
 }
 
 struct MemoModel: MemoModelInput {
@@ -64,7 +64,12 @@ struct MemoModel: MemoModelInput {
             .eraseToAnyPublisher()
     }
 
-    func delete(_ modelObject: MemoModelObject) {
-        storage.delete(identifier: modelObject.identifier)
+    func delete(_ modelObject: MemoModelObject) -> AnyPublisher<Void, Never> {
+        storage
+            .delete(identifier: modelObject.identifier)
+            .handleEvents(receiveOutput: {
+                WidgetConfig.reload()
+            })
+            .eraseToAnyPublisher()
     }
 }

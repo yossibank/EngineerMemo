@@ -74,12 +74,22 @@ final class MemoDetailViewModel: ViewModel {
 
         // MARK: - 削除ボタンタップ
 
-        input.didTapDeleteBarButton.sink {
+        input.didTapDeleteBarButton.sink { [weak self] in
             if let modelObject = output.modelObject {
-                model.delete(modelObject)
+                self?.deleteMemo(modelObject)
                 output.isDeleted = true
             }
         }
         .store(in: &cancellables)
+    }
+}
+
+// MARK: - private methods
+
+private extension MemoDetailViewModel {
+    func deleteMemo(_ modelObject: MemoModelObject) {
+        model.delete(modelObject)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }

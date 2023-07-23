@@ -15,7 +15,7 @@ protocol ProfileModelInput: Model {
     func updateIconImage(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
     func updateProfileIcon(index: Int)
     func updateProfileProjectSortType(_ sortType: DataHolder.ProfileProjectSortType)
-    func delete(_ modelObject: ProfileModelObject)
+    func delete(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never>
 }
 
 struct ProfileModel: ProfileModelInput {
@@ -161,7 +161,9 @@ struct ProfileModel: ProfileModelInput {
         DataHolder.profileProjectSortType = sortType
     }
 
-    func delete(_ modelObject: ProfileModelObject) {
-        storage.delete(identifier: modelObject.identifier)
+    func delete(_ modelObject: ProfileModelObject) -> AnyPublisher<Void, Never> {
+        storage
+            .delete(identifier: modelObject.identifier)
+            .eraseToAnyPublisher()
     }
 }

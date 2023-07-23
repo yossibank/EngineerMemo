@@ -177,16 +177,20 @@ final class MemoModelTest: XCTestCase {
         }
     }
 
-    func test_delete_情報を削除できること() {
+    func test_delete_情報を削除できること() throws {
         // arrange
         dataInsert()
 
         // act
-        model.delete(
+        let publisher = model.delete(
             MemoModelObjectBuilder()
                 .identifier("identifier")
                 .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {

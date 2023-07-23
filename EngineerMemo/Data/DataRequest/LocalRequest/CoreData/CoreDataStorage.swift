@@ -70,13 +70,19 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
         .eraseToAnyPublisher()
     }
 
-    func delete(identifier: String) {
-        shared.performBackgroundTask { context in
-            if let object = object(identifier: identifier) {
-                context.delete(object)
-                context.saveIfNeeded()
+    func delete(identifier: String) -> AnyPublisher<Void, Never> {
+        Deferred {
+            Future<Void, Never> { promise in
+                shared.performBackgroundTask { context in
+                    if let object = object(identifier: identifier) {
+                        context.delete(object)
+                        context.saveIfNeeded()
+                        promise(.success(()))
+                    }
+                }
             }
         }
+        .eraseToAnyPublisher()
     }
 }
 

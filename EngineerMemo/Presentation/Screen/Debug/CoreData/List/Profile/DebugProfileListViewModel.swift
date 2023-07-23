@@ -40,10 +40,20 @@
 
             // MARK: - プロフィール情報削除
 
-            input.didSwipe.sink {
-                model.delete($0)
+            input.didSwipe.sink { [weak self] in
+                self?.deleteProfile($0)
             }
             .store(in: &cancellables)
+        }
+    }
+
+    // MARK: - private methods
+
+    private extension DebugProfileListViewModel {
+        func deleteProfile(_ modelObject: ProfileModelObject) {
+            model.delete(modelObject)
+                .sink { _ in }
+                .store(in: &cancellables)
         }
     }
 #endif

@@ -93,6 +93,13 @@ final class MemoDetailViewModelTest: XCTestCase {
                 $0,
                 MemoModelObjectBuilder().build()
             )
+
+            return Deferred {
+                Future<Void, Never> { promise in
+                    promise(.success(()))
+                }
+            }
+            .eraseToAnyPublisher()
         }
 
         // act
