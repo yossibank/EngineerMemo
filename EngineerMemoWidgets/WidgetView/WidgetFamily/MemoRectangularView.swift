@@ -5,7 +5,18 @@ struct MemoRectangularView: View {
     var entry: MemoProvider.Entry
 
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if let memo = entry.memoList.first {
+            VStack {
+                Text(memo.title ?? .noSetting)
+                    .font(.caption)
+                    .bold()
+                    .lineLimit(3)
+            }
+            .padding(.all, 4)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            MemoEmptyRectangularView()
+        }
     }
 }
 
@@ -24,7 +35,7 @@ struct MemoRectangularViewPreviews: PreviewProvider {
                 date: .init(),
                 memoList: [
                     MemoModelObjectBuilder()
-                        .title("title".repeat(1))
+                        .title("title".repeat(100))
                         .content("content".repeat(1))
                         .build()
                 ]

@@ -7,7 +7,6 @@ struct MemoWidget: Widget {
     private var supportedFamilies: [WidgetFamily] {
         WidgetFamily.systemSmall
         WidgetFamily.systemMedium
-        WidgetFamily.systemLarge
 
         if #available(iOSApplicationExtension 16.0, *) {
             WidgetFamily.accessoryRectangular

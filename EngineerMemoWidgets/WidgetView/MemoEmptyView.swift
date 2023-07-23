@@ -25,6 +25,7 @@ struct MemoEmptyView: View {
                 .font(.caption)
                 .bold()
         }
+        .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.background))
     }

@@ -23,8 +23,8 @@ struct MemoMediumView: View {
 
                     Image(uiImage: Asset.penguin.image)
                         .resizable()
-                        .frame(width: 48, height: 48)
-                        .cornerRadius(24)
+                        .frame(width: 40, height: 40)
+                        .cornerRadius(20)
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
@@ -35,7 +35,7 @@ struct MemoMediumView: View {
                     Text(memo.content ?? .noSetting)
                         .font(.subheadline)
                         .bold()
-                        .lineLimit(2)
+                        .lineLimit(3)
                 }
             }
             .padding(.horizontal, 16)

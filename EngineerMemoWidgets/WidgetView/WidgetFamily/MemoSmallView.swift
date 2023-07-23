@@ -16,16 +16,15 @@ struct MemoSmallView: View {
                         Text(memo.title ?? .noSetting)
                             .font(.caption)
                             .bold()
-                            .lineLimit(2)
+                            .lineLimit(3)
                     }
 
                     Spacer()
 
                     Image(uiImage: Asset.penguin.image)
                         .resizable()
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(20)
-                        .padding(.top, -8)
+                        .frame(width: 32, height: 32)
+                        .cornerRadius(16)
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
