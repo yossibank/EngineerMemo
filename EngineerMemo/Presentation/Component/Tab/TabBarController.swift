@@ -90,7 +90,11 @@ final class TabBarController: UITabBarController {
         _ appURLScheme: AppURLScheme,
         url: URL
     ) {
-        guard let viewController = appURLScheme.transitionViewController(url: url) else {
+        guard
+            let visibleViewController,
+            let viewController = appURLScheme.transitionViewController(url: url),
+            String(describing: type(of: viewController)) != String(describing: type(of: visibleViewController))
+        else {
             return
         }
 
