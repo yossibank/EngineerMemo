@@ -17,7 +17,7 @@ final class CoreDataManager {
     private init() {
         let container = NSPersistentCloudKitContainer(name: containerName)
 
-        if DataHolder.isMigrated {
+        if DataHolder.isCoreDataMigrated {
             let newStoreURL = AppGroups.containerURL.appendingPathComponent(sqliteName)
             let description = NSPersistentStoreDescription(url: newStoreURL)
             container.persistentStoreDescriptions = [description]
@@ -33,6 +33,8 @@ final class CoreDataManager {
         self.backgroundContext = container.newBackgroundContext()
         backgroundContext.setupMergeConfig()
 
+        try? backgroundContext.setQueryGenerationFrom(.current)
+
         self.persistentContainer = container
     }
 }
@@ -44,7 +46,7 @@ extension CoreDataManager {
     }
 
     func migrate() {
-        guard !DataHolder.isMigrated else {
+        guard !DataHolder.isCoreDataMigrated else {
             Logger.info(message: "CoreDataのマイグレーション完了済み")
             return
         }
@@ -65,9 +67,9 @@ extension CoreDataManager {
                 withType: NSSQLiteStoreType
             )
 
-            DataHolder.isMigrated = true
+            DataHolder.isCoreDataMigrated = true
 
-            Logger.debug(message: "CoreDataのマイグレーション完了")
+            Logger.info(message: "CoreDataのマイグレーション完了")
         } catch {
             Logger.error(message: "CoreDataのマイグレーション失敗。\(oldStoreURL) => \(newStoreURL)")
         }

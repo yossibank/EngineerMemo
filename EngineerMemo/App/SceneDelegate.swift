@@ -18,6 +18,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
 
         configureAppearance()
 
+        UserDefaults.migrate(to: .shared, from: .standard)
         CoreDataManager.shared.migrate()
 
         window = .init(windowScene: windowScene)

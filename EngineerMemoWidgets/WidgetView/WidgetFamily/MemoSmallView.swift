@@ -6,7 +6,7 @@ struct MemoSmallView: View {
 
     var body: some View {
         if let memo = entry.memoList.first {
-            VStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 16) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(L10n.Memo.title)
@@ -18,11 +18,13 @@ struct MemoSmallView: View {
                             .lineLimit(2)
                     }
 
+                    Spacer()
+
                     Image(uiImage: Asset.penguin.image)
                         .resizable()
-                        .frame(width: 32, height: 32)
-                        .cornerRadius(16)
-                        .padding(.trailing, 8)
+                        .frame(width: 40, height: 40)
+                        .cornerRadius(20)
+                        .padding(.top, -8)
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
@@ -35,8 +37,8 @@ struct MemoSmallView: View {
                         .lineLimit(3)
                 }
             }
-            .padding(.horizontal, 8)
-            .frame(maxHeight: .infinity)
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.background))
         } else {
             MemoEmptyView()
@@ -51,8 +53,8 @@ struct MemoSmallViewPreviews: PreviewProvider {
                 date: .init(),
                 memoList: [
                     MemoModelObjectBuilder()
-                        .title("title ".repeat(7))
-                        .content("content ".repeat(7))
+                        .title("title".repeat(1))
+                        .content("content".repeat(1))
                         .build()
                 ]
             )

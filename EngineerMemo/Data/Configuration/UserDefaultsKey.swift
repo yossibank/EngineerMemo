@@ -1,6 +1,7 @@
 enum UserDefaultsKey: String, CaseIterable {
     case isShowAppReview
-    case isMigrated
+    case isCoreDataMigrated
+    case isUserDefaultsMigrated
     case colorTheme
     case profileIcon
     case profileProjectSortType
