@@ -18,8 +18,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
 
         configureAppearance()
 
-        UserDefaults.migrate(to: .shared, from: .standard)
-        CoreDataManager.shared.migrate()
+        UserDefaults.migrate(
+            to: .shared,
+            from: .standard
+        )
+
+        CoreDataManager.shared.migrate(
+            oldStoreURL: CoreDataManager.shared.oldStoreURL,
+            newStoreURL: CoreDataManager.shared.newStoreURL
+        )
 
         window = .init(windowScene: windowScene)
         window?.rootViewController = TabBarController()

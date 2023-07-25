@@ -2,6 +2,8 @@ import CoreData
 
 final class CoreDataManager {
     static let shared = CoreDataManager()
+    static let containerName = "EngineerMemo"
+    static let sqliteName = "EngineerMemo.sqlite"
 
     private(set) var backgroundContext: NSManagedObjectContext! {
         didSet {
@@ -9,16 +11,16 @@ final class CoreDataManager {
         }
     }
 
+    private(set) var oldStoreURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(sqliteName)
+    private(set) var newStoreURL = AppGroups.containerURL.appendingPathComponent(sqliteName)
+
     private var persistentContainer: NSPersistentContainer
 
-    private let containerName = "EngineerMemo"
-    private let sqliteName = "EngineerMemo.sqlite"
-
     private init() {
-        let container = NSPersistentCloudKitContainer(name: containerName)
+        let container = NSPersistentCloudKitContainer(name: Self.containerName)
 
         if DataHolder.isCoreDataMigrated {
-            let newStoreURL = AppGroups.containerURL.appendingPathComponent(sqliteName)
+            let newStoreURL = AppGroups.containerURL.appendingPathComponent(Self.sqliteName)
             let description = NSPersistentStoreDescription(url: newStoreURL)
             container.persistentStoreDescriptions = [description]
         }
@@ -43,14 +45,15 @@ extension CoreDataManager {
         backgroundContext = persistentContainer.newBackgroundContext()
     }
 
-    func migrate() {
+    func migrate(
+        oldStoreURL: URL,
+        newStoreURL: URL
+    ) {
         guard !DataHolder.isCoreDataMigrated else {
             Logger.info(message: "CoreDataのマイグレーション完了済み")
             return
         }
 
-        let oldStoreURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(sqliteName)
-        let newStoreURL = AppGroups.containerURL.appendingPathComponent(sqliteName)
         let coordinator = persistentContainer.persistentStoreCoordinator
 
         guard let oldStore = coordinator.persistentStore(for: oldStoreURL) else {
@@ -85,6 +88,7 @@ extension CoreDataManager {
         }
     }
 
+    // NOTE: Batch deletes are only available when you are using a SQLite persistent store.
     func deleteAllObjects() {
         let context = persistentContainer.viewContext
 
@@ -95,14 +99,7 @@ extension CoreDataManager {
                 let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
                 do {
-                    let deleteResult = try context.execute(batchDeleteRequest) as? NSBatchDeleteResult
-
-                    if let objectIDs = deleteResult?.result as? [NSManagedObjectID] {
-                        NSManagedObjectContext.mergeChanges(
-                            fromRemoteContextSave: [NSDeletedObjectIDsKey: objectIDs],
-                            into: [context]
-                        )
-                    }
+                    try context.execute(batchDeleteRequest)
                 } catch {
                     fatalError(error.localizedDescription)
                 }
