@@ -22,7 +22,7 @@ final class CoreDataManagerTest: XCTestCase {
         // act
         shared.migrate(
             oldStoreURL: oldStoreURL,
-            newStoreURL: CoreDataManager.shared.newStoreURL
+            newStoreURL: newStoreURL
         )
 
         let migratedURL = shared.backgroundContext.persistentStoreCoordinator!.persistentStores.first!.url!

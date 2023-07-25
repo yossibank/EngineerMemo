@@ -8,7 +8,7 @@ options:
 
 settings:
   base:
-    MARKETING_VERSION: &marketing_version 2.0.0
+    MARKETING_VERSION: &marketing_version 2.1.0
     CURRENT_PROJECT_VERSION: &project_version 1.0
     DEVELOPMENT_TEAM: 6WHPY5MQSB
   configs:
