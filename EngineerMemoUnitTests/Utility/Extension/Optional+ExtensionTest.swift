@@ -6,39 +6,54 @@ final class OptionalExtensionTest: XCTestCase {
         // arrange
         let test: String? = nil
 
+        // act
+        let value = test.isNil
+
         // assert
-        XCTAssertTrue(test.isNil)
+        XCTAssertTrue(value)
     }
 
     func test_isNil_値がある際にfalseを返すこと() {
         // arrange
         let test: String? = "nil"
 
+        // act
+        let value = test.isNil
+
         // assert
-        XCTAssertFalse(test.isNil)
+        XCTAssertFalse(value)
     }
 
     func test_isEmpty_配列がnilの際にtrueを返すこと() {
         // arrange
         let array: [String]? = nil
 
+        // act
+        let value = array.isEmpty
+
         // assert
-        XCTAssertTrue(array.isEmpty)
+        XCTAssertTrue(value)
     }
 
     func test_isEmpty_配列が空の際にtrueを返すこと() {
         // arrange
         let array: [String]? = []
 
+        // act
+        let value = array.isEmpty
+
         // assert
-        XCTAssertTrue(array.isEmpty)
+        XCTAssertTrue(value)
     }
 
     func test_isEmpty_配列に値がある際にfalseを返すこと() {
         // arrange
         let array: [String]? = ["a", "b", "c"]
 
+        // act
+        let value = array.isEmpty
+
         // assert
-        XCTAssertFalse(array.isEmpty)
+        XCTAssertFalse(value)
     }
 }

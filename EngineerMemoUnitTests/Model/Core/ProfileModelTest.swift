@@ -610,16 +610,20 @@ final class ProfileModelTest: XCTestCase {
         )
     }
 
-    func test_delete_プロフィール情報を削除できること() {
+    func test_delete_プロフィール情報を削除できること() throws {
         // arrange
         dataInsert()
 
         // act
-        model.delete(
+        let publisher = model.delete(
             ProfileModelObjectBuilder()
                 .identifier("identifier")
                 .build()
         )
+        .collect(1)
+        .first()
+
+        _ = try awaitOutputPublisher(publisher)
 
         wait(timeout: 0.5) { expectation in
             Task {

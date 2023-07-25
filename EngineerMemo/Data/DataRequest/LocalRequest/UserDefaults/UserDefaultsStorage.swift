@@ -7,7 +7,7 @@ final class UserDefaultsStorage<Value: UserDefaultsCompatible & Equatable> {
     init(
         _ key: UserDefaultsKey,
         defaultValue: Value,
-        userDefaults: UserDefaultsProtocol = UserDefaults.shared
+        userDefaults: UserDefaultsProtocol = UserDefaults.shared ?? .standard
     ) {
         self.publisher = .init(
             key: key.rawValue,
@@ -19,7 +19,7 @@ final class UserDefaultsStorage<Value: UserDefaultsCompatible & Equatable> {
     init(
         _ key: String,
         defaultValue: Value,
-        userDefaults: UserDefaultsProtocol = UserDefaults.shared
+        userDefaults: UserDefaultsProtocol = UserDefaults.shared ?? .standard
     ) {
         self.publisher = .init(
             key: key,

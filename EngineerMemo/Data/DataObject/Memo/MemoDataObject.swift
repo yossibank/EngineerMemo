@@ -17,6 +17,7 @@ extension Memo {
         case event
         case tax
         case other
+        case widget
     }
 
     var category: Category? {

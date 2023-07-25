@@ -13,11 +13,11 @@ final class SceneDelegateMock: UIResponder, UIWindowSceneDelegate, UIAppearanceP
             return
         }
 
-        CoreDataManager.shared.injectInMemoryPersistentContainer()
-
         if let userDefaults = UserDefaults(suiteName: "test") {
             UserDefaults.inject(userDefaults)
         }
+
+        CoreDataManager.shared.injectInMemoryPersistentContainer()
 
         configureAppearance()
 

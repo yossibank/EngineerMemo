@@ -158,6 +158,7 @@
 "memo.category.event" = "イベント";
 "memo.category.tax" = "税金";
 "memo.category.other" = "その他";
+"memo.category.widget" ="ウィジェット";
 "memo.category.none" = "カテゴリーなし";
 "memo.category" = "カテゴリー";
 "memo.title" = "タイトル";
@@ -181,6 +182,13 @@
 
 "mail.subject" = "【エンメモ】ご要望・お問い合わせ";
 "mail.body" = "【ご要望・お問い合わせ内容】\n\n\n\n\n\n\n\n\n\n------------------------------------------\nエンメモ";
+
+// MARK: - ウィジェット
+
+"widget.configurationDisplayName" = "メモ表示";
+"widget.description" = "作成したメモの中で、カテゴリーが「ウィジェット」のメモを表示できます。";
+"widget.emptyTitle" = "ウィジェットメモが作成されていません";
+"widget.createMemo" = "メモを作成";
 
 // MARK: - FirebaseAnalytics
 

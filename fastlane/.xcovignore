@@ -1,11 +1,13 @@
-- EngineerMemo/Resources
+- EngineerMemo/App
 - EngineerMemo/Model/Container
 - EngineerMemo/Presentation/Component
 - EngineerMemo/Presentation/Container
 - EngineerMemo/Presentation/Core
 - EngineerMemo/Presentation/Screen/Debug
+- EngineerMemo/Resources
 - EngineerMemo/Utility/Debug
 - EngineerMemo/Utility/UIHelper
+- EngineerMemoWidgets
 
 - .*Cell.swift
 - .*View.swift
@@ -14,6 +16,3 @@
 - .*Style.swift
 - .*+Modifier.swift
 - .*Builder.swift
-- .*Config.swift
-- .*AppDelegate.swift
-- .*SceneDelegate.swift

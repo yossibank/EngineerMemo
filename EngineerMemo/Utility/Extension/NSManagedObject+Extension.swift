@@ -1,4 +1,5 @@
 import CoreData
+import UIKitHelper
 
 extension NSManagedObject {
     convenience init(context: NSManagedObjectContext) {

@@ -9,7 +9,7 @@ extension CoreDataManager {
     func injectInMemoryPersistentContainer() {
         inject(persistentContainer: {
             let container = NSPersistentCloudKitContainer(
-                name: "EngineerMemo",
+                name: Self.containerName,
                 managedObjectModel: CoreDataManager.managedObjectModel
             )
 
