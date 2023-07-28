@@ -22,27 +22,29 @@ struct MemoRectangularView: View {
     }
 }
 
-struct MemoRectangularViewPreviews: PreviewProvider {
-    static var widgetFamily: WidgetFamily {
-        if #available(iOSApplicationExtension 16.0, *) {
-            return .accessoryRectangular
-        } else {
-            return .systemSmall
+#if DEBUG
+    struct MemoRectangularViewPreviews: PreviewProvider {
+        static var widgetFamily: WidgetFamily {
+            if #available(iOSApplicationExtension 16.0, *) {
+                return .accessoryRectangular
+            } else {
+                return .systemSmall
+            }
+        }
+
+        static var previews: some View {
+            MemoRectangularView(
+                entry: .init(
+                    date: .init(),
+                    memoList: [
+                        MemoModelObjectBuilder()
+                            .title("title".repeat(100))
+                            .content("content".repeat(1))
+                            .build()
+                    ]
+                )
+            )
+            .previewContext(WidgetPreviewContext(family: widgetFamily))
         }
     }
-
-    static var previews: some View {
-        MemoRectangularView(
-            entry: .init(
-                date: .init(),
-                memoList: [
-                    MemoModelObjectBuilder()
-                        .title("title".repeat(100))
-                        .content("content".repeat(1))
-                        .build()
-                ]
-            )
-        )
-        .previewContext(WidgetPreviewContext(family: widgetFamily))
-    }
-}
+#endif

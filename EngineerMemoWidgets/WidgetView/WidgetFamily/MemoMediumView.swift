@@ -49,19 +49,21 @@ struct MemoMediumView: View {
     }
 }
 
-struct MemoMediumViewPreviews: PreviewProvider {
-    static var previews: some View {
-        MemoMediumView(
-            entry: .init(
-                date: .init(),
-                memoList: [
-                    MemoModelObjectBuilder()
-                        .title("title".repeat(5))
-                        .content("content".repeat(5))
-                        .build()
-                ]
+#if DEBUG
+    struct MemoMediumViewPreviews: PreviewProvider {
+        static var previews: some View {
+            MemoMediumView(
+                entry: .init(
+                    date: .init(),
+                    memoList: [
+                        MemoModelObjectBuilder()
+                            .title("title".repeat(5))
+                            .content("content".repeat(5))
+                            .build()
+                    ]
+                )
             )
-        )
-        .previewContext(WidgetPreviewContext(family: .systemMedium))
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
+        }
     }
-}
+#endif
