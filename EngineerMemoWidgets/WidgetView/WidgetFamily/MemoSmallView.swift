@@ -49,19 +49,21 @@ struct MemoSmallView: View {
     }
 }
 
-struct MemoSmallViewPreviews: PreviewProvider {
-    static var previews: some View {
-        MemoSmallView(
-            entry: .init(
-                date: .init(),
-                memoList: [
-                    MemoModelObjectBuilder()
-                        .title("title".repeat(1))
-                        .content("content".repeat(1))
-                        .build()
-                ]
+#if DEBUG
+    struct MemoSmallViewPreviews: PreviewProvider {
+        static var previews: some View {
+            MemoSmallView(
+                entry: .init(
+                    date: .init(),
+                    memoList: [
+                        MemoModelObjectBuilder()
+                            .title("title".repeat(1))
+                            .content("content".repeat(1))
+                            .build()
+                    ]
+                )
             )
-        )
-        .previewContext(WidgetPreviewContext(family: .systemSmall))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        }
     }
-}
+#endif

@@ -89,7 +89,7 @@ platform :ios do
     )
 
     update_code_signing_settings(
-      targets: "EngineerMemo",
+      targets: "EngineerMemoWidgets",
       build_configurations: "Release",
       code_sign_identity: "Apple Distribution: Kamiyama Yoshihito",
       profile_name: "match AdHoc com.yossibank.engineermemo.widgets",
@@ -108,7 +108,7 @@ platform :ios do
     )
 
     update_code_signing_settings(
-      targets: "EngineerMemo",
+      targets: "EngineerMemoWidgets",
       build_configurations: "Release",
       code_sign_identity: "Apple Distribution: Kamiyama Yoshihito",
       profile_name: "match AppStore com.yossibank.engineermemo.widgets",
