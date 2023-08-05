@@ -6,7 +6,7 @@
 - EngineerMemo/Presentation/Screen/Debug
 - EngineerMemo/Resources
 - EngineerMemo/Utility/Debug
-- EngineerMemo/Utility/UIHelper
+- EngineerMemo/Utility/Helper
 - EngineerMemoWidgets
 
 - .*Cell.swift
