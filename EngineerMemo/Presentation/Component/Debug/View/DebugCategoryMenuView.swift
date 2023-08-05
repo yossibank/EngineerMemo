@@ -1,7 +1,7 @@
 #if DEBUG
+    import Combine
     import SwiftUI
     import UIKit
-    import UIKitHelper
 
     enum DebugCategoryMenu: Int, CaseIterable {
         case todo

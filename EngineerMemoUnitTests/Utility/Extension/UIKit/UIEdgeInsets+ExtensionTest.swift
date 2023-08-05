@@ -1,14 +1,14 @@
 @testable import EngineerMemo
 import XCTest
 
-final class UIEdgeInsetsExtensionTests: XCTestCase {
+final class UIEdgeInsetsExtensionTest: XCTestCase {
     func test_init_direction_top() {
         // arrange
         let inset = UIEdgeInsets(
             .all,
             10
         )
-        
+
         // act
         let value = inset.top
 
@@ -25,13 +25,13 @@ final class UIEdgeInsetsExtensionTests: XCTestCase {
             .left,
             10
         )
-        
+
         // act
         let value = inset.left
 
         // assert
         XCTAssertEqual(
-            inset.left,
+            value,
             10
         )
     }
@@ -42,7 +42,7 @@ final class UIEdgeInsetsExtensionTests: XCTestCase {
             .bottom,
             10
         )
-        
+
         // act
         let value = inset.bottom
 
@@ -59,7 +59,7 @@ final class UIEdgeInsetsExtensionTests: XCTestCase {
             .right,
             10
         )
-        
+
         // act
         let value = inset.right
 
@@ -76,7 +76,7 @@ final class UIEdgeInsetsExtensionTests: XCTestCase {
             .horizontal,
             10
         )
-        
+
         let left = inset.left
         let right = inset.right
 
@@ -91,7 +91,7 @@ final class UIEdgeInsetsExtensionTests: XCTestCase {
             .vertical,
             10
         )
-        
+
         // act
         let top = inset.top
         let bottom = inset.bottom
@@ -107,7 +107,7 @@ final class UIEdgeInsetsExtensionTests: XCTestCase {
             .all,
             10
         )
-        
+
         // act
         let top = inset.top
         let left = inset.left
@@ -127,57 +127,57 @@ final class UIEdgeInsetsExtensionTests: XCTestCase {
             [.top, .left],
             10
         )
-        
+
         // act
         let value1Top = inset1.top
-        let value2Left = inset1.left
+        let value1Left = inset1.left
 
         // assert
-        XCTAssertEqual(insets1Top, 10)
-        XCTAssertEqual(insets1Left, 10)
+        XCTAssertEqual(value1Top, 10)
+        XCTAssertEqual(value1Left, 10)
 
         // arrange
         let inset2 = UIEdgeInsets(
             [.top, .right],
             10
         )
-        
+
         // act
         let value2Top = inset2.top
         let value2Right = inset2.right
 
         // assert
-        XCTAssertEqual(insets2Top, 10)
-        XCTAssertEqual(insets2Right, 10)
+        XCTAssertEqual(value2Top, 10)
+        XCTAssertEqual(value2Right, 10)
 
         // arrange
         let inset3 = UIEdgeInsets(
             [.bottom, .right],
             10
         )
-        
+
         // act
         let value3Bottom = inset3.bottom
         let value3Right = inset3.right
 
         // assert
-        XCTAssertEqual(insets3Bottom, 10)
-        XCTAssertEqual(insets3Right, 10)
+        XCTAssertEqual(value3Bottom, 10)
+        XCTAssertEqual(value3Right, 10)
 
         // arrange
         let inset4 = UIEdgeInsets(
             [.top, .horizontal],
             10
         )
-        
+
         // act
         let value4Top = inset4.top
         let value4Left = inset4.left
         let value4Right = inset4.right
 
         // assert
-        XCTAssertEqual(insets4Top, 10)
-        XCTAssertEqual(insets4Left, 10)
-        XCTAssertEqual(insets4Right, 10)
+        XCTAssertEqual(value4Top, 10)
+        XCTAssertEqual(value4Left, 10)
+        XCTAssertEqual(value4Right, 10)
     }
 }

@@ -1,7 +1,7 @@
-import XCTest
 @testable import EngineerMemo
+import XCTest
 
-final class UIViewControllerExtensionTests: XCTestCase {
+final class UIViewControllerExtensionTest: XCTestCase {
     func test_addSubviewController() {
         // arrange
         let parentViewController = UIViewController()

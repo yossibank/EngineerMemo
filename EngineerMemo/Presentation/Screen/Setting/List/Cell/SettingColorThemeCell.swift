@@ -1,6 +1,5 @@
 import Combine
 import UIKit
-import UIKitHelper
 
 enum ColorThemeSegment: Int, CaseIterable {
     case system

@@ -1,7 +1,7 @@
-import XCTest
 @testable import EngineerMemo
+import XCTest
 
-final class UIImageExtensionTests: XCTestCase {
+final class UIImageExtensionTest: XCTestCase {
     func test_resized() {
         // arrange
         let image = UIImage(systemName: "house")

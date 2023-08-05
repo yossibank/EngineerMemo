@@ -39,7 +39,7 @@ extension UIColor {
     }
 }
 
-private extension UIColor {
+extension UIColor {
     static func dynamicColor(
         light: UIColor,
         dark: UIColor
