@@ -38,7 +38,7 @@ generate-test-mock:
 
 .PHONY: generate-xcodeproj
 generate-xcodeproj:
-	mint run xcodegen --use-cache
+	mint run xcodegen
 
 .PHONY: generate-files
 generate-files:

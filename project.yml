@@ -19,9 +19,6 @@ settings:
       CODE_SIGN_IDENTITY: "Apple Distribution: Kamiyama Yoshihito (6WHPY5MQSB)"
 
 packages:
-  UIKitHelper:
-    url: https://github.com/yossibank/UIKitHelper.git
-    from: 0.4.5
   firebase-ios-sdk:
     url: https://github.com/firebase/firebase-ios-sdk.git
     from: 10.11.0
@@ -61,7 +58,6 @@ targets:
           PROVISIONING_PROFILE_SPECIFIER: match AppStore com.yossibank.engineermemo
     dependencies:
       - target: EngineerMemoWidgets
-      - package: UIKitHelper
       - package: firebase-ios-sdk
         product: FirebaseAnalyticsWithoutAdIdSupport
       - package: firebase-ios-sdk
@@ -159,7 +155,7 @@ targets:
       - EngineerMemo/Utility/Logger
       - EngineerMemo/Utility/ResultBuilder
       - EngineerMemo/Utility/Typealias
-      - EngineerMemo/Utility/UIHelper/UIKit/UIColor+Extension.swift
+      - EngineerMemo/Utility/Helper/UIKit/UIColor+Extension.swift
       - EngineerMemo/Widget
     settings:
       base:
@@ -182,7 +178,6 @@ targets:
           PRODUCT_BUNDLE_IDENTIFIER: com.yossibank.engineermemo.widgets
           PROVISIONING_PROFILE_SPECIFIER: match AppStore com.yossibank.engineermemo.widgets
     dependencies:
-      - package: UIKitHelper
       - sdk: SwiftUI.framework
       - sdk: WidgetKit.framework
 

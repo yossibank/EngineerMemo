@@ -90,3 +90,23 @@ extension UIViewController {
         )
     }
 }
+
+extension UIViewController {
+    func addSubviewController(_ child: UIViewController) {
+        addChild(child)
+        view.addSubview(child.view)
+        child.didMove(toParent: self)
+    }
+
+    func removeSubviewController(child: UIViewController) {
+        child.willMove(toParent: nil)
+        child.view.removeFromSuperview()
+        child.removeFromParent()
+    }
+
+    func removeFirstChild() {
+        if let firstChild = children.first {
+            removeSubviewController(child: firstChild)
+        }
+    }
+}
