@@ -1,5 +1,4 @@
 import UIKit
-import UIKitHelper
 
 extension UIColor {
     /// ライトモード: 白(#FFFFFF) ダークモード: 黒(#181818)
@@ -37,6 +36,17 @@ extension UIColor {
             blue: b,
             alpha: alpha
         )
+    }
+}
+
+extension UIColor {
+    static func dynamicColor(
+        light: UIColor,
+        dark: UIColor
+    ) -> UIColor {
+        .init { traitCollection -> UIColor in
+            traitCollection.userInterfaceStyle == .light ? light : dark
+        }
     }
 }
 

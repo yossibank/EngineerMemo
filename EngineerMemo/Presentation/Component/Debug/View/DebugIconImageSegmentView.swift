@@ -1,7 +1,6 @@
 #if DEBUG
     import SwiftUI
     import UIKit
-    import UIKitHelper
 
     enum DebugIconImageSegment: Int, CaseIterable {
         case image

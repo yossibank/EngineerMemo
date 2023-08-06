@@ -1,7 +1,6 @@
 #if DEBUG
     import SwiftUI
     import UIKit
-    import UIKitHelper
 
     enum DebugPhoneNumberSegment: Int, CaseIterable {
         case phone
