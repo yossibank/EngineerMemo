@@ -1,7 +1,7 @@
-yonaskolb/xcodegen@2.35.0
-realm/SwiftLint@0.52.2
-nicklockwood/SwiftFormat@0.51.11
-SwiftGen/SwiftGen@6.6.2
-uber/mockolo@2.0.0
+yonaskolb/xcodegen@2.39.1
+realm/SwiftLint@0.54.0
+nicklockwood/SwiftFormat@0.53.3
+SwiftGen/SwiftGen@6.6.3
+uber/mockolo@2.0.1
 ChargePoint/xcparse@2.3.1
 mono0926/LicensePlist@3.23.4

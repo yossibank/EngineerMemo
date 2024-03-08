@@ -101,6 +101,20 @@ targets:
           - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
           - $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
 
+  EngineerMemoUnitTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - EngineerMemoUnitTests
+      - EngineerMemoTestSupport
+    settings:
+      base:
+        INFOPLIST_FILE: EngineerMemoTestSupport/App/Plist/Info.plist
+    dependencies:
+      - target: EngineerMemo
+      - package: OHHTTPStubs
+        product: OHHTTPStubsSwift
+
   EngineerMemoSnapshotTests:
     type: bundle.unit-test
     platform: iOS
@@ -127,20 +141,6 @@ targets:
         INFOPLIST_FILE: EngineerMemoUITests/App/Plist/Info.plist
     dependencies:
       - target: EngineerMemo
-
-  EngineerMemoUnitTests:
-    type: bundle.unit-test
-    platform: iOS
-    sources:
-      - EngineerMemoUnitTests
-      - EngineerMemoTestSupport
-    settings:
-      base:
-        INFOPLIST_FILE: EngineerMemoTestSupport/App/Plist/Info.plist
-    dependencies:
-      - target: EngineerMemo
-      - package: OHHTTPStubs
-        product: OHHTTPStubsSwift
 
   EngineerMemoWidgets:
     type: app-extension
