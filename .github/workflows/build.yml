@@ -9,7 +9,7 @@ on:
       - '*'
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_14.3.app
+  DEVELOPER_DIR: /Applications/Xcode.app
 
 jobs:
   ci:
@@ -23,7 +23,7 @@ jobs:
 
     steps:
       # チェックアウト(GitHubリポジトリからソース取得)
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Xcodeの一覧出力
       - name: Show Xcode List
@@ -35,7 +35,7 @@ jobs:
 
       # Gemsのキャッシュ
       - name: Cache Gems
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
@@ -50,7 +50,7 @@ jobs:
 
       # Mintで管理しているライブラリのキャッシュ
       - name: Cache Mint Packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: mint
           key: ${{ runner.os }}-mint-${{ hashFiles('**/Mintfile') }}
@@ -65,7 +65,7 @@ jobs:
 
       # SPMのライブラリのキャッシュ
       - name: Cache Swift Packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: SourcePackages
           key: ${{ runner.os }}-spm-${{ hashFiles('*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
@@ -87,14 +87,14 @@ jobs:
           -sdk iphonesimulator
           -configuration Debug
           -scheme EngineerMemo
-          -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4'
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.2'
           -clonedSourcePackagesDirPath SourcePackages
           -derivedDataPath DerivedData
           build
           | bundle exec xcpretty
 
       # Danger実行
-      - uses: MeilCli/danger-action@v5
+      - uses: MeilCli/danger-action@v5.6.33
         with:
           plugins_file: "Gemfile"
           install_path: "vendor/bundle"

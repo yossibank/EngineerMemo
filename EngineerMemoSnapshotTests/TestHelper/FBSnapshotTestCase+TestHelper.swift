@@ -40,7 +40,7 @@ extension FBSnapshotTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) {
-        SnapshotColorMode.allCases.forEach { colorMode in
+        for colorMode in SnapshotColorMode.allCases {
             snapshotVerifyView(
                 colorMode: colorMode,
                 viewMode: viewMode,
