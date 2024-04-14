@@ -8,7 +8,7 @@ setup:
 	$(MAKE) generate-files
 	$(MAKE) generate-consts
 	$(MAKE) generate-test-mock
-    $(MAKE) generate-xcodeproj
+	$(MAKE) generate-xcodeproj
 	$(MAKE) generate-snapshot-md
 	$(MAKE) retrieve_development_certificates
 	$(MAKE) open
