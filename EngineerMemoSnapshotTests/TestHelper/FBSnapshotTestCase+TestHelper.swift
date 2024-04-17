@@ -84,7 +84,7 @@ private extension FBSnapshotTestCase {
 
         wait(timeout: viewAfter + 3.0) { expectation in
             Task { @MainActor in
-                try await Task.sleep(seconds: 1.0 + viewAfter)
+                try await Task.sleep(seconds: 0.5 + viewAfter)
 
                 FBSnapshotVerifyView(
                     window,
