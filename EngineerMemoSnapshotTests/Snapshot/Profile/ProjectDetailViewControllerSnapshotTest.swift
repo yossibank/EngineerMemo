@@ -129,15 +129,19 @@ private extension ProjectDetailViewControllerSnapshotTest {
             modelObject: modelObject
         )
 
-        snapshotVerifyView(
-            viewMode: .navigation(subject),
-            viewFrame: .init(
-                x: .zero,
-                y: .zero,
-                width: UIWindow.windowFrame.width,
-                height: 1300
-            ),
-            viewAfter: 0.5
-        )
+        Task { @MainActor in
+            try? await Task.sleep(seconds: 1.0)
+
+            snapshotVerifyView(
+                viewMode: .navigation(subject),
+                viewFrame: .init(
+                    x: .zero,
+                    y: .zero,
+                    width: UIWindow.windowFrame.width,
+                    height: 1300
+                ),
+                viewAfter: 0.5
+            )
+        }
     }
 }
