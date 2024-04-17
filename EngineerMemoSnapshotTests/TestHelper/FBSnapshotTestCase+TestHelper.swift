@@ -64,7 +64,7 @@ private extension FBSnapshotTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) {
-        fileNameOptions = [.device, .OS, .screenSize, .screenScale]
+        fileNameOptions = [.screenSize]
 
         let window = UIWindow(windowScene: UIWindow.connectedWindowScene!)
         window.frame = viewFrame

@@ -35,47 +35,27 @@ def createMarkdown
 
             slice.each do |screenShot|
                 tokens = screenShot[/test(.+)/, 1].split("_")
-                header = tokens[1..tokens.count - 5].join(" ")
-                postfix = tokens[2..].join("_")
-                os = postfix.match(PATTERN_OF_OS_VERSION)[0].gsub('_', '.')
-                screenSize = convertScreenSizeIntoDeviceName(postfix.match(PATTERN_OF_SCREEN_SIZE)[0])
+                header = tokens[1..tokens.count - 3].join(" ")
+                colorMode = tokens[tokens.count - 2]
+                screenSize = tokens[tokens.count - 1]
                 src = "../#{screenShot[/.\/#{scheme}\/(.+)/, 1]}"
                 imageTag = "<img src='#{src}' width='#{IMAGE_WIDTH}' style='border: 1px solid #999' />"
 
                 rows[0].push header
                 rows[1].push ":---:"
-                rows[2].push os
+                rows[2].push colorMode
                 rows[3].push screenSize
                 rows[4].push imageTag
             end
 
-        markdowns += rows.map { |row| row.join('|').prepend('|').concat('|') + "\n" }.join
-        markdowns += "\n"
+            markdowns += rows.map { |row| row.join('|').prepend('|').concat('|') + "\n" }.join
+            markdowns += "\n"
         end
 
         report_file_path = "./#{scheme}/Reports/#{test_title}.md"
         status = FileTest.exist?(report_file_path) ? "UPDATED" : "CREATED"
         File.write(report_file_path, markdowns)
         puts "[#{status}] #{report_file_path}"
-    end
-end
-
-def convertScreenSizeIntoDeviceName(screenSize)
-    case screenSize
-    when "320x568"
-        return 'iPhone SE'
-    when "375x667"
-        return 'iPhone 6'
-    when "414x736"
-        return 'iPhone 8 Plus'
-    when "375x812"
-        return 'iPhone XS'
-    when "414x896"
-        return 'iPhone XS Max'
-    when "390x844"
-        return 'iPhone14'
-    else
-        return 'iPhone'
     end
 end
 
