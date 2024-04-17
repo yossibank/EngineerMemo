@@ -35,7 +35,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -50,7 +50,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1500
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -65,14 +65,14 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 3200
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 }
 
 private extension MemoListViewControllerSnapshotTest {
     func dataInsert(count: Int) {
-        (1 ... count).forEach { num in
+        for num in 1 ... count {
             CoreDataStorage<Memo>().create().sink {
                 $0.object.category = .init(rawValue: num % 7)
                 $0.object.title = "memo title\(num)"

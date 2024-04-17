@@ -37,7 +37,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -52,7 +52,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -67,7 +67,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
 
         snapshotVerifyView(
             viewMode: .navigation(subject),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 }

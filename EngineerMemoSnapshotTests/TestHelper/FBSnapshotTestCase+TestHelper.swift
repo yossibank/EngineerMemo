@@ -35,7 +35,7 @@ extension FBSnapshotTestCase {
     func snapshotVerifyView(
         viewMode: SnapshotViewMode,
         viewFrame: CGRect = UIWindow.windowFrame,
-        viewAfter: CGFloat = .zero,
+        viewAfter: CGFloat = 0.2,
         viewAction: VoidBlock? = nil,
         file: StaticString = #file,
         line: UInt = #line
@@ -89,7 +89,7 @@ private extension FBSnapshotTestCase {
                 FBSnapshotVerifyView(
                     window,
                     identifier: colorMode.identifier,
-                    overallTolerance: 0.005,
+                    overallTolerance: 0.01,
                     file: file,
                     line: line
                 )

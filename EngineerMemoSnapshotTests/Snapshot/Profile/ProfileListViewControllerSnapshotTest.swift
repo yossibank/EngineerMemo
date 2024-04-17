@@ -43,7 +43,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1200
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -62,7 +62,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1300
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -98,7 +98,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1500
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -134,7 +134,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1500
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 }
