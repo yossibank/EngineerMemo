@@ -72,7 +72,7 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
 
 private extension MemoListViewControllerSnapshotTest {
     func dataInsert(count: Int) {
-        (1 ... count).forEach { num in
+        for num in 1 ... count {
             CoreDataStorage<Memo>().create().sink {
                 $0.object.category = .init(rawValue: num % 7)
                 $0.object.title = "memo title\(num)"

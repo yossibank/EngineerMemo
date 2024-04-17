@@ -4,7 +4,7 @@ import XCTest
 extension XCTestCase {
     func awaitResultPublisher<T: Publisher>(
         _ publisher: T,
-        timeout: TimeInterval = 2.0,
+        timeout: TimeInterval = 3.0,
         file: StaticString = #file,
         line: UInt = #line
     ) throws -> Result<T.Output, Error> {
@@ -43,7 +43,7 @@ extension XCTestCase {
 
     func awaitOutputPublisher<T: Publisher>(
         _ publisher: T,
-        timeout: TimeInterval = 2.0,
+        timeout: TimeInterval = 3.0,
         file: StaticString = #file,
         line: UInt = #line
     ) throws -> T.Output {

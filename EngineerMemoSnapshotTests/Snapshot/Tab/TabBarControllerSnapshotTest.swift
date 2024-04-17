@@ -41,7 +41,12 @@ private extension TabBarControllerSnapshotTest {
             TabItem.allCases.map(\.rootViewController),
             animated: false
         )
+
         subject.selectedIndex = tabItem.rawValue
-        snapshotVerifyView(viewMode: .normal(subject))
+
+        snapshotVerifyView(
+            viewMode: .normal(subject),
+            viewAfter: 0.1
+        )
     }
 }

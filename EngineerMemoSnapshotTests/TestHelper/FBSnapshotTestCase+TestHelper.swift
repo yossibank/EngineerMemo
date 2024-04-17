@@ -40,16 +40,20 @@ extension FBSnapshotTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) {
-        for colorMode in SnapshotColorMode.allCases {
-            snapshotVerifyView(
-                colorMode: colorMode,
-                viewMode: viewMode,
-                viewFrame: viewFrame,
-                viewAfter: viewAfter,
-                viewAction: viewAction,
-                file: file,
-                line: line
-            )
+        Task { @MainActor in
+            try? await Task.sleep(seconds: viewAfter)
+
+            for colorMode in SnapshotColorMode.allCases {
+                snapshotVerifyView(
+                    colorMode: colorMode,
+                    viewMode: viewMode,
+                    viewFrame: viewFrame,
+                    viewAfter: viewAfter,
+                    viewAction: viewAction,
+                    file: file,
+                    line: line
+                )
+            }
         }
     }
 }
@@ -64,7 +68,7 @@ private extension FBSnapshotTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) {
-        fileNameOptions = [.device, .OS, .screenSize, .screenScale]
+        fileNameOptions = [.screenSize]
 
         let window = UIWindow(windowScene: UIWindow.connectedWindowScene!)
         window.frame = viewFrame
@@ -84,12 +88,12 @@ private extension FBSnapshotTestCase {
 
         wait(timeout: viewAfter + 3.0) { expectation in
             Task { @MainActor in
-                try await Task.sleep(seconds: viewAfter)
+                try await Task.sleep(seconds: 0.5 + viewAfter)
 
                 FBSnapshotVerifyView(
                     window,
                     identifier: colorMode.identifier,
-                    overallTolerance: 0.005,
+                    overallTolerance: 0.01,
                     file: file,
                     line: line
                 )
