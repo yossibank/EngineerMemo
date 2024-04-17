@@ -46,7 +46,7 @@ private extension TabBarControllerSnapshotTest {
 
         snapshotVerifyView(
             viewMode: .normal(subject),
-            viewAfter: 0.3
+            viewAfter: 0.1
         )
     }
 }

@@ -35,7 +35,7 @@ extension FBSnapshotTestCase {
     func snapshotVerifyView(
         viewMode: SnapshotViewMode,
         viewFrame: CGRect = UIWindow.windowFrame,
-        viewAfter: CGFloat = 0.2,
+        viewAfter: CGFloat = .zero,
         viewAction: VoidBlock? = nil,
         file: StaticString = #file,
         line: UInt = #line
@@ -84,7 +84,7 @@ private extension FBSnapshotTestCase {
 
         wait(timeout: viewAfter + 3.0) { expectation in
             Task { @MainActor in
-                try await Task.sleep(seconds: viewAfter)
+                try await Task.sleep(seconds: 0.5 + viewAfter)
 
                 FBSnapshotVerifyView(
                     window,
