@@ -27,10 +27,10 @@ swiftlint.lint_files(inline_mode: true) do |violation|
 end
 
 ### 不要コード検知 ###
-# periphery.scan(
-#     project: "EngineerMemo.xcodeproj",
-#     schemes: "EngineerMemo",
-#     targets: "EngineerMemo",
-#     skip_build: true,
-#     index_store_path: "DerivedData/Index.noindex/DataStore"
-# )
+periphery.scan(
+    project: "EngineerMemo.xcodeproj",
+    schemes: "EngineerMemo",
+    targets: "EngineerMemo",
+    skip_build: true,
+    index_store_path: "DerivedData/Index.noindex/DataStore"
+)
