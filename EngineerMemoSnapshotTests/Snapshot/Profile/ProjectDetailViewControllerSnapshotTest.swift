@@ -151,7 +151,7 @@ private extension ProjectDetailViewControllerSnapshotTest {
                 width: UIWindow.windowFrame.width,
                 height: 1300
             ),
-            viewAfter: 2.0
+            viewAfter: 1.0
         )
     }
 }

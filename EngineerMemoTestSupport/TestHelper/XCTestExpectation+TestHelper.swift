@@ -8,7 +8,7 @@ extension XCTestCase {
         line: UInt = #line,
         closure: (XCTestExpectation) -> Void
     ) {
-        let expectation = XCTestExpectation(description: UUID().uuidString)
+        let expectation = XCTestExpectation(description: description)
         closure(expectation)
 
         wait(
