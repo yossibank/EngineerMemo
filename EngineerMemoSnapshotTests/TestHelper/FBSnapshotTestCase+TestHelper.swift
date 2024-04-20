@@ -82,10 +82,8 @@ private extension FBSnapshotTestCase {
 
         viewAction?()
 
-        wait(timeout: viewAfter + 2.0) { expectation in
+        wait(timeout: viewAfter + 3.0) { expectation in
             DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
-                print("HOGEHOGE", file)
-
                 self.FBSnapshotVerifyView(
                     window,
                     identifier: colorMode.identifier,
