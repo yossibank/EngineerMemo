@@ -1,14 +1,14 @@
-name: LicensePlist, nameSpecified: , owner: mono0926, version: 3.23.4, source: https://github.com/mono0926/LicensePlist
+name: LicensePlist, nameSpecified: , owner: mono0926, version: 3.25.1, source: https://github.com/mono0926/LicensePlist
 
 name: mockolo, nameSpecified: , owner: uber, version: 2.0.1, source: https://github.com/uber/mockolo
 
-name: SwiftFormat, nameSpecified: , owner: nicklockwood, version: 0.53.3, source: https://github.com/nicklockwood/SwiftFormat
+name: SwiftFormat, nameSpecified: , owner: nicklockwood, version: 0.53.7, source: https://github.com/nicklockwood/SwiftFormat
 
 name: SwiftGen, nameSpecified: , owner: SwiftGen, version: 6.6.3, source: https://github.com/SwiftGen/SwiftGen
 
 name: SwiftLint, nameSpecified: , owner: realm, version: 0.54.0, source: https://github.com/realm/SwiftLint
 
-name: xcodegen, nameSpecified: , owner: yonaskolb, version: 2.39.1, source: https://github.com/yonaskolb/xcodegen
+name: xcodegen, nameSpecified: , owner: yonaskolb, version: 2.40.1, source: https://github.com/yonaskolb/xcodegen
 
 name: xcparse, nameSpecified: , owner: ChargePoint, version: 2.3.1, source: https://github.com/ChargePoint/xcparse
 
@@ -55,4 +55,4 @@ body: https://iconduck.com…
 
 add-version-numbers: false
 
-LicensePlist Version: 3.23.4
+LicensePlist Version: 3.25.1
