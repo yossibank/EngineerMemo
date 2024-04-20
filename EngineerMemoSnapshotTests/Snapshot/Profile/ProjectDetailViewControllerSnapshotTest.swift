@@ -25,77 +25,86 @@ final class ProjectDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testProjectDetailViewController_詳細() {
+        let modelObject = ProfileModelObjectBuilder()
+            .projects([
+                ProjectModelObjectBuilder()
+                    .title("テストプロジェクトタイトル1")
+                    .role("プログラマー1")
+                    .processes([.implementation, .systemTesting, .intergrationTesting])
+                    .language("Swift")
+                    .database("CoreData")
+                    .serverOS("Ubuntu")
+                    .tools(["Firebase", "MagicPod"])
+                    .content("テストプロジェクト内容1")
+                    .startDate(Calendar.date(year: 2020, month: 4, day: 1))
+                    .endDate(Calendar.date(year: 2021, month: 6, day: 1))
+                    .build()
+            ])
+            .build()
+
+        dataInsert(modelObject: modelObject)
+
         snapshot(
             identifier: "identifier:テストプロジェクトタイトル1",
-            modelObject: ProfileModelObjectBuilder()
-                .projects([
-                    ProjectModelObjectBuilder()
-                        .title("テストプロジェクトタイトル1")
-                        .role("プログラマー1")
-                        .processes([.implementation, .systemTesting, .intergrationTesting])
-                        .language("Swift")
-                        .database("CoreData")
-                        .serverOS("Ubuntu")
-                        .tools(["Firebase", "MagicPod"])
-                        .content("テストプロジェクト内容1")
-                        .startDate(Calendar.date(year: 2020, month: 4, day: 1))
-                        .endDate(Calendar.date(year: 2021, month: 6, day: 1))
-                        .build()
-                ])
-                .build()
+            modelObject: modelObject
         )
     }
 
     func testProjectDetailViewController_詳細_開始期間未設定() {
+        let modelObject = ProfileModelObjectBuilder()
+            .projects([
+                ProjectModelObjectBuilder()
+                    .title("テストプロジェクトタイトル2")
+                    .role("プログラマー2")
+                    .processes([.requirementDefinition, .functionalDesign])
+                    .language(nil)
+                    .database(nil)
+                    .serverOS(nil)
+                    .tools([])
+                    .content("テストプロジェクト内容2")
+                    .startDate(nil)
+                    .endDate(Calendar.date(year: 2021, month: 6, day: 1))
+                    .build()
+            ])
+            .build()
+
+        dataInsert(modelObject: modelObject)
+
         snapshot(
             identifier: "identifier:テストプロジェクトタイトル2",
-            modelObject: ProfileModelObjectBuilder()
-                .projects([
-                    ProjectModelObjectBuilder()
-                        .title("テストプロジェクトタイトル2")
-                        .role("プログラマー2")
-                        .processes([.requirementDefinition, .functionalDesign])
-                        .language(nil)
-                        .database(nil)
-                        .serverOS(nil)
-                        .tools([])
-                        .content("テストプロジェクト内容2")
-                        .startDate(nil)
-                        .endDate(Calendar.date(year: 2021, month: 6, day: 1))
-                        .build()
-                ])
-                .build()
+            modelObject: modelObject
         )
     }
 
     func testProjectDetailViewController_詳細_終了期間未設定() {
+        let modelObject = ProfileModelObjectBuilder()
+            .projects([
+                ProjectModelObjectBuilder()
+                    .title("テストプロジェクトタイトル3")
+                    .role("プログラマー3")
+                    .processes([.requirementDefinition, .maintenance])
+                    .language(nil)
+                    .database(nil)
+                    .serverOS(nil)
+                    .tools([])
+                    .content("テストプロジェクト内容3")
+                    .startDate(Calendar.date(year: 2020, month: 4, day: 1))
+                    .endDate(nil)
+                    .build()
+            ])
+            .build()
+
+        dataInsert(modelObject: modelObject)
+
         snapshot(
             identifier: "identifier:テストプロジェクトタイトル3",
-            modelObject: ProfileModelObjectBuilder()
-                .projects([
-                    ProjectModelObjectBuilder()
-                        .title("テストプロジェクトタイトル3")
-                        .role("プログラマー3")
-                        .processes([.requirementDefinition, .maintenance])
-                        .language(nil)
-                        .database(nil)
-                        .serverOS(nil)
-                        .tools([])
-                        .content("テストプロジェクト内容3")
-                        .startDate(Calendar.date(year: 2020, month: 4, day: 1))
-                        .endDate(nil)
-                        .build()
-                ])
-                .build()
+            modelObject: modelObject
         )
     }
 }
 
 private extension ProjectDetailViewControllerSnapshotTest {
-    func snapshot(
-        identifier: String,
-        modelObject: ProfileModelObject
-    ) {
+    func dataInsert(modelObject: ProfileModelObject) {
         CoreDataStorage<Profile>().create().sink {
             let context = $0.context
             let profileObject = $0.object
@@ -123,7 +132,12 @@ private extension ProjectDetailViewControllerSnapshotTest {
             context.saveIfNeeded()
         }
         .store(in: &cancellables)
+    }
 
+    func snapshot(
+        identifier: String,
+        modelObject: ProfileModelObject
+    ) {
         subject = AppControllers.Profile.Project.Detail(
             identifier: identifier,
             modelObject: modelObject
@@ -137,7 +151,7 @@ private extension ProjectDetailViewControllerSnapshotTest {
                 width: UIWindow.windowFrame.width,
                 height: 1300
             ),
-            viewAfter: 1.0
+            viewAfter: 2.0
         )
     }
 }
