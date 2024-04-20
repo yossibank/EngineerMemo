@@ -66,6 +66,7 @@ private extension FBSnapshotTestCase {
     ) {
         fileNameOptions = [.screenSize]
 
+        let expectation = XCTestExpectation(description: #function)
         let window = UIWindow(windowScene: UIWindow.connectedWindowScene!)
         window.frame = viewFrame
 
@@ -82,18 +83,18 @@ private extension FBSnapshotTestCase {
 
         viewAction?()
 
-        wait(timeout: viewAfter + 3.0) { expectation in
-            DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
-                self.FBSnapshotVerifyView(
-                    window,
-                    identifier: colorMode.identifier,
-                    overallTolerance: 0.01,
-                    file: file,
-                    line: line
-                )
+        DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
+            self.FBSnapshotVerifyView(
+                window,
+                identifier: colorMode.identifier,
+                overallTolerance: 0.01,
+                file: file,
+                line: line
+            )
 
-                expectation.fulfill()
-            }
+            expectation.fulfill()
         }
+
+        wait(for: [expectation], timeout: 3.0)
     }
 }
