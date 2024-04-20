@@ -40,20 +40,16 @@ extension FBSnapshotTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) {
-        /// CI/CD環境でスナップショットが撮れないためTaskで囲む
-        /// スナップショットを新しく撮るときはTaskを外す
-        Task { @MainActor in
-            for colorMode in SnapshotColorMode.allCases {
-                snapshotVerifyView(
-                    colorMode: colorMode,
-                    viewMode: viewMode,
-                    viewFrame: viewFrame,
-                    viewAfter: viewAfter,
-                    viewAction: viewAction,
-                    file: file,
-                    line: line
-                )
-            }
+        for colorMode in SnapshotColorMode.allCases {
+            snapshotVerifyView(
+                colorMode: colorMode,
+                viewMode: viewMode,
+                viewFrame: viewFrame,
+                viewAfter: viewAfter,
+                viewAction: viewAction,
+                file: file,
+                line: line
+            )
         }
     }
 }
@@ -87,10 +83,8 @@ private extension FBSnapshotTestCase {
         viewAction?()
 
         wait(timeout: viewAfter + 3.0) { expectation in
-            Task { @MainActor in
-                try await Task.sleep(seconds: 0.5 + viewAfter)
-
-                FBSnapshotVerifyView(
+            DispatchQueue.main.asyncAfter(deadline: .now() + viewAfter) {
+                self.FBSnapshotVerifyView(
                     window,
                     identifier: colorMode.identifier,
                     overallTolerance: 0.01,

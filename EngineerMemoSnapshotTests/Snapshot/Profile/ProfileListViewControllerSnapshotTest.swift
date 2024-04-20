@@ -29,7 +29,10 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testProfileListViewController_未設定() {
-        snapshotVerifyView(viewMode: .navigation(subject))
+        snapshotVerifyView(
+            viewMode: .navigation(subject),
+            viewAfter: 0.5
+        )
     }
 
     func testProfileListViewController_基本情報設定() {

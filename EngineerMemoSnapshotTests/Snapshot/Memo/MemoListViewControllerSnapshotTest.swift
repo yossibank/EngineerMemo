@@ -27,7 +27,10 @@ final class MemoListViewControllerSnapshotTest: FBSnapshotTestCase {
     }
 
     func testMemoListViewController_件数0() {
-        snapshotVerifyView(viewMode: .navigation(subject))
+        snapshotVerifyView(
+            viewMode: .navigation(subject),
+            viewAfter: 0.5
+        )
     }
 
     func testMemoListViewController_件数少() {
