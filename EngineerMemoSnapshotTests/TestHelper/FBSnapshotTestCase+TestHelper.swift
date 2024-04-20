@@ -84,22 +84,20 @@ private extension FBSnapshotTestCase {
 
         callViewControllerAppear(vc: window.rootViewController!)
 
-        let expectation = XCTestExpectation(description: #function)
+        wait(timeout: 3.0) { expectation in
+            Task { @MainActor in
+                try? await Task.sleep(seconds: viewAfter)
 
-        Task { @MainActor in
-            try? await Task.sleep(seconds: viewAfter)
+                FBSnapshotVerifyView(
+                    window,
+                    identifier: colorMode.identifier,
+                    overallTolerance: 0.001,
+                    file: file,
+                    line: line
+                )
 
-            FBSnapshotVerifyView(
-                window,
-                identifier: colorMode.identifier,
-                overallTolerance: 0.01,
-                file: file,
-                line: line
-            )
-
-            expectation.fulfill()
+                expectation.fulfill()
+            }
         }
-
-        wait(for: [expectation], timeout: 5.0)
     }
 }
