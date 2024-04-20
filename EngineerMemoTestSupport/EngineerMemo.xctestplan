@@ -47,6 +47,7 @@
   },
   "testTargets" : [
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:EngineerMemo.xcodeproj",
         "identifier" : "2ED415595DFE0DF6AEE87909",

@@ -7,7 +7,7 @@ final class ProjectUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "プロフィール案件設定・更新画面"
+        folderName = "profile_project_update"
 
         recordMode = SnapshotTest.recordMode
     }
@@ -61,7 +61,8 @@ private extension ProjectUpdateViewControllerSnapshotTest {
                 y: .zero,
                 width: UIWindow.windowFrame.width,
                 height: 1500
-            )
+            ),
+            viewAfter: 1.0
         )
     }
 }

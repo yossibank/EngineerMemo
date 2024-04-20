@@ -40,20 +40,16 @@ extension FBSnapshotTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) {
-        Task { @MainActor in
-            try? await Task.sleep(seconds: viewAfter)
-
-            for colorMode in SnapshotColorMode.allCases {
-                snapshotVerifyView(
-                    colorMode: colorMode,
-                    viewMode: viewMode,
-                    viewFrame: viewFrame,
-                    viewAfter: viewAfter,
-                    viewAction: viewAction,
-                    file: file,
-                    line: line
-                )
-            }
+        for colorMode in SnapshotColorMode.allCases {
+            snapshotVerifyView(
+                colorMode: colorMode,
+                viewMode: viewMode,
+                viewFrame: viewFrame,
+                viewAfter: viewAfter,
+                viewAction: viewAction,
+                file: file,
+                line: line
+            )
         }
     }
 }
@@ -86,14 +82,16 @@ private extension FBSnapshotTestCase {
 
         viewAction?()
 
-        wait(timeout: viewAfter + 3.0) { expectation in
+        callViewControllerAppear(vc: window.rootViewController!)
+
+        wait(timeout: 3.0) { expectation in
             Task { @MainActor in
-                try await Task.sleep(seconds: 0.5 + viewAfter)
+                try? await Task.sleep(seconds: viewAfter)
 
                 FBSnapshotVerifyView(
                     window,
                     identifier: colorMode.identifier,
-                    overallTolerance: 0.01,
+                    overallTolerance: 0.001,
                     file: file,
                     line: line
                 )

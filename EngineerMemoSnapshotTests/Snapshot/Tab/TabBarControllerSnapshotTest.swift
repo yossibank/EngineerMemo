@@ -7,7 +7,7 @@ final class TabBarControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "タブ"
+        folderName = "tab"
 
         recordMode = SnapshotTest.recordMode
 
@@ -46,7 +46,7 @@ private extension TabBarControllerSnapshotTest {
 
         snapshotVerifyView(
             viewMode: .normal(subject),
-            viewAfter: 0.1
+            viewAfter: 1.0
         )
     }
 }
