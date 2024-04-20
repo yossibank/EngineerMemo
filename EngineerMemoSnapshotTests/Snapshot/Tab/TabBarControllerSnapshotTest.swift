@@ -7,7 +7,7 @@ final class TabBarControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "タブ"
+        folderName = "tab"
 
         recordMode = SnapshotTest.recordMode
 

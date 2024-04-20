@@ -7,7 +7,7 @@ final class MemoUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "メモ作成・編集画面"
+        folderName = "memo_update"
 
         recordMode = SnapshotTest.recordMode
     }

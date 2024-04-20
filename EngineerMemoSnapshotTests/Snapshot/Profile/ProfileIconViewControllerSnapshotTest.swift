@@ -7,7 +7,7 @@ final class ProfileIconViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "プロフィールアイコン変更画面"
+        folderName = "profile_icon"
 
         recordMode = SnapshotTest.recordMode
 

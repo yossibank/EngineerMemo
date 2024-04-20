@@ -40,21 +40,21 @@ extension FBSnapshotTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) {
-        Task { @MainActor in
-            try? await Task.sleep(seconds: viewAfter)
+//        Task { @MainActor in
+//            try? await Task.sleep(seconds: viewAfter)
 
-            for colorMode in SnapshotColorMode.allCases {
-                snapshotVerifyView(
-                    colorMode: colorMode,
-                    viewMode: viewMode,
-                    viewFrame: viewFrame,
-                    viewAfter: viewAfter,
-                    viewAction: viewAction,
-                    file: file,
-                    line: line
-                )
-            }
+        for colorMode in SnapshotColorMode.allCases {
+            snapshotVerifyView(
+                colorMode: colorMode,
+                viewMode: viewMode,
+                viewFrame: viewFrame,
+                viewAfter: viewAfter,
+                viewAction: viewAction,
+                file: file,
+                line: line
+            )
         }
+//        }
     }
 }
 

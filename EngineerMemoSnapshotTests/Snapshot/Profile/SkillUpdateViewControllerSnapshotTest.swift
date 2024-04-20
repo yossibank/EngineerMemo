@@ -7,7 +7,7 @@ final class SkillUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "プロフィールスキル経験設定・更新画面"
+        folderName = "profile_skill_update"
 
         recordMode = SnapshotTest.recordMode
     }
