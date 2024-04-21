@@ -15,7 +15,7 @@ jobs:
   ci:
     name: Run Build
 
-    runs-on: macos-13
+    runs-on: macos-14
 
     env:
       MINT_PATH: mint/lib
