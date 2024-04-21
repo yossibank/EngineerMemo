@@ -8,7 +8,7 @@
 |:---:|:---:|:---:|:---:|
 | <img src='Screenshot/Screenshot1.jpeg' /> | <img src='Screenshot/Screenshot2.jpeg' /> | <img src='Screenshot/Screenshot3.jpeg' /> | <img src='Screenshot/Screenshot4.jpeg' /> |
 
-## App Store(2023/07/04~)
+## App Store(2023/07/04~ unsubscribe)
 
 [![App Store Link][app-store-url]][AppStore]
 
@@ -23,43 +23,43 @@
 
 * カスタムシート画面
 
-|全項目存在 長文 Dark|全項目存在 長文 Light|
+|全項目存在 長文|全項目存在 長文|
 |:---:|:---:|
-|17.2|17.2|
-|iPhone14|iPhone14|
-|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/カスタムシート/testSheetViewController_全項目存在_長文_Dark_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/カスタムシート/testSheetViewController_全項目存在_長文_Light_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|
+|Dark|Light|
+|393x852.png|393x852.png|
+|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/Sheet/testSheetViewController_全項目存在_長文_Dark_393x852.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/Sheet/testSheetViewController_全項目存在_長文_Light_393x852.png' width='250' style='border: 1px solid #999' />|
 
 * プロフィールアイコン変更画面
 
-|全項目 Dark|全項目 Light|
+|全項目|全項目|
 |:---:|:---:|
-|17.2|17.2|
-|iPhone14|iPhone14|
-|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/プロフィールアイコン変更画面/testProfileIconViewController_全項目_Dark_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/プロフィールアイコン変更画面/testProfileIconViewController_全項目_Light_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|
+|Dark|Light|
+|393x852.png|393x852.png|
+|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/ProfileIcon/testProfileIconViewController_全項目_Dark_393x852.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/ProfileIcon/testProfileIconViewController_全項目_Light_393x852.png' width='250' style='border: 1px solid #999' />|
 
 * プロフィール設定・更新画面
 
-|更新 Dark|更新 Light|
+|更新|更新|
 |:---:|:---:|
-|17.2|17.2|
-|iPhone14|iPhone14|
-|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/プロフィール基本情報設定・更新画面/testBasicUpdateViewController_更新_Dark_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/プロフィール基本情報設定・更新画面/testBasicUpdateViewController_更新_Light_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|
+|Dark|Light|
+|393x852.png|393x852.png|
+|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/ProfileBasicUpdate/testBasicUpdateViewController_更新_Dark_393x852.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/ProfileBasicUpdate/testBasicUpdateViewController_更新_Light_393x852.png' width='250' style='border: 1px solid #999' />|
 
 * メモ一覧画面
 
-|件数中 Dark|件数中 Light|
+|件数中|件数中|
 |:---:|:---:|
-|17.2|17.2|
-|iPhone14|iPhone14|
-|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/メモ一覧画面/testMemoListViewController_件数中_Dark_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/メモ一覧画面/testMemoListViewController_件数中_Light_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|
+|Dark|Light|
+|393x852.png|393x852.png|
+|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/MemoList/testMemoListViewController_件数中_Dark_393x852.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/MemoList/testMemoListViewController_件数中_Light_393x852.png' width='250' style='border: 1px solid #999' />|
 
 * メモ詳細画面
 
-|標準 Dark|標準 Light|
+|標準|標準|
 |:---:|:---:|
-|17.2|17.2|
-|iPhone14|iPhone14|
-|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/メモ詳細画面/testMemoDetailViewController_標準_Dark_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/メモ詳細画面/testMemoDetailViewController_標準_Light_iPhone_17_2_393x852@3x.png' width='250' style='border: 1px solid #999' />|
+|Dark|Light|
+|393x852.png|393x852.png|
+|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/MemoDetail/testMemoDetailViewController_標準_Dark_393x852.png' width='250' style='border: 1px solid #999' />|<img src='EngineerMemoSnapshotTests/ReferenceImages_64/MemoDetail/testMemoDetailViewController_標準_Light_393x852.png' width='250' style='border: 1px solid #999' />|
 
 ## Target OS
 
