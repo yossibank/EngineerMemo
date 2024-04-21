@@ -7,7 +7,7 @@ final class BasicUpdateViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "profile_basic_update"
+        folderName = "ProfileBasicUpdate"
 
         recordMode = SnapshotTest.recordMode
     }

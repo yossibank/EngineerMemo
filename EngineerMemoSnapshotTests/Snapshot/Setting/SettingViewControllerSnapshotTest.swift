@@ -7,7 +7,7 @@ final class SettingViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "setting"
+        folderName = "Setting"
 
         recordMode = SnapshotTest.recordMode
 

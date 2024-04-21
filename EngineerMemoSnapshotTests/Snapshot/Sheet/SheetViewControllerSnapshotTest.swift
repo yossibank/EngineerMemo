@@ -7,7 +7,7 @@ final class SheetViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "custom_sheet"
+        folderName = "Sheet"
 
         recordMode = SnapshotTest.recordMode
     }

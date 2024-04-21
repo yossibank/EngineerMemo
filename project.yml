@@ -119,8 +119,11 @@ targets:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - EngineerMemoSnapshotTests
       - EngineerMemoTestSupport
+      - path: EngineerMemoSnapshotTests
+        excludes:
+          - FailureDiffs
+          - Reports
     settings:
       base:
         INFOPLIST_FILE: EngineerMemoTestSupport/App/Plist/Info.plist
@@ -210,6 +213,24 @@ schemes:
       config: Debug
     archive:
       config: Release
+
+  EngineerMemoSnapshotTests:
+    build:
+      targets:
+        EngineerMemoSnapshotTests: all
+    test:
+      config: Debug
+      gatherCoverageData: true
+      language: ja
+      region: JP
+      testPlans:
+        - path: EngineerMemoSnapshotTests/SnapshotTest.xctestplan
+    profile:
+      config: Debug
+    analyze:
+      config: Debug
+    archive:
+      config: Debug
 
   EngineerMemoWidgets:
     build:
