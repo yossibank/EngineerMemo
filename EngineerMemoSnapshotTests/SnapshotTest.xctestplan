@@ -13,7 +13,14 @@
 
     ],
     "environmentVariableEntries" : [
-
+      {
+        "key" : "IMAGE_DIFF_DIR",
+        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)SnapshotTests\/FailureDiffs"
+      },
+      {
+        "key" : "FB_REFERENCE_IMAGE_DIR",
+        "value" : "$(SOURCE_ROOT)\/$(PROJECT_NAME)SnapshotTests\/ReferenceImages"
+      }
     ],
     "language" : "ja",
     "locationScenario" : {

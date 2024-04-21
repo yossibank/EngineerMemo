@@ -9,7 +9,7 @@ final class MemoDetailViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "memo_detail"
+        folderName = "MemoDetail"
 
         recordMode = SnapshotTest.recordMode
 

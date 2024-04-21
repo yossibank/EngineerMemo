@@ -9,7 +9,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
 
-        folderName = "profile_list"
+        folderName = "ProfileList"
 
         recordMode = SnapshotTest.recordMode
 
@@ -31,7 +31,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
     func testProfileListViewController_未設定() {
         snapshotVerifyView(
             viewMode: .navigation(subject),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -46,7 +46,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1200
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -65,7 +65,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1300
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -101,7 +101,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1500
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 
@@ -137,7 +137,7 @@ final class ProfileListViewControllerSnapshotTest: FBSnapshotTestCase {
                 width: UIWindow.windowFrame.width,
                 height: 1500
             ),
-            viewAfter: 0.5
+            viewAfter: 1.0
         )
     }
 }
