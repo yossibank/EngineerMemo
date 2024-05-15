@@ -100,7 +100,7 @@ jobs:
         run: bundle exec fastlane unit_test
 
       # Danger実行
-      - uses: MeilCli/danger-action@v6.0.3
+      - uses: MeilCli/danger-action@v6.0.5
         with:
           plugins_file: "Gemfile"
           install_path: "vendor/bundle"
