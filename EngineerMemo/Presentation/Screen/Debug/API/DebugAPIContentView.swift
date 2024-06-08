@@ -13,49 +13,28 @@
 
         var title: String {
             switch self {
-            case .debugDelete:
-                return L10n.Debug.Api.debugDelete
-
-            case .debugGet:
-                return L10n.Debug.Api.debugGet
-
-            case .debugPost:
-                return L10n.Debug.Api.debugPost
-
-            case .debugPut:
-                return L10n.Debug.Api.debugPut
+            case .debugDelete: L10n.Debug.Api.debugDelete
+            case .debugGet: L10n.Debug.Api.debugGet
+            case .debugPost: L10n.Debug.Api.debugPost
+            case .debugPut: L10n.Debug.Api.debugPut
             }
         }
 
         var hasPathComponent: Bool {
             switch self {
-            case .debugDelete:
-                return true
-
-            case .debugGet:
-                return false
-
-            case .debugPost:
-                return false
-
-            case .debugPut:
-                return true
+            case .debugDelete: true
+            case .debugGet: false
+            case .debugPost: false
+            case .debugPut: true
             }
         }
 
         var hasParameters: Bool {
             switch self {
-            case .debugDelete:
-                return false
-
-            case .debugGet:
-                return true
-
-            case .debugPost:
-                return true
-
-            case .debugPut:
-                return true
+            case .debugDelete: false
+            case .debugGet: true
+            case .debugPost: true
+            case .debugPut: true
             }
         }
     }
@@ -190,7 +169,7 @@
         func setupMenu() {
             var actions = [UIMenuElement]()
 
-            DebugAPIMenuType.allCases.forEach { type in
+            for type in DebugAPIMenuType.allCases {
                 actions.append(
                     UIAction(
                         title: type.title,
@@ -219,14 +198,9 @@
         func setupBarButton() {
             barButton.publisher(for: .touchUpInside)
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
-
-                    didTapSendButtonSubject.send(menuType)
+                .weakSink(with: self, cancellables: &cancellables) {
+                    $0.didTapSendButtonSubject.send($0.menuType)
                 }
-                .store(in: &cancellables)
         }
 
         func setupTableView() {
@@ -259,10 +233,9 @@
 
                 cell.didChangePathTextFieldPublisher
                     .compactMap { Int($0) }
-                    .sink { [weak self] path in
-                        self?.didChangePathTextFieldSubject.send(path)
+                    .weakSink(with: self, cancellables: &cell.cancellables) {
+                        $0.didChangePathTextFieldSubject.send($1)
                     }
-                    .store(in: &cell.cancellables)
 
                 return cell
 
@@ -272,36 +245,31 @@
                     for: indexPath
                 )
 
-                cell.didChangeUserIdTextFieldPublisher
-                    .sink { [weak self] in
-                        if let numberId = Int($0) {
-                            self?.didChangeUserIdTextFieldSubject.send(numberId)
-                        } else {
-                            self?.didChangeUserIdTextFieldSubject.send(nil)
+                cell.cancellables.formUnion([
+                    cell.didChangeUserIdTextFieldPublisher
+                        .weakSink(with: self) {
+                            if let numberId = Int($1) {
+                                $0.didChangeUserIdTextFieldSubject.send(numberId)
+                            } else {
+                                $0.didChangeUserIdTextFieldSubject.send(nil)
+                            }
+                        },
+                    cell.didChangeIdTextFieldPublisher
+                        .compactMap { Int($0) }
+                        .weakSink(with: self) {
+                            $0.didChangeIdTextFieldSubject.send($1)
+                        },
+                    cell.didChangeTitleTextFieldPublisher
+                        .compactMap { $0 }
+                        .weakSink(with: self) {
+                            $0.didChangeTitleTextFieldSubject.send($1)
+                        },
+                    cell.didChangeBodyTextFieldPublisher
+                        .compactMap { $0 }
+                        .weakSink(with: self) {
+                            $0.didChangeBodyTextFieldSubject.send($1)
                         }
-                    }
-                    .store(in: &cell.cancellables)
-
-                cell.didChangeIdTextFieldPublisher
-                    .compactMap { Int($0) }
-                    .sink { [weak self] in
-                        self?.didChangeIdTextFieldSubject.send($0)
-                    }
-                    .store(in: &cell.cancellables)
-
-                cell.didChangeTitleTextFieldPublisher
-                    .compactMap { $0 }
-                    .sink { [weak self] in
-                        self?.didChangeTitleTextFieldSubject.send($0)
-                    }
-                    .store(in: &cell.cancellables)
-
-                cell.didChangeBodyTextFieldPublisher
-                    .compactMap { $0 }
-                    .sink { [weak self] in
-                        self?.didChangeBodyTextFieldSubject.send($0)
-                    }
-                    .store(in: &cell.cancellables)
+                ])
 
                 cell.configure(with: params)
 

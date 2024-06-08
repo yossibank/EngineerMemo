@@ -26,26 +26,25 @@
             self.model = model
             self.routing = routing
 
-            // MARK: - カラーテーマセグメント変更
+            cancellables.formUnion([
+                // MARK: - カラーテーマセグメント変更
 
-            input.didChangeColorThemeIndex.sink {
-                model.updateColorTheme($0)
-            }
-            .store(in: &cancellables)
+                input.didChangeColorThemeIndex.weakSink(with: self) {
+                    model.updateColorTheme($1)
+                },
 
-            // MARK: - APIセルタップ
+                // MARK: - APIセルタップ
 
-            input.didTapAPICell.sink { _ in
-                routing.showDebugAPIScreen()
-            }
-            .store(in: &cancellables)
+                input.didTapAPICell.sink {
+                    routing.showDebugAPIScreen()
+                },
 
-            // MARK: - CoreDataセルタップ
+                // MARK: - CoreDataセルタップ
 
-            input.didTapCoreDataCell.sink {
-                routing.showDebugCoreDataScreen(action: $0)
-            }
-            .store(in: &cancellables)
+                input.didTapCoreDataCell.weakSink(with: self) {
+                    routing.showDebugCoreDataScreen(action: $1)
+                }
+            ])
         }
     }
 #endif

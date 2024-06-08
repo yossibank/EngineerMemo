@@ -44,47 +44,41 @@ extension SettingViewController {
 
 private extension SettingViewController {
     func bindToView() {
-        viewModel.output.$didTapReview
-            .receive(on: DispatchQueue.main)
-            .filter { $0 }
-            .sink { _ in
-                AppConfig.openAppReview()
-            }
-            .store(in: &cancellables)
-
-        viewModel.output.$didTapInquiry
-            .receive(on: DispatchQueue.main)
-            .filter { $0 }
-            .sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                openMessage(
-                    .init(
-                        subject: L10n.Mail.subject,
-                        body: L10n.Mail.body,
-                        delegate: self
+        cancellables.formUnion([
+            viewModel.output.$didTapReview
+                .receive(on: DispatchQueue.main)
+                .filter { $0 }
+                .sink { _ in
+                    AppOpen.appReview()
+                },
+            viewModel.output.$didTapInquiry
+                .receive(on: DispatchQueue.main)
+                .filter { $0 }
+                .weakSink(with: self) {
+                    $0.openMessage(
+                        .init(
+                            subject: L10n.Mail.subject,
+                            body: L10n.Mail.body,
+                            delegate: self
+                        )
                     )
-                )
-            }
-            .store(in: &cancellables)
+                }
+        ])
     }
 
     func bindToViewModel() {
-        contentView.didChangeColorThemeIndexPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didChangeColorThemeIndex.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didTapApplicationCellPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didTapApplicationCell.send($0)
-            }
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            contentView.didChangeColorThemeIndexPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didChangeColorThemeIndex.send($1)
+                },
+            contentView.didTapApplicationCellPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapApplicationCell.send($1)
+                }
+        ])
     }
 }
 
@@ -102,20 +96,11 @@ extension SettingViewController: UIMessageable, MFMailComposeViewControllerDeleg
             }
 
             switch result {
-            case .cancelled:
-                showActionSheet(messageResult: .cancelled)
-
-            case .saved:
-                showActionSheet(messageResult: .saved)
-
-            case .sent:
-                showActionSheet(messageResult: .send)
-
-            case .failed:
-                showActionSheet(messageResult: .failed)
-
-            @unknown default:
-                break
+            case .cancelled: showActionSheet(messageResult: .cancelled)
+            case .saved: showActionSheet(messageResult: .saved)
+            case .sent: showActionSheet(messageResult: .send)
+            case .failed: showActionSheet(messageResult: .failed)
+            @unknown default: break
             }
         }
     }

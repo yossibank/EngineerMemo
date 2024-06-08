@@ -91,7 +91,13 @@ private extension UpdateTitleView {
 
     struct UpdateTitleViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: UpdateTitleView())
+            WrapperView(view: UpdateTitleView()) {
+                $0.setTitle(
+                    title: "title",
+                    icon: .actions
+                )
+            }
+            .frame(height: 44)
         }
     }
 #endif

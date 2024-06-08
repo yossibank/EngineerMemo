@@ -8,22 +8,22 @@
 
         var title: String {
             switch self {
-            case .default: return L10n.Debug.Segment.default
-            case .none: return .noSetting
+            case .default: L10n.Debug.Segment.default
+            case .none: .noSetting
             }
         }
 
         var skill: SkillModelObject? {
             switch self {
-            case .default: return SKillModelObjectBuilder().build()
-            case .none: return nil
+            case .default: SKillModelObjectBuilder().build()
+            case .none: nil
             }
         }
 
         var projects: [ProjectModelObject] {
             switch self {
-            case .default: return [ProjectModelObjectBuilder().build()]
-            case .none: return []
+            case .default: [ProjectModelObjectBuilder().build()]
+            case .none: []
             }
         }
 
@@ -95,6 +95,7 @@
     struct DebugDefaultSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugDefaultSegmentView(title: "title"))
+                .frame(height: 40)
         }
     }
 #endif

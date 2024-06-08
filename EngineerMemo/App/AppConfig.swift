@@ -1,14 +1,11 @@
 import Foundation
-import UIKit
 
 enum AppConfig {
     static let appReviewURL = URL(
         string: "https://apps.apple.com/us/app/%E3%82%A8%E3%83%B3%E3%83%A1%E3%83%A2/id6450376037?action=write-review"
     )
 
-    static let appMailURL = URL(
-        string: "mailTo:"
-    )
+    static let appMailURL = URL(string: "mailTo:")
 
     static let appInquiryAddress = "engineermemo29@gmail.com"
 
@@ -16,7 +13,7 @@ enum AppConfig {
         forInfoDictionaryKey: "CFBundleShortVersionString"
     ) as! String
 
-    static var acknowledgements: String? {
+    static let acknowledgements: String? = {
         guard
             let path = Bundle.main.path(
                 forResource: "Acknowledgements",
@@ -39,23 +36,5 @@ enum AppConfig {
 
             $0 += "\(title)\n\n\(footerText)\n\n\n"
         }
-    }
-}
-
-extension AppConfig {
-    static func openAppReview() {
-        guard let appReviewURL else {
-            return
-        }
-
-        UIApplication.shared.open(appReviewURL)
-    }
-
-    static func openMailApp() {
-        guard let appMailURL else {
-            return
-        }
-
-        UIApplication.shared.open(appMailURL)
-    }
+    }()
 }

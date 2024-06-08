@@ -6,19 +6,19 @@ enum ProfileGenderType: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .man: return L10n.Profile.Gender.man
-        case .woman: return L10n.Profile.Gender.woman
-        case .other: return L10n.Profile.Gender.other
-        case .noSetting: return .noSetting
+        case .man: L10n.Profile.Gender.man
+        case .woman: L10n.Profile.Gender.woman
+        case .other: L10n.Profile.Gender.other
+        case .noSetting: .noSetting
         }
     }
 
     var gender: ProfileModelObject.Gender? {
         switch self {
-        case .man: return .man
-        case .woman: return .woman
-        case .other: return .other
-        case .noSetting: return nil
+        case .man: .man
+        case .woman: .woman
+        case .other: .other
+        case .noSetting: nil
         }
     }
 }

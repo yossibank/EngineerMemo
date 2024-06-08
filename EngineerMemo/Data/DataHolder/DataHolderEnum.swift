@@ -1,10 +1,18 @@
-import Foundation
+import UIKit
 
 extension DataHolder {
     enum ColorTheme: Int, CaseIterable, UserDefaultsCompatible {
         case system
         case light
         case dark
+
+        var style: UIUserInterfaceStyle {
+            switch self {
+            case .system: .unspecified
+            case .light: .light
+            case .dark: .dark
+            }
+        }
     }
 
     enum ProfileIcon: Int, CaseIterable, UserDefaultsCompatible {

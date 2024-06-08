@@ -16,61 +16,13 @@ extension UIEdgeInsets {
         _ padding: CGFloat
     ) {
         switch direction {
-        case .top:
-            self.init(
-                top: padding,
-                left: .zero,
-                bottom: .zero,
-                right: .zero
-            )
-
-        case .bottom:
-            self.init(
-                top: .zero,
-                left: .zero,
-                bottom: padding,
-                right: .zero
-            )
-
-        case .left:
-            self.init(
-                top: .zero,
-                left: padding,
-                bottom: .zero,
-                right: .zero
-            )
-
-        case .right:
-            self.init(
-                top: .zero,
-                left: .zero,
-                bottom: .zero,
-                right: padding
-            )
-
-        case .horizontal:
-            self.init(
-                top: .zero,
-                left: padding,
-                bottom: .zero,
-                right: padding
-            )
-
-        case .vertical:
-            self.init(
-                top: padding,
-                left: .zero,
-                bottom: padding,
-                right: .zero
-            )
-
-        case .all:
-            self.init(
-                top: padding,
-                left: padding,
-                bottom: padding,
-                right: padding
-            )
+        case .top: self.init(top: padding, left: .zero, bottom: .zero, right: .zero)
+        case .bottom: self.init(top: .zero, left: .zero, bottom: padding, right: .zero)
+        case .left: self.init(top: .zero, left: padding, bottom: .zero, right: .zero)
+        case .right: self.init(top: .zero, left: .zero, bottom: .zero, right: padding)
+        case .horizontal: self.init(top: .zero, left: padding, bottom: .zero, right: padding)
+        case .vertical: self.init(top: padding, left: .zero, bottom: padding, right: .zero)
+        case .all: self.init(top: padding, left: padding, bottom: padding, right: padding)
         }
     }
 
@@ -80,8 +32,8 @@ extension UIEdgeInsets {
     ) {
         var insets: UIEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
 
-        directions.forEach {
-            switch $0 {
+        for direction in directions {
+            switch direction {
             case .top:
                 insets.top = padding
 

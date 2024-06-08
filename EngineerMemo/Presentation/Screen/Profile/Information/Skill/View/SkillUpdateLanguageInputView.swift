@@ -98,7 +98,7 @@ private extension SkillUpdateLanguageInputView {
     func setupMenu() {
         var actions = [UIMenuElement]()
 
-        SkillCareerType.allCases.forEach { careerType in
+        for careerType in SkillCareerType.allCases {
             actions.append(
                 UIAction(
                     title: careerType.title,
@@ -132,10 +132,12 @@ private extension SkillUpdateLanguageInputView {
             )
         }
 
-        menuButton.$isShowMenu.sink { [weak self] isShow in
-            self?.borderView.changeColor(isShow ? .inputBorder : .primary)
+        menuButton.$isShowMenu.weakSink(
+            with: self,
+            cancellables: &cancellables
+        ) {
+            $0.borderView.changeColor($1 ? .inputBorder : .primary)
         }
-        .store(in: &cancellables)
     }
 }
 

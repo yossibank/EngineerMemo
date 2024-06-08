@@ -10,28 +10,28 @@
 
         var title: String {
             switch self {
-            case .short: return L10n.Debug.Segment.short
-            case .medium: return L10n.Debug.Segment.medium
-            case .long: return L10n.Debug.Segment.long
-            case .none: return .noSetting
+            case .short: L10n.Debug.Segment.short
+            case .medium: L10n.Debug.Segment.medium
+            case .long: L10n.Debug.Segment.long
+            case .none: .noSetting
             }
         }
 
         var string: String? {
             switch self {
-            case .short: return .randomElement(5)
-            case .medium: return .randomElement(15)
-            case .long: return .randomElement(50)
-            case .none: return nil
+            case .short: .randomElement(5)
+            case .medium: .randomElement(15)
+            case .long: .randomElement(50)
+            case .none: nil
             }
         }
 
         var date: Date? {
             switch self {
-            case .short: return Calendar.date(year: 2022, month: 1, day: 1)
-            case .medium: return Calendar.date(year: 2000, month: 1, day: 1)
-            case .long: return Calendar.date(year: 1000, month: 1, day: 1)
-            case .none: return nil
+            case .short: Calendar.date(year: 2022, month: 1, day: 1)
+            case .medium: Calendar.date(year: 2000, month: 1, day: 1)
+            case .long: Calendar.date(year: 1000, month: 1, day: 1)
+            case .none: nil
             }
         }
 
@@ -103,6 +103,7 @@
     struct DebugCoreDataSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugCoreDataSegmentView(title: "title"))
+                .frame(height: 40)
         }
     }
 #endif

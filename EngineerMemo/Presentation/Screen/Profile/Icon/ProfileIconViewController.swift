@@ -43,16 +43,15 @@ extension ProfileIconViewController {
 
 private extension ProfileIconViewController {
     func bindToViewModel() {
-        contentView.didChangeIconDataPublisher
-            .sink { [weak self] in
-                self?.viewModel.input.didChangeIconData.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didChangeIconIndexPublisher
-            .sink { [weak self] in
-                self?.viewModel.input.didChangeIconIndex.send($0)
-            }
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            contentView.didChangeIconDataPublisher
+                .weakSink(with: self) {
+                    $0.viewModel.input.didChangeIconData.send($1)
+                },
+            contentView.didChangeIconIndexPublisher
+                .weakSink(with: self) {
+                    $0.viewModel.input.didChangeIconIndex.send($1)
+                }
+        ])
     }
 }

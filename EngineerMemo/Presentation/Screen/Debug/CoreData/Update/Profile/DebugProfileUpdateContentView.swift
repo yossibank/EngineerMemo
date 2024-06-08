@@ -156,69 +156,49 @@
                     return .init()
                 }
 
-                cell.addressControlPublisher.sink { [weak self] in
-                    self?.didChangeAddressControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
+                cell.cancellables.formUnion([
+                    cell.addressControlPublisher.weakSink(with: self) {
+                        $0.didChangeAddressControlSubject.send($1)
+                    },
+                    cell.birthdayControlPublisher.weakSink(with: self) {
+                        $0.didChangeBirthdayControlSubject.send($1)
+                    },
+                    cell.emailControlPublisher.weakSink(with: self) {
+                        $0.didChangeEmailControlSubject.send($1)
+                    },
+                    cell.genderControlPublisher.weakSink(with: self) {
+                        $0.didChangeGenderControlSubject.send($1)
+                    },
+                    cell.iconImageControlPublisher.weakSink(with: self) {
+                        $0.didChangeIconImageControlSubject.send($1)
+                    },
+                    cell.nameControlPublisher.weakSink(with: self) {
+                        $0.didChangeNameControlSubject.send($1)
+                    },
+                    cell.phoneNumberControlPublisher.weakSink(with: self) {
+                        $0.didChangePhoneNumberControlSubject.send($1)
+                    },
+                    cell.stationControlPublisher.weakSink(with: self) {
+                        $0.didChangeStationControlSubject.send($1)
+                    },
+                    cell.skillControlPublisher.weakSink(with: self) {
+                        $0.didChangeSkillControlSubject.send($1)
+                    },
+                    cell.projectControlPublisher.weakSink(with: self) {
+                        $0.didChangeProjectControlSubject.send($1)
+                    },
+                    cell.didTapUpdateButtonPublisher.weakSink(with: self) {
+                        guard
+                            let selectedIndex = $0.selectedIndex,
+                            let identifier = $0.modelObjects[safe: selectedIndex]?.identifier
+                        else {
+                            return
+                        }
 
-                cell.birthdayControlPublisher.sink { [weak self] in
-                    self?.didChangeBirthdayControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.emailControlPublisher.sink { [weak self] in
-                    self?.didChangeEmailControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.genderControlPublisher.sink { [weak self] in
-                    self?.didChangeGenderControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.iconImageControlPublisher.sink { [weak self] in
-                    self?.didChangeIconImageControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.nameControlPublisher.sink { [weak self] in
-                    self?.didChangeNameControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.phoneNumberControlPublisher.sink { [weak self] in
-                    self?.didChangePhoneNumberControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.stationControlPublisher.sink { [weak self] in
-                    self?.didChangeStationControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.skillControlPublisher.sink { [weak self] in
-                    self?.didChangeSkillControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.projectControlPublisher.sink { [weak self] in
-                    self?.didChangeProjectControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.didTapUpdateButtonPublisher.sink { [weak self] _ in
-                    guard
-                        let self,
-                        let selectedIndex,
-                        let identifier = modelObjects[safe: selectedIndex]?.identifier
-                    else {
-                        return
+                        $0.didTapUpdateButtonSubject.send(identifier)
+                        $0.searchBar.text = nil
                     }
-
-                    didTapUpdateButtonSubject.send(identifier)
-                    searchBar.text = nil
-                }
-                .store(in: &cell.cancellables)
+                ])
 
                 return cell
             }
@@ -228,9 +208,9 @@
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             dataSourceSnapshot.appendSections(Section.allCases)
 
-            modelObjects.forEach {
+            for modelObject in modelObjects {
                 dataSourceSnapshot.appendItems(
-                    [.list($0)],
+                    [.list(modelObject)],
                     toSection: .list
                 )
             }

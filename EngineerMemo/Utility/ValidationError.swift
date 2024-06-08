@@ -9,14 +9,9 @@ enum ValidationError {
 
     var description: String {
         switch self {
-        case .none:
-            return .empty
-
-        case .empty:
-            return "文字が入力されていません。"
-
-        case .long:
-            return "入力された文字が長すぎます。20文字以内でご入力ください。"
+        case .none: .empty
+        case .empty: "文字が入力されていません。"
+        case .long: "入力された文字が長すぎます。20文字以内でご入力ください。"
         }
     }
 }

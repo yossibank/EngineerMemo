@@ -64,10 +64,12 @@ final class MemoListContentView: UIView {
                 )
             )
 
-            cell.didTapEmptyButtonPublisher.sink { [weak self] _ in
-                self?.didTapUpdateButtonSubject.send(())
+            cell.didTapEmptyButtonPublisher.weakSink(
+                with: self,
+                cancellables: &cell.cancellables
+            ) {
+                $0.didTapUpdateButtonSubject.send(())
             }
-            .store(in: &cell.cancellables)
 
             return cell
         }
@@ -180,15 +182,14 @@ private extension MemoListContentView {
                 for: indexPath
             )
 
-            headerView.$selectedSortType.sink { [weak self] in
-                self?.didChangeSortSubject.send($0)
-            }
-            .store(in: &headerView.cancellables)
-
-            headerView.$selectedCategoryType.sink { [weak self] in
-                self?.didChangeCategorySubject.send($0)
-            }
-            .store(in: &headerView.cancellables)
+            headerView.cancellables.formUnion([
+                headerView.$selectedSortType.weakSink(with: self) {
+                    $0.didChangeSortSubject.send($1)
+                },
+                headerView.$selectedCategoryType.weakSink(with: self) {
+                    $0.didChangeCategorySubject.send($1)
+                }
+            ])
 
             self.headerView = headerView
             self.headerView?.isHidden = true
@@ -211,9 +212,9 @@ private extension MemoListContentView {
                 toSection: .main
             )
         } else {
-            modelObject.outputObjects.forEach {
+            for outputObject in modelObject.outputObjects {
                 dataSourceSnapshot.appendItems(
-                    [.list($0)],
+                    [.list(outputObject)],
                     toSection: .main
                 )
             }

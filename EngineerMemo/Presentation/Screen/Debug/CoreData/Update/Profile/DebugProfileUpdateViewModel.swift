@@ -63,142 +63,123 @@
             self.output = output
             self.model = model
 
-            // MARK: - プロフィール情報取得
+            cancellables.formUnion([
+                // MARK: - プロフィール情報取得
 
-            model.fetch().sink {
-                if case let .failure(appError) = $0 {
-                    Logger.error(message: appError.localizedDescription)
+                model.fetch().sink {
+                    if case let .failure(appError) = $0 {
+                        Logger.error(message: appError.localizedDescription)
+                    }
+                } receiveValue: { [weak self] in
+                    output.modelObjects = $0
+                    self?.originalModelObjects = $0
+                },
+
+                // MARK: - 住所セグメント
+
+                input.didChangeAddressControl.weakSink(with: self) {
+                    $0.addressSegment = $1
+                    $0.modelObject.address = $1.string
+                },
+
+                // MARK: - 生年月日セグメント
+
+                input.didChangeBirthdayControl.weakSink(with: self) {
+                    $0.ageSegment = $1
+                    $0.modelObject.birthday = $1.date
+                },
+
+                // MARK: - Eメールセグメント
+
+                input.didChangeEmailControl.weakSink(with: self) {
+                    $0.emailSegment = $1
+                    $0.modelObject.email = $1.string
+                },
+
+                // MARK: - 性別セグメント
+
+                input.didChangeGenderControl.weakSink(with: self) {
+                    $0.genderSegment = $1
+                    $0.modelObject.gender = $1.gender
+                },
+
+                // MARK: - アイコン画像セグメント
+
+                input.didChangeIconImageControl.weakSink(with: self) {
+                    $0.iconImageSegment = $1
+                    $0.modelObject.iconImage = $1.image?.pngData()
+                },
+
+                // MARK: - 名前セグメント
+
+                input.didChangeNameControl.weakSink(with: self) {
+                    $0.nameSegment = $1
+                    $0.modelObject.name = $1.string
+                },
+
+                // MARK: - 電話番号セグメント
+
+                input.didChangePhoneNumberControl.weakSink(with: self) {
+                    $0.phoneNumberSegment = $1
+                    $0.modelObject.phoneNumber = $1.phoneNumber
+                },
+
+                // MARK: - 最寄駅セグメント
+
+                input.didChangeStationControl.weakSink(with: self) {
+                    $0.stationSegment = $1
+                    $0.modelObject.station = $1.string
+                },
+
+                // MARK: - スキルセグメント
+
+                input.didChangeSkillControl.weakSink(with: self) {
+                    $0.skillSegment = $1
+                    $0.modelObject.skill = $1.skill
+                },
+
+                // MARK: - プロジェクトセグメント
+
+                input.didChangeProjectControl.weakSink(with: self) {
+                    $0.projectsSegment = $1
+                    $0.modelObject.projects = $1.projects
+                },
+
+                // MARK: - 文字検索
+
+                input.didChangeSearchText.weakSink(with: self) { instance, searchText in
+                    if searchText.isEmpty {
+                        output.modelObjects = instance.originalModelObjects
+                    } else {
+                        output.modelObjects = instance.originalModelObjects
+                            .filter { $0.name != nil }
+                            .filter { $0.name!.localizedStandardContains(searchText) }
+                    }
+                },
+
+                // MARK: - 更新ボタンタップ
+
+                input.didTapUpdateButton.weakSink(with: self) {
+                    $0.modelObject.identifier = $1
+                    $0.updateBasic()
+                    $0.updateSkill()
+                    $0.updateProject()
+                    $0.updateIconImage()
+                    $0.modelObject = ProfileModelObjectBuilder()
+                        .address($0.addressSegment.string)
+                        .birthday($0.ageSegment.date)
+                        .email($0.emailSegment.string)
+                        .gender($0.genderSegment.gender)
+                        .iconImage($0.iconImageSegment.image?.pngData())
+                        .name($0.nameSegment.string)
+                        .phoneNumber($0.phoneNumberSegment.phoneNumber)
+                        .station($0.stationSegment.string)
+                        .skill($0.skillSegment.skill)
+                        .projects($0.projectsSegment.projects)
+                        .identifier($1)
+                        .build()
                 }
-            } receiveValue: { [weak self] in
-                output.modelObjects = $0
-                self?.originalModelObjects = $0
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 住所セグメント
-
-            input.didChangeAddressControl.sink { [weak self] in
-                self?.addressSegment = $0
-                self?.modelObject.address = $0.string
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 生年月日セグメント
-
-            input.didChangeBirthdayControl.sink { [weak self] in
-                self?.ageSegment = $0
-                self?.modelObject.birthday = $0.date
-            }
-            .store(in: &cancellables)
-
-            // MARK: - Eメールセグメント
-
-            input.didChangeEmailControl.sink { [weak self] in
-                self?.emailSegment = $0
-                self?.modelObject.email = $0.string
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 性別セグメント
-
-            input.didChangeGenderControl.sink { [weak self] in
-                self?.genderSegment = $0
-                self?.modelObject.gender = $0.gender
-            }
-            .store(in: &cancellables)
-
-            // MARK: - アイコン画像セグメント
-
-            input.didChangeIconImageControl.sink { [weak self] in
-                self?.iconImageSegment = $0
-                self?.modelObject.iconImage = $0.image?.pngData()
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 名前セグメント
-
-            input.didChangeNameControl.sink { [weak self] in
-                self?.nameSegment = $0
-                self?.modelObject.name = $0.string
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 電話番号セグメント
-
-            input.didChangePhoneNumberControl.sink { [weak self] in
-                self?.phoneNumberSegment = $0
-                self?.modelObject.phoneNumber = $0.phoneNumber
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 最寄駅セグメント
-
-            input.didChangeStationControl.sink { [weak self] in
-                self?.stationSegment = $0
-                self?.modelObject.station = $0.string
-            }
-            .store(in: &cancellables)
-
-            // MARK: - スキルセグメント
-
-            input.didChangeSkillControl.sink { [weak self] in
-                self?.skillSegment = $0
-                self?.modelObject.skill = $0.skill
-            }
-            .store(in: &cancellables)
-
-            // MARK: - プロジェクトセグメント
-
-            input.didChangeProjectControl.sink { [weak self] in
-                self?.projectsSegment = $0
-                self?.modelObject.projects = $0.projects
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 文字検索
-
-            input.didChangeSearchText.sink { [weak self] searchText in
-                guard let self else {
-                    return
-                }
-
-                if searchText.isEmpty {
-                    output.modelObjects = originalModelObjects
-                } else {
-                    output.modelObjects = originalModelObjects
-                        .filter { $0.name != nil }
-                        .filter { $0.name!.localizedStandardContains(searchText) }
-                }
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 更新ボタンタップ
-
-            input.didTapUpdateButton.sink { [weak self] in
-                guard let self else {
-                    return
-                }
-
-                modelObject.identifier = $0
-                updateBasic()
-                updateSkill()
-                updateProject()
-                updateIconImage()
-                self.modelObject = ProfileModelObjectBuilder()
-                    .address(addressSegment.string)
-                    .birthday(ageSegment.date)
-                    .email(emailSegment.string)
-                    .gender(genderSegment.gender)
-                    .iconImage(iconImageSegment.image?.pngData())
-                    .name(nameSegment.string)
-                    .phoneNumber(phoneNumberSegment.phoneNumber)
-                    .station(stationSegment.string)
-                    .skill(skillSegment.skill)
-                    .projects(projectsSegment.projects)
-                    .identifier($0)
-                    .build()
-            }
-            .store(in: &cancellables)
+            ])
         }
     }
 

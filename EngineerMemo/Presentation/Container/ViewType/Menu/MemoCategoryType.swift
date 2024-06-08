@@ -12,27 +12,27 @@ enum MemoListCategoryType: CaseIterable {
 
     var title: String {
         switch self {
-        case .all: return L10n.Memo.Category.all
-        case .todo: return L10n.Memo.Category.todo
-        case .technical: return L10n.Memo.Category.technical
-        case .interview: return L10n.Memo.Category.interview
-        case .event: return L10n.Memo.Category.event
-        case .tax: return L10n.Memo.Category.tax
-        case .other: return L10n.Memo.Category.other
-        case .none: return L10n.Memo.Category.none
+        case .all: L10n.Memo.Category.all
+        case .todo: L10n.Memo.Category.todo
+        case .technical: L10n.Memo.Category.technical
+        case .interview: L10n.Memo.Category.interview
+        case .event: L10n.Memo.Category.event
+        case .tax: L10n.Memo.Category.tax
+        case .other: L10n.Memo.Category.other
+        case .none: L10n.Memo.Category.none
         }
     }
 
     var image: UIImage {
         switch self {
-        case .all: return Asset.allCategory.image
-        case .todo: return Asset.toDoCategory.image
-        case .technical: return Asset.technicalCategory.image
-        case .interview: return Asset.interviewCategory.image
-        case .event: return Asset.eventCategory.image
-        case .tax: return Asset.taxCategory.image
-        case .other: return Asset.otherCategory.image
-        case .none: return Asset.noneCategory.image
+        case .all: Asset.allCategory.image
+        case .todo: Asset.toDoCategory.image
+        case .technical: Asset.technicalCategory.image
+        case .interview: Asset.interviewCategory.image
+        case .event: Asset.eventCategory.image
+        case .tax: Asset.taxCategory.image
+        case .other: Asset.otherCategory.image
+        case .none: Asset.noneCategory.image
         }
     }
 }
@@ -43,15 +43,15 @@ enum MemoListSortType: CaseIterable {
 
     var title: String {
         switch self {
-        case .descending: return L10n.Memo.Sort.descendingDate
-        case .ascending: return L10n.Memo.Sort.ascendingDate
+        case .descending: L10n.Memo.Sort.descendingDate
+        case .ascending: L10n.Memo.Sort.ascendingDate
         }
     }
 
     var image: UIImage {
         switch self {
-        case .descending: return Asset.descendingDate.image
-        case .ascending: return Asset.ascendingDate.image
+        case .descending: Asset.descendingDate.image
+        case .ascending: Asset.ascendingDate.image
         }
     }
 }
@@ -68,40 +68,40 @@ enum MemoInputCategoryType: CaseIterable {
 
     var title: String {
         switch self {
-        case .todo: return L10n.Memo.Category.todo
-        case .technical: return L10n.Memo.Category.technical
-        case .interview: return L10n.Memo.Category.interview
-        case .event: return L10n.Memo.Category.event
-        case .tax: return L10n.Memo.Category.tax
-        case .other: return L10n.Memo.Category.other
-        case .widget: return L10n.Memo.Category.widget
-        case .noSetting: return .noSetting
+        case .todo: L10n.Memo.Category.todo
+        case .technical: L10n.Memo.Category.technical
+        case .interview: L10n.Memo.Category.interview
+        case .event: L10n.Memo.Category.event
+        case .tax: L10n.Memo.Category.tax
+        case .other: L10n.Memo.Category.other
+        case .widget: L10n.Memo.Category.widget
+        case .noSetting: .noSetting
         }
     }
 
     var image: UIImage? {
         switch self {
-        case .todo: return Asset.toDoCategory.image
-        case .technical: return Asset.technicalCategory.image
-        case .interview: return Asset.interviewCategory.image
-        case .event: return Asset.eventCategory.image
-        case .tax: return Asset.taxCategory.image
-        case .other: return Asset.otherCategory.image
-        case .widget: return Asset.widgetCategory.image
-        case .noSetting: return nil
+        case .todo: Asset.toDoCategory.image
+        case .technical: Asset.technicalCategory.image
+        case .interview: Asset.interviewCategory.image
+        case .event: Asset.eventCategory.image
+        case .tax: Asset.taxCategory.image
+        case .other: Asset.otherCategory.image
+        case .widget: Asset.widgetCategory.image
+        case .noSetting: nil
         }
     }
 
     var category: MemoModelObject.Category? {
         switch self {
-        case .todo: return .todo
-        case .technical: return .technical
-        case .interview: return .interview
-        case .event: return .event
-        case .tax: return .tax
-        case .other: return .other
-        case .widget: return .widget
-        case .noSetting: return .none
+        case .todo: .todo
+        case .technical: .technical
+        case .interview: .interview
+        case .event: .event
+        case .tax: .tax
+        case .other: .other
+        case .widget: .widget
+        case .noSetting: .none
         }
     }
 }

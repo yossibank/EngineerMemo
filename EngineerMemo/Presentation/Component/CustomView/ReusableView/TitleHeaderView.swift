@@ -56,7 +56,9 @@ private extension TitleHeaderView {
 
     struct TitleHeaderViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: TitleHeaderView())
+            WrapperView(view: TitleHeaderView()) {
+                $0.configure(with: "Title")
+            }
         }
     }
 #endif

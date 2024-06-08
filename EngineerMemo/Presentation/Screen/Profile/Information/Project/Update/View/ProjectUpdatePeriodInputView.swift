@@ -150,35 +150,26 @@ private extension ProjectUpdatePeriodInputView {
         startDatePicker.expandPickerRange()
         endDatePicker.expandPickerRange()
 
-        startDatePicker.publisher(for: .editingDidBegin).sink { [weak self] _ in
-            self?.startBorderView.changeColor(.inputBorder)
-        }
-        .store(in: &cancellables)
-
-        endDatePicker.publisher(for: .editingDidBegin).sink { [weak self] _ in
-            self?.endBorderView.changeColor(.inputBorder)
-        }
-        .store(in: &cancellables)
-
-        startDatePicker.publisher(for: .editingDidEnd).sink { [weak self] _ in
-            self?.startBorderView.changeColor(.primary)
-        }
-        .store(in: &cancellables)
-
-        endDatePicker.publisher(for: .editingDidEnd).sink { [weak self] _ in
-            self?.endBorderView.changeColor(.primary)
-        }
-        .store(in: &cancellables)
-
-        startDatePicker.publisher.sink { [weak self] date in
-            self?.startPickerLabel.text = date.toString
-        }
-        .store(in: &cancellables)
-
-        endDatePicker.publisher.sink { [weak self] date in
-            self?.endPickerLabel.text = date.toString
-        }
-        .store(in: &cancellables)
+        cancellables.formUnion([
+            startDatePicker.publisher(for: .editingDidBegin).weakSink(with: self) {
+                $0.startBorderView.changeColor(.inputBorder)
+            },
+            endDatePicker.publisher(for: .editingDidBegin).weakSink(with: self) {
+                $0.endBorderView.changeColor(.inputBorder)
+            },
+            startDatePicker.publisher(for: .editingDidEnd).weakSink(with: self) {
+                $0.startBorderView.changeColor(.primary)
+            },
+            endDatePicker.publisher(for: .editingDidEnd).weakSink(with: self) {
+                $0.endBorderView.changeColor(.primary)
+            },
+            startDatePicker.publisher.weakSink(with: self) {
+                $0.startPickerLabel.text = $1.toString
+            },
+            endDatePicker.publisher.weakSink(with: self) {
+                $0.endPickerLabel.text = $1.toString
+            }
+        ])
     }
 }
 

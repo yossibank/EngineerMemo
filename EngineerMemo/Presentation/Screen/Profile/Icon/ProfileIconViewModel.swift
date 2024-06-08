@@ -34,31 +34,26 @@ final class ProfileIconViewModel: ViewModel {
         self.modelObject = modelObject
         self.analytics = analytics
 
-        // MARK: - viewWillAppear
+        cancellables.formUnion([
+            // MARK: - viewWillAppear
 
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
+            input.viewWillAppear.sink {
+                analytics.sendEvent(.screenView)
+            },
 
-        // MARK: - アイコン変更(CoreData)
+            // MARK: - アイコン変更(CoreData)
 
-        input.didChangeIconData.sink { [weak self] in
-            guard let self else {
-                return
+            input.didChangeIconData.weakSink(with: self) {
+                $0.modelObject.iconImage = $1
+                $0.updateIconImage()
+            },
+
+            // MARK: - アイコン変更(UserDefaults)
+
+            input.didChangeIconIndex.sink {
+                model.updateProfileIcon(index: $0)
             }
-
-            self.modelObject.iconImage = $0
-            updateIconImage()
-        }
-        .store(in: &cancellables)
-
-        // MARK: - アイコン変更(UserDefaults)
-
-        input.didChangeIconIndex.sink {
-            model.updateProfileIcon(index: $0)
-        }
-        .store(in: &cancellables)
+        ])
     }
 }
 

@@ -144,7 +144,7 @@ private extension UpdateMenuInputView {
 
         switch menuInput {
         case .gender:
-            ProfileGenderType.allCases.forEach { genderType in
+            for genderType in ProfileGenderType.allCases {
                 actions.append(
                     UIAction(
                         title: genderType.title,
@@ -165,7 +165,7 @@ private extension UpdateMenuInputView {
             )
 
         case .career:
-            SkillCareerType.allCases.forEach { careerType in
+            for careerType in SkillCareerType.allCases {
                 actions.append(
                     UIAction(
                         title: careerType.title,
@@ -186,7 +186,7 @@ private extension UpdateMenuInputView {
             )
 
         case .category:
-            MemoInputCategoryType.allCases.forEach { categoryType in
+            for categoryType in MemoInputCategoryType.allCases {
                 actions.append(
                     UIAction(
                         title: categoryType.title,
@@ -209,10 +209,12 @@ private extension UpdateMenuInputView {
             )
         }
 
-        menuButton.$isShowMenu.sink { [weak self] isShow in
-            self?.borderView.changeColor(isShow ? .inputBorder : .primary)
+        menuButton.$isShowMenu.weakSink(
+            with: self,
+            cancellables: &cancellables
+        ) {
+            $0.borderView.changeColor($1 ? .inputBorder : .primary)
         }
-        .store(in: &cancellables)
     }
 }
 
@@ -224,6 +226,7 @@ private extension UpdateMenuInputView {
     struct BasicUpdateGenderInputViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: UpdateMenuInputView(.gender))
+                .frame(height: 100)
         }
     }
 #endif

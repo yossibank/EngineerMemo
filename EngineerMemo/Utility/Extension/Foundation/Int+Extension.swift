@@ -11,14 +11,9 @@ extension Int {
 
     var optionalBoolValue: Bool? {
         switch self {
-        case 0:
-            return true
-
-        case 1:
-            return false
-
-        default:
-            return nil
+        case 0: true
+        case 1: false
+        default: nil
         }
     }
 

@@ -49,75 +49,63 @@ final class MemoUpdateViewModel: ViewModel {
         self.model = model
         self.analytics = analytics
 
-        // MARK: - viewDidLoad
-
-        input.viewDidLoad.sink { [weak self] _ in
-            if let modelObject {
-                self?.modelObject = modelObject
-                self?.binding.title = modelObject.title ?? .empty
-                self?.binding.content = modelObject.content ?? .empty
-            }
-        }
-        .store(in: &cancellables)
-
-        // MARK: - viewWillAppear
-
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - カテゴリー
-
-        let category = binding.$category.sink { [weak self] in
-            self?.modelObject.category = $0.category
-        }
-
-        // MARK: - タイトル
-
-        let title = binding.$title.sink { [weak self] in
-            self?.modelObject.title = $0
-        }
-
-        // MARK: - コンテンツ
-
-        let content = binding.$content.sink { [weak self] in
-            self?.modelObject.content = $0
-        }
-
-        // MARK: - 作成ボタン有効化
-
-        Publishers.CombineLatest(
-            binding.$title,
-            binding.$content
-        )
-        .map { !$0.0.isEmpty && !$0.1.isEmpty }
-        .sink { isEnabled in
-            output.isEnabled = isEnabled
-        }
-        .store(in: &cancellables)
-
-        // MARK: - 作成ボタンタップ
-
-        input.didTapBarButton.sink { [weak self] _ in
-            guard let self else {
-                return
-            }
-
-            if modelObject.isNil {
-                createMemo()
-            } else {
-                updateMemo()
-            }
-
-            output.isFinished = true
-        }
-        .store(in: &cancellables)
-
         cancellables.formUnion([
-            category,
-            title,
-            content
+            // MARK: - viewDidLoad
+
+            input.viewDidLoad.weakSink(with: self) {
+                if let modelObject {
+                    $0.modelObject = modelObject
+                    $0.binding.title = modelObject.title ?? .empty
+                    $0.binding.content = modelObject.content ?? .empty
+                }
+            },
+
+            // MARK: - viewWillAppear
+
+            input.viewWillAppear.sink {
+                analytics.sendEvent(.screenView)
+            },
+
+            // MARK: - カテゴリー
+
+            binding.$category.weakSink(with: self) {
+                $0.modelObject.category = $1.category
+            },
+
+            // MARK: - タイトル
+
+            binding.$title.weakSink(with: self) {
+                $0.modelObject.title = $1
+            },
+
+            // MARK: - コンテンツ
+
+            binding.$content.weakSink(with: self) {
+                $0.modelObject.content = $1
+            },
+
+            // MARK: - 作成ボタン有効化
+
+            Publishers.CombineLatest(
+                binding.$title,
+                binding.$content
+            )
+            .map { !$0.0.isEmpty && !$0.1.isEmpty }
+            .sink { isEnabled in
+                output.isEnabled = isEnabled
+            },
+
+            // MARK: - 作成ボタンタップ
+
+            input.didTapBarButton.weakSink(with: self) {
+                if modelObject.isNil {
+                    $0.createMemo()
+                } else {
+                    $0.updateMemo()
+                }
+
+                output.isFinished = true
+            }
         ])
     }
 }

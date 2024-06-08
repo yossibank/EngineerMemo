@@ -42,47 +42,39 @@
             viewModel.output.$modelObjects
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink { [weak self] modelObjects in
-                    self?.contentView.modelObjects = modelObjects
+                .weakSink(with: self, cancellables: &cancellables) {
+                    $0.contentView.modelObjects = $1
                 }
-                .store(in: &cancellables)
         }
 
         func bindToViewModel() {
-            contentView.didChangeCategoryControlPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] value in
-                    self?.viewModel.input.didChangeCategoryControl.send(value)
-                }
-                .store(in: &cancellables)
-
-            contentView.didChangeTitleControlPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] value in
-                    self?.viewModel.input.didChangeTitleControl.send(.segment(value))
-                }
-                .store(in: &cancellables)
-
-            contentView.didChangeContentControlPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] value in
-                    self?.viewModel.input.didChangeContentControl.send(.segment(value))
-                }
-                .store(in: &cancellables)
-
-            contentView.didChangeSearchTextPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] searchText in
-                    self?.viewModel.input.didChangeSearchText.send(searchText)
-                }
-                .store(in: &cancellables)
-
-            contentView.didTapUpdateButtonPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] identifier in
-                    self?.viewModel.input.didTapUpdateButton.send(identifier)
-                }
-                .store(in: &cancellables)
+            cancellables.formUnion([
+                contentView.didChangeCategoryControlPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeCategoryControl.send($1)
+                    },
+                contentView.didChangeTitleControlPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeTitleControl.send(.segment($1))
+                    },
+                contentView.didChangeContentControlPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeContentControl.send(.segment($1))
+                    },
+                contentView.didChangeSearchTextPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeSearchText.send($1)
+                    },
+                contentView.didTapUpdateButtonPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didTapUpdateButton.send($1)
+                    }
+            ])
         }
     }
 #endif

@@ -48,6 +48,7 @@ private extension BorderView {
     struct BorderViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: BorderView())
+                .previewLayout(.fixed(width: 300, height: 1))
         }
     }
 #endif

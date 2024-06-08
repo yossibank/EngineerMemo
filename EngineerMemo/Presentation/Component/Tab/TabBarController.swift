@@ -23,25 +23,25 @@ enum TabItem: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .profile: return L10n.Tab.profile
-        case .memo: return L10n.Tab.memo
-        case .setting: return L10n.Tab.setting
+        case .profile: L10n.Tab.profile
+        case .memo: L10n.Tab.memo
+        case .setting: L10n.Tab.setting
         }
     }
 
     var image: UIImage {
         switch self {
-        case .profile: return Asset.profileTab.image
-        case .memo: return Asset.memoTab.image
-        case .setting: return Asset.settingTab.image
+        case .profile: Asset.profileTab.image
+        case .memo: Asset.memoTab.image
+        case .setting: Asset.settingTab.image
         }
     }
 
     var baseViewController: UIViewController {
         switch self {
-        case .profile: return AppControllers.Profile.List()
-        case .memo: return AppControllers.Memo.List()
-        case .setting: return AppControllers.Setting.List()
+        case .profile: AppControllers.Profile.List()
+        case .memo: AppControllers.Memo.List()
+        case .setting: AppControllers.Setting.List()
         }
     }
 }

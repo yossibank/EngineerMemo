@@ -142,34 +142,28 @@
                     return .init()
                 }
 
-                cell.categoryControlPublisher.sink { [weak self] in
-                    self?.didChangeCategoryControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
+                cell.cancellables.formUnion([
+                    cell.categoryControlPublisher.weakSink(with: self) {
+                        $0.didChangeCategoryControlSubject.send($1)
+                    },
+                    cell.titleControlPublisher.weakSink(with: self) {
+                        $0.didChangeTitleControlSubject.send($1)
+                    },
+                    cell.contentControlPublisher.weakSink(with: self) {
+                        $0.didChangeContentControlSubject.send($1)
+                    },
+                    cell.didTapUpdateButtonPublisher.weakSink(with: self) {
+                        guard
+                            let selectedIndex = $0.selectedIndex,
+                            let identifier = $0.modelObjects[safe: selectedIndex]?.identifier
+                        else {
+                            return
+                        }
 
-                cell.titleControlPublisher.sink { [weak self] in
-                    self?.didChangeTitleControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.contentControlPublisher.sink { [weak self] in
-                    self?.didChangeContentControlSubject.send($0)
-                }
-                .store(in: &cell.cancellables)
-
-                cell.didTapUpdateButtonPublisher.sink { [weak self] _ in
-                    guard
-                        let self,
-                        let selectedIndex,
-                        let identifier = modelObjects[safe: selectedIndex]?.identifier
-                    else {
-                        return
+                        $0.didTapUpdateButtonSubject.send(identifier)
+                        $0.searchBar.text = nil
                     }
-
-                    didTapUpdateButtonSubject.send(identifier)
-                    searchBar.text = nil
-                }
-                .store(in: &cell.cancellables)
+                ])
 
                 return cell
             }
@@ -179,9 +173,9 @@
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             dataSourceSnapshot.appendSections(Section.allCases)
 
-            modelObjects.forEach {
+            for modelObject in modelObjects {
                 dataSourceSnapshot.appendItems(
-                    [.list($0)],
+                    [.list(modelObject)],
                     toSection: .list
                 )
             }

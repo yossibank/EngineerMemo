@@ -18,13 +18,13 @@ struct MemoModelObject: Hashable {
 
         var value: String {
             switch self {
-            case .todo: return L10n.Memo.Category.todo
-            case .technical: return L10n.Memo.Category.technical
-            case .interview: return L10n.Memo.Category.interview
-            case .event: return L10n.Memo.Category.event
-            case .tax: return L10n.Memo.Category.tax
-            case .other: return L10n.Memo.Category.other
-            case .widget: return L10n.Memo.Category.widget
+            case .todo: L10n.Memo.Category.todo
+            case .technical: L10n.Memo.Category.technical
+            case .interview: L10n.Memo.Category.interview
+            case .event: L10n.Memo.Category.event
+            case .tax: L10n.Memo.Category.tax
+            case .other: L10n.Memo.Category.other
+            case .widget: L10n.Memo.Category.widget
             }
         }
     }

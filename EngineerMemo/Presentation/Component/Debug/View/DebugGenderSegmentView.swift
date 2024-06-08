@@ -10,19 +10,19 @@
 
         var title: String {
             switch self {
-            case .man: return L10n.Debug.Segment.man
-            case .woman: return L10n.Debug.Segment.woman
-            case .other: return L10n.Debug.Segment.other
-            case .none: return .noSetting
+            case .man: L10n.Debug.Segment.man
+            case .woman: L10n.Debug.Segment.woman
+            case .other: L10n.Debug.Segment.other
+            case .none: .noSetting
             }
         }
 
         var gender: ProfileModelObject.Gender? {
             switch self {
-            case .man: return .man
-            case .woman: return .woman
-            case .other: return .other
-            case .none: return nil
+            case .man: .man
+            case .woman: .woman
+            case .other: .other
+            case .none: nil
             }
         }
 
@@ -94,6 +94,7 @@
     struct DebugGenderSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugGenderSegmentView(title: "title"))
+                .frame(height: 40)
         }
     }
 #endif

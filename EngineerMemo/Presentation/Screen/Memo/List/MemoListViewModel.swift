@@ -46,75 +46,71 @@ final class MemoListViewModel: ViewModel {
         self.routing = routing
         self.analytics = analytics
 
-        // MARK: - viewDidLoad
+        cancellables.formUnion([
+            // MARK: - viewDidLoad
 
-        input.viewDidLoad
-            .flatMap { model.fetch().resultMap }
-            .sink { [weak self] in
-                switch $0 {
-                case let .success(modelObjects):
-                    self?.originalModelObjects = modelObjects
-                    self?.configureModelObjects(
-                        sort: .descending,
-                        category: .all
+            input.viewDidLoad
+                .flatMap { model.fetch().resultMap }
+                .weakSink(with: self) {
+                    switch $1 {
+                    case let .success(modelObjects):
+                        $0.originalModelObjects = modelObjects
+                        $0.configureModelObjects(
+                            sort: .descending,
+                            category: .all
+                        )
+
+                    case let .failure(appError):
+                        output.appError = appError
+                    }
+                },
+
+            // MARK: - viewWillAppear
+
+            input.viewWillAppear.sink {
+                analytics.sendEvent(.screenView)
+            },
+
+            // MARK: - メモ作成ボタンタップ
+
+            input.didTapUpdateButton.sink {
+                routing.showUpdateScreen()
+            },
+
+            // MARK: - メモ並び替え選択
+
+            input.didChangeSort
+                .withLatestFrom(input.didChangeCategory) { ($0, $1) }
+                .weakSink(with: self) {
+                    $0.configureModelObjects(
+                        sort: $1.0,
+                        category: $1.1
                     )
+                },
 
-                case let .failure(appError):
-                    output.appError = appError
-                }
-            }
-            .store(in: &cancellables)
+            // MARK: - メモ絞り込み選択
 
-        // MARK: - viewWillAppear
+            input.didChangeCategory
+                .withLatestFrom(input.didChangeSort) { ($0, $1) }
+                .weakSink(with: self) {
+                    $0.configureModelObjects(
+                        sort: $1.1,
+                        category: $1.0
+                    )
+                },
 
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
+            // MARK: - メモコンテンツ選択
 
-        // MARK: - メモ作成ボタンタップ
-
-        input.didTapUpdateButton.sink { _ in
-            routing.showUpdateScreen()
-        }
-        .store(in: &cancellables)
-
-        // MARK: - メモ並び替え選択
-
-        input.didChangeSort
-            .withLatestFrom(input.didChangeCategory) { ($0, $1) }
-            .sink { [weak self] sort, category in
-                self?.configureModelObjects(
-                    sort: sort,
-                    category: category
+            input.didSelectContent.sink {
+                analytics.sendEvent(
+                    .didTapMemoList(
+                        title: $0.title ?? .noSetting
+                    )
                 )
+
+                routing.showDetailScreen(identifier: $0.identifier)
             }
-            .store(in: &cancellables)
-
-        // MARK: - メモ絞り込み選択
-
-        input.didChangeCategory
-            .withLatestFrom(input.didChangeSort) { ($0, $1) }
-            .sink { [weak self] category, sort in
-                self?.configureModelObjects(
-                    sort: sort,
-                    category: category
-                )
-            }
-            .store(in: &cancellables)
-
-        // MARK: - メモコンテンツ選択
-
-        input.didSelectContent.sink {
-            analytics.sendEvent(
-                .didTapMemoList(
-                    title: $0.title ?? .noSetting
-                )
-            )
-
-            routing.showDetailScreen(identifier: $0.identifier)
-        }
-        .store(in: &cancellables)
+        ])
     }
 }
 

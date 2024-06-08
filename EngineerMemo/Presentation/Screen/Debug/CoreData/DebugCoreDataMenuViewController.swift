@@ -62,17 +62,12 @@
             contentView.$selectedMenuType
                 .removeDuplicates()
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
-
-                    contentView.viewUpdate(
-                        vc: self,
-                        displayType: displayType
+                .weakSink(with: self, cancellables: &cancellables) {
+                    $0.contentView.viewUpdate(
+                        vc: $0,
+                        displayType: $0.displayType
                     )
                 }
-                .store(in: &cancellables)
         }
     }
 #endif

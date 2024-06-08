@@ -39,9 +39,8 @@ private extension SheetViewController {
     func bindToView() {
         contentView.didTapDismissPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.dismiss(animated: true)
+            .weakSink(with: self, cancellables: &cancellables) {
+                $0.dismiss(animated: true)
             }
-            .store(in: &cancellables)
     }
 }

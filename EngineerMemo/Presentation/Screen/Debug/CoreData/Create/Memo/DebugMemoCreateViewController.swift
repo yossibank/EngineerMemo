@@ -38,33 +38,28 @@
 
     private extension DebugMemoCreateViewController {
         func bindToViewModel() {
-            contentView.didChangeCategoryControlPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.viewModel.input.didChangeCategoryControl.send($0)
-                }
-                .store(in: &cancellables)
-
-            contentView.didChangeTitleControlPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.viewModel.input.didChangeTitleControl.send(.segment($0))
-                }
-                .store(in: &cancellables)
-
-            contentView.didChangeContentControlPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.viewModel.input.didChangeContentControl.send(.segment($0))
-                }
-                .store(in: &cancellables)
-
-            contentView.didTapUpdateButtonPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    self?.viewModel.input.didTapUpdateButton.send(())
-                }
-                .store(in: &cancellables)
+            cancellables.formUnion([
+                contentView.didChangeCategoryControlPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeCategoryControl.send($1)
+                    },
+                contentView.didChangeTitleControlPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeTitleControl.send(.segment($1))
+                    },
+                contentView.didChangeContentControlPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeContentControl.send(.segment($1))
+                    },
+                contentView.didTapUpdateButtonPublisher
+                    .receive(on: DispatchQueue.main)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didTapUpdateButton.send(())
+                    }
+            ])
         }
     }
 #endif

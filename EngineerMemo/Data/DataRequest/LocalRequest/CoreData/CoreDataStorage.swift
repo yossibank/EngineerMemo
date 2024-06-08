@@ -55,14 +55,12 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
             Future<CoreDataObject<T>, Never> { promise in
                 shared.performBackgroundTask { context in
                     if let object = object(identifier: identifier) {
-                        promise(
-                            .success(
-                                .init(
-                                    object: object,
-                                    context: context
-                                )
+                        promise(.success(
+                            .init(
+                                object: object,
+                                context: context
                             )
-                        )
+                        ))
                     }
                 }
             }
@@ -90,8 +88,6 @@ struct CoreDataStorage<T: IdentifableManagedObject> {
 
 private extension CoreDataStorage {
     func object(identifier: String) -> T? {
-        allObjects.filter {
-            $0.identifier == identifier
-        }.first
+        allObjects.filter { $0.identifier == identifier }.first
     }
 }

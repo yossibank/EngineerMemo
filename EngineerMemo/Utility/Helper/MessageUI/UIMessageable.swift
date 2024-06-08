@@ -37,38 +37,36 @@ extension UIViewController {
 
         var title: String {
             switch self {
-            case .cancelled: return l10n.Title.cancel
-            case .saved: return l10n.Title.draftSave
-            case .send: return l10n.Title.success
-            case .failed: return l10n.Title.error
-            case .noSetting: return l10n.Title.error
+            case .cancelled: l10n.Title.cancel
+            case .saved: l10n.Title.draftSave
+            case .send: l10n.Title.success
+            case .failed: l10n.Title.error
+            case .noSetting: l10n.Title.error
             }
         }
 
         var message: String {
             switch self {
-            case .cancelled: return l10n.Message.cancelledMail
-            case .saved: return l10n.Message.savedMail
-            case .send: return l10n.Message.successSendMail
-            case .failed: return l10n.Message.failedSendMail
-            case .noSetting: return l10n.Message.noSettingMailAccount
+            case .cancelled: l10n.Message.cancelledMail
+            case .saved: l10n.Message.savedMail
+            case .send: l10n.Message.successSendMail
+            case .failed: l10n.Message.failedSendMail
+            case .noSetting: l10n.Message.noSettingMailAccount
             }
         }
 
         var actions: [SheetAction] {
             switch self {
             case .noSetting:
-                return [
-                    .init(
-                        title: l10n.Action.setting,
-                        actionType: .default
-                    ) {
-                        AppConfig.openMailApp()
-                    }
-                ]
+                [.init(
+                    title: l10n.Action.setting,
+                    actionType: .default
+                ) {
+                    AppOpen.appMail()
+                }]
 
             default:
-                return []
+                []
             }
         }
 

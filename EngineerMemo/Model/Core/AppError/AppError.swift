@@ -26,26 +26,16 @@ extension AppError {
         switch dataError {
         case let .api(apiError):
             switch apiError {
-            case .decodeError, .emptyData, .emptyResponse, .invalidRequest:
-                return .something(errorDescription)
-
-            case .timeoutError:
-                return .timeout
-
-            case .urlSessionError:
-                return .urlSession
-
-            case let .invalidStatusCode(code):
-                return .invalidStatusCode(code)
-
-            case .unknown:
-                return .unknown
+            case .decodeError, .emptyData, .emptyResponse, .invalidRequest: .something(errorDescription)
+            case .timeoutError: .timeout
+            case .urlSessionError: .urlSession
+            case let .invalidStatusCode(code): .invalidStatusCode(code)
+            case .unknown: .unknown
             }
 
         case let .coreData(coreDataError):
             switch coreDataError {
-            case .something:
-                return .something(errorDescription)
+            case .something: .something(errorDescription)
             }
         }
     }
@@ -54,13 +44,10 @@ extension AppError {
 extension AppError: LocalizedError {
     var errorDescription: String? {
         switch dataError {
-        case let .api(apiError):
-            return apiError.errorDescription
-
+        case let .api(apiError): apiError.errorDescription
         case let .coreData(coreDataError):
             switch coreDataError {
-            case let .something(description):
-                return description
+            case let .something(description): description
             }
         }
     }

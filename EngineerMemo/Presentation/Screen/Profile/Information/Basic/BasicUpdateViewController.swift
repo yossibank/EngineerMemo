@@ -54,59 +54,45 @@ private extension BasicUpdateViewController {
         viewModel.output.$isFinished
             .debounce(for: 0.8, scheduler: DispatchQueue.main)
             .filter { $0 }
-            .sink { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
+            .weakSink(with: self, cancellables: &cancellables) {
+                $0.navigationController?.popViewController(animated: true)
             }
-            .store(in: &cancellables)
     }
 
     func bindToViewModel() {
-        contentView.didTapBarButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapBarButton.send(())
-            }
-            .store(in: &cancellables)
-
-        contentView.didChangeNameInputPublisher
-            .map { Optional($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.name, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangeBirthdayInputPublisher
-            .map { Optional($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.birthday, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangeGenderInputPublisher
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.gender, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangeEmailInputPublisher
-            .map { Optional($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.email, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangePhoneNumberInputPublisher
-            .map { Optional($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.phoneNumber, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangeAddressInputPublisher
-            .map { Optional($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.address, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangeStationInputPublisher
-            .map { Optional($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.station, on: viewModel.binding)
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            contentView.didTapBarButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapBarButton.send(())
+                },
+            contentView.didChangeNameInputPublisher
+                .map { Optional($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.name, on: viewModel.binding),
+            contentView.didChangeBirthdayInputPublisher
+                .map { Optional($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.birthday, on: viewModel.binding),
+            contentView.didChangeGenderInputPublisher
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.gender, on: viewModel.binding),
+            contentView.didChangeEmailInputPublisher
+                .map { Optional($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.email, on: viewModel.binding),
+            contentView.didChangePhoneNumberInputPublisher
+                .map { Optional($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.phoneNumber, on: viewModel.binding),
+            contentView.didChangeAddressInputPublisher
+                .map { Optional($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.address, on: viewModel.binding),
+            contentView.didChangeStationInputPublisher
+                .map { Optional($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.station, on: viewModel.binding)
+        ])
     }
 }

@@ -4,11 +4,8 @@ enum FAEvent: Equatable {
 
     var name: String {
         switch self {
-        case .screenView:
-            return L10n.Fa.EventName.screenView
-
-        case .didTapMemoList:
-            return L10n.Fa.EventName.didTapMemoList
+        case .screenView: L10n.Fa.EventName.screenView
+        case .didTapMemoList: L10n.Fa.EventName.didTapMemoList
         }
     }
 

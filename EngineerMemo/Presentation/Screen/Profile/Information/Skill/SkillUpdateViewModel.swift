@@ -46,59 +46,51 @@ final class SkillUpdateViewModel: ViewModel {
 
         var updatedObject = modelObject.skill ?? SkillModelObject(identifier: UUID().uuidString)
 
-        // MARK: - viewWillAppear
-
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - エンジニア歴
-
-        let engineerCareer = binding.$engineerCareer
-            .dropFirst()
-            .sink { updatedObject.engineerCareer = $0.value }
-
-        // MARK: - 言語
-
-        let language = binding.$language
-            .dropFirst()
-            .sink { updatedObject.language = $0 }
-
-        // MARK: - 言語歴
-
-        let languageCareer = binding.$languageCareer
-            .dropFirst()
-            .sink { updatedObject.languageCareer = $0.value }
-
-        // MARK: - TOEIC
-
-        let toeic = binding.$toeic
-            .dropFirst()
-            .sink { updatedObject.toeic = $0 }
-
-        // MARK: - 自己PR
-
-        let pr = binding.$pr
-            .dropFirst()
-            .sink { updatedObject.pr = $0 }
-
-        // MARK: - 設定・更新ボタンタップ
-
-        input.didTapBarButton.sink { [weak self] _ in
-            var modelObject = modelObject
-            modelObject.skill = updatedObject
-            self?.insertSkill(modelObject)
-            self?.output.isFinished = true
-        }
-        .store(in: &cancellables)
-
         cancellables.formUnion([
-            engineerCareer,
-            language,
-            languageCareer,
-            toeic,
-            pr
+            // MARK: - viewWillAppear
+
+            input.viewWillAppear.sink {
+                analytics.sendEvent(.screenView)
+            },
+
+            // MARK: - エンジニア歴
+
+            binding.$engineerCareer
+                .dropFirst()
+                .sink { updatedObject.engineerCareer = $0.value },
+
+            // MARK: - 言語
+
+            binding.$language
+                .dropFirst()
+                .sink { updatedObject.language = $0 },
+
+            // MARK: - 言語歴
+
+            binding.$languageCareer
+                .dropFirst()
+                .sink { updatedObject.languageCareer = $0.value },
+
+            // MARK: - TOEIC
+
+            binding.$toeic
+                .dropFirst()
+                .sink { updatedObject.toeic = $0 },
+
+            // MARK: - 自己PR
+
+            binding.$pr
+                .dropFirst()
+                .sink { updatedObject.pr = $0 },
+
+            // MARK: - 設定・更新ボタンタップ
+
+            input.didTapBarButton.weakSink(with: self) {
+                var modelObject = modelObject
+                modelObject.skill = updatedObject
+                $0.insertSkill(modelObject)
+                $0.output.isFinished = true
+            }
         ])
     }
 }

@@ -34,43 +34,37 @@
             self.input = input
             self.model = model
 
-            // MARK: - カテゴリーセグメント
+            cancellables.formUnion([
+                // MARK: - カテゴリーセグメント
 
-            input.didChangeCategoryControl.sink { [weak self] in
-                self?.modelObject.category = $0.category
-            }
-            .store(in: &cancellables)
+                input.didChangeCategoryControl.weakSink(with: self) {
+                    $0.modelObject.category = $1.category
+                },
 
-            // MARK: - タイトルセグメント
+                // MARK: - タイトルセグメント
 
-            input.didChangeTitleControl.sink { [weak self] in
-                self?.modelObject.title = $0.string
-            }
-            .store(in: &cancellables)
+                input.didChangeTitleControl.weakSink(with: self) {
+                    $0.modelObject.title = $1.string
+                },
 
-            // MARK: - コンテンツセグメント
+                // MARK: - コンテンツセグメント
 
-            input.didChangeContentControl.sink { [weak self] in
-                self?.modelObject.content = $0.string
-            }
-            .store(in: &cancellables)
+                input.didChangeContentControl.weakSink(with: self) {
+                    $0.modelObject.content = $1.string
+                },
 
-            // MARK: - 作成ボタンタップ
+                // MARK: - 作成ボタンタップ
 
-            input.didTapUpdateButton.sink { [weak self] in
-                guard let self else {
-                    return
+                input.didTapUpdateButton.weakSink(with: self) {
+                    $0.createMemo()
+                    $0.modelObject = MemoModelObjectBuilder()
+                        .category($0.categroySegment.category)
+                        .title($0.titleSegment.string)
+                        .content($0.contentSegment.string)
+                        .createdAt(.init())
+                        .build()
                 }
-
-                createMemo()
-                self.modelObject = MemoModelObjectBuilder()
-                    .category(categroySegment.category)
-                    .title(titleSegment.string)
-                    .content(contentSegment.string)
-                    .createdAt(.init())
-                    .build()
-            }
-            .store(in: &cancellables)
+            ])
         }
     }
 

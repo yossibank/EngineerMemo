@@ -46,63 +46,53 @@ extension ProfileListViewController {
 
 private extension ProfileListViewController {
     func bindToView() {
-        viewModel.output.$modelObject
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.contentView.modelObject = $0
-            }
-            .store(in: &cancellables)
-
-        viewModel.output.$appError
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .sink {
-                Logger.error(message: $0.localizedDescription)
-            }
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            viewModel.output.$modelObject
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.contentView.modelObject = $1
+                },
+            viewModel.output.$appError
+                .receive(on: DispatchQueue.main)
+                .compactMap { $0 }
+                .sink {
+                    Logger.error(message: $0.localizedDescription)
+                }
+        ])
     }
 
     func bindToViewModel() {
-        contentView.didTapIconChangeButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didTapIconChangeButton.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didTapBasicSettingButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didTapBasicSettingButton.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didTapSkillSettingButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didTapSkillSettingButton.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didChangeProjectSortTypePublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didChangeProjectSortType.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didTapProjectCreateButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didTapProjectCreateButton.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didSelectProjectCellPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didSelectProjectCell.send($0)
-            }
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            contentView.didTapIconChangeButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapIconChangeButton.send($1)
+                },
+            contentView.didTapBasicSettingButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapBasicSettingButton.send($1)
+                },
+            contentView.didTapSkillSettingButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapSkillSettingButton.send($1)
+                },
+            contentView.didChangeProjectSortTypePublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didChangeProjectSortType.send($1)
+                },
+            contentView.didTapProjectCreateButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapProjectCreateButton.send($1)
+                },
+            contentView.didSelectProjectCellPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didSelectProjectCell.send($1)
+                }
+        ])
     }
 }

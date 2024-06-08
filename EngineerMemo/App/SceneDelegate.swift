@@ -34,33 +34,23 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
 
         transitionURLScheme(url: connectionOptions.urlContexts.first?.url)
 
-        DataHolder.$isShowAppReview
-            .debounce(for: 1.2, scheduler: DispatchQueue.main)
-            .filter { $0 }
-            .sink { _ in
-                if let windowScene = UIApplication.shared.connectedScenes.first(where: {
-                    $0.activationState == .foregroundActive
-                }) as? UIWindowScene {
-                    SKStoreReviewController.requestReview(in: windowScene)
-                }
+        cancellables.formUnion([
+            DataHolder.$isShowAppReview
+                .debounce(for: 1.2, scheduler: DispatchQueue.main)
+                .filter { $0 }
+                .sink { _ in
+                    if let windowScene = UIApplication.shared.connectedScenes.first(where: {
+                        $0.activationState == .foregroundActive
+                    }) as? UIWindowScene {
+                        SKStoreReviewController.requestReview(in: windowScene)
+                    }
 
-                DataHolder.isShowAppReview = false
+                    DataHolder.isShowAppReview = false
+                },
+            DataHolder.$colorTheme.weakSink(with: self) {
+                $0.window?.overrideUserInterfaceStyle = $1.style
             }
-            .store(in: &cancellables)
-
-        DataHolder.$colorTheme.sink { [weak self] colorScheme in
-            switch colorScheme {
-            case .system:
-                self?.window?.overrideUserInterfaceStyle = .unspecified
-
-            case .light:
-                self?.window?.overrideUserInterfaceStyle = .light
-
-            case .dark:
-                self?.window?.overrideUserInterfaceStyle = .dark
-            }
-        }
-        .store(in: &cancellables)
+        ])
     }
 
     func scene(

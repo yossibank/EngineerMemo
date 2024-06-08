@@ -54,46 +54,39 @@ private extension SkillUpdateViewController {
         viewModel.output.$isFinished
             .debounce(for: 0.8, scheduler: DispatchQueue.main)
             .filter { $0 }
-            .sink { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
+            .weakSink(
+                with: self,
+                cancellables: &cancellables
+            ) {
+                $0.navigationController?.popViewController(animated: true)
             }
-            .store(in: &cancellables)
     }
 
     func bindToViewModel() {
-        contentView.didTapBarButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapBarButton.send(())
-            }
-            .store(in: &cancellables)
-
-        contentView.didChangeCareerInputPublisher
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.engineerCareer, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangeLanguageInputPublisher
-            .map { Optional($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.language, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangeLanguageCareerInputPublisher
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.languageCareer, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangeToeicScoreInputPublisher
-            .map { Int($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.toeic, on: viewModel.binding)
-            .store(in: &cancellables)
-
-        contentView.didChangePrInputPublisher
-            .map { Optional($0) }
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.pr, on: viewModel.binding)
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            contentView.didTapBarButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapBarButton.send(())
+                },
+            contentView.didChangeCareerInputPublisher
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.engineerCareer, on: viewModel.binding),
+            contentView.didChangeLanguageInputPublisher
+                .map { Optional($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.language, on: viewModel.binding),
+            contentView.didChangeLanguageCareerInputPublisher
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.languageCareer, on: viewModel.binding),
+            contentView.didChangeToeicScoreInputPublisher
+                .map { Int($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.toeic, on: viewModel.binding),
+            contentView.didChangePrInputPublisher
+                .map { Optional($0) }
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.pr, on: viewModel.binding)
+        ])
     }
 }

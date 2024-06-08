@@ -37,17 +37,8 @@ extension UIBarButtonItem {
 
         private var size: CGSize {
             switch self {
-            case .addMemo, .editMemo, .deleteMemo:
-                return .init(
-                    width: 32,
-                    height: 32
-                )
-
-            case .editProject, .deleteProject:
-                return .init(
-                    width: 28,
-                    height: 28
-                )
+            case .addMemo, .editMemo, .deleteMemo: .init(width: 32, height: 32)
+            case .editProject, .deleteProject: .init(width: 28, height: 28)
             }
         }
     }

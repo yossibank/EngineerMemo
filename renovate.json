@@ -20,12 +20,6 @@
     "patch": {
         "automerge": false
     },
-    "packageRules": [
-        {
-            "matchPackagePatterns": ["danger"],
-            "groupName": "danger"
-        }
-    ],
     "dependencyDashboard": true,
     "enabled": true,
     "branchPrefix": "renovate/",

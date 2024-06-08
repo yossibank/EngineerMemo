@@ -53,43 +53,37 @@ private extension MemoUpdateViewController {
     }
 
     func bindToView() {
-        viewModel.output.$isEnabled
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.contentView.configureEnableButton(isEnabled: $0)
-            }
-            .store(in: &cancellables)
-
-        viewModel.output.$isFinished
-            .debounce(for: 0.8, scheduler: DispatchQueue.main)
-            .filter { $0 }
-            .sink { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            }
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            viewModel.output.$isEnabled
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.contentView.configureEnableButton(isEnabled: $1)
+                },
+            viewModel.output.$isFinished
+                .debounce(for: 0.8, scheduler: DispatchQueue.main)
+                .filter { $0 }
+                .weakSink(with: self) {
+                    $0.navigationController?.popViewController(animated: true)
+                }
+        ])
     }
 
     func bindToViewModel() {
-        contentView.didTapBarButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapBarButton.send(())
-            }
-            .store(in: &cancellables)
-
-        contentView.didChangeCategoryPublisher
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.binding.category, on: viewModel)
-            .store(in: &cancellables)
-
-        contentView.didChangeTitleTextPublisher
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.binding.title, on: viewModel)
-            .store(in: &cancellables)
-
-        contentView.didChangeContentTextPublisher
-            .receive(on: DispatchQueue.main)
-            .weakAssign(to: \.binding.content, on: viewModel)
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            contentView.didTapBarButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapBarButton.send(())
+                },
+            contentView.didChangeCategoryPublisher
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.binding.category, on: viewModel),
+            contentView.didChangeTitleTextPublisher
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.binding.title, on: viewModel),
+            contentView.didChangeContentTextPublisher
+                .receive(on: DispatchQueue.main)
+                .weakAssign(to: \.binding.content, on: viewModel)
+        ])
     }
 }

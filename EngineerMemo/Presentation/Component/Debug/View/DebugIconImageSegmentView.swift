@@ -8,8 +8,8 @@
 
         var title: String {
             switch self {
-            case .image: return L10n.Debug.Segment.randomImage
-            case .none: return .noSetting
+            case .image: L10n.Debug.Segment.randomImage
+            case .none: .noSetting
             }
         }
 
@@ -97,6 +97,7 @@
     struct DebugIconImageSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugIconImageSegmentView(title: "title"))
+                .frame(height: 40)
         }
     }
 #endif
