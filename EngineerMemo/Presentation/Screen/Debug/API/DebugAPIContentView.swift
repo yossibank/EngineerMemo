@@ -13,49 +13,28 @@
 
         var title: String {
             switch self {
-            case .debugDelete:
-                return L10n.Debug.Api.debugDelete
-
-            case .debugGet:
-                return L10n.Debug.Api.debugGet
-
-            case .debugPost:
-                return L10n.Debug.Api.debugPost
-
-            case .debugPut:
-                return L10n.Debug.Api.debugPut
+            case .debugDelete: L10n.Debug.Api.debugDelete
+            case .debugGet: L10n.Debug.Api.debugGet
+            case .debugPost: L10n.Debug.Api.debugPost
+            case .debugPut: L10n.Debug.Api.debugPut
             }
         }
 
         var hasPathComponent: Bool {
             switch self {
-            case .debugDelete:
-                return true
-
-            case .debugGet:
-                return false
-
-            case .debugPost:
-                return false
-
-            case .debugPut:
-                return true
+            case .debugDelete: true
+            case .debugGet: false
+            case .debugPost: false
+            case .debugPut: true
             }
         }
 
         var hasParameters: Bool {
             switch self {
-            case .debugDelete:
-                return false
-
-            case .debugGet:
-                return true
-
-            case .debugPost:
-                return true
-
-            case .debugPut:
-                return true
+            case .debugDelete: false
+            case .debugGet: true
+            case .debugPost: true
+            case .debugPut: true
             }
         }
     }
@@ -190,7 +169,7 @@
         func setupMenu() {
             var actions = [UIMenuElement]()
 
-            DebugAPIMenuType.allCases.forEach { type in
+            for type in DebugAPIMenuType.allCases {
                 actions.append(
                     UIAction(
                         title: type.title,

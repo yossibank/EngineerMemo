@@ -106,7 +106,7 @@ extension UpdateTextInputView: UITextFieldDelegate {
                     placeholder: "placeholder"
                 ))
             }
-            .frame(height: 100)
+            .frame(height: 110)
         }
     }
 #endif

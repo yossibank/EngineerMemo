@@ -1,11 +1,9 @@
 import Foundation
 
-struct WidgetModel {
+enum WidgetModel {
     static var memoList: [MemoModelObject] {
         CoreDataStorage<Memo>().allObjects
-            .filter {
-                $0.category == .widget
-            }
+            .filter { $0.category == .widget }
             .map {
                 .init(
                     category: .init(rawValue: $0.category?.rawValue ?? .invalid),
@@ -15,8 +13,6 @@ struct WidgetModel {
                     identifier: $0.identifier
                 )
             }
-            .sorted(by: {
-                $0.createdAt > $1.createdAt
-            })
+            .sorted(by: { $0.createdAt > $1.createdAt })
     }
 }

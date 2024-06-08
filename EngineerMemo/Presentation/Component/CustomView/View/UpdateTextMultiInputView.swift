@@ -110,7 +110,16 @@ extension UpdateTextMultiInputView: UITextViewDelegate {
 
     struct UpdateTextMultiInputViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: UpdateTextMultiInputView())
+            WrapperView(view: UpdateTextMultiInputView()) {
+                $0.setInputType(
+                    .init(
+                        title: "title",
+                        icon: .actions,
+                        placeholder: "placeholder"
+                    )
+                )
+            }
+            .frame(height: 100)
         }
     }
 #endif

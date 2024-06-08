@@ -14,37 +14,37 @@
 
         var title: String {
             switch self {
-            case .todo: return L10n.Debug.Menu.todo
-            case .technical: return L10n.Debug.Menu.technical
-            case .interview: return L10n.Debug.Menu.interview
-            case .event: return L10n.Debug.Menu.event
-            case .tax: return L10n.Debug.Menu.tax
-            case .other: return L10n.Debug.Menu.other
-            case .none: return .noSetting
+            case .todo: L10n.Debug.Menu.todo
+            case .technical: L10n.Debug.Menu.technical
+            case .interview: L10n.Debug.Menu.interview
+            case .event: L10n.Debug.Menu.event
+            case .tax: L10n.Debug.Menu.tax
+            case .other: L10n.Debug.Menu.other
+            case .none: .noSetting
             }
         }
 
         var image: UIImage? {
             switch self {
-            case .todo: return Asset.toDoCategory.image
-            case .technical: return Asset.technicalCategory.image
-            case .interview: return Asset.interviewCategory.image
-            case .event: return Asset.eventCategory.image
-            case .tax: return Asset.taxCategory.image
-            case .other: return Asset.otherCategory.image
-            case .none: return nil
+            case .todo: Asset.toDoCategory.image
+            case .technical: Asset.technicalCategory.image
+            case .interview: Asset.interviewCategory.image
+            case .event: Asset.eventCategory.image
+            case .tax: Asset.taxCategory.image
+            case .other: Asset.otherCategory.image
+            case .none: nil
             }
         }
 
         var category: MemoModelObject.Category? {
             switch self {
-            case .todo: return .todo
-            case .technical: return .technical
-            case .interview: return .interview
-            case .event: return .event
-            case .tax: return .tax
-            case .other: return .other
-            case .none: return nil
+            case .todo: .todo
+            case .technical: .technical
+            case .interview: .interview
+            case .event: .event
+            case .tax: .tax
+            case .other: .other
+            case .none: nil
             }
         }
 
@@ -113,7 +113,7 @@
         func setupMenu() {
             var actions = [UIMenuElement]()
 
-            categories.forEach { category in
+            for category in categories {
                 actions.append(
                     UIAction(
                         title: category.title,
@@ -160,6 +160,7 @@
     struct DebugCategoryMenuViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugCategoryMenuView(title: "title"))
+                .frame(width: 80, height: 40)
         }
     }
 #endif

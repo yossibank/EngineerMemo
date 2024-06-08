@@ -11,7 +11,9 @@ final class TitleButtonHeaderFooterView: UITableViewHeaderFooterView {
 
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapEditButtonPublisher = editButton.publisher(for: .touchUpInside)
+    private(set) lazy var didTapEditButtonPublisher = editButton.publisher(
+        for: .touchUpInside
+    )
 
     private var body: UIView {
         HStackView {
@@ -123,7 +125,10 @@ private extension TitleButtonHeaderFooterView {
 
     struct TitleButtonHeaderFooterViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: TitleButtonHeaderFooterView())
+            WrapperView(view: TitleButtonHeaderFooterView()) {
+                $0.configure(with: .basic)
+            }
+            .previewLayout(.fixed(width: 300, height: 36))
         }
     }
 #endif

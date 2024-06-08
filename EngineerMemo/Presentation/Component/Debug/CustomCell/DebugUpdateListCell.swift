@@ -91,6 +91,7 @@
             WrapperView(view: DebugUpdateListCell()) {
                 $0.configure("title")
             }
+            .frame(height: 60)
         }
     }
 #endif

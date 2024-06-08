@@ -9,11 +9,8 @@ extension Optional {
 extension Optional where Wrapped: Collection {
     var isEmpty: Bool {
         switch self {
-        case let .some(value):
-            return value.isEmpty
-
-        case .none:
-            return true
+        case let .some(value): value.isEmpty
+        case .none: true
         }
     }
 }
@@ -21,11 +18,8 @@ extension Optional where Wrapped: Collection {
 extension Optional where Wrapped: NSSet {
     var isEmtpy: Bool {
         switch self {
-        case let .some(value):
-            return value.allObjects.isEmpty
-
-        case .none:
-            return true
+        case let .some(value): value.allObjects.isEmpty
+        case .none: true
         }
     }
 }

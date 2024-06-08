@@ -58,49 +58,43 @@ private extension MemoListViewController {
     }
 
     func bindToView() {
-        viewModel.output.$modelObject
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] modelObject in
-                self?.contentView.modelObject = modelObject
-            }
-            .store(in: &cancellables)
-
-        viewModel.output.$appError
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .sink { error in
-                Logger.error(message: error.localizedDescription)
-            }
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            viewModel.output.$modelObject
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] modelObject in
+                    self?.contentView.modelObject = modelObject
+                },
+            viewModel.output.$appError
+                .receive(on: DispatchQueue.main)
+                .compactMap { $0 }
+                .sink { error in
+                    Logger.error(message: error.localizedDescription)
+                }
+        ])
     }
 
     func bindToViewModel() {
-        contentView.didTapUpdateButtonPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.viewModel.input.didTapUpdateButton.send(())
-            }
-            .store(in: &cancellables)
-
-        contentView.didChangeSortPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didChangeSort.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didChangeCategoryPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didChangeCategory.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didSelectContentPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didSelectContent.send($0)
-            }
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            contentView.didTapUpdateButtonPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.viewModel.input.didTapUpdateButton.send(())
+                },
+            contentView.didChangeSortPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in
+                    self?.viewModel.input.didChangeSort.send($0)
+                },
+            contentView.didChangeCategoryPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in
+                    self?.viewModel.input.didChangeCategory.send($0)
+                },
+            contentView.didSelectContentPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in
+                    self?.viewModel.input.didSelectContent.send($0)
+                }
+        ])
     }
 }

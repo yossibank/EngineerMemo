@@ -8,15 +8,15 @@
 
         var title: String {
             switch self {
-            case .phone: return L10n.Debug.Segment.tellNumber
-            case .none: return .noSetting
+            case .phone: L10n.Debug.Segment.tellNumber
+            case .none: .noSetting
             }
         }
 
         var phoneNumber: String? {
             switch self {
-            case .phone: return "08011112222"
-            case .none: return nil
+            case .phone: "08011112222"
+            case .none: nil
             }
         }
 
@@ -87,6 +87,7 @@
     struct DebugPhoneNumberSegmentViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: DebugPhoneNumberSegmentView(title: "title"))
+                .frame(height: 40)
         }
     }
 #endif

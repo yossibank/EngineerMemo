@@ -18,19 +18,19 @@ struct SheetAction {
 
     var textColor: UIColor {
         switch actionType {
-        case .default: return .theme
-        case .warning: return .black
-        case .alert: return .white
-        case .close: return .primary
+        case .default: .theme
+        case .warning: .black
+        case .alert: .white
+        case .close: .primary
         }
     }
 
     var backgroundColor: UIColor {
         switch actionType {
-        case .default: return .primary
-        case .warning: return .warning
-        case .alert: return .alert
-        case .close: return .primaryGray
+        case .default: .primary
+        case .warning: .warning
+        case .alert: .alert
+        case .close: .primaryGray
         }
     }
 
@@ -89,8 +89,8 @@ final class SheetContentView: UIView {
         view.axis = .vertical
         view.spacing = 12
 
-        sheetContent.actions.forEach {
-            view.addArrangedSubview(createButton($0))
+        for action in sheetContent.actions {
+            view.addArrangedSubview(createButton(action))
         }
     }
 

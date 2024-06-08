@@ -128,6 +128,7 @@ private extension UpdatePickerInputView {
     struct BasicUpdateBirthdayInputViewPreview: PreviewProvider {
         static var previews: some View {
             WrapperView(view: UpdatePickerInputView())
+                .frame(height: 110)
         }
     }
 #endif

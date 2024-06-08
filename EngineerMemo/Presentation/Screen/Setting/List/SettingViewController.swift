@@ -72,19 +72,18 @@ private extension SettingViewController {
     }
 
     func bindToViewModel() {
-        contentView.didChangeColorThemeIndexPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didChangeColorThemeIndex.send($0)
-            }
-            .store(in: &cancellables)
-
-        contentView.didTapApplicationCellPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.viewModel.input.didTapApplicationCell.send($0)
-            }
-            .store(in: &cancellables)
+        cancellables.formUnion([
+            contentView.didChangeColorThemeIndexPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in
+                    self?.viewModel.input.didChangeColorThemeIndex.send($0)
+                },
+            contentView.didTapApplicationCellPublisher
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in
+                    self?.viewModel.input.didTapApplicationCell.send($0)
+                }
+        ])
     }
 }
 
@@ -102,20 +101,11 @@ extension SettingViewController: UIMessageable, MFMailComposeViewControllerDeleg
             }
 
             switch result {
-            case .cancelled:
-                showActionSheet(messageResult: .cancelled)
-
-            case .saved:
-                showActionSheet(messageResult: .saved)
-
-            case .sent:
-                showActionSheet(messageResult: .send)
-
-            case .failed:
-                showActionSheet(messageResult: .failed)
-
-            @unknown default:
-                break
+            case .cancelled: showActionSheet(messageResult: .cancelled)
+            case .saved: showActionSheet(messageResult: .saved)
+            case .sent: showActionSheet(messageResult: .send)
+            case .failed: showActionSheet(messageResult: .failed)
+            @unknown default: break
             }
         }
     }

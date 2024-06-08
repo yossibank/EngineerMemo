@@ -6,7 +6,9 @@ import UIKit
 final class EmptyCollectionCell: UICollectionViewCell {
     var cancellables: Set<AnyCancellable> = .init()
 
-    private(set) lazy var didTapEmptyButtonPublisher = emptyButton.publisher(for: .touchUpInside)
+    private(set) lazy var didTapEmptyButtonPublisher = emptyButton.publisher(
+        for: .touchUpInside
+    )
 
     private lazy var baseView = UIView()
         .addSubview(body) {
