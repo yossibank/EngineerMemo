@@ -63,7 +63,7 @@ extension UIViewController {
                         title: l10n.Action.setting,
                         actionType: .default
                     ) {
-                        AppConfig.openMailApp()
+                        AppOpen.appMail()
                     }
                 ]
 

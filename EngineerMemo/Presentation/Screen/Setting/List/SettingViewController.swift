@@ -48,7 +48,7 @@ private extension SettingViewController {
             .receive(on: DispatchQueue.main)
             .filter { $0 }
             .sink { _ in
-                AppConfig.openAppReview()
+                AppOpen.appReview()
             }
             .store(in: &cancellables)
 
