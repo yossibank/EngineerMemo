@@ -81,8 +81,8 @@
                     .weakAssign(to: \.body, on: viewModel.binding),
                 contentView.didTapSendButtonPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] menuType in
-                        self?.viewModel.input.didTapSendButton.send(menuType)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didTapSendButton.send($1)
                     }
             ])
         }

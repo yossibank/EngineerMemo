@@ -36,20 +36,18 @@ final class ProjectUpdateProcessInputView: UIView {
         let views = Process.allCases.map { process in
             let view = ProjectUpdateProcessView(process)
 
-            view.didTapViewPublisher.sink { [weak self] _ in
-                guard let self else {
-                    return
-                }
-
-                if didChangeProcessSubject.value.contains(process) {
-                    didChangeProcessSubject.value.removeAll { $0 == process }
+            view.didTapViewPublisher.weakSink(
+                with: self,
+                cancellables: &cancellables
+            ) {
+                if $0.didChangeProcessSubject.value.contains(process) {
+                    $0.didChangeProcessSubject.value.removeAll { $0 == process }
                 } else {
-                    didChangeProcessSubject.value.append(process)
+                    $0.didChangeProcessSubject.value.append(process)
                 }
 
-                view.updateImage(didChangeProcessSubject.value)
+                view.updateImage($0.didChangeProcessSubject.value)
             }
-            .store(in: &cancellables)
 
             return view
         }

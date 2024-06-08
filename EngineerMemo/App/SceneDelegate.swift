@@ -47,8 +47,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIAppearanceProto
 
                     DataHolder.isShowAppReview = false
                 },
-            DataHolder.$colorTheme.sink { [weak self] colorScheme in
-                self?.window?.overrideUserInterfaceStyle = colorScheme.style
+            DataHolder.$colorTheme.weakSink(with: self) {
+                $0.window?.overrideUserInterfaceStyle = $1.style
             }
         ])
     }

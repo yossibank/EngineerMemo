@@ -42,73 +42,72 @@
             viewModel.output.$modelObjects
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink { [weak self] in
-                    self?.contentView.modelObjects = $0
+                .weakSink(with: self, cancellables: &cancellables) {
+                    $0.contentView.modelObjects = $1
                 }
-                .store(in: &cancellables)
         }
 
         func bindToViewModel() {
             cancellables.formUnion([
                 contentView.didChangeAddressControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeAddressControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeAddressControl.send(.segment($1))
                     },
                 contentView.didChangeBirthdayControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeBirthdayControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeBirthdayControl.send(.segment($1))
                     },
                 contentView.didChangeEmailControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeEmailControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeEmailControl.send(.segment($1))
                     },
                 contentView.didChangeGenderControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeGenderControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeGenderControl.send(.segment($1))
                     },
                 contentView.didChangeIconImageControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeIconImageControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeIconImageControl.send(.segment($1))
                     },
                 contentView.didChangeNameControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] value in
-                        self?.viewModel.input.didChangeNameControl.send(.segment(value))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeNameControl.send(.segment($1))
                     },
                 contentView.didChangePhoneNumberControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangePhoneNumberControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangePhoneNumberControl.send(.segment($1))
                     },
                 contentView.didChangeStationControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeStationControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeStationControl.send(.segment($1))
                     },
                 contentView.didChangeSkillControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeSkillControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeSkillControl.send(.segment($1))
                     },
                 contentView.didChangeProjectControlPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeProjectControl.send(.segment($0))
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeProjectControl.send(.segment($1))
                     },
                 contentView.didChangeSearchTextPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeSearchText.send($0)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeSearchText.send($1)
                     },
                 contentView.didTapUpdateButtonPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didTapUpdateButton.send($0)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didTapUpdateButton.send($1)
                     }
             ])
         }

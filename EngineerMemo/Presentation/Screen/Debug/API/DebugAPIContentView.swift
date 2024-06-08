@@ -198,14 +198,9 @@
         func setupBarButton() {
             barButton.publisher(for: .touchUpInside)
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    guard let self else {
-                        return
-                    }
-
-                    didTapSendButtonSubject.send(menuType)
+                .weakSink(with: self, cancellables: &cancellables) {
+                    $0.didTapSendButtonSubject.send($0.menuType)
                 }
-                .store(in: &cancellables)
         }
 
         func setupTableView() {
@@ -238,10 +233,9 @@
 
                 cell.didChangePathTextFieldPublisher
                     .compactMap { Int($0) }
-                    .sink { [weak self] path in
-                        self?.didChangePathTextFieldSubject.send(path)
+                    .weakSink(with: self, cancellables: &cell.cancellables) {
+                        $0.didChangePathTextFieldSubject.send($1)
                     }
-                    .store(in: &cell.cancellables)
 
                 return cell
 
@@ -251,36 +245,31 @@
                     for: indexPath
                 )
 
-                cell.didChangeUserIdTextFieldPublisher
-                    .sink { [weak self] in
-                        if let numberId = Int($0) {
-                            self?.didChangeUserIdTextFieldSubject.send(numberId)
-                        } else {
-                            self?.didChangeUserIdTextFieldSubject.send(nil)
+                cell.cancellables.formUnion([
+                    cell.didChangeUserIdTextFieldPublisher
+                        .weakSink(with: self) {
+                            if let numberId = Int($1) {
+                                $0.didChangeUserIdTextFieldSubject.send(numberId)
+                            } else {
+                                $0.didChangeUserIdTextFieldSubject.send(nil)
+                            }
+                        },
+                    cell.didChangeIdTextFieldPublisher
+                        .compactMap { Int($0) }
+                        .weakSink(with: self) {
+                            $0.didChangeIdTextFieldSubject.send($1)
+                        },
+                    cell.didChangeTitleTextFieldPublisher
+                        .compactMap { $0 }
+                        .weakSink(with: self) {
+                            $0.didChangeTitleTextFieldSubject.send($1)
+                        },
+                    cell.didChangeBodyTextFieldPublisher
+                        .compactMap { $0 }
+                        .weakSink(with: self) {
+                            $0.didChangeBodyTextFieldSubject.send($1)
                         }
-                    }
-                    .store(in: &cell.cancellables)
-
-                cell.didChangeIdTextFieldPublisher
-                    .compactMap { Int($0) }
-                    .sink { [weak self] in
-                        self?.didChangeIdTextFieldSubject.send($0)
-                    }
-                    .store(in: &cell.cancellables)
-
-                cell.didChangeTitleTextFieldPublisher
-                    .compactMap { $0 }
-                    .sink { [weak self] in
-                        self?.didChangeTitleTextFieldSubject.send($0)
-                    }
-                    .store(in: &cell.cancellables)
-
-                cell.didChangeBodyTextFieldPublisher
-                    .compactMap { $0 }
-                    .sink { [weak self] in
-                        self?.didChangeBodyTextFieldSubject.send($0)
-                    }
-                    .store(in: &cell.cancellables)
+                ])
 
                 cell.configure(with: params)
 

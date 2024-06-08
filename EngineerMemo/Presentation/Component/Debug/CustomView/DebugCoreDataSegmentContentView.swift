@@ -72,15 +72,14 @@
 
             didTapActionButtonPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    self?.actionButton.apply(updatedButtonStyle)
+                .weakSink(with: self, cancellables: &cancellables) { instance in
+                    instance.actionButton.apply(updatedButtonStyle)
 
                     Task { @MainActor in
                         try await Task.sleep(seconds: 1)
-                        self?.actionButton.apply(defaultButtonStyle)
+                        instance.actionButton.apply(defaultButtonStyle)
                     }
                 }
-                .store(in: &cancellables)
         }
     }
 

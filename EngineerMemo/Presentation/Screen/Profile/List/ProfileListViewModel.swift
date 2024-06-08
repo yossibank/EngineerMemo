@@ -43,80 +43,73 @@ final class ProfileListViewModel: ViewModel {
         self.routing = routing
         self.analytics = analytics
 
-        // MARK: - DataHolder購読
+        cancellables.formUnion([
+            // MARK: - DataHolder購読
 
-        DataHolder.$profileProjectSortType.sink { [weak self] in
-            self?.sort(modelObject: output.modelObject, $0)
-        }
-        .store(in: &cancellables)
+            DataHolder.$profileProjectSortType.weakSink(with: self) {
+                $0.sort(modelObject: output.modelObject, $1)
+            },
 
-        // MARK: - viewDidLoad
+            // MARK: - viewDidLoad
 
-        input.viewDidLoad
-            .flatMap { model.fetch().resultMap }
-            .withLatestFrom(DataHolder.$profileProjectSortType) { ($0, $1) }
-            .sink { [weak self] in
-                switch $0 {
-                case let .success(modelObjects):
-                    self?.sort(modelObject: modelObjects.first, $1)
+            input.viewDidLoad
+                .flatMap { model.fetch().resultMap }
+                .withLatestFrom(DataHolder.$profileProjectSortType) { ($0, $1) }
+                .weakSink(with: self) {
+                    switch $1.0 {
+                    case let .success(modelObjects):
+                        $0.sort(modelObject: modelObjects.first, $1.1)
 
-                case let .failure(appError):
-                    output.appError = appError
-                }
+                    case let .failure(appError):
+                        output.appError = appError
+                    }
+                },
+
+            // MARK: - viewWillAppear
+
+            input.viewWillAppear.sink {
+                analytics.sendEvent(.screenView)
+            },
+
+            // MARK: - プロフィール画像変更ボタンタップ
+
+            input.didTapIconChangeButton.sink {
+                routing.showIconScreen(modelObject: $0)
+            },
+
+            // MARK: - 基本情報設定ボタンタップ
+
+            input.didTapBasicSettingButton.sink {
+                routing.showBasicUpdateScreen(modelObject: $0)
+            },
+
+            // MARK: - スキル・経験設定ボタンタップ
+
+            input.didTapSkillSettingButton.sink {
+                routing.showSkillUpdateScreen(modelObject: $0)
+            },
+
+            // MARK: - 案件・経歴ソート変更
+
+            input.didChangeProjectSortType.sink {
+                model.updateProfileProjectSortType($0)
+            },
+
+            // MARK: - 案件・経歴作成ボタンタップ
+
+            input.didTapProjectCreateButton.sink {
+                routing.showProjectCreateScreen(modelObject: $0)
+            },
+
+            // MARK: - 案件詳細セルタップ
+
+            input.didSelectProjectCell.sink {
+                routing.showProjectDetailScreen(
+                    identifier: $0.0,
+                    modelObject: $0.1
+                )
             }
-            .store(in: &cancellables)
-
-        // MARK: - viewWillAppear
-
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - プロフィール画像変更ボタンタップ
-
-        input.didTapIconChangeButton.sink {
-            routing.showIconScreen(modelObject: $0)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - 基本情報設定ボタンタップ
-
-        input.didTapBasicSettingButton.sink {
-            routing.showBasicUpdateScreen(modelObject: $0)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - スキル・経験設定ボタンタップ
-
-        input.didTapSkillSettingButton.sink {
-            routing.showSkillUpdateScreen(modelObject: $0)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - 案件・経歴ソート変更
-
-        input.didChangeProjectSortType.sink {
-            model.updateProfileProjectSortType($0)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - 案件・経歴作成ボタンタップ
-
-        input.didTapProjectCreateButton.sink {
-            routing.showProjectCreateScreen(modelObject: $0)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - 案件詳細セルタップ
-
-        input.didSelectProjectCell.sink {
-            routing.showProjectDetailScreen(
-                identifier: $0.0,
-                modelObject: $0.1
-            )
-        }
-        .store(in: &cancellables)
+        ])
     }
 }
 

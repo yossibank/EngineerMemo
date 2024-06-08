@@ -46,75 +46,65 @@
             self.input = input
             self.model = model
 
-            // MARK: - 住所セグメント
+            cancellables.formUnion([
+                // MARK: - 住所セグメント
 
-            input.didChangeAddressControl.sink { [weak self] in
-                self?.modelObject.address = $0.string
-            }
-            .store(in: &cancellables)
+                input.didChangeAddressControl.weakSink(with: self) {
+                    $0.modelObject.address = $1.string
+                },
 
-            // MARK: - 生年月日セグメント
+                // MARK: - 生年月日セグメント
 
-            input.didChangeBirthdayControl.sink { [weak self] in
-                self?.modelObject.birthday = $0.date
-            }
-            .store(in: &cancellables)
+                input.didChangeBirthdayControl.weakSink(with: self) {
+                    $0.modelObject.birthday = $1.date
+                },
 
-            // MARK: - Eメールセグメント
+                // MARK: - Eメールセグメント
 
-            input.didChangeEmailControl.sink { [weak self] in
-                self?.modelObject.email = $0.string
-            }
-            .store(in: &cancellables)
+                input.didChangeEmailControl.weakSink(with: self) {
+                    $0.modelObject.email = $1.string
+                },
 
-            // MARK: - 性別セグメント
+                // MARK: - 性別セグメント
 
-            input.didChangeGenderControl.sink { [weak self] in
-                self?.modelObject.gender = $0.gender
-            }
-            .store(in: &cancellables)
+                input.didChangeGenderControl.weakSink(with: self) {
+                    $0.modelObject.gender = $1.gender
+                },
 
-            // MARK: - 名前セグメント
+                // MARK: - 名前セグメント
 
-            input.didChangeNameControl.sink { [weak self] in
-                self?.modelObject.name = $0.string
-            }
-            .store(in: &cancellables)
+                input.didChangeNameControl.weakSink(with: self) {
+                    $0.modelObject.name = $1.string
+                },
 
-            // MARK: - 電話番号セグメント
+                // MARK: - 電話番号セグメント
 
-            input.didChangePhoneNumberControl.sink { [weak self] in
-                self?.modelObject.phoneNumber = $0.phoneNumber
-            }
-            .store(in: &cancellables)
+                input.didChangePhoneNumberControl.weakSink(with: self) {
+                    $0.modelObject.phoneNumber = $1.phoneNumber
+                },
 
-            // MARK: - 最寄駅セグメント
+                // MARK: - 最寄駅セグメント
 
-            input.didChangeStationControl.sink { [weak self] in
-                self?.modelObject.station = $0.string
-            }
-            .store(in: &cancellables)
+                input.didChangeStationControl.weakSink(with: self) {
+                    $0.modelObject.station = $1.string
+                },
 
-            // MARK: - 作成ボタンタップ
+                // MARK: - 作成ボタンタップ
 
-            input.didTapUpdateButton.sink { [weak self] in
-                guard let self else {
-                    return
+                input.didTapUpdateButton.weakSink(with: self) {
+                    $0.createBasic()
+                    $0.modelObject = ProfileModelObjectBuilder()
+                        .address($0.addressSegment.string)
+                        .birthday($0.ageSegment.date)
+                        .email($0.emailSegment.string)
+                        .gender($0.genderSegment.gender)
+                        .iconImage($0.iconImageSegment.image?.pngData())
+                        .name($0.nameSegment.string)
+                        .phoneNumber($0.phoneNumberSegment.phoneNumber)
+                        .station($0.stationSegment.string)
+                        .build()
                 }
-
-                createBasic()
-                self.modelObject = ProfileModelObjectBuilder()
-                    .address(addressSegment.string)
-                    .birthday(ageSegment.date)
-                    .email(emailSegment.string)
-                    .gender(genderSegment.gender)
-                    .iconImage(iconImageSegment.image?.pngData())
-                    .name(nameSegment.string)
-                    .phoneNumber(phoneNumberSegment.phoneNumber)
-                    .station(stationSegment.string)
-                    .build()
-            }
-            .store(in: &cancellables)
+            ])
         }
     }
 

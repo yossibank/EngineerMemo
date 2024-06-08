@@ -131,10 +131,9 @@ extension BasicUpdateContentView {
 
 private extension BasicUpdateContentView {
     func setupEvent() {
-        gesturePublisher().sink { [weak self] _ in
-            self?.endEditing(true)
+        gesturePublisher().weakSink(with: self, cancellables: &cancellables) {
+            $0.endEditing(true)
         }
-        .store(in: &cancellables)
     }
 
     func setupBarButton() {
@@ -150,15 +149,14 @@ private extension BasicUpdateContentView {
 
         barButton.publisher(for: .touchUpInside)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.barButton.apply(updatedButtonStyle)
+            .weakSink(with: self, cancellables: &cancellables) { instance in
+                instance.barButton.apply(updatedButtonStyle)
 
                 Task { @MainActor in
                     try await Task.sleep(seconds: 0.8)
-                    self?.barButton.apply(defaultButtonStyle)
+                    instance.barButton.apply(defaultButtonStyle)
                 }
             }
-            .store(in: &cancellables)
     }
 }
 

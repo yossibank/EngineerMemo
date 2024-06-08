@@ -41,53 +41,51 @@ final class ProjectDetailViewModel: ViewModel {
         self.routing = routing
         self.analytics = analytics
 
-        // MARK: - viewDidLoad
+        cancellables.formUnion([
+            // MARK: - viewDidLoad
 
-        input.viewDidLoad
-            .flatMap { model.find(identifier: modelObject.identifier).resultMap }
-            .sink { [weak self] in
-                switch $0 {
-                case let .success(modelObject):
-                    output.modelObject = modelObject.projects
-                        .filter { $0.identifier == identifier }
-                        .first
+            input.viewDidLoad
+                .flatMap { model.find(identifier: modelObject.identifier).resultMap }
+                .weakSink(with: self) {
+                    switch $1 {
+                    case let .success(modelObject):
+                        output.modelObject = modelObject.projects
+                            .filter { $0.identifier == identifier }
+                            .first
 
-                    self?.modelObject = modelObject
+                        $0.modelObject = modelObject
 
-                case let .failure(appError):
-                    output.appError = appError
+                    case let .failure(appError):
+                        output.appError = appError
+                    }
+                },
+
+            // MARK: - viewWillAppear
+
+            input.viewWillAppear.sink {
+                analytics.sendEvent(.screenView)
+            },
+
+            // MARK: - 編集ボタンタップ
+
+            input.didTapEditBarButton.weakSink(with: self) {
+                if let modelObject = $0.modelObject {
+                    routing.showUpdateScreen(
+                        identifier: identifier,
+                        modelObject: modelObject
+                    )
+                }
+            },
+
+            // MARK: - 削除ボタンタップ
+
+            input.didTapDeleteBarButton.weakSink(with: self) {
+                if let modelObject = $0.modelObject {
+                    $0.deleteProject(modelObject, identifier: identifier)
+                    output.isDeleted = true
                 }
             }
-            .store(in: &cancellables)
-
-        // MARK: - viewWillAppear
-
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - 編集ボタンタップ
-
-        input.didTapEditBarButton.sink { [weak self] _ in
-            if let modelObject = self?.modelObject {
-                routing.showUpdateScreen(
-                    identifier: identifier,
-                    modelObject: modelObject
-                )
-            }
-        }
-        .store(in: &cancellables)
-
-        // MARK: - 削除ボタンタップ
-
-        input.didTapDeleteBarButton.sink { [weak self] _ in
-            if let modelObject = self?.modelObject {
-                self?.deleteProject(modelObject, identifier: identifier)
-                output.isDeleted = true
-            }
-        }
-        .store(in: &cancellables)
+        ])
     }
 }
 

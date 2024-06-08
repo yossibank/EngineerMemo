@@ -138,17 +138,19 @@ private extension SheetContentView {
                 $0.configuration = config
             }
 
-        button.publisher(for: .touchUpInside).sink { [weak self] _ in
+        button.publisher(for: .touchUpInside).weakSink(
+            with: self,
+            cancellables: &cancellables
+        ) {
             switch sheetAction.actionType {
             case .close:
-                self?.didTapDismissSubject.send(())
+                $0.didTapDismissSubject.send(())
 
             default:
-                self?.didTapDismissSubject.send(())
+                $0.didTapDismissSubject.send(())
                 sheetAction.action()
             }
         }
-        .store(in: &cancellables)
 
         return button
     }
@@ -165,10 +167,9 @@ extension SheetContentView: ContentView {
 
             $0.backgroundColor = .clear
 
-            $0.gesturePublisher().sink { [weak self] _ in
-                self?.didTapDismissSubject.send(())
+            $0.gesturePublisher().weakSink(with: self, cancellables: &cancellables) {
+                $0.didTapDismissSubject.send(())
             }
-            .store(in: &cancellables)
         }
     }
 }

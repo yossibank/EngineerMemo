@@ -56,14 +56,14 @@ private extension MemoUpdateViewController {
         cancellables.formUnion([
             viewModel.output.$isEnabled
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.contentView.configureEnableButton(isEnabled: $0)
+                .weakSink(with: self) {
+                    $0.contentView.configureEnableButton(isEnabled: $1)
                 },
             viewModel.output.$isFinished
                 .debounce(for: 0.8, scheduler: DispatchQueue.main)
                 .filter { $0 }
-                .sink { [weak self] _ in
-                    self?.navigationController?.popViewController(animated: true)
+                .weakSink(with: self) {
+                    $0.navigationController?.popViewController(animated: true)
                 }
         ])
     }
@@ -72,8 +72,8 @@ private extension MemoUpdateViewController {
         cancellables.formUnion([
             contentView.didTapBarButtonPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    self?.viewModel.input.didTapBarButton.send(())
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapBarButton.send(())
                 },
             contentView.didChangeCategoryPublisher
                 .receive(on: DispatchQueue.main)

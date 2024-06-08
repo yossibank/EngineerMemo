@@ -118,12 +118,14 @@ private extension ProfileListContentView {
 
             cell.configure(modelObject)
 
-            cell.didTapIconChangeButtonPublisher.sink { [weak self] _ in
+            cell.didTapIconChangeButtonPublisher.weakSink(
+                with: self,
+                cancellables: &cell.cancellables
+            ) {
                 if let modelObject {
-                    self?.didTapIconChangeButtonSubject.send(modelObject)
+                    $0.didTapIconChangeButtonSubject.send(modelObject)
                 }
             }
-            .store(in: &cell.cancellables)
 
             return cell
 
@@ -142,10 +144,12 @@ private extension ProfileListContentView {
                     )
                 )
 
-                cell.didTapEmptyButtonPublisher.sink { [weak self] _ in
-                    self?.didTapBasicSettingButtonSubject.send(modelObject)
+                cell.didTapEmptyButtonPublisher.weakSink(
+                    with: self,
+                    cancellables: &cell.cancellables
+                ) {
+                    $0.didTapBasicSettingButtonSubject.send(modelObject)
                 }
-                .store(in: &cell.cancellables)
 
                 return cell
             }
@@ -174,17 +178,16 @@ private extension ProfileListContentView {
                     )
                 )
 
-                cell.didTapEmptyButtonPublisher.sink { [weak self] _ in
-                    guard
-                        let self,
-                        let modelObject = self.modelObject
-                    else {
+                cell.didTapEmptyButtonPublisher.weakSink(
+                    with: self,
+                    cancellables: &cell.cancellables
+                ) {
+                    guard let modelObject = $0.modelObject else {
                         return
                     }
 
-                    didTapSkillSettingButtonSubject.send(modelObject)
+                    $0.didTapSkillSettingButtonSubject.send(modelObject)
                 }
-                .store(in: &cell.cancellables)
 
                 return cell
             }
@@ -213,17 +216,16 @@ private extension ProfileListContentView {
                     )
                 )
 
-                cell.didTapEmptyButtonPublisher.sink { [weak self] _ in
-                    guard
-                        let self,
-                        let modelObject = self.modelObject
-                    else {
+                cell.didTapEmptyButtonPublisher.weakSink(
+                    with: self,
+                    cancellables: &cell.cancellables
+                ) {
+                    guard let modelObject = $0.modelObject else {
                         return
                     }
 
-                    didTapProjectCreateButtonSubject.send(modelObject)
+                    $0.didTapProjectCreateButtonSubject.send(modelObject)
                 }
-                .store(in: &cell.cancellables)
 
                 return cell
             }
@@ -267,9 +269,9 @@ private extension ProfileListContentView {
                     toSection: .project
                 )
             } else {
-                modelObject.projects.forEach {
+                for item in modelObject.projects {
                     dataSourceSnapshot.appendItems(
-                        [.project($0)],
+                        [.project(item)],
                         toSection: .project
                     )
                 }
@@ -305,10 +307,12 @@ extension ProfileListContentView: UITableViewDelegate {
 
             view.configure(with: .basic)
 
-            view.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapBasicSettingButtonSubject.send(modelObject)
+            view.didTapEditButtonPublisher.weakSink(
+                with: self,
+                cancellables: &view.cancellables
+            ) {
+                $0.didTapBasicSettingButtonSubject.send(modelObject)
             }
-            .store(in: &view.cancellables)
 
             return view
 
@@ -323,10 +327,12 @@ extension ProfileListContentView: UITableViewDelegate {
 
             view.configure(with: .skill)
 
-            view.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapSkillSettingButtonSubject.send(modelObject)
+            view.didTapEditButtonPublisher.weakSink(
+                with: self,
+                cancellables: &view.cancellables
+            ) {
+                $0.didTapSkillSettingButtonSubject.send(modelObject)
             }
-            .store(in: &view.cancellables)
 
             return view
 
@@ -339,15 +345,14 @@ extension ProfileListContentView: UITableViewDelegate {
                 withType: ProfileProjectHeaderView.self
             )
 
-            view.$selectedSortType.dropFirst().sink { [weak self] in
-                self?.didChangeProjectSortTypeSubject.send($0)
-            }
-            .store(in: &view.cancellables)
-
-            view.didTapEditButtonPublisher.sink { [weak self] _ in
-                self?.didTapProjectCreateButtonSubject.send(modelObject)
-            }
-            .store(in: &view.cancellables)
+            view.cancellables.formUnion([
+                view.$selectedSortType.dropFirst().weakSink(with: self) {
+                    $0.didChangeProjectSortTypeSubject.send($1)
+                },
+                view.didTapEditButtonPublisher.weakSink(with: self) {
+                    $0.didTapProjectCreateButtonSubject.send(modelObject)
+                }
+            ])
 
             return view
         }

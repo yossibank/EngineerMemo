@@ -36,37 +36,36 @@ final class SettingViewModel: ViewModel {
         self.routing = routing
         self.analytics = analytics
 
-        // MARK: - viewWillAppear
+        cancellables.formUnion([
+            // MARK: - viewWillAppear
 
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
+            input.viewWillAppear.sink {
+                analytics.sendEvent(.screenView)
+            },
 
-        // MARK: - カラーテーマセグメント変更
+            // MARK: - カラーテーマセグメント変更
 
-        input.didChangeColorThemeIndex.sink {
-            model.updateColorTheme($0)
-        }
-        .store(in: &cancellables)
+            input.didChangeColorThemeIndex.sink {
+                model.updateColorTheme($0)
+            },
 
-        // MARK: - アプリケーションセルタップ
+            // MARK: - アプリケーションセルタップ
 
-        input.didTapApplicationCell.sink {
-            switch $0 {
-            case .review:
-                output.didTapReview = true
+            input.didTapApplicationCell.sink {
+                switch $0 {
+                case .review:
+                    output.didTapReview = true
 
-            case .inquiry:
-                output.didTapInquiry = true
+                case .inquiry:
+                    output.didTapInquiry = true
 
-            case .licence:
-                routing.showLicenceScreen()
+                case .licence:
+                    routing.showLicenceScreen()
 
-            default:
-                break
+                default:
+                    break
+                }
             }
-        }
-        .store(in: &cancellables)
+        ])
     }
 }

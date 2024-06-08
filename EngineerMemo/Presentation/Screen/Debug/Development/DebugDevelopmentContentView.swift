@@ -169,10 +169,12 @@
             }
 
             if let cell = cell as? DebugColorThemeCell {
-                cell.segmentIndexPublisher.sink { [weak self] in
-                    self?.didChangeColorThemeIndexSubject.send($0)
+                cell.segmentIndexPublisher.weakSink(
+                    with: self,
+                    cancellables: &cell.cancellables
+                ) {
+                    $0.didChangeColorThemeIndexSubject.send($1)
                 }
-                .store(in: &cell.cancellables)
             }
 
             if let cell = cell as? DebugDevelopmentCell {
@@ -186,10 +188,10 @@
             var dataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             dataSourceSnapshot.appendSections(Section.allCases)
 
-            Section.allCases.forEach {
+            for item in Section.allCases {
                 dataSourceSnapshot.appendItems(
-                    $0.items,
-                    toSection: $0
+                    item.items,
+                    toSection: item
                 )
             }
 

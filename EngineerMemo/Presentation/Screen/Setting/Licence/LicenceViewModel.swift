@@ -19,7 +19,7 @@ final class LicenceViewModel: ViewModel {
 
         // MARK: - viewWillAppear
 
-        input.viewWillAppear.sink { _ in
+        input.viewWillAppear.sink {
             analytics.sendEvent(.screenView)
         }
         .store(in: &cancellables)

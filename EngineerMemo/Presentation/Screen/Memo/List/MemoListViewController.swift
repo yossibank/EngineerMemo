@@ -49,10 +49,12 @@ private extension MemoListViewController {
     func setupNavigation() {
         let addMemoBarButtonItem = UIBarButtonItem(.addMemo)
 
-        addMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
-            self?.viewModel.input.didTapUpdateButton.send(())
+        addMemoBarButtonItem.customButtonPublisher?.weakSink(
+            with: self,
+            cancellables: &cancellables
+        ) {
+            $0.viewModel.input.didTapUpdateButton.send(())
         }
-        .store(in: &cancellables)
 
         navigationItem.rightBarButtonItem = addMemoBarButtonItem
     }
@@ -61,14 +63,14 @@ private extension MemoListViewController {
         cancellables.formUnion([
             viewModel.output.$modelObject
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] modelObject in
-                    self?.contentView.modelObject = modelObject
+                .weakSink(with: self) {
+                    $0.contentView.modelObject = $1
                 },
             viewModel.output.$appError
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink { error in
-                    Logger.error(message: error.localizedDescription)
+                .sink {
+                    Logger.error(message: $0.localizedDescription)
                 }
         ])
     }
@@ -77,23 +79,23 @@ private extension MemoListViewController {
         cancellables.formUnion([
             contentView.didTapUpdateButtonPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    self?.viewModel.input.didTapUpdateButton.send(())
+                .weakSink(with: self) {
+                    $0.viewModel.input.didTapUpdateButton.send(())
                 },
             contentView.didChangeSortPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.viewModel.input.didChangeSort.send($0)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didChangeSort.send($1)
                 },
             contentView.didChangeCategoryPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.viewModel.input.didChangeCategory.send($0)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didChangeCategory.send($1)
                 },
             contentView.didSelectContentPublisher
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.viewModel.input.didSelectContent.send($0)
+                .weakSink(with: self) {
+                    $0.viewModel.input.didSelectContent.send($1)
                 }
         ])
     }

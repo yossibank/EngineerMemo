@@ -49,12 +49,17 @@ private extension MemoDetailViewController {
         let editMemoBarButtonItem = UIBarButtonItem(.editMemo)
         let deleteMemoBarButtonItem = UIBarButtonItem(.deleteMemo)
 
-        editMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
-            self?.viewModel.input.didTapEditBarButton.send(())
+        editMemoBarButtonItem.customButtonPublisher?.weakSink(
+            with: self,
+            cancellables: &cancellables
+        ) {
+            $0.viewModel.input.didTapEditBarButton.send(())
         }
-        .store(in: &cancellables)
 
-        deleteMemoBarButtonItem.customButtonPublisher?.sink { [weak self] _ in
+        deleteMemoBarButtonItem.customButtonPublisher?.weakSink(
+            with: self,
+            cancellables: &cancellables
+        ) {
             let sheetAction: SheetAction = .init(
                 title: L10n.Sheet.Action.yes,
                 actionType: .alert
@@ -62,13 +67,12 @@ private extension MemoDetailViewController {
                 self?.viewModel.input.didTapDeleteBarButton.send(())
             }
 
-            self?.showActionSheet(
+            $0.showActionSheet(
                 title: L10n.Sheet.Title.caution,
                 message: L10n.Sheet.Message.memoDelete,
                 actions: [sheetAction]
             )
         }
-        .store(in: &cancellables)
 
         navigationItem.rightBarButtonItems = [
             editMemoBarButtonItem,
@@ -80,14 +84,14 @@ private extension MemoDetailViewController {
         cancellables.formUnion([
             viewModel.output.$modelObject
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.contentView.modelObject = $0
+                .weakSink(with: self) {
+                    $0.contentView.modelObject = $1
                 },
             viewModel.output.$isDeleted
                 .receive(on: DispatchQueue.main)
                 .filter { $0 }
-                .sink { [weak self] _ in
-                    self?.navigationController?.popViewController(animated: true)
+                .weakSink(with: self) {
+                    $0.navigationController?.popViewController(animated: true)
                 }
         ])
     }

@@ -3,7 +3,7 @@ import Combine
 extension Publisher where Failure == Never {
     func weakSink<Owner: AnyObject>(
         with owner: Owner,
-        receiveValue: @escaping ((Owner, Output) -> Void)
+        _ receiveValue: @escaping ((Owner, Output) -> Void)
     ) -> AnyCancellable {
         compactMap { [weak owner] output in
             guard let owner else {
@@ -17,17 +17,33 @@ extension Publisher where Failure == Never {
 
     func weakSink<Owner: AnyObject>(
         with owner: Owner,
-        cancellables: inout Set<AnyCancellable>,
-        receiveValue: @escaping ((Owner, Output) -> Void)
-    ) {
-        compactMap { [weak owner] output in
+        _ receiveValue: @escaping ((Owner) -> Void)
+    ) -> AnyCancellable {
+        compactMap { [weak owner] _ in
             guard let owner else {
                 return nil
             }
 
-            return (owner, output)
+            return owner
         }
         .sink(receiveValue: receiveValue)
-        .store(in: &cancellables)
+    }
+
+    func weakSink<Owner: AnyObject>(
+        with owner: Owner,
+        cancellables: inout Set<AnyCancellable>,
+        _ receiveValue: @escaping ((Owner, Output) -> Void)
+    ) {
+        weakSink(with: owner, receiveValue)
+            .store(in: &cancellables)
+    }
+
+    func weakSink<Owner: AnyObject>(
+        with owner: Owner,
+        cancellables: inout Set<AnyCancellable>,
+        _ receiveValue: @escaping ((Owner) -> Void)
+    ) {
+        weakSink(with: owner, receiveValue)
+            .store(in: &cancellables)
     }
 }

@@ -103,20 +103,17 @@ private extension UpdatePickerInputView {
     func setupPicker() {
         inputDatePicker.expandPickerRange()
 
-        inputDatePicker.publisher(for: .editingDidBegin).sink { [weak self] _ in
-            self?.borderView.changeColor(.inputBorder)
-        }
-        .store(in: &cancellables)
-
-        inputDatePicker.publisher(for: .editingDidEnd).sink { [weak self] _ in
-            self?.borderView.changeColor(.primary)
-        }
-        .store(in: &cancellables)
-
-        inputDatePicker.publisher.sink { [weak self] birthday in
-            self?.pickerLabel.text = birthday.toString
-        }
-        .store(in: &cancellables)
+        cancellables.formUnion([
+            inputDatePicker.publisher(for: .editingDidBegin).weakSink(with: self) {
+                $0.borderView.changeColor(.inputBorder)
+            },
+            inputDatePicker.publisher(for: .editingDidEnd).weakSink(with: self) {
+                $0.borderView.changeColor(.primary)
+            },
+            inputDatePicker.publisher.weakSink(with: self) {
+                $0.pickerLabel.text = $1.toString
+            }
+        ])
     }
 }
 

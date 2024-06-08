@@ -27,23 +27,23 @@
             self.output = output
             self.model = model
 
-            // MARK: - viewDidLoad
+            cancellables.formUnion([
+                // MARK: - viewDidLoad
 
-            input.viewDidLoad
-                .flatMap { model.fetch().resultMap }
-                .sink {
-                    if case let .success(modelObject) = $0 {
-                        output.modelObject = modelObject
-                    }
+                input.viewDidLoad
+                    .flatMap { model.fetch().resultMap }
+                    .weakSink(with: self) {
+                        if case let .success(modelObject) = $1 {
+                            output.modelObject = modelObject
+                        }
+                    },
+
+                // MARK: - メモ情報削除
+
+                input.didSwipe.weakSink(with: self) {
+                    $0.deleteMemo($1)
                 }
-                .store(in: &cancellables)
-
-            // MARK: - メモ情報削除
-
-            input.didSwipe.sink { [weak self] in
-                self?.deleteMemo($0)
-            }
-            .store(in: &cancellables)
+            ])
         }
     }
 

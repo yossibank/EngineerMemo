@@ -48,76 +48,66 @@ final class BasicUpdateViewModel: ViewModel {
 
         var updatedObject = modelObject ?? ProfileModelObject(identifier: UUID().uuidString)
 
-        // MARK: - viewWillAppear
-
-        input.viewWillAppear.sink { _ in
-            analytics.sendEvent(.screenView)
-        }
-        .store(in: &cancellables)
-
-        // MARK: - 名前
-
-        let name = binding.$name
-            .dropFirst()
-            .sink { updatedObject.name = $0 }
-
-        // MARK: - 生年月日
-
-        let birthday = binding.$birthday
-            .dropFirst()
-            .sink { updatedObject.birthday = $0 }
-
-        // MARK: - 性別
-
-        let gender = binding.$gender
-            .dropFirst()
-            .sink { updatedObject.gender = $0.gender }
-
-        // MARK: - Eメール
-
-        let email = binding.$email
-            .dropFirst()
-            .sink { updatedObject.email = $0 }
-
-        // MARK: - 電話番号
-
-        let phoneNumber = binding.$phoneNumber
-            .dropFirst()
-            .sink { updatedObject.phoneNumber = $0 }
-
-        // MARK: - 住所
-
-        let address = binding.$address
-            .dropFirst()
-            .sink { updatedObject.address = $0 }
-
-        // MARK: - 最寄駅
-
-        let station = binding.$station
-            .dropFirst()
-            .sink { updatedObject.station = $0 }
-
-        // MARK: - 設定・更新ボタンタップ
-
-        input.didTapBarButton.sink { [weak self] _ in
-            if modelObject.isNil {
-                self?.createBasic(updatedObject)
-            } else {
-                self?.updateBasic(updatedObject)
-            }
-
-            output.isFinished = true
-        }
-        .store(in: &cancellables)
-
         cancellables.formUnion([
-            name,
-            birthday,
-            gender,
-            email,
-            phoneNumber,
-            address,
-            station
+            // MARK: - viewWillAppear
+
+            input.viewWillAppear.sink {
+                analytics.sendEvent(.screenView)
+            },
+
+            // MARK: - 名前
+
+            binding.$name
+                .dropFirst()
+                .sink { updatedObject.name = $0 },
+
+            // MARK: - 生年月日
+
+            binding.$birthday
+                .dropFirst()
+                .sink { updatedObject.birthday = $0 },
+
+            // MARK: - 性別
+
+            binding.$gender
+                .dropFirst()
+                .sink { updatedObject.gender = $0.gender },
+
+            // MARK: - Eメール
+
+            binding.$email
+                .dropFirst()
+                .sink { updatedObject.email = $0 },
+
+            // MARK: - 電話番号
+
+            binding.$phoneNumber
+                .dropFirst()
+                .sink { updatedObject.phoneNumber = $0 },
+
+            // MARK: - 住所
+
+            binding.$address
+                .dropFirst()
+                .sink { updatedObject.address = $0 },
+
+            // MARK: - 最寄駅
+
+            binding.$station
+                .dropFirst()
+                .sink { updatedObject.station = $0 },
+
+            // MARK: - 設定・更新ボタンタップ
+
+            input.didTapBarButton.weakSink(with: self) {
+                if modelObject.isNil {
+                    $0.createBasic(updatedObject)
+                } else {
+                    $0.updateBasic(updatedObject)
+                }
+
+                output.isFinished = true
+            }
         ])
     }
 }

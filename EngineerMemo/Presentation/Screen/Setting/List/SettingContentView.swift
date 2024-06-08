@@ -67,10 +67,12 @@ final class SettingContentView: UIView {
                 for: indexPath
             )
 
-            cell.segmentIndexPublisher.sink { [weak self] in
-                self?.didChangeColorThemeIndexSubject.send($0)
+            cell.segmentIndexPublisher.weakSink(
+                with: self,
+                cancellables: &cell.cancellables
+            ) {
+                $0.didChangeColorThemeIndexSubject.send($1)
             }
-            .store(in: &cell.cancellables)
 
             return cell
         }
@@ -200,9 +202,9 @@ private extension SettingContentView {
             toSection: .colorTheme
         )
 
-        Item.Application.allCases.forEach {
+        for item in Item.Application.allCases {
             dataSourceSnapshot.appendItems(
-                [.application($0)],
+                [.application(item)],
                 toSection: .application
             )
         }

@@ -41,18 +41,18 @@
             cancellables.formUnion([
                 contentView.didChangeColorThemeIndexPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didChangeColorThemeIndex.send($0)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didChangeColorThemeIndex.send($1)
                     },
                 contentView.didTapAPICellPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] _ in
-                        self?.viewModel.input.didTapAPICell.send(())
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didTapAPICell.send(())
                     },
                 contentView.didTapCoreDataCellPublisher
                     .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.viewModel.input.didTapCoreDataCell.send($0)
+                    .weakSink(with: self) {
+                        $0.viewModel.input.didTapCoreDataCell.send($1)
                     }
             ])
         }

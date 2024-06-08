@@ -42,76 +42,64 @@
             self.output = output
             self.model = model
 
-            // MARK: - メモ情報取得
+            cancellables.formUnion([
+                // MARK: - メモ情報取得
 
-            model.fetch().sink {
-                if case let .failure(appError) = $0 {
-                    Logger.error(message: appError.localizedDescription)
+                model.fetch().sink {
+                    if case let .failure(appError) = $0 {
+                        Logger.error(message: appError.localizedDescription)
+                    }
+                } receiveValue: { [weak self] modelObjects in
+                    output.modelObjects = modelObjects
+                    self?.originalModelObjects = modelObjects
+                },
+
+                // MARK: - カテゴリーセグメント
+
+                input.didChangeCategoryControl.weakSink(with: self) {
+                    $0.categorySegment = $1
+                    $0.modelObject.category = $1.category
+                },
+
+                // MARK: - タイトルセグメント
+
+                input.didChangeTitleControl.weakSink(with: self) {
+                    $0.titleSegment = $1
+                    $0.modelObject.title = $1.string
+                },
+
+                // MARK: - コンテンツセグメント
+
+                input.didChangeContentControl.weakSink(with: self) {
+                    $0.contentSegment = $1
+                    $0.modelObject.content = $1.string
+                },
+
+                // MARK: - 文字検索
+
+                input.didChangeSearchText.weakSink(with: self) { instance, searchText in
+                    if searchText.isEmpty {
+                        output.modelObjects = instance.originalModelObjects
+                    } else {
+                        output.modelObjects = instance.originalModelObjects
+                            .filter { $0.title != nil }
+                            .filter { $0.title!.localizedStandardContains(searchText) }
+                    }
+                },
+
+                // MARK: - 更新ボタンタップ
+
+                input.didTapUpdateButton.weakSink(with: self) {
+                    $0.modelObject.identifier = $1
+                    $0.updateMemo()
+                    $0.modelObject = MemoModelObjectBuilder()
+                        .category($0.categorySegment.category)
+                        .title($0.titleSegment.string)
+                        .content($0.contentSegment.string)
+                        .createdAt(.init())
+                        .build()
                 }
-            } receiveValue: { [weak self] modelObjects in
-                output.modelObjects = modelObjects
-                self?.originalModelObjects = modelObjects
-            }
-            .store(in: &cancellables)
-
-            // MARK: - カテゴリーセグメント
-
-            input.didChangeCategoryControl.sink { [weak self] in
-                self?.categorySegment = $0
-                self?.modelObject.category = $0.category
-            }
-            .store(in: &cancellables)
-
-            // MARK: - タイトルセグメント
-
-            input.didChangeTitleControl.sink { [weak self] in
-                self?.titleSegment = $0
-                self?.modelObject.title = $0.string
-            }
-            .store(in: &cancellables)
-
-            // MARK: - コンテンツセグメント
-
-            input.didChangeContentControl.sink { [weak self] in
-                self?.contentSegment = $0
-                self?.modelObject.content = $0.string
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 文字検索
-
-            input.didChangeSearchText.sink { [weak self] searchText in
-                guard let self else {
-                    return
-                }
-
-                if searchText.isEmpty {
-                    output.modelObjects = originalModelObjects
-                } else {
-                    output.modelObjects = originalModelObjects
-                        .filter { $0.title != nil }
-                        .filter { $0.title!.localizedStandardContains(searchText) }
-                }
-            }
-            .store(in: &cancellables)
-
-            // MARK: - 更新ボタンタップ
-
-            input.didTapUpdateButton.sink { [weak self] in
-                guard let self else {
-                    return
-                }
-
-                modelObject.identifier = $0
-                updateMemo()
-                self.modelObject = MemoModelObjectBuilder()
-                    .category(categorySegment.category)
-                    .title(titleSegment.string)
-                    .content(contentSegment.string)
-                    .createdAt(.init())
-                    .build()
-            }
-            .store(in: &cancellables)
+            ])
         }
     }
 
