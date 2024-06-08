@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>745069830093-6medci92id5od126d6ghj8k4vakmqr1m.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.745069830093-6medci92id5od126d6ghj8k4vakmqr1m</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAvA09-DJ4FyIhOOk-4GOQGFBoBpmH6pdw</string>
+	<string>AIzaSyByiZYKPYdA5Ah_43INtSHq5rF5wnYpz2w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>745069830093</string>
+	<string>156369176314</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.yossibank.engineermemo</string>
 	<key>PROJECT_ID</key>
-	<string>engineermemo-release</string>
+	<string>engineermemo-appstore</string>
 	<key>STORAGE_BUCKET</key>
-	<string>engineermemo-release.appspot.com</string>
+	<string>engineermemo-appstore.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:745069830093:ios:f1aa74dc7ff329611d2e84</string>
+	<string>1:156369176314:ios:258104c203785f0eabeb43</string>
 </dict>
 </plist>
