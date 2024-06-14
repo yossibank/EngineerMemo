@@ -27,5 +27,5 @@
     "separateMultipleMajor": true,
     "prCreation": "immediate",
     "prHourlyLimit": 0,
-    "prConcurrentLimit": 1
+    "prConcurrentLimit": 5
 }
