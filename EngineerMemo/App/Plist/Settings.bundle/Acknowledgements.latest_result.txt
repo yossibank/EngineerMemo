@@ -6,7 +6,7 @@ name: SwiftFormat, nameSpecified: , owner: nicklockwood, version: 0.54.0, source
 
 name: SwiftGen, nameSpecified: , owner: SwiftGen, version: 6.6.3, source: https://github.com/SwiftGen/SwiftGen
 
-name: SwiftLint, nameSpecified: , owner: realm, version: 0.54.0, source: https://github.com/realm/SwiftLint
+name: SwiftLint, nameSpecified: , owner: realm, version: 0.55.1, source: https://github.com/realm/SwiftLint
 
 name: xcodegen, nameSpecified: , owner: yonaskolb, version: 2.41.0, source: https://github.com/yonaskolb/xcodegen
 

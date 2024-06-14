@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - properties & init
 
-final class ___FILEBASENAME___: UIView {
+final class Sample41View: UIView {
     private var body: UIView {
         VStackView(alignment: .center) {
             UILabel().configure {
@@ -25,11 +25,11 @@ final class ___FILEBASENAME___: UIView {
 
 // MARK: - internal methods
 
-extension ___FILEBASENAME___ {}
+extension Sample41View {}
 
 // MARK: - private methods
 
-private extension ___FILEBASENAME___ {
+private extension Sample41View {
     func setupView() {
         configure {
             $0.addSubview(body) {
@@ -46,9 +46,9 @@ private extension ___FILEBASENAME___ {
 #if DEBUG
     import SwiftUI
 
-    struct ___FILEBASENAME___Preview: PreviewProvider {
+    struct Sample41ViewPreview: PreviewProvider {
         static var previews: some View {
-            WrapperView(view: ___FILEBASENAME___())
+            WrapperView(view: Sample41View())
         }
     }
 #endif
