@@ -1,8 +1,8 @@
 name: LicensePlist, nameSpecified: , owner: mono0926, version: 3.25.1, source: https://github.com/mono0926/LicensePlist
 
-name: mockolo, nameSpecified: , owner: uber, version: 2.0.1, source: https://github.com/uber/mockolo
+name: mockolo, nameSpecified: , owner: uber, version: 2.1.1, source: https://github.com/uber/mockolo
 
-name: SwiftFormat, nameSpecified: , owner: nicklockwood, version: 0.53.7, source: https://github.com/nicklockwood/SwiftFormat
+name: SwiftFormat, nameSpecified: , owner: nicklockwood, version: 0.53.8, source: https://github.com/nicklockwood/SwiftFormat
 
 name: SwiftGen, nameSpecified: , owner: SwiftGen, version: 6.6.3, source: https://github.com/SwiftGen/SwiftGen
 
