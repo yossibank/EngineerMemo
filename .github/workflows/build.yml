@@ -94,7 +94,7 @@ jobs:
           | bundle exec xcpretty
 
       # Danger実行
-      - uses: MeilCli/danger-action@v6.0.6
+      - uses: MeilCli/danger-action@v6.0.7
         with:
           plugins_file: "Gemfile"
           install_path: "vendor/bundle"
