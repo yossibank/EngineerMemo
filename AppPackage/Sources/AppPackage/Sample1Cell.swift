@@ -7,14 +7,14 @@
 
 import UIKit
 
-class Sample1Cell: UITableViewCell {
+public class Sample1Cell: UITableViewCell {
 
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
