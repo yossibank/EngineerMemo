@@ -1,3 +1,4 @@
+import AppPackage
 import Combine
 import UIKit
 
@@ -35,6 +36,7 @@ final class EmptyCollectionCell: UICollectionViewCell {
 
     private let descriptionLabel = UILabel()
     private let emptyButton = UIButton(type: .system)
+    private let cell = Sample1Cell()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
