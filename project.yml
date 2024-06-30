@@ -31,9 +31,6 @@ packages:
   ios-snapshot-test-case:
     url: https://github.com/uber/ios-snapshot-test-case
     from: 8.0.0
-  AppPackage:
-    path: ./AppPackage
-    group: ""
 
 targets:
   EngineerMemo:
@@ -69,8 +66,6 @@ targets:
         product: FirebaseAnalyticsWithoutAdIdSupport
       - package: firebase-ios-sdk
         product: FirebaseCrashlytics
-      - package: AppPackage
-        product: AppPackage
     preBuildScripts:
       - name: Setup GoogleServiceInfoPlist
         basedOnDependencyAnalysis: false
